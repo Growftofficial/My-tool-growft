@@ -1,0 +1,447 @@
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Review Tool - Aster4.com</title>
+    <style>
+        /* --- UNIVERSAL RESET --- */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Segoe UI', Roboto, Helvetica, sans-serif; background-color: #eff6ff; margin: 0; padding: 20px 10px; min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; }
+        
+        /* --- CONTAINER --- */
+        .container { background: white; width: 100%; max-width: 450px; padding: 25px; border-radius: 16px; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.15); border-top: 6px solid #2563eb; margin: auto; }
+        
+        /* --- LOGO FRAME (Fixed) --- */
+        .logo-area { 
+            display: flex; 
+            justify-content: center; 
+            margin-bottom: 10px; 
+        }
+        .logo-frame {
+            width: 160px;       /* Fixed Width */
+            height: 80px;       /* Fixed Height */
+            border: 1px solid #dbeafe;
+            border-radius: 8px;
+            background: #fff;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .client-logo { 
+            max-width: 100%; 
+            max-height: 100%; 
+            object-fit: contain; 
+        }
+        
+        /* --- TYPOGRAPHY --- */
+        h2 { text-align: center; color: #1e3a8a; margin: 5px 0 2px 0; font-size: 24px; font-weight: 800; }
+        p.subtitle { text-align: center; color: #3b82f6; font-size: 13px; margin-bottom: 5px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* --- PHONE NUMBER --- */
+        .contact-header { text-align: center; margin-bottom: 20px; font-size: 15px; font-weight: 700; color: #2563eb; }
+        .contact-header a { text-decoration: none; color: inherit; background: #dbeafe; padding: 8px 15px; border-radius: 20px; display: inline-block; transition: 0.2s; }
+        .contact-header a:active { background: #bfdbfe; transform: scale(0.98); }
+
+        label { font-weight: 700; display: block; margin-top: 18px; margin-bottom: 8px; color: #334155; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        /* --- INPUTS --- */
+        select, input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #bfdbfe; background: #eff6ff; font-size: 15px; color: #1e40af; outline: none; margin: 0; }
+        select:focus, input:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2); background: #fff; }
+        
+        /* --- CHIPS --- */
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; }
+        .keyword-chip { padding: 10px 12px; background-color: #fff; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid #93c5fd; user-select: none; color: #2563eb; flex-grow: 1; text-align: center; transition: all 0.2s ease; }
+        .keyword-chip.active { background-color: #2563eb; color: white; border-color: #1e40af; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); }
+        
+        /* --- BUTTONS --- */
+        .generate-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 700; margin-top: 25px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s; }
+        .generate-btn:active { transform: scale(0.98); }
+        
+        textarea { width: 100%; height: 160px; margin-top: 20px; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; resize: none; background-color: #f8fafc; color: #333; font-size: 14px; line-height: 1.5; }
+        
+        .copy-btn { width: 100%; padding: 12px; background-color: #f97316; /* Orange for Shopping Action */ color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: 600; font-size: 15px; cursor: pointer; display: none; box-shadow: 0 4px 6px rgba(249, 115, 22, 0.2); }
+        
+        .name-input-area { margin-top: 10px; display: none; }
+        .toggle-name { font-size: 13px; color: #2563eb; text-decoration: underline; cursor: pointer; border: none; background: none; padding: 0; margin-top: 5px; display: inline-block; }
+
+        /* --- FOOTER --- */
+        .footer { margin-top: 30px; text-align: center; font-size: 12px; color: #9ca3af; border-top: 1px solid #e5e7eb; padding-top: 10px; }
+        .footer a { color: #2563eb; text-decoration: none; font-weight: 600; }
+    </style>
+
+
+
+<div class="container">
+    <div class="logo-area">
+        <div class="logo-frame">
+            <img src="https://growft.odoo.com/web/image/1473-4fd8a004/Screenshot%202026-01-06%20231809.webp" class="client-logo" alt="Aster4 Logo" loading="lazy">
+        </div>
+    </div>
+
+    <h2>Aster4.com</h2>
+    <p class="subtitle">🛍️ Trendy &amp; Custom Fashion Store</p>
+
+    <div class="contact-header">
+        <a href="tel:+919270427301">📞 +91 8381057555</a>
+    </div>
+
+    <label>1. Delivery Location (Optional)</label>
+    <select id="locationSelect">
+        <option value="">Online Order (Pan India)</option>
+        <option value="Mumbai">Mumbai</option>
+        <option value="Pune">Pune</option>
+        <option value="Nashik">Nashik</option>
+        <option value="Thane">Thane</option>
+        <option value="Bangalore">Bangalore</option>
+        <option value="Delhi">Delhi</option>
+        <option value="Maharashtra">Maharashtra</option>
+        <option value="Hyderabad">Hyderabad</option>
+        <option value="Ahmedabad">Ahmedabad</option>
+    </select>
+
+    <label>2. What did you buy?</label>
+    <select id="toneSelect">
+        <option value="Corporate">Corporate / Bulk Order 🏢</option>
+        <option value="Trendy">Trendy / Marathi T-shirts 😎</option>
+        <option value="Family">Family / Kids / Vacation 👨‍👩‍👧‍👦</option>
+        <option value="Short">Short &amp; Sweet ⭐</option>
+    </select>
+
+    <div style="text-align: right;">
+        <button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button>
+    </div>
+    <div class="name-input-area" id="nameArea">
+        <input type="text" id="userName" placeholder="Your Name">
+    </div>
+
+    <label>3. Select Highlights</label>
+    <div class="keywords-container" id="keywordsArea">
+        <div class="keyword-chip" onclick="toggleKeyword(this, 'Corporate Tshirt')">👔 Corporate T-Shirts</div>
+        <div class="keyword-chip" onclick="toggleKeyword(this, 'Corporate Hoodies')">🧥 Corporate Hoodies</div>
+        <div class="keyword-chip" onclick="toggleKeyword(this, 'Event Tshirt')">🎉 Event T-Shirts</div>
+        <div class="keyword-chip" onclick="toggleKeyword(this, 'Custom Tshirt')">🎨 Custom Printing</div>
+        <div class="keyword-chip" onclick="toggleKeyword(this, 'Corporate Gifting')">🎁 Corporate Gifting</div>
+        <div class="keyword-chip" onclick="toggleKeyword(this, 'Marathi Tshirt')">🚩 Marathi T-Shirts</div>
+        <div class="keyword-chip" onclick="toggleKeyword(this, 'Vacation Tshirt')">✈️ Vacation T-Shirts</div>
+        <div class="keyword-chip" onclick="toggleKeyword(this, 'Family Tshirt')">👨‍👩‍👧‍👦 Family Combo</div>
+        <div class="keyword-chip" onclick="toggleKeyword(this, 'Kids Tshirt')">👶 Kids T-Shirts</div>
+    </div>
+
+    <button class="generate-btn" onclick="generateReview()">🛍️ Generate Review</button>
+
+    <textarea id="reviewOutput" placeholder="Your review will appear here..." readonly=""></textarea>
+    
+    <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy &amp; Open Google</button>
+
+    <div class="footer">
+        Built by <a href="#">Growft</a>. Call/WhatsApp: 7020360561
+    </div>
+</div>
+
+<script>
+    // --- CONFIGURATION ---
+    const GOOGLE_REVIEW_LINK = "https://g.page/r/CWDqjnXT1wQoEBM/review"; 
+
+    let selectedKeywords = [];
+    
+    // --- ENGINE 2.0 DATA (MASSIVE DATABASE) ---
+    const reviewData = {
+        // 60+ INTRO VARIATIONS
+        intro: {
+            "Corporate": [
+                "We placed a bulk order for our company event with Aster4.com.",
+                "Recently partnered with Aster4 for our employee merchandise.",
+                "I was looking for professional corporate gifting solutions and found Aster4.",
+                "Our HR team ordered custom t-shirts for the annual meet from here.",
+                "Excellent B2B service provided by the team at Aster4.com.",
+                "We needed urgent hoodies for our startup team and they delivered.",
+                "A highly professional experience dealing with their corporate sales team.",
+                "I ordered 50+ custom polos for our office staff.",
+                "This is our second time ordering corporate swag from Aster4.",
+                "The best vendor we have found for corporate uniforms so far.",
+                "Seamless process from design to delivery for our bulk order.",
+                "We wanted high-quality fabric for our team and Aster4 delivered.",
+                "Sourced our event merchandise from Aster4.com this year.",
+                "Great experience ordering custom logo t-shirts.",
+                "Reliable partner for all our corporate clothing needs."
+            ],
+            "Trendy": [
+                "I absolutely love the trendy collection available at Aster4.com.",
+                "Just received my order of Marathi slogan t-shirts and they are lit!",
+                "If you want cool and quirky t-shirts, this is the place.",
+                "Found some amazing designs that relate to our local culture.",
+                "My wardrobe is getting upgraded thanks to Aster4's collection.",
+                "Ordered a few graphic tees and the print quality is superb.",
+                "Finally a site that understands what the youth wants.",
+                "The vibe of their t-shirt collection is just amazing.",
+                "Super happy with my purchase of trendy casual wear.",
+                "I saw their ad and decided to try, totally worth it.",
+                "The fit and style of their t-shirts are on point.",
+                "Best place for Marathi quote t-shirts online.",
+                "Fashionable, affordable and comfortable - that's Aster4.",
+                "I am impressed with the variety of designs they offer.",
+                "Received my parcel today and I am in love with the prints."
+            ],
+            "Family": [
+                "Ordered matching t-shirts for our upcoming family vacation.",
+                "Bought a cute combo set for me and my kids.",
+                "I was looking for comfortable kids wear and found this gem.",
+                "The fabric is so soft, perfect for my little ones.",
+                "Made our family trip extra special with matching outfits.",
+                "Great collection for kids and unisex options for the whole family.",
+                "My kids absolutely love the funny prints on their t-shirts.",
+                "Best place for custom family reunion t-shirts.",
+                "Shopping for the entire family was so easy here.",
+                "I gifted a family combo pack to my sister and she loved it.",
+                "Quality cotton wear that is safe for kids' skin.",
+                "Planning a trip? Definitely get their vacation t-shirts.",
+                "The sizes were perfect for everyone in the family.",
+                "Surprised my husband with matching father-son t-shirts.",
+                "Excellent quality clothing for toddlers and teens alike."
+            ],
+            "Short": [
+                "Great quality products.", "Amazing t-shirts.", "Value for money.", 
+                "Fast delivery service.", "Loved the prints.", "Highly recommended.", 
+                "Best online shopping experience.", "Superb fabric quality.", "Nice collection.", 
+                "Very happy with the order.", "Will order again.", "Trustworthy site.",
+                "Good packaging.", "Quick response.", "5 star service."
+            ]
+        },
+        
+        connectors: [
+            "Also,", "Plus,", "Moreover,", "The best part is,", "I must say,", 
+            "Additionally,", "On top of that,", "Honestly,", "What I liked most is,", 
+            "Furthermore,", "Not to forget,"
+        ],
+
+        keywords: {
+            "Corporate Tshirt": [
+                "The fabric quality of the corporate t-shirts is premium and breathable.",
+                "Our logo printing on the corporate t-shirts came out sharp and clear.",
+                "Best place to buy corporate t-shirts in bulk at affordable rates.",
+                "The fit of the corporate t-shirts is perfect for all employees.",
+                "Everyone in the office is happy with their new corporate t-shirts.",
+                "Professional look and feel of the corporate t-shirts is impressive."
+            ],
+            "Corporate Hoodies": [
+                "The corporate hoodies are warm, cozy, and look very professional.",
+                "Premium quality material used for the corporate hoodies.",
+                "We ordered corporate hoodies for winter and they are fantastic.",
+                "The embroidery on the corporate hoodies is top-notch.",
+                "Stylish and comfortable corporate hoodies for the team.",
+                "Employees are loving the new corporate hoodies."
+            ],
+            "Event Tshirt": [
+                "They delivered our event t-shirts right on time.",
+                "The event t-shirts made our team look unified and smart.",
+                "Vibrant colors and great printing on the event t-shirts.",
+                "Perfect custom t-shirts for our company event.",
+                "Highly recommend them for any bulk event t-shirt requirements.",
+                "The event t-shirts stood out in the crowd."
+            ],
+            "Custom Tshirt": [
+                "The custom t-shirt printing quality is superior.",
+                "They brought our design to life perfectly on the custom t-shirts.",
+                "I created a unique design and the custom t-shirt came out exactly as imagined.",
+                "Very easy process to order custom t-shirts online.",
+                "Best site for high-quality custom t-shirt printing.",
+                "Customization options are endless here."
+            ],
+            "Corporate Gifting": [
+                "Aster4 is now our go-to for all corporate gifting solutions.",
+                "The packaging and quality make it perfect for corporate gifting.",
+                "Employees were thrilled with the high-quality corporate gifting items.",
+                "Affordable yet premium options for corporate gifting.",
+                "Hassle-free process for bulk corporate gifting orders.",
+                "They curated the perfect corporate gifting package for us."
+            ],
+            "Marathi Tshirt": [
+                "Being a Maharashtrian, I love their Marathi t-shirt collection.",
+                "The slogans on the Marathi t-shirts are witty and trendy.",
+                "Proud to wear these stylish Marathi t-shirts.",
+                "The print on the Marathi t-shirts does not fade after washing.",
+                "Unique designs that you won't find on other Marathi t-shirt sites.",
+                "The calligraphy on the Marathi t-shirts is beautiful."
+            ],
+            "Vacation Tshirt": [
+                "Our group looked amazing in the matching vacation t-shirts.",
+                "Got some really cool vibes with these vacation t-shirts.",
+                "The material is light and perfect for summer vacation t-shirts.",
+                "Photos came out great thanks to the matching vacation t-shirts.",
+                "Quick delivery saved us right before our trip."
+            ],
+            "Family Tshirt": [
+                "The family t-shirt combo sets are adorable.",
+                "We got so many compliments on our matching family t-shirts.",
+                "Sizes were perfect for everyone in the family t-shirt set.",
+                "Great way to bond with these matching family t-shirts.",
+                "Affordable pricing for the entire family t-shirt pack."
+            ],
+            "Kids Tshirt": [
+                "The cotton used for kids t-shirts is very skin-friendly.",
+                "My child loves the colors and comfort of the kids t-shirts.",
+                "Durable fabric that withstands rough use, perfect kids t-shirts.",
+                "Trendy designs that kids actually want to wear.",
+                "Best online site for affordable kids t-shirts."
+            ]
+        },
+
+        // 60+ OUTRO VARIATIONS
+        outro: {
+            "Corporate": [
+                "Highly recommended for B2B orders.",
+                "Will definitely order again for our next event.",
+                "Aster4 represents quality and trust in the corporate market.",
+                "A reliable partner for all corporate merchandise.",
+                "5 stars for the professional service and delivery.",
+                "Looking forward to a long-term association.",
+                "Kudos to the team for handling our bulk order well.",
+                "If you need bulk t-shirts, go for them.",
+                "Truly satisfied with the corporate service.",
+                "Best vendor for office supplies and clothing.",
+                "Thank you for the quick turnaround time.",
+                "Our team is very happy with the products.",
+                "Professionalism at its best.",
+                "Great pricing for bulk quantities.",
+                "We will surely recommend you to other companies."
+            ],
+            "Trendy": [
+                "Check them out for the latest fashion trends.",
+                "My new favorite online shopping site for t-shirts.",
+                "Don't think twice, just buy it!",
+                "Affordable fashion at its best.",
+                "5 stars for style and comfort.",
+                "Will surely come back for more designs.",
+                "Keep adding such cool designs.",
+                "Totally satisfied with my purchase.",
+                "Best quality at this price point.",
+                "Highly recommended for college students.",
+                "Love the brand and their vision.",
+                "Shopping here was a delight.",
+                "Fast shipping and great product.",
+                "The fit is just amazing.",
+                "You have gained a loyal customer."
+            ],
+            "Family": [
+                "Thank you for making our trip special.",
+                "Highly recommended for families looking for matching sets.",
+                "Great quality at great prices for kids.",
+                "Will surely buy more for the kids soon.",
+                "Aster4 made us smile with their products.",
+                "Perfect for gifting to loved ones.",
+                "Safe and comfortable clothing for children.",
+                "5 stars from my entire family.",
+                "Best online store for family shopping.",
+                "Loved the overall experience.",
+                "My kids refuse to take the t-shirts off!",
+                "Great value for money combos.",
+                "Excellent fabric for daily wear.",
+                "Happy to support this brand.",
+                "Will recommend to all parents."
+            ],
+            "Short": [
+                "Recommended.", "Good job.", "5 Stars.", "Love it.", "Superb.", 
+                "Excellent.", "Nice.", "Great.", "Must buy.", "Awesome.",
+                "Perfect.", "Lovely.", "Fantastic.", "Quality.", "Best."
+            ]
+        }
+    };
+
+    // --- LOGIC ---
+    function getRandomItem(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function toggleNameField() {
+        const field = document.getElementById('nameArea');
+        field.style.display = field.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) {
+            selectedKeywords = selectedKeywords.filter(item => item !== keyword);
+        } else {
+            if(selectedKeywords.length < 4) {
+                selectedKeywords.push(keyword);
+            } else {
+                alert("Please select max 4 items for a natural review.");
+                element.classList.remove('active');
+            }
+        }
+    }
+
+    function generateReview() {
+        const tone = document.getElementById('toneSelect').value;
+        const location = document.getElementById('locationSelect').value;
+        const userName = document.getElementById('userName').value.trim();
+        const outputBox = document.getElementById('reviewOutput');
+        const copyBtn = document.getElementById('copyBtn');
+
+        if (selectedKeywords.length === 0) {
+            alert("Please select what you bought (Keywords).");
+            return;
+        }
+        
+        outputBox.style.opacity = "0.5";
+
+        // 1. INTRO
+        let intro = getRandomItem(reviewData.intro[tone]);
+        
+        // Location Injection
+        if (location) {
+             const locPhrases = [
+                 ` Received my order in ${location} quickly.`,
+                 ` Delivery to ${location} was super fast.`,
+                 ` Best online shopping experience in ${location}.`
+             ];
+             intro = intro + getRandomItem(locPhrases);
+        }
+
+        if (userName) {
+            intro = `I am ${userName}. ` + intro;
+        }
+
+        // 2. BODY
+        let body = "";
+        const shuffledKeywords = selectedKeywords.sort(() => Math.random() - 0.5);
+        
+        shuffledKeywords.forEach((k, index) => {
+            let sentence = getRandomItem(reviewData.keywords[k]);
+            
+            if (index > 0 && Math.random() > 0.4) { 
+                let connector = getRandomItem(reviewData.connectors);
+                sentence = connector + " " + sentence;
+            }
+            body += sentence + " ";
+        });
+
+        // 3. OUTRO
+        let outro = getRandomItem(reviewData.outro[tone]);
+
+        const finalReview = intro + " " + body + outro;
+
+        setTimeout(() => {
+            outputBox.style.opacity = "1";
+            outputBox.value = finalReview;
+            copyBtn.style.display = "block"; 
+            
+            if (window.innerWidth < 600) {
+                outputBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }, 300); 
+    }
+
+    function copyToClipboard() {
+        const copyText = document.getElementById("reviewOutput");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); 
+        
+        navigator.clipboard.writeText(copyText.value).then(() => {
+            const isConfirmed = confirm("Review Copied! 🛍️\n\nPRO TIP: Upload a photo of your T-shirt/Hoodie for better reach!\n\nClick OK to open Google.");
+            if(isConfirmed) {
+                window.open(GOOGLE_REVIEW_LINK, '_blank');
+            }
+        });
+    }
+</script>
