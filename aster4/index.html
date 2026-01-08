@@ -9,15 +9,15 @@
         /* --- CONTAINER --- */
         .container { background: white; width: 100%; max-width: 450px; padding: 25px; border-radius: 16px; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.15); border-top: 6px solid #2563eb; margin: auto; }
         
-        /* --- LOGO FRAME (Fixed) --- */
+        /* --- CLIENT LOGO FRAME (Top) --- */
         .logo-area { 
             display: flex; 
             justify-content: center; 
             margin-bottom: 10px; 
         }
         .logo-frame {
-            width: 160px;       /* Fixed Width */
-            height: 80px;       /* Fixed Height */
+            width: 160px;       
+            height: 80px;       
             border: 1px solid #dbeafe;
             border-radius: 8px;
             background: #fff;
@@ -37,7 +37,7 @@
         h2 { text-align: center; color: #1e3a8a; margin: 5px 0 2px 0; font-size: 24px; font-weight: 800; }
         p.subtitle { text-align: center; color: #3b82f6; font-size: 13px; margin-bottom: 5px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
         
-        /* --- PHONE NUMBER --- */
+        /* --- CLIENT PHONE NUMBER (Header) --- */
         .contact-header { text-align: center; margin-bottom: 20px; font-size: 15px; font-weight: 700; color: #2563eb; }
         .contact-header a { text-decoration: none; color: inherit; background: #dbeafe; padding: 8px 15px; border-radius: 20px; display: inline-block; transition: 0.2s; }
         .contact-header a:active { background: #bfdbfe; transform: scale(0.98); }
@@ -64,9 +64,11 @@
         .name-input-area { margin-top: 10px; display: none; }
         .toggle-name { font-size: 13px; color: #2563eb; text-decoration: underline; cursor: pointer; border: none; background: none; padding: 0; margin-top: 5px; display: inline-block; }
 
-        /* --- FOOTER --- */
-        .footer { margin-top: 30px; text-align: center; font-size: 12px; color: #9ca3af; border-top: 1px solid #e5e7eb; padding-top: 10px; }
-        .footer a { color: #2563eb; text-decoration: none; font-weight: 600; }
+        /* --- FOOTER (UPDATED) --- */
+        .footer { margin-top: 35px; text-align: center; font-size: 12px; color: #6b7280; border-top: 1px dashed #bfdbfe; padding-top: 15px; }
+        .footer-logo { display: block; margin: 0 auto 5px auto; max-height: 30px; width: auto; opacity: 0.8; }
+        .footer a { color: #2563eb; text-decoration: none; font-weight: 700; }
+        .footer-text { margin-top: 5px; line-height: 1.6; }
     </style>
 
 
@@ -82,7 +84,7 @@
     <p class="subtitle">🛍️ Trendy &amp; Custom Fashion Store</p>
 
     <div class="contact-header">
-        <a href="tel:+919270427301">📞 +91 8381057555</a>
+        <a href="tel:+919270427301">📞 +91  8381057555</a>
     </div>
 
     <label>1. Delivery Location (Optional)</label>
@@ -134,13 +136,18 @@
     <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy &amp; Open Google</button>
 
     <div class="footer">
-        Built by <a href="#">Growft</a>. Call/WhatsApp: 7020360561
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft" loading="lazy">
+        
+        <div class="footer-text">
+            © Copyright <a href="https://growft.net" target="_blank">growft.net</a><br>
+            Helpline: <a href="tel:+917020360561">7020360561</a>
+        </div>
     </div>
 </div>
 
 <script>
     // --- CONFIGURATION ---
-    const GOOGLE_REVIEW_LINK = "https://g.page/r/CWDqjnXT1wQoEBM/review"; 
+    const GOOGLE_REVIEW_LINK = "https://www.google.com/search?q=Aster4.com+Reviews"; 
 
     let selectedKeywords = [];
     
