@@ -1,4 +1,7 @@
-<meta charset="UTF-8">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Review Tool - Aster4.com</title>
     <style>
@@ -70,8 +73,8 @@
         .footer a { color: #2563eb; text-decoration: none; font-weight: 700; }
         .footer-text { margin-top: 5px; line-height: 1.6; }
     </style>
-
-
+</head>
+<body>
 
 <div class="container">
     <div class="logo-area">
@@ -81,7 +84,7 @@
     </div>
 
     <h2>Aster4.com</h2>
-    <p class="subtitle">🛍️ Trendy &amp; Custom Fashion Store</p>
+    <p class="subtitle">🛍️ Trendy & Custom Fashion Store</p>
 
     <div class="contact-header">
         <a href="tel:+919270427301">📞 +91  8381057555</a>
@@ -106,7 +109,7 @@
         <option value="Corporate">Corporate / Bulk Order 🏢</option>
         <option value="Trendy">Trendy / Marathi T-shirts 😎</option>
         <option value="Family">Family / Kids / Vacation 👨‍👩‍👧‍👦</option>
-        <option value="Short">Short &amp; Sweet ⭐</option>
+        <option value="Short">Short & Sweet ⭐</option>
     </select>
 
     <div style="text-align: right;">
@@ -119,6 +122,7 @@
     <label>3. Select Highlights</label>
     <div class="keywords-container" id="keywordsArea">
         <div class="keyword-chip" onclick="toggleKeyword(this, 'Corporate Tshirt')">👔 Corporate T-Shirts</div>
+        <div class="keyword-chip" onclick="toggleKeyword(this, 'Cricket Tshirt')">🏏 Cricket T-Shirt</div>
         <div class="keyword-chip" onclick="toggleKeyword(this, 'Corporate Hoodies')">🧥 Corporate Hoodies</div>
         <div class="keyword-chip" onclick="toggleKeyword(this, 'Event Tshirt')">🎉 Event T-Shirts</div>
         <div class="keyword-chip" onclick="toggleKeyword(this, 'Custom Tshirt')">🎨 Custom Printing</div>
@@ -131,9 +135,9 @@
 
     <button class="generate-btn" onclick="generateReview()">🛍️ Generate Review</button>
 
-    <textarea id="reviewOutput" placeholder="Your review will appear here..." readonly=""></textarea>
+    <textarea id="reviewOutput" placeholder="Your review will appear here..." readonly></textarea>
     
-    <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy &amp; Open Google</button>
+    <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy & Open Google</button>
 
     <div class="footer">
         <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft" loading="lazy">
@@ -290,6 +294,14 @@
                 "Durable fabric that withstands rough use, perfect kids t-shirts.",
                 "Trendy designs that kids actually want to wear.",
                 "Best online site for affordable kids t-shirts."
+            ],
+            "Cricket Tshirt": [
+                "The fabric of the cricket t-shirt is breathable and perfect for matches.",
+                "Ordered custom cricket jerseys for our team and they look professional.",
+                "The print quality on the cricket t-shirt is sharp and durable.",
+                "Comfortable fit, allowing free movement while playing cricket.",
+                "Got our team name printed on the cricket t-shirts, excellent finish.",
+                "Best place to buy cricket uniforms in bulk at good rates."
             ]
         },
 
@@ -452,3 +464,6 @@
         });
     }
 </script>
+
+</body>
+</html>
