@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Review - Holiday Uttarakhand</title>
+    <style>
+        /* --- THEME: UTTARAKHAND NATURE (Pine Green & Sky Blue) --- */
+        :root {
+            --primary: #15803d; /* Pine Green */
+            --primary-dark: #14532d;
+            --secondary: #0ea5e9; /* Sky Blue */
+            --bg-color: #f0fdf4; /* Mint Cream */
+            --card-bg: #ffffff;
+        }
+
+        /* --- RESET & BODY --- */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0; padding: 20px 10px;
+            min-height: 100vh; display: flex;
+            justify-content: center; align-items: flex-start;
+        }
+
+        /* --- CONTAINER --- */
+        .container {
+            background: var(--card-bg); width: 100%; max-width: 500px;
+            padding: 25px; border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(21, 128, 61, 0.15);
+            border-top: 6px solid var(--primary); margin: auto;
+        }
+
+        /* --- HEADER --- */
+        h2 { text-align: center; color: var(--primary-dark); margin: 5px 0 2px 0; font-size: 24px; font-weight: 800; }
+        p.subtitle { text-align: center; color: var(--secondary); font-size: 13px; margin-bottom: 5px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* --- CONTACT BUTTON --- */
+        .contact-header { text-align: center; margin-bottom: 20px; }
+        .contact-btn {
+            text-decoration: none; color: white; background: var(--secondary);
+            padding: 8px 18px; border-radius: 20px; display: inline-block;
+            font-size: 14px; font-weight: 700; transition: 0.2s;
+            box-shadow: 0 4px 6px rgba(14, 165, 233, 0.2);
+        }
+        .contact-btn:hover { transform: translateY(-1px); }
+
+        /* --- FORM ELEMENTS --- */
+        label { font-weight: 700; display: block; margin-top: 18px; margin-bottom: 8px; color: #374151; font-size: 13px; text-transform: uppercase; }
+        
+        select, input {
+            width: 100%; padding: 12px; border-radius: 8px;
+            border: 1px solid #bbf7d0; background: #f0fdfa;
+            font-size: 15px; color: #1f2937; outline: none;
+        }
+        select:focus, input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.1); background: #fff; }
+
+        /* --- KEYWORD CHIPS --- */
+        .category-title {
+            font-size: 11px; color: #9ca3af; margin: 10px 0 5px 0; font-weight: 600; letter-spacing: 0.5px;
+        }
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+        .keyword-chip {
+            padding: 9px 12px; background-color: #fff; border-radius: 8px;
+            font-size: 12px; font-weight: 600; cursor: pointer;
+            border: 1px solid #86efac; user-select: none; color: var(--primary);
+            flex-grow: 1; text-align: center; transition: all 0.2s ease;
+        }
+        .keyword-chip.active {
+            background-color: var(--primary); color: white;
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(21, 128, 61, 0.3);
+        }
+
+        /* --- BUTTONS --- */
+        .generate-btn {
+            width: 100%; padding: 14px; margin-top: 25px;
+            background: linear-gradient(135deg, var(--primary) 0%, #166534 100%);
+            color: white; border: none; border-radius: 8px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .generate-btn:active { transform: scale(0.98); }
+
+        textarea {
+            width: 100%; height: 150px; margin-top: 20px; padding: 12px;
+            border: 1px solid #cbd5e1; border-radius: 8px; resize: none;
+            background-color: #f8fafc; color: #333; font-size: 14px; line-height: 1.5;
+        }
+
+        .copy-btn {
+            width: 100%; padding: 12px; background-color: #f59e0b; /* Amber */
+            color: white; border: none; border-radius: 8px; margin-top: 15px;
+            font-weight: 600; font-size: 15px; cursor: pointer; display: none;
+            box-shadow: 0 4px 6px rgba(245, 158, 11, 0.2);
+        }
+
+        .name-input-area { margin-top: 10px; display: none; }
+        .toggle-name { font-size: 13px; color: var(--primary); text-decoration: underline; cursor: pointer; border: none; background: none; padding: 0; margin-top: 5px; display: inline-block; float: right; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Holiday Uttarakhand</h2>
+    <p class="subtitle">🏔️ Best Tour & Travel Agency</p>
+
+    <div class="contact-header">
+        <a href="https://holidayuttarakhand.com/" target="_blank" class="contact-btn">🌐 Visit Website</a>
+    </div>
+
+    <label>1. Trip Type?</label>
+    <select id="toneSelect">
+        <option value="Family">Family Vacation 👨‍👩‍👧‍👦</option>
+        <option value="Honeymoon">Couples / Honeymoon ❤️</option>
+        <option value="Spiritual">Char Dham / Yatra 🙏</option>
+        <option value="Adventure">Adventure / Friends 🎒</option>
+        <option value="General">General / Official 💼</option>
+    </select>
+
+    <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
+    <div class="name-input-area" id="nameArea">
+        <input type="text" id="userName" placeholder="Your Name">
+    </div>
+
+    <label style="clear: both;">2. Select Highlights (Pick 3-4)</label>
+    
+    <div class="category-title">SERVICE & QUALITY</div>
+    <div class="keywords-container">
+        <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Agency')">🏆 Best Travel Agency</div>
+        <div class="keyword-chip" onclick="toggleKeyword(this, 'Staff')">🤝 Friendly Staff</div>
+        <div class="keyword-chip" onclick="toggleKeyword(this, 'Safety')">🛡️ Safe & Secure</div>
+        <div class="keyword-chip" onclick="toggleKeyword(this, 'Driver')">🚕 Polite Driver/Guide</div>
+        <div class="keyword-chip" onclick="toggleKeyword(this, 'Affordable')">💰 Affordable Packages</div>
+    </div>
+
+    <div class="category-title">UTTARAKHAND DESTINATIONS</div>
+    <div class="keywords-container">
+        <div class="keyword-chip" onclick="toggleKeyword(this, 'Nainital')">⛵ Nainital Tour</div>
+        <div class="keyword-chip" onclick="toggleKeyword(this, 'Jim Corbett')">🐅 Jim Corbett Safari</div>
+        <div class="keyword-chip" onclick="toggleKeyword(this, 'Mussoorie')">⛰️ Mussoorie Trip</div>
+        <div class="keyword-chip" onclick="toggleKeyword(this, 'Auli')">❄️ Auli Skiing/Tour</div>
+        <div class="keyword-chip" onclick="toggleKeyword(this, 'Rishikesh')">🧘 Rishikesh/Rafting</div>
+        <div class="keyword-chip" onclick="toggleKeyword(this, 'Char Dham')">🕉️ Char Dham Yatra</div>
+        <div class="keyword-chip" onclick="toggleKeyword(this, 'Kedarnath')">🚁 Kedarnath Dham</div>
+    </div>
+
+    <div class="category-title">OTHER PACKAGES</div>
+    <div class="keywords-container">
+        <div class="keyword-chip" onclick="toggleKeyword(this, 'All India')">🇮🇳 All India/Kashmir/Kerala</div>
+        <div class="keyword-chip" onclick="toggleKeyword(this, 'Wildlife')">🐘 Wildlife Tour</div>
+        <div class="keyword-chip" onclick="toggleKeyword(this, 'Weekend')">🚗 Weekend Getaway</div>
+    </div>
+
+    <button class="generate-btn" onclick="generateReview()">🚀 Generate Review</button>
+
+    <textarea id="reviewOutput" placeholder="Your review will appear here..." readonly></textarea>
+    
+    <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy & Open Google</button>
+</div>
+
+<script>
+    // --- IMPORTANT: REPLACE WITH ACTUAL GOOGLE REVIEW LINK ---
+    const GOOGLE_REVIEW_LINK = "https://holidayuttarakhand.com/"; // Replace this with the G-Map Review URL
+    
+    let selectedKeywords = [];
+
+    // --- DATA ENGINE ---
+    const reviewData = {
+        intro: {
+            "Family": [
+                "We just returned from a wonderful family trip organized by Holiday Uttarakhand.",
+                "Planning a family vacation in Uttarakhand was so easy with this team.",
+                "Had a memorable family holiday thanks to the best tour operators.",
+                "If you are looking for a family tour package, they are the best.",
+                "Our kids and elders both enjoyed the trip thoroughly."
+            ],
+            "Honeymoon": [
+                "Booked our Uttarakhand honeymoon package with them and it was magical.",
+                "The most romantic trip of our lives, perfectly managed.",
+                "Thank you for making our honeymoon so special and hassle-free.",
+                "Everything from hotels to the cab was perfect for our couple tour.",
+                "Highly recommend them for customized couple tour packages."
+            ],
+            "Spiritual": [
+                "Our Char Dham Yatra was successfully completed thanks to their management.",
+                "Blessed to visit Kedarnath and Badrinath with such a supportive team.",
+                "They organized our spiritual tour with great care and respect.",
+                "The helicopter booking and darshan arrangements were smooth.",
+                "Jai Baba Kedar! Thanks for the Do Dham Yatra package."
+            ],
+            "Adventure": [
+                "Had an adrenaline-pumping adventure tour in Uttarakhand.",
+                "The best team for trekking and rafting packages.",
+                "Went for a friends' trip to Auli and Rishikesh, amazing experience.",
+                "If you love adventure, book your package with them.",
+                "Totally thrilled with the arrangements for our group trip."
+            ],
+            "General": [
+                "One of the best tour and travels agencies in Uttarakhand.",
+                "Very professional service and transparent pricing.",
+                "I used their services for a business cum leisure trip.",
+                "Found them to be the most trusted tour operator.",
+                "Great experience booking with Holiday Uttarakhand."
+            ]
+        },
+
+        keywords: {
+            // Service
+            "Best Agency": [
+                "They are truly the best travel agency in the region.",
+                "Hands down the top tour operator for Uttarakhand.",
+                "Service wise they are the best travel agents I've dealt with."
+            ],
+            "Staff": [
+                "The staff is very friendly and available 24/7.",
+                "Appreciate the support from the management team.",
+                "Best management and very cooperative staff."
+            ],
+            "Safety": [
+                "We felt completely safe throughout the journey.",
+                "Safety was their priority which we appreciated.",
+                "Very safe for solo travelers and families."
+            ],
+            "Driver": [
+                "The driver acted like a guide and was very polite.",
+                "Cab was clean and the driver was an expert in hills.",
+                "Smooth driving skills on the mountain roads."
+            ],
+            "Affordable": [
+                "Got the most affordable packages compared to others.",
+                "Value for money services without compromising quality.",
+                "Budget-friendly yet premium experience."
+            ],
+
+            // Destinations
+            "Nainital": [
+                "The Nainital tour package was perfectly planned.",
+                "Enjoyed the lake tour and sightseeing in Nainital.",
+                "Kathgodam to Nainital taxi service was prompt."
+            ],
+            "Jim Corbett": [
+                "Jim Corbett safari booking was hassle-free.",
+                "We saw amazing wildlife during the Jungle Safari.",
+                "The resort in Jim Corbett was beautiful."
+            ],
+            "Mussoorie": [
+                "Mussoorie holiday package covered all top spots.",
+                "Haridwar to Mussoorie trip was very scenic.",
+                "Loved the Kempty falls visit included in the package."
+            ],
+            "Auli": [
+                "Auli skiing tour package was the highlight of the trip.",
+                "The views at Auli Joshimath were breathtaking.",
+                "Best place for snow lovers, well organized tour."
+            ],
+            "Rishikesh": [
+                "Rishikesh rafting package was full of fun.",
+                "Attended a soul-soothing Yoga retreat in Rishikesh.",
+                "The Ganga Aarti in Haridwar/Rishikesh was divine."
+            ],
+            "Char Dham": [
+                "Char Dham Yatra from Haridwar was managed professionally.",
+                "They handled the difficult Yatra logistics very well.",
+                "Accommodations during the Yatra were decent."
+            ],
+            "Kedarnath": [
+                "Kedarnath helicopter booking was done by them smoothly.",
+                "Divine darshan at Kedarnath Dham.",
+                "The trek arrangements were good."
+            ],
+
+            // Other
+            "All India": [
+                "Surprised they also organize great Kashmir and Kerala packages.",
+                "Booked a Kullu Manali package from them, it was great.",
+                "They are experts in Rajasthan camel safari tours too."
+            ],
+            "Wildlife": [
+                "The wildlife tour in Uttarakhand was exciting.",
+                "Perfect itinerary for nature and wildlife lovers."
+            ],
+            "Weekend": [
+                "Perfect weekend getaway from Delhi to Uttarakhand.",
+                "Short and sweet weekend trip to Dhanaulti."
+            ]
+        },
+
+        outro: {
+            "Family": ["Highly recommended for all families.", "Will definitely book again next summer.", "5 stars for the amazing hospitality."],
+            "Honeymoon": ["Made our special moments memorable.", "Best choice for couples.", "Thanks for the romantic candle light dinner arrangement."],
+            "Spiritual": ["Har Har Mahadev!", "God bless the team.", "Will recommend to all pilgrims."],
+            "Adventure": ["Can't wait for the next adventure.", "Thumbs up to the team.", "Best adventure planners."],
+            "General": ["Keep up the good work.", "Highly recommended.", "A trusted name in tourism."]
+        }
+    };
+
+    // --- LOGIC ---
+    function getRandomItem(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function toggleNameField() {
+        const field = document.getElementById('nameArea');
+        field.style.display = field.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) {
+            selectedKeywords = selectedKeywords.filter(item => item !== keyword);
+        } else {
+            selectedKeywords.push(keyword);
+        }
+    }
+
+    function generateReview() {
+        const tone = document.getElementById('toneSelect').value;
+        const userName = document.getElementById('userName').value.trim();
+        const outputBox = document.getElementById('reviewOutput');
+        const copyBtn = document.getElementById('copyBtn');
+
+        if (selectedKeywords.length === 0) {
+            alert("Please select at least 2 highlights.");
+            return;
+        }
+        
+        outputBox.style.opacity = "0.5";
+
+        // 1. INTRO
+        let intro = getRandomItem(reviewData.intro[tone]);
+        if (userName) {
+            intro = `I am ${userName}. ` + intro;
+        }
+
+        // 2. BODY
+        let body = "";
+        const shuffledKeywords = selectedKeywords.sort(() => Math.random() - 0.5);
+        
+        shuffledKeywords.forEach((k) => {
+            let sentence = getRandomItem(reviewData.keywords[k]);
+            body += sentence + " ";
+        });
+
+        // 3. OUTRO
+        let outro = getRandomItem(reviewData.outro[tone]);
+
+        const finalReview = intro + " " + body + outro;
+
+        setTimeout(() => {
+            outputBox.style.opacity = "1";
+            outputBox.value = finalReview;
+            copyBtn.style.display = "block";
+            
+            if (window.innerWidth < 600) {
+                outputBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }, 300);
+    }
+
+    function copyToClipboard() {
+        const copyText = document.getElementById("reviewOutput");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        
+        navigator.clipboard.writeText(copyText.value).then(() => {
+            const isConfirmed = confirm("Review Copied! 🏔️\n\nClick OK to open the website/review page.");
+            if(isConfirmed) {
+                window.open(GOOGLE_REVIEW_LINK, '_blank');
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
