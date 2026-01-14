@@ -1,0 +1,385 @@
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Feedback - Akanksha Opticals</title>
+    <style>
+        /* --- THEME: OPTICAL PROFESSIONAL (Royal Blue & Cyan) --- */
+        :root {
+            --primary: #1e3a8a; /* Royal Blue */
+            --primary-light: #3b82f6;
+            --accent: #06b6d4; /* Cyan/Teal */
+            --bg-color: #f0f9ff;
+            --card-bg: #ffffff;
+            --gold: #fbbf24;
+            --gray: #64748b;
+        }
+
+        /* --- RESET & BODY --- */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0; padding: 20px 10px;
+            min-height: 100vh; display: flex;
+            justify-content: center; align-items: flex-start;
+        }
+
+        /* --- CONTAINER --- */
+        .container {
+            background: var(--card-bg); width: 100%; max-width: 500px;
+            padding: 25px; border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.15);
+            border-top: 6px solid var(--primary); margin: auto;
+            text-align: center;
+        }
+
+        /* --- HEADER --- */
+        h1 { color: var(--primary); margin: 5px 0 2px 0; font-size: 26px; font-weight: 800; }
+        .location { color: var(--accent); font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+        
+        p { color: #475569; font-size: 15px; margin-bottom: 20px; line-height: 1.5; }
+
+        /* --- STAR RATING --- */
+        .star-container {
+            display: flex; justify-content: center; gap: 8px; margin: 20px 0;
+            direction: ltr;
+        }
+        .star {
+            font-size: 42px; color: #e2e8f0; cursor: pointer; transition: transform 0.2s, color 0.2s;
+        }
+        .star.selected { color: var(--gold); }
+        .star:hover { transform: scale(1.15); }
+
+        /* --- BUTTONS --- */
+        .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
+        .exp-btn {
+            padding: 12px 25px; border: 1px solid #cbd5e1; border-radius: 8px;
+            background: #fff; cursor: pointer; font-weight: 600; color: #334155;
+            flex: 1; max-width: 130px; transition: 0.2s;
+        }
+        .exp-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(30, 58, 138, 0.3); }
+        .exp-btn.bad-active { background: #ef4444; color: white; border-color: #ef4444; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3); }
+
+        .action-btn {
+            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white; border: none; border-radius: 8px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 10px;
+        }
+        .action-btn:active { transform: scale(0.98); }
+
+        /* --- PRIVATE FEEDBACK --- */
+        textarea.feedback-box {
+            width: 100%; height: 120px; padding: 12px;
+            border: 1px solid #cbd5e1; border-radius: 8px; resize: none;
+            font-family: inherit; margin-bottom: 15px; background: #f8fafc;
+        }
+
+        /* --- AI TOOL STYLES --- */
+        .ai-tool-wrapper { text-align: left; display: none; }
+        .ai-tool-wrapper label { font-weight: 700; display: block; margin-top: 15px; margin-bottom: 8px; color: #334155; font-size: 13px; text-transform: uppercase; }
+        .ai-tool-wrapper input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1; background: #f8fafc; font-size: 15px; outline: none; }
+        
+        .category-header {
+            font-size: 11px; color: #94a3b8; margin: 15px 0 8px 0; font-weight: 700; letter-spacing: 0.5px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 4px;
+        }
+        
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 5px; }
+        .keyword-chip { 
+            padding: 8px 12px; background-color: #fff; border-radius: 20px; 
+            font-size: 12px; font-weight: 600; cursor: pointer; 
+            border: 1px solid #bae6fd; color: var(--primary); 
+            flex-grow: 1; text-align: center; transition: 0.2s;
+        }
+        .keyword-chip.active { background-color: var(--primary); color: white; border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 3px 8px rgba(30, 58, 138, 0.2); }
+
+        .copy-btn { width: 100%; padding: 12px; background-color: #10b981; color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: 600; font-size: 15px; cursor: pointer; display: none; box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2); }
+
+        /* --- UTILS --- */
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .toggle-name { font-size: 13px; color: var(--primary); text-decoration: underline; cursor: pointer; float: right; margin-top: 5px; border: none; background: none; }
+
+        /* --- FOOTER --- */
+        .footer { margin-top: 35px; text-align: center; font-size: 12px; color: #64748b; border-top: 1px dashed #cbd5e1; padding-top: 15px; }
+        .footer-logo { display: block; margin: 0 auto 5px auto; max-height: 28px; width: auto; opacity: 0.85; }
+        .footer a { color: var(--primary); text-decoration: none; font-weight: 700; }
+        .footer-text { margin-top: 5px; line-height: 1.6; }
+    </style>
+
+
+
+<div class="container">
+    
+    <h1>Akanksha Opticals</h1>
+    <div class="location">📍 Wagholi, Pune</div>
+
+    <div id="ratingScreen" class="fade-in">
+        <p>How was your experience at our store?</p>
+
+        <div class="star-container">
+            <span class="star" onclick="rate(1)">★</span>
+            <span class="star" onclick="rate(2)">★</span>
+            <span class="star" onclick="rate(3)">★</span>
+            <span class="star" onclick="rate(4)">★</span>
+            <span class="star" onclick="rate(5)">★</span>
+        </div>
+
+        <div class="experience-btns">
+            <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Not Good 😞</button>
+            <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Excellent 👓</button>
+        </div>
+
+        <button class="action-btn" onclick="processRating()">Next Step ➡</button>
+    </div>
+
+    <div id="privateFeedbackScreen" class="hidden fade-in">
+        <h2 style="color:#334155;">We are sorry! 😔</h2>
+        <p>Please tell us how we can improve. Your feedback will be sent directly to the owner.</p>
+        <textarea id="privateFeedbackText" class="feedback-box" placeholder="Write your issues here..."></textarea>
+        <button class="action-btn" style="background:#475569;" onclick="submitPrivateFeedback()">Submit Feedback</button>
+    </div>
+
+    <div id="thankYouScreen" class="hidden fade-in">
+        <div style="font-size: 50px; margin-bottom:10px;">✅</div>
+        <h2 style="color:#334155;">Thank You!</h2>
+        <p>Your feedback has been submitted successfully.</p>
+    </div>
+
+    <div id="aiToolScreen" class="ai-tool-wrapper fade-in">
+        <p style="text-align:center; font-weight:bold; color:var(--primary);">✨ Create your review in 1 click!</p>
+        
+        <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
+        <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
+            <input type="text" id="userName" placeholder="Your Name (Optional)">
+        </div>
+
+        <label style="clear:both;">Select what you liked (Pick 3-4)</label>
+
+        <div class="category-header">SERVICE &amp; STAFF</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Store')">🏆 Best Optical Store</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Optician')">👨‍⚕️ Best Optician</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Staff')">🤝 Professional Staff</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Fast Service')">⚡ Fastest Service</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Rated')">⭐ Best Rated Shop</div>
+        </div>
+
+        <div class="category-header">GLASSES &amp; LENSES</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Collection')">👓 Nice Collection</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Designer')">🕶️ Designer Frames</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Affordable')">💰 Affordable Price</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Blue Cut')">💻 Blue Cut Lenses</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Contact Lens')">👁️ Contact Lens</div>
+        </div>
+
+        <div class="category-header">TECHNICAL SERVICES</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Eye Test')">🖥️ Computer Eye Test</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Repair')">🔧 Spectacle Repair</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Alignment')">📏 Frame Alignment</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Replacement')">🔄 Lens Replacement</div>
+        </div>
+
+        <button class="action-btn" onclick="generateReview()">🚀 Generate Review</button>
+
+        <textarea id="reviewOutput" style="width:100%; height:130px; margin-top:15px; border-radius:8px; padding:10px; border:1px solid #ccc; display:none; background:#fff;" readonly=""></textarea>
+        
+        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy &amp; Open Google</button>
+    </div>
+
+    <div class="footer">
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft" loading="lazy">
+        
+        <div class="footer-text">
+            Built by <a href="https://growft.net" target="_blank">Growft</a><br>
+            Contact to build your Agent: <a href="tel:+917020360561">7020360561</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- IMPORTANT: REPLACE THIS LINK ---
+    const GOOGLE_REVIEW_LINK = "https://g.page/r/YOUR_GOOGLE_LINK_HERE/review"; // Replace with actual link
+    
+    // --- RATING LOGIC ---
+    let currentRating = 0;
+    let currentExp = '';
+
+    function rate(stars) {
+        currentRating = stars;
+        let allStars = document.querySelectorAll('.star');
+        allStars.forEach((star, index) => {
+            star.classList.toggle('selected', index < stars);
+        });
+        if(stars >= 4) selectExp('good');
+        else selectExp('bad');
+    }
+
+    function selectExp(type) {
+        currentExp = type;
+        document.getElementById('btn-good').classList.remove('active');
+        document.getElementById('btn-bad').classList.remove('bad-active');
+        if (type === 'good') document.getElementById('btn-good').classList.add('active');
+        else document.getElementById('btn-bad').classList.add('bad-active');
+    }
+
+    function processRating() {
+        if (currentRating === 0 && currentExp === '') {
+            alert("Please select a star rating.");
+            return;
+        }
+        document.getElementById('ratingScreen').classList.add('hidden');
+        
+        let isHappy = (currentRating >= 4) || (currentExp === 'good');
+        
+        if (isHappy) {
+            document.getElementById('aiToolScreen').style.display = 'block';
+        } else {
+            document.getElementById('privateFeedbackScreen').classList.remove('hidden');
+        }
+    }
+
+    function submitPrivateFeedback() {
+        if(document.getElementById('privateFeedbackText').value.trim() === "") {
+            alert("Please write a few words.");
+            return;
+        }
+        document.getElementById('privateFeedbackScreen').classList.add('hidden');
+        document.getElementById('thankYouScreen').classList.remove('hidden');
+    }
+
+    // --- AI GENERATION LOGIC (MASSIVE DATABASE) ---
+    let selectedKeywords = [];
+
+    const reviewDB = {
+        // 40+ Opening Lines
+        intros: [
+            "Visited Akanksha Opticals in Wagholi recently.",
+            "I was looking for a good optical store in Wagholi and found this gem.",
+            "My experience at Akanksha Opticals was simply outstanding.",
+            "If you are in Wagholi and need glasses, this is the place.",
+            "One of the most professional optical shops I have visited.",
+            "I had a very urgent requirement for specs and they helped me.",
+            "This is my second visit to Akanksha Opticals.",
+            "Highly impressed with the service at this store.",
+            "Best place for eye checkup and new frames.",
+            "I highly recommend Akanksha Opticals for everyone.",
+            "Truly the best optical store in the Wagholi area.",
+            "Excellent customer service from start to finish.",
+            "Got my new glasses delivered today, very happy.",
+            "A very reliable shop for all eyewear needs.",
+            "The staff here is very polite and helpful.",
+            "Came here for an eye test and new spectacles.",
+            "Found this shop via Google Reviews and it lived up to the hype.",
+            "Such a wide range of frames available here.",
+            "Quality service at very reasonable prices.",
+            "They treat every customer with great care.",
+            "I broke my glasses and they fixed it quickly.",
+            "Needed blue cut lenses for office work, got the best deal here.",
+            "My family has been visiting this shop for years.",
+            "Very hygienic and well-maintained store.",
+            "The owner is very knowledgeable and guided me well.",
+            "Superb experience getting my contact lenses here.",
+            "Quick, efficient, and affordable service.",
+            "I love the collection of designer frames they have.",
+            "Accurate eye testing and perfect fitting glasses.",
+            "They understand customer needs very well.",
+            "Definitely the top-rated optician in Wagholi.",
+            "Smooth and hassle-free process.",
+            "Great value for money products.",
+            "Friendly atmosphere and professional attitude.",
+            "I am fully satisfied with my purchase.",
+            "Top notch quality lenses provided.",
+            "They have the latest trendy glasses.",
+            "My search for the perfect glasses ended here.",
+            "Wonderful experience!",
+            "Thank you Akanksha Opticals for the great service."
+        ],
+
+        // Keyword Specific Sentences
+        keywords: {
+            "Best Store": ["Hands down the best optical store in Wagholi.", "Easily the finest shop for eyewear in the area.", "No other store matches their quality service.", "This is the best optical shop I've found nearby.", "The overall vibe and service make it the best store."],
+            "Best Optician": ["The optician is very experienced and skilled.", "Best optician I have consulted so far.", "He explains everything about eye health clearly.", "Very patient and accurate optician.", "Trustworthy advice from the optician."],
+            "Staff": ["The staff is extremely professional and polite.", "Loved how the staff helped me choose the frame.", "Very courteous staff members.", "The team is efficient and friendly.", "Staff behavior is 10/10."],
+            "Fast Service": ["I was amazed by their fastest service delivery.", "Got my glasses within hours, super fast service.", "They value time and provide quick service.", "Delivery was prompt and on time.", "No long waiting periods, very fast."],
+            "Rated": ["Now I know why it is the best rated optical shop.", "Truly deserves the 5-star rating.", "Top rated for a reason - quality and trust.", "Living up to its reputation as a top rated shop.", "The reviews were right, excellent place."],
+            "Collection": ["They have a very nice collection of frames.", "Huge variety of frames to choose from.", "Loved the unique collection they keep.", "Styles for every face shape in their collection.", "Fresh and trendy collection available."],
+            "Designer": ["Bought a pair of designer frames and I love them.", "Great range of premium designer brands.", "If you want stylish designer glasses, go here.", "Modern and designer frames at good rates.", "The designer collection is exquisite."],
+            "Affordable": ["The prices are very affordable compared to others.", "Got high quality glasses at an affordable price.", "Budget-friendly options without compromising quality.", "Affordable glasses for the whole family.", "Best rates in the market."],
+            "Blue Cut": ["The blue cut lenses have reduced my eye strain.", "Highly recommend their blue light glasses for computer users.", "Blue cut lenses quality is premium.", "My eyes feel much better with these blue cut glasses.", "Essential for IT professionals, great quality."],
+            "Contact Lens": ["Got the best deal on contact lenses.", "They are a reliable contact lens dealer.", "Guided me on how to use contact lenses properly.", "Fresh stock of contact lenses available.", "Very comfortable lenses provided."],
+            "Eye Test": ["The computerized eye testing was very precise.", "State of the art equipment for eye testing.", "Eye checkup was thorough and accurate.", "Free computerized eye testing facility is great.", "Found the exact power thanks to their testing."],
+            "Repair": ["They fixed my broken frame in minutes.", "Best spectacle repair shop in Wagholi.", "Did a great job with screw tightening.", "Saved my old glasses with quick repair.", "Very skilled at frame repairs."],
+            "Alignment": ["Frame alignment was done perfectly.", "Adjusted my glasses for a perfect fit.", "Screw tightening and alignment service is good.", "My glasses fit perfectly now after alignment.", "Fixed the loose screws instantly."],
+            "Replacement": ["Lens replacement service was quick and easy.", "Replaced my old scratched lenses with new ones.", "Fitted new lenses in my old frame perfectly.", "Cost-effective lens replacement service.", "Upgrade to new lenses was seamless."]
+        },
+
+        // 40+ Closing Lines
+        outros: [
+            "Highly recommended!", "Will definitely visit again.", "5 stars from my side.", "Keep up the good work Akanksha Opticals.", "I will recommend this to all my friends.", "A must-visit for quality eyewear.", "Total value for money.", "Very satisfied customer.", "Looking forward to my next purchase.", "Thanks for the amazing service.", "Best wishes to the team.", "Don't look anywhere else, just go here.", "My go-to optical store from now on.", "Great experience, thank you.", "Happy with the products and price.", "You have gained a loyal customer.", "Simply the best in Pune.", "Quality and trust defined.", "See you guys soon.", "Recommended for everyone in Wagholi.", "Thumbs up for the service.", "Glad I chose Akanksha Opticals.", "A wonderful shopping experience.", "Respectful and honest business.", "They earned this positive review.", "Do visit for great deals.", "Customer satisfaction guaranteed here.", "Love my new look!", "Thanks for helping me see clearly.", "Keep shining!", "Outstanding performance.", "Superb job done.", "I am a happy customer.", "Will suggest this to my colleagues.", "Reliable and fast.", "Cheers to the team.", "Excellent support provided.", "Very happy with the fitting.", "God bless the team.", "100% recommended."
+        ]
+    };
+
+    // --- UTILS ---
+    function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+    function toggleNameField() { 
+        const field = document.getElementById('nameArea');
+        field.style.display = field.style.display === 'block' ? 'none' : 'block';
+    }
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) {
+            selectedKeywords = selectedKeywords.filter(item => item !== keyword);
+        } else {
+            selectedKeywords.push(keyword);
+        }
+    }
+
+    function generateReview() {
+        const userName = document.getElementById('userName').value.trim();
+        const outputBox = document.getElementById('reviewOutput');
+        const copyBtn = document.getElementById('copyBtn');
+
+        if (selectedKeywords.length === 0) {
+            alert("Please select at least 2 highlights.");
+            return;
+        }
+        
+        outputBox.style.display = 'block';
+        outputBox.style.opacity = "0.5";
+
+        let intro = getRandomItem(reviewDB.intros);
+        if (userName) intro = `I am ${userName}. ` + intro;
+
+        let body = "";
+        const shuffledKeywords = selectedKeywords.sort(() => Math.random() - 0.5);
+        shuffledKeywords.forEach((k) => {
+            let sentence = getRandomItem(reviewDB.keywords[k]);
+            body += sentence + " ";
+        });
+
+        let outro = getRandomItem(reviewDB.outros);
+
+        const finalReview = intro + " " + body + outro;
+
+        setTimeout(() => {
+            outputBox.style.opacity = "1";
+            outputBox.value = finalReview;
+            copyBtn.style.display = "block";
+            if (window.innerWidth < 600) outputBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+    }
+
+    function copyToClipboard() {
+        const copyText = document.getElementById("reviewOutput");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(copyText.value).then(() => {
+            const isConfirmed = confirm("Review Copied! 👓\n\nClick OK to open Google Maps.");
+            if(isConfirmed) window.open(GOOGLE_REVIEW_LINK, '_blank');
+        });
+    }
+</script>
