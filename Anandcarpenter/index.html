@@ -1,0 +1,511 @@
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Feedback - Anand Carpenter</title>
+    <style>
+        /* --- THEME: WOODWORK & CARPENTRY (Browns & Warm Tones) --- */
+        :root {
+            --primary: #8B4513; /* SaddleBrown */
+            --primary-light: #A0522D; /* Sienna */
+            --accent: #CD853F; /* Peru */
+            --bg-color: #FAF3E0; /* Light Beige/Wood */
+            --card-bg: #ffffff;
+            --gold: #fbbf24;
+            --gray: #4b5563;
+        }
+
+        /* --- RESET & BODY --- */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0; padding: 20px 10px;
+            min-height: 100vh; display: flex;
+            justify-content: center; align-items: flex-start;
+        }
+
+        /* --- CONTAINER --- */
+        .container {
+            background: var(--card-bg); width: 100%; max-width: 500px;
+            padding: 25px; border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(139, 69, 19, 0.15);
+            border-top: 6px solid var(--primary); margin: auto;
+            text-align: center;
+        }
+
+        /* --- HEADER --- */
+        h1 { color: var(--primary); margin: 5px 0 2px 0; font-size: 26px; font-weight: 800; }
+        .location { color: var(--accent); font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+        
+        p { color: #5d4037; font-size: 15px; margin-bottom: 20px; line-height: 1.5; }
+
+        /* --- INPUTS & SELECTS --- */
+        select, input {
+            width: 100%; padding: 12px; border-radius: 8px;
+            border: 1px solid #D2B48C; background: #fffaf0;
+            font-size: 15px; outline: none; margin-bottom: 10px;
+            color: #5d4037;
+        }
+        select:focus, input:focus { border-color: var(--primary); }
+        
+        label { 
+            font-weight: 700; display: block; margin-top: 15px; margin-bottom: 8px; 
+            color: #5d4037; font-size: 13px; text-transform: uppercase; text-align: left; 
+        }
+
+        /* --- STAR RATING --- */
+        .star-container {
+            display: flex; justify-content: center; gap: 8px; margin: 20px 0;
+            direction: ltr;
+        }
+        .star {
+            font-size: 42px; color: #e5e7eb; cursor: pointer; transition: transform 0.2s, color 0.2s;
+        }
+        .star.selected { color: var(--gold); }
+        .star:hover { transform: scale(1.15); }
+
+        /* --- BUTTONS --- */
+        .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
+        .exp-btn {
+            padding: 12px 25px; border: 1px solid #D2B48C; border-radius: 8px;
+            background: #fff; cursor: pointer; font-weight: 600; color: #5d4037;
+            flex: 1; max-width: 130px; transition: 0.2s;
+        }
+        .exp-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(139, 69, 19, 0.3); }
+        .exp-btn.bad-active { background: #ef4444; color: white; border-color: #ef4444; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3); }
+
+        .action-btn {
+            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white; border: none; border-radius: 8px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 10px;
+        }
+        .action-btn:active { transform: scale(0.98); }
+
+        /* --- PRIVATE FEEDBACK --- */
+        textarea.feedback-box {
+            width: 100%; height: 120px; padding: 12px;
+            border: 1px solid #D2B48C; border-radius: 8px; resize: none;
+            font-family: inherit; margin-bottom: 15px; background: #fffaf0;
+        }
+
+        /* --- AI TOOL STYLES --- */
+        .ai-tool-wrapper { text-align: left; display: none; }
+        
+        .category-header {
+            font-size: 11px; color: #8d6e63; margin: 15px 0 8px 0; font-weight: 700; letter-spacing: 0.5px; border-bottom: 1px dashed #D2B48C; padding-bottom: 4px;
+        }
+        
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 5px; }
+        .keyword-chip { 
+            padding: 8px 12px; background-color: #fff; border-radius: 20px; 
+            font-size: 12px; font-weight: 600; cursor: pointer; 
+            border: 1px solid #D2B48C; color: var(--primary); 
+            flex-grow: 1; text-align: center; transition: 0.2s;
+        }
+        .keyword-chip.active { background-color: var(--primary); color: white; border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 3px 8px rgba(139, 69, 19, 0.2); }
+
+        .copy-btn { width: 100%; padding: 12px; background-color: #d97706; /* Amber Dark */ color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: 600; font-size: 15px; cursor: pointer; display: none; box-shadow: 0 4px 6px rgba(217, 119, 6, 0.2); }
+
+        /* --- UTILS --- */
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .toggle-name { font-size: 13px; color: var(--primary); text-decoration: underline; cursor: pointer; float: right; margin-top: 5px; border: none; background: none; }
+
+        /* --- FOOTER --- */
+        .footer { margin-top: 35px; text-align: center; font-size: 12px; color: #64748b; border-top: 1px dashed #D2B48C; padding-top: 15px; }
+        .footer-logo { display: block; margin: 0 auto 5px auto; max-height: 28px; width: auto; opacity: 0.85; }
+        .footer a { color: var(--primary); text-decoration: none; font-weight: 700; }
+        .footer-text { margin-top: 5px; line-height: 1.6; }
+    </style>
+
+
+
+<div class="container">
+    
+    <h1>Anand Carpenter</h1>
+    <div class="location">🔨 Sector 52, Gurgaon</div>
+
+    <div id="ratingScreen" class="fade-in">
+        <p>How was our carpentry service?</p>
+
+        <div class="star-container">
+            <span class="star" onclick="rate(1)">★</span>
+            <span class="star" onclick="rate(2)">★</span>
+            <span class="star" onclick="rate(3)">★</span>
+            <span class="star" onclick="rate(4)">★</span>
+            <span class="star" onclick="rate(5)">★</span>
+        </div>
+
+        <div class="experience-btns">
+            <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Not Good 😞</button>
+            <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Excellent 🛋️</button>
+        </div>
+
+        <button class="action-btn" onclick="processRating()">Next Step ➡</button>
+    </div>
+
+    <div id="privateFeedbackScreen" class="hidden fade-in">
+        <h2 style="color:#5d4037;">We are sorry! 😔</h2>
+        <p>Please tell us how we can improve. Your feedback will be sent directly to the owner.</p>
+        <textarea id="privateFeedbackText" class="feedback-box" placeholder="Describe the issue..."></textarea>
+        <button class="action-btn" style="background:#4b5563;" onclick="submitPrivateFeedback()">Submit Feedback</button>
+    </div>
+
+    <div id="thankYouScreen" class="hidden fade-in">
+        <div style="font-size: 50px; margin-bottom:10px;">✅</div>
+        <h2 style="color:#5d4037;">Thank You!</h2>
+        <p>Your feedback has been submitted successfully.</p>
+    </div>
+
+    <div id="aiToolScreen" class="ai-tool-wrapper fade-in">
+        <p style="text-align:center; font-weight:bold; color:var(--primary); margin-bottom: 20px;">✨ Create your review in 1 click!</p>
+        
+        <div style="display: flex; gap: 10px;">
+            <div style="flex:1;">
+                <label style="margin-top:0;">Location</label>
+                <select id="locationSelect">
+                    <option value="Sector 52">Sector 52</option>
+                    <option value="Gurgaon">Gurgaon</option>
+                    <option value="Wazirabad">Wazirabad</option>
+                </select>
+            </div>
+            <div style="flex:1;">
+                <label style="margin-top:0;">Tone</label>
+                <select id="toneSelect">
+                    <option value="Professional">Professional 👔</option>
+                    <option value="Friendly">Friendly 😃</option>
+                    <option value="Short">Short &amp; Sweet 👌</option>
+                    <option value="Grateful">Grateful 🙏</option>
+                </select>
+            </div>
+        </div>
+
+        <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
+        <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
+            <input type="text" id="userName" placeholder="Your Name (Optional)">
+        </div>
+
+        <label style="clear:both;">Select what you liked (Pick 3-4)</label>
+
+        <div class="category-header">SERVICE &amp; QUALITY</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Contractor')">🏆 Best Contractor</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Professional Team')">👷 Professional Team</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Fast Service')">⚡ Fastest Service</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Finishing')">✨ Top Notch Finishing</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Affordable')">💰 Affordable Prices</div>
+        </div>
+
+        <div class="category-header">WOODWORK &amp; FURNITURE</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Furniture Maker')">🪑 Furniture Maker</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Custom Woodwork')">🪵 Custom Woodwork</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Interior Work')">🏠 Interior Furniture</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Furniture Repair')">🔧 Furniture Repair</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Wooden Interior')">🚪 Wooden Interior</div>
+        </div>
+
+        <div class="category-header">LOCAL SEARCH</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Near Me')">📍 Carpenter Near Me</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Local Repair')">🛠️ Local Repair</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Interior')">🏢 Best for Flats</div>
+        </div>
+
+        <button class="action-btn" onclick="generateReview()">🚀 Generate Review</button>
+
+        <textarea id="reviewOutput" style="width:100%; height:130px; margin-top:15px; border-radius:8px; padding:10px; border:1px solid #D2B48C; display:none; background:#fff;" readonly=""></textarea>
+        
+        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy &amp; Open Google</button>
+    </div>
+
+    <div class="footer">
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft" loading="lazy">
+        
+        <div class="footer-text">
+            Built by <a href="https://growft.net" target="_blank">Growft</a><br>
+            Contact to build your Agent: <a href="tel:+917020360561">7020360561</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- IMPORTANT: REPLACE THIS LINK ---
+    const GOOGLE_REVIEW_LINK = "https://g.page/r/YOUR_GOOGLE_LINK_HERE/review"; 
+    
+    // --- RATING LOGIC ---
+    let currentRating = 0;
+    let currentExp = '';
+
+    function rate(stars) {
+        currentRating = stars;
+        let allStars = document.querySelectorAll('.star');
+        allStars.forEach((star, index) => {
+            star.classList.toggle('selected', index < stars);
+        });
+        if(stars >= 4) selectExp('good');
+        else selectExp('bad');
+    }
+
+    function selectExp(type) {
+        currentExp = type;
+        document.getElementById('btn-good').classList.remove('active');
+        document.getElementById('btn-bad').classList.remove('bad-active');
+        if (type === 'good') document.getElementById('btn-good').classList.add('active');
+        else document.getElementById('btn-bad').classList.add('bad-active');
+    }
+
+    function processRating() {
+        if (currentRating === 0 && currentExp === '') {
+            alert("Please select a star rating.");
+            return;
+        }
+        document.getElementById('ratingScreen').classList.add('hidden');
+        
+        let isHappy = (currentRating >= 4) || (currentExp === 'good');
+        
+        if (isHappy) {
+            document.getElementById('aiToolScreen').style.display = 'block';
+        } else {
+            document.getElementById('privateFeedbackScreen').classList.remove('hidden');
+        }
+    }
+
+    function submitPrivateFeedback() {
+        if(document.getElementById('privateFeedbackText').value.trim() === "") {
+            alert("Please write a few words.");
+            return;
+        }
+        document.getElementById('privateFeedbackScreen').classList.add('hidden');
+        document.getElementById('thankYouScreen').classList.remove('hidden');
+    }
+
+    // --- AI GENERATION LOGIC ---
+    let selectedKeywords = [];
+
+    const reviewDB = {
+        // 40+ INTROS SPLIT ACROSS TONES
+        intros: {
+            "Professional": [
+                "I hired Anand Carpenter Contractor for some work in {location}.",
+                "We engaged Anand Carpenter for interior work in our flat in {location}.",
+                "If you are looking for a reliable carpenter in {location}, this is the one.",
+                "Excellent craftsmanship shown by Anand Carpenter Contractor in {location}.",
+                "Very professional carpentry services provided in {location}.",
+                "I highly recommend Anand Carpenter for anyone in {location}.",
+                "Top quality wooden work delivered at our site in {location}.",
+                "Found them to be the most professional contractor in {location}.",
+                "They handled our full home furniture project in {location} professionally.",
+                "Reliable and skilled team operating in {location}.",
+                "Recently utilized their carpentry services in {location} and was impressed.",
+                "For anyone needing custom woodwork in {location}, Anand Carpenter is expert.",
+                "I am writing this review to commend their professionalism in {location}.",
+                "Our experience with Anand Carpenter Contractor in {location} was seamless."
+            ],
+            "Friendly": [
+                "Amazing work by Anand Carpenter team in {location}! 😃",
+                "Just got my furniture fixed by them in {location}, super happy!",
+                "Best carpenter bhai in {location} area!",
+                "They made my dream furniture exactly how I wanted in {location}.",
+                "So happy with the new wardrobe they built in my {location} flat.",
+                "Very polite and talented carpenters in {location}.",
+                "Loved the finishing of the wood work! Best in {location}.",
+                "My home in {location} looks beautiful thanks to their work.",
+                "Super friendly team and great results.",
+                "Thanks for the quick fix in {location}!",
+                "Wow! The woodwork they did in my {location} house is stunning.",
+                "Such nice people and amazing skills in {location}.",
+                "Totally loved their service in {location}!",
+                "They are simply the best carpenters in {location}."
+            ],
+            "Short": [
+                "Best carpenter in {location}.",
+                "Good work done in {location}.",
+                "Professional service in {location}.",
+                "Nice furniture work.",
+                "Recommended carpenter in {location}.",
+                "Affordable and good.",
+                "Fast service in {location}.",
+                "Best for home repair.",
+                "Quality wooden work.",
+                "Five stars for the team.",
+                "Great job in {location}.",
+                "Skilled carpenter.",
+                "Good finishing.",
+                "Reliable contractor."
+            ],
+            "Grateful": [
+                "I am really thankful to Anand Carpenter for the urgent work in {location}.",
+                "They saved my furniture with quick repair in {location}.",
+                "Grateful for the honest pricing and good work in {location}.",
+                "Thanks a lot for the beautiful interior work in my {location} home.",
+                "Appreciate the hard work put in by the team.",
+                "Thank you for completing the work on time in {location}.",
+                "So glad I found honest carpenters in {location}.",
+                "Thanks for the perfect custom table.",
+                "Really appreciate the finishing quality.",
+                "Thank you Anand ji for the great service.",
+                "My sincere thanks to the team in {location}.",
+                "I appreciate how they handled my repair in {location}.",
+                "Big thanks for the affordable rate in {location}.",
+                "Grateful for the excellent craftsmanship."
+            ]
+        },
+
+        // 40+ OUTROS SPLIT ACROSS TONES
+        outros: {
+            "Professional": [
+                "Highly recommended for quality woodwork in {location}.",
+                "The best choice for furniture contracts in {location}.",
+                "They ensure top-notch finishing and timely delivery.",
+                "Will definitely hire them again for future projects.",
+                "A trustworthy name for carpentry in {location}.",
+                "Professionalism at its best.",
+                "Great value for money service.",
+                "Satisfied with the overall contract execution.",
+                "Best wishes to the business.",
+                "Do try them for premium interior work.",
+                "They are setting high standards in {location}.",
+                "You can trust them for any large project.",
+                "A reliable partner for home renovation in {location}.",
+                "Their dedication to quality is commendable."
+            ],
+            "Friendly": [
+                "Will call you guys again! 👍",
+                "Best in {location}, hands down!",
+                "Loving my new furniture! 😍",
+                "Keep up the great work!",
+                "Don't look anywhere else in {location}.",
+                "Super satisfied!",
+                "Cheers to the team!",
+                "Will recommend to my neighbors in {location}.",
+                "Thanks again!",
+                "You guys are the best.",
+                "Totally worth it!",
+                "Can't wait to show off my new furniture.",
+                "Love the team's vibe.",
+                "See you soon for the next work."
+            ],
+            "Short": [
+                "Recommended.",
+                "Good job.",
+                "5 Stars.",
+                "Must try.",
+                "Great work.",
+                "Best in {location}.",
+                "Nice finishing.",
+                "Happy customer.",
+                "Thank you.",
+                "Top quality.",
+                "Superb.",
+                "Well done.",
+                "Highly rated.",
+                "Good service."
+            ],
+            "Grateful": [
+                "Thanks once again.",
+                "God bless the team.",
+                "Really appreciate the help.",
+                "I will always recommend you.",
+                "Thanks for being so helpful.",
+                "Grateful for the service.",
+                "Thanks for the fair price.",
+                "So happy with the result.",
+                "Thank you for the support.",
+                "Much appreciated.",
+                "Heartfelt thanks.",
+                "Thanks for solving my problem.",
+                "Appreciate the quick response.",
+                "Thank you for the honesty."
+            ]
+        },
+
+        // Keyword Specific Sentences
+        keywords: {
+            "Best Contractor": ["Truly the best carpenter contractor I have found in {location}.", "Anand Carpenter is the best contractor for home projects.", "Hard to find such a good contractor in {location}."],
+            "Professional Team": ["The team is very professional and disciplined.", "They came on time and worked professionally.", "A very skilled and professional team of carpenters."],
+            "Fast Service": ["I was impressed by their fastest service delivery.", "They completed the furniture work very quickly.", "Fastest service for home repairs in {location}."],
+            "Finishing": ["The top notch finishing of the furniture is amazing.", "They pay attention to detail and provide great finishing.", "Smooth polish and perfect finishing work."],
+            "Affordable": ["Got premium work done at affordable prices.", "Their rates are very reasonable for {location}.", "Best quality at an affordable price point."],
+            "Furniture Maker": ["They are expert home furniture makers.", "Best furniture maker for custom designs.", "They built my bed and wardrobe perfectly."],
+            "Custom Woodwork": ["They are specialists in custom woodwork.", "I showed them a design and they made the exact custom woodwork.", "Best custom woodwork specialist in {location}."],
+            "Interior Work": ["They did the best wooden interior work for my flat.", "Transformed my home with beautiful interior furniture work.", "Highly skilled in interior wooden decor."],
+            "Furniture Repair": ["Fixed my broken chair perfectly.", "Best local carpenter for furniture repair work.", "They made my old furniture look new again."],
+            "Wooden Interior": ["The wooden interior work is classy and durable.", "Used high quality wood for the interior work.", "Best wooden interior work for flats in {location}."],
+            "Near Me": ["Was looking for a carpenter near me and found the best.", "If you are searching for a carpenter near me in {location}, call them.", "Best local service nearby."],
+            "Local Repair": ["Very reliable local carpenter for home repair.", "Quickly attended to my local repair needs.", "Good to have such a service locally in {location}."],
+            "Best Interior": ["Best wooden interior work for flats in this area.", "They understand flat interior requirements very well.", "Made my flat look luxurious with wood work."]
+        }
+    };
+
+    // --- UTILS ---
+    function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+    function toggleNameField() { 
+        const field = document.getElementById('nameArea');
+        field.style.display = field.style.display === 'block' ? 'none' : 'block';
+    }
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) {
+            selectedKeywords = selectedKeywords.filter(item => item !== keyword);
+        } else {
+            selectedKeywords.push(keyword);
+        }
+    }
+
+    function generateReview() {
+        const userName = document.getElementById('userName').value.trim();
+        const tone = document.getElementById('toneSelect').value;
+        const location = document.getElementById('locationSelect').value;
+        const outputBox = document.getElementById('reviewOutput');
+        const copyBtn = document.getElementById('copyBtn');
+
+        if (selectedKeywords.length === 0) {
+            alert("Please select at least 2 highlights.");
+            return;
+        }
+        
+        outputBox.style.display = 'block';
+        outputBox.style.opacity = "0.5";
+
+        // 1. SELECT INTRO BASED ON TONE
+        let intro = getRandomItem(reviewDB.intros[tone]);
+        intro = intro.replace(/{location}/g, location);
+
+        if (userName) intro = `I am ${userName}. ` + intro;
+
+        // 2. BODY (Keyword Sentences)
+        let body = "";
+        const shuffledKeywords = selectedKeywords.sort(() => Math.random() - 0.5);
+        shuffledKeywords.forEach((k) => {
+            let sentence = getRandomItem(reviewDB.keywords[k]);
+            sentence = sentence.replace(/{location}/g, location);
+            body += sentence + " ";
+        });
+
+        // 3. SELECT OUTRO BASED ON TONE
+        let outro = getRandomItem(reviewDB.outros[tone]);
+        outro = outro.replace(/{location}/g, location);
+
+        const finalReview = intro + " " + body + outro;
+
+        setTimeout(() => {
+            outputBox.style.opacity = "1";
+            outputBox.value = finalReview;
+            copyBtn.style.display = "block";
+            if (window.innerWidth < 600) outputBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+    }
+
+    function copyToClipboard() {
+        const copyText = document.getElementById("reviewOutput");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(copyText.value).then(() => {
+            const isConfirmed = confirm("Review Copied! 🔨\n\nClick OK to open Google Maps.");
+            if(isConfirmed) window.open(GOOGLE_REVIEW_LINK, '_blank');
+        });
+    }
+</script>
