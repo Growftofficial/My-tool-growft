@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Feedback - Star Mobile Shoppe</title>
+    <style>
+        /* --- THEME: TECH & MOBILE (Blue, Clean, Modern) --- */
+        :root {
+            --primary: #2563eb; /* Royal Blue */
+            --primary-light: #3b82f6; /* Lighter Blue */
+            --accent: #1e40af; /* Dark Blue */
+            --bg-color: #f0f9ff; /* Very Light Blue */
+            --card-bg: #ffffff;
+            --gold: #fbbf24;
+            --gray: #475569;
+            --text-main: #1e293b;
+        }
+
+        /* --- RESET & BODY --- */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0; padding: 20px 10px;
+            min-height: 100vh; display: flex;
+            justify-content: center; align-items: flex-start;
+        }
+
+        /* --- CONTAINER --- */
+        .container {
+            background: var(--card-bg); width: 100%; max-width: 500px;
+            padding: 25px; border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(37, 99, 235, 0.15);
+            border-top: 6px solid var(--primary); margin: auto;
+            text-align: center;
+        }
+
+        /* --- HEADER --- */
+        h1 { color: var(--accent); margin: 5px 0 2px 0; font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
+        .location { color: var(--primary-light); font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
+        
+        /* PHONE NUMBER STYLE */
+        .phone-link {
+            text-decoration: none; color: #fff; background: var(--primary);
+            padding: 10px 20px; border-radius: 50px; display: inline-block;
+            font-size: 15px; font-weight: 600; transition: 0.2s;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); margin-bottom: 25px;
+        }
+        .phone-link:hover { transform: translateY(-2px); background: var(--accent); }
+
+        p { color: var(--text-main); font-size: 16px; margin-bottom: 20px; line-height: 1.5; }
+
+        /* --- INPUTS & SELECTS --- */
+        select, input {
+            width: 100%; padding: 14px; border-radius: 12px;
+            border: 1px solid #cbd5e1; background: #f8fafc;
+            font-size: 15px; outline: none; margin-bottom: 10px;
+            color: var(--text-main); transition: 0.2s;
+        }
+        select:focus, input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+        
+        label { 
+            font-weight: 700; display: block; margin-top: 15px; margin-bottom: 8px; 
+            color: var(--gray); font-size: 12px; text-transform: uppercase; text-align: left; 
+        }
+
+        /* --- STAR RATING --- */
+        .star-container {
+            display: flex; justify-content: center; gap: 8px; margin: 20px 0;
+            direction: ltr;
+        }
+        .star {
+            font-size: 42px; color: #e2e8f0; cursor: pointer; transition: transform 0.2s, color 0.2s;
+        }
+        .star.selected { color: var(--gold); }
+        .star:hover { transform: scale(1.15); }
+
+        /* --- BUTTONS --- */
+        .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
+        .exp-btn {
+            padding: 12px 25px; border: 1px solid #cbd5e1; border-radius: 10px;
+            background: #fff; cursor: pointer; font-weight: 600; color: var(--gray);
+            flex: 1; max-width: 140px; transition: 0.2s;
+        }
+        .exp-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); }
+        .exp-btn.bad-active { background: #ef4444; color: white; border-color: #ef4444; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3); }
+
+        .action-btn {
+            width: 100%; padding: 16px; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white; border: none; border-radius: 12px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); margin-top: 10px;
+            transition: transform 0.1s;
+        }
+        .action-btn:active { transform: scale(0.98); }
+
+        /* --- PRIVATE FEEDBACK --- */
+        textarea.feedback-box {
+            width: 100%; height: 120px; padding: 12px;
+            border: 1px solid #cbd5e1; border-radius: 12px; resize: none;
+            font-family: inherit; margin-bottom: 15px; background: #f8fafc;
+        }
+
+        /* --- AI TOOL STYLES --- */
+        .ai-tool-wrapper { text-align: left; display: none; }
+        
+        .category-header {
+            font-size: 11px; color: var(--primary); margin: 20px 0 8px 0; font-weight: 800; letter-spacing: 0.5px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px;
+        }
+        
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 5px; }
+        .keyword-chip { 
+            padding: 8px 14px; background-color: #fff; border-radius: 20px; 
+            font-size: 13px; font-weight: 500; cursor: pointer; 
+            border: 1px solid #cbd5e1; color: var(--text-main); 
+            flex-grow: 1; text-align: center; transition: 0.2s;
+        }
+        .keyword-chip.active { background-color: var(--primary); color: white; border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 3px 8px rgba(37, 99, 235, 0.2); font-weight: 600; }
+
+        .copy-btn { width: 100%; padding: 14px; background-color: #059669; /* Emerald */ color: white; border: none; border-radius: 12px; margin-top: 15px; font-weight: 600; font-size: 16px; cursor: pointer; display: none; box-shadow: 0 4px 10px rgba(5, 150, 105, 0.3); }
+
+        /* --- UTILS --- */
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .toggle-name { font-size: 13px; color: var(--primary); text-decoration: underline; cursor: pointer; float: right; margin-top: 5px; border: none; background: none; }
+
+        /* --- FOOTER --- */
+        .footer { margin-top: 35px; text-align: center; font-size: 12px; color: #94a3b8; border-top: 1px dashed #cbd5e1; padding-top: 15px; }
+        .footer-logo { display: block; margin: 0 auto 5px auto; max-height: 28px; width: auto; opacity: 0.85; }
+        .footer a { color: var(--primary); text-decoration: none; font-weight: 700; }
+        .footer-text { margin-top: 5px; line-height: 1.6; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <h1>Star Mobile Shoppe</h1>
+    <div class="location">📱 Charholi & Wadmukhwadi</div>
+    
+    <div>
+        <a href="tel:+91XXXXXXXXXX" class="phone-link">📞 Call Shop</a>
+    </div>
+
+    <div id="ratingScreen" class="fade-in">
+        <p>How was your mobile repair experience?</p>
+
+        <div class="star-container">
+            <span class="star" onclick="rate(1)">★</span>
+            <span class="star" onclick="rate(2)">★</span>
+            <span class="star" onclick="rate(3)">★</span>
+            <span class="star" onclick="rate(4)">★</span>
+            <span class="star" onclick="rate(5)">★</span>
+        </div>
+
+        <div class="experience-btns">
+            <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Issues 😞</button>
+            <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Excellent ⚡</button>
+        </div>
+
+        <button class="action-btn" onclick="processRating()">Next Step ➡</button>
+    </div>
+
+    <div id="privateFeedbackScreen" class="hidden fade-in">
+        <h2 style="color:var(--text-main);">We are sorry! 😔</h2>
+        <p>Mr. Om wants to fix this personally. Please describe the issue.</p>
+        <textarea id="privateFeedbackText" class="feedback-box" placeholder="What went wrong?"></textarea>
+        <button class="action-btn" style="background:var(--gray);" onclick="submitPrivateFeedback()">Submit Feedback</button>
+    </div>
+
+    <div id="thankYouScreen" class="hidden fade-in">
+        <div style="font-size: 50px; margin-bottom:10px;">✅</div>
+        <h2 style="color:var(--text-main);">Thank You!</h2>
+        <p>Your feedback has been sent to Mr. Om.</p>
+    </div>
+
+    <div id="aiToolScreen" class="ai-tool-wrapper fade-in">
+        <p style="text-align:center; font-weight:bold; color:var(--primary); margin-bottom: 20px;">✨ Generate your review in 1 click!</p>
+        
+        <div style="display: flex; gap: 10px;">
+            <div style="flex:1;">
+                <label style="margin-top:0;">Location</label>
+                <select id="locationSelect">
+                    <option value="Charholi">Charholi</option>
+                    <option value="Wadmukhwadi">Wadmukhwadi</option>
+                    <option value="Alankapuram">Alankapuram</option>
+                </select>
+            </div>
+            <div style="flex:1;">
+                <label style="margin-top:0;">Tone</label>
+                <select id="toneSelect">
+                    <option value="Professional">Professional 👔</option>
+                    <option value="Friendly">Friendly 😃</option>
+                    <option value="Short">Short & Sweet 👌</option>
+                    <option value="Grateful">Grateful 🙏</option>
+                </select>
+            </div>
+        </div>
+
+        <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
+        <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
+            <input type="text" id="userName" placeholder="Your Name (Optional)">
+        </div>
+
+        <label style="clear:both;">Select what we fixed (Pick 3-4)</label>
+
+        <div class="category-header">REPAIRS & SCREEN</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Broken Screen')">📱 Cracked Screen Repair</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Display Change')">✨ Display Change</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Tempered Glass')">🛡️ Tempered Glass</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Water Damage')">💧 Water Damage Fix</div>
+        </div>
+
+        <div class="category-header">CHARGING & BATTERY</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Charging Port')">🔌 Loose Charging Port</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Battery')">🔋 Battery Replacement</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Unlocking')">🔓 Pattern Unlock</div>
+        </div>
+
+        <div class="category-header">SERVICE & MR. OM</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Mr Om')">🤝 Mr. Om (Polite)</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Fastest')">⚡ Fastest Service</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Affordable')">💰 Affordable Price</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Shop')">🏆 Best Mobile Shop</div>
+        </div>
+
+        <button class="action-btn" onclick="generateReview()">🚀 Generate Review</button>
+
+        <textarea id="reviewOutput" style="width:100%; height:130px; margin-top:15px; border-radius:12px; padding:10px; border:1px solid #cbd5e1; display:none; background:#fff;" readonly></textarea>
+        
+        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy & Open Google</button>
+    </div>
+
+    <div class="footer">
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft">
+        
+        <div class="footer-text">
+            Built by <a href="https://growft.net" target="_blank">Growft</a><br>
+            Contact to build your Agent: <a href="tel:+917020360561">7020360561</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- IMPORTANT: REPLACE THIS LINK WITH STAR MOBILE SHOPPE LINK ---
+    const GOOGLE_REVIEW_LINK = "https://g.page/r/YOUR_GOOGLE_LINK_HERE/review"; 
+    
+    // --- RATING LOGIC ---
+    let currentRating = 0;
+    let currentExp = '';
+
+    function rate(stars) {
+        currentRating = stars;
+        let allStars = document.querySelectorAll('.star');
+        allStars.forEach((star, index) => {
+            star.classList.toggle('selected', index < stars);
+        });
+        if(stars >= 4) selectExp('good');
+        else selectExp('bad');
+    }
+
+    function selectExp(type) {
+        currentExp = type;
+        document.getElementById('btn-good').classList.remove('active');
+        document.getElementById('btn-bad').classList.remove('bad-active');
+        if (type === 'good') document.getElementById('btn-good').classList.add('active');
+        else document.getElementById('btn-bad').classList.add('bad-active');
+    }
+
+    function processRating() {
+        if (currentRating === 0 && currentExp === '') {
+            alert("Please select a star rating.");
+            return;
+        }
+        document.getElementById('ratingScreen').classList.add('hidden');
+        
+        let isHappy = (currentRating >= 4) || (currentExp === 'good');
+        
+        if (isHappy) {
+            document.getElementById('aiToolScreen').style.display = 'block';
+        } else {
+            document.getElementById('privateFeedbackScreen').classList.remove('hidden');
+        }
+    }
+
+    function submitPrivateFeedback() {
+        if(document.getElementById('privateFeedbackText').value.trim() === "") {
+            alert("Please write a few words.");
+            return;
+        }
+        document.getElementById('privateFeedbackScreen').classList.add('hidden');
+        document.getElementById('thankYouScreen').classList.remove('hidden');
+    }
+
+    // --- AI GENERATION LOGIC ---
+    let selectedKeywords = [];
+
+    const reviewDB = {
+        // 50+ UNIQUE OPENING LINES SPLIT ACROSS TONES
+        intros: {
+            "Professional": [
+                "I recently visited Star Mobile Shoppe in {location} for a repair.",
+                "Star Mobile Shoppe is undoubtedly the most professional service center in {location}.",
+                "If you are looking for expert mobile repair in {location}, this is the place.",
+                "I had an excellent experience getting my phone repaired in {location}.",
+                "Highly professional and technical team at Star Mobile Shoppe, {location}.",
+                "I want to commend the quality of service provided at this {location} store.",
+                "My experience with Star Mobile Shoppe in {location} was seamless.",
+                "This is a genuine review for the mobile services I received in {location}.",
+                "Found this shop in {location} to be very reliable for electronics.",
+                "They have set a high standard for mobile repairs in {location}.",
+                "Visited for a quick repair in {location} and was impressed by the professionalism.",
+                "The technicians at Star Mobile Shoppe {location} are well-trained.",
+                "Top-tier mobile service available right here in {location}.",
+                "I engaged their services in {location} for a complex mobile issue."
+            ],
+            "Friendly": [
+                "Best mobile shop in {location}! 🤩",
+                "Just got my phone fixed at Star Mobile Shoppe in {location}, super happy!",
+                "Guys, if you are in {location}, this is the best place for mobile work.",
+                "Found a gem of a shop in {location} for phone repairs.",
+                "Super friendly vibes and great work at the {location} store.",
+                "They saved my phone! Best repair shop in {location}.",
+                "Totally loved the service at Star Mobile Shoppe, {location}.",
+                "Simply the best experience I've had in {location}.",
+                "So glad I found this shop in {location}.",
+                "Amazing service and lovely people in {location}.",
+                "Wow! My phone feels brand new. Thanks Star Mobile Shoppe {location}.",
+                "Don't go anywhere else in {location}, come here!",
+                "Superb support from the team in {location}.",
+                "My favorite mobile shop in {location} now."
+            ],
+            "Short": [
+                "Best repair shop in {location}.",
+                "Quick service in {location}.",
+                "Good mobile shop in {location}.",
+                "Star Mobile Shoppe is great.",
+                "Fixed my phone in {location}.",
+                "Quality work in {location}.",
+                "Recommended shop in {location}.",
+                "Fast and good service.",
+                "Nice people in {location}.",
+                "Professional work.",
+                "Best in {location} area.",
+                "Very good experience.",
+                "Affordable repair in {location}.",
+                "Trustworthy shop."
+            ],
+            "Grateful": [
+                "I am so thankful to Star Mobile Shoppe in {location} for fixing my phone.",
+                "They really saved me today with a quick repair in {location}.",
+                "Grateful for the honest advice I got at the {location} shop.",
+                "Thank you so much for recovering my dead phone in {location}.",
+                "I appreciate the hard work of the team in {location}.",
+                "God bless this shop in {location} for their honesty.",
+                "Thanks a ton for the fast help in {location}.",
+                "Really appreciate the affordable rates in {location}.",
+                "Big thanks to the team at Star Mobile Shoppe.",
+                "I am writing this to thank them for the service in {location}.",
+                "My sincere gratitude for the excellent repair work.",
+                "Thank you for not overcharging me in {location}.",
+                "Grateful to have such a good shop nearby in {location}.",
+                "Thanks for the urgent support."
+            ]
+        },
+
+        // 50+ UNIQUE CLOSING LINES SPLIT ACROSS TONES
+        outros: {
+            "Professional": [
+                "I highly recommend them for any mobile issues in {location}.",
+                "Definately the most reliable shop in {location}.",
+                "Will visit again for any future tech needs.",
+                "A trustworthy destination for mobile solutions.",
+                "5-star service quality maintained.",
+                "Keep up the professional work.",
+                "Recommended for anyone living in {location}.",
+                "The best technical support in the area.",
+                "Service was delivered exactly as promised.",
+                "Truly a value-for-money experience.",
+                "They are experts in their field.",
+                "Satisfaction guaranteed with their work.",
+                "A top-rated service center in {location}.",
+                "Their expertise is unmatched in this area."
+            ],
+            "Friendly": [
+                "Will surely tell my friends in {location} to come here! 👍",
+                "You guys are the best!",
+                "Thanks again Mr. Om and team! ❤️",
+                "Super satisfied customer!",
+                "Keep rocking Star Mobile Shoppe!",
+                "Coming back for sure.",
+                "Cheers to the team!",
+                "Love the service! 😍",
+                "Don't think twice, just go!",
+                "Super happy with my phone now.",
+                "10/10 would recommend.",
+                "Best shop ever!",
+                "Thanks for the tea and the repair! 😃",
+                "See you soon!"
+            ],
+            "Short": [
+                "Recommended.",
+                "Great job.",
+                "5 Stars.",
+                "Must visit.",
+                "Good work.",
+                "Thank you.",
+                "Best in {location}.",
+                "Nice finishing.",
+                "Happy customer.",
+                "Fast service.",
+                "Top quality.",
+                "Superb.",
+                "Well done.",
+                "Good rates."
+            ],
+            "Grateful": [
+                "Thanks once again.",
+                "Really appreciate it.",
+                "I will always come here.",
+                "Thank you for the help.",
+                "Much appreciated.",
+                "Thanks for being honest.",
+                "Grateful for the service.",
+                "Thanks for saving my data.",
+                "Heartfelt thanks.",
+                "You guys are life savers.",
+                "Appreciate the quick response.",
+                "Thank you Mr. Om.",
+                "Bless you guys.",
+                "Thanks for the support."
+            ]
+        },
+
+        // KEYWORD SPECIFIC VARIATIONS (3-4 variations per keyword)
+        keywords: {
+            "Broken Screen": [
+                "They fixed my cracked screen perfectly, looks like new.",
+                "The screen replacement quality is amazing and touch is very smooth.",
+                "Replaced my broken display with an original quality screen.",
+                "My phone fell and shattered, but they fixed the screen flawlessly."
+            ],
+            "Display Change": [
+                "The new display they installed has excellent brightness and colors.",
+                "Did a complete mobile display change very neatly.",
+                "Best place for display change, no gaps or glue marks.",
+                "They changed the combo display quickly."
+            ],
+            "Tempered Glass": [
+                "Applied a high-quality tempered glass perfectly.",
+                "Their tempered glass is strong and fits edge to edge.",
+                "Replaced my old guard with a premium tempered glass.",
+                "Good quality screen guard application."
+            ],
+            "Water Damage": [
+                "My phone fell in water, but they revived it when others said no.",
+                "Experts in fixing water damaged mobiles.",
+                "They cleaned and repaired my water damaged phone perfectly.",
+                "Saved my dead phone from water damage."
+            ],
+            "Charging Port": [
+                "Fixed the loose charging port in just 15 minutes.",
+                "My phone was not charging, they replaced the port quickly.",
+                "Charging jack repair was done very professionally.",
+                "Solved the slow charging issue by fixing the port."
+            ],
+            "Battery": [
+                "Replaced my old battery, now the backup is amazing.",
+                "Mobile battery replacement was done in front of me.",
+                "Got a new original battery with warranty.",
+                "My phone doesn't heat up anymore after the battery change."
+            ],
+            "Unlocking": [
+                "Unlocked my forgotten pattern lock without deleting data.",
+                "Fastest mobile unlocking service in {location}.",
+                "Removed the password lock easily.",
+                "Software unlocking was done quickly."
+            ],
+            "Mr Om": [
+                "Mr. Om has a very polite nature and explains the issue well.",
+                "Mr. Om is very humble and gives the right advice.",
+                "Met Mr. Om, he is very knowledgeable and honest.",
+                "The owner Mr. Om ensures every customer is happy."
+            ],
+            "Fastest": [
+                "This is the fastest mobile repair service in {location}.",
+                "Got my phone back in 1 hour, super fast service.",
+                "They don't keep the phone for days, instant repair.",
+                "Quickest solution for mobile problems."
+            ],
+            "Affordable": [
+                "Very affordable prices compared to other shops.",
+                "Repair cost was very reasonable and budget friendly.",
+                "Transparent pricing, no hidden charges.",
+                "Best service at an affordable rate."
+            ],
+            "Best Shop": [
+                "Hands down the best mobile repair shop in {location}.",
+                "Star Mobile Shoppe is the best in Charholi area.",
+                "My go-to place for all mobile accessories and repairs.",
+                "The number one shop for mobile works."
+            ]
+        }
+    };
+
+    // --- UTILS ---
+    function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+    function toggleNameField() { 
+        const field = document.getElementById('nameArea');
+        field.style.display = field.style.display === 'block' ? 'none' : 'block';
+    }
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) {
+            selectedKeywords = selectedKeywords.filter(item => item !== keyword);
+        } else {
+            selectedKeywords.push(keyword);
+        }
+    }
+
+    function generateReview() {
+        const userName = document.getElementById('userName').value.trim();
+        const tone = document.getElementById('toneSelect').value;
+        const location = document.getElementById('locationSelect').value;
+        const outputBox = document.getElementById('reviewOutput');
+        const copyBtn = document.getElementById('copyBtn');
+
+        if (selectedKeywords.length === 0) {
+            alert("Please select at least 2 highlights.");
+            return;
+        }
+        
+        outputBox.style.display = 'block';
+        outputBox.style.opacity = "0.5";
+
+        // 1. SELECT INTRO BASED ON TONE
+        let intro = getRandomItem(reviewDB.intros[tone]);
+        intro = intro.replace(/{location}/g, location);
+
+        if (userName) intro = `I am ${userName}. ` + intro;
+
+        // 2. BODY (Keyword Sentences)
+        let body = "";
+        const shuffledKeywords = selectedKeywords.sort(() => Math.random() - 0.5);
+        shuffledKeywords.forEach((k) => {
+            let sentence = getRandomItem(reviewDB.keywords[k]);
+            sentence = sentence.replace(/{location}/g, location);
+            body += sentence + " ";
+        });
+
+        // 3. SELECT OUTRO BASED ON TONE
+        let outro = getRandomItem(reviewDB.outros[tone]);
+        outro = outro.replace(/{location}/g, location);
+
+        const finalReview = intro + " " + body + outro;
+
+        setTimeout(() => {
+            outputBox.style.opacity = "1";
+            outputBox.value = finalReview;
+            copyBtn.style.display = "block";
+            if (window.innerWidth < 600) outputBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+    }
+
+    function copyToClipboard() {
+        const copyText = document.getElementById("reviewOutput");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(copyText.value).then(() => {
+            const isConfirmed = confirm("Review Copied! 📱\n\nClick OK to open Google Maps.");
+            if(isConfirmed) window.open(GOOGLE_REVIEW_LINK, '_blank');
+        });
+    }
+</script>
+
+</body>
+</html>
