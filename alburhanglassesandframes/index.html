@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Feedback - Al Burhan Glass & Frames</title>
+    <style>
+        /* --- THEME: GLASS & FRAMES (Teal, Blue, Silver, Clean White) --- */
+        :root {
+            --primary: #0e7490; /* Cyan/Teal Dark */
+            --primary-light: #155e75; /* Darker Teal */
+            --accent: #0ea5e9; /* Sky Blue */
+            --bg-color: #f0f9ff; /* Very Light Blue/White */
+            --card-bg: #ffffff;
+            --gold: #fbbf24;
+            --silver: #94a3b8;
+            --text-main: #334155;
+        }
+
+        /* --- RESET & BODY --- */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(#e0f2fe 1px, transparent 1px);
+            background-size: 20px 20px;
+            margin: 0; padding: 20px 10px;
+            min-height: 100vh; display: flex;
+            justify-content: center; align-items: flex-start;
+        }
+
+        /* --- CONTAINER --- */
+        .container {
+            background: var(--card-bg); width: 100%; max-width: 500px;
+            padding: 25px; border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(14, 116, 144, 0.15);
+            border-top: 6px solid var(--primary); margin: auto;
+            text-align: center;
+        }
+
+        /* --- HEADER --- */
+        h1 { color: var(--primary); margin: 5px 0 2px 0; font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
+        .location { color: var(--accent); font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        
+        /* PHONE NUMBER STYLE */
+        .phone-link {
+            text-decoration: none; color: #fff; background: var(--primary);
+            padding: 8px 18px; border-radius: 20px; display: inline-block;
+            font-size: 14px; font-weight: 700; transition: 0.2s;
+            box-shadow: 0 4px 6px rgba(14, 116, 144, 0.2); margin-bottom: 20px;
+        }
+        .phone-link:hover { transform: translateY(-1px); background: var(--primary-light); }
+
+        p { color: var(--text-main); font-size: 15px; margin-bottom: 20px; line-height: 1.5; }
+
+        /* --- INPUTS & SELECTS --- */
+        select, input {
+            width: 100%; padding: 12px; border-radius: 8px;
+            border: 1px solid #cbd5e1; background: #f8fafc;
+            font-size: 15px; outline: none; margin-bottom: 10px;
+            color: var(--text-main);
+        }
+        select:focus, input:focus { border-color: var(--primary); background: #fff; }
+        
+        label { 
+            font-weight: 700; display: block; margin-top: 15px; margin-bottom: 8px; 
+            color: var(--text-main); font-size: 13px; text-transform: uppercase; text-align: left; 
+        }
+
+        /* --- STAR RATING --- */
+        .star-container {
+            display: flex; justify-content: center; gap: 8px; margin: 20px 0;
+            direction: ltr;
+        }
+        .star {
+            font-size: 42px; color: #e2e8f0; cursor: pointer; transition: transform 0.2s, color 0.2s;
+        }
+        .star.selected { color: var(--gold); }
+        .star:hover { transform: scale(1.15); }
+
+        /* --- BUTTONS --- */
+        .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
+        .exp-btn {
+            padding: 12px 25px; border: 1px solid #cbd5e1; border-radius: 8px;
+            background: #fff; cursor: pointer; font-weight: 600; color: var(--text-main);
+            flex: 1; max-width: 130px; transition: 0.2s;
+        }
+        .exp-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(14, 116, 144, 0.3); }
+        .exp-btn.bad-active { background: #ef4444; color: white; border-color: #ef4444; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3); }
+
+        .action-btn {
+            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white; border: none; border-radius: 8px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 10px;
+        }
+        .action-btn:active { transform: scale(0.98); }
+
+        /* --- PRIVATE FEEDBACK --- */
+        textarea.feedback-box {
+            width: 100%; height: 120px; padding: 12px;
+            border: 1px solid #cbd5e1; border-radius: 8px; resize: none;
+            font-family: inherit; margin-bottom: 15px; background: #f8fafc;
+        }
+
+        /* --- AI TOOL STYLES --- */
+        .ai-tool-wrapper { text-align: left; display: none; }
+        
+        .category-header {
+            font-size: 11px; color: var(--silver); margin: 15px 0 8px 0; font-weight: 700; letter-spacing: 0.5px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px;
+        }
+        
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 5px; }
+        .keyword-chip { 
+            padding: 8px 12px; background-color: #fff; border-radius: 20px; 
+            font-size: 12px; font-weight: 600; cursor: pointer; 
+            border: 1px solid #cbd5e1; color: var(--primary); 
+            flex-grow: 1; text-align: center; transition: 0.2s;
+        }
+        .keyword-chip.active { background-color: var(--primary); color: white; border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 3px 8px rgba(14, 116, 144, 0.2); }
+
+        .copy-btn { width: 100%; padding: 12px; background-color: #059669; /* Emerald */ color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: 600; font-size: 15px; cursor: pointer; display: none; box-shadow: 0 4px 6px rgba(5, 150, 105, 0.2); }
+
+        /* --- UTILS --- */
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .toggle-name { font-size: 13px; color: var(--primary); text-decoration: underline; cursor: pointer; float: right; margin-top: 5px; border: none; background: none; }
+
+        /* --- FOOTER --- */
+        .footer { margin-top: 35px; text-align: center; font-size: 12px; color: #94a3b8; border-top: 1px dashed #cbd5e1; padding-top: 15px; }
+        .footer-logo { display: block; margin: 0 auto 5px auto; max-height: 28px; width: auto; opacity: 0.85; }
+        .footer a { color: var(--primary); text-decoration: none; font-weight: 700; }
+        .footer-text { margin-top: 5px; line-height: 1.6; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <h1>Al Burhan Glass & Frames</h1>
+    <div class="location">🖼️ Camp, Pune</div>
+    
+    <div>
+        <a href="tel:+9188882 99947" class="phone-link">📞 Call Us</a>
+    </div>
+
+    <div id="ratingScreen" class="fade-in">
+        <p>How was your framing experience?</p>
+
+        <div class="star-container">
+            <span class="star" onclick="rate(1)">★</span>
+            <span class="star" onclick="rate(2)">★</span>
+            <span class="star" onclick="rate(3)">★</span>
+            <span class="star" onclick="rate(4)">★</span>
+            <span class="star" onclick="rate(5)">★</span>
+        </div>
+
+        <div class="experience-btns">
+            <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Not Good 😞</button>
+            <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Excellent ✨</button>
+        </div>
+
+        <button class="action-btn" onclick="processRating()">Next Step ➡</button>
+    </div>
+
+    <div id="privateFeedbackScreen" class="hidden fade-in">
+        <h2 style="color:#334155;">We are sorry! 😔</h2>
+        <p>Please tell us how we can improve. Your feedback will be sent directly to the owner.</p>
+        <textarea id="privateFeedbackText" class="feedback-box" placeholder="Describe the issue..."></textarea>
+        <button class="action-btn" style="background:#4b5563;" onclick="submitPrivateFeedback()">Submit Feedback</button>
+    </div>
+
+    <div id="thankYouScreen" class="hidden fade-in">
+        <div style="font-size: 50px; margin-bottom:10px;">✅</div>
+        <h2 style="color:#334155;">Thank You!</h2>
+        <p>Your feedback has been submitted successfully.</p>
+    </div>
+
+    <div id="aiToolScreen" class="ai-tool-wrapper fade-in">
+        <p style="text-align:center; font-weight:bold; color:var(--primary); margin-bottom: 20px;">✨ Create your review in 1 click!</p>
+        
+        <div style="display: flex; gap: 10px;">
+            <div style="flex:1;">
+                <label style="margin-top:0;">Location</label>
+                <select id="locationSelect">
+                    <option value="Camp, Pune">Camp, Pune</option>
+                    <option value="Pune">Pune</option>
+                    <option value="Camp">Camp Area</option>
+                </select>
+            </div>
+            <div style="flex:1;">
+                <label style="margin-top:0;">Tone</label>
+                <select id="toneSelect">
+                    <option value="Professional">Professional 👔</option>
+                    <option value="Friendly">Friendly 😃</option>
+                    <option value="Short">Short & Sweet 👌</option>
+                    <option value="Grateful">Grateful 🙏</option>
+                </select>
+            </div>
+        </div>
+
+        <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
+        <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
+            <input type="text" id="userName" placeholder="Your Name (Optional)">
+        </div>
+
+        <label style="clear:both;">Select what you liked (Pick 3-4)</label>
+
+        <div class="category-header">FRAMING & PHOTOS</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best picture shop')">🖼️ Best Picture Shop</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best photo framing')">⭐ Best Photo Framing</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Wooden frames')">🪵 Wooden Frames</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Custom frames')">📏 Custom Frames</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Collage frames')">🎞️ Collage Frames</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Old photo restoration')">🖌️ Old Photo Restoration</div>
+        </div>
+
+        <div class="category-header">GLASS & MIRRORS</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Glass replacement')">🔨 Glass Replacement</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Broken mirror')">🪞 Broken Mirror Fix</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Wall mirror')">🏠 Wall Mirror</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Fancy mirror')">✨ Fancy Decor Mirrors</div>
+        </div>
+
+        <div class="category-header">SERVICE & QUALITY</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Professional staff')">👨‍💼 Professional Staff</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Affordable')">💰 Affordable Price</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Fastest service')">⚡ Fastest Service</div>
+        </div>
+
+        <button class="action-btn" onclick="generateReview()">🚀 Generate Review</button>
+
+        <textarea id="reviewOutput" style="width:100%; height:130px; margin-top:15px; border-radius:8px; padding:10px; border:1px solid #cbd5e1; display:none; background:#fff;" readonly></textarea>
+        
+        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy & Open Google</button>
+    </div>
+
+    <div class="footer">
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft">
+        
+        <div class="footer-text">
+            Powered by <a href="#" onclick="return false;">Growft</a><br>
+            Contact to build your AI Tool: <a href="tel:+917020370561">7020370561</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- IMPORTANT: REPLACE THIS LINK ---
+    const GOOGLE_REVIEW_LINK = "https://g.page/r/CXsGGz0_pYnQEAE/review"; 
+    
+    // --- RATING LOGIC ---
+    let currentRating = 0;
+    let currentExp = '';
+
+    function rate(stars) {
+        currentRating = stars;
+        let allStars = document.querySelectorAll('.star');
+        allStars.forEach((star, index) => {
+            star.classList.toggle('selected', index < stars);
+        });
+        if(stars >= 4) selectExp('good');
+        else selectExp('bad');
+    }
+
+    function selectExp(type) {
+        currentExp = type;
+        document.getElementById('btn-good').classList.remove('active');
+        document.getElementById('btn-bad').classList.remove('bad-active');
+        if (type === 'good') document.getElementById('btn-good').classList.add('active');
+        else document.getElementById('btn-bad').classList.add('bad-active');
+    }
+
+    function processRating() {
+        if (currentRating === 0 && currentExp === '') {
+            alert("Please select a star rating.");
+            return;
+        }
+        document.getElementById('ratingScreen').classList.add('hidden');
+        
+        let isHappy = (currentRating >= 4) || (currentExp === 'good');
+        
+        if (isHappy) {
+            document.getElementById('aiToolScreen').style.display = 'block';
+        } else {
+            document.getElementById('privateFeedbackScreen').classList.remove('hidden');
+        }
+    }
+
+    function submitPrivateFeedback() {
+        if(document.getElementById('privateFeedbackText').value.trim() === "") {
+            alert("Please write a few words.");
+            return;
+        }
+        document.getElementById('privateFeedbackScreen').classList.add('hidden');
+        document.getElementById('thankYouScreen').classList.remove('hidden');
+    }
+
+    // --- AI GENERATION LOGIC ---
+    let selectedKeywords = [];
+
+    const reviewDB = {
+        // --- OPENING LINES (INTROS) ---
+        intros: {
+            "Professional": [
+                "I visited Al Burhan Glass & Frames in {location} for some custom work.",
+                "We recently engaged Al Burhan Glass & Frames in {location} for a project.",
+                "If you need high-quality framing in {location}, this is the place to go.",
+                "I highly recommend Al Burhan Glass & Frames for their professional services.",
+                "My experience with Al Burhan Glass in {location} was excellent.",
+                "I am writing this to commend the professional team at Al Burhan.",
+                "For anyone in {location} looking for glass work, Al Burhan is the best choice.",
+                "Extremely professional service provided by Al Burhan Glass & Frames.",
+                "They are a very reliable glass and framing shop in {location}.",
+                "We had a requirement for office frames in {location} and chose Al Burhan.",
+                "The standard of work at Al Burhan Glass is exceptional.",
+                "One of the most professional shops in {location} for framing needs.",
+                "I have been a customer of Al Burhan Glass & Frames for a while now.",
+                "Quality and professionalism are the hallmarks of this shop in {location}."
+            ],
+            "Friendly": [
+                "Just got my photos framed at Al Burhan Glass in {location}! 😃",
+                "Found this amazing shop in {location} for all things glass and frames.",
+                "So happy with the work Al Burhan team did for me in {location}!",
+                "Wow! Al Burhan Glass & Frames really impressed me today.",
+                "If you live in {location}, you must visit Al Burhan for framing.",
+                "Loved the vibe and service at Al Burhan Glass in {location}.",
+                "Such a helpful team at Al Burhan Glass & Frames!",
+                "My home looks so much better thanks to Al Burhan in {location}.",
+                "Super exciting to see my old photos restored by Al Burhan!",
+                "Friendly people and great frames at {location}.",
+                "Simply the best experience I've had with a framing shop.",
+                "They made the whole process so easy and fun in {location}.",
+                "Big shoutout to Al Burhan Glass for the amazing job!",
+                "Really glad I found this shop in {location}."
+            ],
+            "Short": [
+                "Best glass shop in {location}.",
+                "Great service at Al Burhan.",
+                "Visited Al Burhan in {location}.",
+                "Excellent framing work.",
+                "Top quality frames.",
+                "Good experience.",
+                "Highly recommended in {location}.",
+                "Nice work by the team.",
+                "Quick and easy service.",
+                "Best in {location}.",
+                "Quality work.",
+                "Very satisfied.",
+                "Reliable shop.",
+                "Good prices."
+            ],
+            "Grateful": [
+                "I am so thankful to Al Burhan Glass for saving my old painting.",
+                "Thank you to the team in {location} for the quick help.",
+                "Really appreciate the hard work by Al Burhan Glass & Frames.",
+                "Grateful for the urgent glass replacement in {location}.",
+                "Thanks a lot for restoring my family memories.",
+                "I really appreciate the honest advice given by the staff.",
+                "Thank you Al Burhan for the beautiful mirror.",
+                "So glad for the service provided in {location}.",
+                "Heartfelt thanks to the skilled team at Al Burhan.",
+                "Appreciate the fast turnaround time in {location}.",
+                "Thank you for being so professional and kind.",
+                "Grateful to find such a good shop in {location}.",
+                "Many thanks for the custom frame job.",
+                "I cannot thank them enough for the restoration work."
+            ]
+        },
+
+        // --- CLOSING LINES (OUTROS) ---
+        outros: {
+            "Professional": [
+                "I will definitely return for future framing needs.",
+                "Highly recommended for quality and precision.",
+                "A trustworthy business in {location}.",
+                "They maintain high standards of professionalism.",
+                "The best glass and frame shop in the area.",
+                "Do visit them if you value quality work.",
+                "I am fully satisfied with the outcome.",
+                "Will recommend Al Burhan to my colleagues.",
+                "A five-star experience in {location}.",
+                "Their attention to detail is commendable.",
+                "Best wishes to the Al Burhan team.",
+                "Truly a professional establishment.",
+                "They are experts in their field.",
+                "Excellent value for money service."
+            ],
+            "Friendly": [
+                "Will be coming back for more frames! 👍",
+                "Thanks again guys, you rock!",
+                "Don't go anywhere else in {location}!",
+                "Loving my new wall decor! 😍",
+                "Keep up the amazing work!",
+                "See you soon for the next project.",
+                "Totally loved it!",
+                "Will tell all my friends in {location}.",
+                "Cheers to the Al Burhan team!",
+                "So happy with the results.",
+                "You guys are the best in {location}.",
+                "Can't wait to hang this up.",
+                "Super satisfied customer!",
+                "Thanks a ton!"
+            ],
+            "Short": [
+                "Recommended.",
+                "Five stars.",
+                "Great job.",
+                "Must visit.",
+                "Very good.",
+                "Thank you.",
+                "Best choice.",
+                "Top notch.",
+                "Good service.",
+                "Happy customer.",
+                "Well done.",
+                "Superb.",
+                "Nice finishing.",
+                "Reliable."
+            ],
+            "Grateful": [
+                "Thanks once again for the help.",
+                "God bless the team.",
+                "Truly appreciate it.",
+                "I will always recommend you.",
+                "Thanks for the support.",
+                "Grateful for the fair pricing.",
+                "Thank you for fixing it so fast.",
+                "Much appreciated.",
+                "Thanks for saving the day.",
+                "Really thankful for the service.",
+                "Appreciate the care you took.",
+                "Thanks for the honesty.",
+                "A big thank you to the staff.",
+                "Grateful for the quality work."
+            ]
+        },
+
+        // --- KEYWORDS SPECIFIC CONTENT ---
+        keywords: {
+            "Best picture shop": [
+                "This is hands down the best picture shop in {location}.", 
+                "If you are looking for the best picture shop, Al Burhan is it.", 
+                "Truly the best picture shop for variety and quality."
+            ],
+            "Best photo framing": [
+                "They provide the best photo framing service I have seen.", 
+                "For the best photo framing in {location}, look no further.", 
+                "The finishing makes them the best photo framing shop nearby."
+            ],
+            "Wooden frames": [
+                "Their collection of wooden photo frames is elegant.", 
+                "I loved the quality of the wooden frames they used.", 
+                "The wooden frames add such a classy touch to the photos."
+            ],
+            "Custom frames": [
+                "They are experts in making custom picture frames exactly to size.", 
+                "I needed a specific size and they made perfect custom frames.", 
+                "Best place for custom picture frames in {location}."
+            ],
+            "Collage frames": [
+                "They created a beautiful collage photo frame for my family pictures.", 
+                "The collage photo frames design was very creative.", 
+                "Loved how they arranged my photos in the collage frame."
+            ],
+            "Old photo restoration": [
+                "They did magic with my old photo restoration.", 
+                "I didn't think my damaged photo could be fixed, but their old photo restoration is top-notch.", 
+                "Highly skilled in old photo restoration work."
+            ],
+            "Glass replacement": [
+                "The photo frame glass replacement was done instantly.", 
+                "I went for a quick glass replacement and they handled it well.", 
+                "Seamless photo frame glass replacement service."
+            ],
+            "Broken mirror": [
+                "My broken mirror replacement was handled very carefully.", 
+                "They fixed the broken mirror perfectly.", 
+                "Fastest solution for broken mirror replacement in {location}."
+            ],
+            "Wall mirror": [
+                "The wall mirror for my living room looks stunning.", 
+                "They have a great variety of wall mirrors for living rooms.", 
+                "Bought a large wall mirror for the living room and the quality is amazing."
+            ],
+            "Fancy mirror": [
+                "Their fancy decorative mirrors are very stylish.", 
+                "Found some unique fancy decorative mirrors for my home.", 
+                "The range of fancy decorative mirrors is impressive."
+            ],
+            "Professional staff": [
+                "The staff is very professional and polite.", 
+                "Very professional staff who understand customer needs.", 
+                "Impressed by the behavior of the professional staff."
+            ],
+            "Affordable": [
+                "Got premium framing at an affordable price.", 
+                "Their rates are very affordable compared to others in {location}.", 
+                "High quality work at an affordable price."
+            ],
+            "Fastest service": [
+                "I was surprised by their fastest service delivery.", 
+                "They provided the fastest service for my urgent order.", 
+                "Truly the fastest service in town."
+            ]
+        }
+    };
+
+    // --- UTILS ---
+    function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+    function toggleNameField() { 
+        const field = document.getElementById('nameArea');
+        field.style.display = field.style.display === 'block' ? 'none' : 'block';
+    }
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) {
+            selectedKeywords = selectedKeywords.filter(item => item !== keyword);
+        } else {
+            selectedKeywords.push(keyword);
+        }
+    }
+
+    function generateReview() {
+        const userName = document.getElementById('userName').value.trim();
+        const tone = document.getElementById('toneSelect').value;
+        const location = document.getElementById('locationSelect').value;
+        const outputBox = document.getElementById('reviewOutput');
+        const copyBtn = document.getElementById('copyBtn');
+
+        if (selectedKeywords.length === 0) {
+            alert("Please select at least 2 highlights.");
+            return;
+        }
+        
+        outputBox.style.display = 'block';
+        outputBox.style.opacity = "0.5";
+
+        // 1. SELECT INTRO BASED ON TONE
+        let intro = getRandomItem(reviewDB.intros[tone]);
+        intro = intro.replace(/{location}/g, location);
+
+        if (userName) intro = `I am ${userName}. ` + intro;
+
+        // 2. BODY (Keyword Sentences)
+        let body = "";
+        const shuffledKeywords = selectedKeywords.sort(() => Math.random() - 0.5);
+        shuffledKeywords.forEach((k) => {
+            let sentence = getRandomItem(reviewDB.keywords[k]);
+            sentence = sentence.replace(/{location}/g, location);
+            body += sentence + " ";
+        });
+
+        // 3. SELECT OUTRO BASED ON TONE
+        let outro = getRandomItem(reviewDB.outros[tone]);
+        outro = outro.replace(/{location}/g, location);
+
+        const finalReview = intro + " " + body + outro;
+
+        setTimeout(() => {
+            outputBox.style.opacity = "1";
+            outputBox.value = finalReview;
+            copyBtn.style.display = "block";
+            if (window.innerWidth < 600) outputBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+    }
+
+    function copyToClipboard() {
+        const copyText = document.getElementById("reviewOutput");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(copyText.value).then(() => {
+            const isConfirmed = confirm("Review Copied! 📋\n\nClick OK to open Google Maps.");
+            if(isConfirmed) window.open(GOOGLE_REVIEW_LINK, '_blank');
+        });
+    }
+</script>
+
+</body>
+</html>
