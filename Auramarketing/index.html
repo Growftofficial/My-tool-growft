@@ -1,0 +1,495 @@
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Feedback - Aura Marketing</title>
+    <style>
+        /* --- THEME: COFFEE & TEA (Warm Brown & Fresh Green) --- */
+        :root {
+            --primary: #6F4E37; /* Coffee Brown */
+            --primary-light: #8D6E63;
+            --accent: #4CAF50; /* Tea Green */
+            --bg-color: #FFF8E1; /* Cream/Milk */
+            --card-bg: #ffffff;
+            --gold: #fbbf24;
+            --gray: #5d4037;
+        }
+
+        /* --- RESET & BODY --- */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0; padding: 20px 10px;
+            min-height: 100vh; display: flex;
+            justify-content: center; align-items: flex-start;
+        }
+
+        /* --- CONTAINER --- */
+        .container {
+            background: var(--card-bg); width: 100%; max-width: 500px;
+            padding: 25px; border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(111, 78, 55, 0.15);
+            border-top: 6px solid var(--primary); margin: auto;
+            text-align: center;
+        }
+
+        /* --- HEADER --- */
+        h1 { color: var(--primary); margin: 5px 0 2px 0; font-size: 24px; font-weight: 800; }
+        .location { color: var(--accent); font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+        
+        p { color: #5d4037; font-size: 15px; margin-bottom: 20px; line-height: 1.5; }
+
+        /* --- INPUTS & SELECTS --- */
+        select, input {
+            width: 100%; padding: 12px; border-radius: 8px;
+            border: 1px solid #D7CCC8; background: #fff;
+            font-size: 15px; outline: none; margin-bottom: 10px;
+            color: #4E342E;
+        }
+        select:focus, input:focus { border-color: var(--primary); }
+        
+        label { 
+            font-weight: 700; display: block; margin-top: 15px; margin-bottom: 8px; 
+            color: #4E342E; font-size: 13px; text-transform: uppercase; text-align: left; 
+        }
+
+        /* --- STAR RATING --- */
+        .star-container {
+            display: flex; justify-content: center; gap: 8px; margin: 20px 0;
+            direction: ltr;
+        }
+        .star {
+            font-size: 42px; color: #EFEBE9; cursor: pointer; transition: transform 0.2s, color 0.2s;
+        }
+        .star.selected { color: var(--gold); }
+        .star:hover { transform: scale(1.15); }
+
+        /* --- BUTTONS --- */
+        .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
+        .exp-btn {
+            padding: 12px 25px; border: 1px solid #D7CCC8; border-radius: 8px;
+            background: #fff; cursor: pointer; font-weight: 600; color: #5d4037;
+            flex: 1; max-width: 130px; transition: 0.2s;
+        }
+        .exp-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(111, 78, 55, 0.3); }
+        .exp-btn.bad-active { background: #ef4444; color: white; border-color: #ef4444; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3); }
+
+        .action-btn {
+            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white; border: none; border-radius: 8px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 10px;
+        }
+        .action-btn:active { transform: scale(0.98); }
+
+        /* --- PRIVATE FEEDBACK --- */
+        textarea.feedback-box {
+            width: 100%; height: 120px; padding: 12px;
+            border: 1px solid #D7CCC8; border-radius: 8px; resize: none;
+            font-family: inherit; margin-bottom: 15px; background: #fff;
+        }
+
+        /* --- AI TOOL STYLES --- */
+        .ai-tool-wrapper { text-align: left; display: none; }
+        
+        .category-header {
+            font-size: 11px; color: #8D6E63; margin: 15px 0 8px 0; font-weight: 700; letter-spacing: 0.5px; border-bottom: 1px dashed #D7CCC8; padding-bottom: 4px;
+        }
+        
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 5px; }
+        .keyword-chip { 
+            padding: 8px 12px; background-color: #fff; border-radius: 20px; 
+            font-size: 12px; font-weight: 600; cursor: pointer; 
+            border: 1px solid #BCAAA4; color: var(--primary); 
+            flex-grow: 1; text-align: center; transition: 0.2s;
+        }
+        .keyword-chip.active { background-color: var(--primary); color: white; border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 3px 8px rgba(111, 78, 55, 0.2); }
+
+        .copy-btn { width: 100%; padding: 12px; background-color: var(--accent); color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: 600; font-size: 15px; cursor: pointer; display: none; box-shadow: 0 4px 6px rgba(76, 175, 80, 0.2); }
+
+        /* --- UTILS --- */
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .toggle-name { font-size: 13px; color: var(--primary); text-decoration: underline; cursor: pointer; float: right; margin-top: 5px; border: none; background: none; }
+
+        /* --- FOOTER --- */
+        .footer { margin-top: 35px; text-align: center; font-size: 12px; color: #8D6E63; border-top: 1px dashed #D7CCC8; padding-top: 15px; }
+        .footer-logo { display: block; margin: 0 auto 5px auto; max-height: 28px; width: auto; opacity: 0.85; }
+        .footer a { color: var(--primary); text-decoration: none; font-weight: 700; }
+        .footer-text { margin-top: 5px; line-height: 1.6; }
+    </style>
+
+
+
+<div class="container">
+    
+    <h1>AURA MARKETING</h1>
+    <div class="location">☕ Vending Machine Supplier, Sangli</div>
+
+    <div id="ratingScreen" class="fade-in">
+        <p>How was your experience with Aura Marketing?</p>
+
+        <div class="star-container">
+            <span class="star" onclick="rate(1)">★</span>
+            <span class="star" onclick="rate(2)">★</span>
+            <span class="star" onclick="rate(3)">★</span>
+            <span class="star" onclick="rate(4)">★</span>
+            <span class="star" onclick="rate(5)">★</span>
+        </div>
+
+        <div class="experience-btns">
+            <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Not Good 😞</button>
+            <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Excellent ☕</button>
+        </div>
+
+        <button class="action-btn" onclick="processRating()">Next Step ➡</button>
+    </div>
+
+    <div id="privateFeedbackScreen" class="hidden fade-in">
+        <h2 style="color:#5d4037;">We are sorry! 😔</h2>
+        <p>Please tell us how we can improve. Your feedback will be sent directly to Mr. Mahesh.</p>
+        <textarea id="privateFeedbackText" class="feedback-box" placeholder="Write your issues here..."></textarea>
+        <button class="action-btn" style="background:#5d4037;" onclick="submitPrivateFeedback()">Submit Feedback</button>
+    </div>
+
+    <div id="thankYouScreen" class="hidden fade-in">
+        <div style="font-size: 50px; margin-bottom:10px;">✅</div>
+        <h2 style="color:#5d4037;">Thank You!</h2>
+        <p>Your feedback has been submitted successfully.</p>
+    </div>
+
+    <div id="aiToolScreen" class="ai-tool-wrapper fade-in">
+        <p style="text-align:center; font-weight:bold; color:var(--primary); margin-bottom: 20px;">✨ Create your review in 1 click!</p>
+        
+        <div style="display: flex; gap: 10px;">
+            <div style="flex:1;">
+                <label style="margin-top:0;">Location</label>
+                <select id="locationSelect">
+                    <option value="Sangli">Sangli</option>
+                    <option value="Miraj">Miraj</option>
+                    <option value="Kolhapur">Kolhapur</option>
+                </select>
+            </div>
+            <div style="flex:1;">
+                <label style="margin-top:0;">Tone</label>
+                <select id="toneSelect">
+                    <option value="Professional">Professional 👔</option>
+                    <option value="Friendly">Friendly 😃</option>
+                    <option value="Short">Short &amp; Sweet 👌</option>
+                    <option value="Grateful">Grateful 🙏</option>
+                </select>
+            </div>
+        </div>
+
+        <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
+        <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
+            <input type="text" id="userName" placeholder="Your Name (Optional)">
+        </div>
+
+        <label style="clear:both;">Select what you bought/liked (Pick 3-4)</label>
+
+        <div class="category-header">SERVICE &amp; GUIDANCE</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Mr. Mahesh')">👨‍💼 Mr. Mahesh (Polite)</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Guidance')">📈 Good Business Guidance</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Service')">🛠️ Repair &amp; Service</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Reasonable')">💰 Reasonable Rate</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Supportive')">🤝 Supportive Staff</div>
+        </div>
+
+        <div class="category-header">VENDING MACHINES</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'KOMFY')">☕ KOMFY (2 Lane)</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'TRIO')">☕ TRIO (3 Lane)</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'QUADRA')">☕ QUADRA (4 Lane)</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Industrial')">🏭 Industrial Machine</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Supplier')">🏆 Best Supplier</div>
+        </div>
+
+        <div class="category-header">TEA PREMIX POWDER</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Masala Tea')">🌿 Masala Tea</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Ginger Tea')">🫚 Ginger Tea</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Lemon Tea')">🍋 Lemon Tea</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Cardamom Tea')">🍃 Elaychi Tea</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Green Tea')">🍵 Green Tea</div>
+        </div>
+
+        <div class="category-header">COFFEE PREMIX POWDER</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Coffee Premix')">☕ Best Coffee Premix</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Chocolate')">🍫 Chocolate Coffee</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Vanilla')">🍦 Vanilla Coffee</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Premium')">✨ Premium Coffee</div>
+        </div>
+
+        <button class="action-btn" onclick="generateReview()">🚀 Generate Review</button>
+
+        <textarea id="reviewOutput" style="width:100%; height:130px; margin-top:15px; border-radius:8px; padding:10px; border:1px solid #D7CCC8; display:none; background:#fff;" readonly=""></textarea>
+        
+        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy &amp; Open Google</button>
+    </div>
+
+    <div class="footer">
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft" loading="lazy">
+        
+        <div class="footer-text">
+            Built by <a href="https://growft.net" target="_blank">Growft</a><br>
+            Contact to build your Agent: <a href="tel:+917020360561">7020360561</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- IMPORTANT: REPLACE THIS LINK ---
+    const GOOGLE_REVIEW_LINK = "https://g.page/r/CYSiq08cZdLVEBM/review"; 
+    
+    // --- RATING LOGIC ---
+    let currentRating = 0;
+    let currentExp = '';
+
+    function rate(stars) {
+        currentRating = stars;
+        let allStars = document.querySelectorAll('.star');
+        allStars.forEach((star, index) => {
+            star.classList.toggle('selected', index < stars);
+        });
+        if(stars >= 4) selectExp('good');
+        else selectExp('bad');
+    }
+
+    function selectExp(type) {
+        currentExp = type;
+        document.getElementById('btn-good').classList.remove('active');
+        document.getElementById('btn-bad').classList.remove('bad-active');
+        if (type === 'good') document.getElementById('btn-good').classList.add('active');
+        else document.getElementById('btn-bad').classList.add('bad-active');
+    }
+
+    function processRating() {
+        if (currentRating === 0 && currentExp === '') {
+            alert("Please select a star rating.");
+            return;
+        }
+        document.getElementById('ratingScreen').classList.add('hidden');
+        
+        let isHappy = (currentRating >= 4) || (currentExp === 'good');
+        
+        if (isHappy) {
+            document.getElementById('aiToolScreen').style.display = 'block';
+        } else {
+            document.getElementById('privateFeedbackScreen').classList.remove('hidden');
+        }
+    }
+
+    function submitPrivateFeedback() {
+        if(document.getElementById('privateFeedbackText').value.trim() === "") {
+            alert("Please write a few words.");
+            return;
+        }
+        document.getElementById('privateFeedbackScreen').classList.add('hidden');
+        document.getElementById('thankYouScreen').classList.remove('hidden');
+    }
+
+    // --- AI GENERATION LOGIC ---
+    let selectedKeywords = [];
+
+    const reviewDB = {
+        // 40+ INTROS SPLIT ACROSS TONES
+        intros: {
+            "Professional": [
+                "I visited Aura Marketing in {location} for vending machine requirements.",
+                "We were looking for an industrial coffee machine supplier in {location}.",
+                "Aura Marketing is a highly professional vending machine supplier in {location}.",
+                "If you need automatic vending machines in {location}, Aura Marketing is the place.",
+                "I had a business meeting with Mr. Mahesh at Aura Marketing, {location}.",
+                "Excellent experience dealing with Aura Marketing for hotel machinery.",
+                "They are the leading wholesaler of tea and coffee premixes in {location}.",
+                "Very professional approach towards clients in {location}.",
+                "I sourced a 4-lane machine for my office in {location} from them.",
+                "Reliable and trusted supplier in the {location} market."
+            ],
+            "Friendly": [
+                "Had a great experience at Aura Marketing {location}! ☕",
+                "Mr. Mahesh is such a nice person, helped me a lot in {location}.",
+                "Best place to buy tea coffee machines in {location}!",
+                "Loved the variety of tea premixes available at Aura Marketing.",
+                "They have the best coffee machines in {location}, hands down.",
+                "Super supportive staff and great service in {location}.",
+                "Starting my coffee business was easy thanks to Aura Marketing.",
+                "The tea tastes amazing! Highly recommend them.",
+                "Friendly staff and quick service in {location}.",
+                "So happy with my new coffee machine!"
+            ],
+            "Short": [
+                "Best supplier in {location}.",
+                "Great machines.",
+                "Good service.",
+                "Mr. Mahesh is very helpful.",
+                "Best tea premix in {location}.",
+                "Nice experience.",
+                "Reasonable rates.",
+                "Quality products.",
+                "Recommended.",
+                "Excellent support."
+            ],
+            "Grateful": [
+                "I am really thankful to Mr. Mahesh for his guidance in {location}.",
+                "Aura Marketing helped me set up my business in {location}, truly grateful.",
+                "Thanks for the quick installation and service in {location}.",
+                "I appreciate the honest advice given by the team.",
+                "Thank you for the premium quality coffee premix.",
+                "Grateful for the support provided after purchase.",
+                "Thanks to Aura Marketing for the reliable machine.",
+                "Really appreciate the professional service in {location}.",
+                "Thank you for the reasonable rates.",
+                "Big thanks to the team for the quick repair."
+            ]
+        },
+
+        // 40+ OUTROS SPLIT ACROSS TONES
+        outros: {
+            "Professional": [
+                "Highly recommended for all industrial requirements in {location}.",
+                "The best choice for vending solutions in {location}.",
+                "They ensure top-notch quality and timely service.",
+                "Will definitely continue our business relationship.",
+                "A trustworthy name for vending machines in {location}.",
+                "Professionalism at its best.",
+                "Great value for money service.",
+                "Satisfied with the overall purchase experience.",
+                "Best wishes to the business.",
+                "Do try them for premium premix powders."
+            ],
+            "Friendly": [
+                "Will visit again for stock! 👍",
+                "Best in {location}, hands down!",
+                "Loving the coffee taste! ☕",
+                "Keep up the great work!",
+                "Don't look anywhere else in {location}.",
+                "Super satisfied!",
+                "Cheers to the team!",
+                "Will recommend to my friends in {location}.",
+                "Thanks again!",
+                "You guys are the best."
+            ],
+            "Short": [
+                "Recommended.",
+                "Good job.",
+                "5 Stars.",
+                "Must try.",
+                "Great work.",
+                "Best in {location}.",
+                "Nice taste.",
+                "Happy customer.",
+                "Thank you.",
+                "Top quality."
+            ],
+            "Grateful": [
+                "Thanks once again.",
+                "God bless the team.",
+                "Really appreciate the help.",
+                "I will always recommend you.",
+                "Thanks for being so helpful.",
+                "Grateful for the service.",
+                "Thanks for the fair price.",
+                "So happy with the result.",
+                "Thank you for the support.",
+                "Much appreciated."
+            ]
+        },
+
+        // Keyword Specific Sentences
+        keywords: {
+            "Mr. Mahesh": ["Mr. Mahesh has a very polite nature and is easy to talk to.", "Mr. Mahesh guided me personally for my requirements.", "Met Mr. Mahesh, a true gentleman with great knowledge."],
+            "Guidance": ["Received very good guidance for starting my vending business.", "They guide you properly on which machine is best for you.", "The business guidance provided was invaluable."],
+            "Service": ["Their coffee machine repair and service is very prompt.", "After purchase experience regarding service was very good.", "Quick response for any maintenance or repair work."],
+            "Reasonable": ["The machines are available at a very reasonable rate.", "Premix powders are priced reasonably for wholesalers.", "Best quality at an affordable price point."],
+            "Supportive": ["The staff is very professional and supportive.", "They have a very supportive team for after-sales queries.", "Professional staff that helps you at every step."],
+            "KOMFY": ["Purchased the KOMFY 2-lane machine, it's compact and efficient.", "The KOMFY 2-lane vending machine is perfect for small offices.", "Happy with the performance of the KOMFY machine."],
+            "TRIO": ["The TRIO 3-lane machine offers great variety.", "Installed the TRIO machine, works perfectly.", "TRIO 3-lane machine is best for medium usage."],
+            "QUADRA": ["The QUADRA 4-lane machine is a beast, handles heavy load easily.", "QUADRA 4-lane machine offers excellent variety of beverages.", "Best industrial 4-lane machine I have used."],
+            "Industrial": ["Best industrial coffee machine supplier for hotels in {location}.", "Their industrial machines are durable and high quality.", "Perfect solution for hotel and corporate needs."],
+            "Supplier": ["Undoubtedly the best vending machine supplier in {location}.", "A reliable tea and coffee vending machine supplier.", "Top-rated supplier in the market."],
+            "Masala Tea": ["The Masala tea premix has an authentic taste.", "Customers love the Masala tea from their machine.", "Masala tea powder is of premium quality."],
+            "Ginger Tea": ["Ginger tea premix is very refreshing.", "Perfect balance of flavor in the Ginger tea.", "Best Ginger tea powder in {location}."],
+            "Lemon Tea": ["Lemon tea premix is zesty and refreshing.", "Great option for lemon tea lovers.", "Instant lemon tea tastes amazing."],
+            "Cardamom Tea": ["Elaychi tea premix has a great aroma.", "The cardamom flavor is strong and natural.", "My favorite is the Elaychi tea."],
+            "Green Tea": ["Green tea premix is healthy and tasty.", "Good quality Green tea available here.", "Nice option for health-conscious people."],
+            "Coffee Premix": ["The coffee premix powder is rich and creamy.", "Best quality coffee powder for automatic machines.", "Consistent taste in every cup."],
+            "Chocolate": ["Chocolate coffee premix is delicious.", "Kids love the hot chocolate flavor.", "Rich chocolate taste."],
+            "Vanilla": ["Vanilla coffee is a unique and tasty option.", "Loved the aroma of Vanilla coffee.", "Premium Vanilla flavor."],
+            "Premium": ["Their premium coffee range is outstanding.", "Truly a premium taste experience.", "High-quality premium ingredients used."]
+        }
+    };
+
+    // --- UTILS ---
+    function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+    function toggleNameField() { 
+        const field = document.getElementById('nameArea');
+        field.style.display = field.style.display === 'block' ? 'none' : 'block';
+    }
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) {
+            selectedKeywords = selectedKeywords.filter(item => item !== keyword);
+        } else {
+            selectedKeywords.push(keyword);
+        }
+    }
+
+    function generateReview() {
+        const userName = document.getElementById('userName').value.trim();
+        const tone = document.getElementById('toneSelect').value;
+        const location = document.getElementById('locationSelect').value;
+        const outputBox = document.getElementById('reviewOutput');
+        const copyBtn = document.getElementById('copyBtn');
+
+        if (selectedKeywords.length === 0) {
+            alert("Please select at least 2 highlights.");
+            return;
+        }
+        
+        outputBox.style.display = 'block';
+        outputBox.style.opacity = "0.5";
+
+        // 1. SELECT INTRO BASED ON TONE
+        let intro = getRandomItem(reviewDB.intros[tone]);
+        intro = intro.replace(/{location}/g, location);
+
+        if (userName) intro = `I am ${userName}. ` + intro;
+
+        // 2. BODY (Keyword Sentences)
+        let body = "";
+        const shuffledKeywords = selectedKeywords.sort(() => Math.random() - 0.5);
+        shuffledKeywords.forEach((k) => {
+            let sentence = getRandomItem(reviewDB.keywords[k]);
+            sentence = sentence.replace(/{location}/g, location);
+            body += sentence + " ";
+        });
+
+        // 3. SELECT OUTRO BASED ON TONE
+        let outro = getRandomItem(reviewDB.outros[tone]);
+        outro = outro.replace(/{location}/g, location);
+
+        const finalReview = intro + " " + body + outro;
+
+        setTimeout(() => {
+            outputBox.style.opacity = "1";
+            outputBox.value = finalReview;
+            copyBtn.style.display = "block";
+            if (window.innerWidth < 600) outputBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+    }
+
+    function copyToClipboard() {
+        const copyText = document.getElementById("reviewOutput");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(copyText.value).then(() => {
+            const isConfirmed = confirm("Review Copied! ☕\n\nClick OK to open Google Maps.");
+            if(isConfirmed) window.open(GOOGLE_REVIEW_LINK, '_blank');
+        });
+    }
+</script>
