@@ -207,6 +207,14 @@
 
         <label style="clear:both;">Select what you liked (Pick 3-4)</label>
 
+        <div class="category-header">LOCATION & AIRPORT SEARCH</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Udaipur City')">🏙️ Udaipur City</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Maharana Pratap Airport')">🛫 Maharana Pratap Airport</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Near Airport')">✈️ Cab Near Airport</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Railway Station')">🚂 Railway Station</div>
+        </div>
+
         <div class="category-header">SERVICES</div>
         <div class="keywords-container">
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Taxi Service')">🏆 Best Taxi Service</div>
@@ -312,7 +320,7 @@
     // --- AI GENERATION LOGIC ---
     let selectedKeywords = [];
 
-    // HUGE DATABASE TO ENSURE VARIETY (40+ Variations logic)
+    // HUGE DATABASE TO ENSURE VARIETY
     const reviewDB = {
         // OPENING LINES
         intros: {
@@ -401,8 +409,34 @@
             ]
         },
 
-        // KEYWORD SPECIFIC SENTENCES (3-4 variations per keyword)
+        // KEYWORD SPECIFIC SENTENCES
         keywords: {
+            // NEW LOCATION KEYWORDS
+            "Udaipur City": [
+                "Hands down the best cab service in Udaipur.",
+                "Top rated taxi service in Udaipur city.",
+                "If you are visiting, they offer the best cab service in Udaipur.",
+                "Most trusted cab operator in Udaipur."
+            ],
+            "Maharana Pratap Airport": [
+                "Best cab near Maharana Pratap Airport.",
+                "Excellent taxi service from Maharana Pratap Airport.",
+                "On-time pickup at Maharana Pratap Airport.",
+                "We needed a cab near Maharana Pratap Airport and they were the best."
+            ],
+            "Near Airport": [
+                "Looking for a cab near airport? Choose them.",
+                "Very convenient taxi service near the airport.",
+                "Quick availability near Udaipur airport.",
+                "Best cab near Udaipur Airport for fast pickup."
+            ],
+            "Railway Station": [
+                "Pickup from Udaipur Railway Station was on time.",
+                "Best taxi service near Udaipur Railway Station.",
+                "Driver was waiting at the railway station, very convenient."
+            ],
+
+            // EXISTING KEYWORDS
             "Best Taxi Service": [
                 "Truly the best taxi service I have found in Udaipur.",
                 "Honey Cab is the best taxi service provider for family trips.",
