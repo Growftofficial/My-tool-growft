@@ -1,19 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Feedback - Shree Balaji Tours and Travels</title>
     <style>
-        /* --- THEME: TRAVEL & TRANSPORT (Blue, Yellow & Clean White) --- */
+        /* --- THEME: TRAVEL & TRANSPORT (Blue & Yellow) --- */
         :root {
-            --primary: #0284c7; /* Ocean Blue */
-            --primary-dark: #0369a1; /* Darker Blue */
-            --accent: #f59e0b; /* Taxi/Star Yellow */
-            --bg-color: #f0f9ff; /* Very Light Blue */
+            --primary: #0056b3; /* Corporate Travel Blue */
+            --primary-light: #3083dc; /* Lighter Blue */
+            --accent: #ffc107; /* Taxi Yellow */
+            --bg-color: #f0f4f8; /* Light Cloud Blue */
             --card-bg: #ffffff;
-            --text-main: #334155;
-            --gray: #64748b;
+            --gold: #fbbf24;
+            --gray: #4b5563;
+            --text-dark: #1e293b;
         }
 
         /* --- RESET & BODY --- */
@@ -30,38 +28,38 @@
         .container {
             background: var(--card-bg); width: 100%; max-width: 500px;
             padding: 25px; border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(2, 132, 199, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 86, 179, 0.15);
             border-top: 6px solid var(--primary); margin: auto;
             text-align: center;
         }
 
         /* --- HEADER --- */
-        h1 { color: var(--primary-dark); margin: 5px 0 2px 0; font-size: 24px; font-weight: 800; }
-        .location { color: var(--gray); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+        h1 { color: var(--primary); margin: 5px 0 2px 0; font-size: 24px; font-weight: 800; line-height: 1.2; }
+        .location { color: #64748b; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
         
         /* PHONE NUMBER STYLE */
         .phone-link {
-            text-decoration: none; color: #fff; background: var(--primary);
+            text-decoration: none; color: #000; background: var(--accent);
             padding: 8px 18px; border-radius: 20px; display: inline-block;
             font-size: 14px; font-weight: 700; transition: 0.2s;
-            box-shadow: 0 4px 6px rgba(2, 132, 199, 0.2); margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px;
         }
-        .phone-link:hover { transform: translateY(-1px); background: var(--primary-dark); }
+        .phone-link:hover { transform: translateY(-1px); background: #ffca2c; }
 
-        p { color: var(--text-main); font-size: 15px; margin-bottom: 20px; line-height: 1.5; }
+        p { color: var(--text-dark); font-size: 15px; margin-bottom: 20px; line-height: 1.5; }
 
         /* --- INPUTS & SELECTS --- */
         select, input {
             width: 100%; padding: 12px; border-radius: 8px;
             border: 1px solid #cbd5e1; background: #f8fafc;
-            font-size: 15px; outline: none; margin-bottom: 10px;
-            color: var(--text-main);
+            font-size: 14px; outline: none; margin-bottom: 10px;
+            color: var(--text-dark);
         }
-        select:focus, input:focus { border-color: var(--primary); }
+        select:focus, input:focus { border-color: var(--primary); background: #fff; }
         
         label { 
-            font-weight: 700; display: block; margin-top: 15px; margin-bottom: 8px; 
-            color: var(--text-main); font-size: 13px; text-transform: uppercase; text-align: left; 
+            font-weight: 700; display: block; margin-top: 12px; margin-bottom: 6px; 
+            color: var(--text-dark); font-size: 12px; text-transform: uppercase; text-align: left; 
         }
 
         /* --- STAR RATING --- */
@@ -70,23 +68,23 @@
             direction: ltr;
         }
         .star {
-            font-size: 42px; color: #e2e8f0; cursor: pointer; transition: transform 0.2s, color 0.2s;
+            font-size: 42px; color: #e5e7eb; cursor: pointer; transition: transform 0.2s, color 0.2s;
         }
-        .star.selected { color: var(--accent); }
+        .star.selected { color: var(--gold); }
         .star:hover { transform: scale(1.15); }
 
         /* --- BUTTONS --- */
         .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
         .exp-btn {
-            padding: 12px 25px; border: 1px solid #cbd5e1; border-radius: 8px;
-            background: #fff; cursor: pointer; font-weight: 600; color: var(--text-main);
-            flex: 1; max-width: 130px; transition: 0.2s;
+            padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px;
+            background: #fff; cursor: pointer; font-weight: 600; color: var(--text-dark);
+            flex: 1; max-width: 140px; transition: 0.2s; font-size: 13px;
         }
-        .exp-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3); }
+        .exp-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(0, 86, 179, 0.3); }
         .exp-btn.bad-active { background: #ef4444; color: white; border-color: #ef4444; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3); }
 
         .action-btn {
-            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: white; border: none; border-radius: 8px;
             font-size: 16px; font-weight: 700; cursor: pointer;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 10px;
@@ -111,12 +109,12 @@
         .keyword-chip { 
             padding: 8px 12px; background-color: #fff; border-radius: 20px; 
             font-size: 12px; font-weight: 600; cursor: pointer; 
-            border: 1px solid #cbd5e1; color: var(--text-main); 
+            border: 1px solid #cbd5e1; color: var(--text-dark); 
             flex-grow: 1; text-align: center; transition: 0.2s;
         }
-        .keyword-chip.active { background-color: var(--primary); color: white; border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 3px 8px rgba(2, 132, 199, 0.2); }
+        .keyword-chip.active { background-color: var(--primary); color: white; border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 3px 8px rgba(0, 86, 179, 0.2); }
 
-        .copy-btn { width: 100%; padding: 12px; background-color: var(--accent); color: #fff; border: none; border-radius: 8px; margin-top: 15px; font-weight: 700; font-size: 15px; cursor: pointer; display: none; box-shadow: 0 4px 6px rgba(245, 158, 11, 0.3); text-shadow: 0 1px 1px rgba(0,0,0,0.1); }
+        .copy-btn { width: 100%; padding: 12px; background-color: #16a34a; /* Green */ color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: 600; font-size: 15px; cursor: pointer; display: none; box-shadow: 0 4px 6px rgba(22, 163, 74, 0.2); }
 
         /* --- UTILS --- */
         .hidden { display: none !important; }
@@ -126,21 +124,21 @@
         .toggle-name { font-size: 13px; color: var(--primary); text-decoration: underline; cursor: pointer; float: right; margin-top: 5px; border: none; background: none; }
 
         /* --- FOOTER --- */
-        .footer { margin-top: 35px; text-align: center; font-size: 12px; color: #94a3b8; border-top: 1px dashed #cbd5e1; padding-top: 15px; }
-        .footer-logo { display: block; margin: 0 auto 8px auto; height: 32px; width: auto; }
+        .footer { margin-top: 35px; text-align: center; font-size: 12px; color: #64748b; border-top: 1px dashed #cbd5e1; padding-top: 15px; }
+        .footer-logo { display: block; margin: 0 auto 5px auto; max-height: 28px; width: auto; opacity: 0.9; }
         .footer a { color: var(--primary); text-decoration: none; font-weight: 700; }
         .footer-text { margin-top: 5px; line-height: 1.6; }
     </style>
-</head>
-<body>
+
+
 
 <div class="container">
     
     <h1>Shree Balaji Tours and Travels</h1>
-    <div class="location">📍 Chhatrapati Sambhajinagar</div>
+    <div class="location">📍 Chhatrapati Sambhajinagar, MH</div>
     
     <div>
-        <a href="tel:+919175691681" class="phone-link">📞 Book Now</a>
+        <a href="tel:+91XXXXXXXXXX" class="phone-link">📞 Call Us Now</a>
     </div>
 
     <div id="ratingScreen" class="fade-in">
@@ -155,44 +153,55 @@
         </div>
 
         <div class="experience-btns">
-            <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Not Good 😞</button>
-            <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Great Ride 🚖</button>
+            <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Issues 😞</button>
+            <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Excellent 🚗</button>
         </div>
 
         <button class="action-btn" onclick="processRating()">Next Step ➡</button>
     </div>
 
     <div id="privateFeedbackScreen" class="hidden fade-in">
-        <h2 style="color:var(--text-main);">We are sorry! 😔</h2>
-        <p>Please tell us how we can improve your travel experience.</p>
+        <h2 style="color:var(--text-dark);">We are sorry! 😔</h2>
+        <p>Please tell us how we can improve. Your feedback will be sent directly to the owner.</p>
         <textarea id="privateFeedbackText" class="feedback-box" placeholder="Describe the issue..."></textarea>
-        <button class="action-btn" style="background:#64748b;" onclick="submitPrivateFeedback()">Submit Feedback</button>
+        <button class="action-btn" style="background:#4b5563;" onclick="submitPrivateFeedback()">Submit Feedback</button>
     </div>
 
     <div id="thankYouScreen" class="hidden fade-in">
         <div style="font-size: 50px; margin-bottom:10px;">✅</div>
-        <h2 style="color:var(--text-main);">Thank You!</h2>
+        <h2 style="color:var(--text-dark);">Thank You!</h2>
         <p>Your feedback has been submitted successfully.</p>
     </div>
 
     <div id="aiToolScreen" class="ai-tool-wrapper fade-in">
         <p style="text-align:center; font-weight:bold; color:var(--primary); margin-bottom: 20px;">✨ Create your review in 1 click!</p>
         
+        <label style="margin-top:0;">Which Vehicle did you use?</label>
+        <select id="vehicleSelect">
+            <option value="none" disabled="" selected="">Select Vehicle</option>
+            <option value="Toyota Innova Crysta">Toyota Innova Crysta</option>
+            <option value="Suzuki Baleno">Suzuki Baleno</option>
+            <option value="Nissan Terrano">Nissan Terrano</option>
+            <option value="Hyundai i10">Hyundai i10</option>
+            <option value="Hyundai Verna">Hyundai Verna</option>
+            <option value="Other">Other / Bus</option>
+        </select>
+
         <div style="display: flex; gap: 10px;">
             <div style="flex:1;">
-                <label style="margin-top:0;">Location</label>
+                <label>Location</label>
                 <select id="locationSelect">
-                    <option value="Chhatrapati Sambhajinagar">Chh. Sambhajinagar</option>
+                    <option value="Chhatrapati Sambhajinagar">Sambhajinagar</option>
                     <option value="Maharashtra">Maharashtra</option>
                     <option value="Aurangabad">Aurangabad</option>
                 </select>
             </div>
             <div style="flex:1;">
-                <label style="margin-top:0;">Tone</label>
+                <label>Tone</label>
                 <select id="toneSelect">
                     <option value="Professional">Professional 👔</option>
-                    <option value="Friendly">Happy/Fun 😃</option>
-                    <option value="Short">Short & Sweet 👌</option>
+                    <option value="Friendly">Friendly 😃</option>
+                    <option value="Short">Short &amp; Sweet 👌</option>
                     <option value="Grateful">Grateful 🙏</option>
                 </select>
             </div>
@@ -205,40 +214,38 @@
 
         <label style="clear:both;">Select what you liked (Pick 3-4)</label>
 
-        <div class="category-header">CAB & TAXI SERVICES</div>
+        <div class="category-header">BOOKING &amp; SERVICE</div>
         <div class="keywords-container">
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Taxi Service')">🚖 Best Taxi Service</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Cab Service')">🚙 Best Cab Service</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'City Tour Cab')">🏙️ City Tour Cab</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Safe Drive')">🛡️ Safe Drive</div>
-        </div>
-
-        <div class="category-header">ONLINE BOOKING</div>
-        <div class="keywords-container">
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Online Taxi Booking')">📱 Online Taxi Booking</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Online Cab Booking')">💻 Online Cab Booking</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Online Car Booking')">🚗 Online Car Booking</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Online Travel Booking')">🌍 Online Travel Booking</div>
-        </div>
-
-        <div class="category-header">SERVICE QUALITY</div>
-        <div class="keywords-container">
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Professional Driver')">👨‍✈️ Professional Driver</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Fastest Service')">⚡ Fastest Service</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Reasonable Rates')">💰 Reasonable Rates</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'No Hassle')">✨ No Hassle</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Taxi')">🚖 Best Taxi Service</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Agency')">🏢 Best Travel Agency</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Online Booking')">📱 Online Cab Booking</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Fast Service')">⚡ No Hassle Fast Service</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Bus Booking')">🚌 Bus Booking</div>
+        </div>
+
+        <div class="category-header">JOURNEY &amp; SAFETY</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Safe Drive')">🛡️ Safe Drive</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Pro Driver')">👨‍✈️ Professional Driver</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'City Tour')">🏙️ City Tour Cab</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Staff')">🤝 Professional Staff</div>
+        </div>
+
+        <div class="category-header">PRICE &amp; VALUE</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Reasonable')">💰 Reasonable Rates</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Affordable')">🏷️ Affordable Price</div>
         </div>
 
         <button class="action-btn" onclick="generateReview()">🚀 Generate Review</button>
 
-        <textarea id="reviewOutput" style="width:100%; height:130px; margin-top:15px; border-radius:8px; padding:10px; border:1px solid #cbd5e1; display:none; background:#fff;" readonly></textarea>
+        <textarea id="reviewOutput" style="width:100%; height:130px; margin-top:15px; border-radius:8px; padding:10px; border:1px solid #cbd5e1; display:none; background:#fff;" readonly=""></textarea>
         
-        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy & Open Google</button>
+        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy &amp; Open Google</button>
     </div>
 
     <div class="footer">
-        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft">
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft" loading="lazy">
         
         <div class="footer-text">
             Powered by <a href="https://growft.net" target="_blank">Growft</a><br>
@@ -248,7 +255,7 @@
 </div>
 
 <script>
-    // --- IMPORTANT: REPLACE THIS LINK ---
+    // --- IMPORTANT: REPLACE THIS LINK WITH YOUR SHREE BALAJI TOURS GOOGLE LINK ---
     const GOOGLE_REVIEW_LINK = "https://g.page/r/CbX1rj7ojpGfEAE/review"; 
     
     // --- RATING LOGIC ---
@@ -302,248 +309,144 @@
     let selectedKeywords = [];
 
     const reviewDB = {
-        // HUGE DATABASE OF INTROS
+        // 40+ INTROS SPLIT ACROSS TONES
         intros: {
             "Professional": [
                 "I recently used Shree Balaji Tours and Travels for a trip in {location}.",
-                "We booked a vehicle through Shree Balaji Tours and Travels in {location}.",
-                "For anyone looking for reliable transport in {location}, this is the agency to choose.",
-                "Highly professional service provided by Shree Balaji Tours in {location}.",
-                "Our corporate travel experience with Shree Balaji Tours and Travels was excellent.",
-                "I am writing this to commend the services of Shree Balaji Tours and Travels.",
-                "Shree Balaji Tours offers the most professional transport solutions in {location}.",
-                "We engaged their services for a family tour in {location} recently.",
-                "A very systematic and professional travel agency in {location}.",
-                "I hired a taxi from Shree Balaji Tours and Travels for a local trip.",
-                "The team at Shree Balaji Tours and Travels is very efficient.",
-                "My experience with this cab service in {location} was outstanding.",
-                "If you need a professional car rental in {location}, look no further.",
-                "They handled our travel requirements in {location} with utmost professionalism.",
-                "I was impressed by the standards maintained by Shree Balaji Tours."
+                "We booked a cab with Shree Balaji Tours and Travels in {location}.",
+                "Highly professional experience with Shree Balaji Tours and Travels.",
+                "If you need a reliable travel agency in {location}, this is the one.",
+                "Excellent transport service provided by Shree Balaji Tours.",
+                "We had a business trip in {location} and chose Shree Balaji Tours.",
+                "I hired a taxi from Shree Balaji Tours and Travels recently.",
+                "They are the most reliable travel service provider in {location}.",
+                "Our journey with Shree Balaji Tours and Travels was seamless.",
+                "I am writing this to appreciate the service of Shree Balaji Tours.",
+                "Booked a car rental service in {location} with them.",
+                "Top-class service from the team at Shree Balaji Tours and Travels."
             ],
             "Friendly": [
                 "Had an amazing trip with Shree Balaji Tours and Travels! 😃",
-                "Best travel experience ever in {location} thanks to these guys!",
-                "Super happy with the cab service provided by Shree Balaji Tours.",
-                "Loved the vibe and service of Shree Balaji Tours and Travels!",
-                "If you are in {location}, you must book with Shree Balaji Tours!",
-                "What a fantastic journey with Shree Balaji Tours and Travels!",
-                "Such a friendly team and great cars in {location}.",
-                "Had a blast on my trip, thanks to their smooth service!",
-                "So glad I chose Shree Balaji Tours for my {location} trip.",
-                "Really enjoyed the ride with Shree Balaji Tours and Travels.",
-                "Friendly drivers and awesome service in {location}!",
-                "Wow! Great service by Shree Balaji Tours and Travels.",
-                "Highly recommend this friendly travel agency in {location}.",
-                "Made my family trip to {location} super special.",
-                "Simply the best travel partners in {location}!"
+                "Just completed a great journey in {location} with this team.",
+                "Best taxi service in {location}, super happy!",
+                "They made our family trip in {location} very special.",
+                "So happy we chose Shree Balaji Tours for our travel.",
+                "Very polite driver and great car quality.",
+                "Loved the service! Best travel agency in {location}.",
+                "Super friendly staff and smooth ride.",
+                "Wow! What a comfortable journey with Shree Balaji Tours.",
+                "Such nice people and safe driving.",
+                "Totally loved their cab service in {location}!",
+                "My go-to travel agency in {location} from now on."
             ],
             "Short": [
-                "Best travel agency in {location}.",
-                "Great service by Shree Balaji Tours.",
-                "Good experience.",
-                "Nice cab service.",
-                "Recommended taxi service.",
-                "Very happy with the ride.",
-                "Excellent trip.",
-                "Top class service in {location}.",
-                "Reliable travel agency.",
-                "Smooth journey.",
-                "Best car rental.",
-                "Fast and good.",
-                "Quality service.",
-                "Nice driver and car.",
-                "5 star service."
+                "Best taxi service in {location}.",
+                "Great experience with Shree Balaji Tours.",
+                "Very professional cab service.",
+                "Nice car and good driver.",
+                "Recommended travel agency in {location}.",
+                "Affordable and fast service.",
+                "Best for city tours.",
+                "Safe drive and on time.",
+                "Five stars for the team.",
+                "Good job by Shree Balaji Tours.",
+                "Clean cars and good rates.",
+                "Reliable taxi provider."
             ],
             "Grateful": [
-                "I am very thankful to Shree Balaji Tours for the safe journey in {location}.",
-                "Big thanks to the team for making our trip smooth.",
-                "Grateful for the excellent service provided by Shree Balaji Tours.",
-                "Thank you for the timely pickup and drop in {location}.",
-                "I appreciate the professional behavior of the staff.",
-                "Thanks to Shree Balaji Tours for saving our day with a quick booking.",
-                "Really appreciate the safe drive in {location}.",
-                "Heartfelt thanks to the driver for being so helpful.",
-                "Thank you for the affordable rates and good service.",
-                "Grateful to find such a reliable agency in {location}.",
-                "Thanks for the comfortable bus booking.",
-                "I want to thank the team for a hassle-free experience.",
-                "Appreciate the clean car and good driving.",
-                "Thank you Shree Balaji Tours for the wonderful arrangement.",
-                "So glad and thankful for your service in {location}."
+                "I am really thankful to Shree Balaji Tours for the safe journey.",
+                "They saved our trip with quick booking in {location}.",
+                "Grateful for the reasonable rates and good service.",
+                "Thanks a lot for the comfortable ride in {location}.",
+                "Appreciate the professional driver they provided.",
+                "Thank you for reaching on time in {location}.",
+                "So glad I found this honest travel agency.",
+                "Thanks for the hassle-free service.",
+                "Really appreciate the clean car and safe drive.",
+                "Thank you Shree Balaji team for the support.",
+                "My sincere thanks for the smooth travel experience.",
+                "Big thanks for the affordable taxi rates."
             ]
         },
 
-        // HUGE DATABASE OF OUTROS
+        // 40+ OUTROS SPLIT ACROSS TONES
         outros: {
             "Professional": [
-                "I highly recommend them for any travel needs in {location}.",
-                "They are undoubtedly the best travel agency in {location}.",
-                "Will definitely use their corporate services again.",
-                "A trustworthy name for transport in {location}.",
-                "They ensure punctuality and comfort.",
-                "The best choice for safe and professional travel.",
-                "Looking forward to booking with them again.",
-                "Shree Balaji Tours sets a high standard in {location}.",
-                "Do try them for a premium travel experience.",
-                "Their dedication to customer satisfaction is commendable.",
-                "Overall, a very satisfying experience.",
-                "I vouch for their service quality.",
-                "The most reliable fleet in {location}.",
-                "Excellent value for money service.",
-                "They are the experts in local transport."
+                "Highly recommended for anyone visiting {location}.",
+                "The best choice for corporate and family travel.",
+                "They ensure safety and timely arrival.",
+                "Will definitely book with them again.",
+                "A trustworthy name for taxi services in {location}.",
+                "Professionalism at its best.",
+                "Great value for money travel service.",
+                "Satisfied with the overall booking experience.",
+                "Best wishes to Shree Balaji Tours.",
+                "Do try them for outstation or local trips.",
+                "They are setting high standards in {location}.",
+                "You can trust them for long journeys.",
+                "A reliable partner for all travel needs."
             ],
             "Friendly": [
-                "Will definitely call you guys again! 👍",
-                "Don't look anywhere else in {location}!",
-                "Cheers to the team! 🚗",
-                "Five stars from me! ⭐⭐⭐⭐⭐",
+                "Will call you guys again! 👍",
+                "Best in {location}, hands down!",
+                "Loving the comfortable ride! 😍",
                 "Keep up the great work!",
-                "Loving the service! 😍",
-                "See you soon for the next trip!",
+                "Don't look anywhere else in {location}.",
+                "Super satisfied traveler!",
+                "Cheers to the driver and team!",
+                "Will recommend to my friends in {location}.",
+                "Thanks again for the ride!",
+                "You guys are the best.",
                 "Totally worth it!",
-                "You guys are the best in {location}!",
-                "Can't wait to travel with you again.",
-                "Super satisfied!",
-                "Highly recommended to all my friends.",
-                "Best taxi guys in town!",
-                "Thanks for the fun ride!",
-                "Love Shree Balaji Tours! ❤️"
+                "Can't wait for my next trip.",
+                "See you soon for the next booking."
             ],
             "Short": [
                 "Recommended.",
-                "Good job.",
+                "Good trip.",
+                "5 Stars.",
                 "Must try.",
-                "Great work.",
+                "Great ride.",
                 "Best in {location}.",
+                "Nice driver.",
                 "Happy customer.",
                 "Thank you.",
                 "Top quality.",
-                "Superb.",
+                "Superb service.",
                 "Well done.",
-                "Highly rated.",
-                "Good service.",
-                "Safe ride.",
-                "Book with them.",
-                "Nice trip."
+                "Highly rated."
             ],
             "Grateful": [
                 "Thanks once again.",
                 "God bless the team.",
-                "Really appreciate the help.",
+                "Really appreciate the safe drive.",
                 "I will always recommend you.",
                 "Thanks for being so helpful.",
                 "Grateful for the service.",
                 "Thanks for the fair price.",
-                "So happy with the result.",
+                "So happy with the journey.",
                 "Thank you for the support.",
                 "Much appreciated.",
                 "Heartfelt thanks.",
-                "Thanks for the safe travel.",
-                "Appreciate the quick response.",
-                "Thank you for the honesty.",
-                "Grateful for the smooth ride."
+                "Thanks for the smooth drive.",
+                "Appreciate the quick response."
             ]
         },
 
-        // KEYWORD SPECIFIC SENTENCES (3-4 Variations each)
+        // Keyword Specific Sentences
         keywords: {
-            "Best Taxi Service": [
-                "They provide the best taxi service in {location}.",
-                "Truly the best taxi service provider I have experienced.",
-                "If you need the best taxi service, call Shree Balaji Tours.",
-                "Hands down the best taxi service in the city."
-            ],
-            "Best Cab Service": [
-                "Shree Balaji offers the best cab service in the area.",
-                "Reliable and clean, definitely the best cab service.",
-                "For the best cab service in {location}, rely on them.",
-                "Experience the best cab service with professional drivers."
-            ],
-            "Online Taxi Booking": [
-                "Their online taxi booking process is very smooth.",
-                "Easy online taxi booking with instant confirmation.",
-                "I loved how simple the online taxi booking was.",
-                "Quick and efficient online taxi booking system."
-            ],
-            "Online Cab Booking": [
-                "Online cab booking was hassle-free and fast.",
-                "Made an online cab booking and the car arrived on time.",
-                "Best platform for online cab booking in {location}.",
-                "Very convenient online cab booking options."
-            ],
-            "Online Car Booking": [
-                "Seamless online car booking experience.",
-                "I did the online car booking and got a great vehicle.",
-                "Trustworthy online car booking service.",
-                "Online car booking made my trip planning easy."
-            ],
-            "Best Travel Agency": [
-                "They are the best travel agency in {location}.",
-                "One of the best travel agencies for local and outstation trips.",
-                "Shree Balaji Tours is the best travel agency for family trips.",
-                "Rated as the best travel agency by many, and now by me."
-            ],
-            "Online Travel Booking": [
-                "Great system for online travel booking.",
-                "My online travel booking was handled professionally.",
-                "Save time with their online travel booking facility.",
-                "Convenient online travel booking for busy people."
-            ],
-            "City Tour Cab": [
-                "We hired a city tour cab and saw all the spots comfortably.",
-                "The city tour cab was clean and the driver knew the routes.",
-                "Best city tour cab package in {location}.",
-                "Enjoyed sightseeing with their city tour cab."
-            ],
-            "Safe Drive": [
-                "We had a very safe drive throughout the journey.",
-                "Safety is their priority, excellent safe drive.",
-                "The driver ensured a smooth and safe drive.",
-                "Felt completely secure with their safe drive practices."
-            ],
-            "Bus Booking": [
-                "Bus booking was handled efficiently for our group.",
-                "Best service for bus booking in {location}.",
-                "Comfortable buses and easy bus booking process.",
-                "We did a bus booking for a marriage function and it was perfect."
-            ],
-            "Professional Staff": [
-                "The staff is very professional and polite.",
-                "Impressed by the professional staff at Shree Balaji Tours.",
-                "Very cooperative and professional staff members.",
-                "Professional staff made the booking easy."
-            ],
-            "Reasonable Rates": [
-                "They offer very reasonable rates for such good service.",
-                "Pocket-friendly and reasonable rates.",
-                "Best service at reasonable rates in {location}.",
-                "Pricing is transparent and rates are reasonable."
-            ],
-            "No Hassle": [
-                "There was absolutely no hassle during the trip.",
-                "No hassle booking and smooth billing.",
-                "Enjoy a no hassle travel experience with them.",
-                "Everything was perfect, no hassle at all."
-            ],
-            "Professional Driver": [
-                "The driver was highly professional and well-mannered.",
-                "We got a very experienced and professional driver.",
-                "Safe driving by a professional driver.",
-                "Uniformed and professional driver added to the comfort."
-            ],
-            "Affordable Price": [
-                "Got a premium car at an affordable price.",
-                "Services are available at an affordable price.",
-                "Luxury travel at an affordable price.",
-                "Value for money with an affordable price tag."
-            ],
-            "Fastest Service": [
-                "Impressed by their fastest service in booking.",
-                "They provide the fastest service in arrival time.",
-                "Fastest service for airport drops.",
-                "Quick response and fastest service in {location}."
-            ]
+            "Best Taxi": ["Truly the best taxi service I have found in {location}.", "Shree Balaji provides the best taxi service experience.", "Hard to find such a good taxi service."],
+            "Best Agency": ["Undoubtedly the best travel agency in {location}.", "They are a very reliable and best travel agency.", "Top rated travel agency for a reason."],
+            "Online Booking": ["Their online cab booking process is very easy.", "I liked the smooth online taxi booking facility.", "Online car booking was hassle-free."],
+            "Fast Service": ["I was impressed by their no hassle fast service.", "Fastest service pickup in {location}.", "Very quick and fast service."],
+            "Bus Booking": ["The bus booking experience was smooth.", "Best service for group bus booking.", "Clean and comfortable bus provided."],
+            "Safe Drive": ["The driver ensured a very safe drive throughout.", "Safety is their priority, very safe drive.", "Felt very secure with their safe driving."],
+            "Pro Driver": ["The driver was very professional and polite.", "Experienced and professional driver assigned.", "Our professional driver knew the routes very well."],
+            "City Tour": ["Best city tour cab for sightseeing in {location}.", "We enjoyed the city tour cab service.", "Perfect for a full day city tour."],
+            "Staff": ["The professional staff was very helpful.", "Very cooperative and professional staff.", "Good behavior from the staff."],
+            "Reasonable": ["Rates are very reasonable compared to others.", "Got a very reasonable rate for the package.", "High quality service at reasonable rates."],
+            "Affordable": ["Affordable price for such a premium car.", "Best affordable price taxi in {location}.", "Budget friendly and affordable price."],
+            "Best Interior": ["The car interiors were clean and fresh.", "Very comfortable seats and interior.", "Maintained high hygiene inside the car."]
         }
     };
 
@@ -566,6 +469,7 @@
         const userName = document.getElementById('userName').value.trim();
         const tone = document.getElementById('toneSelect').value;
         const location = document.getElementById('locationSelect').value;
+        const vehicle = document.getElementById('vehicleSelect').value;
         const outputBox = document.getElementById('reviewOutput');
         const copyBtn = document.getElementById('copyBtn');
 
@@ -577,29 +481,40 @@
         outputBox.style.display = 'block';
         outputBox.style.opacity = "0.5";
 
-        // 1. SELECT INTRO BASED ON TONE
+        // 1. SELECT INTRO
         let intro = getRandomItem(reviewDB.intros[tone]);
         intro = intro.replace(/{location}/g, location);
-
         if (userName) intro = `I am ${userName}. ` + intro;
 
-        // 2. BODY (Keyword Sentences)
+        // 2. VEHICLE SENTENCE (New Feature)
+        let vehicleSentence = "";
+        if (vehicle && vehicle !== "none") {
+            const vehicleVariations = [
+                `The ${vehicle} provided was extremely comfortable and clean.`,
+                `We traveled in a ${vehicle} and the ride quality was excellent.`,
+                `The ${vehicle} was well-maintained and AC was working perfectly.`,
+                `Very happy with the condition of the ${vehicle} we booked.`
+            ];
+            vehicleSentence = getRandomItem(vehicleVariations) + " ";
+        }
+
+        // 3. BODY (Keyword Sentences)
         let body = "";
         const shuffledKeywords = selectedKeywords.sort(() => Math.random() - 0.5);
         shuffledKeywords.forEach((k) => {
-            // Check if keyword exists in DB to prevent errors
-            if(reviewDB.keywords[k]){
+            if(reviewDB.keywords[k]) {
                 let sentence = getRandomItem(reviewDB.keywords[k]);
                 sentence = sentence.replace(/{location}/g, location);
                 body += sentence + " ";
             }
         });
 
-        // 3. SELECT OUTRO BASED ON TONE
+        // 4. SELECT OUTRO
         let outro = getRandomItem(reviewDB.outros[tone]);
         outro = outro.replace(/{location}/g, location);
 
-        const finalReview = intro + " " + body + outro;
+        // COMBINE
+        const finalReview = intro + " " + vehicleSentence + body + outro;
 
         setTimeout(() => {
             outputBox.style.opacity = "1";
@@ -619,6 +534,3 @@
         });
     }
 </script>
-
-</body>
-</html>
