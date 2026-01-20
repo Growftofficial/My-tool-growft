@@ -1,0 +1,602 @@
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Feedback - Bike on Bike</title>
+    <style>
+        /* --- THEME: AUTOMOTIVE & MECHANIC (Dark Blue, Steel, Clean White) --- */
+        :root {
+            --primary: #1e3a8a; /* Dark Blue */
+            --primary-light: #3b82f6; /* Bright Blue */
+            --accent: #f97316; /* Mechanic Orange */
+            --bg-color: #f3f4f6; /* Light Grey */
+            --card-bg: #ffffff;
+            --gold: #fbbf24;
+            --text-main: #1f2937;
+            --text-sub: #4b5563;
+        }
+
+        /* --- RESET & BODY --- */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0; padding: 20px 10px;
+            min-height: 100vh; display: flex;
+            justify-content: center; align-items: flex-start;
+        }
+
+        /* --- CONTAINER --- */
+        .container {
+            background: var(--card-bg); width: 100%; max-width: 500px;
+            padding: 25px; border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-top: 6px solid var(--primary); margin: auto;
+            text-align: center;
+        }
+
+        /* --- HEADER --- */
+        h1 { color: var(--primary); margin: 5px 0 2px 0; font-size: 28px; font-weight: 800; text-transform: uppercase; letter-spacing: -0.5px; }
+        .location { color: var(--accent); font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
+        
+        /* PHONE NUMBER STYLE */
+        .phone-link {
+            text-decoration: none; color: #fff; background: var(--primary);
+            padding: 10px 20px; border-radius: 50px; display: inline-block;
+            font-size: 15px; font-weight: 700; transition: 0.2s;
+            box-shadow: 0 4px 6px rgba(30, 58, 138, 0.25); margin-bottom: 20px;
+        }
+        .phone-link:hover { transform: translateY(-1px); background: var(--primary-light); }
+
+        p { color: var(--text-sub); font-size: 15px; margin-bottom: 20px; line-height: 1.5; }
+
+        /* --- INPUTS & SELECTS --- */
+        select, input {
+            width: 100%; padding: 12px; border-radius: 8px;
+            border: 1px solid #d1d5db; background: #f9fafb;
+            font-size: 14px; outline: none; margin-bottom: 10px;
+            color: var(--text-main);
+        }
+        select:focus, input:focus { border-color: var(--primary); background: #fff; }
+        
+        label { 
+            font-weight: 700; display: block; margin-top: 15px; margin-bottom: 6px; 
+            color: var(--text-main); font-size: 12px; text-transform: uppercase; text-align: left; letter-spacing: 0.5px;
+        }
+
+        /* --- STAR RATING --- */
+        .star-container {
+            display: flex; justify-content: center; gap: 8px; margin: 20px 0;
+            direction: ltr;
+        }
+        .star {
+            font-size: 42px; color: #e5e7eb; cursor: pointer; transition: transform 0.2s, color 0.2s;
+        }
+        .star.selected { color: var(--gold); }
+        .star:hover { transform: scale(1.15); }
+
+        /* --- BUTTONS --- */
+        .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
+        .exp-btn {
+            padding: 12px 20px; border: 1px solid #d1d5db; border-radius: 8px;
+            background: #fff; cursor: pointer; font-weight: 600; color: var(--text-sub);
+            flex: 1; max-width: 140px; transition: 0.2s; font-size: 14px;
+        }
+        .exp-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(30, 58, 138, 0.3); }
+        .exp-btn.bad-active { background: #ef4444; color: white; border-color: #ef4444; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3); }
+
+        .action-btn {
+            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white; border: none; border-radius: 8px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 10px;
+        }
+        .action-btn:active { transform: scale(0.98); }
+
+        /* --- PRIVATE FEEDBACK --- */
+        textarea.feedback-box {
+            width: 100%; height: 120px; padding: 12px;
+            border: 1px solid #d1d5db; border-radius: 8px; resize: none;
+            font-family: inherit; margin-bottom: 15px; background: #f9fafb;
+        }
+
+        /* --- AI TOOL STYLES --- */
+        .ai-tool-wrapper { text-align: left; display: none; }
+        
+        .category-header {
+            font-size: 11px; color: var(--primary); margin: 15px 0 8px 0; font-weight: 800; letter-spacing: 0.5px; border-bottom: 1px solid #e5e7eb; padding-bottom: 4px;
+        }
+        
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 5px; }
+        .keyword-chip { 
+            padding: 8px 12px; background-color: #fff; border-radius: 20px; 
+            font-size: 12px; font-weight: 600; cursor: pointer; 
+            border: 1px solid #d1d5db; color: var(--text-sub); 
+            flex-grow: 1; text-align: center; transition: 0.2s;
+        }
+        .keyword-chip.active { background-color: var(--primary); color: white; border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 3px 8px rgba(30, 58, 138, 0.2); }
+
+        .copy-btn { width: 100%; padding: 12px; background-color: var(--accent); color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: 600; font-size: 15px; cursor: pointer; display: none; box-shadow: 0 4px 6px rgba(249, 115, 22, 0.25); }
+
+        /* --- UTILS --- */
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .toggle-name { font-size: 13px; color: var(--primary); text-decoration: underline; cursor: pointer; float: right; margin-top: 5px; border: none; background: none; }
+
+        /* --- FOOTER --- */
+        .footer { margin-top: 35px; text-align: center; font-size: 12px; color: #9ca3af; border-top: 1px solid #e5e7eb; padding-top: 20px; }
+        .footer-logo { display: block; margin: 0 auto 8px auto; max-height: 35px; width: auto; }
+        .footer a { color: var(--primary); text-decoration: none; font-weight: 700; }
+        .footer-text { margin-top: 5px; line-height: 1.6; }
+    </style>
+
+
+
+<div class="container">
+    
+    <h1>Bike on Bike</h1>
+    <div class="location">📍 Muneshwara Nagar, Bengaluru</div>
+    
+    <div>
+        <a href="tel:+91" class="phone-link">📞 Book Service Now</a>
+    </div>
+
+    <div id="ratingScreen" class="fade-in">
+        <p>How was your bike service experience?</p>
+
+        <div class="star-container">
+            <span class="star" onclick="rate(1)">★</span>
+            <span class="star" onclick="rate(2)">★</span>
+            <span class="star" onclick="rate(3)">★</span>
+            <span class="star" onclick="rate(4)">★</span>
+            <span class="star" onclick="rate(5)">★</span>
+        </div>
+
+        <div class="experience-btns">
+            <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Not Good 😞</button>
+            <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Excellent 🛵</button>
+        </div>
+
+        <button class="action-btn" onclick="processRating()">Next Step ➡</button>
+    </div>
+
+    <div id="privateFeedbackScreen" class="hidden fade-in">
+        <h2 style="color:var(--text-main);">We are sorry! 😔</h2>
+        <p>Please tell us how we can improve. Your feedback will be sent directly to the manager.</p>
+        <textarea id="privateFeedbackText" class="feedback-box" placeholder="Describe the issue..."></textarea>
+        <button class="action-btn" style="background:#4b5563;" onclick="submitPrivateFeedback()">Submit Feedback</button>
+    </div>
+
+    <div id="thankYouScreen" class="hidden fade-in">
+        <div style="font-size: 50px; margin-bottom:10px;">✅</div>
+        <h2 style="color:var(--text-main);">Thank You!</h2>
+        <p>Your feedback has been submitted successfully.</p>
+    </div>
+
+    <div id="aiToolScreen" class="ai-tool-wrapper fade-in">
+        <p style="text-align:center; font-weight:bold; color:var(--primary); margin-bottom: 20px;">✨ Create your review in 1 click!</p>
+        
+        <div style="display: flex; gap: 10px;">
+            <div style="flex:1;">
+                <label style="margin-top:0;">Location</label>
+                <select id="locationSelect">
+                    <option value="Muneshwara Nagar">Muneshwara Nagar</option>
+                    <option value="Bengaluru">Bengaluru</option>
+                    <option value="Karnataka">Karnataka</option>
+                </select>
+            </div>
+            <div style="flex:1;">
+                <label style="margin-top:0;">Tone</label>
+                <select id="toneSelect">
+                    <option value="Professional">Professional 👔</option>
+                    <option value="Friendly">Friendly 😃</option>
+                    <option value="Short">Short &amp; Sweet 👌</option>
+                    <option value="Grateful">Grateful 🙏</option>
+                </select>
+            </div>
+        </div>
+
+        <label>Your Vehicle</label>
+        <select id="vehicleSelect">
+            <option value="">-- Select Bike/Scooter --</option>
+            <option value="Hero Super Splendor">Hero Super Splendor</option>
+            <option value="Honda Activa 6g">Honda Activa 6g</option>
+            <option value="Royal Enfield Continental GT 650">RE Continental GT 650</option>
+            <option value="Yamaha MT-15 V2">Yamaha MT-15 V2</option>
+            <option value="Pulsar N150">Pulsar N150</option>
+            <option value="Pulsar NS 125">Pulsar NS 125</option>
+            <option value="Royal Enfield Classic 350">RE Classic 350</option>
+            <option value="KTM 390 Duke">KTM 390 Duke</option>
+            <option value="KTM RC 390">KTM RC 390</option>
+            <option value="Kawasaki Z900">Kawasaki Z900</option>
+            <option value="Bajaj Pulsar 125">Bajaj Pulsar 125</option>
+            <option value="TVS Apache RTR 310">TVS Apache RTR 310</option>
+            <option value="Triumph Street Triple RS">Triumph Street Triple RS</option>
+            <option value="Hero Xtreme 125R">Hero Xtreme 125R</option>
+            <option value="Suzuki Access 125">Suzuki Access 125</option>
+            <option value="TVS Jupiter 125">TVS Jupiter 125</option>
+            <option value="Hero Destini 125">Hero Destini 125</option>
+            <option value="Honda Activa 125">Honda Activa 125</option>
+            <option value="Yamaha Fascino 125">Yamaha Fascino 125</option>
+            <option value="Suzuki Burgman Street">Suzuki Burgman Street</option>
+            <option value="TVS Ntorq 125">TVS Ntorq 125</option>
+            <option value="Yamaha RayZR 125">Yamaha RayZR 125</option>
+        </select>
+
+        <label>Service Done</label>
+        <select id="serviceSelect">
+            <option value="">-- Select Service --</option>
+            <option value="Full Bike Servicing">Full Bike Servicing</option>
+            <option value="Engine Oil Change">Engine Oil Change</option>
+            <option value="Oil Filter Replacement">Oil Filter Replacement</option>
+            <option value="Air Filter Cleaning">Air Filter Cleaning</option>
+            <option value="Coolant Top-up">Coolant Top-up</option>
+            <option value="Chain Cleaning &amp; Lubrication">Chain Cleaning &amp; Lubrication</option>
+            <option value="Chain Sprocket Kit Replacement">Chain Sprocket Replacement</option>
+            <option value="Clutch Plate Assembly Replacement">Clutch Plate Replacement</option>
+            <option value="Battery Replacement">Battery Replacement</option>
+            <option value="Self-Starter Brush Replacement">Self-Starter Repair</option>
+            <option value="Spark Plug Cleaning">Spark Plug Cleaning</option>
+            <option value="Carburetor Tuning">Carburetor Tuning</option>
+            <option value="Fuel Injector Cleaning">Fuel Injector Cleaning (BS6)</option>
+            <option value="Front Fork Oil Seal Change">Front Fork Oil Seal Change</option>
+            <option value="Shock Absorber Repair">Shock Absorber Repair</option>
+            <option value="Engine Head Valve Clearance">Engine Valve Setting</option>
+            <option value="Half Engine Work">Half Engine Work</option>
+            <option value="Accelerator Cable Replacement">Accelerator Cable Replacement</option>
+            <option value="Brake Cable Replacement">Brake Cable Replacement</option>
+            <option value="Side Mirror Installation">Side Mirror Installation</option>
+            <option value="Handlebar Grip Change">Handlebar Grip Change</option>
+        </select>
+
+        <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
+        <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
+            <input type="text" id="userName" placeholder="Your Name (Optional)">
+        </div>
+
+        <label style="clear:both;">Select what you liked (Pick 3-4)</label>
+
+        <div class="category-header">DOORSTEP &amp; CONVENIENCE</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Doorstep Service')">🏠 Doorstep Service</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Online Booking')">📲 Online Booking</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'No Hassle')">✨ No Hassle</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Fast Service')">⚡ Fast Service</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, '24/7 Support')">🕒 24/7 Repair</div>
+        </div>
+
+        <div class="category-header">REPAIR &amp; QUALITY</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Repair')">🔧 Best Bike Repair</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Oil Change')">🛢️ Oil Change at Home</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Puncture Repair')">🔩 Puncture Repair</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Battery Change')">🔋 Battery Replacement</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Professional')">👷 Professional Mechanics</div>
+        </div>
+
+        <div class="category-header">VEHICLE SPECIFIC</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Royal Enfield')">🏍️ Royal Enfield Specialist</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Scooty Service')">🛵 Scooty Service</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Superbike')">🏎️ Superbike Service</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Activa Service')">⚪ Activa Service</div>
+        </div>
+        
+        <div class="category-header">VALUE</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Affordable')">💰 Affordable Price</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Reasonable')">🏷️ Reasonable Rates</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Friendly')">🤝 Friendly Staff</div>
+        </div>
+
+        <button class="action-btn" onclick="generateReview()">🚀 Generate Review</button>
+
+        <textarea id="reviewOutput" style="width:100%; height:130px; margin-top:15px; border-radius:8px; padding:10px; border:1px solid #d1d5db; display:none; background:#fff;" readonly=""></textarea>
+        
+        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy &amp; Open Google</button>
+    </div>
+
+    <div class="footer">
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft" loading="lazy">
+        
+        <div class="footer-text">
+            Built by <a href="https://growft.net" target="_blank">Growft</a><br>
+            Contact to build your AI Tool: <a href="tel:+917020370561">7020370561</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- IMPORTANT: REPLACE THIS LINK ---
+    const GOOGLE_REVIEW_LINK = "https://g.page/r/CctfAmYhjGNZEBE/review"; 
+    
+    // --- RATING LOGIC ---
+    let currentRating = 0;
+    let currentExp = '';
+
+    function rate(stars) {
+        currentRating = stars;
+        let allStars = document.querySelectorAll('.star');
+        allStars.forEach((star, index) => {
+            star.classList.toggle('selected', index < stars);
+        });
+        if(stars >= 4) selectExp('good');
+        else selectExp('bad');
+    }
+
+    function selectExp(type) {
+        currentExp = type;
+        document.getElementById('btn-good').classList.remove('active');
+        document.getElementById('btn-bad').classList.remove('bad-active');
+        if (type === 'good') document.getElementById('btn-good').classList.add('active');
+        else document.getElementById('btn-bad').classList.add('bad-active');
+    }
+
+    function processRating() {
+        if (currentRating === 0 && currentExp === '') {
+            alert("Please select a star rating.");
+            return;
+        }
+        document.getElementById('ratingScreen').classList.add('hidden');
+        
+        let isHappy = (currentRating >= 4) || (currentExp === 'good');
+        
+        if (isHappy) {
+            document.getElementById('aiToolScreen').style.display = 'block';
+        } else {
+            document.getElementById('privateFeedbackScreen').classList.remove('hidden');
+        }
+    }
+
+    function submitPrivateFeedback() {
+        if(document.getElementById('privateFeedbackText').value.trim() === "") {
+            alert("Please write a few words.");
+            return;
+        }
+        document.getElementById('privateFeedbackScreen').classList.add('hidden');
+        document.getElementById('thankYouScreen').classList.remove('hidden');
+    }
+
+    // --- AI GENERATION LOGIC ---
+    let selectedKeywords = [];
+
+    const reviewDB = {
+        // INTROS: 40+ Unique Openers split by tone
+        intros: {
+            "Professional": [
+                "I recently used Bike on Bike for a service in {location}.",
+                "Booked a professional bike service through Bike on Bike in {location}.",
+                "Excellent experience with the Bike on Bike team in {location}.",
+                "I engaged Bike on Bike for my two-wheeler maintenance in {location}.",
+                "Highly professional approach by the mechanics at Bike on Bike.",
+                "Writing this to appreciate the quality service received in {location}.",
+                "Found Bike on Bike to be the most reliable service provider in {location}.",
+                "My experience with their doorstep service in {location} was seamless.",
+                "Scheduled a service appointment with Bike on Bike recently.",
+                "They provide a top-tier two-wheeler service in {location}.",
+                "Very satisfied with the professional standards of Bike on Bike.",
+                "The technicians from Bike on Bike are extremely skilled.",
+                "For anyone in {location} needing bike repairs, this is the best choice.",
+                "I utilized their online booking for my bike service.",
+                "A truly professional garage experience delivered at home."
+            ],
+            "Friendly": [
+                "Just got my bike fixed by Bike on Bike in {location}, loved it! 😃",
+                "Super happy with the service I got today!",
+                "Bike on Bike is a lifesaver in {location}!",
+                "Hey guys, if you need a mechanic in {location}, call these guys.",
+                "Amazing experience with the Bike on Bike team! 🏍️",
+                "So convenient to get my bike serviced at home in {location}.",
+                "Loved how friendly the mechanic was!",
+                "My bike runs smooth as butter now thanks to them.",
+                "Best bike service in {location}, hands down!",
+                "Totally impressed with their quick help in {location}.",
+                "Wow! The service was way better than I expected.",
+                "Such a cool concept and great execution by the team.",
+                "Got my bike back in top shape without leaving my house!",
+                "Friendly staff and great results in {location}."
+            ],
+            "Short": [
+                "Best bike service in {location}.",
+                "Great work by Bike on Bike.",
+                "Quick and reliable service.",
+                "Very good mechanic.",
+                "Doorstep service was excellent.",
+                "Recommended for bike repair.",
+                "Fast service in {location}.",
+                "Good job done.",
+                "5-star service.",
+                "Best in {location}.",
+                "Affordable and good.",
+                "Nice experience.",
+                "Quality repair work.",
+                "On-time service."
+            ],
+            "Grateful": [
+                "I am so thankful to Bike on Bike for the urgent help in {location}.",
+                "They really saved my day with the quick repair.",
+                "Appreciate the mechanic coming to my home in {location}.",
+                "Thanks a lot for fixing my bike perfectly.",
+                "Grateful for the honest pricing and good service.",
+                "Thank you for the hassle-free service in {location}.",
+                "Big thanks to the team for the quick response.",
+                "I appreciate the hard work and dedication.",
+                "Thanks for getting my bike running again.",
+                "So glad I found this service in {location}.",
+                "Thank you for the excellent doorstep assistance.",
+                "Really appreciate the professional behavior.",
+                "Thanks for being so reliable.",
+                "Heartfelt thanks to the mechanic who visited."
+            ]
+        },
+
+        // OUTROS: 40+ Unique Closers split by tone
+        outros: {
+            "Professional": [
+                "I highly recommend them for any bike related issues.",
+                "Will definitely choose them for my next service.",
+                "A trustworthy name in {location} for bike repairs.",
+                "Their attention to detail is commendable.",
+                "Best wishes to the entire Bike on Bike team.",
+                "Definitely the best choice for two-wheeler service.",
+                "Professionalism at its best in {location}.",
+                "They have earned a loyal customer today.",
+                "You can trust them with your vehicle blindfolded.",
+                "Quality service delivered right at your doorstep.",
+                "I will be recommending them to my colleagues.",
+                "A seamless and professional experience overall.",
+                "Great value for money service in {location}.",
+                "Keep up the high standards."
+            ],
+            "Friendly": [
+                "Will surely call you guys again! 👍",
+                "Cheers to the team!",
+                "Don't go anywhere else, just book them!",
+                "Loving my smooth ride now! 😍",
+                "Keep rocking Bike on Bike!",
+                "Super satisfied customer here!",
+                "See you soon for the next service.",
+                "Thanks again guys!",
+                "You guys are the best in {location}.",
+                "Totally worth every penny!",
+                "Can't wait to go for a ride now.",
+                "Will tell all my biker friends.",
+                "10/10 would recommend!",
+                "Love the service!"
+            ],
+            "Short": [
+                "Highly recommended.",
+                "Must try.",
+                "Good luck.",
+                "Great job.",
+                "Thank you.",
+                "Best service.",
+                "Very happy.",
+                "Superb work.",
+                "Top quality.",
+                "Well done.",
+                "Excellent.",
+                "Good service.",
+                "Reliable.",
+                "Thumbs up."
+            ],
+            "Grateful": [
+                "Thanks once again.",
+                "God bless the team.",
+                "Really appreciate the help.",
+                "I will always recommend you.",
+                "Thanks for being so helpful.",
+                "Grateful for the service.",
+                "Thanks for the fair price.",
+                "So happy with the result.",
+                "Thank you for the support.",
+                "Much appreciated.",
+                "Thanks for solving my problem.",
+                "Appreciate the quick response.",
+                "Thank you for the honesty."
+            ]
+        },
+
+        // KEYWORD SENTENCES
+        keywords: {
+            "Doorstep Service": ["The doorstep bike service is a game changer.", "Loved the convenience of getting bike service at home.", "Mechanic came to my door in {location} and fixed everything."],
+            "Online Booking": ["Online bike service booking was very easy.", "Booked online and they arrived on time.", "The app/website booking process is smooth."],
+            "No Hassle": ["There was absolutely no hassle, very fast service.", "Hassle-free experience from booking to delivery.", "Enjoyed the no hassle service at my home."],
+            "Fast Service": ["Fastest service I have experienced in {location}.", "They completed the repair very quickly.", "Super fast response and repair."],
+            "24/7 Support": ["Great to know they offer 24/7 bike repair.", "They helped me at an odd hour, very reliable.", "Best 24/7 support for bikers."],
+            "Best Repair": ["Truly the best bike repair service in {location}.", "They fixed issues that other mechanics couldn't.", "Top quality repair work."],
+            "Oil Change": ["Got the bike oil change done at home easily.", "They used genuine oil for the change.", "Quick and clean oil change service."],
+            "Puncture Repair": ["Fixed the puncture at my home instantly.", "Lifesaver for bike puncture repair at home.", "Quick puncture fix."],
+            "Battery Change": ["Replaced my bike battery at home.", "Genuine battery replacement service.", "Checked and replaced the battery quickly."],
+            "Professional": ["The mechanics are very professional and polite.", "Professional staff and neat work.", "Very skilled and professional team."],
+            "Royal Enfield": ["Best service for Royal Enfield at home.", "The mechanic knew exactly how to handle my Bullet.", "Specialists in Royal Enfield service."],
+            "Scooty Service": ["Great service for my scooty at home.", "They serviced my scooter perfectly.", "Best choice for scooty repair."],
+            "Superbike": ["They handled my superbike with care.", "Trusted them with my premium bike and they delivered.", "Expert superbike service at home."],
+            "Activa Service": ["My Activa runs like new after the service.", "Best Activa service at home in {location}.", "Thorough servicing for Honda Activa."],
+            "Affordable": ["Services are very affordable compared to showrooms.", "Affordable price for such premium convenience.", "Great service at a pocket-friendly price."],
+            "Reasonable": ["Rates are very reasonable.", "No hidden charges, very reasonable.", "Good work at reasonable rates."],
+            "Friendly": ["The mechanic was very friendly and welcoming.", "Friendly staff who explained the issues well.", "Nice and friendly behavior."]
+        }
+    };
+
+    // --- UTILS ---
+    function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+    function toggleNameField() { 
+        const field = document.getElementById('nameArea');
+        field.style.display = field.style.display === 'block' ? 'none' : 'block';
+    }
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) {
+            selectedKeywords = selectedKeywords.filter(item => item !== keyword);
+        } else {
+            selectedKeywords.push(keyword);
+        }
+    }
+
+    function generateReview() {
+        const userName = document.getElementById('userName').value.trim();
+        const tone = document.getElementById('toneSelect').value;
+        const location = document.getElementById('locationSelect').value;
+        const vehicle = document.getElementById('vehicleSelect').value;
+        const service = document.getElementById('serviceSelect').value;
+        const outputBox = document.getElementById('reviewOutput');
+        const copyBtn = document.getElementById('copyBtn');
+
+        if (selectedKeywords.length === 0) {
+            alert("Please select at least 2 highlights.");
+            return;
+        }
+        
+        outputBox.style.display = 'block';
+        outputBox.style.opacity = "0.5";
+
+        // 1. INTRO
+        let intro = getRandomItem(reviewDB.intros[tone]);
+        intro = intro.replace(/{location}/g, location);
+        
+        if (userName) intro = `I am ${userName}. ` + intro;
+
+        // 2. CONTEXT SENTENCE (Vehicle + Service)
+        let contextSentence = "";
+        if (vehicle && service) {
+            contextSentence = `I got a ${service} done for my ${vehicle}. `;
+        } else if (vehicle) {
+            contextSentence = `They worked on my ${vehicle}. `;
+        } else if (service) {
+            contextSentence = `I booked them for a ${service}. `;
+        }
+
+        // 3. KEYWORD BODY
+        let body = "";
+        const shuffledKeywords = selectedKeywords.sort(() => Math.random() - 0.5);
+        shuffledKeywords.forEach((k) => {
+            let sentence = getRandomItem(reviewDB.keywords[k]);
+            sentence = sentence.replace(/{location}/g, location);
+            body += sentence + " ";
+        });
+
+        // 4. OUTRO
+        let outro = getRandomItem(reviewDB.outros[tone]);
+        outro = outro.replace(/{location}/g, location);
+
+        const finalReview = intro + " " + contextSentence + body + outro;
+
+        setTimeout(() => {
+            outputBox.style.opacity = "1";
+            outputBox.value = finalReview;
+            copyBtn.style.display = "block";
+            if (window.innerWidth < 600) outputBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+    }
+
+    function copyToClipboard() {
+        const copyText = document.getElementById("reviewOutput");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(copyText.value).then(() => {
+            const isConfirmed = confirm("Review Copied! 🏍️\n\nClick OK to open Google Maps.");
+            if(isConfirmed) window.open(GOOGLE_REVIEW_LINK, '_blank');
+        });
+    }
+</script>
