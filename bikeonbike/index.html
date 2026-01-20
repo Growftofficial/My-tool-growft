@@ -1,4 +1,7 @@
-<meta charset="UTF-8">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Feedback - Bike on Bike</title>
     <style>
@@ -190,7 +193,7 @@
                 <select id="toneSelect">
                     <option value="Professional">Professional 👔</option>
                     <option value="Friendly">Friendly 😃</option>
-                    <option value="Short">Short &amp; Sweet 👌</option>
+                    <option value="Short">Short & Sweet 👌</option>
                     <option value="Grateful">Grateful 🙏</option>
                 </select>
             </div>
@@ -231,7 +234,7 @@
             <option value="Oil Filter Replacement">Oil Filter Replacement</option>
             <option value="Air Filter Cleaning">Air Filter Cleaning</option>
             <option value="Coolant Top-up">Coolant Top-up</option>
-            <option value="Chain Cleaning &amp; Lubrication">Chain Cleaning &amp; Lubrication</option>
+            <option value="Chain Cleaning & Lubrication">Chain Cleaning & Lubrication</option>
             <option value="Chain Sprocket Kit Replacement">Chain Sprocket Replacement</option>
             <option value="Clutch Plate Assembly Replacement">Clutch Plate Replacement</option>
             <option value="Battery Replacement">Battery Replacement</option>
@@ -256,7 +259,17 @@
 
         <label style="clear:both;">Select what you liked (Pick 3-4)</label>
 
-        <div class="category-header">DOORSTEP &amp; CONVENIENCE</div>
+        <div class="category-header">TOP RATED SEARCHES</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Garage')">🏆 Best Bike Garage</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Two Wheeler')">🛵 Best Two Wheeler Shop</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Service Center')">🏢 Best Service Center</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Motorcycle')">🏍️ Best Motorcycle Repair</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Mechanic')">👨‍🔧 Best Bike Mechanic</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Scooter')">🛴 Best Scooter Repair</div>
+        </div>
+
+        <div class="category-header">DOORSTEP & CONVENIENCE</div>
         <div class="keywords-container">
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Doorstep Service')">🏠 Doorstep Service</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Online Booking')">📲 Online Booking</div>
@@ -265,7 +278,7 @@
             <div class="keyword-chip" onclick="toggleKeyword(this, '24/7 Support')">🕒 24/7 Repair</div>
         </div>
 
-        <div class="category-header">REPAIR &amp; QUALITY</div>
+        <div class="category-header">REPAIR & QUALITY</div>
         <div class="keywords-container">
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Repair')">🔧 Best Bike Repair</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Oil Change')">🛢️ Oil Change at Home</div>
@@ -291,9 +304,9 @@
 
         <button class="action-btn" onclick="generateReview()">🚀 Generate Review</button>
 
-        <textarea id="reviewOutput" style="width:100%; height:130px; margin-top:15px; border-radius:8px; padding:10px; border:1px solid #d1d5db; display:none; background:#fff;" readonly=""></textarea>
+        <textarea id="reviewOutput" style="width:100%; height:130px; margin-top:15px; border-radius:8px; padding:10px; border:1px solid #d1d5db; display:none; background:#fff;" readonly></textarea>
         
-        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy &amp; Open Google</button>
+        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy & Open Google</button>
     </div>
 
     <div class="footer">
@@ -499,6 +512,15 @@
 
         // KEYWORD SENTENCES
         keywords: {
+            // NEWLY ADDED TOP RATED KEYWORDS
+            "Best Garage": ["This is hands down the best bike garage in {location}.", "Finally found the best bike garage for my needs.", "One of the best bike garages I have visited."],
+            "Best Two Wheeler": ["If you need the best two wheeler repair shop, come here.", "Truly the best two wheeler repair shop in the area.", "Top quality work at this best two wheeler repair shop."],
+            "Best Service Center": ["The best bike service center in {location} for sure.", "Professionalism makes them the best bike service center.", "Rated as the best bike service center for a reason."],
+            "Best Motorcycle": ["Expert mechanics make this the best motorcycle repair shop.", "My search for the best motorcycle repair shop ended here.", "Highly recommended as the best motorcycle repair shop."],
+            "Best Mechanic": ["Met the best bike mechanic here, very knowledgeable.", "The best bike mechanic I have ever dealt with.", "Friendly and skilled, truly the best bike mechanic."],
+            "Best Scooter": ["Best scooter repair shop in {location}.", "They did the best scooter repair job on my vehicle.", "For any scooter issues, this is the best scooter repair place."],
+
+            // EXISTING KEYWORDS
             "Doorstep Service": ["The doorstep bike service is a game changer.", "Loved the convenience of getting bike service at home.", "Mechanic came to my door in {location} and fixed everything."],
             "Online Booking": ["Online bike service booking was very easy.", "Booked online and they arrived on time.", "The app/website booking process is smooth."],
             "No Hassle": ["There was absolutely no hassle, very fast service.", "Hassle-free experience from booking to delivery.", "Enjoyed the no hassle service at my home."],
@@ -600,3 +622,6 @@
         });
     }
 </script>
+
+</body>
+</html>
