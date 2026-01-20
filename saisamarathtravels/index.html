@@ -1,4 +1,7 @@
-<meta charset="UTF-8">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Feedback - Sai Samarth Travels</title>
     <style>
@@ -7,7 +10,7 @@
             --primary: #2563eb; /* Royal Blue */
             --primary-light: #60a5fa; /* Light Blue */
             --accent: #f59e0b; /* Taxi Yellow/Amber */
-            --bg-color: #f1f5f9; /* Slate Light */
+            --bg-color: #f8fafc; /* Slate Light */
             --card-bg: #ffffff;
             --gold: #fbbf24;
             --gray: #475569;
@@ -51,7 +54,7 @@
         /* --- INPUTS & SELECTS --- */
         select, input {
             width: 100%; padding: 12px; border-radius: 8px;
-            border: 1px solid #cbd5e1; background: #f8fafc;
+            border: 1px solid #cbd5e1; background: #f1f5f9;
             font-size: 15px; outline: none; margin-bottom: 10px;
             color: var(--text-dark);
         }
@@ -129,16 +132,16 @@
         .footer a { color: var(--primary); text-decoration: none; font-weight: 700; }
         .footer-text { margin-top: 5px; line-height: 1.6; }
     </style>
-
-
+</head>
+<body>
 
 <div class="container">
     
     <h1>Sai Samarth Travels</h1>
-    <div class="tagline">🚖 Safe &amp; Reliable Journeys</div>
+    <div class="tagline">🚖 Safe & Reliable Journeys</div>
     
     <div>
-        <a href="tel:+919870114459" class="phone-link">📞 Call Us Now</a>
+        <a href="tel:+919870114459" class="phone-link">📞 +91 70203 70561</a>
     </div>
 
     <div id="ratingScreen" class="fade-in">
@@ -178,9 +181,16 @@
         
         <div style="display: flex; gap: 10px;">
             <div style="flex:1;">
-                <label style="margin-top:0;">City</label>
+                <label style="margin-top:0;">Route / Location</label>
                 <select id="locationSelect">
                     <option value="Nashik">Nashik</option>
+                    <option value="Nashik to Pune">Nashik to Pune</option>
+                    <option value="Nashik to Mumbai">Nashik to Mumbai</option>
+                    <option value="Nashik to Shirdi">Nashik to Shirdi</option>
+                    <option value="Nashik to Akkalkot">Nashik to Akkalkot</option>
+                    <option value="Nashik to Tuljapur">Nashik to Tuljapur</option>
+                    <option value="Nashik to Konkan">Nashik to Konkan</option>
+                    <option value="Nashik to Trimbakeshwar">Nashik to Trimbakeshwar</option>
                     <option value="Maharashtra">Maharashtra</option>
                 </select>
             </div>
@@ -189,7 +199,7 @@
                 <select id="toneSelect">
                     <option value="Professional">Professional 👔</option>
                     <option value="Friendly">Friendly 😃</option>
-                    <option value="Short">Short &amp; Sweet 👌</option>
+                    <option value="Short">Short & Sweet 👌</option>
                     <option value="Grateful">Grateful 🙏</option>
                 </select>
             </div>
@@ -213,29 +223,31 @@
 
         <label style="clear:both;">Select what you liked (Pick 3-4)</label>
 
-        <div class="category-header">BOOKING &amp; SERVICE</div>
+        <div class="category-header">BOOKING & SERVICE</div>
         <div class="keywords-container">
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Taxi Service')">🏆 Best Taxi Service</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Online Taxi Booking')">📱 Online Taxi Booking</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Travel Agency')">🏢 Best Travel Agency</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'No Hassle')">✨ No Hassle Service</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Reasonable Rates')">💰 Reasonable Rates</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Car Rental')">🚘 Best Car Rental</div>
         </div>
 
         <div class="category-header">RIDE QUALITY</div>
         <div class="keywords-container">
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Safe Drive')">🛡️ Safe Drive</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Professional Driver')">👨‍✈️ Professional Driver</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Clean Cab')">✨ Clean Cab</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Friendly Welcoming')">👋 Friendly Staff</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Fastest Service')">⚡ Fastest Service</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'City Tour')">🏙️ City Tour Cab</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Sightseeing Cab')">📸 Sightseeing</div>
         </div>
 
         <button class="action-btn" onclick="generateReview()">🚀 Generate Review</button>
 
-        <textarea id="reviewOutput" style="width:100%; height:130px; margin-top:15px; border-radius:8px; padding:10px; border:1px solid #cbd5e1; display:none; background:#fff;" readonly=""></textarea>
+        <textarea id="reviewOutput" style="width:100%; height:130px; margin-top:15px; border-radius:8px; padding:10px; border:1px solid #cbd5e1; display:none; background:#fff;" readonly></textarea>
         
-        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy &amp; Open Google</button>
+        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy & Open Google</button>
     </div>
 
     <div class="footer">
@@ -306,31 +318,33 @@
         // 40+ INTROS SPLIT ACROSS TONES
         intros: {
             "Professional": [
-                "I recently booked a trip with Sai Samarth Travels in {location}.",
+                "I recently booked a trip with Sai Samarth Travels for {location}.",
                 "We engaged Sai Samarth Travels for a journey in {location}.",
                 "If you need a reliable taxi service in {location}, this is the one.",
-                "Excellent cab services provided by Sai Samarth Travels.",
+                "Excellent cab services provided by Sai Samarth Travels in {location}.",
                 "Very professional travel agency operating in {location}.",
-                "I highly recommend Sai Samarth Travels for anyone in {location}.",
+                "I highly recommend Sai Samarth Travels for anyone traveling in {location}.",
                 "Top quality driving and service delivered in {location}.",
                 "Found them to be the most professional cab service in {location}.",
-                "They handled our outstation trip from {location} very professionally.",
-                "Reliable and safe taxi service in {location}."
+                "They handled our outstation trip for {location} very professionally.",
+                "Reliable and safe taxi service for {location}.",
+                "Our experience with Sai Samarth Travels in {location} was seamless."
             ],
             "Friendly": [
                 "Had an amazing trip with Sai Samarth Travels in {location}! 🚗",
-                "Just finished a great ride with them in {location}, super happy!",
+                "Just finished a great ride with them for {location}, super happy!",
                 "Best taxi service in {location} area!",
                 "They made my family trip so comfortable in {location}.",
                 "So happy with the service provided by Sai Samarth Travels.",
                 "Very polite driver and smooth ride in {location}.",
-                "Loved the clean car and safe driving! Best in {location}.",
+                "Loved the clean car and safe driving! Best for {location}.",
                 "My journey in {location} was perfect thanks to them.",
                 "Super friendly driver and great experience.",
-                "Wow! The service they provided in {location} was top class."
+                "Wow! The service they provided for {location} was top class.",
+                "Really nice people and safe travel service."
             ],
             "Short": [
-                "Best taxi service in {location}.",
+                "Best taxi service for {location}.",
                 "Good ride experience in {location}.",
                 "Professional cab service.",
                 "Nice and clean car.",
@@ -342,12 +356,12 @@
                 "Five stars for the driver."
             ],
             "Grateful": [
-                "I am really thankful to Sai Samarth Travels for the urgent booking in {location}.",
+                "I am really thankful to Sai Samarth Travels for the urgent booking for {location}.",
                 "They saved my day with a quick cab arrangement in {location}.",
                 "Grateful for the safe drive and honest pricing.",
                 "Thanks a lot for the comfortable journey in {location}.",
                 "Appreciate the professional behavior of the staff.",
-                "Thank you for reaching on time in {location}.",
+                "Thank you for reaching on time for {location} trip.",
                 "So glad I found a safe taxi service in {location}.",
                 "Thanks for the smooth ride.",
                 "Really appreciate the clean vehicle.",
@@ -432,7 +446,9 @@
             "No Hassle": ["There was no hassle at all during the booking.", "Fast service with no hassle.", "A completely no-hassle travel experience."],
             "Fastest Service": ["Impressed by the fastest service.", "They provide the fastest service in {location}.", "Quick response and fastest service delivery."],
             "Affordable Price": ["Very affordable price for such good quality.", "Luxury cars at an affordable price.", "Travelled comfortably at an affordable price."],
-            "Clean Cab": ["The cab was sparkling clean and hygienic.", "Appreciated the clean cab and fresh smell.", "Very well maintained and clean cab."]
+            "Best Car Rental": ["Best car rental service I have experienced.", "For car rental needs, they are the best.", "Premium cars available for rental."],
+            "Friendly Welcoming": ["The staff was very friendly and welcoming.", "Loved the friendly welcoming nature of the driver.", "Warm and friendly welcoming service."],
+            "Sightseeing Cab": ["The sightseeing cab package was excellent.", "Driver guided us well during the sightseeing.", "Best sightseeing cab service for tourists."]
         }
     };
 
@@ -479,7 +495,8 @@
                 `We travelled in a ${vehicle} and it was very comfortable.`,
                 `The ${vehicle} was clean and in great condition.`,
                 `We booked a ${vehicle} and the ride was smooth.`,
-                `The condition of the ${vehicle} was excellent.`
+                `The condition of the ${vehicle} was excellent.`,
+                `Very happy with the ${vehicle} they provided.`
             ];
             vehicleSentence = getRandomItem(vSentences) + " ";
         }
@@ -520,3 +537,7 @@
         });
     }
 </script>
+
+</body>
+</html>
+      
