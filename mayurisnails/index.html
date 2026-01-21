@@ -1,0 +1,501 @@
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Feedback - MAYURI Nail's Studio </title>
+    <style>
+        /* --- THEME: GLAMOROUS PINK & CHIC --- */
+        :root {
+            --primary: #db2777; /* Deep Pink */
+            --primary-light: #fce7f3; /* Light Pink Background */
+            --accent: #be185d; /* Dark Rose */
+            --bg-color: #fff1f2; /* Rose White */
+            --card-bg: #ffffff;
+            --gold: #fbbf24;
+            --text-main: #374151;
+            --text-sub: #6b7280;
+        }
+
+        /* --- RESET & BODY --- */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0; padding: 20px 10px;
+            min-height: 100vh; display: flex;
+            justify-content: center; align-items: flex-start;
+        }
+
+        /* --- CONTAINER --- */
+        .container {
+            background: var(--card-bg); width: 100%; max-width: 500px;
+            padding: 25px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(219, 39, 119, 0.15);
+            border-top: 6px solid var(--primary); margin: auto;
+            text-align: center;
+        }
+
+        /* --- HEADER --- */
+        h1 { color: var(--primary); margin: 5px 0 2px 0; font-size: 26px; font-weight: 800; }
+        .location { color: var(--accent); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+        
+        p { color: var(--text-sub); font-size: 15px; margin-bottom: 20px; line-height: 1.5; }
+
+        /* --- INPUTS & SELECTS --- */
+        select, input {
+            width: 100%; padding: 12px; border-radius: 12px;
+            border: 1px solid #fbcfe8; background: #fff;
+            font-size: 15px; outline: none; margin-bottom: 10px;
+            color: var(--text-main);
+        }
+        select:focus, input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(219, 39, 119, 0.1); }
+        
+        label { 
+            font-weight: 700; display: block; margin-top: 15px; margin-bottom: 8px; 
+            color: var(--text-main); font-size: 12px; text-transform: uppercase; text-align: left; letter-spacing: 0.5px;
+        }
+
+        /* --- STAR RATING --- */
+        .star-container {
+            display: flex; justify-content: center; gap: 8px; margin: 20px 0;
+            direction: ltr;
+        }
+        .star {
+            font-size: 42px; color: #e5e7eb; cursor: pointer; transition: transform 0.2s, color 0.2s;
+        }
+        .star.selected { color: var(--gold); }
+        .star:hover { transform: scale(1.15); }
+
+        /* --- BUTTONS --- */
+        .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
+        .exp-btn {
+            padding: 12px 20px; border: 1px solid #fbcfe8; border-radius: 12px;
+            background: #fff; cursor: pointer; font-weight: 600; color: var(--text-sub);
+            flex: 1; max-width: 140px; transition: 0.2s; font-size: 14px;
+        }
+        .exp-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(219, 39, 119, 0.3); }
+        .exp-btn.bad-active { background: #ef4444; color: white; border-color: #ef4444; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3); }
+
+        .action-btn {
+            width: 100%; padding: 14px; background: linear-gradient(135deg, #db2777 0%, #be185d 100%);
+            color: white; border: none; border-radius: 12px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(219, 39, 119, 0.2); margin-top: 10px;
+        }
+        .action-btn:active { transform: scale(0.98); }
+
+        /* --- PRIVATE FEEDBACK --- */
+        textarea.feedback-box {
+            width: 100%; height: 120px; padding: 12px;
+            border: 1px solid #fbcfe8; border-radius: 12px; resize: none;
+            font-family: inherit; margin-bottom: 15px; background: #fff;
+        }
+
+        /* --- AI TOOL STYLES --- */
+        .ai-tool-wrapper { text-align: left; display: none; }
+        
+        .category-header {
+            font-size: 11px; color: var(--primary); margin: 15px 0 8px 0; font-weight: 800; letter-spacing: 0.5px; border-bottom: 1px dashed #fbcfe8; padding-bottom: 4px;
+        }
+        
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 5px; }
+        .keyword-chip { 
+            padding: 8px 12px; background-color: #fff0f7; border-radius: 20px; 
+            font-size: 12px; font-weight: 600; cursor: pointer; 
+            border: 1px solid #f9a8d4; color: var(--primary); 
+            flex-grow: 1; text-align: center; transition: 0.2s;
+        }
+        .keyword-chip.active { background-color: var(--primary); color: white; border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 3px 8px rgba(219, 39, 119, 0.25); }
+
+        .copy-btn { width: 100%; padding: 12px; background-color: #059669; color: white; border: none; border-radius: 12px; margin-top: 15px; font-weight: 600; font-size: 15px; cursor: pointer; display: none; box-shadow: 0 4px 6px rgba(5, 150, 105, 0.25); }
+
+        /* --- UTILS --- */
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .toggle-name { font-size: 13px; color: var(--primary); text-decoration: underline; cursor: pointer; float: right; margin-top: 5px; border: none; background: none; }
+
+        /* --- FOOTER --- */
+        .footer { margin-top: 35px; text-align: center; font-size: 12px; color: #9ca3af; border-top: 1px solid #f3f4f6; padding-top: 20px; }
+        .footer-logo { display: block; margin: 0 auto 8px auto; max-height: 30px; width: auto; opacity: 0.8; }
+        .footer a { color: var(--primary); text-decoration: none; font-weight: 700; }
+        .footer-text { margin-top: 5px; line-height: 1.6; }
+    </style>
+
+
+
+<div class="container">
+    
+    <h1>MAYURI Nail's</h1>
+    <div class="location">💅 Lashes Studio &amp; Academy</div>
+
+    <div id="ratingScreen" class="fade-in">
+        <p>How was your experience at our studio?</p>
+
+        <div class="star-container">
+            <span class="star" onclick="rate(1)">★</span>
+            <span class="star" onclick="rate(2)">★</span>
+            <span class="star" onclick="rate(3)">★</span>
+            <span class="star" onclick="rate(4)">★</span>
+            <span class="star" onclick="rate(5)">★</span>
+        </div>
+
+        <div class="experience-btns">
+            <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Not Happy 😞</button>
+            <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Happy 😍</button>
+        </div>
+
+        <button class="action-btn" onclick="processRating()">Next Step ➡</button>
+    </div>
+
+    <div id="privateFeedbackScreen" class="hidden fade-in">
+        <h2 style="color:var(--text-main);">We are sorry! 😔</h2>
+        <p>Please tell us how we can improve. Your feedback is sent directly to Mayuri.</p>
+        <textarea id="privateFeedbackText" class="feedback-box" placeholder="Describe the issue..."></textarea>
+        <button class="action-btn" style="background:#4b5563;" onclick="submitPrivateFeedback()">Submit Feedback</button>
+    </div>
+
+    <div id="thankYouScreen" class="hidden fade-in">
+        <div style="font-size: 50px; margin-bottom:10px;">✅</div>
+        <h2 style="color:var(--text-main);">Thank You!</h2>
+        <p>Your feedback has been submitted successfully.</p>
+    </div>
+
+    <div id="aiToolScreen" class="ai-tool-wrapper fade-in">
+        <p style="text-align:center; font-weight:bold; color:var(--primary); margin-bottom: 20px;">✨ Create your review in 1 click!</p>
+        
+        <div style="display: flex; gap: 10px;">
+            <div style="flex:1;">
+                <label style="margin-top:0;">Location</label>
+                <select id="locationSelect">
+                    <option value="Kandivali">Kandivali</option>
+                    <option value="Charkop Sector 3">Charkop Sector 3</option>
+                    <option value="Mumbai">Mumbai</option>
+                </select>
+            </div>
+            <div style="flex:1;">
+                <label style="margin-top:0;">Tone</label>
+                <select id="toneSelect">
+                    <option value="Glamorous">Glamorous ✨</option>
+                    <option value="Professional">Professional 💼</option>
+                    <option value="Sweet">Sweet/Friendly 🥰</option>
+                    <option value="Short">Short &amp; Sweet 👌</option>
+                </select>
+            </div>
+        </div>
+
+        <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
+        <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
+            <input type="text" id="userName" placeholder="Your Name (Optional)">
+        </div>
+
+        <label style="clear:both;">Select what you liked (Pick 3-4)</label>
+
+        <div class="category-header">TRENDING NAIL ART</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Nuance')">🎨 Nuance Nails</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Velvet Cat-Eye')">🐱 Velvet/Cat-Eye Chrome</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Baccarat')">💎 Baccarat Nails</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Micro-French')">⬜ Micro-French</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, '3D Jelly')">🌸 3D Jelly Florals</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Pantone')">🌈 Pantone Color</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Micro-Minimalism')">✨ Micro-Minimalism</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Single Dot')">⚫ Single Dot</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Negative Space')">🌗 Negative Space</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Matcha Green')">🍵 Matcha Green</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Plaid Tweed')">🧣 Plaid &amp; Tweed</div>
+        </div>
+
+        <div class="category-header">EXTENSIONS &amp; BASICS</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Gel Polish')">💅 Gel Polish</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Acrylic')">✨ Acrylic Extensions</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Bridal')">👰 Bridal Art</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Gel Overlays')">💎 Gel Overlays</div>
+        </div>
+
+        <div class="category-header">STAFF &amp; CARE</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Mayuri')">👩‍🎨 Mayuri (Polite)</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Mani Pedi')">🦶 Mani-Pedi</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Removal')">🧼 Removal Service</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Luxury Spa')">🌸 Luxury Spa</div>
+        </div>
+
+        <button class="action-btn" onclick="generateReview()">✨ Generate Review</button>
+
+        <textarea id="reviewOutput" style="width:100%; height:130px; margin-top:15px; border-radius:12px; padding:10px; border:1px solid #fbcfe8; display:none; background:#fff;" readonly=""></textarea>
+        
+        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy &amp; Open Google</button>
+    </div>
+
+    <div class="footer">
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft" loading="lazy">
+        
+        <div class="footer-text">
+            Built by <a href="https://growft.net" target="_blank">Growft</a><br>
+            Contact to build your Agent: <a href="tel:+917020370561">7020370561</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- IMPORTANT: REPLACE THIS LINK WITH ACTUAL GOOGLE REVIEW LINK ---
+    const GOOGLE_REVIEW_LINK = "https://www.google.com/search?q=nail+artist+kandivali&sca_esv=20541e4f21a9d7f7&sxsrf=ANbL-n6T25vHZLuvjf051fe2avx8-DEA_Q:1769006339289&udm=1&lsack=A-VwacWsEfG8vr0P2JDdqAM&sa=X&ved=2ahUKEwiFutWT7pySAxVxnq8BHVhIFzUQjGp6BAgqEAA&biw=1920&bih=911&dpr=1&aic=0&lqi=ChVuYWlsIGFydGlzdCBrYW5kaXZhbGlIjoa5j_i6gIAIWh8QABABGAAYAiIVbmFpbCBhcnRpc3Qga2FuZGl2YWxpkgEKbmFpbF9zYWxvbg#lkt=LocalPoiReviews&rlimm=16883908923097402447&lrd=0x3be7b7ce976f22f3:0xea4fb1b5f544cc4f,3,,,,"; 
+    
+    // --- RATING LOGIC ---
+    let currentRating = 0;
+    let currentExp = '';
+
+    function rate(stars) {
+        currentRating = stars;
+        let allStars = document.querySelectorAll('.star');
+        allStars.forEach((star, index) => {
+            star.classList.toggle('selected', index < stars);
+        });
+        if(stars >= 4) selectExp('good');
+        else selectExp('bad');
+    }
+
+    function selectExp(type) {
+        currentExp = type;
+        document.getElementById('btn-good').classList.remove('active');
+        document.getElementById('btn-bad').classList.remove('bad-active');
+        if (type === 'good') document.getElementById('btn-good').classList.add('active');
+        else document.getElementById('btn-bad').classList.add('bad-active');
+    }
+
+    function processRating() {
+        if (currentRating === 0 && currentExp === '') {
+            alert("Please select a rating.");
+            return;
+        }
+        document.getElementById('ratingScreen').classList.add('hidden');
+        
+        let isHappy = (currentRating >= 4) || (currentExp === 'good');
+        
+        if (isHappy) {
+            document.getElementById('aiToolScreen').style.display = 'block';
+        } else {
+            document.getElementById('privateFeedbackScreen').classList.remove('hidden');
+        }
+    }
+
+    function submitPrivateFeedback() {
+        if(document.getElementById('privateFeedbackText').value.trim() === "") {
+            alert("Please write a few words.");
+            return;
+        }
+        document.getElementById('privateFeedbackScreen').classList.add('hidden');
+        document.getElementById('thankYouScreen').classList.remove('hidden');
+    }
+
+    // --- AI GENERATION LOGIC ---
+    let selectedKeywords = [];
+
+    const reviewDB = {
+        // 40+ INTROS SPLIT BY TONE
+        intros: {
+            "Glamorous": [
+                "Just got the most stunning nails done at Mayuri Nail's in {location}!",
+                "Absolutely in love with my new nails! Best studio in {location}.",
+                "Found my happy place for nails at Mayuri's studio in {location}!",
+                "If you want nails that slay, go to Mayuri Nail's in {location}!",
+                "Feeling like a queen after my session at this luxury nail spa in {location}.",
+                "Wow! The nail art here is on another level.",
+                "Finally found the best nail art studio in {location}.",
+                "Glitter, gloss, and perfection! Loved my visit.",
+                "My nails have never looked this beautiful.",
+                "Such a chic and classy vibe at Mayuri Nail's!"
+            ],
+            "Professional": [
+                "I visited Mayuri Nail's, Lashes Studio & Academy in {location} recently.",
+                "Highly professional nail services offered at this {location} studio.",
+                "My experience with the nail artists here was excellent.",
+                "One of the top-rated nail salons in {location} for a reason.",
+                "Standard of hygiene and precision is very high here.",
+                "I booked an appointment for nail extensions and the result was flawless.",
+                "A truly professional nail academy and studio in {location}.",
+                "They use high-quality products for all nail treatments.",
+                "Very satisfied with the service quality.",
+                "The staff is well-trained and professional."
+            ],
+            "Sweet": [
+                "Had such a lovely time getting my nails done in {location}! 🥰",
+                "Mayuri is such a sweetheart, loved the service.",
+                "The cutest nail salon in {location} with amazing staff.",
+                "So happy with how my nails turned out!",
+                "A wonderful pampering session at Mayuri Nail's.",
+                "They treat you with so much love and care here.",
+                "My nails look so pretty, thank you team!",
+                "Best place to relax and get beautiful nails.",
+                "Everyone here is so polite and friendly.",
+                "Sending lots of love to Mayuri for the amazing art!"
+            ],
+            "Short": [
+                "Best nail salon in {location}.",
+                "Great work by Mayuri.",
+                "Beautiful nail art.",
+                "Loved the service.",
+                "Highly recommended.",
+                "Top rated studio.",
+                "Amazing nails.",
+                "Good experience.",
+                "Nice staff.",
+                "5 stars."
+            ]
+        },
+
+        // 40+ OUTROS SPLIT BY TONE
+        outros: {
+            "Glamorous": [
+                "Can't stop staring at my nails! 😍",
+                "Will definitely be back for more glam.",
+                "Highly recommended to all fashionistas in {location}!",
+                "My nails are ready for the party!",
+                "Best nail makeover ever.",
+                "Thanks for making my hands look so pretty.",
+                "You guys are magicians!",
+                "Adding this to my favorite spots list.",
+                "Totally worth the visit.",
+                "Love, love, love it!"
+            ],
+            "Professional": [
+                "I highly recommend them for professional nail care.",
+                "Will visit again for a refill.",
+                "A trustworthy studio in {location}.",
+                "5-star rating for the quality and finish.",
+                "Best wishes to Mayuri and the team.",
+                "Definitely the best choice for nail extensions.",
+                "Value for money services.",
+                "Keep up the good work.",
+                "Satisfied with the outcome.",
+                "Great place for bridal nails."
+            ],
+            "Sweet": [
+                "Will come back soon! ❤️",
+                "Thanks for being so kind.",
+                "You guys are the best in {location}.",
+                "So happy with the results.",
+                "Will tell all my friends to come here.",
+                "Thanks Mayuri for the special touch.",
+                "Had a great time.",
+                "See you next month!",
+                "Grateful for the lovely service.",
+                "Much love!"
+            ],
+            "Short": [
+                "Must visit.",
+                "Good job.",
+                "Thank you.",
+                "Great prices.",
+                "Best in town.",
+                "Superb.",
+                "Nice place.",
+                "Recommended.",
+                "Perfect.",
+                "Excellent."
+            ]
+        },
+
+        // KEYWORD SPECIFIC SENTENCES
+        keywords: {
+            // TRENDING STYLES
+            "Nuance": ["The Nuance Nail art was so artistic and subtle.", "Loved the soft color blend of the Nuance Nails.", "Perfect execution of the trendy Nuance Nail style."],
+            "Velvet Cat-Eye": ["The Velvet Cat-Eye Chrome effect is mesmerizing!", "Obsessed with the magnetic Cat-Eye Chrome look.", "The Velvet finish looks so luxurious and shiny."],
+            "Baccarat": ["The Baccarat Nails look so glassy and premium.", "Got the viral Baccarat Nails done here, love it!", "Shiny and perfect Baccarat style nails."],
+            "Micro-French": ["The Micro-French tips look so classy.", "Very precise work on the Micro-French manicure.", "Chic and modern Micro-French nails."],
+            "3D Jelly": ["The 3D Jelly Florals look like real art pieces.", "So cute and bouncy, loved the 3D Jelly Florals.", "Amazing craftsmanship on the 3D Jelly designs."],
+            "Pantone": ["They have the exact Pantone Color shades I wanted.", "The Pantone Color selection is amazing here.", "Got a chic manicure with the latest Pantone Color."],
+            "Micro-Minimalism": ["Loved the clean look of the Micro-Minimalism art.", "Perfect place for elegant Micro-Minimalist designs.", "Simple yet stunning Micro-Minimalism."],
+            "Single Dot": ["The Single Dot design is so cute and minimal.", "Less is more with this perfect Single Dot art.", "Minimalist Single Dot look done perfectly."],
+            "Negative Space": ["The Negative Space nail art is very trendy.", "Creative use of Negative Space in the design.", "Love the modern look of Negative Space nails."],
+            "Matcha Green": ["The Matcha Green shade looks so fresh.", "Got the trending Matcha Green nails done.", "Beautiful application of the Matcha Green color."],
+            "Plaid Tweed": ["The Plaid & Tweed texture looks so realistic.", "Perfect winter vibes with Plaid & Tweed art.", "Detailed work on the Plaid design."],
+
+            // STAFF & MAYURI
+            "Mayuri": ["Mayuri was very polite and made me feel comfortable.", "Much love for Mayuri's talent and behavior.", "Mayuri personally ensured my nails looked perfect.", "Met Mayuri there, she is so sweet and professional."],
+            "Best Studio": ["Hands down the best nail studio in {location}.", "Truly a top-rated nail art studio.", "Best nail salon experience I've had."],
+            "Reasonable": ["Got luxury service at a reasonable rate.", "Affordable prices for such high quality work.", "Rates are very reasonable for the quality."],
+
+            // NAIL ART & EXTENSIONS (BASIC)
+            "Gel Polish": ["The gel nail polish application was smooth and shiny.", "Loved the variety of gel polish colors.", "Long-lasting gel polish finish."],
+            "Acrylic": ["The acrylic nail extensions look so natural.", "Best place for acrylic extensions in {location}.", "Durable and beautiful acrylic nails."],
+            "Bridal": ["Best bridal nail art for the big day.", "They created the perfect bridal look for my hands.", "Highly recommend for bridal nail packages."],
+            "Gel Overlays": ["Got gel overlays done, very happy with the result.", "They did a great job with gel overlays.", "Perfect solution for natural nail growth."],
+
+            // CARE
+            "Mani Pedi": ["The manicure and pedicure session was so relaxing.", "Best mani-pedi service in {location}.", "Hygiene was maintained during the pedicure."],
+            "Removal": ["Nail removal service was gentle and safe.", "Removed my old extensions without damaging natural nails.", "Professional nail removal service."],
+            "Luxury Spa": ["Felt like a luxury nail spa experience.", "Relaxing ambiance and luxury service.", "Premium spa feel."]
+        }
+    };
+
+    // --- UTILS ---
+    function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+    function toggleNameField() { 
+        const field = document.getElementById('nameArea');
+        field.style.display = field.style.display === 'block' ? 'none' : 'block';
+    }
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) {
+            selectedKeywords = selectedKeywords.filter(item => item !== keyword);
+        } else {
+            selectedKeywords.push(keyword);
+        }
+    }
+
+    function generateReview() {
+        const userName = document.getElementById('userName').value.trim();
+        const tone = document.getElementById('toneSelect').value;
+        const location = document.getElementById('locationSelect').value;
+        const outputBox = document.getElementById('reviewOutput');
+        const copyBtn = document.getElementById('copyBtn');
+
+        if (selectedKeywords.length === 0) {
+            alert("Please select at least 2 highlights.");
+            return;
+        }
+        
+        outputBox.style.display = 'block';
+        outputBox.style.opacity = "0.5";
+
+        // 1. INTRO
+        let intro = getRandomItem(reviewDB.intros[tone]);
+        intro = intro.replace(/{location}/g, location);
+        
+        if (userName) intro = `I am ${userName}. ` + intro;
+
+        // 2. BODY
+        let body = "";
+        const shuffledKeywords = selectedKeywords.sort(() => Math.random() - 0.5);
+        shuffledKeywords.forEach((k) => {
+            let sentence = getRandomItem(reviewDB.keywords[k]);
+            sentence = sentence.replace(/{location}/g, location);
+            body += sentence + " ";
+        });
+
+        // 3. OUTRO
+        let outro = getRandomItem(reviewDB.outros[tone]);
+        outro = outro.replace(/{location}/g, location);
+
+        const finalReview = intro + " " + body + outro;
+
+        setTimeout(() => {
+            outputBox.style.opacity = "1";
+            outputBox.value = finalReview;
+            copyBtn.style.display = "block";
+            if (window.innerWidth < 600) outputBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+    }
+
+    function copyToClipboard() {
+        const copyText = document.getElementById("reviewOutput");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(copyText.value).then(() => {
+            const isConfirmed = confirm("Review Copied! 💅\n\nClick OK to open Google Maps.");
+            if(isConfirmed) window.open(GOOGLE_REVIEW_LINK, '_blank');
+        });
+    }
+</script>
