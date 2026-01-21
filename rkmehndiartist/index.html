@@ -1,0 +1,537 @@
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Feedback - R K Mehndi Artist</title>
+    <style>
+        /* --- THEME: MEHNDI & WEDDING (Henna Green, Maroon & Gold) --- */
+        :root {
+            --primary: #386641; /* Henna Green */
+            --primary-light: #6a994e; /* Light Green */
+            --accent: #bc4749; /* Deep Maroon/Red for bridal feel */
+            --bg-color: #f2e8cf; /* Cream/Parchment */
+            --card-bg: #ffffff;
+            --gold: #ffb703;
+            --text-dark: #2c1810;
+        }
+
+        /* --- RESET & BODY --- */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(#dbd3b8 1px, transparent 1px);
+            background-size: 20px 20px;
+            margin: 0; padding: 20px 10px;
+            min-height: 100vh; display: flex;
+            justify-content: center; align-items: flex-start;
+        }
+
+        /* --- CONTAINER --- */
+        .container {
+            background: var(--card-bg); width: 100%; max-width: 500px;
+            padding: 25px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(56, 102, 65, 0.2);
+            border-top: 6px solid var(--accent); margin: auto;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Decorative Element */
+        .container::before {
+            content: "🌿";
+            position: absolute;
+            top: 10px; right: 15px;
+            font-size: 24px;
+            opacity: 0.2;
+        }
+
+        /* --- HEADER --- */
+        h1 { color: var(--accent); margin: 5px 0 2px 0; font-size: 28px; font-weight: 800; font-family: 'Georgia', serif; }
+        .location { color: var(--primary); font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; }
+        
+        /* PHONE NUMBER STYLE */
+        .phone-link {
+            text-decoration: none; color: #fff; background: var(--primary);
+            padding: 10px 20px; border-radius: 25px; display: inline-block;
+            font-size: 15px; font-weight: 600; transition: 0.2s;
+            box-shadow: 0 4px 6px rgba(56, 102, 65, 0.3); margin-bottom: 20px;
+        }
+        .phone-link:hover { transform: translateY(-2px); background: var(--accent); }
+
+        p { color: var(--text-dark); font-size: 15px; margin-bottom: 20px; line-height: 1.5; }
+
+        /* --- INPUTS & SELECTS --- */
+        select, input {
+            width: 100%; padding: 12px; border-radius: 8px;
+            border: 1px solid #d4c5a3; background: #faf9f6;
+            font-size: 15px; outline: none; margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+        select:focus, input:focus { border-color: var(--accent); background: #fff; }
+        
+        label { 
+            font-weight: 700; display: block; margin-top: 12px; margin-bottom: 6px; 
+            color: var(--primary); font-size: 12px; text-transform: uppercase; text-align: left; letter-spacing: 0.5px;
+        }
+
+        /* --- STAR RATING --- */
+        .star-container {
+            display: flex; justify-content: center; gap: 8px; margin: 20px 0;
+            direction: ltr;
+        }
+        .star {
+            font-size: 45px; color: #e0e0e0; cursor: pointer; transition: transform 0.2s, color 0.2s;
+        }
+        .star.selected { color: var(--gold); }
+        .star:hover { transform: scale(1.1); }
+
+        /* --- BUTTONS --- */
+        .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
+        .exp-btn {
+            padding: 12px 20px; border: 1px solid #d4c5a3; border-radius: 8px;
+            background: #fff; cursor: pointer; font-weight: 600; color: var(--text-dark);
+            flex: 1; max-width: 130px; transition: 0.2s;
+        }
+        .exp-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(56, 102, 65, 0.3); }
+        .exp-btn.bad-active { background: #bc4749; color: white; border-color: #bc4749; box-shadow: 0 4px 10px rgba(188, 71, 73, 0.3); }
+
+        .action-btn {
+            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--accent) 0%, #a03032 100%);
+            color: white; border: none; border-radius: 8px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15); margin-top: 10px;
+        }
+        .action-btn:active { transform: scale(0.98); }
+
+        /* --- PRIVATE FEEDBACK --- */
+        textarea.feedback-box {
+            width: 100%; height: 120px; padding: 12px;
+            border: 1px solid #d4c5a3; border-radius: 8px; resize: none;
+            font-family: inherit; margin-bottom: 15px; background: #faf9f6;
+        }
+
+        /* --- AI TOOL STYLES --- */
+        .ai-tool-wrapper { text-align: left; display: none; }
+        
+        .category-header {
+            font-size: 11px; color: var(--accent); margin: 18px 0 8px 0; font-weight: 800; letter-spacing: 0.5px; border-bottom: 1px dashed #d4c5a3; padding-bottom: 4px;
+        }
+        
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 5px; }
+        .keyword-chip { 
+            padding: 8px 14px; background-color: #fff; border-radius: 20px; 
+            font-size: 13px; font-weight: 600; cursor: pointer; 
+            border: 1px solid #d4c5a3; color: var(--primary); 
+            flex-grow: 1; text-align: center; transition: 0.2s;
+        }
+        .keyword-chip.active { background-color: var(--primary); color: white; border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 3px 8px rgba(56, 102, 65, 0.25); }
+
+        .copy-btn { width: 100%; padding: 12px; background-color: #e85d04; color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: 600; font-size: 15px; cursor: pointer; display: none; box-shadow: 0 4px 6px rgba(232, 93, 4, 0.2); }
+
+        /* --- UTILS --- */
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .toggle-name { font-size: 13px; color: var(--accent); text-decoration: underline; cursor: pointer; float: right; margin-top: 5px; border: none; background: none; }
+
+        /* --- FOOTER --- */
+        .footer { margin-top: 35px; text-align: center; font-size: 12px; color: #64748b; border-top: 1px dashed #d4c5a3; padding-top: 15px; }
+        .footer-logo { display: block; margin: 0 auto 5px auto; max-height: 28px; width: auto; opacity: 0.85; }
+        .footer a { color: var(--primary); text-decoration: none; font-weight: 700; }
+        .footer-text { margin-top: 5px; line-height: 1.6; }
+    </style>
+
+
+
+<div class="container">
+    
+    <h1>R K Mehndi Artist</h1>
+    <div class="location">✨ Jaipur, Rajasthan ✨</div>
+    
+    <div>
+        <a href="tel:+917425899728" class="phone-link">📞 Book Appointment</a>
+    </div>
+
+    <div id="ratingScreen" class="fade-in">
+        <p>How was your Mehndi experience with us?</p>
+
+        <div class="star-container">
+            <span class="star" onclick="rate(1)">★</span>
+            <span class="star" onclick="rate(2)">★</span>
+            <span class="star" onclick="rate(3)">★</span>
+            <span class="star" onclick="rate(4)">★</span>
+            <span class="star" onclick="rate(5)">★</span>
+        </div>
+
+        <div class="experience-btns">
+            <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Not Good 😞</button>
+            <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Loved it! 😍</button>
+        </div>
+
+        <button class="action-btn" onclick="processRating()">Next Step ➡</button>
+    </div>
+
+    <div id="privateFeedbackScreen" class="hidden fade-in">
+        <h2 style="color:var(--accent);">We are sorry! 😔</h2>
+        <p>We strive for perfection in our art. Please tell us what went wrong so we can fix it.</p>
+        <textarea id="privateFeedbackText" class="feedback-box" placeholder="Please describe the issue..."></textarea>
+        <button class="action-btn" style="background:#4b5563;" onclick="submitPrivateFeedback()">Submit Feedback</button>
+    </div>
+
+    <div id="thankYouScreen" class="hidden fade-in">
+        <div style="font-size: 50px; margin-bottom:10px;">✅</div>
+        <h2 style="color:var(--primary);">Thank You!</h2>
+        <p>Your feedback has been submitted successfully.</p>
+    </div>
+
+    <div id="aiToolScreen" class="ai-tool-wrapper fade-in">
+        <p style="text-align:center; font-weight:bold; color:var(--primary); margin-bottom: 20px;">✨ Write a review in 1 click!</p>
+        
+        <div style="display: flex; gap: 10px;">
+            <div style="flex:1;">
+                <label style="margin-top:0;">Location</label>
+                <select id="locationSelect">
+                    <option value="Jaipur">Jaipur</option>
+                    <option value="Rajasthan">Rajasthan</option>
+                    <option value="Mansarovar, Jaipur">Mansarovar</option>
+                    <option value="Vaishali Nagar">Vaishali Nagar</option>
+                    <option value="Malviya Nagar">Malviya Nagar</option>
+                </select>
+            </div>
+            <div style="flex:1;">
+                <label style="margin-top:0;">Tone</label>
+                <select id="toneSelect">
+                    <option value="Grateful">Grateful 🙏</option>
+                    <option value="Professional">Professional 💼</option>
+                    <option value="Friendly">Friendly 😃</option>
+                    <option value="Short">Short &amp; Sweet 👌</option>
+                </select>
+            </div>
+        </div>
+
+        <label>Which Mehndi Design did you get?</label>
+        <select id="designSelect">
+            <option value="Bridal">Bridal Mehndi 👰</option>
+            <option value="Bharwa">Bharwa Mehndi ✨</option>
+            <option value="Arabic">Arabic Mehndi 🌿</option>
+            <option value="Portrait">Portrait Mehndi 🎨</option>
+            <option value="3D">3D Mehndi Design 💠</option>
+            <option value="Leg">Leg/Feet Mehndi 🦶</option>
+            <option value="Baby Shower">Baby Shower Mehndi 🤰</option>
+        </select>
+
+        <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
+        <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
+            <input type="text" id="userName" placeholder="Your Name (Optional)">
+        </div>
+
+        <label style="clear:both; margin-top: 15px;">Select highlights (Pick 3-4)</label>
+
+        <div class="category-header">ARTIST QUALITY</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Mehndi artist')">🏆 Best Artist</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Professional henna')">🖌️ Professional</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Portrait mehndi')">🎨 Portrait Expert</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Home service')">🏠 Home Service</div>
+        </div>
+
+        <div class="category-header">DESIGN &amp; STYLE</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Bridal mehndi')">👰 Best Bridal</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Minimalist')">✨ Minimalist</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Peacock mehndi')">🦚 Peacock Design</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Jewellery mehndi')">💍 Jewellery Style</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Back hand')">🤚 Back Hand</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Leg mehndi')">🦶 Leg Designs</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Abstract')">🌀 Abstract Art</div>
+        </div>
+
+        <div class="category-header">SPECIALTY &amp; CARE</div>
+        <div class="keywords-container">
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Organic henna')">🌿 Organic Henna</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Chemical-free')">🧪 Chemical-Free</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Groom mehndi')">🤵 Groom Mehndi</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Matching')">💞 Couple Matching</div>
+        </div>
+
+        <button class="action-btn" onclick="generateReview()">🚀 Generate Review</button>
+
+        <textarea id="reviewOutput" style="width:100%; height:130px; margin-top:15px; border-radius:8px; padding:10px; border:1px solid #d4c5a3; display:none; background:#fff;" readonly=""></textarea>
+        
+        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy &amp; Open Google</button>
+    </div>
+
+    <div class="footer">
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft" loading="lazy">
+        
+        <div class="footer-text">
+            Powered by <a href="https://growft.net" target="_blank">Growft</a><br>
+            Contact to build your AI Tool: <a href="tel:+917020370561">7020370561</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- IMPORTANT: REPLACE THIS LINK ---
+    const GOOGLE_REVIEW_LINK = "https://www.google.com/search?q=nail+artist+kandivali&sca_esv=20541e4f21a9d7f7&sxsrf=ANbL-n6T25vHZLuvjf051fe2avx8-DEA_Q:1769006339289&udm=1&lsack=A-VwacWsEfG8vr0P2JDdqAM&sa=X&ved=2ahUKEwiFutWT7pySAxVxnq8BHVhIFzUQjGp6BAgqEAA&biw=1920&bih=911&dpr=1&aic=0&lqi=ChVuYWlsIGFydGlzdCBrYW5kaXZhbGlIjoa5j_i6gIAIWh8QABABGAAYAiIVbmFpbCBhcnRpc3Qga2FuZGl2YWxpkgEKbmFpbF9zYWxvbg#lkt=LocalPoiReviews&rlimm=16883908923097402447&lrd=0x3be7b7ce976f22f3:0xea4fb1b5f544cc4f,3,,,,"; 
+    
+    // --- RATING LOGIC ---
+    let currentRating = 0;
+    let currentExp = '';
+
+    function rate(stars) {
+        currentRating = stars;
+        let allStars = document.querySelectorAll('.star');
+        allStars.forEach((star, index) => {
+            star.classList.toggle('selected', index < stars);
+        });
+        if(stars >= 4) selectExp('good');
+        else selectExp('bad');
+    }
+
+    function selectExp(type) {
+        currentExp = type;
+        document.getElementById('btn-good').classList.remove('active');
+        document.getElementById('btn-bad').classList.remove('bad-active');
+        if (type === 'good') document.getElementById('btn-good').classList.add('active');
+        else document.getElementById('btn-bad').classList.add('bad-active');
+    }
+
+    function processRating() {
+        if (currentRating === 0 && currentExp === '') {
+            alert("Please select a star rating.");
+            return;
+        }
+        document.getElementById('ratingScreen').classList.add('hidden');
+        
+        let isHappy = (currentRating >= 4) || (currentExp === 'good');
+        
+        if (isHappy) {
+            document.getElementById('aiToolScreen').style.display = 'block';
+        } else {
+            document.getElementById('privateFeedbackScreen').classList.remove('hidden');
+        }
+    }
+
+    function submitPrivateFeedback() {
+        if(document.getElementById('privateFeedbackText').value.trim() === "") {
+            alert("Please write a few words.");
+            return;
+        }
+        document.getElementById('privateFeedbackScreen').classList.add('hidden');
+        document.getElementById('thankYouScreen').classList.remove('hidden');
+    }
+
+    // --- AI GENERATION LOGIC ---
+    let selectedKeywords = [];
+
+    const reviewDB = {
+        // OPENING LINES
+        intros: {
+            "Professional": [
+                "I recently booked R K Mehndi Artist for a function in {location}.",
+                "We hired R K Mehndi Artist for our family wedding in {location}.",
+                "If you want professional mehndi services in {location}, R K Artist is the choice.",
+                "Highly professional experience with R K Mehndi Artist in {location}.",
+                "They provided exceptional henna service at our venue in {location}.",
+                "R K Mehndi Artist is a very reliable name in {location} for wedding functions.",
+                "We had a great experience booking them for our event in {location}.",
+                "Their team arrived on time and was very professional throughout.",
+                "One of the most skilled mehndi artists I have found in {location}.",
+                "I highly recommend R K Mehndi Artist for their professionalism."
+            ],
+            "Friendly": [
+                "Loved the vibe and art of R K Mehndi Artist in {location}! 😍",
+                "Such a sweet team and amazing talent here in {location}.",
+                "Had the best time getting my mehndi done by R K Artist!",
+                "They are super friendly and extremely talented artists in {location}.",
+                "R K Mehndi Artist made my special day even more beautiful!",
+                "So happy I chose them for my mehndi function in {location} ❤️.",
+                "The artist is so polite and draws such beautiful designs.",
+                "Amazing experience! They made everyone feel so comfortable.",
+                "Just wow! The team at R K Mehndi Artist is fantastic.",
+                "My absolute favorite mehndi artist in {location}!"
+            ],
+            "Short": [
+                "Best mehndi artist in {location}.",
+                "Great service by R K Mehndi.",
+                "Loved the designs.",
+                "Very professional artist.",
+                "Best henna service in {location}.",
+                "Highly recommended!",
+                "Beautiful work done.",
+                "Good quality henna used.",
+                "Five stars for R K Mehndi Artist.",
+                "Amazing artistic skills."
+            ],
+            "Grateful": [
+                "I am so thankful to R K Mehndi Artist for the beautiful work in {location}.",
+                "Thank you for making my wedding mehndi so special.",
+                "Really appreciate the patience and art of the team.",
+                "Grateful for the chemical-free henna used.",
+                "Thanks to R K Mehndi Artist for accommodating us last minute in {location}.",
+                "I cannot thank them enough for the intricate designs.",
+                "Thank you for the amazing color and stain.",
+                "So glad I found R K Mehndi Artist in {location}.",
+                "Heartfelt thanks for the beautiful bridal mehndi.",
+                "Appreciate the hard work put into my design."
+            ]
+        },
+
+        // CLOSING LINES
+        outros: {
+            "Professional": [
+                "I recommend them for all bridal and party orders in {location}.",
+                "Their precision and speed are commendable.",
+                "Definitely the top choice for mehndi in {location}.",
+                "Will surely book them again for future events.",
+                "A truly professional service worth every penny.",
+                "Quality of work was top-notch.",
+                "They are setting high standards in {location}.",
+                "You can trust them for your big day.",
+                "The color came out dark and beautiful.",
+                "Overall, a very satisfying experience."
+            ],
+            "Friendly": [
+                "Can't wait to book you guys again! 💕",
+                "Everyone loved my mehndi! Thanks!",
+                "You guys are the best in {location}!",
+                "Super happy with the dark stain! 😍",
+                "Will definitely recommend to my friends.",
+                "Keep up the amazing work!",
+                "Loving my hands right now! ✨",
+                "See you at the next wedding!",
+                "Don't look anywhere else, just book them!",
+                "Thanks for making me look beautiful!"
+            ],
+            "Short": [
+                "Must try.",
+                "Recommended.",
+                "Good job.",
+                "5 Stars.",
+                "Best in {location}.",
+                "Great prices.",
+                "Beautiful art.",
+                "Very happy.",
+                "Top quality.",
+                "Superb work."
+            ],
+            "Grateful": [
+                "Thanks once again.",
+                "God bless your hands.",
+                "Truly grateful for the service.",
+                "Thank you for being so patient.",
+                "I will always remember this beautiful art.",
+                "Much appreciated.",
+                "Thanks for the safe and organic henna.",
+                "So thankful for the beautiful color.",
+                "Deeply appreciate the effort.",
+                "Thank you R K team."
+            ]
+        },
+
+        // SPECIFIC KEYWORDS
+        keywords: {
+            "Best Mehndi artist": ["Truly the best mehndi artist in {location}.", "Hands down the most talented artist in town.", "Hard to find such a skilled hand in {location}."],
+            "Best Bridal mehndi": ["The bridal mehndi was intricate and stunning.", "Best choice for bridal henna in {location}.", "My bridal design was exactly what I dreamed of."],
+            "Home service": ["Loved the convenience of their home service.", "They came to my home in {location} and did a great job.", "On-time home service for mehndi."],
+            "Professional henna": ["Used very professional grade henna paste.", "The application was clean and professional.", "A team of professional henna experts."],
+            "Leg mehndi designs": ["The leg mehndi designs were so detailed.", "I loved the work done on my feet.", "Beautiful traditional designs for legs."],
+            "Groom mehndi": ["The groom's mehndi was simple yet elegant.", "They have great designs for grooms too.", "My husband loved his minimalist groom mehndi."],
+            "Minimalist": ["I wanted a minimalist design and they nailed it.", "Perfect for those who like simple and elegant art.", "Beautiful minimalist patterns."],
+            "Matching": ["They created perfect matching designs for the bride and groom.", "Loved the hidden names and matching patterns.", "The coordination in design was beautiful."],
+            "Organic henna": ["So happy they use 100% organic henna.", "The henna smelled natural and was safe.", "Best organic mehndi artist in {location}."],
+            "Chemical-free": ["Safe and chemical-free mehndi suitable for sensitive skin.", "No chemicals used, just pure henna.", "Got a dark stain without any chemicals."],
+            "Portrait mehndi": ["The portrait was a xerox copy! Amazing.", "Experts in portrait mehndi art.", "The face detailing in the mehndi was unbelievable."],
+            "Jewellery mehndi": ["The jewellery style mehndi looked like real ornaments.", "Loved the bracelet and ring style designs.", "Very trendy jewellery mehndi patterns."],
+            "Peacock mehndi": ["The peacock motifs were drawn so beautifully.", "Intricate peacock designs that look traditional.", "Expert in Indian peacock style mehndi."],
+            "Back hand": ["The back hand design was modern and chic.", "Loved the flow of the design on the back of my hand.", "Gorgeous Arabic style back hand work."],
+            "Abstract": ["Unique abstract designs unlike the usual patterns.", "Very creative and abstract art.", "Modern abstract henna for a stylish look."]
+        },
+
+        // DESIGN SPECIFIC SENTENCES (Dynamic injection)
+        designSentences: {
+            "Bridal": "I chose the **Bridal Mehndi** package and the detailing was breathtaking.",
+            "Bharwa": "The **Bharwa Mehndi** was so full and intricate, covering my hands beautifully.",
+            "Arabic": "I went for the **Arabic Mehndi** style and loved the flow and shading.",
+            "Portrait": "The **Portrait Mehndi** work was a masterpiece, looking exactly like the photo.",
+            "3D": "The **3D Mehndi** effect gave such a unique and modern look to my hands.",
+            "Leg": "The **Leg/Feet Mehndi** was applied with such steady hands and precision.",
+            "Baby Shower": "The **Baby Shower** design was so cute and meaningful."
+        }
+    };
+
+    // --- UTILS ---
+    function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+    function toggleNameField() { 
+        const field = document.getElementById('nameArea');
+        field.style.display = field.style.display === 'block' ? 'none' : 'block';
+    }
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) {
+            selectedKeywords = selectedKeywords.filter(item => item !== keyword);
+        } else {
+            selectedKeywords.push(keyword);
+        }
+    }
+
+    function generateReview() {
+        const userName = document.getElementById('userName').value.trim();
+        const tone = document.getElementById('toneSelect').value;
+        const location = document.getElementById('locationSelect').value;
+        const designType = document.getElementById('designSelect').value;
+        const outputBox = document.getElementById('reviewOutput');
+        const copyBtn = document.getElementById('copyBtn');
+
+        if (selectedKeywords.length === 0) {
+            alert("Please select at least 3 highlights.");
+            return;
+        }
+        
+        outputBox.style.display = 'block';
+        outputBox.style.opacity = "0.6";
+
+        // 1. SELECT INTRO
+        let intro = getRandomItem(reviewDB.intros[tone]);
+        intro = intro.replace(/{location}/g, location);
+        if (userName) intro = `I am ${userName}. ` + intro;
+
+        // 2. GET DESIGN SENTENCE
+        let designSent = reviewDB.designSentences[designType] || "";
+
+        // 3. BODY (Keyword Sentences)
+        let body = "";
+        const shuffledKeywords = selectedKeywords.sort(() => Math.random() - 0.5);
+        shuffledKeywords.forEach((k) => {
+            let sentence = getRandomItem(reviewDB.keywords[k]);
+            sentence = sentence.replace(/{location}/g, location);
+            body += sentence + " ";
+        });
+
+        // 4. SELECT OUTRO
+        let outro = getRandomItem(reviewDB.outros[tone]);
+        outro = outro.replace(/{location}/g, location);
+
+        // COMBINE
+        const finalReview = `${intro} ${designSent} ${body} ${outro}`;
+
+        setTimeout(() => {
+            outputBox.style.opacity = "1";
+            outputBox.value = finalReview;
+            copyBtn.style.display = "block";
+            outputBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+    }
+
+    function copyToClipboard() {
+        const copyText = document.getElementById("reviewOutput");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(copyText.value).then(() => {
+            const isConfirmed = confirm("Review Copied! 🌿\n\nClick OK to open Google Maps.");
+            if(isConfirmed) window.open(GOOGLE_REVIEW_LINK, '_blank');
+        });
+    }
+</script>
