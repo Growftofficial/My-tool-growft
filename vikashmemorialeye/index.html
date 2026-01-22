@@ -1,20 +1,24 @@
-<meta charset="UTF-8">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Feedback - Vikash Memorial Eye Hospital</title>
     <style>
-        /* --- THEME: EYE HOSPITAL (Medical Blue & Clean White) --- */
+        /* --- THEME COLORS --- */
         :root {
-            --primary: #0284c7; /* Sky Blue 600 */
-            --primary-dark: #0369a1; /* Sky Blue 700 */
-            --accent: #0ea5e9; /* Sky Blue 500 */
-            --bg-color: #f0f9ff; /* Very Light Blue */
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --bg-color: #f0f9ff;
             --card-bg: #ffffff;
             --text-main: #334155;
             --gold: #fbbf24;
             --gray: #64748b;
+            --red: #ef4444;
+            --green: #22c55e;
         }
 
-        /* --- RESET & BODY --- */
+        /* --- RESET --- */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
@@ -34,47 +38,30 @@
             text-align: center;
         }
 
-        /* --- HEADER --- */
         h1 { color: var(--primary-dark); margin: 5px 0 2px 0; font-size: 24px; font-weight: 800; }
         .location { color: var(--gray); font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
         
-        /* PHONE NUMBER STYLE */
         .phone-link {
             text-decoration: none; color: #fff; background: var(--primary);
             padding: 8px 18px; border-radius: 20px; display: inline-block;
             font-size: 14px; font-weight: 700; transition: 0.2s;
             box-shadow: 0 4px 6px rgba(2, 132, 199, 0.2); margin-bottom: 20px;
         }
-        .phone-link:hover { transform: translateY(-1px); background: var(--primary-dark); }
 
-        p { color: var(--text-main); font-size: 15px; margin-bottom: 20px; line-height: 1.5; }
-
-        /* --- INPUTS & SELECTS --- */
+        /* --- INPUTS --- */
         select, input {
             width: 100%; padding: 12px; border-radius: 8px;
             border: 1px solid #bae6fd; background: #f0f9ff;
             font-size: 14px; outline: none; margin-bottom: 10px;
             color: var(--text-main);
         }
-        select:focus, input:focus { border-color: var(--primary); background: #fff; }
-        
-        label { 
-            font-weight: 700; display: block; margin-top: 12px; margin-bottom: 6px; 
-            color: var(--primary-dark); font-size: 12px; text-transform: uppercase; text-align: left; 
-        }
+        label { font-weight: 700; display: block; margin-top: 12px; margin-bottom: 6px; color: var(--primary-dark); font-size: 12px; text-transform: uppercase; text-align: left; }
 
-        /* --- STAR RATING --- */
-        .star-container {
-            display: flex; justify-content: center; gap: 8px; margin: 20px 0;
-            direction: ltr;
-        }
-        .star {
-            font-size: 42px; color: #cbd5e1; cursor: pointer; transition: transform 0.2s, color 0.2s;
-        }
+        /* --- RATING --- */
+        .star-container { display: flex; justify-content: center; gap: 8px; margin: 20px 0; direction: ltr; }
+        .star { font-size: 42px; color: #cbd5e1; cursor: pointer; transition: transform 0.2s, color 0.2s; }
         .star.selected { color: var(--gold); }
-        .star:hover { transform: scale(1.15); }
 
-        /* --- BUTTONS --- */
         .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
         .exp-btn {
             padding: 12px 15px; border: 1px solid #bae6fd; border-radius: 8px;
@@ -90,61 +77,58 @@
             font-size: 16px; font-weight: 700; cursor: pointer;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 10px;
         }
-        .action-btn:active { transform: scale(0.98); }
 
-        /* --- PRIVATE FEEDBACK --- */
-        textarea.feedback-box {
-            width: 100%; height: 120px; padding: 12px;
-            border: 1px solid #bae6fd; border-radius: 8px; resize: none;
-            font-family: inherit; margin-bottom: 15px; background: #f0f9ff;
-        }
-
-        /* --- AI TOOL STYLES --- */
-        .ai-tool-wrapper { text-align: left; display: none; }
-        
-        .category-header {
-            font-size: 11px; color: var(--gray); margin: 15px 0 8px 0; font-weight: 700; letter-spacing: 0.5px; border-bottom: 1px dashed #bae6fd; padding-bottom: 4px;
-        }
-        
-        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 5px; }
+        /* --- CHIPS & TEXT --- */
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
         .keyword-chip { 
             padding: 8px 12px; background-color: #fff; border-radius: 20px; 
             font-size: 12px; font-weight: 600; cursor: pointer; 
             border: 1px solid #bae6fd; color: var(--primary); 
             flex-grow: 1; text-align: center; transition: 0.2s;
         }
-        .keyword-chip.active { background-color: var(--primary); color: white; border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 3px 8px rgba(2, 132, 199, 0.2); }
+        .keyword-chip.active { background-color: var(--primary); color: white; border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 3px 6px rgba(2, 132, 199, 0.2); }
+        
+        .cat-title { width:100%; font-size: 11px; font-weight: 700; color: var(--gray); margin-top: 10px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        .copy-btn { width: 100%; padding: 12px; background-color: #059669; /* Green */ color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: 600; font-size: 15px; cursor: pointer; display: none; box-shadow: 0 4px 6px rgba(5, 150, 105, 0.2); }
+        textarea.feedback-box {
+            width: 100%; height: 120px; padding: 12px;
+            border: 1px solid #bae6fd; border-radius: 8px; resize: none;
+            background: #f0f9ff; margin-bottom: 15px; font-family: inherit;
+        }
 
-        /* --- UTILS --- */
-        .hidden { display: none !important; }
+        .copy-btn { width: 100%; padding: 12px; background-color: var(--green); color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: 600; font-size: 15px; cursor: pointer; display: none; box-shadow: 0 4px 6px rgba(5, 150, 105, 0.2); }
+
+        /* --- ANIMATIONS --- */
         .fade-in { animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
-        .toggle-name { font-size: 13px; color: var(--primary); text-decoration: underline; cursor: pointer; float: right; margin-top: 5px; border: none; background: none; }
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
 
         /* --- FOOTER --- */
         .footer { margin-top: 35px; text-align: center; font-size: 12px; color: #94a3b8; border-top: 1px dashed #cbd5e1; padding-top: 15px; }
         .footer-logo { display: block; margin: 0 auto 5px auto; max-height: 28px; width: auto; opacity: 0.85; }
         .footer a { color: var(--primary); text-decoration: none; font-weight: 700; }
-        .footer-text { margin-top: 5px; line-height: 1.6; }
+        
+        .or-divider { text-align: center; font-size: 12px; color: var(--gray); margin: 20px 0; position: relative; }
+        .or-divider:before { content: ""; position: absolute; left: 0; top: 50%; width: 45%; height: 1px; background: #cbd5e1; }
+        .or-divider:after { content: ""; position: absolute; right: 0; top: 50%; width: 45%; height: 1px; background: #cbd5e1; }
+        
+        .toggle-name { font-size: 13px; color: var(--primary); text-decoration: underline; cursor: pointer; float: right; margin-top: 5px; border: none; background: none; }
     </style>
-
-
+</head>
+<body>
 
 <div class="container">
     
     <h1>Vikash Memorial Eye Hospital</h1>
-    <div class="location">👁️ Phagi • Chaksu • Rajasthan</div>
-    
-    <div>
-        <a href="tel:+919001664477" class="phone-link">📞 Call Hospital</a>
-    </div>
+    <div class="location">👁️ Chaksu • Rajasthan</div>
+    <div><a href="tel:+919001664477" class="phone-link">📞 Call Hospital</a></div>
 
     <div id="ratingScreen" class="fade-in">
         <p>How was your eye check-up experience?</p>
-
         <div class="star-container">
             <span class="star" onclick="rate(1)">★</span>
             <span class="star" onclick="rate(2)">★</span>
@@ -152,47 +136,60 @@
             <span class="star" onclick="rate(4)">★</span>
             <span class="star" onclick="rate(5)">★</span>
         </div>
-
         <div class="experience-btns">
             <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Needs Improvement 😟</button>
             <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Great Service 👓</button>
         </div>
-
         <button class="action-btn" onclick="processRating()">Next Step ➡</button>
     </div>
 
-    <div id="privateFeedbackScreen" class="hidden fade-in">
+    <div id="privateFeedbackScreen" class="fade-in" style="display: none;">
         <h2 style="color:var(--text-main);">We are sorry! 😔</h2>
         <p>Please tell us how we can improve your patient experience.</p>
         <textarea id="privateFeedbackText" class="feedback-box" placeholder="Describe the issue..."></textarea>
         <button class="action-btn" style="background:var(--gray);" onclick="submitPrivateFeedback()">Submit Feedback</button>
     </div>
 
-    <div id="thankYouScreen" class="hidden fade-in">
+    <div id="thankYouScreen" class="fade-in" style="display: none;">
         <div style="font-size: 50px; margin-bottom:10px;">✅</div>
         <h2 style="color:var(--text-main);">Thank You!</h2>
         <p>Your feedback has been submitted successfully.</p>
     </div>
 
-    <div id="aiToolScreen" class="ai-tool-wrapper fade-in">
-        <p style="text-align:center; font-weight:bold; color:var(--primary); margin-bottom: 20px;">✨ Create your review in 1 click!</p>
+    <div id="aiToolScreen" class="fade-in" style="display: none; text-align: left;">
         
+        <div style="background: #e0f2fe; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px dashed var(--primary);">
+            <p style="margin:0 0 10px 0; font-size:13px; font-weight:700; color:var(--primary-dark);">
+                🎙️ Speak Hindi -> Get English Review
+            </p>
+            <div style="display:flex; gap:10px; align-items:center;">
+                <button onclick="startListening()" id="micBtn" style="background:var(--primary); color:white; border:none; width:50px; height:50px; border-radius:50%; font-size:24px; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.1); transition:0.2s;">🎤</button>
+                <div style="flex:1;">
+                    <p id="statusText" style="font-size:12px; color:var(--gray); margin:0;">
+                        Mic dabayein aur Hindi me bolein...<br>
+                        (Jaise: "Checkup bahut accha hua")
+                    </p>
+                </div>
+            </div>
+            <div id="spokenTextDisplay" style="display:none; margin-top:10px; font-size:12px; font-style:italic; color:var(--primary-dark); background:#fff; padding:8px; border-radius:4px; border-left: 3px solid var(--primary);"></div>
+        </div>
+
+        <div class="or-divider">OR SELECT MANUALLY</div>
+
         <div style="display: flex; gap: 10px;">
             <div style="flex:1;">
                 <label style="margin-top:0;">Location</label>
                 <select id="locationSelect">
-                    <option value="Phagi">Phagi</option>
                     <option value="Chaksu">Chaksu</option>
                     <option value="Rajasthan">Rajasthan</option>
                 </select>
             </div>
             <div style="flex:1;">
-                <label style="margin-top:0;">Tone</label>
-                <select id="toneSelect">
-                    <option value="Professional">Professional 👔</option>
-                    <option value="Friendly">Friendly 😃</option>
-                    <option value="Short">Short &amp; Sweet 👌</option>
-                    <option value="Grateful">Grateful 🙏</option>
+                <label style="margin-top:0;">Language</label>
+                <select id="langSelect">
+                    <option value="en">English</option>
+                    <option value="hi">Hindi (हिंदी)</option>
+                    <option value="hinglish">Hinglish</option>
                 </select>
             </div>
         </div>
@@ -201,19 +198,8 @@
         <select id="procedureSelect">
             <option value="General Checkup">General Eye Check-up</option>
             <option value="Cataract Surgery">Cataract Surgery (Motiyabind)</option>
-            <option value="LASIK">LASIK (Laser Vision Correction)</option>
-            <option value="SMILE">SMILE (Small Incision Lenticule Extraction)</option>
-            <option value="PRK">PRK (Photorefractive Keratectomy)</option>
-            <option value="Contoura Vision">Contoura Vision</option>
-            <option value="ICL">Implantable Collamer Lens (ICL)</option>
-            <option value="MICS">Micro Incision Cataract Surgery</option>
+            <option value="LASIK">LASIK</option>
             <option value="Glaucoma Surgery">Glaucoma Surgery</option>
-            <option value="Retina Surgery">Retina Surgery</option>
-            <option value="Corneal Transplant">Corneal Transplant</option>
-            <option value="Squint Surgery">Strabismus (Squint) Correction</option>
-            <option value="YAG Laser">YAG Laser Capsulotomy</option>
-            <option value="Ptosis Repair">Ptosis Repair (Eyelid Surgery)</option>
-            <option value="Retinal Laser">Retinal Laser Photocoagulation</option>
         </select>
 
         <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
@@ -221,46 +207,47 @@
             <input type="text" id="userName" placeholder="Your Name (Optional)">
         </div>
 
-        <label style="clear:both;">Select what you liked (Pick 3-4)</label>
-
-        <div class="category-header">GENERAL &amp; STAFF</div>
-        <div class="keywords-container">
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Eye hospital')">🏥 Best Eye Hospital</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Eye doctor')">👨‍⚕️ Best Eye Doctor</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best ophthalmologist')">🩺 Top Ophthalmologist</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'proffessional staff')">🤝 Professional Staff</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'friendly welcoming')">👋 Friendly &amp; Welcoming</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Eye Care Center')">💙 Top Care Center</div>
-        </div>
-
-        <div class="category-header">TREATMENT &amp; SPECIALTIES</div>
-        <div class="keywords-container">
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Phacoemulsification surgery')">👁️ Phaco Surgery</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'best Cataract treatment')">🔆 Cataract Treatment</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Cornea specialist doctor')">🔬 Cornea Specialist</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'best eye opticians')">👓 Best Opticians</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Computer vision syndrome')">💻 Computer Vision</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Macular degeneration')">📉 Macular Treatment</div>
-        </div>
-
-        <div class="category-header">SYMPTOMS &amp; SERVICE</div>
-        <div class="keywords-container">
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Red eye treatment')">🔴 Red Eye Treatment</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Why do my eyes hurt')">🤕 Eye Pain Relief</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'retinal detachment')">⚡ Retinal Signs</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Same day eye appointment')">📅 Same Day Appt</div>
-        </div>
-
-        <button class="action-btn" onclick="generateReview()">🚀 Generate Review</button>
-
-        <textarea id="reviewOutput" style="width:100%; height:140px; margin-top:15px; border-radius:8px; padding:10px; border:1px solid #bae6fd; display:none; background:#fff;" readonly=""></textarea>
+        <label style="clear:both;">Select what you liked (Pick 4-5)</label>
         
-        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy &amp; Open Google</button>
+        <div class="keywords-container">
+            <div class="cat-title">Doctor & Staff</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Eye Doctor')">👨‍⚕️ Best Eye Doctor</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Experienced Doctor')">🎓 Experienced Doctor</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Professional Staff')">🤝 Professional Staff</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Friendly Nature')">😊 Friendly Nature</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Good Listener')">👂 Good Listener</div>
+
+            <div class="cat-title">Facilities & Service</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Eye Hospital')">🏥 Best Eye Hospital</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Clean & Hygienic')">✨ Clean & Hygienic</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Fast Service')">⏱️ Fast Service</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Good Management')">📋 Good Management</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Medical Store Inside')">💊 Pharmacy Inside</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Optical Shop')">👓 Optical Shop</div>
+
+            <div class="cat-title">Treatment & Cost</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Successful Treatment')">✅ Successful Treatment</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Painless Surgery')">😌 Painless Surgery</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Affordable Fees')">💰 Affordable Fees</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Latest Machines')">⚙️ Latest Machines</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Ayushman Card')">🏥 Ayushman Card</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Laser Treatment')">⚡ Laser Treatment</div>
+
+            <div class="cat-title">Overall</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best in Chaksu')">📍 Best in Chaksu</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Highly Recommended')">👍 Highly Recommended</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Old & Trusted')">🏛️ Old & Trusted</div>
+        </div>
+
+        <button class="action-btn" onclick="generateReview()">🚀 Generate Manual Review</button>
+
+        <textarea id="reviewOutput" style="width:100%; height:140px; margin-top:15px; border-radius:8px; padding:10px; border:1px solid #bae6fd; display:none; background:#fff;" readonly></textarea>
+        
+        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy & Open Google</button>
     </div>
 
     <div class="footer">
         <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft" loading="lazy">
-        
         <div class="footer-text">
             Powered by <a href="https://growft.net" target="_blank">Growft</a><br>
             Contact to build your AI Tool: <a href="tel:+917020370561">7020370561</a>
@@ -269,21 +256,19 @@
 </div>
 
 <script>
-    // --- IMPORTANT: REPLACE THIS LINK ---
+    // --- CONFIGURATION ---
     const GOOGLE_REVIEW_LINK = "https://g.page/r/CbzNMBe581gSEBM/review"; 
     
-    // --- RATING LOGIC ---
+    // 1. RATING SYSTEM
     let currentRating = 0;
     let currentExp = '';
 
     function rate(stars) {
         currentRating = stars;
-        let allStars = document.querySelectorAll('.star');
-        allStars.forEach((star, index) => {
+        document.querySelectorAll('.star').forEach((star, index) => {
             star.classList.toggle('selected', index < stars);
         });
-        if(stars >= 4) selectExp('good');
-        else selectExp('bad');
+        if(stars >= 4) selectExp('good'); else selectExp('bad');
     }
 
     function selectExp(type) {
@@ -299,14 +284,12 @@
             alert("Please select a star rating.");
             return;
         }
-        document.getElementById('ratingScreen').classList.add('hidden');
-        
+        document.getElementById('ratingScreen').style.display = 'none';
         let isHappy = (currentRating >= 4) || (currentExp === 'good');
-        
         if (isHappy) {
             document.getElementById('aiToolScreen').style.display = 'block';
         } else {
-            document.getElementById('privateFeedbackScreen').classList.remove('hidden');
+            document.getElementById('privateFeedbackScreen').style.display = 'block';
         }
     }
 
@@ -315,150 +298,131 @@
             alert("Please write a few words.");
             return;
         }
-        document.getElementById('privateFeedbackScreen').classList.add('hidden');
-        document.getElementById('thankYouScreen').classList.remove('hidden');
+        document.getElementById('privateFeedbackScreen').style.display = 'none';
+        document.getElementById('thankYouScreen').style.display = 'block';
     }
 
-    // --- AI GENERATION LOGIC ---
-    let selectedKeywords = [];
+    // 2. VOICE RECOGNITION + REAL TRANSLATION API
+    let recognition;
 
-    const reviewDB = {
-        // --- 40+ INTRO VARIATIONS ---
-        intros: {
-            "Professional": [
-                "I visited Vikash Memorial Eye Hospital in {location} for my treatment.",
-                "Highly professional experience at Vikash Memorial Eye Hospital, {location}.",
-                "I recently consulted the specialists at Vikash Memorial Eye Hospital in {location}.",
-                "The medical team at Vikash Memorial Eye Hospital {location} is exceptional.",
-                "For advanced eye care in {location}, Vikash Memorial is a premier choice.",
-                "I am writing this to recommend Vikash Memorial Eye Hospital in {location}.",
-                "Received excellent medical attention at Vikash Memorial Eye Hospital.",
-                "My experience with the ophthalmology department in {location} was satisfactory.",
-                "Vikash Memorial Eye Hospital in {location} maintains high standards of care.",
-                "I underwent a procedure at Vikash Memorial Eye Hospital, {location}.",
-                "A very reliable eye care center located in {location}.",
-                "The doctors at Vikash Memorial Eye Hospital {location} are highly skilled.",
-                "I had a scheduled appointment at Vikash Memorial Eye Hospital in {location}."
-            ],
-            "Friendly": [
-                "Had such a great experience at Vikash Memorial Eye Hospital in {location}! 😃",
-                "Best eye hospital in {location}! The staff is amazing.",
-                "Vikash Memorial Eye Hospital in {location} is simply the best.",
-                "So happy with my visit to Vikash Memorial Eye Hospital, {location}.",
-                "The doctors here in {location} are so kind and helpful.",
-                "Wonderful service at Vikash Memorial Eye Hospital!",
-                "They took such good care of my eyes in {location}.",
-                "Vikash Memorial Eye Hospital is my go-to for eye care in {location}.",
-                "Really impressed with the facility in {location}!",
-                "Super friendly staff and great doctors at Vikash Memorial.",
-                "Loved the service at this hospital in {location}."
-            ],
-            "Short": [
-                "Best eye hospital in {location}.",
-                "Great service at Vikash Memorial.",
-                "Visited for eye checkup in {location}.",
-                "Excellent doctors.",
-                "Very professional staff.",
-                "Good experience in {location}.",
-                "Highly recommended eye clinic.",
-                "Fast and effective treatment.",
-                "Best ophthalmologist in {location}.",
-                "Quality eye care.",
-                "Five stars for the team."
-            ],
-            "Grateful": [
-                "I am truly grateful to the doctors at Vikash Memorial Eye Hospital in {location}.",
-                "They saved my vision! Thank you to the team in {location}.",
-                "A heartfelt thanks to Vikash Memorial Eye Hospital.",
-                "I cannot thank the doctor enough for the treatment in {location}.",
-                "Blessed to have such good eye specialists in {location}.",
-                "Thank you for the excellent care and support.",
-                "My sincere appreciation to the entire staff in {location}.",
-                "Grateful for the successful surgery at Vikash Memorial.",
-                "Thanks to them, I can see clearly now.",
-                "Thank you Vikash Memorial team for your kindness in {location}."
-            ]
-        },
-
-        // --- 40+ OUTRO VARIATIONS ---
-        outros: {
-            "Professional": [
-                "I highly recommend this hospital for any eye-related issues.",
-                "They are definitely the best eye care providers in {location}.",
-                "The facility is well-equipped and hygienic.",
-                "A trustworthy name in ophthalmology in {location}.",
-                "I am fully satisfied with the clinical outcome.",
-                "Patients in {location} can rely on them for quality care.",
-                "Their expertise in eye surgery is commendable.",
-                "I will suggest Vikash Memorial to my colleagues.",
-                "Excellent patient care management.",
-                "They strictly follow all medical protocols.",
-                "One of the finest eye hospitals in Rajasthan."
-            ],
-            "Friendly": [
-                "Will definitely come back for regular checkups! 👍",
-                "Don't go anywhere else in {location}, this is the best!",
-                "Thanks again to the amazing team! 😊",
-                "Keep up the great work!",
-                "Highly recommended to all my friends in {location}.",
-                "You guys are the best!",
-                "So happy with my new glasses/vision!",
-                "Cheers to the doctor!",
-                "Love the friendly atmosphere here.",
-                "10/10 experience!"
-            ],
-            "Short": [
-                "Recommended.",
-                "5 Stars.",
-                "Great job.",
-                "Best in town.",
-                "Thank you.",
-                "Very happy.",
-                "Good hospital.",
-                "Nice staff.",
-                "Well done.",
-                "Must visit."
-            ],
-            "Grateful": [
-                "Thank you for restoring my vision.",
-                "God bless the doctors and staff.",
-                "I will always be thankful for your help.",
-                "Thanks for the affordable and great treatment.",
-                "Forever grateful to Vikash Memorial.",
-                "Thanks for treating me like family.",
-                "My vision is perfect now, thank you.",
-                "Appreciate your dedication.",
-                "Many thanks for the urgent help.",
-                "Thank you for being so patient with me."
-            ]
-        },
-
-        // --- KEYWORD SPECIFIC SENTENCES ---
-        keywords: {
-            "Best Eye hospital": ["It is hands down the best eye hospital in {location}.", "Vikash Memorial is the top eye hospital nearby.", "Facility wise, this is the best eye hospital."],
-            "Best eye opticians": ["They have the best eye opticians who guided me well.", "Their optical department is very well stocked.", "Found the best eye opticians for my glasses here."],
-            "Best eye specialis": ["Met the best eye specialist who diagnosed me correctly.", "The specialist explained everything very clearly.", "Hard to find such a good eye specialist in {location}."],
-            "Best Eye doctor": ["The best eye doctor I have ever visited.", "Very experienced and the best eye doctor in town.", "We consulted the best eye doctor for my father."],
-            "Phacoemulsification surgery": ["The Phacoemulsification surgery was done seamlessly.", "Advanced Phacoemulsification surgery facilities are available here.", "My recovery after Phacoemulsification surgery was very fast."],
-            "Computer vision syndrome": ["Got great advice for my Computer vision syndrome.", "They treated my Computer vision syndrome effectively.", "If you work on screens, check them for Computer vision syndrome treatment."],
-            "Macular degeneration": ["They are experts in Macular degeneration treatment.", "Received the best care for Macular degeneration.", "The doctor is very knowledgeable about Macular degeneration."],
-            "Best ophthalmologist": ["Dr. is the best ophthalmologist in this region.", "Consulted the best ophthalmologist for my vision issues.", "Truly a skilled and best ophthalmologist."],
-            "Cornea specialist doctor": ["The cornea specialist doctor was very thorough.", "We were looking for a cornea specialist doctor and found the best here.", "Excellent treatment by the cornea specialist doctor."],
-            "Red eye treatment": ["Went there for red eye treatment and got instant relief.", "Their red eye treatment is very effective.", "Diagnosed the cause of my red eye immediately."],
-            "Why do my eyes hurt": ["I asked why do my eyes hurt, and they explained it well.", "They found the reason why my eyes hurt and treated it.", "Finally got relief from the pain."],
-            "retinal detachment": ["They identified the signs of retinal detachment early.", "Best place for retinal detachment screening.", "They are equipped to handle retinal detachment cases."],
-            "Same day eye appointment": ["Got a same day eye appointment easily.", "Appreciated the same day eye appointment service.", "They accommodated me with a same day eye appointment."],
-            "best Cataract treatment": ["They provide the best cataract treatment in {location}.", "My grandmother got the best cataract treatment here.", "Painless and best cataract treatment experience."],
-            "Eye Care Center": ["A complete Eye Care Center for the family.", "State of the art Eye Care Center.", "Most hygienic Eye Care Center in {location}."]
+    function startListening() {
+        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+            alert("Use Google Chrome for Voice Feature.");
+            return;
         }
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        
+        recognition.lang = 'hi-IN'; 
+        recognition.interimResults = false; 
+        recognition.maxAlternatives = 1;
+
+        const micBtn = document.getElementById('micBtn');
+        const statusText = document.getElementById('statusText');
+        const spokenDisplay = document.getElementById('spokenTextDisplay');
+
+        spokenDisplay.style.display = 'none';
+        micBtn.style.animation = "pulse 1.5s infinite";
+        micBtn.style.backgroundColor = "#ef4444";
+        statusText.innerText = "Listening... (Bolein)";
+        statusText.style.color = "#ef4444";
+
+        try { recognition.start(); } catch (e) { resetMicUI(); }
+
+        recognition.onresult = function(event) {
+            recognition.stop();
+            const rawText = event.results[0][0].transcript;
+            spokenDisplay.style.display = 'block';
+            spokenDisplay.innerText = `You said: "${rawText}"`;
+            statusText.innerText = "Translating with AI...";
+            statusText.style.color = "#0284c7";
+            translateWithAPI(rawText);
+        };
+
+        recognition.onerror = function(event) {
+            resetMicUI();
+            if(event.error === 'no-speech') statusText.innerText = "No voice detected. Try again.";
+        };
+        recognition.onend = function() { resetMicUI(); };
+    }
+
+    function resetMicUI() {
+        const micBtn = document.getElementById('micBtn');
+        const statusText = document.getElementById('statusText');
+        micBtn.style.animation = "none";
+        micBtn.style.backgroundColor = "#0284c7";
+        setTimeout(() => {
+            if(statusText.innerText.includes("Translating")) return;
+            statusText.innerText = "Mic dabayein aur Hindi me bolein...";
+            statusText.style.color = "#64748b";
+        }, 3000);
+    }
+
+    async function translateWithAPI(hindiText) {
+        const location = document.getElementById('locationSelect').value;
+        const statusText = document.getElementById('statusText');
+
+        try {
+            const apiUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(hindiText)}&langpair=hi|en`;
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+            
+            let translatedText = "";
+            if(data.responseData && data.responseData.translatedText) {
+                translatedText = data.responseData.translatedText;
+            } else { throw new Error("Translation failed"); }
+
+            const finalReview = `I visited Vikash Memorial Eye Hospital in ${location}. ${translatedText} Highly recommended!`;
+            displayResult(finalReview);
+            statusText.innerText = "Done!";
+
+        } catch (error) {
+            console.error("API Error:", error);
+            statusText.innerText = "Network Error. Using Offline Mode.";
+            // Simple fallback
+            displayResult(`I visited Vikash Memorial Eye Hospital in ${location}. Excellent service and doctors. Highly recommended!`);
+        }
+    }
+
+    // --- 3. MANUAL LOGIC (KEYWORD MAPPING) ---
+    const keywordData = {
+        // DOCTOR
+        "Best Eye Doctor": { en: "The doctor is very experienced and skilled.", hi: "डॉक्टर बहुत अनुभवी और कुशल हैं।" },
+        "Experienced Doctor": { en: "Dr. has great experience and diagnosis is perfect.", hi: "डॉक्टर साहब को बहुत अनुभव है और निदान सही है।" },
+        "Professional Staff": { en: "The staff is professional and supportive.", hi: "स्टाफ बहुत पेशेवर और सहयोगी है।" },
+        "Friendly Nature": { en: "Doctors have a very friendly nature.", hi: "डॉक्टरों का स्वभाव बहुत मिलनसार है।" },
+        "Good Listener": { en: "The doctor listens to problems patiently.", hi: "डॉक्टर समस्या को धैर्यपूर्वक सुनते हैं।" },
+
+        // FACILITIES
+        "Best Eye Hospital": { en: "It is the best eye hospital in {loc}.", hi: "यह {loc} का सबसे अच्छा आँखों का अस्पताल है।" },
+        "Clean & Hygienic": { en: "The hospital is very clean and hygienic.", hi: "अस्पताल बहुत साफ और स्वच्छ है।" },
+        "Fast Service": { en: "Service was fast, no long waiting time.", hi: "सेवा तेज थी, ज्यादा इंतजार नहीं करना पड़ा।" },
+        "Good Management": { en: "Everything is well managed here.", hi: "यहाँ सब कुछ अच्छी तरह से प्रबंधित है।" },
+        "Medical Store Inside": { en: "Pharmacy is available inside the hospital.", hi: "अस्पताल के अंदर ही मेडिकल स्टोर उपलब्ध है।" },
+        "Optical Shop": { en: "They have a good optical shop for glasses.", hi: "चश्मे के लिए उनके पास अच्छी दुकान है।" },
+
+        // TREATMENT
+        "Successful Treatment": { en: "My treatment was 100% successful.", hi: "मेरा इलाज 100% सफल रहा।" },
+        "Painless Surgery": { en: "The surgery was completely painless.", hi: "सर्जरी पूरी तरह से दर्द रहित थी।" },
+        "Affordable Fees": { en: "Treatment charges are very affordable.", hi: "इलाज का खर्च बहुत कम और वाजिब है।" },
+        "Latest Machines": { en: "Hospital is equipped with latest machines.", hi: "अस्पताल आधुनिक मशीनों से सुसज्जित है।" },
+        "Ayushman Card": { en: "Ayushman card facility is available.", hi: "आयुष्मान कार्ड की सुविधा उपलब्ध है।" },
+        "Laser Treatment": { en: "Advanced laser treatment is available.", hi: "आधुनिक लेजर उपचार उपलब्ध है।" },
+
+        // OVERALL
+        "Best in Chaksu": { en: "Definately the best hospital in Chaksu.", hi: "चाकसू में निश्चित रूप से सबसे अच्छा अस्पताल।" },
+        "Highly Recommended": { en: "I highly recommend everyone to visit here.", hi: "मैं सभी को यहाँ आने की सलाह देता हूँ।" },
+        "Old & Trusted": { en: "It is an old and trusted eye care center.", hi: "यह एक पुराना और भरोसेमंद नेत्र देखभाल केंद्र है।" }
     };
 
-    // --- UTILS ---
-    function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+    let selectedKeywords = [];
+    
     function toggleNameField() { 
         const field = document.getElementById('nameArea');
         field.style.display = field.style.display === 'block' ? 'none' : 'block';
     }
+    
     function toggleKeyword(element, keyword) {
         element.classList.toggle('active');
         if (selectedKeywords.includes(keyword)) {
@@ -469,63 +433,48 @@
     }
 
     function generateReview() {
-        const userName = document.getElementById('userName').value.trim();
-        const tone = document.getElementById('toneSelect').value;
+        const lang = document.getElementById('langSelect').value;
         const location = document.getElementById('locationSelect').value;
-        const procedure = document.getElementById('procedureSelect').value;
-        const outputBox = document.getElementById('reviewOutput');
-        const copyBtn = document.getElementById('copyBtn');
+        const userName = document.getElementById('userName').value.trim();
 
-        if (selectedKeywords.length === 0) {
-            alert("Please select at least 2 highlights.");
-            return;
-        }
+        if (selectedKeywords.length === 0) { alert("Please select at least 2 highlights."); return; }
         
-        outputBox.style.display = 'block';
-        outputBox.style.opacity = "0.5";
-
-        // 1. INTRO
-        let intro = getRandomItem(reviewDB.intros[tone]);
-        intro = intro.replace(/{location}/g, location);
-        if (userName) intro = `I am ${userName}. ` + intro;
-
-        // 2. PROCEDURE SENTENCE (New Feature)
-        let procSentence = "";
-        if (procedure !== "General Checkup") {
-            const procTemplates = [
-                `I visited specifically for ${procedure}.`,
-                `The ${procedure} was handled with great care.`,
-                `My experience regarding ${procedure} was excellent.`,
-                `I recommend them for ${procedure}.`
-            ];
-            procSentence = getRandomItem(procTemplates) + " ";
+        let review = "";
+        const isHindi = (lang === 'hi');
+        
+        // Intro
+        if(isHindi) {
+             review = `मैं हाल ही में विकास मेमोरियल आई हॉस्पिटल, ${location} गया था। `;
+             if(userName) review = `मैं ${userName} हूँ। ` + review;
         } else {
-            procSentence = "I went for a routine check-up. ";
+             review = `I recently visited Vikash Memorial Eye Hospital in ${location}. `;
+             if(userName) review = `I am ${userName}. ` + review;
         }
 
-        // 3. BODY (Keywords)
-        let body = "";
-        const shuffledKeywords = selectedKeywords.sort(() => Math.random() - 0.5);
-        shuffledKeywords.forEach((k) => {
-            let sentence = getRandomItem(reviewDB.keywords[k]);
-            if(sentence) {
-                sentence = sentence.replace(/{location}/g, location);
-                body += sentence + " ";
+        // Body (Map Keywords to Sentences)
+        selectedKeywords.forEach(key => {
+            if(keywordData[key]) {
+                let sentence = isHindi ? keywordData[key].hi : keywordData[key].en;
+                sentence = sentence.replace("{loc}", location);
+                review += sentence + " ";
             }
         });
 
-        // 4. OUTRO
-        let outro = getRandomItem(reviewDB.outros[tone]);
-        outro = outro.replace(/{location}/g, location);
+        // Outro
+        if(isHindi) review += "धन्यवाद!";
+        else review += "Thank you!";
+        
+        displayResult(review);
+    }
 
-        const finalReview = intro + " " + procSentence + body + outro;
-
-        setTimeout(() => {
-            outputBox.style.opacity = "1";
-            outputBox.value = finalReview;
-            copyBtn.style.display = "block";
-            if (window.innerWidth < 600) outputBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 300);
+    // --- UTILS ---
+    function displayResult(text) {
+        const outputBox = document.getElementById('reviewOutput');
+        const copyBtn = document.getElementById('copyBtn');
+        outputBox.style.display = 'block';
+        outputBox.value = text;
+        copyBtn.style.display = 'block';
+        outputBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
     function copyToClipboard() {
@@ -533,8 +482,10 @@
         copyText.select();
         copyText.setSelectionRange(0, 99999);
         navigator.clipboard.writeText(copyText.value).then(() => {
-            const isConfirmed = confirm("Review Copied! 📋\n\nClick OK to open Google Maps.");
-            if(isConfirmed) window.open(GOOGLE_REVIEW_LINK, '_blank');
+            if(confirm("Review Copied! 📋\n\nClick OK to open Google Maps.")) window.open(GOOGLE_REVIEW_LINK, '_blank');
         });
     }
 </script>
+
+</body>
+</html>
