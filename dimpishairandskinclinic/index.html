@@ -270,7 +270,6 @@
 </div>
 
 <script>
-    // --- LINK ---
     const GOOGLE_REVIEW_LINK = "https://g.page/r/YOUR_LINK_HERE/review"; 
     
     // 1. RATING SYSTEM
@@ -316,7 +315,7 @@
         document.getElementById('thankYouScreen').style.display = 'block';
     }
 
-    // 2. VOICE RECOGNITION (WITH TELUGU)
+    // 2. VOICE RECOGNITION + REAL TRANSLATION API
     let recognition;
 
     function startListening() {
@@ -330,6 +329,7 @@
         
         const selectedLang = document.getElementById('voiceLangSelect').value;
         recognition.lang = selectedLang; 
+        
         recognition.interimResults = false; 
         recognition.maxAlternatives = 1;
 
@@ -410,7 +410,6 @@
     }
 
     // --- 3. DYNAMIC MANUAL LOGIC (RANDOMIZED ARRAYS) ---
-    // Each keyword now has multiple options (Array of strings)
     const keywordData = {
         // GENERAL
         "Best Skin Care Clinic": { 
@@ -429,8 +428,12 @@
             en: ["The staff is very polite and welcoming.", "Staff members are helpful and guide you well.", "Loved the hospitality of the clinic staff."], 
             hi: ["स्टाफ बहुत विनम्र और मिलनसार है।", "क्लिनिक के कर्मचारी बहुत सहयोगी हैं।"] 
         },
-        
-        // HAIR TREATMENTS
+        "Best Beauty Clinic": { 
+             en: ["The best beauty clinic for aesthetic treatments.", "Loved their beauty services, very professional.", "Aesthetic results are amazing here."], 
+             hi: ["सौंदर्य सेवाओं के लिए बहुत अच्छी जगह है।", "इनकी ब्यूटी सर्विसेज बहुत अच्छी हैं।"] 
+        },
+
+        // HAIR
         "Hair Transplant": { 
             en: ["My hair transplant results are fantastic.", "Got my hair transplant done here, highly satisfied.", "The transplant procedure was smooth and effective."], 
             hi: ["मेरा हेयर ट्रांसप्लांट बहुत सफल रहा।", "हेयर ट्रांसप्लांट के नतीजे बहुत अच्छे आए हैं।"] 
@@ -447,11 +450,19 @@
             en: ["Got instant relief from chronic dandruff.", "Their anti-dandruff treatment works like magic.", "Finally free from dandruff thanks to DLS."], 
             hi: ["रूसी की समस्या से तुरंत राहत मिली।", "इनका डैंड्रफ ट्रीटमेंट बहुत असरदार है।"] 
         },
+        "Oxy Bar Treatment": { 
+             en: ["Oxy Bar treatment made my hair very healthy.", "The Oxy Bar therapy is a game changer for hair.", "My hair feels rejuvenated after Oxy Bar treatment."], 
+             hi: ["ऑक्सी बार ट्रीटमेंट से मेरे बाल बहुत अच्छे हो गए।", "बालों के लिए यह ट्रीटमेंट बहुत अच्छा है।"] 
+        },
 
         // SKIN
         "Hydrafacial": { 
             en: ["The Hydrafacial gave my skin an instant glow.", "Loved the Hydrafacial, my skin feels so fresh.", "Best Hydrafacial experience ever."], 
             hi: ["हाइड्राफेशियल से मेरे चेहरे पर गजब का निखार आया।", "त्वचा बहुत साफ और चमकदार हो गई है।"] 
+        },
+        "Carbon Facial": { 
+             en: ["Carbon facial treatment was very effective.", "Instant brightness after Carbon Facial.", "The Carbon laser facial works wonders."], 
+             hi: ["कार्बन फेशियल ट्रीटमेंट बहुत असरदार रहा।", "कार्बन फेशियल से चेहरा चमकने लगा।"] 
         },
         "Acne Reduction": { 
             en: ["My acne and pimples have reduced significantly.", "Finally found a solution for my acne here.", "Clear skin achieved thanks to their acne treatment."], 
@@ -460,6 +471,14 @@
         "Korean Skin Treatment": { 
             en: ["Loved the Korean glass skin treatment.", "My skin feels like glass after the Korean facial.", "Try their Korean treatment for glowing skin."], 
             hi: ["कोरियन ग्लास स्किन ट्रीटमेंट बहुत पसंद आया।", "त्वचा शीशे जैसी चमक रही है।"] 
+        },
+        "Skin Lightning": { 
+             en: ["Visible skin lightening results after chemical peel.", "The skin lightening treatment is very safe and effective.", "My complexion improved after the treatment."], 
+             hi: ["केमिकल पील के बाद त्वचा में निखार आया।", "स्किन लाइटनिंग ट्रीटमेंट का असर साफ दिख रहा है।"] 
+        },
+        "Microdermabrasion": { 
+             en: ["Microdermabrasion made my skin smooth.", "Great treatment for uneven skin texture.", "Skin feels very soft after microdermabrasion."], 
+             hi: ["माइक्रोडर्माब्रेशन से मेरी त्वचा बहुत मुलायम हो गई।", "त्वचा का खुरदरापन खत्म हो गया।"] 
         },
         "Wart Removal": { 
             en: ["Painless wart removal treatment.", "Removed my warts without any scars.", "Quick and safe wart removal procedure."], 
@@ -474,10 +493,13 @@
         "Ear Piercing": { 
             en: ["Ear piercing was done safely and hygienically.", "Painless ear piercing experience for my kid.", "Very professional ear piercing service."], 
             hi: ["कान छिदवाने की प्रक्रिया बहुत सफाई से हुई।", "बिना दर्द के कान छिदवाने का अनुभव अच्छा रहा।"] 
+        },
+        "LED Therapy": { 
+             en: ["LED therapy was very relaxing and effective.", "Good results from LED light therapy.", "The LED treatment helped calm my skin."], 
+             hi: ["एलईडी थेरेपी बहुत आरामदायक और प्रभावी थी।", "एलईडी थेरेपी से त्वचा को आराम मिला।"] 
         }
     };
 
-    // Helper to get random item from array
     function getRandom(arr) {
         if (!arr) return "";
         return arr[Math.floor(Math.random() * arr.length)];
@@ -509,36 +531,71 @@
         let review = "";
         const isHindi = (lang === 'hi');
         
-        // 1. Random Intro
+        // --- 1. RANDOM INTRO (20 VARIATIONS) ---
         const introsEn = [
-            `I recently visited DLS Clinics (Dimpi's Hair & Skin Clinic) in ${location}.`, 
-            `My experience at DLS Clinics, ${location} was wonderful.`, 
-            `I went to DLS Clinics in ${location} for a treatment.`
+            `I recently visited DLS Clinics (Dimpi's Hair & Skin Clinic) in ${location}.`,
+            `My experience at DLS Clinics, ${location} was wonderful.`,
+            `I went to DLS Clinics in ${location} for a treatment.`,
+            `Just visited DLS Clinics at ${location} and I am impressed.`,
+            `I chose DLS Clinics ${location} for my skin/hair concern.`,
+            `Had an amazing session at DLS Clinics in ${location}.`,
+            `My visit to DLS Clinics (${location}) was totally worth it.`,
+            `I highly recommend DLS Clinics in ${location}.`,
+            `Great experience visiting DLS Clinics, ${location}.`,
+            `Recently consulted at DLS Clinics in ${location}.`,
+            `DLS Clinics in ${location} is the best place I've visited.`,
+            `I am writing this review after visiting DLS Clinics, ${location}.`,
+            `Such a positive vibe at DLS Clinics in ${location}.`,
+            `My appointment at DLS Clinics ${location} went very well.`,
+            `First time visiting DLS Clinics in ${location} and loved it.`,
+            `The team at DLS Clinics ${location} greeted me warmly.`,
+            `I wanted to share my feedback for DLS Clinics, ${location}.`,
+            `DLS Clinics is my go-to place in ${location}.`,
+            `Best decision to visit DLS Clinics in ${location}.`,
+            `I had a consultation at DLS Clinics, ${location}.`
         ];
+
         const introsHi = [
             `मैं हाल ही में DLS Clinics (Dimpi's Hair & Skin Clinic), ${location} गया था।`, 
-            `DLS Clinics, ${location} में मेरा अनुभव बहुत अच्छा रहा।`
+            `DLS Clinics, ${location} में मेरा अनुभव बहुत अच्छा रहा।`,
+            `मैंने ${location} में DLS Clinics में विजिट किया।`,
+            `स्किन/हेयर ट्रीटमेंट के लिए मैं DLS Clinics (${location}) गया।`,
+            `आज मैंने DLS Clinics, ${location} में कंसल्टेशन लिया।`,
+            `DLS Clinics (${location}) की सर्विस बहुत अच्छी है।`,
+            `मेरा DLS Clinics का अनुभव शानदार रहा।`,
+            `मैं DLS Clinics (${location}) के ट्रीटमेंट से खुश हूँ।`,
+            `DLS Clinics (${location}) में इलाज कराना अच्छा फैसला था।`,
+            `हाल ही में मैं DLS Clinics, ${location} गया था।`
         ];
 
         review = isHindi ? getRandom(introsHi) : getRandom(introsEn);
         if(userName) review = (isHindi ? `मैं ${userName} हूँ। ` : `I am ${userName}. `) + review;
         review += " ";
 
-        // 2. Body (Randomized Sentences per Keyword)
+        // --- 2. BODY (RANDOMIZED SENTENCES) ---
         selectedKeywords.forEach(key => {
             if(keywordData[key]) {
-                // Get the array of sentences for the selected language
                 const options = isHindi ? keywordData[key].hi : keywordData[key].en;
-                // Pick one random sentence
-                if(options) {
-                    review += getRandom(options) + " ";
-                }
+                if(options) review += getRandom(options) + " ";
             }
         });
 
-        // 3. Random Outro
-        const outrosEn = ["Highly recommended!", "Thank you DLS team.", "Must visit for skin/hair issues.", "Five stars!"];
-        const outrosHi = ["धन्यवाद!", "मैं जरूर सलाह दूंगा।", "बहुत अच्छा काम किया।"];
+        // --- 3. RANDOM OUTRO (20 VARIATIONS) ---
+        const outrosEn = [
+            "Highly recommended!", "Thank you DLS team.", "Must visit for skin/hair issues.", "Five stars!",
+            "Will definitely come back.", "Best clinic in Hyderabad.", "Thanks for the amazing results.",
+            "I suggest everyone to visit here.", "Keep up the great work!", "10/10 experience.",
+            "Truly satisfied with the service.", "Don't hesitate to visit.", "A hidden gem in Ashok Nagar.",
+            "Thanks Dr. for the help.", "Worth every penny.", "I am a happy customer.",
+            "Great value for money.", "My confidence is back, thanks to DLS.", "Looking forward to my next session.",
+            "Simply the best!"
+        ];
+        
+        const outrosHi = [
+            "धन्यवाद!", "मैं जरूर सलाह दूंगा।", "बहुत अच्छा काम किया।", "जरूर आना चाहिए।",
+            "पैसा वसूल एक्सपीरियंस।", "सब लोग बहुत अच्छे हैं।", "मैं फिर से आऊंगा।",
+            "सबसे बढ़िया क्लिनिक।", "मजा आ गया सर्विस लेके।", "डॉक्टर साहब को धन्यवाद।"
+        ];
 
         review += isHindi ? getRandom(outrosHi) : getRandom(outrosEn);
         
