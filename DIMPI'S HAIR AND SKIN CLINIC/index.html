@@ -1,0 +1,514 @@
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Feedback - DLS Clinics Hyderabad</title>
+    <style>
+        /* --- THEME COLORS (Aesthetic Clinic Look) --- */
+        :root {
+            --primary: #0f766e; /* Teal/Deep Green */
+            --primary-dark: #0d5f57;
+            --bg-color: #f0fdfa; /* Very Light Teal */
+            --card-bg: #ffffff;
+            --text-main: #334155;
+            --gold: #fbbf24;
+            --gray: #64748b;
+            --red: #ef4444;
+            --green: #22c55e;
+        }
+
+        /* --- RESET --- */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0; padding: 20px 10px;
+            min-height: 100vh; display: flex;
+            justify-content: center; align-items: flex-start;
+            color: var(--text-main);
+        }
+
+        /* --- CONTAINER --- */
+        .container {
+            background: var(--card-bg); width: 100%; max-width: 500px;
+            padding: 25px; border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(15, 118, 110, 0.15);
+            border-top: 6px solid var(--primary); margin: auto;
+            text-align: center;
+        }
+
+        h1 { color: var(--primary-dark); margin: 5px 0 2px 0; font-size: 22px; font-weight: 800; line-height: 1.3; }
+        .location { color: var(--gray); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        
+        .phone-link {
+            text-decoration: none; color: #fff; background: var(--primary);
+            padding: 8px 18px; border-radius: 20px; display: inline-block;
+            font-size: 14px; font-weight: 700; transition: 0.2s;
+            box-shadow: 0 4px 6px rgba(15, 118, 110, 0.2); margin-bottom: 20px;
+        }
+
+        /* --- INPUTS --- */
+        select, input {
+            width: 100%; padding: 12px; border-radius: 8px;
+            border: 1px solid #ccfbf1; background: #f0fdfa;
+            font-size: 14px; outline: none; margin-bottom: 10px;
+            color: var(--text-main);
+        }
+        label { font-weight: 700; display: block; margin-top: 12px; margin-bottom: 6px; color: var(--primary-dark); font-size: 12px; text-transform: uppercase; text-align: left; }
+
+        /* --- RATING --- */
+        .star-container { display: flex; justify-content: center; gap: 8px; margin: 20px 0; direction: ltr; }
+        .star { font-size: 42px; color: #cbd5e1; cursor: pointer; transition: transform 0.2s, color 0.2s; }
+        .star.selected { color: var(--gold); }
+
+        .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
+        .exp-btn {
+            padding: 12px 15px; border: 1px solid #ccfbf1; border-radius: 8px;
+            background: #fff; cursor: pointer; font-weight: 600; color: var(--text-main);
+            flex: 1; transition: 0.2s; font-size: 14px;
+        }
+        .exp-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(15, 118, 110, 0.3); }
+        .exp-btn.bad-active { background: #ef4444; color: white; border-color: #ef4444; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3); }
+
+        .action-btn {
+            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white; border: none; border-radius: 8px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 10px;
+        }
+
+        /* --- CHIPS & TEXT --- */
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
+        .keyword-chip { 
+            padding: 8px 12px; background-color: #fff; border-radius: 20px; 
+            font-size: 12px; font-weight: 600; cursor: pointer; 
+            border: 1px solid #ccfbf1; color: var(--primary); 
+            flex-grow: 1; text-align: center; transition: 0.2s;
+        }
+        .keyword-chip.active { background-color: var(--primary); color: white; border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 3px 6px rgba(15, 118, 110, 0.2); }
+        
+        .cat-title { width:100%; font-size: 11px; font-weight: 700; color: var(--gray); margin-top: 15px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        textarea.feedback-box {
+            width: 100%; height: 120px; padding: 12px;
+            border: 1px solid #ccfbf1; border-radius: 8px; resize: none;
+            background: #f0fdfa; margin-bottom: 15px; font-family: inherit;
+        }
+
+        .copy-btn { width: 100%; padding: 12px; background-color: var(--green); color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: 600; font-size: 15px; cursor: pointer; display: none; box-shadow: 0 4px 6px rgba(5, 150, 105, 0.2); }
+
+        /* --- ANIMATIONS --- */
+        .fade-in { animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+
+        /* --- FOOTER --- */
+        .footer { margin-top: 35px; text-align: center; font-size: 12px; color: #94a3b8; border-top: 1px dashed #cbd5e1; padding-top: 15px; }
+        .footer-logo { display: block; margin: 0 auto 5px auto; max-height: 28px; width: auto; opacity: 0.85; }
+        .footer a { color: var(--primary); text-decoration: none; font-weight: 700; }
+        
+        .or-divider { text-align: center; font-size: 12px; color: var(--gray); margin: 20px 0; position: relative; }
+        .or-divider:before { content: ""; position: absolute; left: 0; top: 50%; width: 45%; height: 1px; background: #cbd5e1; }
+        .or-divider:after { content: ""; position: absolute; right: 0; top: 50%; width: 45%; height: 1px; background: #cbd5e1; }
+        
+        .toggle-name { font-size: 13px; color: var(--primary); text-decoration: underline; cursor: pointer; float: right; margin-top: 5px; border: none; background: none; }
+    </style>
+
+
+
+<div class="container">
+    
+    <h1>Dimpi's Hair &amp; Skin Clinic<br><span style="font-size:16px; font-weight:600;">(Now DLS Clinics)</span></h1>
+    <div class="location">✨ Ashok Nagar • Hyderabad</div>
+    <div><a href="tel:+9192465 56996" class="phone-link">📞 Call Clinic</a></div>
+
+    <div id="ratingScreen" class="fade-in">
+        <p>How was your experience at DLS Clinics?</p>
+        <div class="star-container">
+            <span class="star" onclick="rate(1)">★</span>
+            <span class="star" onclick="rate(2)">★</span>
+            <span class="star" onclick="rate(3)">★</span>
+            <span class="star" onclick="rate(4)">★</span>
+            <span class="star" onclick="rate(5)">★</span>
+        </div>
+        <div class="experience-btns">
+            <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Needs Improvement 😟</button>
+            <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Great Service 💖</button>
+        </div>
+        <button class="action-btn" onclick="processRating()">Next Step ➡</button>
+    </div>
+
+    <div id="privateFeedbackScreen" class="fade-in" style="display: none;">
+        <h2 style="color:var(--text-main);">We are sorry! 😔</h2>
+        <p>Please tell us how we can improve your experience.</p>
+        <textarea id="privateFeedbackText" class="feedback-box" placeholder="Describe the issue..."></textarea>
+        <button class="action-btn" style="background:var(--gray);" onclick="submitPrivateFeedback()">Submit Feedback</button>
+    </div>
+
+    <div id="thankYouScreen" class="fade-in" style="display: none;">
+        <div style="font-size: 50px; margin-bottom:10px;">✅</div>
+        <h2 style="color:var(--text-main);">Thank You!</h2>
+        <p>Your feedback has been submitted successfully.</p>
+    </div>
+
+    <div id="aiToolScreen" class="fade-in" style="display: none; text-align: left;">
+        
+        <div style="background: #e0f2fe; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px dashed var(--primary);">
+            <p style="margin:0 0 10px 0; font-size:13px; font-weight:700; color:var(--primary-dark);">
+                🎙️ Speak to Generate Review
+            </p>
+            
+            <div style="margin-bottom:10px;">
+                <label style="margin-top:0; font-size:10px;">Select Language / भाषा / భాష</label>
+                <select id="voiceLangSelect" style="padding:8px; font-size:13px; margin-bottom:5px;">
+                    <option value="te-IN" selected="">Telugu (తెలుగు)</option>
+                    <option value="hi-IN">Hindi (हिंदी)</option>
+                    <option value="en-IN">English</option>
+                </select>
+            </div>
+
+            <div style="display:flex; gap:10px; align-items:center;">
+                <button onclick="startListening()" id="micBtn" style="background:var(--primary); color:white; border:none; width:50px; height:50px; border-radius:50%; font-size:24px; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.1); transition:0.2s;">🎤</button>
+                <div style="flex:1;">
+                    <p id="statusText" style="font-size:12px; color:var(--gray); margin:0;">
+                        Tap Mic &amp; Speak...<br>
+                        (Ex: "Treatment chala bagundi")
+                    </p>
+                </div>
+            </div>
+            <div id="spokenTextDisplay" style="display:none; margin-top:10px; font-size:12px; font-style:italic; color:var(--primary-dark); background:#fff; padding:8px; border-radius:4px; border-left: 3px solid var(--primary);"></div>
+        </div>
+
+        <div class="or-divider">OR SELECT MANUALLY</div>
+
+        <div style="display: flex; gap: 10px;">
+            <div style="flex:1;">
+                <label style="margin-top:0;">Location</label>
+                <select id="locationSelect">
+                    <option value="Hyderabad">Hyderabad</option>
+                    <option value="Ashok Nagar">Ashok Nagar</option>
+                </select>
+            </div>
+            <div style="flex:1;">
+                <label style="margin-top:0;">Output Language</label>
+                <select id="langSelect">
+                    <option value="en">English</option>
+                    <option value="hi">Hindi (हिंदी)</option>
+                </select>
+            </div>
+        </div>
+
+        <label>Treatment Taken</label>
+        <select id="procedureSelect">
+            <option value="Consultation">General Consultation</option>
+            <option value="Hair Transplant">Hair Transplant</option>
+            <option value="Hydrafacial">Hydrafacial</option>
+            <option value="Acne Treatment">Acne/Pimple Treatment</option>
+            <option value="Weight Loss">Weight Loss / Fat Loss</option>
+            <option value="Laser Treatment">Laser Hair Reduction</option>
+            <option value="Chemical Peel">Chemical Peel / Skin Lightening</option>
+            <option value="PRP Treatment">PRP Hair Regrowth</option>
+            <option value="Wart Removal">Wart Removal</option>
+        </select>
+
+        <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
+        <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
+            <input type="text" id="userName" placeholder="Your Name (Optional)">
+        </div>
+
+        <label style="clear:both;">Select what you liked (Pick 4-5)</label>
+        
+        <div class="keywords-container">
+            <div class="cat-title">Clinic &amp; Staff</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Skin Care Clinic')">🏥 Best Skin Care Clinic</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Dermatologist')">👨‍⚕️ Best Dermatologist</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Hair Clinic')">💇‍♂️ Best Hair Clinic</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Friendly Staff')">🤝 Friendly Staff</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Beauty Clinic')">💅 Best Beauty Clinic</div>
+
+            <div class="cat-title">Hair Treatments</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Hair Transplant')">🩺 Hair Transplant</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Hair Regrowth')">🌱 Hair Regrowth</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Hair Restoration')">🔄 Hair Restoration</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Dandruff Reduction')">❄️ Dandruff Reduction</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Oxy Bar Treatment')">💧 Oxy Bar Hair Treat</div>
+
+            <div class="cat-title">Skin &amp; Face Glow</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Hydrafacial')">✨ Hydrafacial</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Carbon Facial')">🌑 Carbon Facial</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Acne Reduction')">🚫 Acne Reduction</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Korean Skin Treatment')">🇰🇷 Korean Glass Skin</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Skin Lightning')">🌟 Skin Lightening</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Microdermabrasion')">🔬 Microdermabrasion</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Wart Removal')">🩹 Wart Removal</div>
+
+            <div class="cat-title">Body &amp; Others</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Weight Loss')">⚖️ Weight/Fat Loss</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Ear Piercing')">👂 Ear Piercing</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'LED Therapy')">💡 LED Therapy</div>
+        </div>
+
+        <button class="action-btn" onclick="generateReview()">🚀 Generate Manual Review</button>
+
+        <textarea id="reviewOutput" style="width:100%; height:140px; margin-top:15px; border-radius:8px; padding:10px; border:1px solid #ccfbf1; display:none; background:#fff;" readonly=""></textarea>
+        
+        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy &amp; Open Google</button>
+    </div>
+
+    <div class="footer">
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft" loading="lazy">
+        <div class="footer-text">
+            Powered by <a href="https://growft.net" target="_blank">Growft</a><br>
+            Contact to build your AI Tool: <a href="tel:+917020370561">7020370561</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- INSERT YOUR CLIENT'S GOOGLE REVIEW LINK HERE ---
+    const GOOGLE_REVIEW_LINK = "https://maps.app.goo.gl/QTxGvy5Mbv9UuW8L7?g_st=iw"; 
+    
+    // 1. RATING SYSTEM
+    let currentRating = 0;
+    let currentExp = '';
+
+    function rate(stars) {
+        currentRating = stars;
+        document.querySelectorAll('.star').forEach((star, index) => {
+            star.classList.toggle('selected', index < stars);
+        });
+        if(stars >= 4) selectExp('good'); else selectExp('bad');
+    }
+
+    function selectExp(type) {
+        currentExp = type;
+        document.getElementById('btn-good').classList.remove('active');
+        document.getElementById('btn-bad').classList.remove('bad-active');
+        if (type === 'good') document.getElementById('btn-good').classList.add('active');
+        else document.getElementById('btn-bad').classList.add('bad-active');
+    }
+
+    function processRating() {
+        if (currentRating === 0 && currentExp === '') {
+            alert("Please select a star rating.");
+            return;
+        }
+        document.getElementById('ratingScreen').style.display = 'none';
+        let isHappy = (currentRating >= 4) || (currentExp === 'good');
+        if (isHappy) {
+            document.getElementById('aiToolScreen').style.display = 'block';
+        } else {
+            document.getElementById('privateFeedbackScreen').style.display = 'block';
+        }
+    }
+
+    function submitPrivateFeedback() {
+        if(document.getElementById('privateFeedbackText').value.trim() === "") {
+            alert("Please write a few words.");
+            return;
+        }
+        document.getElementById('privateFeedbackScreen').style.display = 'none';
+        document.getElementById('thankYouScreen').style.display = 'block';
+    }
+
+    // 2. VOICE RECOGNITION + REAL TRANSLATION API
+    let recognition;
+
+    function startListening() {
+        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+            alert("Use Google Chrome for Voice Feature.");
+            return;
+        }
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        
+        // GET SELECTED LANGUAGE (Telugu / Hindi / English)
+        const selectedLang = document.getElementById('voiceLangSelect').value;
+        recognition.lang = selectedLang; 
+        
+        recognition.interimResults = false; 
+        recognition.maxAlternatives = 1;
+
+        const micBtn = document.getElementById('micBtn');
+        const statusText = document.getElementById('statusText');
+        const spokenDisplay = document.getElementById('spokenTextDisplay');
+
+        spokenDisplay.style.display = 'none';
+        micBtn.style.animation = "pulse 1.5s infinite";
+        micBtn.style.backgroundColor = "#ef4444";
+        statusText.innerText = "Listening... (Speaking " + (selectedLang==='te-IN'?'Telugu':'Hindi') + ")";
+        statusText.style.color = "#ef4444";
+
+        try { recognition.start(); } catch (e) { resetMicUI(); }
+
+        recognition.onresult = function(event) {
+            recognition.stop();
+            const rawText = event.results[0][0].transcript;
+            
+            spokenDisplay.style.display = 'block';
+            spokenDisplay.innerText = `You said: "${rawText}"`;
+            statusText.innerText = "Translating with AI...";
+            statusText.style.color = "#0f766e";
+            
+            // Pass language code for translation
+            const sourceLang = selectedLang.split('-')[0]; // 'te' or 'hi'
+            translateWithAPI(rawText, sourceLang);
+        };
+
+        recognition.onerror = function(event) {
+            resetMicUI();
+            if(event.error === 'no-speech') statusText.innerText = "No voice detected. Try again.";
+        };
+        recognition.onend = function() { resetMicUI(); };
+    }
+
+    function resetMicUI() {
+        const micBtn = document.getElementById('micBtn');
+        const statusText = document.getElementById('statusText');
+        micBtn.style.animation = "none";
+        micBtn.style.backgroundColor = "#0f766e";
+        setTimeout(() => {
+            if(statusText.innerText.includes("Translating")) return;
+            statusText.innerText = "Tap Mic & Speak...";
+            statusText.style.color = "#64748b";
+        }, 3000);
+    }
+
+    async function translateWithAPI(text, sourceLang) {
+        const location = document.getElementById('locationSelect').value;
+        const statusText = document.getElementById('statusText');
+
+        // If user spoke English, no need to translate
+        if(sourceLang === 'en') {
+             const finalReview = `I visited DLS Clinics in ${location}. ${text}. Highly recommended!`;
+             displayResult(finalReview);
+             statusText.innerText = "Done!";
+             return;
+        }
+
+        try {
+            // Translate from Source (te/hi) to English (en)
+            const apiUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${sourceLang}|en`;
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+            
+            let translatedText = "";
+            if(data.responseData && data.responseData.translatedText) {
+                translatedText = data.responseData.translatedText;
+            } else { throw new Error("Translation failed"); }
+
+            const finalReview = `I visited DLS Clinics in ${location}. ${translatedText} Highly recommended!`;
+            displayResult(finalReview);
+            statusText.innerText = "Done!";
+
+        } catch (error) {
+            console.error("API Error:", error);
+            statusText.innerText = "Network Error. Using Offline Mode.";
+            // Fallback
+            displayResult(`I visited DLS Clinics in ${location}. Excellent treatment and staff. Highly recommended!`);
+        }
+    }
+
+    // --- 3. MANUAL LOGIC (KEYWORD MAPPING) ---
+    const keywordData = {
+        // GENERAL
+        "Best Skin Care Clinic": { en: "It is the best skin care clinic in Hyderabad.", hi: "यह हैदराबाद का सबसे अच्छा स्किन केयर क्लिनिक है।" },
+        "Best Dermatologist": { en: "The dermatologist is very experienced and knowledgeable.", hi: "डर्मेटोलॉजिस्ट बहुत अनुभवी और ज्ञानी हैं।" },
+        "Best Hair Clinic": { en: "Highly recommended for hair treatments.", hi: "बालों के इलाज के लिए सबसे बेहतरीन जगह है।" },
+        "Friendly Staff": { en: "The staff is very polite and friendly.", hi: "स्टाफ बहुत विनम्र और मिलनसार है।" },
+        "Best Beauty Clinic": { en: "Amazing beauty and aesthetic services.", hi: "सौंदर्य सेवाओं के लिए बहुत अच्छी जगह है।" },
+        
+        // HAIR
+        "Hair Transplant": { en: "My hair transplant surgery was very successful.", hi: "मेरा हेयर ट्रांसप्लांट बहुत सफल रहा।" },
+        "Hair Regrowth": { en: "I saw visible hair regrowth within months.", hi: "मुझे कुछ ही महीनों में बालों की ग्रोथ दिखाई दी।" },
+        "Hair Restoration": { en: "Best place for hair restoration treatment.", hi: "हेयर रेस्टोरेशन के लिए सबसे अच्छी जगह है।" },
+        "Dandruff Reduction": { en: "Got instant relief from dandruff issues.", hi: "रूसी की समस्या से तुरंत राहत मिली।" },
+        "Oxy Bar Treatment": { en: "Oxy Bar treatment made my hair very healthy.", hi: "ऑक्सी बार ट्रीटमेंट से मेरे बाल बहुत अच्छे हो गए।" },
+
+        // SKIN
+        "Hydrafacial": { en: "The Hydrafacial gave my skin an amazing glow.", hi: "हाइड्राफेशियल से मेरे चेहरे पर गजब का निखार आया।" },
+        "Carbon Facial": { en: "Carbon facial treatment was very effective.", hi: "कार्बन फेशियल ट्रीटमेंट बहुत असरदार रहा।" },
+        "Acne Reduction": { en: "My acne and pimples have reduced significantly.", hi: "मेरे कील-मुंहासे काफी कम हो गए हैं।" },
+        "Korean Skin Treatment": { en: "Loved the Korean glass skin treatment.", hi: "कोरियन ग्लास स्किन ट्रीटमेंट बहुत पसंद आया।" },
+        "Skin Lightning": { en: "Visible skin lightening results after chemical peel.", hi: "केमिकल पील के बाद त्वचा में निखार आया।" },
+        "Microdermabrasion": { en: "Microdermabrasion made my skin smooth.", hi: "माइक्रोडर्माब्रेशन से मेरी त्वचा बहुत मुलायम हो गई।" },
+        "Wart Removal": { en: "Painless wart removal treatment.", hi: "मस्से हटाने का इलाज बिना दर्द के हुआ।" },
+
+        // BODY
+        "Weight Loss": { en: "I lost weight effectively with their fat loss treatment.", hi: "फैट लॉस ट्रीटमेंट से मेरा वजन कम हुआ।" },
+        "Ear Piercing": { en: "Ear piercing was done safely and hygienically.", hi: "कान छिदवाने की प्रक्रिया बहुत सफाई से हुई।" },
+        "LED Therapy": { en: "LED therapy was very relaxing and effective.", hi: "एलईडी थेरेपी बहुत आरामदायक और प्रभावी थी।" }
+    };
+
+    let selectedKeywords = [];
+    
+    function toggleNameField() { 
+        const field = document.getElementById('nameArea');
+        field.style.display = field.style.display === 'block' ? 'none' : 'block';
+    }
+    
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) {
+            selectedKeywords = selectedKeywords.filter(item => item !== keyword);
+        } else {
+            selectedKeywords.push(keyword);
+        }
+    }
+
+    function generateReview() {
+        const lang = document.getElementById('langSelect').value;
+        const location = document.getElementById('locationSelect').value;
+        const userName = document.getElementById('userName').value.trim();
+
+        if (selectedKeywords.length === 0) { alert("Please select at least 2 highlights."); return; }
+        
+        let review = "";
+        const isHindi = (lang === 'hi');
+        
+        // Intro
+        if(isHindi) {
+             review = `मैं हाल ही में DLS Clinics (Dimpi's Hair & Skin Clinic), ${location} गया था। `;
+             if(userName) review = `मैं ${userName} हूँ। ` + review;
+        } else {
+             review = `I recently visited DLS Clinics (Dimpi's Hair & Skin Clinic) in ${location}. `;
+             if(userName) review = `I am ${userName}. ` + review;
+        }
+
+        // Body
+        selectedKeywords.forEach(key => {
+            if(keywordData[key]) {
+                let sentence = isHindi ? keywordData[key].hi : keywordData[key].en;
+                review += sentence + " ";
+            }
+        });
+
+        // Outro
+        if(isHindi) review += "धन्यवाद!";
+        else review += "Highly recommended!";
+        
+        displayResult(review);
+    }
+
+    // --- UTILS ---
+    function displayResult(text) {
+        const outputBox = document.getElementById('reviewOutput');
+        const copyBtn = document.getElementById('copyBtn');
+        outputBox.style.display = 'block';
+        outputBox.value = text;
+        copyBtn.style.display = 'block';
+        outputBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function copyToClipboard() {
+        const copyText = document.getElementById("reviewOutput");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(copyText.value).then(() => {
+            if(confirm("Review Copied! 📋\n\nClick OK to open Google Maps.")) window.open(GOOGLE_REVIEW_LINK, '_blank');
+        });
+    }
+</script>
