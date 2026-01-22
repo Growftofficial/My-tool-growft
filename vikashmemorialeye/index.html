@@ -333,6 +333,7 @@
         recognition.onresult = function(event) {
             recognition.stop();
             const rawText = event.results[0][0].transcript;
+            
             spokenDisplay.style.display = 'block';
             spokenDisplay.innerText = `You said: "${rawText}"`;
             statusText.innerText = "Translating with AI...";
@@ -373,48 +374,118 @@
                 translatedText = data.responseData.translatedText;
             } else { throw new Error("Translation failed"); }
 
-            const finalReview = `I visited Vikash Memorial Eye Hospital in ${location}. ${translatedText} Highly recommended!`;
+            // Pick Random Intro and Outro for Voice too!
+            const intro = getRandom(introsEn).replace("{loc}", location);
+            const outro = getRandom(outrosEn);
+
+            const finalReview = `${intro} ${translatedText}. ${outro}`;
             displayResult(finalReview);
             statusText.innerText = "Done!";
 
         } catch (error) {
             console.error("API Error:", error);
             statusText.innerText = "Network Error. Using Offline Mode.";
-            // Simple fallback
+            // Fallback
             displayResult(`I visited Vikash Memorial Eye Hospital in ${location}. Excellent service and doctors. Highly recommended!`);
         }
     }
 
-    // --- 3. MANUAL LOGIC (KEYWORD MAPPING) ---
+    // --- 3. DYNAMIC DATA ARRAYS (20+ VARIATIONS) ---
+    
+    const introsEn = [
+        "I recently visited Vikash Memorial Eye Hospital in {loc}.",
+        "My experience at Vikash Memorial Eye Hospital ({loc}) was excellent.",
+        "I went to Vikash Memorial Eye Hospital in {loc} for an eye checkup.",
+        "Just got my eyes checked at Vikash Memorial Eye Hospital, {loc}.",
+        "Highly satisfied with my visit to Vikash Memorial Eye Hospital in {loc}.",
+        "Vikash Memorial Eye Hospital in {loc} is a great place for eye care.",
+        "I visited Vikash Memorial Eye Hospital, {loc} a few days ago.",
+        "Had a very smooth experience at Vikash Memorial Eye Hospital, {loc}.",
+        "I chose Vikash Memorial Eye Hospital in {loc} for my treatment.",
+        "Visiting Vikash Memorial Eye Hospital in {loc} was a good decision.",
+        "I am writing this review after visiting Vikash Memorial Eye Hospital, {loc}.",
+        "My appointment at Vikash Memorial Eye Hospital ({loc}) went very well.",
+        "I want to share my experience at Vikash Memorial Eye Hospital, {loc}.",
+        "Great service provided by Vikash Memorial Eye Hospital in {loc}.",
+        "Consulted the doctors at Vikash Memorial Eye Hospital, {loc}.",
+        "The best eye clinic in {loc} is Vikash Memorial Eye Hospital.",
+        "I had a wonderful experience at Vikash Memorial Eye Hospital in {loc}.",
+        "Went for a routine checkup at Vikash Memorial Eye Hospital, {loc}.",
+        "Very professional environment at Vikash Memorial Eye Hospital, {loc}.",
+        "Recommending Vikash Memorial Eye Hospital in {loc} after my visit."
+    ];
+
+    const introsHi = [
+        "मैं हाल ही में विकास मेमोरियल आई हॉस्पिटल, {loc} गया था।",
+        "{loc} में विकास मेमोरियल आई हॉस्पिटल में मेरा अनुभव बहुत अच्छा रहा।",
+        "मैंने अपनी आँखों की जांच विकास मेमोरियल आई हॉस्पिटल, {loc} में करवाई।",
+        "विकास मेमोरियल आई हॉस्पिटल, {loc} की सेवाएँ बहुत अच्छी हैं।",
+        "मैं इलाज के लिए विकास मेमोरियल आई हॉस्पिटल, {loc} गया था।",
+        "{loc} में सबसे अच्छा आँखों का अस्पताल विकास मेमोरियल है।",
+        "मुझे विकास मेमोरियल आई हॉस्पिटल, {loc} में जाकर बहुत अच्छा लगा।",
+        "डॉक्टर को दिखाने के लिए मैं विकास मेमोरियल आई हॉस्पिटल, {loc} गया था।",
+        "मेरा चेकअप विकास मेमोरियल आई हॉस्पिटल, {loc} में बहुत अच्छे से हुआ।",
+        "मैं {loc} स्थित विकास मेमोरियल आई हॉस्पिटल की सलाह देता हूँ।",
+        "हाल ही में मैंने विकास मेमोरियल आई हॉस्पिटल, {loc} का दौरा किया।",
+        "विकास मेमोरियल आई हॉस्पिटल, {loc} में मेरी अपॉइंटमेंट बहुत अच्छी रही।",
+        "आँखों के इलाज के लिए {loc} में यह सबसे अच्छी जगह है।",
+        "विकास मेमोरियल आई हॉस्पिटल, {loc} में स्टाफ बहुत अच्छा है।",
+        "मैं विकास मेमोरियल आई हॉस्पिटल, {loc} की सेवाओं से खुश हूँ।",
+        "विकास मेमोरियल आई हॉस्पिटल, {loc} में मेरा अनुभव शानदार था।",
+        "मैंने {loc} में विकास मेमोरियल आई हॉस्पिटल में इलाज कराया।",
+        "विकास मेमोरियल आई हॉस्पिटल, {loc} में सब कुछ बहुत व्यवस्थित था।",
+        "मैं अपनी आँखों की समस्या के लिए विकास मेमोरियल आई हॉस्पिटल, {loc} गया।",
+        "विकास मेमोरियल आई हॉस्पिटल, {loc} एक भरोसेमंद जगह है।"
+    ];
+
+    const outrosEn = [
+        "Highly recommended!", "Thank you to the entire team.", "Best eye hospital in the area.",
+        "5 stars for the service.", "I will definitely recommend this to my friends.",
+        "A big thumbs up!", "Keep up the good work.", "Truly the best eye care center.",
+        "Very happy with the results.", "Must visit for any eye problems.",
+        "Thank you for the great care.", "Appreciate the doctor's support.",
+        "Great value for money.", "I am fully satisfied.", "Excellent patient care.",
+        "God bless the team.", "10/10 experience.", "Don't hesitate to visit.",
+        "Thanks for restoring my vision.", "Simply the best."
+    ];
+
+    const outrosHi = [
+        "बहुत बहुत धन्यवाद!", "मैं सभी को यहाँ आने की सलाह दूंगा।", "{loc} में सबसे अच्छा अस्पताल।",
+        "मेरी तरफ से 5 स्टार।", "सेवा बहुत ही बेहतरीन थी।", "डॉक्टर और स्टाफ को धन्यवाद।",
+        "जरूर आएं अगर आँखों की दिक्कत हो।", "मैं पूरी तरह से संतुष्ट हूँ।", "बहुत अच्छा काम किया।",
+        "पैसे वसूल इलाज।", "इलाज से बहुत आराम मिला।", "भगवान आपका भला करे।",
+        "शानदार अनुभव रहा।", "यहाँ की व्यवस्था बहुत अच्छी है।", "धन्यवाद विकास मेमोरियल टीम।",
+        "सबसे अच्छा नेत्र चिकित्सालय।", "मैं फिर से आऊंगा।", "बेझिझक यहाँ आएं।",
+        "बहुत ही बढ़िया अस्पताल।", "सबको यही आने की सलाह है।"
+    ];
+
     const keywordData = {
-        // DOCTOR
         "Best Eye Doctor": { en: "The doctor is very experienced and skilled.", hi: "डॉक्टर बहुत अनुभवी और कुशल हैं।" },
         "Experienced Doctor": { en: "Dr. has great experience and diagnosis is perfect.", hi: "डॉक्टर साहब को बहुत अनुभव है और निदान सही है।" },
         "Professional Staff": { en: "The staff is professional and supportive.", hi: "स्टाफ बहुत पेशेवर और सहयोगी है।" },
         "Friendly Nature": { en: "Doctors have a very friendly nature.", hi: "डॉक्टरों का स्वभाव बहुत मिलनसार है।" },
         "Good Listener": { en: "The doctor listens to problems patiently.", hi: "डॉक्टर समस्या को धैर्यपूर्वक सुनते हैं।" },
-
-        // FACILITIES
         "Best Eye Hospital": { en: "It is the best eye hospital in {loc}.", hi: "यह {loc} का सबसे अच्छा आँखों का अस्पताल है।" },
         "Clean & Hygienic": { en: "The hospital is very clean and hygienic.", hi: "अस्पताल बहुत साफ और स्वच्छ है।" },
-        "Fast Service": { en: "Service was fast, no long waiting time.", hi: "सेवा तेज थी, ज्यादा इंतजार नहीं करना पड़ा।" },
+        "Fast Service": { en: "Service was fast, no long waiting time.", hi: "सेवा तेज थी, ज्यादा इंतजार नहीं करना पड़ा।" },
         "Good Management": { en: "Everything is well managed here.", hi: "यहाँ सब कुछ अच्छी तरह से प्रबंधित है।" },
         "Medical Store Inside": { en: "Pharmacy is available inside the hospital.", hi: "अस्पताल के अंदर ही मेडिकल स्टोर उपलब्ध है।" },
         "Optical Shop": { en: "They have a good optical shop for glasses.", hi: "चश्मे के लिए उनके पास अच्छी दुकान है।" },
-
-        // TREATMENT
         "Successful Treatment": { en: "My treatment was 100% successful.", hi: "मेरा इलाज 100% सफल रहा।" },
         "Painless Surgery": { en: "The surgery was completely painless.", hi: "सर्जरी पूरी तरह से दर्द रहित थी।" },
         "Affordable Fees": { en: "Treatment charges are very affordable.", hi: "इलाज का खर्च बहुत कम और वाजिब है।" },
         "Latest Machines": { en: "Hospital is equipped with latest machines.", hi: "अस्पताल आधुनिक मशीनों से सुसज्जित है।" },
         "Ayushman Card": { en: "Ayushman card facility is available.", hi: "आयुष्मान कार्ड की सुविधा उपलब्ध है।" },
         "Laser Treatment": { en: "Advanced laser treatment is available.", hi: "आधुनिक लेजर उपचार उपलब्ध है।" },
-
-        // OVERALL
         "Best in Chaksu": { en: "Definately the best hospital in Chaksu.", hi: "चाकसू में निश्चित रूप से सबसे अच्छा अस्पताल।" },
         "Highly Recommended": { en: "I highly recommend everyone to visit here.", hi: "मैं सभी को यहाँ आने की सलाह देता हूँ।" },
         "Old & Trusted": { en: "It is an old and trusted eye care center.", hi: "यह एक पुराना और भरोसेमंद नेत्र देखभाल केंद्र है।" }
     };
+
+    // Helper to get random item
+    function getRandom(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
 
     let selectedKeywords = [];
     
@@ -442,16 +513,16 @@
         let review = "";
         const isHindi = (lang === 'hi');
         
-        // Intro
-        if(isHindi) {
-             review = `मैं हाल ही में विकास मेमोरियल आई हॉस्पिटल, ${location} गया था। `;
-             if(userName) review = `मैं ${userName} हूँ। ` + review;
-        } else {
-             review = `I recently visited Vikash Memorial Eye Hospital in ${location}. `;
-             if(userName) review = `I am ${userName}. ` + review;
+        // 1. Random Intro
+        let introTemplate = isHindi ? getRandom(introsHi) : getRandom(introsEn);
+        review = introTemplate.replace("{loc}", location) + " ";
+
+        // Add Name if present
+        if(userName) {
+            review = (isHindi ? `मैं ${userName} हूँ। ` : `I am ${userName}. `) + review;
         }
 
-        // Body (Map Keywords to Sentences)
+        // 2. Body (Keywords)
         selectedKeywords.forEach(key => {
             if(keywordData[key]) {
                 let sentence = isHindi ? keywordData[key].hi : keywordData[key].en;
@@ -460,9 +531,9 @@
             }
         });
 
-        // Outro
-        if(isHindi) review += "धन्यवाद!";
-        else review += "Thank you!";
+        // 3. Random Outro
+        let outroTemplate = isHindi ? getRandom(outrosHi) : getRandom(outrosEn);
+        review += outroTemplate.replace("{loc}", location);
         
         displayResult(review);
     }
