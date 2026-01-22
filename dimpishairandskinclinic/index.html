@@ -1,12 +1,15 @@
-<meta charset="UTF-8">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Feedback - DLS Clinics Hyderabad</title>
     <style>
-        /* --- THEME COLORS (Aesthetic Clinic Look) --- */
+        /* --- THEME COLORS --- */
         :root {
-            --primary: #0f766e; /* Teal/Deep Green */
+            --primary: #0f766e;
             --primary-dark: #0d5f57;
-            --bg-color: #f0fdfa; /* Very Light Teal */
+            --bg-color: #f0fdfa;
             --card-bg: #ffffff;
             --text-main: #334155;
             --gold: #fbbf24;
@@ -115,14 +118,14 @@
         
         .toggle-name { font-size: 13px; color: var(--primary); text-decoration: underline; cursor: pointer; float: right; margin-top: 5px; border: none; background: none; }
     </style>
-
-
+</head>
+<body>
 
 <div class="container">
     
-    <h1>Dimpi's Hair &amp; Skin Clinic<br><span style="font-size:16px; font-weight:600;">(Now DLS Clinics)</span></h1>
+    <h1>Dimpi's Hair & Skin Clinic<br><span style="font-size:16px; font-weight:600;">(Now DLS Clinics)</span></h1>
     <div class="location">✨ Ashok Nagar • Hyderabad</div>
-    <div><a href="tel:+9192465 56996" class="phone-link">📞 Call Clinic</a></div>
+    <div><a href="tel:+919876543210" class="phone-link">📞 Call Clinic</a></div>
 
     <div id="ratingScreen" class="fade-in">
         <p>How was your experience at DLS Clinics?</p>
@@ -163,7 +166,7 @@
             <div style="margin-bottom:10px;">
                 <label style="margin-top:0; font-size:10px;">Select Language / भाषा / భాష</label>
                 <select id="voiceLangSelect" style="padding:8px; font-size:13px; margin-bottom:5px;">
-                    <option value="te-IN" selected="">Telugu (తెలుగు)</option>
+                    <option value="te-IN" selected>Telugu (తెలుగు)</option>
                     <option value="hi-IN">Hindi (हिंदी)</option>
                     <option value="en-IN">English</option>
                 </select>
@@ -173,7 +176,7 @@
                 <button onclick="startListening()" id="micBtn" style="background:var(--primary); color:white; border:none; width:50px; height:50px; border-radius:50%; font-size:24px; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.1); transition:0.2s;">🎤</button>
                 <div style="flex:1;">
                     <p id="statusText" style="font-size:12px; color:var(--gray); margin:0;">
-                        Tap Mic &amp; Speak...<br>
+                        Tap Mic & Speak...<br>
                         (Ex: "Treatment chala bagundi")
                     </p>
                 </div>
@@ -218,10 +221,10 @@
             <input type="text" id="userName" placeholder="Your Name (Optional)">
         </div>
 
-        <label style="clear:both;">Select what you liked (Pick 4-5)</label>
+        <label style="clear:both;">Select what you liked (Pick 3-4)</label>
         
         <div class="keywords-container">
-            <div class="cat-title">Clinic &amp; Staff</div>
+            <div class="cat-title">Clinic & Staff</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Skin Care Clinic')">🏥 Best Skin Care Clinic</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Dermatologist')">👨‍⚕️ Best Dermatologist</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Hair Clinic')">💇‍♂️ Best Hair Clinic</div>
@@ -235,7 +238,7 @@
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Dandruff Reduction')">❄️ Dandruff Reduction</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Oxy Bar Treatment')">💧 Oxy Bar Hair Treat</div>
 
-            <div class="cat-title">Skin &amp; Face Glow</div>
+            <div class="cat-title">Skin & Face Glow</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Hydrafacial')">✨ Hydrafacial</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Carbon Facial')">🌑 Carbon Facial</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Acne Reduction')">🚫 Acne Reduction</div>
@@ -244,7 +247,7 @@
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Microdermabrasion')">🔬 Microdermabrasion</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Wart Removal')">🩹 Wart Removal</div>
 
-            <div class="cat-title">Body &amp; Others</div>
+            <div class="cat-title">Body & Others</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Weight Loss')">⚖️ Weight/Fat Loss</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Ear Piercing')">👂 Ear Piercing</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'LED Therapy')">💡 LED Therapy</div>
@@ -252,9 +255,9 @@
 
         <button class="action-btn" onclick="generateReview()">🚀 Generate Manual Review</button>
 
-        <textarea id="reviewOutput" style="width:100%; height:140px; margin-top:15px; border-radius:8px; padding:10px; border:1px solid #ccfbf1; display:none; background:#fff;" readonly=""></textarea>
+        <textarea id="reviewOutput" style="width:100%; height:140px; margin-top:15px; border-radius:8px; padding:10px; border:1px solid #ccfbf1; display:none; background:#fff;" readonly></textarea>
         
-        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy &amp; Open Google</button>
+        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy & Open Google</button>
     </div>
 
     <div class="footer">
@@ -267,8 +270,8 @@
 </div>
 
 <script>
-    // --- INSERT YOUR CLIENT'S GOOGLE REVIEW LINK HERE ---
-    const GOOGLE_REVIEW_LINK = "https://maps.app.goo.gl/QTxGvy5Mbv9UuW8L7?g_st=iw"; 
+    // --- LINK ---
+    const GOOGLE_REVIEW_LINK = "https://g.page/r/YOUR_LINK_HERE/review"; 
     
     // 1. RATING SYSTEM
     let currentRating = 0;
@@ -313,7 +316,7 @@
         document.getElementById('thankYouScreen').style.display = 'block';
     }
 
-    // 2. VOICE RECOGNITION + REAL TRANSLATION API
+    // 2. VOICE RECOGNITION (WITH TELUGU)
     let recognition;
 
     function startListening() {
@@ -325,10 +328,8 @@
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         recognition = new SpeechRecognition();
         
-        // GET SELECTED LANGUAGE (Telugu / Hindi / English)
         const selectedLang = document.getElementById('voiceLangSelect').value;
         recognition.lang = selectedLang; 
-        
         recognition.interimResults = false; 
         recognition.maxAlternatives = 1;
 
@@ -353,8 +354,7 @@
             statusText.innerText = "Translating with AI...";
             statusText.style.color = "#0f766e";
             
-            // Pass language code for translation
-            const sourceLang = selectedLang.split('-')[0]; // 'te' or 'hi'
+            const sourceLang = selectedLang.split('-')[0]; 
             translateWithAPI(rawText, sourceLang);
         };
 
@@ -381,7 +381,6 @@
         const location = document.getElementById('locationSelect').value;
         const statusText = document.getElementById('statusText');
 
-        // If user spoke English, no need to translate
         if(sourceLang === 'en') {
              const finalReview = `I visited DLS Clinics in ${location}. ${text}. Highly recommended!`;
              displayResult(finalReview);
@@ -390,7 +389,6 @@
         }
 
         try {
-            // Translate from Source (te/hi) to English (en)
             const apiUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${sourceLang}|en`;
             const response = await fetch(apiUrl);
             const data = await response.json();
@@ -407,41 +405,83 @@
         } catch (error) {
             console.error("API Error:", error);
             statusText.innerText = "Network Error. Using Offline Mode.";
-            // Fallback
             displayResult(`I visited DLS Clinics in ${location}. Excellent treatment and staff. Highly recommended!`);
         }
     }
 
-    // --- 3. MANUAL LOGIC (KEYWORD MAPPING) ---
+    // --- 3. DYNAMIC MANUAL LOGIC (RANDOMIZED ARRAYS) ---
+    // Each keyword now has multiple options (Array of strings)
     const keywordData = {
         // GENERAL
-        "Best Skin Care Clinic": { en: "It is the best skin care clinic in Hyderabad.", hi: "यह हैदराबाद का सबसे अच्छा स्किन केयर क्लिनिक है।" },
-        "Best Dermatologist": { en: "The dermatologist is very experienced and knowledgeable.", hi: "डर्मेटोलॉजिस्ट बहुत अनुभवी और ज्ञानी हैं।" },
-        "Best Hair Clinic": { en: "Highly recommended for hair treatments.", hi: "बालों के इलाज के लिए सबसे बेहतरीन जगह है।" },
-        "Friendly Staff": { en: "The staff is very polite and friendly.", hi: "स्टाफ बहुत विनम्र और मिलनसार है।" },
-        "Best Beauty Clinic": { en: "Amazing beauty and aesthetic services.", hi: "सौंदर्य सेवाओं के लिए बहुत अच्छी जगह है।" },
+        "Best Skin Care Clinic": { 
+            en: ["Hands down the best skin care clinic in Hyderabad.", "If you are looking for skin treatments, DLS is the best place.", "Top-notch facility for all skin related issues."], 
+            hi: ["यह हैदराबाद का सबसे अच्छा स्किन केयर क्लिनिक है।", "त्वचा की देखभाल के लिए यह सबसे बेहतरीन जगह है।"] 
+        },
+        "Best Dermatologist": { 
+            en: ["The dermatologist is extremely knowledgeable and experienced.", "Dr. explained everything so well, truly the best.", "Very skilled dermatologist, diagnosed my issue immediately."], 
+            hi: ["डर्मेटोलॉजिस्ट बहुत अनुभवी और ज्ञानी हैं।", "डॉक्टर ने सब कुछ बहुत अच्छे से समझाया।"] 
+        },
+        "Best Hair Clinic": { 
+            en: ["Highly recommended for anyone facing hair issues.", "The best clinic for hair treatments in the city.", "I had a great experience with their hair services."], 
+            hi: ["बालों के इलाज के लिए सबसे बेहतरीन जगह है।", "बालों की समस्याओं के लिए मैं इसकी सलाह दूंगा।"] 
+        },
+        "Friendly Staff": { 
+            en: ["The staff is very polite and welcoming.", "Staff members are helpful and guide you well.", "Loved the hospitality of the clinic staff."], 
+            hi: ["स्टाफ बहुत विनम्र और मिलनसार है।", "क्लिनिक के कर्मचारी बहुत सहयोगी हैं।"] 
+        },
         
-        // HAIR
-        "Hair Transplant": { en: "My hair transplant surgery was very successful.", hi: "मेरा हेयर ट्रांसप्लांट बहुत सफल रहा।" },
-        "Hair Regrowth": { en: "I saw visible hair regrowth within months.", hi: "मुझे कुछ ही महीनों में बालों की ग्रोथ दिखाई दी।" },
-        "Hair Restoration": { en: "Best place for hair restoration treatment.", hi: "हेयर रेस्टोरेशन के लिए सबसे अच्छी जगह है।" },
-        "Dandruff Reduction": { en: "Got instant relief from dandruff issues.", hi: "रूसी की समस्या से तुरंत राहत मिली।" },
-        "Oxy Bar Treatment": { en: "Oxy Bar treatment made my hair very healthy.", hi: "ऑक्सी बार ट्रीटमेंट से मेरे बाल बहुत अच्छे हो गए।" },
+        // HAIR TREATMENTS
+        "Hair Transplant": { 
+            en: ["My hair transplant results are fantastic.", "Got my hair transplant done here, highly satisfied.", "The transplant procedure was smooth and effective."], 
+            hi: ["मेरा हेयर ट्रांसप्लांट बहुत सफल रहा।", "हेयर ट्रांसप्लांट के नतीजे बहुत अच्छे आए हैं।"] 
+        },
+        "Hair Regrowth": { 
+            en: ["I saw visible hair regrowth within just a few months.", "Their treatment helped me regrow my hair effectively.", "Amazing results for hair regrowth."], 
+            hi: ["मुझे कुछ ही महीनों में बालों की ग्रोथ दिखाई दी।", "बालों को दोबारा उगाने के लिए यह इलाज बेहतरीन है।"] 
+        },
+        "Hair Restoration": { 
+            en: ["Best place for hair restoration treatment.", "They restored my hair density beautifully.", "Very happy with the hair restoration process."], 
+            hi: ["हेयर रेस्टोरेशन के लिए सबसे अच्छी जगह है।", "इन्होंने मेरे बालों को बहुत अच्छे से रिस्टोर किया।"] 
+        },
+        "Dandruff Reduction": { 
+            en: ["Got instant relief from chronic dandruff.", "Their anti-dandruff treatment works like magic.", "Finally free from dandruff thanks to DLS."], 
+            hi: ["रूसी की समस्या से तुरंत राहत मिली।", "इनका डैंड्रफ ट्रीटमेंट बहुत असरदार है।"] 
+        },
 
         // SKIN
-        "Hydrafacial": { en: "The Hydrafacial gave my skin an amazing glow.", hi: "हाइड्राफेशियल से मेरे चेहरे पर गजब का निखार आया।" },
-        "Carbon Facial": { en: "Carbon facial treatment was very effective.", hi: "कार्बन फेशियल ट्रीटमेंट बहुत असरदार रहा।" },
-        "Acne Reduction": { en: "My acne and pimples have reduced significantly.", hi: "मेरे कील-मुंहासे काफी कम हो गए हैं।" },
-        "Korean Skin Treatment": { en: "Loved the Korean glass skin treatment.", hi: "कोरियन ग्लास स्किन ट्रीटमेंट बहुत पसंद आया।" },
-        "Skin Lightning": { en: "Visible skin lightening results after chemical peel.", hi: "केमिकल पील के बाद त्वचा में निखार आया।" },
-        "Microdermabrasion": { en: "Microdermabrasion made my skin smooth.", hi: "माइक्रोडर्माब्रेशन से मेरी त्वचा बहुत मुलायम हो गई।" },
-        "Wart Removal": { en: "Painless wart removal treatment.", hi: "मस्से हटाने का इलाज बिना दर्द के हुआ।" },
+        "Hydrafacial": { 
+            en: ["The Hydrafacial gave my skin an instant glow.", "Loved the Hydrafacial, my skin feels so fresh.", "Best Hydrafacial experience ever."], 
+            hi: ["हाइड्राफेशियल से मेरे चेहरे पर गजब का निखार आया।", "त्वचा बहुत साफ और चमकदार हो गई है।"] 
+        },
+        "Acne Reduction": { 
+            en: ["My acne and pimples have reduced significantly.", "Finally found a solution for my acne here.", "Clear skin achieved thanks to their acne treatment."], 
+            hi: ["मेरे कील-मुंहासे काफी कम हो गए हैं।", "मुंहासों के इलाज के लिए यह जगह बहुत अच्छी है।"] 
+        },
+        "Korean Skin Treatment": { 
+            en: ["Loved the Korean glass skin treatment.", "My skin feels like glass after the Korean facial.", "Try their Korean treatment for glowing skin."], 
+            hi: ["कोरियन ग्लास स्किन ट्रीटमेंट बहुत पसंद आया।", "त्वचा शीशे जैसी चमक रही है।"] 
+        },
+        "Wart Removal": { 
+            en: ["Painless wart removal treatment.", "Removed my warts without any scars.", "Quick and safe wart removal procedure."], 
+            hi: ["मस्से हटाने का इलाज बिना दर्द के हुआ।", "बिना किसी निशान के मस्से हट गए।"] 
+        },
 
         // BODY
-        "Weight Loss": { en: "I lost weight effectively with their fat loss treatment.", hi: "फैट लॉस ट्रीटमेंट से मेरा वजन कम हुआ।" },
-        "Ear Piercing": { en: "Ear piercing was done safely and hygienically.", hi: "कान छिदवाने की प्रक्रिया बहुत सफाई से हुई।" },
-        "LED Therapy": { en: "LED therapy was very relaxing and effective.", hi: "एलईडी थेरेपी बहुत आरामदायक और प्रभावी थी।" }
+        "Weight Loss": { 
+            en: ["I lost weight effectively with their treatment.", "Great results from the fat loss program.", "Helping me achieve my ideal weight effortlessly."], 
+            hi: ["फैट लॉस ट्रीटमेंट से मेरा वजन कम हुआ।", "वजन घटाने के लिए बहुत अच्छी जगह है।"] 
+        },
+        "Ear Piercing": { 
+            en: ["Ear piercing was done safely and hygienically.", "Painless ear piercing experience for my kid.", "Very professional ear piercing service."], 
+            hi: ["कान छिदवाने की प्रक्रिया बहुत सफाई से हुई।", "बिना दर्द के कान छिदवाने का अनुभव अच्छा रहा।"] 
+        }
     };
+
+    // Helper to get random item from array
+    function getRandom(arr) {
+        if (!arr) return "";
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
 
     let selectedKeywords = [];
     
@@ -469,26 +509,38 @@
         let review = "";
         const isHindi = (lang === 'hi');
         
-        // Intro
-        if(isHindi) {
-             review = `मैं हाल ही में DLS Clinics (Dimpi's Hair & Skin Clinic), ${location} गया था। `;
-             if(userName) review = `मैं ${userName} हूँ। ` + review;
-        } else {
-             review = `I recently visited DLS Clinics (Dimpi's Hair & Skin Clinic) in ${location}. `;
-             if(userName) review = `I am ${userName}. ` + review;
-        }
+        // 1. Random Intro
+        const introsEn = [
+            `I recently visited DLS Clinics (Dimpi's Hair & Skin Clinic) in ${location}.`, 
+            `My experience at DLS Clinics, ${location} was wonderful.`, 
+            `I went to DLS Clinics in ${location} for a treatment.`
+        ];
+        const introsHi = [
+            `मैं हाल ही में DLS Clinics (Dimpi's Hair & Skin Clinic), ${location} गया था।`, 
+            `DLS Clinics, ${location} में मेरा अनुभव बहुत अच्छा रहा।`
+        ];
 
-        // Body
+        review = isHindi ? getRandom(introsHi) : getRandom(introsEn);
+        if(userName) review = (isHindi ? `मैं ${userName} हूँ। ` : `I am ${userName}. `) + review;
+        review += " ";
+
+        // 2. Body (Randomized Sentences per Keyword)
         selectedKeywords.forEach(key => {
             if(keywordData[key]) {
-                let sentence = isHindi ? keywordData[key].hi : keywordData[key].en;
-                review += sentence + " ";
+                // Get the array of sentences for the selected language
+                const options = isHindi ? keywordData[key].hi : keywordData[key].en;
+                // Pick one random sentence
+                if(options) {
+                    review += getRandom(options) + " ";
+                }
             }
         });
 
-        // Outro
-        if(isHindi) review += "धन्यवाद!";
-        else review += "Highly recommended!";
+        // 3. Random Outro
+        const outrosEn = ["Highly recommended!", "Thank you DLS team.", "Must visit for skin/hair issues.", "Five stars!"];
+        const outrosHi = ["धन्यवाद!", "मैं जरूर सलाह दूंगा।", "बहुत अच्छा काम किया।"];
+
+        review += isHindi ? getRandom(outrosHi) : getRandom(outrosEn);
         
         displayResult(review);
     }
@@ -512,3 +564,6 @@
         });
     }
 </script>
+
+</body>
+</html>
