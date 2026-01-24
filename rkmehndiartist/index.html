@@ -181,6 +181,7 @@
                     <option value="Rajasthan">Rajasthan</option>
                     <option value="Mansarovar">Mansarovar</option>
                     <option value="Vaishali Nagar">Vaishali Nagar</option>
+                    <option value="Malviya Nagar">Malviya Nagar</option>
                 </select>
             </div>
             <div style="flex:1;">
@@ -189,17 +190,20 @@
                     <option value="Grateful">Grateful 🙏</option>
                     <option value="Professional">Professional 💼</option>
                     <option value="Friendly">Friendly 😃</option>
+                    <option value="Short">Short & Sweet 👌</option>
                 </select>
             </div>
         </div>
 
-        <label>Mehndi Type</label>
+        <label>Mehndi Design Type</label>
         <select id="designSelect">
             <option value="Bridal">Bridal Mehndi 👰</option>
             <option value="Bharwa">Bharwa Mehndi ✨</option>
             <option value="Arabic">Arabic Mehndi 🌿</option>
             <option value="Portrait">Portrait Mehndi 🎨</option>
+            <option value="3D">3D Mehndi Design 💠</option>
             <option value="Leg">Leg/Feet Mehndi 🦶</option>
+            <option value="Baby Shower">Baby Shower Mehndi 🤰</option>
         </select>
 
         <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
@@ -210,21 +214,26 @@
         <label style="clear:both; margin-top: 15px;">Select highlights (Pick 3-4)</label>
 
         <div class="keywords-container">
-            <div class="cat-title">ARTIST & SERVICE</div>
+            <div class="cat-title">ARTIST QUALITY</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Mehndi artist')">🏆 Best Artist</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Professional henna')">🖌️ Professional</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Home service')">🏠 Home Service</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Portrait mehndi')">🎨 Portrait Expert</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Home service')">🏠 Home Service</div>
 
-            <div class="cat-title">DESIGN QUALITY</div>
+            <div class="cat-title">DESIGN & STYLE</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Bridal mehndi')">👰 Best Bridal</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Intricate Design')">✨ Intricate Work</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Peacock mehndi')">🦚 Peacock Design</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Dark Stain')">❤️ Dark Color</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Minimalist')">✨ Minimalist</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Peacock mehndi')">🦚 Peacock</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Jewellery mehndi')">💍 Jewellery Style</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Back hand')">🤚 Back Hand</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Leg mehndi')">🦶 Leg Designs</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Abstract')">🌀 Abstract</div>
 
-            <div class="cat-title">SAFETY</div>
+            <div class="cat-title">SPECIALTY & CARE</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Organic henna')">🌿 Organic Henna</div>
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Chemical-free')">🧪 Chemical-Free</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Groom mehndi')">🤵 Groom Mehndi</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Matching')">💞 Couple Matching</div>
         </div>
 
         <button class="action-btn" onclick="generateReview()">🚀 Generate Review</button>
@@ -302,7 +311,7 @@
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         recognition = new SpeechRecognition();
         
-        // Hindi handles Marwadi dictation well enough for keywords
+        // Hindi handles Marwadi dictation well enough
         recognition.lang = 'hi-IN'; 
         recognition.interimResults = false; 
         recognition.maxAlternatives = 1;
@@ -437,17 +446,47 @@
 
     // --- 4. MANUAL GENERATION ---
     let selectedKeywords = [];
-    const manualDB = {
-        "Best Mehndi artist": ["One of the best mehndi artists in town.", "Talented and skilled artist."],
-        "Professional henna": ["Very professional service.", "Clean and neat work."],
-        "Home service": ["Loved the doorstep service.", "On-time home service provided."],
-        "Portrait mehndi": ["The portrait was detailed and realistic.", "Expert in portrait mehndi."],
-        "Best Bridal mehndi": ["Perfect choice for bridal mehndi.", "Made my big day special."],
-        "Intricate Design": ["The details in the design were stunning.", "Very fine and intricate art."],
-        "Peacock mehndi": ["Beautiful peacock motifs.", "Loved the traditional peacock design."],
-        "Dark Stain": ["The color came out really dark.", "Quality of henna was excellent."],
-        "Organic henna": ["Safe and organic henna used.", "Smelled natural and safe."],
-        "Chemical-free": ["100% chemical free mehndi.", "No reaction, very safe."]
+    
+    // FULL KEYWORD DATABASE RESTORED
+    const reviewDB = {
+        intros: {
+            "Professional": ["I recently booked R K Mehndi Artist in {location}.", "We hired R K Mehndi Artist for a wedding in {location}."],
+            "Friendly": ["Loved the vibe and art of R K Mehndi Artist in {location}!", "Such a sweet team and amazing talent."],
+            "Short": ["Best mehndi artist in {location}.", "Great service."],
+            "Grateful": ["I am so thankful to R K Mehndi Artist.", "Thank you for making my day special."]
+        },
+        designSentences: {
+            "Bridal": "The **Bridal Mehndi** was intricate and stunning.",
+            "Bharwa": "The **Bharwa Mehndi** looked so full and traditional.",
+            "Arabic": "Loved the flow of the **Arabic Mehndi** design.",
+            "Portrait": "The **Portrait Mehndi** was a masterpiece, looked exactly like the photo.",
+            "3D": "The **3D Mehndi** effect was unique and modern.",
+            "Leg": "The **Leg/Feet Mehndi** was applied with precision.",
+            "Baby Shower": "The **Baby Shower** design was so cute."
+        },
+        keywords: {
+            "Best Mehndi artist": ["Truly the best mehndi artist in {location}.", "Hard to find such skill."],
+            "Best Bridal mehndi": ["My bridal design was exactly what I dreamed of.", "Best choice for bridal henna."],
+            "Home service": ["Loved the convenience of home service.", "They arrived on time."],
+            "Professional henna": ["Application was clean and professional.", "Very professional team."],
+            "Leg mehndi": ["The leg designs were so detailed.", "Beautiful work on feet."],
+            "Groom mehndi": ["My husband loved his minimalist groom mehndi.", "Great designs for grooms too."],
+            "Minimalist": ["I wanted a minimalist design and they nailed it.", "Perfect simple art."],
+            "Matching": ["Loved the matching designs for bride and groom.", "Great coordination."],
+            "Organic henna": ["Happy they use organic henna.", "Smelled natural and safe."],
+            "Chemical-free": ["Safe for sensitive skin.", "Got a dark stain without chemicals."],
+            "Portrait mehndi": ["Experts in portrait mehndi art.", "Face detailing was unbelievable."],
+            "Jewellery mehndi": ["Looked like real ornaments.", "Trendy jewellery patterns."],
+            "Peacock mehndi": ["Intricate peacock designs.", "Traditional peacock motifs were beautiful."],
+            "Back hand": ["The back hand design was chic.", "Gorgeous Arabic style back hand work."],
+            "Abstract": ["Unique abstract designs.", "Very creative art."]
+        },
+        outros: {
+            "Professional": ["Highly recommended.", "A truly professional service."],
+            "Friendly": ["Can't wait to book again!", "You guys are the best!"],
+            "Short": ["Must try.", "5 Stars."],
+            "Grateful": ["God bless your hands.", "Truly grateful."]
+        }
     };
 
     function toggleNameField() { 
@@ -464,29 +503,28 @@
         const userName = document.getElementById('userName').value.trim();
         const location = document.getElementById('locationSelect').value;
         const tone = document.getElementById('toneSelect').value;
+        const designType = document.getElementById('designSelect').value;
         
         if (selectedKeywords.length === 0) { alert("Select at least 3 highlights."); return; }
 
-        // Intro
-        const intros = [
-            `I booked R K Mehndi Artist in ${location}.`,
-            `Had a great experience with R K Mehndi Artist, ${location}.`,
-            `Best mehndi service in ${location}.`
-        ];
-        let review = getRandom(intros);
-        if(userName) review = `I am ${userName}. ` + review;
-        review += " ";
+        // 1. Intro
+        let intro = getRandom(reviewDB.intros[tone]).replace("{location}", location);
+        if(userName) intro = `I am ${userName}. ` + intro;
 
-        // Body
+        // 2. Design Sentence
+        let designSent = reviewDB.designSentences[designType] || "";
+
+        // 3. Body
+        let body = "";
         selectedKeywords.forEach(k => {
-            if(manualDB[k]) review += getRandom(manualDB[k]) + " ";
+            if(reviewDB.keywords[k]) body += getRandom(reviewDB.keywords[k]) + " ";
         });
 
-        // Outro
-        const outros = ["Highly recommended!", "Thank you!", "Must try."];
-        review += getRandom(outros);
+        // 4. Outro
+        let outro = getRandom(reviewDB.outros[tone]);
 
-        displayResult(review);
+        const finalReview = `${intro} ${designSent} ${body} ${outro}`;
+        displayResult(finalReview);
     }
 
     function displayResult(text) {
