@@ -158,12 +158,13 @@
             <p style="margin:0 0 10px 0; font-size:13px; font-weight:700; color:var(--primary);">
                 🎙️ Speak (Hindi/Marwadi) -> Get English Review
             </p>
+            
             <div style="display:flex; gap:10px; align-items:center;">
                 <button onclick="startListening()" id="micBtn" style="background:var(--accent); color:white; border:none; width:50px; height:50px; border-radius:50%; font-size:24px; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.1); transition:0.2s;">🎤</button>
                 <div style="flex:1;">
                     <p id="statusText" style="font-size:12px; color:var(--text-dark); margin:0;">
                         Mic dabayein aur bolein...<br>
-                        (Jaise: "Mehndi ghani chokhi lagayi")
+                        (Jaise: "Mehndi ka rang bahut accha aaya")
                     </p>
                 </div>
             </div>
@@ -234,7 +235,7 @@
             <div class="keyword-chip" onclick="toggleKeyword(this, 'Matching')">💞 Couple Matching</div>
         </div>
 
-        <button class="action-btn" onclick="generateReview()">🚀 Generate Random Review</button>
+        <button class="action-btn" onclick="generateReview()">🚀 Generate Review</button>
 
         <textarea id="reviewOutput" style="width:100%; height:130px; margin-top:15px; border-radius:8px; padding:10px; border:1px solid #d4c5a3; display:none; background:#fff;" readonly></textarea>
         
@@ -251,6 +252,7 @@
 </div>
 
 <script>
+    // --- LINK ---
     const GOOGLE_REVIEW_LINK = "https://www.google.com/search?q=R+K+Mehndi+Artist+Reviews"; 
     
     // 1. RATING SYSTEM
@@ -296,7 +298,7 @@
         document.getElementById('thankYouScreen').style.display = 'block';
     }
 
-    // 2. VOICE RECOGNITION (HINDI/MARWADI)
+    // 2. VOICE RECOGNITION (HINDI/MARWADI -> API -> ENGLISH)
     let recognition;
 
     function startListening() {
@@ -307,6 +309,7 @@
 
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         recognition = new SpeechRecognition();
+        
         recognition.lang = 'hi-IN'; 
         recognition.interimResults = false; 
         recognition.maxAlternatives = 1;
@@ -330,12 +333,11 @@
             spokenDisplay.style.display = 'block';
             spokenDisplay.innerText = `Aapne bola: "${text}"`;
             
-            statusText.innerText = "Translating...";
+            statusText.innerText = "Translating with AI...";
             statusText.style.color = "#386641";
 
-            setTimeout(() => {
-                translateMarwadiToEnglish(text);
-            }, 800);
+            // Call API
+            translateWithAPI(text);
         };
 
         recognition.onerror = function() { resetMicUI(); };
@@ -354,65 +356,60 @@
         }, 2000);
     }
 
-    // --- 3. LOGIC & DATA ---
-    function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-
-    // VOICE LOGIC
-    function translateMarwadiToEnglish(hindiText) {
-        const lowerText = hindiText.toLowerCase();
+    // --- 3. REAL TRANSLATION API LOGIC ---
+    async function translateWithAPI(hindiText) {
         const location = document.getElementById('locationSelect').value;
-        let phrases = [];
-        let matchFound = false;
+        const statusText = document.getElementById('statusText');
 
-        phrases.push(getRandom([
-            `I recently booked R K Mehndi Artist in ${location}.`,
-            `We hired R K Mehndi Artist for a function in ${location}.`,
-            `Just got my mehndi done by R K Artist in ${location}.`
-        ]));
+        try {
+            // Using MyMemory Free Translation API
+            const apiUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(hindiText)}&langpair=hi|en`;
+            
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+            
+            let translatedText = "";
+            
+            if(data.responseData && data.responseData.translatedText) {
+                translatedText = data.responseData.translatedText;
+            } else {
+                throw new Error("Translation failed");
+            }
 
-        if(lowerText.match(/(chokho|chokhi|futra|sunder|badiya|accha|acha|mast|jordar|shandar|badhiya|sohna)/)) {
-            phrases.push(getRandom(["The mehndi design was absolutely beautiful.", "Loved the intricate and traditional art.", "The design turned out very elegant and neat."]));
-            matchFound = true;
-        }
-        if(lowerText.match(/(rang|color|rachya|gehra|dark|laal|red|maroon)/)) {
-            phrases.push(getRandom(["The stain of the henna turned out very dark and rich.", "I am in love with the dark color of the mehndi.", "High quality henna was used, the color is amazing."]));
-            matchFound = true;
-        }
-        if(lowerText.match(/(bhaiya|artist|svabhav|nature|vyavahar|aadmi|log|team)/)) {
-            phrases.push(getRandom(["The artist is very polite and professional.", "Very humble team and great service.", "R K Mehndi Artist is very patient and skilled."]));
-            matchFound = true;
-        }
-        if(lowerText.match(/(paisa|rate|daam|sasta|kam|price|budget|kimat)/)) {
-            phrases.push(getRandom(["Their prices are very reasonable.", "Great service at an affordable price.", "Value for money experience."]));
-            matchFound = true;
-        }
-        if(lowerText.match(/(aana|sabko|jarur|try|bataunga|recommended)/)) {
-            phrases.push(`I highly recommend R K Mehndi Artist to everyone in ${location}.`);
-            matchFound = true;
-        }
+            // Create Professional Structure
+            const finalReview = `I booked R K Mehndi Artist in ${location}. ${translatedText} Highly recommended!`;
+            
+            displayResult(finalReview);
+            statusText.innerText = "Done!";
 
-        if(!matchFound) {
-            phrases.push("They provide excellent mehndi services. Very happy with the overall experience.");
+        } catch (error) {
+            console.error("API Error:", error);
+            statusText.innerText = "Net Error. Using Basic Mode.";
+            // Fallback to manual logic if API fails
+            generateReview(); 
         }
-
-        phrases.push(getRandom(["Highly recommended!", "Thank you so much.", "Book them for your wedding!", "5 stars from me."]));
-        displayResult(phrases.join(" "));
     }
 
-    // MANUAL LOGIC - MASSIVE DATABASE
+    // --- 4. MANUAL GENERATION ---
+    // Helper for random selection
+    function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+    let selectedKeywords = [];
     const reviewDB = {
-        intros: [
-            "I recently booked R K Mehndi Artist in {location}.",
-            "We hired R K Mehndi Artist for a wedding in {location}.",
-            "Had a great experience with R K Mehndi Artist, {location}.",
-            "Best mehndi service in {location} without a doubt.",
-            "I chose R K Mehndi Artist for my special day in {location}.",
-            "If you are in {location}, R K Mehndi Artist is the best choice.",
-            "My search for the perfect mehndi artist ended at R K Artist in {location}.",
-            "Just got my bridal mehndi done by R K Artist in {location}.",
-            "Highly professional team at R K Mehndi Artist, {location}.",
-            "We invited R K Mehndi Artist for a family function in {location}."
-        ],
+        intros: {
+            "Professional": ["I recently booked R K Mehndi Artist in {location}.", "We hired R K Mehndi Artist for a wedding in {location}."],
+            "Friendly": ["Loved the vibe and art of R K Mehndi Artist in {location}!", "Such a sweet team and amazing talent."],
+            "Grateful": ["I am so thankful to R K Mehndi Artist.", "Thank you for making my day special."]
+        },
+        designSentences: {
+            "Bridal": "The **Bridal Mehndi** was intricate and stunning.",
+            "Bharwa": "The **Bharwa Mehndi** looked so full and traditional.",
+            "Arabic": "Loved the flow of the **Arabic Mehndi** design.",
+            "Portrait": "The **Portrait Mehndi** was a masterpiece, looked exactly like the photo.",
+            "3D": "The **3D Mehndi** effect was unique and modern.",
+            "Leg": "The **Leg/Feet Mehndi** was applied with precision.",
+            "Baby Shower": "The **Baby Shower** design was so cute."
+        },
         keywords: {
             "Best Mehndi artist": ["Truly the best mehndi artist in town.", "Hands down the most talented artist.", "Hard to find such a skilled hand.", "The artist has magical hands.", "One of the finest mehndi artists."],
             "Best Bridal mehndi": ["My bridal design was exactly what I dreamed of.", "Best choice for bridal henna.", "The bridal work was extremely detailed.", "Made my wedding day extra special.", "Every bride should book them."],
@@ -430,15 +427,13 @@
             "Back hand": ["The back hand design was modern and chic.", "Loved the flow of the design on the back of my hand.", "Gorgeous Arabic style back hand work.", "Back hand patterns were trendy.", "Stylish back hand designs."],
             "Abstract": ["Unique abstract designs unlike the usual patterns.", "Very creative and abstract art.", "Modern abstract henna for a stylish look.", "Creative and unique patterns.", "Something different and abstract."]
         },
-        outros: [
-            "Highly recommended!", "Thank you so much.", "Book them for your wedding!", "5 stars from me.",
-            "Will definitely book again.", "Truly satisfied with the work.", "Don't hesitate to book them.",
-            "Best in the business.", "A big thumbs up!", "Great value for money.", "Thanks to the entire team."
-        ]
+        outros: {
+            "Professional": ["Highly recommended.", "A truly professional service.", "Will book again."],
+            "Friendly": ["Can't wait to book again!", "You guys are the best!", "Lots of love."],
+            "Grateful": ["God bless your hands.", "Truly grateful.", "Heartfelt thanks."]
+        }
     };
 
-    let selectedKeywords = [];
-    
     function toggleNameField() { 
         document.getElementById('nameArea').style.display = 'block';
     }
@@ -452,23 +447,29 @@
     function generateReview() {
         const userName = document.getElementById('userName').value.trim();
         const location = document.getElementById('locationSelect').value;
+        const tone = document.getElementById('toneSelect').value;
+        const designType = document.getElementById('designSelect').value;
         
         if (selectedKeywords.length === 0) { alert("Select at least 3 highlights."); return; }
 
-        // 1. Random Intro
-        let review = getRandom(reviewDB.intros).replace("{location}", location);
-        if(userName) review = `I am ${userName}. ` + review;
-        review += " ";
+        // 1. Intro
+        let intro = getRandom(reviewDB.intros[tone]).replace("{location}", location);
+        if(userName) intro = `I am ${userName}. ` + intro;
 
-        // 2. Random Body Sentences
+        // 2. Design Sentence
+        let designSent = reviewDB.designSentences[designType] || "";
+
+        // 3. Body
+        let body = "";
         selectedKeywords.forEach(k => {
-            if(reviewDB.keywords[k]) review += getRandom(reviewDB.keywords[k]) + " ";
+            if(reviewDB.keywords[k]) body += getRandom(reviewDB.keywords[k]) + " ";
         });
 
-        // 3. Random Outro
-        review += getRandom(reviewDB.outros);
+        // 4. Outro
+        let outro = getRandom(reviewDB.outros[tone]);
 
-        displayResult(review);
+        const finalReview = `${intro} ${designSent} ${body} ${outro}`;
+        displayResult(finalReview);
     }
 
     function displayResult(text) {
