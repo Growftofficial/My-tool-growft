@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Food App - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #FFFFFF; }
+        .bg-app-green { background-color: #3D643E; } /* Photo wala exact green */
+        .bg-app-red { background-color: #C35355; }   /* Photo wala exact red */
+        .search-shadow { box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05); }
+    </style>
+</head>
+<body class="max-w-md mx-auto min-h-screen text-[#1A1A1A]">
+
+    <header class="bg-app-green text-white p-7 rounded-b-[45px]">
+        <div class="flex justify-between items-center mb-8">
+            <div class="space-y-1">
+                <p class="text-[13px] font-normal opacity-90">Lokasi</p>
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-map-marker-alt text-sm"></i>
+                    <span class="text-[15px] font-semibold">123 Anywhere St., Any City</span>
+                </div>
+            </div>
+            <button class="bg-white/20 p-3 rounded-2xl backdrop-blur-md">
+                <i class="far fa-bell text-xl"></i>
+            </button>
+        </div>
+
+        <div class="flex gap-3 pb-2">
+            <div class="relative flex-1">
+                <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></i>
+                <input type="text" placeholder="Search..." class="w-full py-4 pl-14 pr-4 rounded-[18px] text-black text-[15px] outline-none placeholder:text-gray-400">
+            </div>
+            <button class="bg-white px-4 rounded-[18px] text-[#3D643E]">
+                <img src="https://cdn-icons-png.flaticon.com/512/3524/3524659.png" class="w-6 h-6 opacity-70" alt="filter">
+            </button>
+        </div>
+    </header>
+
+    <main class="px-6 py-8 space-y-10">
+        
+        <section>
+            <div class="flex justify-between items-center mb-5">
+                <h2 class="font-extrabold text-[22px]">Special Offers</h2>
+                <a href="#" class="text-[14px] font-medium text-gray-500">See all <i class="fas fa-chevron-right text-[10px] ml-1"></i></a>
+            </div>
+            <div class="relative rounded-[32px] overflow-hidden h-[200px] shadow-lg">
+                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent p-7 flex flex-col justify-center text-white">
+                    <h3 class="text-[26px] font-extrabold leading-tight">Special Offers</h3>
+                    <div class="flex items-baseline gap-1">
+                        <span class="text-[14px] font-medium opacity-90">up to</span>
+                        <span class="text-[64px] font-extrabold leading-none">15</span>
+                    </div>
+                    <p class="text-[11px] mt-2 opacity-80 font-medium">*Syarat berlaku</p>
+                    <button class="bg-app-red w-fit px-8 py-2.5 rounded-full mt-4 text-[14px] font-bold shadow-md active:scale-95 transition-transform">Buy Now</button>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="flex justify-between items-center mb-5">
+                <h2 class="font-extrabold text-[22px]">Categories</h2>
+                <a href="#" class="text-[14px] font-medium text-gray-500">See all <i class="fas fa-chevron-right text-[10px] ml-1"></i></a>
+            </div>
+            <div class="flex justify-between px-1">
+                <div class="flex flex-col items-center gap-3">
+                    <div class="w-[72px] h-[72px] rounded-full bg-app-green border-[5px] border-[#2D4D30] flex items-center justify-center shadow-md">
+                        <i class="fas fa-drumstick-bite text-white text-2xl"></i>
+                    </div>
+                    <span class="text-[14px] font-bold">Food</span>
+                </div>
+                <div class="flex flex-col items-center gap-3">
+                    <div class="w-[72px] h-[72px] rounded-full bg-app-green flex items-center justify-center shadow-md">
+                        <i class="fas fa-glass-martini-alt text-white text-2xl"></i>
+                    </div>
+                    <span class="text-[14px] font-bold">Drink</span>
+                </div>
+                <div class="flex flex-col items-center gap-3">
+                    <div class="w-[72px] h-[72px] rounded-full bg-app-green flex items-center justify-center shadow-md">
+                        <i class="fas fa-ice-cream text-white text-2xl"></i>
+                    </div>
+                    <span class="text-[14px] font-bold">Dessert</span>
+                </div>
+                <div class="flex flex-col items-center gap-3">
+                    <div class="w-[72px] h-[72px] rounded-full bg-app-green flex items-center justify-center shadow-md">
+                        <i class="fas fa-birthday-cake text-white text-2xl"></i>
+                    </div>
+                    <span class="text-[14px] font-bold">Cake</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="pb-10">
+            <div class="flex justify-between items-center mb-5">
+                <h2 class="font-extrabold text-[22px]">Featured Product</h2>
+                <a href="#" class="text-[14px] font-medium text-gray-500">See all <i class="fas fa-chevron-right text-[10px] ml-1"></i></a>
+            </div>
+            <div class="grid grid-cols-2 gap-5">
+                <div class="bg-white border border-gray-100 rounded-[35px] p-4 shadow-sm relative">
+                    <button class="absolute top-5 left-5 bg-white/90 p-2 rounded-full shadow-sm">
+                        <i class="far fa-heart text-[#1A1A1A] text-sm"></i>
+                    </button>
+                    <div class="h-36 rounded-[25px] overflow-hidden mb-4">
+                         <img src="https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover">
+                    </div>
+                    <h4 class="font-extrabold text-[16px] px-1">Milky Matcha</h4>
+                    <div class="flex justify-between items-center mt-3 px-1">
+                        <span class="font-extrabold text-[18px]">$123</span>
+                        <button class="bg-app-red text-white w-9 h-9 rounded-full flex items-center justify-center shadow-sm">
+                            <i class="fas fa-plus text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="bg-white border border-gray-100 rounded-[35px] p-4 shadow-sm relative">
+                    <button class="absolute top-5 left-5 bg-white/90 p-2 rounded-full shadow-sm">
+                        <i class="far fa-heart text-[#1A1A1A] text-sm"></i>
+                    </button>
+                    <div class="h-36 rounded-[25px] overflow-hidden mb-4">
+                         <img src="https://images.unsplash.com/photo-1536599424071-0b215a388ba7?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover">
+                    </div>
+                    <h4 class="font-extrabold text-[16px] px-1">Matcha Cake</h4>
+                    <div class="flex justify-between items-center mt-3 px-1">
+                        <span class="font-extrabold text-[18px]">$123</span>
+                        <button class="bg-app-red text-white w-9 h-9 rounded-full flex items-center justify-center shadow-sm">
+                            <i class="fas fa-plus text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
+<div class="max-w-md mx-auto min-h-screen bg-white font-['Plus_Jakarta_Sans'] relative overflow-hidden">
+    <div class="h-[350px] relative">
+        <img src="https://images.unsplash.com/photo-1536599424071-0b215a388ba7?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover">
+        <div class="absolute top-8 left-6 right-6 flex justify-between">
+            <button class="bg-white p-3 rounded-xl shadow-md"><i class="fas fa-chevron-left"></i></button>
+            <button class="bg-white p-3 rounded-xl shadow-md"><i class="far fa-bell"></i></button>
+        </div>
+    </div>
+
+    <div class="bg-white absolute top-[280px] w-full min-h-screen rounded-t-[50px] px-7 pt-10">
+        <h1 class="text-center text-3xl font-extrabold mb-8">Cake</h1>
+        
+        <div class="grid grid-cols-2 gap-6 pb-20">
+            <div class="border border-gray-100 rounded-[35px] p-4 shadow-sm relative bg-white">
+                <button class="absolute top-5 left-5 bg-white/90 p-2 rounded-full"><i class="far fa-heart text-xs"></i></button>
+                <img src="https://images.unsplash.com/photo-1536599424071-0b215a388ba7?auto=format&fit=crop&q=80&w=300" class="h-32 w-full object-cover rounded-[25px] mb-3">
+                <h4 class="font-extrabold text-[15px]">Matcha Cake</h4>
+                <div class="flex justify-between items-center mt-2">
+                    <span class="font-extrabold text-lg">$123</span>
+                    <button class="bg-[#C35355] text-white w-8 h-8 rounded-full flex items-center justify-center"><i class="fas fa-plus text-xs"></i></button>
+                </div>
+            </div>
+            </div>
+    </div>
+</div>
