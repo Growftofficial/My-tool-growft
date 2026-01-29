@@ -1,0 +1,220 @@
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ideal Beauty Care - Feedback</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #d63384;
+            --success: #28a745;
+            --warning: #ffc107;
+            --whatsapp: #25D366;
+            --insta: #E1306C;
+            --fb: #1877F2;
+            --web: #00bcd4;
+            --call-btn: #ffc107;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 100%);
+            min-height: 100vh;
+        }
+
+        #main-card {
+            background: white;
+            border-radius: 25px;
+            padding: 25px 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h2 { color: var(--primary); margin-bottom: 5px; font-size: 22px; }
+        .subtitle { color: #777; margin-bottom: 20px; font-size: 14px; }
+
+        /* Review Section Container */
+        .feedback-box {
+            background: #fffafa;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #ffe1ed;
+            margin-bottom: 25px;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .stars { font-size: 32px; color: #ddd; margin: 10px 0; cursor: pointer; }
+        .stars .fa-star.active { color: var(--warning); }
+
+        .hidden { display: none; }
+
+        textarea {
+            width: 100%; border-radius: 10px; padding: 10px;
+            border: 1px solid #ddd; margin-top: 10px; box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .btn-action {
+            display: inline-block; padding: 12px 25px; border-radius: 50px;
+            text-decoration: none; font-weight: bold; margin-top: 15px;
+            cursor: pointer; border: none; transition: 0.3s;
+        }
+        .btn-next { background: var(--success); color: white; width: 85%; }
+        .btn-submit { background: var(--primary); color: white; }
+
+        /* --- Success Screen Styles --- */
+        .success-screen { animation: fadeIn 0.5s ease-in-out; text-align: center; }
+        
+        .top-call-btn {
+            background: var(--call-btn);
+            color: black;
+            padding: 8px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .check-icon {
+            background: #50d38a;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            margin: 0 auto 15px;
+        }
+
+        .success-screen h3 { color: #1e293b; margin: 0 0 10px; font-size: 24px; }
+        .success-screen p { color: #64748b; font-size: 14px; margin: 0; line-height: 1.4; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- Contact Grid --- */
+        .grid-title { font-size: 14px; font-weight: bold; color: #555; margin: 20px 0 10px; text-align: left; padding-left: 10px; }
+        .button-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .contact-link { text-decoration: none; color: #444; font-size: 10px; font-weight: 600; text-transform: uppercase; }
+        .icon-box { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; color: white; font-size: 18px; transition: 0.2s; }
+        
+        .bg-call { background: #007bff; }
+        .bg-wa { background: var(--whatsapp); }
+        .bg-ig { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+        .bg-fb { background: var(--fb); }
+        .bg-web { background: var(--web); }
+        .bg-save { background: var(--primary); }
+    </style>
+
+
+
+<div id="main-card">
+    <h2>Ideal Beauty Care</h2>
+    <p class="subtitle">Miss Sonali | Karegaon</p>
+
+    <div class="feedback-box" id="feedback-container">
+        <div id="question-ui">
+            <p style="margin:0; font-weight:bold;">How was your experience with us?</p>
+            <div class="stars" id="star-rating">
+                <i class="fas fa-star" data-value="1"></i>
+                <i class="fas fa-star" data-value="2"></i>
+                <i class="fas fa-star" data-value="3"></i>
+                <i class="fas fa-star" data-value="4"></i>
+                <i class="fas fa-star" data-value="5"></i>
+            </div>
+        </div>
+
+        <div id="positive-ui" class="hidden">
+            <p style="color: green; font-size: 14px;">Excellent! We are glad you liked it.</p>
+            <a href="https://g.page/r/CUMPLq21Er4SEBM/review" class="btn-action btn-next">NEXT STEP <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div id="negative-ui" class="hidden">
+            <p style="color: #d9534f; font-size: 14px;">What went wrong? Please let us know:</p>
+            <textarea id="complaint" rows="2" placeholder="Tell us your issue..."></textarea>
+            <button onclick="submitNegativeFeedback()" class="btn-action btn-submit">Submit Feedback</button>
+        </div>
+
+        <div id="success-screen" class="hidden success-screen">
+            <a href="tel:+918180868100" class="top-call-btn">
+                <i class="fas fa-phone-alt"></i> Call Us Now
+            </a>
+            <div class="check-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h3>Thank You!</h3>
+            <p>Your feedback has been submitted successfully.</p>
+            <p style="font-size: 12px; margin-top: 15px; font-style: italic;">Thanks for your post. People like you make Maps more helpful!</p>
+        </div>
+    </div>
+
+    <div class="grid-title">Connect With Us</div>
+    <div class="button-grid">
+        <a href="tel:+918180868100" class="contact-link">
+            <div class="icon-box bg-call"><i class="fas fa-phone"></i></div> CALL
+        </a>
+        <a href="https://wa.me/918180868100" class="contact-link">
+            <div class="icon-box bg-wa"><i class="fab fa-whatsapp"></i></div> WHATSAPP
+        </a>
+        <a href="https://www.instagram.com/ideal_beauty_care_sonal?utm_source=ig_web_button_share_sheet&amp;igsh=ZDNlZDc0MzIxNw==" class="contact-link">
+            <div class="icon-box bg-ig"><i class="fab fa-instagram"></i></div> INSTA
+        </a>
+        <a href="https://www.facebook.com/sonali.yashwante.798497" class="contact-link">
+            <div class="icon-box bg-fb"><i class="fab fa-facebook-f"></i></div> FB
+        </a>
+        <a href="https://www.idealbeautycare.in/" class="contact-link">
+            <div class="icon-box bg-web"><i class="fas fa-globe"></i></div> WEBSITE
+        </a>
+        <a href="https://drive.google.com/uc?export=download&amp;id=11z_CdlNGUFMn9dKVaXaqduQ0ccGheM4n" class="contact-link">
+            <div class="icon-box bg-save"><i class="fas fa-user-plus"></i></div> SAVE
+        </a>
+    </div>
+</div>
+
+<script>
+    const stars = document.querySelectorAll('#star-rating .fa-star');
+    const positiveUi = document.getElementById('positive-ui');
+    const negativeUi = document.getElementById('negative-ui');
+    const questionUi = document.getElementById('question-ui');
+    const successScreen = document.getElementById('success-screen');
+
+    stars.forEach(star => {
+        star.addEventListener('click', function() {
+            const rating = parseInt(this.getAttribute('data-value'));
+            
+            stars.forEach(s => s.classList.remove('active'));
+            for(let i=0; i<rating; i++) {
+                stars[i].classList.add('active');
+            }
+
+            successScreen.classList.add('hidden');
+            if(rating >= 4) {
+                positiveUi.classList.remove('hidden');
+                negativeUi.classList.add('hidden');
+            } else {
+                negativeUi.classList.remove('hidden');
+                positiveUi.classList.add('hidden');
+            }
+        });
+    });
+
+    function submitNegativeFeedback() {
+        questionUi.classList.add('hidden');
+        negativeUi.classList.add('hidden');
+        positiveUi.classList.add('hidden');
+        successScreen.classList.remove('hidden');
+    }
+</script>
