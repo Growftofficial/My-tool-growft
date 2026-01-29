@@ -1,220 +1,387 @@
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ideal Beauty Care - Feedback</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* --- THEME COLORS --- */
         :root {
-            --primary: #d63384;
-            --success: #28a745;
-            --warning: #ffc107;
-            --whatsapp: #25D366;
-            --insta: #E1306C;
-            --fb: #1877F2;
-            --web: #00bcd4;
-            --call-btn: #ffc107;
+            --primary: #d63384; /* Pink */
+            --primary-dark: #a61e61;
+            --bg-color: #fff0f5;
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --text-main: #444;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 15px;
-            display: flex;
-            justify-content: center;
+            font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 100%);
+            margin: 0; padding: 15px;
+            display: flex; justify-content: center;
             min-height: 100vh;
         }
 
+        /* --- CARD DESIGN --- */
         #main-card {
-            background: white;
-            border-radius: 25px;
-            padding: 25px 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
+            background: white; border-radius: 20px; padding: 25px 20px;
+            box-shadow: var(--card-shadow); width: 100%; max-width: 450px;
+            text-align: center; position: relative; overflow: hidden;
+            border-top: 5px solid var(--primary);
         }
 
-        h2 { color: var(--primary); margin-bottom: 5px; font-size: 22px; }
-        .subtitle { color: #777; margin-bottom: 20px; font-size: 14px; }
+        h2 { color: var(--primary); margin: 5px 0; font-size: 22px; font-weight: 700; }
+        .subtitle { color: #888; font-size: 13px; margin-bottom: 20px; font-weight: 400; }
 
-        /* Review Section Container */
-        .feedback-box {
-            background: #fffafa;
-            padding: 20px;
-            border-radius: 15px;
-            border: 1px solid #ffe1ed;
-            margin-bottom: 25px;
-            min-height: 180px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+        /* --- RATING --- */
+        .stars { font-size: 35px; color: #e0e0e0; margin: 15px 0; cursor: pointer; transition: 0.2s; }
+        .stars .fa-star.active { color: #ffc107; transform: scale(1.1); }
 
-        .stars { font-size: 32px; color: #ddd; margin: 10px 0; cursor: pointer; }
-        .stars .fa-star.active { color: var(--warning); }
-
-        .hidden { display: none; }
-
-        textarea {
-            width: 100%; border-radius: 10px; padding: 10px;
-            border: 1px solid #ddd; margin-top: 10px; box-sizing: border-box;
-            font-family: inherit;
-        }
-
-        .btn-action {
-            display: inline-block; padding: 12px 25px; border-radius: 50px;
-            text-decoration: none; font-weight: bold; margin-top: 15px;
-            cursor: pointer; border: none; transition: 0.3s;
-        }
-        .btn-next { background: var(--success); color: white; width: 85%; }
-        .btn-submit { background: var(--primary); color: white; }
-
-        /* --- Success Screen Styles --- */
-        .success-screen { animation: fadeIn 0.5s ease-in-out; text-align: center; }
-        
-        .top-call-btn {
-            background: var(--call-btn);
-            color: black;
-            padding: 8px 20px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        .check-icon {
-            background: #50d38a;
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 35px;
-            margin: 0 auto 15px;
-        }
-
-        .success-screen h3 { color: #1e293b; margin: 0 0 10px; font-size: 24px; }
-        .success-screen p { color: #64748b; font-size: 14px; margin: 0; line-height: 1.4; }
-
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- Contact Grid --- */
-        .grid-title { font-size: 14px; font-weight: bold; color: #555; margin: 20px 0 10px; text-align: left; padding-left: 10px; }
-        .button-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-        .contact-link { text-decoration: none; color: #444; font-size: 10px; font-weight: 600; text-transform: uppercase; }
-        .icon-box { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; color: white; font-size: 18px; transition: 0.2s; }
+        /* --- INPUTS --- */
+        select, textarea {
+            width: 100%; padding: 12px; border-radius: 12px;
+            border: 1px solid #ddd; margin-bottom: 12px;
+            font-family: 'Poppins', sans-serif; font-size: 14px; background: #fff;
+            outline: none;
+        }
+        select:focus, textarea:focus { border-color: var(--primary); }
+
+        label { display: block; text-align: left; font-size: 12px; font-weight: 600; color: #555; margin-bottom: 5px; margin-top: 10px; }
+
+        /* --- KEYWORDS (SORTED) --- */
+        .category-label {
+            font-size: 11px; font-weight: 700; color: #aaa; 
+            text-transform: uppercase; letter-spacing: 1px;
+            text-align: left; margin: 15px 0 5px 0; border-bottom: 1px dashed #eee;
+        }
+
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 5px; }
         
-        .bg-call { background: #007bff; }
-        .bg-wa { background: var(--whatsapp); }
-        .bg-ig { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
-        .bg-fb { background: var(--fb); }
-        .bg-web { background: var(--web); }
-        .bg-save { background: var(--primary); }
+        .keyword-chip {
+            font-size: 12px; padding: 8px 14px; border-radius: 50px;
+            border: 1px solid #eee; background: #f8f9fa; color: #555;
+            cursor: pointer; transition: 0.2s; font-weight: 500;
+        }
+        .keyword-chip.active { 
+            background: #fce4ec; border-color: var(--primary); color: var(--primary-dark); 
+            box-shadow: 0 2px 5px rgba(214, 51, 132, 0.2);
+        }
+
+        /* --- VOICE SECTION --- */
+        .voice-box {
+            background: #e3f2fd; border: 1px dashed #2196f3;
+            padding: 12px; border-radius: 12px; margin-bottom: 15px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .voice-text { font-size: 12px; color: #0d47a1; font-weight: 600; text-align: left; }
+        .mic-icon {
+            width: 40px; height: 40px; background: #2196f3; color: white;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.2s; font-size: 18px;
+        }
+        .mic-active { animation: pulseRed 1.5s infinite; background: #dc3545; }
+        @keyframes pulseRed { 0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(0,0,0,0); } }
+
+        /* --- BUTTONS --- */
+        .btn-action {
+            display: block; width: 100%; padding: 14px; border-radius: 50px;
+            text-decoration: none; font-weight: 600; margin-top: 15px;
+            cursor: pointer; border: none; font-size: 15px; transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .btn-next { background: linear-gradient(to right, #28a745, #218838); color: white; }
+        .btn-submit { background: #555; color: white; }
+        .btn-gen { background: linear-gradient(135deg, #d63384 0%, #ff6b6b 100%); color: white; }
+        .btn-copy { background: #007bff; color: white; margin-top: 10px; display: none; }
+
+        /* --- CONTACT GRID --- */
+        .button-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 25px; border-top: 1px solid #eee; padding-top: 20px; }
+        .contact-link { text-decoration: none; color: #444; font-size: 11px; font-weight: 600; display: flex; flex-direction: column; align-items: center; }
+        .icon-box { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 5px; color: white; font-size: 18px; }
+        
+        .bg-call { background: #ff9800; }
+        .bg-wa { background: #25D366; }
+        .bg-ig { background: #E1306C; }
+        .bg-fb { background: #1877F2; }
+        .bg-web { background: #00bcd4; }
+        .bg-save { background: #607d8b; }
     </style>
 
 
 
 <div id="main-card">
     <h2>Ideal Beauty Care</h2>
-    <p class="subtitle">Miss Sonali | Karegaon</p>
+    <p class="subtitle">Karegaon • Miss Sonali</p>
 
-    <div class="feedback-box" id="feedback-container">
-        <div id="question-ui">
-            <p style="margin:0; font-weight:bold;">How was your experience with us?</p>
-            <div class="stars" id="star-rating">
-                <i class="fas fa-star" data-value="1"></i>
-                <i class="fas fa-star" data-value="2"></i>
-                <i class="fas fa-star" data-value="3"></i>
-                <i class="fas fa-star" data-value="4"></i>
-                <i class="fas fa-star" data-value="5"></i>
-            </div>
+    <div id="rating-step">
+        <p style="margin:0; font-weight:600; font-size:15px; color:#555;">How was your experience?</p>
+        <div class="stars" id="star-rating">
+            <i class="fas fa-star" data-value="1"></i>
+            <i class="fas fa-star" data-value="2"></i>
+            <i class="fas fa-star" data-value="3"></i>
+            <i class="fas fa-star" data-value="4"></i>
+            <i class="fas fa-star" data-value="5"></i>
+        </div>
+        
+        <div id="low-rating-form" class="hidden fade-in">
+            <p style="color: #dc3545; font-size: 13px; margin: 10px 0;">We are sorry! Tell us the issue:</p>
+            <textarea id="complaint" rows="2" placeholder="Type here..."></textarea>
+            <button onclick="submitNegative()" class="btn-action btn-submit">Submit Feedback</button>
         </div>
 
-        <div id="positive-ui" class="hidden">
-            <p style="color: green; font-size: 14px;">Excellent! We are glad you liked it.</p>
-            <a href="https://g.page/r/CUMPLq21Er4SEBM/review" class="btn-action btn-next">NEXT STEP <i class="fas fa-arrow-right"></i></a>
-        </div>
-
-        <div id="negative-ui" class="hidden">
-            <p style="color: #d9534f; font-size: 14px;">What went wrong? Please let us know:</p>
-            <textarea id="complaint" rows="2" placeholder="Tell us your issue..."></textarea>
-            <button onclick="submitNegativeFeedback()" class="btn-action btn-submit">Submit Feedback</button>
-        </div>
-
-        <div id="success-screen" class="hidden success-screen">
-            <a href="tel:+918180868100" class="top-call-btn">
-                <i class="fas fa-phone-alt"></i> Call Us Now
-            </a>
-            <div class="check-icon">
-                <i class="fas fa-check"></i>
-            </div>
-            <h3>Thank You!</h3>
-            <p>Your feedback has been submitted successfully.</p>
-            <p style="font-size: 12px; margin-top: 15px; font-style: italic;">Thanks for your post. People like you make Maps more helpful!</p>
+        <div id="high-rating-btn" class="hidden fade-in">
+            <p style="color: green; font-size: 14px; margin: 5px 0;">We are glad you liked it! ❤️</p>
+            <button onclick="openAITool()" class="btn-action btn-next">Write Review (Next Step) <i class="fas fa-arrow-right"></i></button>
         </div>
     </div>
 
-    <div class="grid-title">Connect With Us</div>
+    <div id="ai-tool-step" class="hidden fade-in" style="text-align: left;">
+        
+        <label>Select Service</label>
+        <select id="serviceSelect">
+            <option value="" disabled="" selected="">Tap to select...</option>
+            <optgroup label="💇‍♀️ Hair">
+                <option value="Creative Haircut">Creative Haircut</option>
+                <option value="Hair Spa">Hair Spa</option>
+                <option value="Global Hair Color">Global Hair Color</option>
+                <option value="Fashion Highlights">Fashion Highlights</option>
+                <option value="Keratin Treatment">Keratin Treatment</option>
+                <option value="Smoothening">Smoothening</option>
+                <option value="Hair Botox">Hair Botox</option>
+            </optgroup>
+            <optgroup label="💄 Makeup">
+                <option value="Bridal Makeup">Bridal Makeup</option>
+                <option value="HD Makeup">HD Makeup</option>
+                <option value="Party Makeup">Party Makeup</option>
+                <option value="Engagement Look">Engagement Look</option>
+            </optgroup>
+            <optgroup label="💆‍♀️ Skin &amp; Nails">
+                <option value="Hydra Facial">Hydra Facial</option>
+                <option value="Diamond Facial">Diamond Facial</option>
+                <option value="Nail Art">Nail Art</option>
+                <option value="Gel Extensions">Gel Extensions</option>
+            </optgroup>
+            <optgroup label="🎨 Mehndi">
+                <option value="Bridal Mehndi">Bridal Mehndi</option>
+                <option value="Arabic Mehndi">Arabic Mehndi</option>
+            </optgroup>
+        </select>
+
+        <div class="voice-box">
+            <div class="voice-text">
+                <strong>🎙️ Voice Input (Marathi/Hindi)</strong><br>
+                <span id="voiceStatus" style="color:#666;">Tap mic &amp; speak (e.g. "Service khup chan hoti")</span>
+            </div>
+            <div class="mic-icon" onclick="startListening()"><i class="fas fa-microphone"></i></div>
+        </div>
+
+        <label>What did you like? (Pick 3-4)</label>
+
+        <div class="category-label">✨ Service &amp; Staff</div>
+        <div class="keywords-container">
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Best Parlour</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Professional Staff</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Talented Artist</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Friendly Nature</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Best Service</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Expert Advice</span>
+        </div>
+
+        <div class="category-label">💆‍♀️ Ambience &amp; Hygiene</div>
+        <div class="keywords-container">
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Hygienic</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Relaxing Vibe</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Clean Salon</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Great Atmosphere</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">On-time</span>
+        </div>
+
+        <div class="category-label">💖 Results &amp; Value</div>
+        <div class="keywords-container">
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Perfect Look</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Natural Glow</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Long Lasting</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Affordable</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Branded Products</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Highly Recommended</span>
+        </div>
+
+        <button onclick="generateRandomReview()" class="btn-action btn-gen">✨ Generate Review</button>
+        
+        <textarea id="finalReview" rows="4" style="margin-top:15px; display:none;" readonly=""></textarea>
+        <button id="copyBtn" onclick="copyAndOpen()" class="btn-action btn-copy">Copy &amp; Open Google <i class="fab fa-google"></i></button>
+    </div>
+
     <div class="button-grid">
-        <a href="tel:+918180868100" class="contact-link">
-            <div class="icon-box bg-call"><i class="fas fa-phone"></i></div> CALL
-        </a>
-        <a href="https://wa.me/918180868100" class="contact-link">
-            <div class="icon-box bg-wa"><i class="fab fa-whatsapp"></i></div> WHATSAPP
-        </a>
-        <a href="https://www.instagram.com/ideal_beauty_care_sonal?utm_source=ig_web_button_share_sheet&amp;igsh=ZDNlZDc0MzIxNw==" class="contact-link">
-            <div class="icon-box bg-ig"><i class="fab fa-instagram"></i></div> INSTA
-        </a>
-        <a href="https://www.facebook.com/sonali.yashwante.798497" class="contact-link">
-            <div class="icon-box bg-fb"><i class="fab fa-facebook-f"></i></div> FB
-        </a>
-        <a href="https://www.idealbeautycare.in/" class="contact-link">
-            <div class="icon-box bg-web"><i class="fas fa-globe"></i></div> WEBSITE
-        </a>
-        <a href="https://drive.google.com/uc?export=download&amp;id=11z_CdlNGUFMn9dKVaXaqduQ0ccGheM4n" class="contact-link">
-            <div class="icon-box bg-save"><i class="fas fa-user-plus"></i></div> SAVE
-        </a>
+        <a href="tel:+918180868100" class="contact-link"><div class="icon-box bg-call"><i class="fas fa-phone"></i></div> Call</a>
+        <a href="https://wa.me/918180868100" class="contact-link"><div class="icon-box bg-wa"><i class="fab fa-whatsapp"></i></div> WhatsApp</a>
+        <a href="https://www.instagram.com/ideal_beauty_care_sonal" class="contact-link"><div class="icon-box bg-ig"><i class="fab fa-instagram"></i></div> Insta</a>
+        <a href="#" class="contact-link"><div class="icon-box bg-fb"><i class="fab fa-facebook-f"></i></div> FB</a>
+        <a href="https://www.idealbeautycare.in/" class="contact-link"><div class="icon-box bg-web"><i class="fas fa-globe"></i></div> Web</a>
+        <a href="#" class="contact-link"><div class="icon-box bg-save"><i class="fas fa-user-plus"></i></div> Save</a>
     </div>
 </div>
 
 <script>
-    const stars = document.querySelectorAll('#star-rating .fa-star');
-    const positiveUi = document.getElementById('positive-ui');
-    const negativeUi = document.getElementById('negative-ui');
-    const questionUi = document.getElementById('question-ui');
-    const successScreen = document.getElementById('success-screen');
+    const GOOGLE_LINK = "https://g.page/r/CUMPLq21Er4SEBM/review"; 
+    let selectedKeywords = [];
+    let recordedText = "";
 
+    // --- DATASETS (Massive Variety) ---
+    const intros = [
+        "I recently visited Ideal Beauty Care in Karegaon.", "Just had an amazing session at Ideal Beauty Care.", 
+        "Visited Ideal Beauty Care for the first time and loved it.", "My search for the best parlour ended at Ideal Beauty Care.", 
+        "Had a lovely appointment with Miss Sonali.", "Ideally the best beauty parlour in Karegaon.", 
+        "Went to Ideal Beauty Care for a makeover.", "Highly impressed with Ideal Beauty Care services.",
+        "Such a great experience visiting Ideal Beauty Care.", "If you are in Karegaon, you must visit Ideal Beauty Care.",
+        "Simply the best salon experience I've had.", "Thank you Ideal Beauty Care for the wonderful service.", 
+        "A hidden gem in Karegaon for beauty services.", "My go-to place for all beauty needs is Ideal Beauty Care."
+    ];
+
+    const outros = [
+        "Highly recommended!", "Will definitely visit again.", "Thank you so much Sonali Ma'am.", "5 Stars from my side!", 
+        "Don't think twice, just go for it.", "Best service in the town.", "Keep up the great work.", 
+        "Worth every penny.", "I am a happy customer.", "See you soon for the next appointment.",
+        "Totally satisfied with the results.", "Must visit for sure.", "A big thumbs up!", "Great value for money.", 
+        "Truly professional service.", "The best in Karegaon.", "Thanks for making me look good."
+    ];
+
+    const keywordSentences = {
+        "Best Parlour": ["This is undoubtedly the best parlour in Karegaon.", "By far the best beauty parlour I have visited.", "One of the finest parlours in the area."],
+        "Professional Staff": ["The staff is very professional and polite.", "I loved how professional the team is.", "Very well-trained and professional staff."],
+        "Hygienic": ["The place is super clean and hygienic.", "They maintain high standards of hygiene.", "Very impressed with the cleanliness."],
+        "Affordable": ["The prices are very reasonable.", "Great services at affordable rates.", "Pocket-friendly prices for such quality."],
+        "Great Vibe": ["Loved the vibe of the place.", "Such a positive and relaxing vibe.", "The atmosphere is very welcoming."],
+        "Talented Artist": ["Miss Sonali is a very talented artist.", "The beautician has magic in her hands.", "Such a skilled and talented artist."],
+        "Relaxing": ["The session was so relaxing.", "Felt completely relaxed after the service.", "A truly relaxing experience."],
+        "Recommended": ["I highly recommend this place.", "Definite recommendation from me.", "Would recommend to all my friends."],
+        "Perfect Look": ["Got the perfect look I wanted.", "They gave me a flawless look.", "Achieved the exact look I asked for."],
+        "Long Lasting": ["The results are long-lasting.", "My makeup stayed intact for hours.", "Long-lasting and quality results."],
+        "Branded Products": ["They use only branded products.", "High-quality international products used.", "Happy that they use safe and branded products."],
+        "On-time": ["They value time, service started on time.", "Very punctual with appointments.", "No waiting time, started on time."],
+        "Friendly": ["The owner is very friendly.", "Such a friendly and warm environment.", "Felt like home, very friendly people."],
+        "Expert": ["Real experts in beauty care.", "She is an expert in her field.", "Expert advice and service."],
+        "Clean Salon": ["The salon is spotless and clean.", "Very neat and tidy salon.", "Cleanliness is top-notch."],
+        "Best Service": ["Best service I have received so far.", "Top-class service quality.", "Service was beyond expectations."],
+        "Must Visit": ["A must-visit place for ladies.", "Do visit if you want quality.", "Must visit for all beauty needs."],
+        "Natural Glow": ["My skin got a natural glow.", "Loved the natural glow on my face.", "Gave me a radiant natural glow."],
+        "Beautiful": ["The results were beautiful.", "Made me feel beautiful.", "Such beautiful work done."],
+        "100% Satisfaction": ["I am 100% satisfied.", "Total satisfaction guaranteed.", "Fully satisfied with the outcome."]
+    };
+
+    function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+    // --- LOGIC ---
+    const stars = document.querySelectorAll('#star-rating .fa-star');
     stars.forEach(star => {
         star.addEventListener('click', function() {
             const rating = parseInt(this.getAttribute('data-value'));
-            
             stars.forEach(s => s.classList.remove('active'));
-            for(let i=0; i<rating; i++) {
-                stars[i].classList.add('active');
-            }
+            for(let i=0; i<rating; i++) stars[i].classList.add('active');
 
-            successScreen.classList.add('hidden');
             if(rating >= 4) {
-                positiveUi.classList.remove('hidden');
-                negativeUi.classList.add('hidden');
+                document.getElementById('high-rating-btn').classList.remove('hidden');
+                document.getElementById('low-rating-form').classList.add('hidden');
             } else {
-                negativeUi.classList.remove('hidden');
-                positiveUi.classList.add('hidden');
+                document.getElementById('low-rating-form').classList.remove('hidden');
+                document.getElementById('high-rating-btn').classList.add('hidden');
             }
         });
     });
 
-    function submitNegativeFeedback() {
-        questionUi.classList.add('hidden');
-        negativeUi.classList.add('hidden');
-        positiveUi.classList.add('hidden');
-        successScreen.classList.remove('hidden');
+    function openAITool() {
+        document.getElementById('rating-step').classList.add('hidden');
+        document.getElementById('ai-tool-step').classList.remove('hidden');
+    }
+
+    function toggleKeyword(el) {
+        el.classList.toggle('active');
+        const text = el.innerText;
+        if(selectedKeywords.includes(text)) selectedKeywords = selectedKeywords.filter(k => k !== text);
+        else selectedKeywords.push(text);
+    }
+
+    // --- VOICE LOGIC (R K MEHNDI STYLE) ---
+    function startListening() {
+        if (!('webkitSpeechRecognition' in window)) {
+            alert("Please use Chrome.");
+            return;
+        }
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = 'mr-IN'; 
+        
+        const icon = document.querySelector('.mic-icon');
+        const status = document.getElementById('voiceStatus');
+
+        recognition.onstart = () => {
+            icon.classList.add('mic-active');
+            status.innerText = "Listening...";
+        };
+        recognition.onend = () => {
+            icon.classList.remove('mic-active');
+            status.innerText = "Translating...";
+        };
+        recognition.onresult = (event) => {
+            const text = event.results[0][0].transcript;
+            translateVoice(text);
+        };
+        recognition.start();
+    }
+
+    async function translateVoice(text) {
+        try {
+            const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=mr|en`);
+            const data = await res.json();
+            if(data.responseData) {
+                recordedText = data.responseData.translatedText;
+                document.getElementById('voiceStatus').innerText = "Translation Done!";
+            }
+        } catch(e) {
+            recordedText = text;
+            document.getElementById('voiceStatus').innerText = "Voice Added.";
+        }
+    }
+
+    // --- GENERATE ---
+    function generateRandomReview() {
+        const service = document.getElementById('serviceSelect').value;
+        let review = getRandom(intros) + " ";
+
+        if(service) {
+            const serviceSentences = [
+                `I visited for ${service} and it was great.`,
+                `I got ${service} done here and the results are amazing.`,
+                `My ${service} session was perfect.`
+            ];
+            review += getRandom(serviceSentences) + " ";
+        }
+
+        if(recordedText) review += `${recordedText} `;
+
+        selectedKeywords.forEach(k => {
+            if(keywordSentences[k]) review += getRandom(keywordSentences[k]) + " ";
+        });
+
+        review += getRandom(outros);
+
+        const txt = document.getElementById('finalReview');
+        txt.value = review;
+        txt.style.display = 'block';
+        document.getElementById('copyBtn').style.display = 'block';
+        txt.scrollIntoView({behavior: "smooth"});
+    }
+
+    function copyAndOpen() {
+        const txt = document.getElementById('finalReview');
+        txt.select();
+        document.execCommand('copy');
+        if(confirm("Review Copied! Open Google Maps?")) window.location.href = GOOGLE_LINK;
+    }
+    
+    function submitNegative() {
+        alert("Thank you for your feedback.");
     }
 </script>
