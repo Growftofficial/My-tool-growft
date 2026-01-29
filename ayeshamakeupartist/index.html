@@ -1,204 +1,174 @@
 <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Feedback - Ayesha Makeup Artist</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayesha Makeup Artist - Feedback</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- THEME: MAKEUP & BEAUTY (Pinks, Rose Gold & Elegant Tones) --- */
+        /* --- THEME COLORS (Gold & Rose Theme) --- */
         :root {
-            --primary: #db2777; /* Rose Pink */
-            --primary-light: #f472b6; /* Light Pink */
-            --accent: #be185d; /* Dark Pink */
-            --bg-color: #fdf2f8; /* Very Light Pink Background */
-            --card-bg: #ffffff;
-            --gold: #fbbf24;
-            --text-main: #4a044e; /* Dark Purple/Brown text */
-            --border-color: #fbcfe8;
+            --primary: #c78d38; /* Goldish Bronze */
+            --primary-dark: #8a5e1f;
+            --bg-color: #fff9f0;
+            --card-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            --text-main: #333;
         }
 
-        /* --- RESET & BODY --- */
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
-            background-color: var(--bg-color);
-            margin: 0; padding: 20px 10px;
-            min-height: 100vh; display: flex;
-            justify-content: center; align-items: flex-start;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fff0f5 0%, #fff8e1 100%);
+            margin: 0; padding: 15px;
+            display: flex; justify-content: center;
+            min-height: 100vh;
         }
 
-        /* --- CONTAINER --- */
-        .container {
-            background: var(--card-bg); width: 100%; max-width: 500px;
-            padding: 25px; border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(219, 39, 119, 0.15);
-            border-top: 6px solid var(--primary); margin: auto;
-            text-align: center;
+        /* --- CARD DESIGN --- */
+        #main-card {
+            background: white; border-radius: 20px; padding: 25px 20px;
+            box-shadow: var(--card-shadow); width: 100%; max-width: 450px;
+            text-align: center; position: relative; overflow: hidden;
+            border-top: 5px solid var(--primary);
+            padding-bottom: 30px;
         }
 
-        /* --- HEADER --- */
-        h1 { color: var(--primary); margin: 5px 0 2px 0; font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
-        .location { color: var(--accent); font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; }
+        h2 { color: var(--primary-dark); margin: 5px 0; font-size: 24px; font-weight: 700; text-transform: uppercase; }
+        .subtitle { color: #666; font-size: 13px; margin-bottom: 20px; font-weight: 500; }
+
+        /* --- RATING --- */
+        .stars { font-size: 35px; color: #e0e0e0; margin: 15px 0; cursor: pointer; transition: 0.2s; }
+        .stars .fa-star.active { color: #ffc107; transform: scale(1.1); }
+
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- INPUTS --- */
+        select, textarea {
+            width: 100%; padding: 12px; border-radius: 12px;
+            border: 1px solid #ddd; margin-bottom: 12px;
+            font-family: 'Poppins', sans-serif; font-size: 14px; background: #fff;
+            outline: none; box-sizing: border-box;
+        }
+        select:focus, textarea:focus { border-color: var(--primary); }
+
+        label { display: block; text-align: left; font-size: 12px; font-weight: 600; color: #555; margin-bottom: 5px; margin-top: 10px; }
+
+        /* --- KEYWORDS --- */
+        .category-label {
+            font-size: 11px; font-weight: 700; color: #aaa; 
+            text-transform: uppercase; letter-spacing: 1px;
+            text-align: left; margin: 15px 0 5px 0; border-bottom: 1px dashed #eee;
+        }
+
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 5px; }
         
-        /* PHONE NUMBER STYLE */
-        .phone-link {
-            text-decoration: none; color: #fff; background: var(--primary);
-            padding: 8px 20px; border-radius: 50px; display: inline-block;
-            font-size: 14px; font-weight: 600; transition: 0.2s;
-            box-shadow: 0 4px 10px rgba(219, 39, 119, 0.3); margin-bottom: 20px;
+        .keyword-chip {
+            font-size: 11px; padding: 8px 12px; border-radius: 50px;
+            border: 1px solid #eee; background: #f9f9f9; color: #555;
+            cursor: pointer; transition: 0.2s; font-weight: 500;
         }
-        .phone-link:hover { transform: translateY(-1px); background: var(--primary-light); }
-
-        p { color: var(--text-main); font-size: 15px; margin-bottom: 20px; line-height: 1.5; }
-
-        /* --- INPUTS & SELECTS --- */
-        select, input {
-            width: 100%; padding: 12px; border-radius: 10px;
-            border: 1px solid var(--border-color); background: #fffbff;
-            font-size: 15px; outline: none; margin-bottom: 10px;
-            color: var(--text-main);
-        }
-        select:focus, input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(219, 39, 119, 0.1); }
-        
-        label { 
-            font-weight: 700; display: block; margin-top: 15px; margin-bottom: 8px; 
-            color: var(--accent); font-size: 12px; text-transform: uppercase; text-align: left; letter-spacing: 0.5px;
+        .keyword-chip.active { 
+            background: #fff8e1; border-color: var(--primary); color: var(--primary-dark); 
+            box-shadow: 0 2px 5px rgba(199, 141, 56, 0.2);
         }
 
-        /* --- STAR RATING --- */
-        .star-container {
-            display: flex; justify-content: center; gap: 8px; margin: 20px 0;
-            direction: ltr;
+        /* --- VOICE SECTION --- */
+        .voice-box {
+            background: #eef7ff; border: 1px dashed #2196f3;
+            padding: 12px; border-radius: 12px; margin-bottom: 15px;
+            display: flex; align-items: center; justify-content: space-between;
         }
-        .star {
-            font-size: 42px; color: #e5e7eb; cursor: pointer; transition: transform 0.2s, color 0.2s;
+        .voice-text { font-size: 12px; color: #0d47a1; font-weight: 600; text-align: left; }
+        .mic-icon {
+            width: 40px; height: 40px; background: #2196f3; color: white;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.2s; font-size: 18px;
         }
-        .star.selected { color: var(--gold); }
-        .star:hover { transform: scale(1.15); }
+        .mic-active { animation: pulseRed 1.5s infinite; background: #dc3545; }
+        @keyframes pulseRed { 0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(0,0,0,0); } }
 
         /* --- BUTTONS --- */
-        .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
-        .exp-btn {
-            padding: 12px 25px; border: 1px solid var(--border-color); border-radius: 10px;
-            background: #fff; cursor: pointer; font-weight: 600; color: var(--text-main);
-            flex: 1; max-width: 130px; transition: 0.2s;
+        .btn-action {
+            display: block; width: 100%; padding: 14px; border-radius: 50px;
+            text-decoration: none; font-weight: 600; margin-top: 15px;
+            cursor: pointer; border: none; font-size: 15px; transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-        .exp-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(219, 39, 119, 0.3); }
-        .exp-btn.bad-active { background: #ef4444; color: white; border-color: #ef4444; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3); }
+        .btn-next { background: linear-gradient(to right, #28a745, #218838); color: white; }
+        .btn-submit { background: #555; color: white; }
+        .btn-gen { background: linear-gradient(135deg, #c78d38 0%, #d4a55d 100%); color: white; }
+        .btn-copy { background: #007bff; color: white; margin-top: 10px; display: none; }
 
-        .action-btn {
-            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            color: white; border: none; border-radius: 10px;
-            font-size: 16px; font-weight: 700; cursor: pointer;
-            box-shadow: 0 4px 10px rgba(219, 39, 119, 0.4); margin-top: 10px; transition: transform 0.1s;
-        }
-        .action-btn:active { transform: scale(0.98); }
-
-        /* --- PRIVATE FEEDBACK --- */
-        textarea.feedback-box {
-            width: 100%; height: 120px; padding: 12px;
-            border: 1px solid var(--border-color); border-radius: 10px; resize: none;
-            font-family: inherit; margin-bottom: 15px; background: #fffbff;
-        }
-
-        /* --- AI TOOL STYLES --- */
-        .ai-tool-wrapper { text-align: left; display: none; }
+        /* --- CONTACT GRID --- */
+        .button-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 25px; border-top: 1px solid #eee; padding-top: 20px; }
+        .contact-link { text-decoration: none; color: #444; font-size: 11px; font-weight: 600; display: flex; flex-direction: column; align-items: center; cursor: pointer;}
+        .icon-box { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 5px; color: white; font-size: 18px; }
         
-        .category-header {
-            font-size: 11px; color: var(--accent); margin: 15px 0 8px 0; font-weight: 700; letter-spacing: 0.5px; border-bottom: 1px dashed var(--border-color); padding-bottom: 4px;
+        .bg-call { background: #ff9800; }
+        .bg-wa { background: #25D366; }
+        .bg-ig { background: #E1306C; }
+        .bg-fb { background: #1877F2; }
+        .bg-web { background: #00bcd4; }
+        .bg-save { background: #607d8b; }
+
+        /* --- GROWFT FOOTER --- */
+        .footer-branding {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 11px;
+            color: #777;
         }
-        
-        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 5px; }
-        .keyword-chip { 
-            padding: 8px 12px; background-color: #fff; border-radius: 20px; 
-            font-size: 12px; font-weight: 600; cursor: pointer; 
-            border: 1px solid var(--border-color); color: var(--primary); 
-            flex-grow: 1; text-align: center; transition: 0.2s;
+        .footer-branding img {
+            height: 25px;
+            vertical-align: middle;
+            margin-left: 5px;
         }
-        .keyword-chip.active { background-color: var(--primary); color: white; border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 3px 8px rgba(219, 39, 119, 0.2); }
-
-        .copy-btn { width: 100%; padding: 12px; background-color: #d97706; /* Amber Dark */ color: white; border: none; border-radius: 10px; margin-top: 15px; font-weight: 600; font-size: 15px; cursor: pointer; display: none; box-shadow: 0 4px 6px rgba(217, 119, 6, 0.2); }
-
-        /* --- UTILS --- */
-        .hidden { display: none !important; }
-        .fade-in { animation: fadeIn 0.5s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
-        .toggle-name { font-size: 13px; color: var(--primary); text-decoration: underline; cursor: pointer; float: right; margin-top: 5px; border: none; background: none; }
-
-        /* --- FOOTER --- */
-        .footer { margin-top: 35px; text-align: center; font-size: 12px; color: #64748b; border-top: 1px dashed var(--border-color); padding-top: 15px; }
-        .footer-logo { display: block; margin: 0 auto 5px auto; max-height: 28px; width: auto; opacity: 0.85; }
-        .footer a { color: var(--primary); text-decoration: none; font-weight: 700; }
-        .footer-text { margin-top: 5px; line-height: 1.6; }
+        .footer-branding a {
+            text-decoration: none;
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+        .dev-contact {
+            font-size: 10px;
+            color: #999;
+            margin-top: 5px;
+        }
     </style>
 
 
 
-<div class="container">
-    
-    <h1>Ayesha Makeup Artist</h1>
-    <div class="location">💄 Betim Porvorim &amp; Goa</div>
-    
-    <div>
-        <a href="tel:+918975841258" class="phone-link">📞 Call for Booking</a>
-    </div>
+<div id="main-card">
+    <h2>Ayesha Makeup Artist</h2>
+    <p class="subtitle">Betim Porvorim • Penha de Franc • Goa</p>
 
-    <div id="ratingScreen" class="fade-in">
-        <p>How was your makeover experience?</p>
-
-        <div class="star-container">
-            <span class="star" onclick="rate(1)">★</span>
-            <span class="star" onclick="rate(2)">★</span>
-            <span class="star" onclick="rate(3)">★</span>
-            <span class="star" onclick="rate(4)">★</span>
-            <span class="star" onclick="rate(5)">★</span>
+    <div id="rating-step">
+        <p style="margin:0; font-weight:600; font-size:15px; color:#555;">How was your experience?</p>
+        <div class="stars" id="star-rating">
+            <i class="fas fa-star" data-value="1"></i>
+            <i class="fas fa-star" data-value="2"></i>
+            <i class="fas fa-star" data-value="3"></i>
+            <i class="fas fa-star" data-value="4"></i>
+            <i class="fas fa-star" data-value="5"></i>
         </div>
-
-        <div class="experience-btns">
-            <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Not Good 😞</button>
-            <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Loved it! 😍</button>
-        </div>
-
-        <button class="action-btn" onclick="processRating()">Next Step ➡</button>
-    </div>
-
-    <div id="privateFeedbackScreen" class="hidden fade-in">
-        <h2 style="color:var(--text-main);">We are sorry! 😔</h2>
-        <p>Please tell us how we can improve. Your feedback will be sent directly to Ayesha.</p>
-        <textarea id="privateFeedbackText" class="feedback-box" placeholder="Describe the issue..."></textarea>
-        <button class="action-btn" style="background:#4b5563;" onclick="submitPrivateFeedback()">Submit Feedback</button>
-    </div>
-
-    <div id="thankYouScreen" class="hidden fade-in">
-        <div style="font-size: 50px; margin-bottom:10px;">✅</div>
-        <h2 style="color:var(--text-main);">Thank You!</h2>
-        <p>Your feedback has been submitted successfully.</p>
-    </div>
-
-    <div id="aiToolScreen" class="ai-tool-wrapper fade-in">
-        <p style="text-align:center; font-weight:bold; color:var(--primary); margin-bottom: 20px;">✨ Create your review in 1 click!</p>
         
-        <div style="display: flex; gap: 10px;">
-            <div style="flex:1;">
-                <label style="margin-top:0;">Location</label>
-                <select id="locationSelect">
-                    <option value="Betim Porvorim">Betim Porvorim</option>
-                    <option value="Penha de Franc">Penha de Franc</option>
-                    <option value="Goa">Goa</option>
-                </select>
-            </div>
-            <div style="flex:1;">
-                <label style="margin-top:0;">Tone</label>
-                <select id="toneSelect">
-                    <option value="Professional">Classy 👠</option>
-                    <option value="Friendly">Friendly 💖</option>
-                    <option value="Short">Short ✨</option>
-                    <option value="Grateful">Grateful 🙏</option>
-                </select>
-            </div>
+        <div id="low-rating-form" class="hidden fade-in">
+            <p style="color: #dc3545; font-size: 13px; margin: 10px 0;">We are sorry! Tell us the issue:</p>
+            <textarea id="complaint" rows="2" placeholder="Type here..."></textarea>
+            <button onclick="submitNegative()" class="btn-action btn-submit">Submit Feedback</button>
         </div>
 
-        <label>What Makeup look did you get?</label>
-        <select id="makeupTypeSelect">
-            <option value="">-- Select Makeup Type --</option>
+        <div id="high-rating-btn" class="hidden fade-in">
+            <p style="color: green; font-size: 14px; margin: 5px 0;">We are glad you liked it! ❤️</p>
+            <button onclick="openAITool()" class="btn-action btn-next">Write Review (Next Step) <i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <div id="ai-tool-step" class="hidden fade-in" style="text-align: left;">
+        
+        <label>Select Makeup Look</label>
+        <select id="serviceSelect">
+            <option value="" disabled="" selected="">Tap to select look...</option>
             <option value="Glass Skin Makeup">Glass Skin Makeup</option>
             <option value="HD Makeup">HD Makeup</option>
             <option value="Airbrush Makeup">Airbrush Makeup</option>
@@ -209,316 +179,389 @@
             <option value="Mineral Makeup">Mineral Makeup</option>
         </select>
 
-        <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
-        <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
-            <input type="text" id="userName" placeholder="Your Name (Optional)">
+        <div class="voice-box">
+            <div class="voice-text">
+                <strong>🎙️ Voice Input (Marathi/Hindi)</strong><br>
+                <span id="voiceStatus" style="color:#666;">Tap mic &amp; speak (e.g. "Makeup khup chan zala")</span>
+            </div>
+            <div class="mic-icon" onclick="startListening()"><i class="fas fa-microphone"></i></div>
         </div>
 
-        <label style="clear:both;">Select what you liked (Pick 3-4)</label>
+        <label>Highlights (Select 3-4)</label>
 
-        <div class="category-header">BRIDAL &amp; EVENTS</div>
+        <div class="category-label">🏆 Best in Class</div>
         <div class="keywords-container">
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Makeup Artist')">💄 Best Artist</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Bridal Makeup')">👰 Best Bridal</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Engagement Makeup')">💍 Engagement</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Wedding Makeup')">💒 For Wedding</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Maternity Shoot')">🤰 Maternity Shoot</div>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Best makeup artist</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Makeup artist for wedding</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Engagement makeup artist</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Highly Recommended</span>
         </div>
 
-        <div class="category-header">TECHNIQUE &amp; STYLE</div>
+        <div class="category-label">💍 Bridal &amp; Specialized</div>
         <div class="keywords-container">
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'HD Bridal')">📸 HD Bridal</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Glass Skin')">✨ Glass Skin</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Airbrush')">💨 Airbrush</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Matte Finish')">🌫️ Matte Finish</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Natural Look')">🌸 Natural Look</div>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">HD Bridal makeup</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Airbrush bridal makeup</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Mehndi makeup look</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Maternity shoot makeup</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Makeup artist for mature skin</span>
         </div>
 
-        <div class="category-header">SERVICE</div>
+        <div class="category-label">💧 Durability &amp; Value</div>
         <div class="keywords-container">
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Affordable')">💰 Affordable</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Freelance')">👜 Freelance</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Water Resistant')">💧 Water-Resistant</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Sweat Proof')">☀️ Sweat-Proof</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Mature Skin')">👩‍🦳 Mature Skin</div>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Sweat-proof bridal makeup</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Water-resistant makeup</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Affordable makeup artist</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Glowy Makeup</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Smokey Eye Makeup</span>
         </div>
 
-        <button class="action-btn" onclick="generateReview()">🚀 Generate Review</button>
-
-        <textarea id="reviewOutput" style="width:100%; height:130px; margin-top:15px; border-radius:10px; padding:10px; border:1px solid var(--border-color); display:none; background:#fff;" readonly=""></textarea>
+        <button onclick="generateRandomReview()" class="btn-action btn-gen">✨ Generate Review</button>
         
-        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy &amp; Open Google</button>
+        <textarea id="finalReview" rows="6" style="margin-top:15px; display:none;" readonly=""></textarea>
+        <button id="copyBtn" onclick="copyAndOpen()" class="btn-action btn-copy">Copy &amp; Open Google <i class="fab fa-google"></i></button>
     </div>
 
-    <div class="footer">
-        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft" loading="lazy">
-        
-        <div class="footer-text">
-            Built by <a href="https://growft.net" target="_blank">Growft</a><br>
-            Contact to build your Agent: <a href="tel:+917020370561">7020370561</a>
+    <div class="button-grid">
+        <a href="tel:+918975841258" class="contact-link"><div class="icon-box bg-call"><i class="fas fa-phone"></i></div> Call</a>
+        <a href="https://wa.me/918975841258" class="contact-link"><div class="icon-box bg-wa"><i class="fab fa-whatsapp"></i></div> WhatsApp</a>
+        <a href="#" class="contact-link"><div class="icon-box bg-ig"><i class="fab fa-instagram"></i></div> Insta</a>
+        <a href="#" class="contact-link"><div class="icon-box bg-fb"><i class="fab fa-facebook-f"></i></div> FB</a>
+        <a href="#" class="contact-link"><div class="icon-box bg-web"><i class="fas fa-globe"></i></div> Web</a>
+        <div onclick="downloadVCF()" class="contact-link"><div class="icon-box bg-save"><i class="fas fa-user-plus"></i></div> Save</div>
+    </div>
+
+    <div class="footer-branding">
+        Powered by <a href="https://growft.odoo.com" target="_blank">Growft</a>
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" alt="Growft Logo" loading="lazy">
+        <div class="dev-contact">
+            Contact us to build your AI review tool: <a href="tel:+917020370561">7020370561</a>
         </div>
     </div>
 </div>
 
 <script>
-    // --- IMPORTANT: REPLACE THIS LINK ---
-    const GOOGLE_REVIEW_LINK = "https://www.google.com/maps/place/Ayesha+Makeup+Artist/@15.5238222,73.8336425,17z/data=!4m8!3m7!1s0x3bbfc100375b6aa7:0x3bcf6d8fb99b80e7!8m2!3d15.5238222!4d73.8336425!9m1!1b1!16s%2Fg%2F11y12w5ry5?hl=en&entry=ttu&g_ep=EgoyMDI2MDEyNS4wIKXMDSoASAFQAw%3D%3D"; 
+    // ** IMPORTANT: PASTE AYESHA'S GOOGLE MAPS LINK HERE **
+    const GOOGLE_LINK = "https://www.google.com/maps/place/Ayesha+Makeup+Artist/@15.5238222,73.8336425,17z/data=!4m8!3m7!1s0x3bbfc100375b6aa7:0x3bcf6d8fb99b80e7!8m2!3d15.5238222!4d73.8336425!9m1!1b1!16s%2Fg%2F11y12w5ry5?hl=en&entry=ttu&g_ep=EgoyMDI2MDEyNS4wIKXMDSoASAFQAw%3D%3D"; 
     
-    // --- RATING LOGIC ---
-    let currentRating = 0;
-    let currentExp = '';
+    // ** VCF DATA AUTO-FILLED **
+    const phoneNumber = "8975841258"; 
+    const contactName = "Ayesha Makeup Artist";
+    const contactAddress = "GRFM+GFC, Alto- Betim Porvorim;Penha de Franc;Goa;403521";
 
-    function rate(stars) {
-        currentRating = stars;
-        let allStars = document.querySelectorAll('.star');
-        allStars.forEach((star, index) => {
-            star.classList.toggle('selected', index < stars);
-        });
-        if(stars >= 4) selectExp('good');
-        else selectExp('bad');
-    }
-
-    function selectExp(type) {
-        currentExp = type;
-        document.getElementById('btn-good').classList.remove('active');
-        document.getElementById('btn-bad').classList.remove('bad-active');
-        if (type === 'good') document.getElementById('btn-good').classList.add('active');
-        else document.getElementById('btn-bad').classList.add('bad-active');
-    }
-
-    function processRating() {
-        if (currentRating === 0 && currentExp === '') {
-            alert("Please select a star rating.");
-            return;
-        }
-        document.getElementById('ratingScreen').classList.add('hidden');
-        
-        let isHappy = (currentRating >= 4) || (currentExp === 'good');
-        
-        if (isHappy) {
-            document.getElementById('aiToolScreen').style.display = 'block';
-        } else {
-            document.getElementById('privateFeedbackScreen').classList.remove('hidden');
-        }
-    }
-
-    function submitPrivateFeedback() {
-        if(document.getElementById('privateFeedbackText').value.trim() === "") {
-            alert("Please write a few words.");
-            return;
-        }
-        document.getElementById('privateFeedbackScreen').classList.add('hidden');
-        document.getElementById('thankYouScreen').classList.remove('hidden');
-    }
-
-    // --- AI GENERATION LOGIC ---
     let selectedKeywords = [];
+    let recordedText = "";
 
-    const reviewDB = {
-        // 40+ INTROS
-        intros: {
-            "Professional": [
-                "I recently visited Ayesha Makeup Artist in {location} for my makeover.",
-                "If you are looking for a professional makeup artist in {location}, Ayesha is the one.",
-                "I booked Ayesha for a special event in {location} and was impressed.",
-                "Highly professional service provided by Ayesha Makeup Artist in {location}.",
-                "Ayesha is a very talented artist based in {location}.",
-                "I had a wonderful experience getting my makeup done in {location}.",
-                "Choosing Ayesha for my event in {location} was the best decision.",
-                "She provides top-tier beauty services in {location}.",
-                "I highly recommend Ayesha's services to anyone in {location}.",
-                "A true professional in the makeup industry in {location}."
-            ],
-            "Friendly": [
-                "Oh my god, Ayesha is just amazing in {location}! 💖",
-                "Had the best time getting ready with Ayesha in {location}.",
-                "She is such a sweetheart and so talented in {location}!",
-                "Loved the vibe and the makeup in {location}!",
-                "Ayesha made me feel so comfortable and beautiful in {location}.",
-                "Super friendly and skilled artist in {location}.",
-                "The best makeup experience I've ever had in {location}!",
-                "So happy I found Ayesha in {location}!",
-                "She is literally a magician with brushes in {location}! ✨",
-                "Such a lovely experience with Ayesha in {location}."
-            ],
-            "Short": [
-                "Best makeup artist in {location}.",
-                "Amazing work by Ayesha in {location}.",
-                "Highly recommended in {location}.",
-                "Great experience with Ayesha.",
-                "Loved my look in {location}.",
-                "Very professional artist.",
-                "5 stars for Ayesha in {location}.",
-                "Flawless makeup service.",
-                "Simply the best in {location}.",
-                "Beautiful work."
-            ],
-            "Grateful": [
-                "I am so thankful to Ayesha for making me look beautiful in {location}.",
-                "Thank you Ayesha for the stunning look in {location}.",
-                "Really appreciate the effort she put into my look in {location}.",
-                "So clear communication and beautiful results, thank you!",
-                "Grateful to have found such a good artist in {location}.",
-                "Big thanks to Ayesha for the last-minute booking in {location}.",
-                "Thank you for making my special day perfect in {location}.",
-                "I really appreciate her patience and skill.",
-                "Heartfelt thanks to Ayesha for the makeover.",
-                "Thank you for the amazing service in {location}."
-            ]
-        },
+    // --- FUNCTION TO SAVE CONTACT (VCF) ---
+    function downloadVCF() {
+        const vcardData = `BEGIN:VCARD
+VERSION:3.0
+FN:${contactName}
+ORG:${contactName}
+TEL;TYPE=WORK,VOICE:${phoneNumber}
+ADR;TYPE=WORK:;;${contactAddress};India
+URL:${GOOGLE_LINK}
+END:VCARD`;
 
-        // 40+ OUTROS
-        outros: {
-            "Professional": [
-                "I will definitely be returning for future events.",
-                "Highly recommended for anyone looking for quality work.",
-                "She uses high-end products and techniques.",
-                "A trustworthy name in the {location} beauty industry.",
-                "You can trust her for your big day.",
-                "Excellent value for the quality provided.",
-                "I am very satisfied with the service.",
-                "Do book her if you want a flawless look.",
-                "She maintains high standards of hygiene and skill.",
-                "Looking forward to my next appointment."
-            ],
-            "Friendly": [
-                "Can't wait to come back! XOXO",
-                "She is my go-to person in {location} now! 😍",
-                "Love her work so much! 💕",
-                "Will recommend her to all my girlfriends!",
-                "You guys have to try her out!",
-                "Super happy with the results! 😄",
-                "See you soon Ayesha!",
-                "Feeling like a queen thanks to her!",
-                "Keep shining Ayesha!",
-                "Lots of love for the amazing work."
-            ],
-            "Short": [
-                "Highly recommended.",
-                "Will visit again.",
-                "Great job.",
-                "Must try.",
-                "Simply perfect.",
-                "Five stars.",
-                "Loved it.",
-                "Best service.",
-                "Good quality.",
-                "Thanks again."
-            ],
-            "Grateful": [
-                "Thanks once again Ayesha.",
-                "I will always recommend you.",
-                "Really appreciate it.",
-                "God bless your hands.",
-                "Thank you for making me feel confident.",
-                "So grateful for the service.",
-                "Thanks for being so accommodating.",
-                "Much appreciated.",
-                "Thank you so much.",
-                "Grateful for the beautiful look."
-            ]
-        },
+        const blob = new Blob([vcardData], { type: "text/vcard" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = "Ayesha_Makeup_Artist.vcf";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
 
-        // KEYWORD SPECIFIC SENTENCES (15 Keywords)
-        keywords: {
-            "Best Makeup Artist": ["She is hands down the best makeup artist in {location}.", "Hard to find such a talented makeup artist.", "Truly the best artist for any occasion."],
-            "Bridal Makeup": ["She is the best bridal makeup artist I have come across.", "My bridal look was exactly how I imagined.", "Perfect choice for bridal makeup."],
-            "Affordable": ["Her services are very affordable for the quality she provides.", "Best budget-friendly makeup artist in {location}.", "Got a premium look at an affordable price."],
-            "Wedding Makeup": ["Best makeup artist for wedding functions.", "She handled my wedding makeup perfectly.", "Made my wedding day extra special with her magic."],
-            "Freelance": ["As a freelance makeup artist, she is very flexible.", "Great freelance service at my venue.", "She traveled to my location and did a great job."],
-            "HD Bridal": ["The HD Bridal makeup was flawless in photos.", "Loved the high-definition finish of the bridal look.", "She specializes in HD bridal makeup."],
-            "Glass Skin": ["She gave me the perfect best Glass Skin Makeup look.", "My skin looked like glass, so glowy and fresh.", "She absolutely nailed the glass skin trend."],
-            "Matte Finish": ["I asked for a matte finish makeup and it stayed all day.", "Perfect matte look without looking dry.", "She creates the best matte finish looks."],
-            "Water Resistant": ["The water-resistant makeup really lasted through the tears and sweat.", "Amazing water-resistant products used.", "My makeup didn't budge, truly water-resistant."],
-            "Maternity Shoot": ["She did my maternity shoot makeup beautifully.", "Made me feel glowing for my maternity photos.", "Best artist for maternity shoot styling."],
-            "Mature Skin": ["She is an expert makeup artist for mature skin.", "Handled mature skin very delicately and beautifully.", "My mother looked elegant; great skills for mature skin."],
-            "Natural Look": ["She gave me a stunning natural bridal look.", "I wanted something subtle and the natural look was perfect.", "Best choice for a natural, no-makeup makeup look."],
-            "Engagement Makeup": ["Booked her as my engagement makeup artist and loved it.", "My engagement look was the talk of the party.", "Perfect styling for my engagement."],
-            "Airbrush": ["The best Airbrush Makeup service in {location}.", "The airbrush finish felt so light and looked perfect.", "Highly recommend her airbrush technique."],
-            "Sweat Proof": ["The sweat-proof bridal makeup was a lifesaver in this weather.", "Makeup stayed intact, completely sweat-proof.", "Amazing longevity and sweat-proof application."]
-        }
+    // --- MASSIVE DATASETS FOR VARIETY (40+ Combinations) ---
+    
+    // 1. OPENING LINES (40 Variations)
+    const intros = [
+        "I recently booked Ayesha for my special day in Goa.",
+        "Hands down the best makeup experience I've had in Porvorim.",
+        "If you are in Betim or Penha de Franc, Ayesha is the one to call.",
+        "Ayesha is truly a magician with her brushes!",
+        "I was looking for a reliable MUA in Goa and found Ayesha.",
+        "Just got my makeup done by Ayesha and I am obsessed.",
+        "Such a talented artist right here in our area.",
+        "My search for the perfect makeup artist ended with Ayesha.",
+        "Visited Ayesha Makeup Artist for an event and loved it.",
+        "Highly professional service provided by Ayesha.",
+        "She made me look like a dream on my big day.",
+        "I cannot thank Ayesha enough for the wonderful makeover.",
+        "The best decision I made for my wedding look.",
+        "Ayesha understands exactly what her client needs.",
+        "Absolutely stunning work done by Ayesha.",
+        "I had a fantastic session with Ayesha Makeup Artist.",
+        "She is the best makeup artist in Penha de Franc.",
+        "Booking Ayesha was the highlight of my event preparation.",
+        "A gem of a makeup artist in Goa!",
+        "I was a bit nervous about my look, but Ayesha nailed it.",
+        "From consultation to the final look, everything was perfect.",
+        "Ayesha creates magic! I looked flawless.",
+        "She is extremely patient and talented.",
+        "Best bridal artist in town without a doubt.",
+        "I wanted a very specific look and Ayesha delivered.",
+        "Super happy with the services at Ayesha Makeup Artist.",
+        "She uses top quality products and has great hygiene.",
+        "Ayesha made me feel so beautiful and confident.",
+        "If you want to look your best, go to Ayesha.",
+        "Professional, punctual, and perfectionist - that is Ayesha.",
+        "I received so many compliments on my makeup.",
+        "The most comfortable makeup experience ever.",
+        "She is an expert at what she does.",
+        "Simply the best in Betim Porvorim area.",
+        "Thank you Ayesha for making me look like a doll.",
+        "Recommended by a friend and I am so glad I came here.",
+        "She transformed my look completely.",
+        "A wonderful experience from start to finish.",
+        "I felt like a celebrity after her makeover.",
+        "The studio and service both are top notch."
+    ];
+
+    // 2. CLOSING LINES (40 Variations)
+    const outros = [
+        "Highly recommended to everyone!",
+        "Will definitely book her again for the next function.",
+        "Thank you so much Ayesha!",
+        "5 Stars are not enough for her work.",
+        "Don't think twice, just book her.",
+        "Best service in Goa, hands down.",
+        "Keep up the amazing work.",
+        "Worth every penny.",
+        "I am a super happy bride!",
+        "See you soon for the next party.",
+        "Totally satisfied with the results.",
+        "Must book for your wedding.",
+        "A big thumbs up from my side!",
+        "Great value for money and amazing results.",
+        "Truly professional and sweet behavior.",
+        "The best makeup artist in Karegaon and Goa.",
+        "Thanks for making my day special.",
+        "I will recommend Ayesha to all my friends.",
+        "She is simply the best.",
+        "You won't regret choosing her.",
+        "Love her work and her vibe.",
+        "Can't wait to visit again.",
+        "She is a star!",
+        "So glad I chose Ayesha.",
+        "She exceeded my expectations.",
+        "Flawless work, highly recommended.",
+        "Do yourself a favor and book Ayesha.",
+        "The makeup looked great in person and photos.",
+        "She is my go-to makeup artist now.",
+        "Very happy with the overall experience.",
+        "Thank you for the glowing look.",
+        "Best wishes to the team.",
+        "She made my special day even better.",
+        "Ayesha is the best in the business.",
+        "Quality service at a great price.",
+        "I felt so beautiful, thank you!",
+        "Amazing artistry.",
+        "She really cares about her clients.",
+        "Professionalism at its peak.",
+        "10/10 experience!"
+    ];
+
+    // 3. KEYWORD SENTENCES (Specific to Ayesha's list)
+    const keywordSentences = {
+        "Best makeup artist": [
+            "Undoubtedly the best makeup artist in Goa.",
+            "She proves why she is rated the best makeup artist in town.",
+            "Hard to find the best makeup artist like her in Porvorim."
+        ],
+        "HD Bridal makeup": [
+            "The HD Bridal makeup was absolutely flawless.",
+            "My HD bridal look came out perfect in photos.",
+            "She is an expert in High Definition bridal makeup."
+        ],
+        "Airbrush makeup": [
+            "The airbrush finish was so lightweight and smooth.",
+            "Loved the flawless coverage of the airbrush makeup.",
+            "Airbrush makeup is a must-try with her."
+        ],
+        "Airbrush bridal makeup": [
+            "My airbrush bridal look was exactly what I dreamed of.",
+            "For brides, her airbrush technique is the best.",
+            "The airbrush bridal makeup stayed perfect all day."
+        ],
+        "Affordable makeup artist": [
+            "She is a very affordable makeup artist considering her quality.",
+            "Best services at affordable rates in Goa.",
+            "Luxury makeup that is actually affordable."
+        ],
+        "Mehndi makeup look": [
+            "She created a stunning, colorful look for my Mehndi.",
+            "Loved the vibrant Mehndi makeup look she gave me.",
+            "Perfect styling for the Mehndi function."
+        ],
+        "Maternity shoot makeup": [
+            "She did my Maternity shoot makeup and I looked glowing.",
+            "Very comfortable experience for my maternity shoot makeup.",
+            "She knows exactly how to do subtle makeup for maternity shoots."
+        ],
+        "Sweat-proof bridal makeup": [
+            "The makeup was totally sweat-proof, perfect for Goa humidity.",
+            "I danced all night and the sweat-proof bridal makeup didn't budge.",
+            "Amazing sweat-proof technique, my face stayed fresh."
+        ],
+        "Makeup artist for mature skin": [
+            "She is excellent as a makeup artist for mature skin.",
+            "My mother loved her look; Ayesha is great with mature skin.",
+            "She made the mature skin look youthful and elegant."
+        ],
+        "Water-resistant makeup": [
+            "Her water-resistant makeup is a lifesaver in this weather.",
+            "Even with the heat, the water-resistant makeup stayed on.",
+            "Truly water-resistant and long-lasting."
+        ],
+        "Engagement makeup artist": [
+            "The best Engagement makeup artist in Betim.",
+            "Got so many compliments on my Engagement look.",
+            "She created a subtle yet classy engagement look."
+        ],
+        "Makeup artist for wedding": [
+            "The perfect makeup artist for weddings in Goa.",
+            "Highly recommended makeup artist for wedding functions.",
+            "She managed the whole wedding party beautifully."
+        ],
+        "Smokey Eye Makeup": [
+            "She nailed the Smokey Eye makeup look.",
+            "The Smokey Eye was intense and beautiful.",
+            "Best smokey eye blend I have seen."
+        ],
+        "Glowy Makeup": [
+            "I wanted a Glowy Makeup look and she delivered.",
+            "The finish was so dewy and glowy.",
+            "She gave me that perfect glass-skin glowy makeup."
+        ],
+        "Highly Recommended": [
+            "I highly recommend her for any occasion.",
+            "A highly recommended artist for all brides.",
+            "Definitely highly recommended!"
+        ]
     };
 
-    // --- UTILS ---
-    function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-    function toggleNameField() { 
-        const field = document.getElementById('nameArea');
-        field.style.display = field.style.display === 'block' ? 'none' : 'block';
-    }
-    function toggleKeyword(element, keyword) {
-        element.classList.toggle('active');
-        if (selectedKeywords.includes(keyword)) {
-            selectedKeywords = selectedKeywords.filter(item => item !== keyword);
-        } else {
-            selectedKeywords.push(keyword);
-        }
+    function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+    // --- LOGIC ---
+    const stars = document.querySelectorAll('#star-rating .fa-star');
+    stars.forEach(star => {
+        star.addEventListener('click', function() {
+            const rating = parseInt(this.getAttribute('data-value'));
+            stars.forEach(s => s.classList.remove('active'));
+            for(let i=0; i<rating; i++) stars[i].classList.add('active');
+
+            if(rating >= 4) {
+                document.getElementById('high-rating-btn').classList.remove('hidden');
+                document.getElementById('low-rating-form').classList.add('hidden');
+            } else {
+                document.getElementById('low-rating-form').classList.remove('hidden');
+                document.getElementById('high-rating-btn').classList.add('hidden');
+            }
+        });
+    });
+
+    function openAITool() {
+        document.getElementById('rating-step').classList.add('hidden');
+        document.getElementById('ai-tool-step').classList.remove('hidden');
     }
 
-    function generateReview() {
-        const userName = document.getElementById('userName').value.trim();
-        const tone = document.getElementById('toneSelect').value;
-        const location = document.getElementById('locationSelect').value;
-        const makeupType = document.getElementById('makeupTypeSelect').value;
-        const outputBox = document.getElementById('reviewOutput');
-        const copyBtn = document.getElementById('copyBtn');
+    function toggleKeyword(el) {
+        el.classList.toggle('active');
+        const text = el.innerText;
+        if(selectedKeywords.includes(text)) selectedKeywords = selectedKeywords.filter(k => k !== text);
+        else selectedKeywords.push(text);
+    }
 
-        if (selectedKeywords.length === 0) {
-            alert("Please select at least 2 highlights.");
+    // --- VOICE LOGIC ---
+    function startListening() {
+        if (!('webkitSpeechRecognition' in window)) {
+            alert("Please use Chrome Browser for Voice Features.");
             return;
         }
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = 'mr-IN'; // Default to Marathi/Hindi region
         
-        outputBox.style.display = 'block';
-        outputBox.style.opacity = "0.5";
+        const icon = document.querySelector('.mic-icon');
+        const status = document.getElementById('voiceStatus');
 
-        // 1. SELECT INTRO
-        let intro = getRandomItem(reviewDB.intros[tone]);
-        intro = intro.replace(/{location}/g, location);
-
-        if (userName) intro = `I am ${userName}. ` + intro;
-
-        // 2. MAKEUP TYPE SENTENCE
-        let makeupSentence = "";
-        if(makeupType && makeupType !== "") {
-            const makeupSentences = [
-                `I opted for the ${makeupType} and it looked stunning.`,
-                `The ${makeupType} she did was absolutely flawless.`,
-                `She is an expert when it comes to ${makeupType}.`,
-                `I loved the ${makeupType} she created for me.`
-            ];
-            makeupSentence = getRandomItem(makeupSentences) + " ";
-        }
-
-        // 3. BODY (Keyword Sentences)
-        let body = "";
-        const shuffledKeywords = selectedKeywords.sort(() => Math.random() - 0.5);
-        shuffledKeywords.forEach((k) => {
-            let sentence = getRandomItem(reviewDB.keywords[k]);
-            sentence = sentence.replace(/{location}/g, location);
-            body += sentence + " ";
-        });
-
-        // 4. SELECT OUTRO
-        let outro = getRandomItem(reviewDB.outros[tone]);
-        outro = outro.replace(/{location}/g, location);
-
-        // COMBINE
-        const finalReview = intro + " " + makeupSentence + body + outro;
-
-        setTimeout(() => {
-            outputBox.style.opacity = "1";
-            outputBox.value = finalReview;
-            copyBtn.style.display = "block";
-            if (window.innerWidth < 600) outputBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 300);
+        recognition.onstart = () => {
+            icon.classList.add('mic-active');
+            status.innerText = "Listening...";
+        };
+        recognition.onend = () => {
+            icon.classList.remove('mic-active');
+            status.innerText = "Translating...";
+        };
+        recognition.onresult = (event) => {
+            const text = event.results[0][0].transcript;
+            translateVoice(text);
+        };
+        recognition.start();
     }
 
-    function copyToClipboard() {
-        const copyText = document.getElementById("reviewOutput");
-        copyText.select();
-        copyText.setSelectionRange(0, 99999);
-        navigator.clipboard.writeText(copyText.value).then(() => {
-            const isConfirmed = confirm("Review Copied! 💄\n\nClick OK to open Google Maps.");
-            if(isConfirmed) window.open(GOOGLE_REVIEW_LINK, '_blank');
+    async function translateVoice(text) {
+        try {
+            // Using a free translation API for demo purposes
+            const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=mr|en`);
+            const data = await res.json();
+            if(data.responseData) {
+                recordedText = data.responseData.translatedText;
+                document.getElementById('voiceStatus').innerText = "Translation Done: " + recordedText;
+            }
+        } catch(e) {
+            recordedText = text;
+            document.getElementById('voiceStatus').innerText = "Voice Added (Raw).";
+        }
+    }
+
+    // --- GENERATE ---
+    function generateRandomReview() {
+        const service = document.getElementById('serviceSelect').value;
+        let review = getRandom(intros) + " ";
+
+        if(service) {
+            const serviceSentences = [
+                `I went for the ${service} and the results were stunning.`,
+                `The ${service} technique used was perfect for my skin type.`,
+                `I specifically asked for ${service} and Ayesha did it perfectly.`
+            ];
+            review += getRandom(serviceSentences) + " ";
+        }
+
+        if(recordedText) review += `${recordedText} `;
+
+        // Add 2-3 random keywords if many are selected, to keep it natural
+        selectedKeywords.forEach(k => {
+            // Fuzzy match logic to handle slight variations if needed
+            let key = Object.keys(keywordSentences).find(key => k.toLowerCase().includes(key.toLowerCase()) || key.toLowerCase().includes(k.toLowerCase()));
+            if(key && keywordSentences[key]) {
+                review += getRandom(keywordSentences[key]) + " ";
+            } else {
+                // Fallback if exact key match fails
+                review += `The ${k} service was excellent. `;
+            }
         });
+
+        review += getRandom(outros);
+
+        const txt = document.getElementById('finalReview');
+        txt.value = review;
+        txt.style.display = 'block';
+        document.getElementById('copyBtn').style.display = 'block';
+        txt.scrollIntoView({behavior: "smooth"});
+    }
+
+    function copyAndOpen() {
+        const txt = document.getElementById('finalReview');
+        txt.select();
+        document.execCommand('copy');
+        if(confirm("Review Copied! Open Google Maps to paste it?")) {
+            window.location.href = GOOGLE_LINK;
+        }
+    }
+    
+    function submitNegative() {
+        alert("Thank you for your feedback. We will improve.");
     }
 </script>
