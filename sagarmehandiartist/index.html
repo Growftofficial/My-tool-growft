@@ -1,0 +1,305 @@
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Feedback - Sagar Mehndi Artist</title>
+    <style>
+        :root {
+            --primary: #386641;
+            --primary-light: #6a994e;
+            --accent: #bc4749;
+            --bg-color: #f2e8cf;
+            --card-bg: #ffffff;
+            --gold: #ffb703;
+            --text-dark: #2c1810;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(#dbd3b8 1px, transparent 1px);
+            background-size: 20px 20px;
+            margin: 0; padding: 20px 10px;
+            min-height: 100vh; display: flex;
+            justify-content: center; align-items: flex-start;
+        }
+
+        .container {
+            background: var(--card-bg); width: 100%; max-width: 500px;
+            padding: 25px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(56, 102, 65, 0.2);
+            border-top: 6px solid var(--accent); margin: auto;
+            text-align: center; position: relative; overflow: hidden;
+        }
+
+        h1 { color: var(--accent); margin: 5px 0 2px 0; font-size: 28px; font-weight: 800; font-family: 'Georgia', serif; }
+        .location { color: var(--primary); font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; }
+        
+        .phone-link {
+            text-decoration: none; color: #fff; background: var(--primary);
+            padding: 10px 20px; border-radius: 25px; display: inline-block;
+            font-size: 15px; font-weight: 600; transition: 0.2s;
+            box-shadow: 0 4px 6px rgba(56, 102, 65, 0.3); margin-bottom: 20px;
+        }
+
+        select, input {
+            width: 100%; padding: 12px; border-radius: 8px;
+            border: 1px solid #d4c5a3; background: #faf9f6;
+            font-size: 15px; outline: none; margin-bottom: 10px; color: var(--text-dark);
+        }
+        label { font-weight: 700; display: block; margin-top: 12px; margin-bottom: 6px; color: var(--primary); font-size: 12px; text-transform: uppercase; text-align: left; }
+
+        .star-container { display: flex; justify-content: center; gap: 8px; margin: 20px 0; }
+        .star { font-size: 45px; color: #e0e0e0; cursor: pointer; }
+        .star.selected { color: var(--gold); }
+
+        .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; }
+        .exp-btn {
+            padding: 12px 20px; border: 1px solid #d4c5a3; border-radius: 8px;
+            background: #fff; cursor: pointer; font-weight: 600; flex: 1; transition: 0.2s;
+        }
+        .exp-btn.active { background: var(--primary); color: white; }
+        .exp-btn.bad-active { background: #bc4749; color: white; }
+
+        .action-btn {
+            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--accent) 0%, #a03032 100%);
+            color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer;
+        }
+
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 5px; }
+        .keyword-chip { 
+            padding: 8px 14px; background-color: #fff; border-radius: 20px; 
+            font-size: 11px; font-weight: 600; cursor: pointer; 
+            border: 1px solid #d4c5a3; color: var(--primary); flex-grow: 1; text-align: center;
+        }
+        .keyword-chip.active { background-color: var(--primary); color: white; border-color: var(--primary); }
+        .cat-title { font-size: 10px; color: var(--accent); margin: 15px 0 5px 0; font-weight: 800; border-bottom: 1px dashed #d4c5a3; width:100%; text-align:left; }
+
+        textarea { width: 100%; border-radius: 8px; border: 1px solid #d4c5a3; padding: 10px; font-family: inherit; }
+        .copy-btn { width: 100%; padding: 12px; background-color: #e85d04; color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: 600; cursor: pointer; display: none; }
+        .fade-in { animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .toggle-name { font-size: 13px; color: var(--accent); text-decoration: underline; cursor: pointer; float: right; border: none; background: none; }
+    </style>
+
+
+
+<div class="container">
+    <h1>Sagar Mehndi Artist</h1>
+    <div class="location">✨ Jaipur, Rajasthan ✨</div>
+    <div><a href="tel:+918528477880" class="phone-link">📞 Book Appointment</a></div>
+
+    <div id="ratingScreen" class="fade-in">
+        <p>How was your Mehndi experience?</p>
+        <div class="star-container">
+            <span class="star" onclick="rate(1)">★</span>
+            <span class="star" onclick="rate(2)">★</span>
+            <span class="star" onclick="rate(3)">★</span>
+            <span class="star" onclick="rate(4)">★</span>
+            <span class="star" onclick="rate(5)">★</span>
+        </div>
+        <div class="experience-btns">
+            <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Not Good 😞</button>
+            <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Loved it! 😍</button>
+        </div>
+        <button class="action-btn" onclick="processRating()">Next Step ➡</button>
+    </div>
+
+    <div id="aiToolScreen" class="fade-in" style="display: none;">
+        <div style="display: flex; gap: 10px;">
+            <div style="flex:1;">
+                <label>Location</label>
+                <select id="locationSelect">
+                    <option value="Jaipur">Jaipur</option>
+                    <option value="Rajasthan">Rajasthan</option>
+                    <option value="Mansarovar">Mansarovar</option>
+                    <option value="Vaishali Nagar">Vaishali Nagar</option>
+                    <option value="Malviya Nagar">Malviya Nagar</option>
+                </select>
+            </div>
+            <div style="flex:1;">
+                <label>Tone</label>
+                <select id="toneSelect">
+                    <option value="Professional">Professional 💼</option>
+                    <option value="Friendly">Friendly 😃</option>
+                    <option value="Grateful">Grateful 🙏</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="toggle-name" onclick="document.getElementById('nameArea').style.display='block'">+ Add Your Name</button>
+        <div id="nameArea" style="display:none; clear:both; margin-bottom:10px;">
+            <input type="text" id="userName" placeholder="Your Name (Optional)">
+        </div>
+
+        <label style="clear:both; margin-top: 15px;">Select highlights (Min 3)</label>
+        <div class="keywords-container" id="keywordsContainer">
+            <div class="cat-title">ARTIST QUALITY</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Artist')">🏆 Best Artist</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Professional')">🖌️ Professional</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Creative')">💡 Creative</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Punctual')">⏰ Punctual</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Experienced')">🎓 Experienced</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Home Service')">🏠 Home Service</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Fast Work')">⚡ Fast Work</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Polite Staff')">😊 Polite Staff</div>
+
+            <div class="cat-title">DESIGN STYLES</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Bridal Expert')">👰 Bridal Expert</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Arabic Style')">🌿 Arabic Style</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Portrait Art')">🎨 Portrait Art</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Bharwa Design')">✨ Bharwa Design</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, '3D Mehndi')">💠 3D Mehndi</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Minimalist')">💍 Minimalist</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Peacock Motifs')">🦚 Peacock</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Jewellery Style')">📿 Jewellery</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Back Hand')">🤚 Back Hand</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Leg Designs')">🦶 Leg Designs</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Mandala')">☸️ Mandala</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Floral')">🌸 Floral</div>
+
+            <div class="cat-title">SPECIALTY &amp; CARE</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Organic Henna')">🌿 Organic Henna</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Dark Stain')">🩸 Dark Stain</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Chemical Free')">🧪 Chemical Free</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Pocket Friendly')">💰 Budget Friendly</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Groom Mehndi')">🤵 Groom Mehndi</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Baby Shower')">🤰 Baby Shower</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Couple Matching')">💞 Matching</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Festive Design')">🌙 Festive Special</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Detailing')">🔍 Fine Detailing</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Neat Work')">🧼 Neat &amp; Clean</div>
+        </div>
+
+        <button class="action-btn" onclick="generateReview()" style="margin-top:20px;">🚀 Generate Unique Review</button>
+        <textarea id="reviewOutput" style="height:130px; margin-top:15px; display:none;" readonly=""></textarea>
+        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy &amp; Open Google</button>
+    </div>
+
+    <div id="privateFeedbackScreen" class="fade-in" style="display: none;">
+        <h2 style="color:var(--accent);">We are sorry! 😔</h2>
+        <p>Please tell us what went wrong.</p>
+        <textarea id="privateFeedbackText" style="height:100px;" placeholder="Describe the issue..."></textarea>
+        <button class="action-btn" style="background:#4b5563; margin-top:10px;" onclick="alert('Feedback submitted privately.')">Submit Feedback</button>
+    </div>
+</div>
+
+<script>
+    const GOOGLE_REVIEW_LINK = "https://g.page/r/CZNx7kHyP0jjEBM/review"; 
+    let currentRating = 0;
+    let selectedKeywords = [];
+
+    function rate(stars) {
+        currentRating = stars;
+        document.querySelectorAll('.star').forEach((s, i) => s.classList.toggle('selected', i < stars));
+    }
+
+    function selectExp(type) {
+        document.getElementById('btn-good').classList.toggle('active', type==='good');
+        document.getElementById('btn-bad').classList.toggle('bad-active', type==='bad');
+    }
+
+    function processRating() {
+        if (currentRating === 0) { alert("Please select stars."); return; }
+        document.getElementById('ratingScreen').style.display = 'none';
+        if (currentRating >= 4) document.getElementById('aiToolScreen').style.display = 'block';
+        else document.getElementById('privateFeedbackScreen').style.display = 'block';
+    }
+
+    function toggleKeyword(el, key) {
+        el.classList.toggle('active');
+        if (selectedKeywords.includes(key)) selectedKeywords = selectedKeywords.filter(i => i !== key);
+        else selectedKeywords.push(key);
+    }
+
+    // Comprehensive Database with 40+ variations per logic
+    const reviewData = {
+        intros: [
+            "Best experience with Sagar Mehndi Artist in {location}!",
+            "I highly recommend Sagar Mehndi Artist if you are in {location}.",
+            "Truly the finest mehndi service I found in {location}.",
+            "Sagar Mehndi Artist did an amazing job for our event in {location}.",
+            "Absolutely loved the work by Sagar Mehndi Artist at {location}.",
+            "Great service and beautiful art by Sagar in {location}!",
+            "If you're looking for a professional in {location}, Sagar is the best.",
+            "My wedding in {location} was made special by Sagar Mehndi Artist.",
+            "Incredible talent found at Sagar Mehndi Artist in {location}.",
+            "Five stars for Sagar Mehndi Artist in {location}!",
+            "So happy with the mehndi service provided in {location}.",
+            "Sagar is a magician with henna in {location}.",
+            "Found the perfect mehndi artist in {location} today.",
+            "Wonderful designs and great vibes in {location}.",
+            "Professional and creative work in {location} by Sagar.",
+            "Booked them for a family function in {location}, totally worth it!",
+            "Best bridal artist in all of {location}.",
+            "Sagar Mehndi Artist is a household name in {location} for a reason.",
+            "Exceptional artistry and very polite behavior in {location}.",
+            "Top-notch service for mehndi in {location}."
+        ],
+        outros: [
+            "Will definitely book them again!", "Highly recommended to everyone!", 
+            "Great value for money.", "Truly a masterpiece, thank you!", 
+            "Best in Jaipur, hands down.", "Super satisfied with the result.", 
+            "Amazing team and even better work.", "Don't think twice, just book them!", 
+            "God bless your artistic hands.", "Exactly what I wanted, thanks Sagar!",
+            "Looking forward to the next booking!", "The stain is just wow!", 
+            "Professionalism at its best.", "Must visit for bridal mehndi.", 
+            "Keep growing, great work!", "Highly impressed by the speed.", 
+            "The most detailed work I've ever seen.", "Five stars all the way!", 
+            "Thank you for making my day.", "Simply amazing experience."
+        ],
+        details: {
+            "Best Artist": ["The most talented artist in town.", "A true master of mehndi art.", "Their skill is unmatched."],
+            "Professional": ["Very professional approach and clean work.", "Neat application and disciplined behavior.", "They know their job perfectly."],
+            "Creative": ["Loved the unique and creative patterns.", "Very innovative design ideas.", "Every stroke was so artistic."],
+            "Home Service": ["Comfortable home service provided on time.", "Doorstep service was very convenient.", "They arrived promptly at my home."],
+            "Organic Henna": ["Used 100% natural and organic henna.", "The henna quality was premium and safe.", "Safe for skin with no chemicals."],
+            "Bridal Expert": ["The bridal design was intricate and stunning.", "Perfect choice for wedding mehndi.", "Best bridal artist I have ever seen."],
+            "Dark Stain": ["The color came out very dark and beautiful.", "Impressive deep red stain after just 2 hours.", "Stain lasted for a long time."],
+            "Portrait Art": ["The portrait was a xerox copy, unbelievable!", "Experts in face detailing and portraits.", "Master of portrait mehndi art."],
+            "Arabic Style": ["Beautiful and flowing Arabic designs.", "Very modern and chic Arabic patterns.", "Arabic work was very clean."],
+            "Punctual": ["The team was on time and very professional.", "Very punctual with the appointment.", "No delays at all."],
+            "Bharwa Design": ["Full hand bharwa mehndi looked so traditional.", "Very detailed traditional bharwa work.", "Loved the heavy bridal design."],
+            "Fast Work": ["Quick application without compromising quality.", "Super fast and yet so detailed.", "Finished the work very efficiently."],
+            "Pocket Friendly": ["Very reasonable prices for such high quality.", "Great work at a budget-friendly price.", "Affordable and excellent service."],
+            "Neat Work": ["Application was very tidy and mess-free.", "The lines were very sharp and neat.", "Extremely clean work environment."]
+            // (Remaining logic uses a generic praise if specific detail is missing)
+        }
+    };
+
+    function generateReview() {
+        if (selectedKeywords.length < 3) { alert("Please select at least 3 highlights."); return; }
+        
+        const location = document.getElementById('locationSelect').value;
+        const name = document.getElementById('userName').value.trim();
+        const tone = document.getElementById('toneSelect').value;
+
+        // Randomly pick components
+        let intro = reviewData.intros[Math.floor(Math.random() * reviewData.intros.length)].replace("{location}", location);
+        if (name) intro = `I am ${name}. ` + intro;
+
+        let body = "";
+        selectedKeywords.forEach(k => {
+            let options = reviewData.details[k] || [`Excellent ${k} quality.`];
+            body += options[Math.floor(Math.random() * options.length)] + " ";
+        });
+
+        let outro = reviewData.outros[Math.floor(Math.random() * reviewData.outros.length)];
+
+        // Combine
+        const finalReview = `${intro} ${body} ${outro}`;
+        
+        const box = document.getElementById('reviewOutput');
+        box.value = finalReview;
+        box.style.display = 'block';
+        document.getElementById('copyBtn').style.display = 'block';
+        box.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function copyToClipboard() {
+        const box = document.getElementById("reviewOutput");
+        box.select();
+        navigator.clipboard.writeText(box.value).then(() => {
+            if(confirm("Review Copied! 📋\n\nClick OK to open Google Maps.")) window.open(GOOGLE_REVIEW_LINK, '_blank');
+        });
+    }
+</script>
