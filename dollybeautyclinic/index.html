@@ -1,0 +1,500 @@
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Review - Dolly Beauty Clinic Unisex Salon</title>
+    <style>
+        /* --- THEME COLORS: BEAUTY & AESTHETIC --- */
+        :root {
+            --primary: #db2777; /* Deep Pink/Magenta */
+            --primary-dark: #be185d;
+            --bg-color: #fdf2f8; /* Light Pink Background */
+            --card-bg: #ffffff;
+            --text-main: #333333;
+            --gold: #f59e0b;
+            --gray: #64748b;
+            --border: #fbcfe8;
+            --teal-border: #14b8a6; /* Teal color for preview box */
+            --teal-bg: #f0fdfa;     /* Light teal bg for preview box */
+        }
+
+        /* --- RESET --- */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0; padding: 20px 10px;
+            min-height: 100vh; display: flex;
+            justify-content: center; align-items: flex-start;
+            color: var(--text-main);
+        }
+
+        /* --- CONTAINER --- */
+        .container {
+            background: var(--card-bg); width: 100%; max-width: 500px;
+            padding: 25px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(219, 39, 119, 0.15);
+            border-top: 6px solid var(--primary); margin: auto;
+            text-align: center;
+            transition: filter 0.3s;
+        }
+
+        h1 { color: var(--primary-dark); margin: 5px 0 2px 0; font-size: 22px; font-weight: 800; letter-spacing: 0.5px; }
+        .location { color: var(--gray); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        
+        /* --- INPUTS --- */
+        select, input {
+            width: 100%; padding: 12px; border-radius: 10px;
+            border: 1px solid var(--border); background: #fff;
+            font-size: 14px; outline: none; margin-bottom: 10px;
+            color: var(--text-main);
+        }
+        select:focus, input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(219, 39, 119, 0.1); }
+        
+        label { font-weight: 700; display: block; margin-top: 15px; margin-bottom: 6px; color: var(--primary-dark); font-size: 12px; text-transform: uppercase; text-align: left; }
+
+        /* --- RATING --- */
+        .star-container { display: flex; justify-content: center; gap: 8px; margin: 20px 0; direction: ltr; }
+        .star { font-size: 42px; color: #e2e8f0; cursor: pointer; transition: transform 0.2s, color 0.2s; }
+        .star.selected { color: var(--gold); }
+
+        .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
+        .exp-btn {
+            padding: 12px 15px; border: 1px solid var(--border); border-radius: 8px;
+            background: #fff; cursor: pointer; font-weight: 600; color: var(--text-main);
+            flex: 1; transition: 0.2s; font-size: 14px;
+        }
+        .exp-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(219, 39, 119, 0.3); }
+        
+        .action-btn {
+            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white; border: none; border-radius: 8px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 10px;
+        }
+
+        /* --- CHIPS --- */
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
+        .keyword-chip { 
+            padding: 8px 12px; background-color: #fff; border-radius: 20px; 
+            font-size: 11px; font-weight: 600; cursor: pointer; 
+            border: 1px solid var(--border); color: var(--text-main); 
+            flex-grow: 1; text-align: center; transition: 0.2s;
+        }
+        .keyword-chip.active { background-color: #fce7f3; color: var(--primary-dark); border-color: var(--primary); transform: translateY(-2px); font-weight: 700; }
+        
+        .cat-title { width:100%; font-size: 11px; font-weight: 700; color: var(--gray); margin-top: 15px; margin-bottom: 5px; border-bottom: 1px dashed var(--border); text-align: left; text-transform: uppercase; }
+
+        /* --- VOICE SECTION --- */
+        .voice-section {
+            background: #fce7f3; padding: 12px; border-radius: 12px; 
+            margin-bottom: 20px; border: 1px dashed var(--primary);
+            text-align: left;
+        }
+        .voice-controls { display: flex; align-items: center; gap: 10px; }
+        .mic-btn {
+            width: 45px; height: 45px; border-radius: 50%;
+            background: var(--primary); color: white; border: none;
+            font-size: 20px; cursor: pointer; box-shadow: 0 4px 10px rgba(219, 39, 119, 0.3);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .mic-active { animation: pulse 1.5s infinite; background: #be185d; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(219, 39, 119, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(0,0,0,0); } }
+
+        textarea.feedback-box {
+            width: 100%; height: 130px; padding: 12px;
+            border: 1px solid var(--border); border-radius: 8px; resize: none;
+            background: #fff; margin-top: 15px; font-family: inherit; font-size: 14px;
+        }
+
+        /* --- UPDATED PREVIEW BOX STYLE --- */
+        .review-preview-box {
+            width: 100%;
+            min-height: 140px;
+            padding: 15px;
+            margin-top: 20px;
+            border: 1px solid var(--teal-border); /* Teal Color Border */
+            border-radius: 12px;
+            background-color: var(--teal-bg);     /* Light Teal Background */
+            color: #334155;
+            font-size: 15px;
+            line-height: 1.6;
+            font-family: 'Segoe UI', sans-serif;
+            resize: none;
+            outline: none;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .copy-btn { width: 100%; padding: 12px; background-color: #10b981; color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: 600; cursor: pointer; display: none; }
+
+        /* --- FOOTER --- */
+        .footer-branding {
+            margin-top: 30px; padding-top: 15px; border-top: 1px dashed #cbd5e1;
+            text-align: center; font-size: 12px; color: #64748b;
+        }
+        .footer-branding img { height: 20px; vertical-align: middle; margin: 0 5px; }
+        .footer-branding a { color: var(--primary); text-decoration: none; font-weight: 700; }
+        
+        .fade-in { animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .hidden { display: none; }
+        
+        .toggle-name { font-size: 12px; color: var(--primary); text-decoration: underline; cursor: pointer; border: none; background: none; float: right; margin-top: 5px; }
+    </style>
+
+
+
+<div class="container" id="mainApp">
+    
+    <h1>Dolly Beauty Clinic Unisex Salon</h1>
+    <div class="location">✨ Beauty • Skin • Hair • Delhi</div>
+
+    <div id="ratingScreen" class="fade-in">
+        <p style="font-weight:600; color:#555;">How was your service experience?</p>
+        <div class="star-container">
+            <span class="star" onclick="rate(1)">★</span>
+            <span class="star" onclick="rate(2)">★</span>
+            <span class="star" onclick="rate(3)">★</span>
+            <span class="star" onclick="rate(4)">★</span>
+            <span class="star" onclick="rate(5)">★</span>
+        </div>
+        <div class="experience-btns">
+            <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Not Happy 😞</button>
+            <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Loved it! 😍</button>
+        </div>
+        <button class="action-btn" onclick="processRating()">Next Step ➡</button>
+    </div>
+
+    <div id="privateFeedbackScreen" class="fade-in hidden">
+        <h2 style="color:var(--text-main);">We are sorry! 😔</h2>
+        <p style="font-size:14px; color:#666;">Please tell us how we can improve our services.</p>
+        <textarea id="privateFeedbackText" class="feedback-box" placeholder="Describe your issue..."></textarea>
+        <button class="action-btn" style="background:#475569;" onclick="submitPrivateFeedback()">Submit Feedback</button>
+    </div>
+
+    <div id="thankYouScreen" class="fade-in hidden">
+        <div style="font-size: 50px; margin-bottom:10px;">✅</div>
+        <h2 style="color:var(--primary);">Thank You!</h2>
+        <p>Your feedback has been sent to the owner.</p>
+    </div>
+
+    <div id="aiToolScreen" class="fade-in hidden" style="text-align: left;">
+        
+        <div class="voice-section">
+            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                <span style="font-size:11px; font-weight:bold; color:var(--primary);">SPEAK (Hindi/English):</span>
+                <select id="voiceLang" style="width:auto; padding:2px; font-size:11px; height:25px; margin:0;">
+                    <option value="hi-IN">Hindi</option>
+                    <option value="en-IN">English</option>
+                </select>
+            </div>
+            <div class="voice-controls">
+                <button id="micBtn" class="mic-btn" onclick="startListening()">🎤</button>
+                <div style="flex:1;">
+                    <p id="statusText" style="font-size:12px; color:#555; margin:0;">
+                        Tap mic &amp; speak...<br>
+                        (Ex: "Makeup bahut accha kiya")
+                    </p>
+                </div>
+            </div>
+            <div id="spokenTextDisplay" style="display:none; margin-top:8px; font-size:12px; color:var(--primary); background:#fff; padding:6px; border-radius:4px;"></div>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+            <div style="flex:1;">
+                <label style="margin-top:0;">Service Taken</label>
+                <select id="serviceSelect">
+                    <option value="" disabled="" selected="">Select Service...</option>
+                    <optgroup label="💄 Makeup &amp; Beauty">
+                        <option value="Bridal Makeup">Bridal Makeup</option>
+                        <option value="Party Makeup">Party Makeup</option>
+                        <option value="Nail Art">Nail Art &amp; Extensions</option>
+                    </optgroup>
+                    <optgroup label="💆‍♀️ Skin Care">
+                        <option value="Hydrafacial">Hydrafacial</option>
+                        <option value="Carbon Facial">Carbon Facial</option>
+                        <option value="Korean Glass Skin">Korean Glass Skin Treatment</option>
+                        <option value="Acne Treatment">Acne Reduction</option>
+                        <option value="Microdermabrasion">Microdermabrasion</option>
+                        <option value="Wart Removal">Wart Removal</option>
+                        <option value="Skin Lightening">Skin Lightening</option>
+                        <option value="D-Tan">D-Tan Cleanup</option>
+                    </optgroup>
+                    <optgroup label="💇‍♂️ Hair Services">
+                        <option value="Haircut">Haircut &amp; Styling</option>
+                        <option value="Hair Color">Hair Color</option>
+                        <option value="Oxy Bar Treatment">Oxy Bar Hair Treatment</option>
+                        <option value="Hair Restoration">Hair Restoration</option>
+                        <option value="Dandruff Treatment">Dandruff Reduction</option>
+                        <option value="Hair Spa">Hair Spa</option>
+                        <option value="Keratin">Keratin Treatment</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div style="flex:1;">
+                <label style="margin-top:0;">Tone</label>
+                <select id="toneSelect">
+                    <option value="Happy">Happy &amp; Grateful 😊</option>
+                    <option value="Professional">Professional 💼</option>
+                    <option value="Detailed">Detailed 👌</option>
+                    <option value="Short">Short &amp; Sweet ✨</option>
+                </select>
+            </div>
+        </div>
+
+        <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
+        <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
+            <input type="text" id="userName" placeholder="Your Name">
+        </div>
+
+        <label style="clear:both;">Select Highlights (Pick 3-4)</label>
+        
+        <div class="keywords-container">
+            <div class="cat-title">Ambience &amp; Service</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Unisex Salon')">🏆 Best Unisex Salon</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Friendly Staff')">🤝 Friendly Staff</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Hygiene')">✨ Clean &amp; Hygienic</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Professional Team')">👩‍💼 Professional Team</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Great Vibe')">🌸 Great Vibe</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Value for Money')">💰 Value for Money</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'On Time')">⏰ On Time Service</div>
+
+            <div class="cat-title">Hair Experts</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Hair Clinic')">💇‍♂️ Best Hair Clinic</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Hair Restoration')">🔄 Hair Restoration</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Hair Spa')">💆‍♀️ Relaxing Hair Spa</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Keratin')">✨ Keratin Treatment</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Hair Color')">🎨 Perfect Hair Color</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Dandruff Reduction')">❄️ Dandruff Reduction</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Hair Regrowth')">🌱 Hair Regrowth</div>
+
+            <div class="cat-title">Skin &amp; Glow</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Dermatologist')">👨‍⚕️ Best Dermatologist</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Hydrafacial')">💧 Hydrafacial</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Korean Glass Skin')">🇰🇷 Korean Glass Skin</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Acne Reduction')">🚫 Acne Reduction</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Carbon Facial')">🌑 Carbon Facial</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Skin Lightening')">🌟 Skin Lightening</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Anti Aging')">⏳ Anti-Aging</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Pigmentation')">🧖‍♀️ Pigmentation Removal</div>
+
+            <div class="cat-title">Makeup &amp; Bridal</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Makeup Artist')">💄 Best Makeup Artist</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Bridal Makeup')">👰 Bridal Makeup</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Party Makeup')">💃 Party Makeup</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Natural Look')">🌸 Natural Look</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Long Lasting')">🕐 Long Lasting Makeup</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Nails Salon')">💅 Best Nails Salon</div>
+        </div>
+
+        <button class="action-btn" onclick="generateReview()">✨ Generate Magic Review</button>
+
+        <textarea id="reviewOutput" class="review-preview-box" style="display:none;" readonly=""></textarea>
+        
+        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy &amp; Open Google</button>
+    </div>
+
+    <div class="footer-branding">
+        Powered by <a href="https://growft.odoo.com" target="_blank">Growft</a>
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" alt="Growft Logo" loading="lazy">
+        <div class="dev-contact">
+            Contact us to build your AI review tool: <a href="tel:+917020370561">7020370561</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    const GOOGLE_REVIEW_LINK = "https://www.google.com/search?sca_esv=0cca2ee0e671afa3&sxsrf=ANbL-n6aE156ZJ6HmNmxbk_vppQWX82V_A:1770054090150&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOS8kJl3Gp58rM9waMaSnVx_f-CF4UKbI0Za52jT6FMmu8QDYabe0NpEb1lM4D8OE6mhW1jkHKLAQGExzWTn1Iri3IWavQDe3Jc639aaV6h_jLkjx5AZBcN1C_MHCQ3VfRYx17Xg%3D&q=Dolly+Beauty+Clinic+Unisex+Salon+Reviews&sa=X&ved=2ahUKEwjB-pqqrbuSAxVzbmwGHTNNOj8Q0bkNegQIMxAH&biw=1920&bih=945&dpr=1&aic=0"; // REPLACE WITH CLIENT LINK
+    let selectedKeywords = [];
+    let translatedVoiceText = "";
+
+    // 1. RATING SYSTEM
+    let currentRating = 0;
+    function rate(stars) {
+        currentRating = stars;
+        document.querySelectorAll('.star').forEach((star, index) => {
+            star.classList.toggle('selected', index < stars);
+        });
+        if(stars >= 4) selectExp('good'); else selectExp('bad');
+    }
+
+    function selectExp(type) {
+        document.getElementById('btn-good').classList.remove('active');
+        document.getElementById('btn-bad').classList.remove('bad-active');
+        if (type === 'good') document.getElementById('btn-good').classList.add('active');
+        else document.getElementById('btn-bad').classList.add('bad-active');
+    }
+
+    function processRating() {
+        if (currentRating === 0) { alert("Please select a star rating."); return; }
+        document.getElementById('ratingScreen').classList.add('hidden');
+        if (currentRating >= 4) {
+            document.getElementById('aiToolScreen').classList.remove('hidden');
+        } else {
+            document.getElementById('privateFeedbackScreen').classList.remove('hidden');
+        }
+    }
+
+    function submitPrivateFeedback() {
+        if(document.getElementById('privateFeedbackText').value.trim() === "") { alert("Please write a few words."); return; }
+        document.getElementById('privateFeedbackScreen').classList.add('hidden');
+        document.getElementById('thankYouScreen').classList.remove('hidden');
+    }
+
+    // 2. DATASETS (EXPANDED)
+    const reviewData = {
+        intros: {
+            "Happy": [
+                "I visited Dolly Beauty Clinic in Delhi and I am absolutely loving the results!", "Had the most amazing experience at Dolly Beauty Clinic today.", "If you are looking for the best salon in Delhi, Dolly Beauty Clinic is the place.", "Just got done with my session at Dolly Beauty Clinic, and wow!", "My search for the perfect beauty clinic ended at Dolly Beauty Clinic.",
+                "Absolutely delighted with the service at Dolly Beauty Clinic.", "A big thank you to the team at Dolly Beauty Clinic Unisex Salon.", "Visited for a makeover and left with a huge smile.", "This is hands down the best unisex salon in Delhi.", "I am so happy I chose Dolly Beauty Clinic for my treatment.",
+                "Fantastic experience at Dolly Beauty Clinic.", "Such a wonderful vibe at this salon.", "I highly recommend Dolly Beauty Clinic to everyone.", "Best decision to visit Dolly Beauty Clinic today.", "Just had a lovely pampering session here."
+            ],
+            "Professional": [
+                "I recently visited Dolly Beauty Clinic Unisex Salon in Delhi.", "Writing this review after my appointment at Dolly Beauty Clinic.", "Professional and high-quality service at Dolly Beauty Clinic.", "Dolly Beauty Clinic is a premium destination for skin and hair care.", "Excellent standards maintained at Dolly Beauty Clinic.",
+                "Had a consultation at Dolly Beauty Clinic regarding my skin.", "The team at Dolly Beauty Clinic is very professional.", "Top-notch facilities available at Dolly Beauty Clinic.", "I visited for a specific treatment and the results are great.", "Clean, hygienic, and professional - that's Dolly Beauty Clinic.",
+                "A truly professional skin care clinic in Delhi.", "Very satisfied with the professional approach here.", "High quality service provided by the staff.", "One of the best professionally managed salons in Delhi.", "Great expertise shown by the doctors here."
+            ],
+            "Detailed": [
+                "I want to share my detailed experience at Dolly Beauty Clinic.", "Here is my honest feedback for Dolly Beauty Clinic in Delhi.", "From entry to exit, everything at Dolly Beauty Clinic was perfect.", "I took a package at Dolly Beauty Clinic and here are my thoughts.", "Let me tell you why Dolly Beauty Clinic is the best in Delhi.",
+                "The attention to detail at Dolly Beauty Clinic is commendable.", "They took great care of my skin concerns.", "Every step of the treatment was explained well.", "The ambiance, the staff, and the service - everything is 10/10.", "I have visited many salons, but Dolly Beauty Clinic stands out.",
+                "Truly a hidden gem for beauty services in Delhi.", "They use authentic products and modern techniques.", "My skin feels rejuvenated after visiting here.", "The staff ensures you are comfortable throughout.", "A complete beauty solution under one roof."
+            ],
+            "Short": [
+                "Best salon in Delhi!", "Loved the service at Dolly Beauty Clinic.", "Great experience!", "Highly recommended.", "5 stars for Dolly Beauty Clinic.",
+                "Amazing work!", "Very happy with the results.", "Best skin clinic.", "Must visit!", "Excellent service.",
+                "Great staff and service.", "Top quality work.", "Simply the best.", "Will visit again.", "Superb experience."
+            ]
+        },
+        keywords: {
+            // AMBIENCE & STAFF
+            "Best Unisex Salon": ["This is definitely the best unisex salon in Delhi.", "A perfect salon for both men and women.", "Top rated unisex salon with great vibes."],
+            "Friendly Staff": ["The staff is extremely polite and friendly.", "Loved the warm hospitality of the staff.", "Very cooperative and humble team."],
+            "Hygiene": ["The salon is super clean and hygienic.", "They maintain high standards of hygiene.", "Sanitized and safe environment."],
+            "Professional Team": ["The team is highly trained and professional.", "Expert hands and professional behavior.", "Very skilled professionals."],
+            "Great Vibe": ["The overall vibe of the salon is very relaxing.", "Loved the positive environment here.", "Very aesthetic and calming place."],
+            "Value for Money": ["The services are totally value for money.", "Great prices for such premium quality.", "Worth every penny spent here."],
+            "On Time": ["Appreciate that they value time, service was on time.", "No long waiting hours, very prompt service.", "They started my appointment exactly on time."],
+
+            // HAIR
+            "Best Hair Clinic": ["Truly the best hair clinic for all hair solutions.", "They are experts in hair treatments.", "Best place for hair care in Delhi."],
+            "Hair Restoration": ["The hair restoration treatment worked wonders.", "Saw great results with their hair restoration.", "Best place for hair restoration."],
+            "Hair Spa": ["The hair spa was incredibly relaxing.", "Best hair spa experience I've had in a while.", "My hair feels so soft after the spa."],
+            "Keratin": ["Loved the results of the Keratin treatment.", "My hair is frizz-free and shiny after Keratin.", "They use high quality products for Keratin."],
+            "Hair Color": ["They absolutely nailed the hair color I wanted.", "Best place for global hair color and highlights.", "Loved the new hair color transformation."],
+            "Dandruff Reduction": ["My dandruff issue is finally resolved.", "Their dandruff reduction treatment is effective.", "Got relief from dandruff after one session."],
+            "Hair Regrowth": ["Seeing visible hair regrowth results.", "Their hair regrowth therapy is amazing.", "Best clinic for hair regrowth treatment."],
+
+            // SKIN
+            "Best Dermatologist": ["The dermatologist here is very knowledgeable.", "Best skin doctor in the area.", "Expert advice from the dermatologist."],
+            "Hydrafacial": ["The Hydrafacial gave me an instant glow.", "Best Hydrafacial experience ever.", "My skin feels so hydrated after the facial."],
+            "Korean Glass Skin": ["Loved the Korean Glass Skin treatment.", "Got that glass skin glow I wanted.", "Best place for Korean skin treatments."],
+            "Acne Reduction": ["My acne has reduced significantly.", "Their acne treatment is very effective.", "Finally found a solution for my acne."],
+            "Carbon Facial": ["The Carbon Facial really cleared my skin.", "Instant brightness after the Carbon Facial.", "Best laser carbon facial service."],
+            "Skin Lightening": ["Saw visible difference with skin lightening.", "Great results for skin brightening.", "Safe and effective skin lightening."],
+            "Anti Aging": ["The anti-aging treatment showed immediate results.", "My skin feels tighter and younger.", "Great treatment for fine lines."],
+            "Pigmentation": ["The pigmentation treatment worked very well.", "Marks have faded significantly.", "Best solution for uneven skin tone."],
+
+            // MAKEUP
+            "Best Makeup Artist": ["The makeup artist is truly magical.", "She gave me the perfect look.", "Hands down the best makeup artist in Delhi."],
+            "Bridal Makeup": ["My bridal makeup was flawless.", "Made my big day special with perfect makeup.", "Best choice for bridal makeup."],
+            "Party Makeup": ["Got so many compliments on my party makeup.", "Subtle yet stunning party makeup.", "Perfect look for the evening."],
+            "Natural Look": ["Loved that they kept the makeup natural.", "Not cakey at all, very natural finish.", "Just the right amount of makeup."],
+            "Long Lasting": ["The makeup stayed intact all night.", "Long lasting and high quality makeup.", "Did not smudge even after hours."],
+            "Best Nails Salon": ["The nail art done here is exquisite.", "Best place for nail extensions.", "Loved my new nails!"]
+        },
+        outros: {
+            "Happy": ["Can't wait to come back!", "Thank you for making me look good.", "So happy with the new look!", "You guys are the best!", "Lots of love to the team."],
+            "Professional": ["Highly recommended.", "Will definitely visit again.", "Great value for money.", "A truly professional service.", "Keep up the good work."],
+            "Detailed": ["I suggest everyone to try their services.", "Do visit them for best results.", "Worth every penny spent.", "My go-to place from now on.", "You won't be disappointed."],
+            "Short": ["Recommended.", "5 Stars.", "Great job.", "Thanks!", "Visit them."]
+        }
+    };
+
+    function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+    // 3. UI LOGIC
+    function toggleNameField() { 
+        const field = document.getElementById('nameArea');
+        field.style.display = field.style.display === 'block' ? 'none' : 'block';
+    }
+    
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) {
+            selectedKeywords = selectedKeywords.filter(k => k !== keyword);
+        } else {
+            selectedKeywords.push(keyword);
+        }
+    }
+
+    // 4. VOICE LOGIC
+    function startListening() {
+        if (!('webkitSpeechRecognition' in window)) { alert("Use Chrome Browser."); return; }
+        recognition = new webkitSpeechRecognition();
+        recognition.lang = document.getElementById('voiceLang').value;
+        recognition.interimResults = false;
+
+        const micBtn = document.getElementById('micBtn');
+        const statusText = document.getElementById('statusText');
+
+        recognition.onstart = () => { micBtn.classList.add('mic-active'); statusText.innerText = "Listening..."; };
+        recognition.onend = () => { micBtn.classList.remove('mic-active'); statusText.innerText = "Processing..."; };
+        
+        recognition.onresult = (event) => {
+            const text = event.results[0][0].transcript;
+            const srcLang = document.getElementById('voiceLang').value.split('-')[0];
+            document.getElementById('spokenTextDisplay').style.display = 'block';
+            document.getElementById('spokenTextDisplay').innerText = `Recorded: "${text}"`;
+            translateText(text, srcLang);
+        };
+        recognition.start();
+    }
+
+    async function translateText(text, src) {
+        if(src === 'en') { translatedVoiceText = text; return; }
+        try {
+            const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${src}|en`);
+            const data = await res.json();
+            if(data.responseData) translatedVoiceText = data.responseData.translatedText;
+        } catch(e) { translatedVoiceText = text; }
+    }
+
+    // 5. GENERATE
+    function generateReview() {
+        const tone = document.getElementById('toneSelect').value;
+        const name = document.getElementById('userName').value.trim();
+        const service = document.getElementById('serviceSelect').value;
+
+        if (selectedKeywords.length === 0 && !translatedVoiceText && !service) {
+            alert("Please select a service or highlights.");
+            return;
+        }
+
+        // Build
+        let review = getRandom(reviewData.intros[tone]);
+        if(name) review = `I am ${name}. ` + review;
+        
+        if(service) review += ` I visited for ${service}. `;
+        
+        if(translatedVoiceText) review += translatedVoiceText + ". ";
+
+        // Shuffle keywords
+        const shuffled = selectedKeywords.sort(() => 0.5 - Math.random());
+        shuffled.forEach(k => {
+            if(reviewData.keywords[k]) review += getRandom(reviewData.keywords[k]) + " ";
+        });
+
+        review += getRandom(reviewData.outros[tone]);
+
+        const box = document.getElementById('reviewOutput');
+        box.value = review;
+        box.style.display = 'block';
+        document.getElementById('copyBtn').style.display = 'block';
+        box.scrollIntoView({behavior: "smooth"});
+    }
+
+    function copyToClipboard() {
+        const box = document.getElementById("reviewOutput");
+        box.select();
+        document.execCommand('copy');
+        if(confirm("Review Copied! Open Google Maps?")) window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+</script>
