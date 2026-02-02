@@ -36,6 +36,7 @@
             box-shadow: 0 10px 30px rgba(2, 132, 199, 0.15);
             border-top: 6px solid var(--primary); margin: auto;
             text-align: center;
+            transition: filter 0.3s; /* Smooth blur transition */
         }
 
         h1 { color: var(--primary-dark); margin: 5px 0 2px 0; font-size: 24px; font-weight: 800; }
@@ -117,15 +118,44 @@
         .or-divider:after { content: ""; position: absolute; right: 0; top: 50%; width: 45%; height: 1px; background: #cbd5e1; }
         
         .toggle-name { font-size: 13px; color: var(--primary); text-decoration: underline; cursor: pointer; float: right; margin-top: 5px; border: none; background: none; }
+
+        /* --- LOCK SCREEN STYLES (NEW) --- */
+        #lockScreen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            z-index: 9999;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            text-align: center; padding: 20px;
+        }
+        .lock-icon { font-size: 60px; margin-bottom: 20px; animation: float 3s ease-in-out infinite; }
+        .lock-title { color: #dc2626; font-size: 24px; font-weight: 800; margin-bottom: 10px; }
+        .lock-msg { color: #475569; font-size: 16px; margin-bottom: 25px; line-height: 1.5; }
+        .contact-btn {
+            background: #2563eb; color: white; padding: 12px 25px;
+            border-radius: 50px; text-decoration: none; font-weight: 700;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+        }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div id="lockScreen" style="display: none;">
+    <div class="lock-icon">🔒</div>
+    <div class="lock-title">Service Suspended</div>
+    <div class="lock-msg">
+        This tool has been temporarily disabled due to<br>payment or subscription expiry.<br><br>
+        Please contact the administrator to reactivate.
+    </div>
+    <a href="tel:+917020370561" class="contact-btn">📞 Contact Support</a>
+</div>
+
+<div class="container" id="mainApp">
     
     <h1>Vikash Memorial Eye Hospital</h1>
     <div class="location">👁️ Chaksu • Rajasthan</div>
-    <div><a href="tel:+91 9001664477" class="phone-link">📞 Call Hospital</a></div>
+    <div><a href="tel:+919001664477" class="phone-link">📞 Call Hospital</a></div>
 
     <div id="ratingScreen" class="fade-in">
         <p>How was your eye check-up experience?</p>
@@ -256,6 +286,22 @@
 </div>
 
 <script>
+    // ==========================================
+    // 🔒 SERVICE SUSPENSION LOCK (CONTROL HERE)
+    // ==========================================
+    // Set this to "false" to LOCK the tool.
+    // Set this to "true" to UNLOCK the tool.
+    
+    const SERVICE_ACTIVE = false; // <--- CURRENTLY LOCKED (Set to true to unlock)
+
+    // Lock Logic (Run Immediately)
+    if (!SERVICE_ACTIVE) {
+        document.body.style.overflow = "hidden"; // Stop scrolling
+        document.getElementById('lockScreen').style.display = "flex";
+        document.getElementById('mainApp').style.filter = "blur(8px)";
+        document.getElementById('mainApp').style.pointerEvents = "none";
+    }
+
     // --- CONFIGURATION ---
     const GOOGLE_REVIEW_LINK = "https://g.page/r/CbzNMBe581gSEBM/review"; 
     
@@ -302,7 +348,7 @@
         document.getElementById('thankYouScreen').style.display = 'block';
     }
 
-    // 2. VOICE RECOGNITION + REAL TRANSLATION API
+    // 2. VOICE RECOGNITION
     let recognition;
 
     function startListening() {
@@ -333,7 +379,6 @@
         recognition.onresult = function(event) {
             recognition.stop();
             const rawText = event.results[0][0].transcript;
-            
             spokenDisplay.style.display = 'block';
             spokenDisplay.innerText = `You said: "${rawText}"`;
             statusText.innerText = "Translating with AI...";
@@ -374,24 +419,18 @@
                 translatedText = data.responseData.translatedText;
             } else { throw new Error("Translation failed"); }
 
-            // Pick Random Intro and Outro for Voice too!
-            const intro = getRandom(introsEn).replace("{loc}", location);
-            const outro = getRandom(outrosEn);
-
-            const finalReview = `${intro} ${translatedText}. ${outro}`;
+            const finalReview = `I visited Vikash Memorial Eye Hospital in ${location}. ${translatedText} Highly recommended!`;
             displayResult(finalReview);
             statusText.innerText = "Done!";
 
         } catch (error) {
             console.error("API Error:", error);
             statusText.innerText = "Network Error. Using Offline Mode.";
-            // Fallback
             displayResult(`I visited Vikash Memorial Eye Hospital in ${location}. Excellent service and doctors. Highly recommended!`);
         }
     }
 
-    // --- 3. DYNAMIC DATA ARRAYS (20+ VARIATIONS) ---
-    
+    // --- 3. MANUAL LOGIC (KEYWORD MAPPING) ---
     const introsEn = [
         "I recently visited Vikash Memorial Eye Hospital in {loc}.",
         "My experience at Vikash Memorial Eye Hospital ({loc}) was excellent.",
@@ -482,7 +521,6 @@
         "Old & Trusted": { en: "It is an old and trusted eye care center.", hi: "यह एक पुराना और भरोसेमंद नेत्र देखभाल केंद्र है।" }
     };
 
-    // Helper to get random item
     function getRandom(arr) {
         return arr[Math.floor(Math.random() * arr.length)];
     }
@@ -538,7 +576,6 @@
         displayResult(review);
     }
 
-    // --- UTILS ---
     function displayResult(text) {
         const outputBox = document.getElementById('reviewOutput');
         const copyBtn = document.getElementById('copyBtn');
