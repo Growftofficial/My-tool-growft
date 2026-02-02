@@ -1,0 +1,543 @@
+c<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fabrication Easy - Feedback</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- THEME COLORS (Industrial/Steel Theme) --- */
+        :root {
+            --primary: #1565c0; /* Strong Blue */
+            --primary-dark: #0d47a1;
+            --bg-color: #e3f2fd;
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            --text-main: #333;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0; padding: 15px;
+            display: flex; justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* --- CARD DESIGN --- */
+        #main-card {
+            background: white; border-radius: 20px; padding: 25px 20px;
+            box-shadow: var(--card-shadow); width: 100%; max-width: 450px;
+            text-align: center; position: relative; overflow: hidden;
+            border-top: 5px solid var(--primary);
+            padding-bottom: 80px; /* Space for footer */
+        }
+
+        h2 { color: var(--primary); margin: 5px 0; font-size: 24px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .subtitle { color: #666; font-size: 13px; margin-bottom: 20px; font-weight: 500; }
+
+        /* --- RATING --- */
+        .stars { font-size: 35px; color: #e0e0e0; margin: 15px 0; cursor: pointer; transition: 0.2s; }
+        .stars .fa-star.active { color: #ffc107; transform: scale(1.1); }
+
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- INPUTS --- */
+        select, textarea {
+            width: 100%; padding: 12px; border-radius: 12px;
+            border: 1px solid #ddd; margin-bottom: 12px;
+            font-family: 'Poppins', sans-serif; font-size: 14px; background: #fff;
+            outline: none; box-sizing: border-box;
+        }
+        select:focus, textarea:focus { border-color: var(--primary); }
+
+        label { display: block; text-align: left; font-size: 12px; font-weight: 600; color: #555; margin-bottom: 5px; margin-top: 10px; }
+
+        /* --- KEYWORDS --- */
+        .category-label {
+            font-size: 11px; font-weight: 700; color: #888; 
+            text-transform: uppercase; letter-spacing: 1px;
+            text-align: left; margin: 15px 0 5px 0; border-bottom: 1px dashed #eee;
+        }
+
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 5px; }
+        
+        .keyword-chip {
+            font-size: 11px; padding: 8px 12px; border-radius: 50px;
+            border: 1px solid #eee; background: #f8f9fa; color: #555;
+            cursor: pointer; transition: 0.2s; font-weight: 500;
+        }
+        .keyword-chip.active { 
+            background: #e3f2fd; border-color: var(--primary); color: var(--primary-dark); 
+            box-shadow: 0 2px 5px rgba(21, 101, 192, 0.2);
+        }
+
+        /* --- VOICE SECTION --- */
+        .voice-box {
+            background: #f1f8e9; border: 1px dashed #4caf50;
+            padding: 12px; border-radius: 12px; margin-bottom: 15px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .voice-text { font-size: 12px; color: #2e7d32; font-weight: 600; text-align: left; }
+        .mic-icon {
+            width: 40px; height: 40px; background: #4caf50; color: white;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.2s; font-size: 18px;
+        }
+        .mic-active { animation: pulseGreen 1.5s infinite; background: #d32f2f; }
+        @keyframes pulseGreen { 0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(0,0,0,0); } }
+
+        /* --- BUTTONS --- */
+        .btn-action {
+            display: block; width: 100%; padding: 14px; border-radius: 50px;
+            text-decoration: none; font-weight: 600; margin-top: 15px;
+            cursor: pointer; border: none; font-size: 15px; transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .btn-next { background: linear-gradient(to right, #28a745, #218838); color: white; }
+        .btn-submit { background: #555; color: white; }
+        .btn-gen { background: linear-gradient(135deg, #1565c0 0%, #42a5f5 100%); color: white; }
+        .btn-copy { background: #007bff; color: white; margin-top: 10px; display: none; }
+
+        /* --- FOOTER & CONTACT --- */
+        .button-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 25px; border-top: 1px solid #eee; padding-top: 20px; }
+        .contact-link { text-decoration: none; color: #444; font-size: 11px; font-weight: 600; display: flex; flex-direction: column; align-items: center; }
+        .icon-box { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 5px; color: white; font-size: 18px; }
+        
+        .bg-call { background: #ff9800; }
+        .bg-wa { background: #25D366; }
+        .bg-web { background: #00bcd4; }
+
+        /* --- GROWFT FOOTER --- */
+        .footer-branding {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 11px;
+            color: #777;
+        }
+        .footer-branding img {
+            height: 25px;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+        .footer-branding a {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .dev-contact {
+            font-size: 10px;
+            color: #999;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="main-card">
+    <h2>Fabrication Easy</h2>
+    <p class="subtitle">Bahuddin Nagar • Noida • Uttar Pradesh</p>
+
+    <div id="rating-step">
+        <p style="margin:0; font-weight:600; font-size:15px; color:#555;">How was the work quality?</p>
+        <div class="stars" id="star-rating">
+            <i class="fas fa-star" data-value="1"></i>
+            <i class="fas fa-star" data-value="2"></i>
+            <i class="fas fa-star" data-value="3"></i>
+            <i class="fas fa-star" data-value="4"></i>
+            <i class="fas fa-star" data-value="5"></i>
+        </div>
+        
+        <div id="low-rating-form" class="hidden fade-in">
+            <p style="color: #dc3545; font-size: 13px; margin: 10px 0;">We strive for quality. What went wrong?</p>
+            <textarea id="complaint" rows="2" placeholder="Tell us the issue..."></textarea>
+            <button onclick="submitNegative()" class="btn-action btn-submit">Submit Feedback</button>
+        </div>
+
+        <div id="high-rating-btn" class="hidden fade-in">
+            <p style="color: green; font-size: 14px; margin: 5px 0;">Thank you for trusting us! 🛠️</p>
+            <button onclick="openAITool()" class="btn-action btn-next">Write Review (Next Step) <i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <div id="ai-tool-step" class="hidden fade-in" style="text-align: left;">
+        
+        <label>Select Work Done</label>
+        <select id="serviceSelect">
+            <option value="" disabled selected>Tap to select service...</option>
+            <option value="Window & Balcony Safety">Window & Balcony Safety</option>
+            <option value="Balcony & Terrace Railings">Balcony & Terrace Railings</option>
+            <option value="Roofing & Sheds">Roofing & Sheds</option>
+            <option value="Doors, Windows & Partitions">Doors, Windows & Partitions</option>
+            <option value="Furniture">Furniture</option>
+            <option value="Staircase Railings">Staircase Railings</option>
+            <option value="Sliding Gates">Sliding Gates</option>
+        </select>
+
+        <div class="voice-box">
+            <div class="voice-text">
+                <strong>🎙️ Voice Input (Hindi/English)</strong><br>
+                <span id="voiceStatus" style="color:#666;">Tap mic & speak (e.g. "Gate ka kaam mast hua")</span>
+            </div>
+            <div class="mic-icon" onclick="startListening()"><i class="fas fa-microphone"></i></div>
+        </div>
+
+        <label>What did you like? (Pick 3-4)</label>
+
+        <div class="category-label">🏭 Fabricators & Quality</div>
+        <div class="keywords-container">
+            <span class="keyword-chip" onclick="toggleKeyword(this)">best fabricators</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">best Steel fabricators</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Folding gate manufacturers</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">best Window installation</span>
+        </div>
+
+        <div class="category-label">🏠 Gates & Grills</div>
+        <div class="keywords-container">
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Modern window grill</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Modern iron gate design</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Window safety grill design</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Main gate design for home</span>
+        </div>
+
+        <div class="category-label">🚪 Windows & Balconies</div>
+        <div class="keywords-container">
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Aluminium sliding windows</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Upvc Balcony covered</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Upvc sliding door</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Invisible grill for balcony</span>
+        </div>
+
+        <div class="category-label">🔧 Railings & Sheds</div>
+        <div class="keywords-container">
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Balcony railing design</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">SS railing for balcony</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Balcony covering shed</span>
+        </div>
+
+        <button onclick="generateRandomReview()" class="btn-action btn-gen">🛠️ Generate Review</button>
+        
+        <textarea id="finalReview" rows="5" style="margin-top:15px; display:none;" readonly></textarea>
+        <button id="copyBtn" onclick="copyAndOpen()" class="btn-action btn-copy">Copy & Open Google <i class="fab fa-google"></i></button>
+    </div>
+
+    <div class="button-grid">
+        <a href="#" class="contact-link"><div class="icon-box bg-call"><i class="fas fa-phone"></i></div> Call</a>
+        <a href="#" class="contact-link"><div class="icon-box bg-wa"><i class="fab fa-whatsapp"></i></div> WhatsApp</a>
+        <a href="#" class="contact-link"><div class="icon-box bg-web"><i class="fas fa-globe"></i></div> Website</a>
+    </div>
+
+    <div class="footer-branding">
+        Powered by <a href="https://growft.net" target="_blank">Growft</a>
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" alt="Growft Logo">
+        <div class="dev-contact">
+            Contact us to build your AI review tool: <a href="tel:+917020370561">7020370561</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ** PLACEHOLDER LINK - REPLACE WITH ACTUAL GOOGLE MAPS LINK **
+    const GOOGLE_LINK = "https://www.google.com/search?hl=en-IN&gl=in&sca_esv=0cd8ea032a50c393&sxsrf=ANbL-n6eTRWF8ZBvXSOHGeKfOu1x8bDAjQ:1770029878309&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOai7A2QiI0UBk3crQOg8woDO7Yh56bQ-ESUPWiIoY6nS8eRm59Kajo-VC_BhtYxvNHBcD6xWYvvpR3KkaMlWmM6WZTSqtALTdUkuiWRvdEzJhVxi1Q%3D%3D&q=Fabrication+Easy+Reviews&sa=X&ved=2ahUKEwiWwY2R07qSAxV8UGcHHVtAH1UQ0bkNegQIPhAH&biw=1920&bih=945&dpr=1&aic=0"; 
+    let selectedKeywords = [];
+    let recordedText = "";
+
+    // --- MASSIVE DATASETS (40+ Variations per request) ---
+    
+    // 1. OPENING LINES (40 Variations)
+    const intros = [
+        "I got some fabrication work done by Fabrication Easy in Noida.",
+        "Fabrication Easy is hands down the best service provider in Bahuddin Nagar.",
+        "Recently hired them for some steel work at my home.",
+        "I was looking for reliable fabricators in Uttar Pradesh and found them.",
+        "Had a great experience with Fabrication Easy team.",
+        "Just completed a renovation project with Fabrication Easy.",
+        "Highly impressed with the quality of work provided.",
+        "If you need strong and durable fabrication, this is the place.",
+        "Best shop in Noida for gates and grills.",
+        "They completely transformed the look of my balcony.",
+        "Professional and timely service by the team.",
+        "I am very satisfied with the welding and installation work.",
+        "My search for the best steel fabricators ended here.",
+        "Excellent craftsmanship and attention to detail.",
+        "Fabrication Easy offered the best quote in Bahuddin Nagar.",
+        "Got my main gate installed by them recently.",
+        "Superb quality work and polite staff.",
+        "They are true experts in aluminium and steel work.",
+        "I highly recommend Fabrication Easy to everyone in Noida.",
+        "The team is very skilled and efficient.",
+        "A wonderful experience from start to finish.",
+        "They used high-quality materials for my project.",
+        "Very happy with the modern designs they suggested.",
+        "Timely delivery and perfect installation.",
+        "The durability of their work is outstanding.",
+        "Great value for money service in UP.",
+        "They customized the design exactly as I wanted.",
+        "Fabrication Easy is a name you can trust.",
+        "Solid build quality and neat finishing.",
+        "They repaired and replaced my old grill perfectly.",
+        "Best service experience I have had in a long time.",
+        "The owner is very knowledgeable and helpful.",
+        "Quick response and professional behavior.",
+        "I got reference from a neighbor and I am glad I chose them.",
+        "Top-notch fabrication work in the area.",
+        "They ensured safety and aesthetics both.",
+        "Very neat and clean installation work.",
+        "No hidden charges, very transparent dealing.",
+        "I love the new look of my home entrance.",
+        "Expert fabricators with years of experience."
+    ];
+
+    // 2. CLOSING LINES (40 Variations)
+    const outros = [
+        "Highly recommended!",
+        "Will definitely hire them again.",
+        "5 stars for the amazing work.",
+        "Don't think twice, just go for it.",
+        "Best fabricators in town.",
+        "Keep up the good work Fabrication Easy.",
+        "Worth every rupee spent.",
+        "A big thumbs up from my side.",
+        "Truly satisfied with the outcome.",
+        "Looking forward to the next project.",
+        "Must visit for quality work.",
+        "Great job team!",
+        "The finish is just perfect.",
+        "Safety and style combined perfectly.",
+        "Thanks for the quick service.",
+        "I will recommend you to my friends/family.",
+        "Simply the best in Bahuddin Nagar.",
+        "You won't regret choosing them.",
+        "Very reliable and trustworthy.",
+        "Excellent after-sales support too.",
+        "Made my house look modern and safe.",
+        "Professionalism at its peak.",
+        "Thank you for the suggestion and execution.",
+        "Best wishes for the future.",
+        "Quality you can rely on.",
+        "Fantastic experience overall.",
+        "Reasonable rates and top quality.",
+        "So happy with the new gate.",
+        "The railing looks sturdy and elegant.",
+        "Flawless execution.",
+        "They exceeded my expectations.",
+        "A 10/10 experience.",
+        "Glad I found Fabrication Easy.",
+        "Superior quality material used.",
+        "Clean and tidy work.",
+        "Respectful and hardworking staff.",
+        "On-time completion as promised.",
+        "The best investment for home safety.",
+        "Will surely visit again.",
+        "Thanks a lot!"
+    ];
+
+    // 3. KEYWORD SENTENCES (Mapped to specific inputs)
+    const keywordSentences = {
+        "best fabricators": [
+            "They are the best fabricators in Noida.",
+            "Hard to find such skilled and best fabricators these days.",
+            "Truly the best fabricators in Bahuddin Nagar."
+        ],
+        "best Steel fabricators": [
+            "If you need the best Steel fabricators, call them.",
+            "Quality proves they are the best Steel fabricators.",
+            "Worked with many, but they are the best Steel fabricators."
+        ],
+        "Modern window grill": [
+            "Loved the Modern window grill design they installed.",
+            "The Modern window grill looks so stylish.",
+            "They have a great catalogue for Modern window grill."
+        ],
+        "Aluminium sliding windows": [
+            "The Aluminium sliding windows work so smoothly.",
+            "High quality Aluminium sliding windows installed.",
+            "Very happy with the Aluminium sliding windows finish."
+        ],
+        "Modern iron gate design": [
+            "The Modern iron gate design completely changed my entrance.",
+            "Everyone compliments the Modern iron gate design.",
+            "They created a custom Modern iron gate design for me."
+        ],
+        "Window safety grill design": [
+            "The Window safety grill design is both strong and good looking.",
+            "Perfect Window safety grill design for security.",
+            "They suggested a robust Window safety grill design."
+        ],
+        "best Window installation": [
+            "This was the best Window installation service I've seen.",
+            "Neat and clean, truly the best Window installation.",
+            "Fast and the best Window installation in UP."
+        ],
+        "Upvc Balcony covered": [
+            "Got my Upvc Balcony covered professionally.",
+            "The Upvc Balcony covered area looks great now.",
+            "Quality materials used for Upvc Balcony covered work."
+        ],
+        "Upvc sliding door": [
+            "The Upvc sliding door is soundproof and sturdy.",
+            "Installed a premium Upvc sliding door.",
+            "Love the mechanism of the Upvc sliding door."
+        ],
+        "Main gate design for home": [
+            "They showed me the best Main gate design for home.",
+            "My Main gate design for home is unique and strong.",
+            "Executed the Main gate design for home perfectly."
+        ],
+        "Balcony railing design": [
+            "The Balcony railing design is modern and safe.",
+            "Chose a glass and steel Balcony railing design.",
+            "Very elegant Balcony railing design."
+        ],
+        "SS railing for balcony": [
+            "The SS railing for balcony shines perfectly.",
+            "Rust-free and strong SS railing for balcony.",
+            "Installed high-grade SS railing for balcony."
+        ],
+        "Balcony covering shed": [
+            "The Balcony covering shed is very durable.",
+            "Protecting from rain, the Balcony covering shed is perfect.",
+            "Sturdy structure for the Balcony covering shed."
+        ],
+        "Invisible grill for balcony": [
+            "The Invisible grill for balcony gives a clear view.",
+            "Modern Invisible grill for balcony installed safely.",
+            "Best solution is the Invisible grill for balcony."
+        ],
+        "Folding gate manufacturers": [
+            "They are the top Folding gate manufacturers in the area.",
+            "Bought directly from Folding gate manufacturers.",
+            "Sturdy gates from these Folding gate manufacturers."
+        ]
+    };
+
+    function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+    // --- LOGIC ---
+    const stars = document.querySelectorAll('#star-rating .fa-star');
+    stars.forEach(star => {
+        star.addEventListener('click', function() {
+            const rating = parseInt(this.getAttribute('data-value'));
+            stars.forEach(s => s.classList.remove('active'));
+            for(let i=0; i<rating; i++) stars[i].classList.add('active');
+
+            if(rating >= 4) {
+                document.getElementById('high-rating-btn').classList.remove('hidden');
+                document.getElementById('low-rating-form').classList.add('hidden');
+            } else {
+                document.getElementById('low-rating-form').classList.remove('hidden');
+                document.getElementById('high-rating-btn').classList.add('hidden');
+            }
+        });
+    });
+
+    function openAITool() {
+        document.getElementById('rating-step').classList.add('hidden');
+        document.getElementById('ai-tool-step').classList.remove('hidden');
+    }
+
+    function toggleKeyword(el) {
+        el.classList.toggle('active');
+        const text = el.innerText;
+        if(selectedKeywords.includes(text)) selectedKeywords = selectedKeywords.filter(k => k !== text);
+        else selectedKeywords.push(text);
+    }
+
+    // --- VOICE LOGIC ---
+    function startListening() {
+        if (!('webkitSpeechRecognition' in window)) {
+            alert("Please use Chrome on Android/Desktop.");
+            return;
+        }
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = 'hi-IN'; // Optimized for Hindi/Indian English
+        
+        const icon = document.querySelector('.mic-icon');
+        const status = document.getElementById('voiceStatus');
+
+        recognition.onstart = () => {
+            icon.classList.add('mic-active');
+            status.innerText = "Listening...";
+        };
+        recognition.onend = () => {
+            icon.classList.remove('mic-active');
+            status.innerText = "Translating...";
+        };
+        recognition.onresult = (event) => {
+            const text = event.results[0][0].transcript;
+            translateVoice(text);
+        };
+        recognition.start();
+    }
+
+    async function translateVoice(text) {
+        try {
+            // Demo Translation API
+            const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=hi|en`);
+            const data = await res.json();
+            if(data.responseData) {
+                recordedText = data.responseData.translatedText;
+                document.getElementById('voiceStatus').innerText = "Added: " + recordedText;
+            }
+        } catch(e) {
+            recordedText = text;
+            document.getElementById('voiceStatus').innerText = "Voice Added.";
+        }
+    }
+
+    // --- GENERATE ---
+    function generateRandomReview() {
+        const service = document.getElementById('serviceSelect').value;
+        let review = getRandom(intros) + " ";
+
+        if(service) {
+            const serviceSentences = [
+                `I contacted them for ${service} work.`,
+                `Their ${service} service is top-notch.`,
+                `Very happy with the ${service} provided.`
+            ];
+            review += getRandom(serviceSentences) + " ";
+        }
+
+        if(recordedText) review += `${recordedText} `;
+
+        // Logic to add selected keywords naturally
+        selectedKeywords.forEach(k => {
+            // Find key in keywordSentences that matches selectedKeyword
+            let key = Object.keys(keywordSentences).find(key => k.toLowerCase() === key.toLowerCase());
+            if(key && keywordSentences[key]) {
+                review += getRandom(keywordSentences[key]) + " ";
+            } else {
+                review += `The ${k} was great. `;
+            }
+        });
+
+        review += getRandom(outros);
+
+        const txt = document.getElementById('finalReview');
+        txt.value = review;
+        txt.style.display = 'block';
+        document.getElementById('copyBtn').style.display = 'block';
+        txt.scrollIntoView({behavior: "smooth"});
+    }
+
+    function copyAndOpen() {
+        const txt = document.getElementById('finalReview');
+        txt.select();
+        document.execCommand('copy');
+        if(confirm("Review Copied! Open Google Maps to paste?")) {
+            window.location.href = GOOGLE_LINK;
+        }
+    }
+    
+    function submitNegative() {
+        alert("Thank you. We will contact you to resolve the issue.");
+    }
+</script>
+
+</body>
+</html>
