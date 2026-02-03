@@ -1,7 +1,10 @@
-<meta charset="UTF-8">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wealth Master Academy - Feedback</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* --- THEME COLORS (Professional Finance Theme) --- */
@@ -17,18 +20,22 @@
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #e3f2fd 0%, #f0f4f8 100%);
-            margin: 0; padding: 15px;
-            display: flex; justify-content: center;
+            margin: 0; 
+            padding: 20px; /* Thoda padding side mein */
             min-height: 100vh;
+            /* Flexbox hata diya gaya hai taaki scroll issue na aaye */
+            display: block; 
         }
 
         /* --- CARD DESIGN --- */
         #main-card {
             background: white; border-radius: 20px; padding: 25px 20px;
             box-shadow: var(--card-shadow); width: 100%; max-width: 450px;
-            text-align: center; position: relative; overflow: hidden;
+            text-align: center; position: relative; 
+            /* overflow: hidden hata diya taaki content cut na ho */
             border-top: 5px solid var(--primary);
-            padding-bottom: 80px; /* Space for footer */
+            padding-bottom: 30px; 
+            margin: 40px auto; /* Ye card ko center karega aur scroll fix karega */
         }
 
         h2 { color: var(--primary); margin: 5px 0; font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -48,6 +55,7 @@
             border: 1px solid #dae1e7; margin-bottom: 12px;
             font-family: 'Poppins', sans-serif; font-size: 13px; background: #f8fbff;
             outline: none; color: #444;
+            box-sizing: border-box; /* Fix for padding width issue */
         }
         select:focus, textarea:focus { border-color: var(--primary); background: #fff; }
 
@@ -136,8 +144,8 @@
         .bg-save { background: #607d8b; }
 
     </style>
-
-
+</head>
+<body>
 
 <div id="main-card">
     <h2>Wealth Master Academy</h2>
@@ -169,7 +177,7 @@
         
         <label>Select Course</label>
         <select id="serviceSelect">
-            <option value="" disabled="" selected="">Tap to select course...</option>
+            <option value="" disabled selected>Tap to select course...</option>
             <option value="Master Diploma in Technical Analysis">Master Diploma in Technical Analysis</option>
             <option value="Certified Stock Market Professional">Certified Stock Market Professional</option>
             <option value="Executive Program in Equity Research">Executive Program in Equity Research</option>
@@ -184,7 +192,7 @@
         <div class="voice-box">
             <div class="voice-text">
                 <strong>🎙️ Voice Input (Marathi/Hindi)</strong><br>
-                <span id="voiceStatus" style="color:#666;">Tap mic &amp; speak (e.g. "Teaching khup bhari aahe")</span>
+                <span id="voiceStatus" style="color:#666;">Tap mic & speak (e.g. "Teaching khup bhari aahe")</span>
             </div>
             <div class="mic-icon" onclick="startListening()"><i class="fas fa-microphone"></i></div>
         </div>
@@ -220,8 +228,8 @@
 
         <button onclick="generateRandomReview()" class="btn-action btn-gen">✨ Generate Review</button>
         
-        <textarea id="finalReview" rows="6" style="margin-top:15px; display:none;" readonly=""></textarea>
-        <button id="copyBtn" onclick="copyAndOpen()" class="btn-action btn-copy">Copy &amp; Open Google <i class="fab fa-google"></i></button>
+        <textarea id="finalReview" rows="6" style="margin-top:15px; display:none;" readonly></textarea>
+        <button id="copyBtn" onclick="copyAndOpen()" class="btn-action btn-copy">Copy & Open Google <i class="fab fa-google"></i></button>
     </div>
 
     <div class="button-grid">
@@ -235,7 +243,7 @@
 
     <div class="footer-branding">
         Powered by <a href="https://growft.odoo.com" target="_blank">Growft</a>
-        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" alt="Growft Logo" loading="lazy">
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" alt="Growft Logo">
         <div class="dev-contact">
             Contact us to build your AI review tool: <a href="tel:+917020370561">7020370561</a>
         </div>
@@ -245,7 +253,7 @@
 
 <script>
     // ** IMPORTANT: REPLACE WITH YOUR GOOGLE MAPS REVIEW LINK **
-    const GOOGLE_LINK = "https://g.page/r/CWfX7FI7GW0AEBM/review"; 
+    const GOOGLE_LINK = "https://g.page/r/YOUR_GOOGLE_REVIEW_LINK_HERE"; 
     let selectedKeywords = [];
     let recordedText = "";
 
@@ -481,3 +489,6 @@
         alert("Thank you for your feedback. We will contact you shortly.");
     }
 </script>
+
+</body>
+</html>
