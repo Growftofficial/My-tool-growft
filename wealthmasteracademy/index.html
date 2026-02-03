@@ -1,0 +1,483 @@
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wealth Master Academy - Feedback</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- THEME COLORS (Professional Finance Theme) --- */
+        :root {
+            --primary: #004aad; /* Trust Blue */
+            --primary-dark: #002a61;
+            --accent: #ffc107; /* Gold for Wealth */
+            --bg-color: #f0f8ff;
+            --card-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            --text-main: #333;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #e3f2fd 0%, #f0f4f8 100%);
+            margin: 0; padding: 15px;
+            display: flex; justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* --- CARD DESIGN --- */
+        #main-card {
+            background: white; border-radius: 20px; padding: 25px 20px;
+            box-shadow: var(--card-shadow); width: 100%; max-width: 450px;
+            text-align: center; position: relative; overflow: hidden;
+            border-top: 5px solid var(--primary);
+            padding-bottom: 80px; /* Space for footer */
+        }
+
+        h2 { color: var(--primary); margin: 5px 0; font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .subtitle { color: #666; font-size: 13px; margin-bottom: 20px; font-weight: 500; }
+
+        /* --- RATING --- */
+        .stars { font-size: 35px; color: #e0e0e0; margin: 15px 0; cursor: pointer; transition: 0.2s; }
+        .stars .fa-star.active { color: var(--accent); transform: scale(1.1); }
+
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- INPUTS --- */
+        select, textarea {
+            width: 100%; padding: 12px; border-radius: 8px;
+            border: 1px solid #dae1e7; margin-bottom: 12px;
+            font-family: 'Poppins', sans-serif; font-size: 13px; background: #f8fbff;
+            outline: none; color: #444;
+        }
+        select:focus, textarea:focus { border-color: var(--primary); background: #fff; }
+
+        label { display: block; text-align: left; font-size: 12px; font-weight: 600; color: #555; margin-bottom: 5px; margin-top: 10px; }
+
+        /* --- KEYWORDS --- */
+        .category-label {
+            font-size: 11px; font-weight: 700; color: #999; 
+            text-transform: uppercase; letter-spacing: 1px;
+            text-align: left; margin: 15px 0 5px 0; border-bottom: 1px dashed #eee;
+        }
+
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 5px; }
+        
+        .keyword-chip {
+            font-size: 11px; padding: 8px 12px; border-radius: 50px;
+            border: 1px solid #e1e8ed; background: #f1f5f9; color: #555;
+            cursor: pointer; transition: 0.2s; font-weight: 500;
+        }
+        .keyword-chip.active { 
+            background: #e3f2fd; border-color: var(--primary); color: var(--primary-dark); 
+            box-shadow: 0 2px 5px rgba(0, 74, 173, 0.15);
+        }
+
+        /* --- VOICE SECTION --- */
+        .voice-box {
+            background: #e8f0fe; border: 1px dashed #004aad;
+            padding: 12px; border-radius: 12px; margin-bottom: 15px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .voice-text { font-size: 12px; color: #004aad; font-weight: 600; text-align: left; }
+        .mic-icon {
+            width: 40px; height: 40px; background: #004aad; color: white;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.2s; font-size: 18px;
+        }
+        .mic-active { animation: pulseRed 1.5s infinite; background: #dc3545; }
+        @keyframes pulseRed { 0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(0,0,0,0); } }
+
+        /* --- BUTTONS --- */
+        .btn-action {
+            display: block; width: 100%; padding: 14px; border-radius: 50px;
+            text-decoration: none; font-weight: 600; margin-top: 15px;
+            cursor: pointer; border: none; font-size: 15px; transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .btn-next { background: linear-gradient(to right, #28a745, #218838); color: white; }
+        .btn-submit { background: #555; color: white; }
+        .btn-gen { background: linear-gradient(135deg, #004aad 0%, #007bff 100%); color: white; }
+        .btn-copy { background: #ea4335; color: white; margin-top: 10px; display: none; }
+
+        /* --- FOOTER --- */
+        .footer-branding {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 11px;
+            color: #777;
+        }
+        .footer-branding img {
+            height: 25px;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+        .footer-branding a {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .dev-contact {
+            font-size: 10px;
+            color: #999;
+            margin-top: 5px;
+        }
+        
+        /* --- CONTACT GRID --- */
+        .button-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 25px; border-top: 1px solid #eee; padding-top: 20px; }
+        .contact-link { text-decoration: none; color: #444; font-size: 11px; font-weight: 600; display: flex; flex-direction: column; align-items: center; }
+        .icon-box { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 5px; color: white; font-size: 18px; }
+        .bg-call { background: #004aad; }
+        .bg-wa { background: #25D366; }
+        .bg-ig { background: #E1306C; }
+        .bg-fb { background: #1877F2; }
+        .bg-web { background: #00bcd4; }
+        .bg-save { background: #607d8b; }
+
+    </style>
+
+
+
+<div id="main-card">
+    <h2>Wealth Master Academy</h2>
+    <p class="subtitle">New Sangavi • Pune</p>
+
+    <div id="rating-step">
+        <p style="margin:0; font-weight:600; font-size:15px; color:#555;">Rate your learning experience:</p>
+        <div class="stars" id="star-rating">
+            <i class="fas fa-star" data-value="1"></i>
+            <i class="fas fa-star" data-value="2"></i>
+            <i class="fas fa-star" data-value="3"></i>
+            <i class="fas fa-star" data-value="4"></i>
+            <i class="fas fa-star" data-value="5"></i>
+        </div>
+        
+        <div id="low-rating-form" class="hidden fade-in">
+            <p style="color: #dc3545; font-size: 13px; margin: 10px 0;">We strive for excellence. What went wrong?</p>
+            <textarea id="complaint" rows="2" placeholder="Tell us your issue..."></textarea>
+            <button onclick="submitNegative()" class="btn-action btn-submit">Submit Feedback</button>
+        </div>
+
+        <div id="high-rating-btn" class="hidden fade-in">
+            <p style="color: green; font-size: 14px; margin: 5px 0;">Thanks for the love! 📈</p>
+            <button onclick="openAITool()" class="btn-action btn-next">Write Review (Next Step) <i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <div id="ai-tool-step" class="hidden fade-in" style="text-align: left;">
+        
+        <label>Select Course</label>
+        <select id="serviceSelect">
+            <option value="" disabled="" selected="">Tap to select course...</option>
+            <option value="Master Diploma in Technical Analysis">Master Diploma in Technical Analysis</option>
+            <option value="Certified Stock Market Professional">Certified Stock Market Professional</option>
+            <option value="Executive Program in Equity Research">Executive Program in Equity Research</option>
+            <option value="Market Mastery Intensive">Market Mastery Intensive</option>
+            <option value="Freedom Trader Roadmap">Freedom Trader Roadmap</option>
+            <option value="Price Action Decoding Course">Price Action Decoding Course</option>
+            <option value="Bank Nifty Option Buying Strategy">Bank Nifty Option Buying Strategy</option>
+            <option value="The Option Chain Decoder">The Option Chain Decoder</option>
+            <option value="Algo Trading for Beginners">Algo Trading for Beginners</option>
+        </select>
+
+        <div class="voice-box">
+            <div class="voice-text">
+                <strong>🎙️ Voice Input (Marathi/Hindi)</strong><br>
+                <span id="voiceStatus" style="color:#666;">Tap mic &amp; speak (e.g. "Teaching khup bhari aahe")</span>
+            </div>
+            <div class="mic-icon" onclick="startListening()"><i class="fas fa-microphone"></i></div>
+        </div>
+
+        <label>Key Highlights (Select 3-4)</label>
+
+        <div class="category-label">📈 Trading Basics</div>
+        <div class="keywords-container">
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Share market basics for beginners</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Nifty 50 vs Sensex difference</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Risk management in trading</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Option chain analysis explained</span>
+        </div>
+
+        <div class="category-label">💹 Advanced Strategies</div>
+        <div class="keywords-container">
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Future and options trading for beginners</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Best strategy for option trading</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Swing trading vs Day trading</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Algo trading course for beginners</span>
+        </div>
+
+        <div class="category-label">🏆 Academy Quality</div>
+        <div class="keywords-container">
+            <span class="keyword-chip" onclick="toggleKeyword(this)">best Share market classes</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">best Stock market training</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Online trading classes</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">best Trading academy</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">intraday trading</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Commodity trading classes</span>
+            <span class="keyword-chip" onclick="toggleKeyword(this)">Forex trading course</span>
+        </div>
+
+        <button onclick="generateRandomReview()" class="btn-action btn-gen">✨ Generate Review</button>
+        
+        <textarea id="finalReview" rows="6" style="margin-top:15px; display:none;" readonly=""></textarea>
+        <button id="copyBtn" onclick="copyAndOpen()" class="btn-action btn-copy">Copy &amp; Open Google <i class="fab fa-google"></i></button>
+    </div>
+
+    <div class="button-grid">
+        <a href="tel:+917020370561" class="contact-link"><div class="icon-box bg-call"><i class="fas fa-phone"></i></div> Call</a>
+        <a href="https://wa.me/917020370561" class="contact-link"><div class="icon-box bg-wa"><i class="fab fa-whatsapp"></i></div> WhatsApp</a>
+        <a href="#" class="contact-link"><div class="icon-box bg-ig"><i class="fab fa-instagram"></i></div> Insta</a>
+        <a href="#" class="contact-link"><div class="icon-box bg-fb"><i class="fab fa-facebook-f"></i></div> FB</a>
+        <a href="#" class="contact-link"><div class="icon-box bg-web"><i class="fas fa-globe"></i></div> Web</a>
+        <a href="#" class="contact-link"><div class="icon-box bg-save"><i class="fas fa-user-plus"></i></div> Save</a>
+    </div>
+
+    <div class="footer-branding">
+        Powered by <a href="https://growft.odoo.com" target="_blank">Growft</a>
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" alt="Growft Logo" loading="lazy">
+        <div class="dev-contact">
+            Contact us to build your AI review tool: <a href="tel:+917020370561">7020370561</a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // ** IMPORTANT: REPLACE WITH YOUR GOOGLE MAPS REVIEW LINK **
+    const GOOGLE_LINK = "https://g.page/r/CWfX7FI7GW0AEBM/review"; 
+    let selectedKeywords = [];
+    let recordedText = "";
+
+    // --- MASSIVE DATASETS FOR VARIETY (40+ Combinations) ---
+    
+    // 1. OPENING LINES (40 Variations)
+    const intros = [
+        "I recently joined Wealth Master Academy in Pune and it has been a game changer.",
+        "My search for the best stock market classes in Pune ended at Wealth Master Academy.",
+        "I am so glad I enrolled at Wealth Master Academy in New Sangavi.",
+        "Hands down the best place to learn trading in Pune.",
+        "Wealth Master Academy provided me with the right path to financial freedom.",
+        "If you are looking for stock market training in Pune, this is the place.",
+        "I started my trading journey with Wealth Master Academy and I am very satisfied.",
+        "A truly professional trading academy in New Sangavi.",
+        "Learning technical analysis was made easy by the mentors here.",
+        "I highly recommend Wealth Master Academy for anyone wanting to learn share market.",
+        "The best investment I made for my career was joining this academy.",
+        "Wealth Master Academy teaches with practical market approach.",
+        "Excellent training institute for both beginners and experienced traders.",
+        "I had zero knowledge of trading, but now I feel confident thanks to WMA.",
+        "Visited Wealth Master Academy in Pune and was impressed by their curriculum.",
+        "The best stock market institute in the PCMC area.",
+        "They simplify complex trading concepts very well.",
+        "I took the online classes and the quality was top-notch.",
+        "Wealth Master Academy is the best trading academy I have come across.",
+        "My experience with Wealth Master Academy has been outstanding.",
+        "Great atmosphere for learning and growing as a trader.",
+        "The mentors at Wealth Master Academy are true experts.",
+        "I learned more in one month here than I did in a year of self-study.",
+        "The practical sessions at Wealth Master Academy are incredibly helpful.",
+        "This is the perfect place for share market basics and advanced strategies.",
+        "Wealth Master Academy in New Sangavi is a hidden gem for traders.",
+        "I am now trading confidently thanks to their guidance.",
+        "The course structure at Wealth Master Academy is very well designed.",
+        "Professional, ethical, and result-oriented academy.",
+        "I am very happy with the support provided by the team.",
+        "Wealth Master Academy helped me understand market psychology.",
+        "Simply the best share market classes in Pune.",
+        "I appreciate the personal attention given to students here.",
+        "Their strategies for Nifty and Bank Nifty are very effective.",
+        "Joined for the crash course but stayed for the advanced learning.",
+        "Wealth Master Academy transformed my trading style completely.",
+        "Top class training facility in New Sangavi.",
+        "I would recommend Wealth Master Academy to all my friends.",
+        "Thank you for decoding the stock market for me.",
+        "A 5-star experience learning with Wealth Master Academy."
+    ];
+
+    // 2. CLOSING LINES (40 Variations)
+    const outros = [
+        "Highly recommended for every aspiring trader!",
+        "Thank you Wealth Master Academy for the guidance.",
+        "Don't think twice, just join them.",
+        "5 Stars from my side for the excellent coaching.",
+        "Best trading classes in Pune, hands down.",
+        "I am now a confident trader, thanks to you.",
+        "Looking forward to the advanced sessions.",
+        "Great value for money education.",
+        "Truly the best stock market training in town.",
+        "Keep up the great work team WMA.",
+        "A must-join for financial independence.",
+        "Totally satisfied with the course content.",
+        "The best mentors you can find.",
+        "I will definitely recommend this to others.",
+        "Thanks for clearing all my doubts.",
+        "My trading accuracy has improved significantly.",
+        "Excellent support even after the course completion.",
+        "A big thumbs up to the Wealth Master Academy team!",
+        "Start your trading journey here, you won't regret it.",
+        "The strategies taught here actually work in the live market.",
+        "Thank you for making me market-ready.",
+        "Best wishes to the academy.",
+        "This course changed my perspective on trading.",
+        "I am happy to be a part of the WMA family.",
+        "If you want to earn from markets, come here.",
+        "Practical learning at its best.",
+        "Grateful for the knowledge shared.",
+        "Simply outstanding experience.",
+        "Do visit them if you are in New Sangavi.",
+        "The best decision for my financial growth.",
+        "They deliver what they promise.",
+        "Expert guidance for serious traders.",
+        "I loved the live trading sessions.",
+        "Thanks for the roadmap to profitable trading.",
+        "Highly recommended stock market course.",
+        "You made trading simple for me.",
+        "Best coaching in Pune.",
+        "I strongly suggest joining Wealth Master Academy.",
+        "Worth every penny invested.",
+        "10/10 for the teaching methodology."
+    ];
+
+    // 3. KEYWORD SENTENCES (Specific to Finance List)
+    const keywordSentences = {
+        "best Share market classes": ["These are the best share market classes in Pune.", "Hard to find better share market classes than this.", "Definitely the best share market classes for beginners."],
+        "best Stock market training": ["The best stock market training I have received.", "They provide the best stock market training with live examples.", "Top-notch and best stock market training in the city."],
+        "Online trading classes": ["Their online trading classes are very interactive.", "Loved the flexibility of the online trading classes.", "The quality of online trading classes is excellent."],
+        "Share market basics for beginners": ["Perfect for learning share market basics for beginners.", "They explain share market basics for beginners very clearly.", "Great course to clear share market basics for beginners."],
+        "Nifty 50 vs Sensex difference": ["Finally understood the Nifty 50 vs Sensex difference clearly.", "The lecture on Nifty 50 vs Sensex difference was very insightful.", "They cleared my confusion on Nifty 50 vs Sensex difference."],
+        "Future and options trading for beginners": ["They made Future and options trading for beginners look easy.", "Great module on Future and options trading for beginners.", "Safest way to learn Future and options trading for beginners."],
+        "Forex trading course": ["The Forex trading course was very detailed.", "Learned global market dynamics in the Forex trading course.", "Excellent Forex trading course content."],
+        "intraday trading": ["My intraday trading skills have improved massively.", "Learned excellent strategies for intraday trading.", "Best place to master intraday trading."],
+        "Risk management in trading": ["They emphasize heavily on risk management in trading.", "Learned that risk management in trading is the key to success.", "The session on risk management in trading was an eye-opener."],
+        "best Trading academy": ["Truly the best trading academy in Pune.", "Proud to be a student of the best trading academy.", "Wealth Master Academy is the best trading academy."],
+        "Best strategy for option trading": ["They taught the best strategy for option trading.", "Implemented the best strategy for option trading and saw results.", "Looking for the best strategy for option trading? Come here."],
+        "Swing trading vs Day trading": ["Clear distinction taught between Swing trading vs Day trading.", "Helped me choose between Swing trading vs Day trading.", "Great explanation of Swing trading vs Day trading styles."],
+        "Commodity trading classes": ["The Commodity trading classes were very informative.", "Covered Gold and Silver well in Commodity trading classes.", "Detailed Commodity trading classes."],
+        "Algo trading course for beginners": ["The Algo trading course for beginners is a must-try.", "Automated trading explained well in Algo trading course for beginners.", "Great intro to tech in Algo trading course for beginners."],
+        "Option chain analysis explained": ["Option chain analysis explained in the simplest way.", "Never understood data until Option chain analysis explained here.", "The way Option chain analysis explained was brilliant."]
+    };
+
+    function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+    // --- LOGIC ---
+    const stars = document.querySelectorAll('#star-rating .fa-star');
+    stars.forEach(star => {
+        star.addEventListener('click', function() {
+            const rating = parseInt(this.getAttribute('data-value'));
+            stars.forEach(s => s.classList.remove('active'));
+            for(let i=0; i<rating; i++) stars[i].classList.add('active');
+
+            if(rating >= 4) {
+                document.getElementById('high-rating-btn').classList.remove('hidden');
+                document.getElementById('low-rating-form').classList.add('hidden');
+            } else {
+                document.getElementById('low-rating-form').classList.remove('hidden');
+                document.getElementById('high-rating-btn').classList.add('hidden');
+            }
+        });
+    });
+
+    function openAITool() {
+        document.getElementById('rating-step').classList.add('hidden');
+        document.getElementById('ai-tool-step').classList.remove('hidden');
+    }
+
+    function toggleKeyword(el) {
+        el.classList.toggle('active');
+        const text = el.innerText;
+        if(selectedKeywords.includes(text)) selectedKeywords = selectedKeywords.filter(k => k !== text);
+        else selectedKeywords.push(text);
+    }
+
+    // --- VOICE LOGIC ---
+    function startListening() {
+        if (!('webkitSpeechRecognition' in window)) {
+            alert("Please use Chrome Browser for Voice Features.");
+            return;
+        }
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = 'mr-IN'; // Default to Marathi/Hindi region
+        
+        const icon = document.querySelector('.mic-icon');
+        const status = document.getElementById('voiceStatus');
+
+        recognition.onstart = () => {
+            icon.classList.add('mic-active');
+            status.innerText = "Listening...";
+        };
+        recognition.onend = () => {
+            icon.classList.remove('mic-active');
+            status.innerText = "Translating...";
+        };
+        recognition.onresult = (event) => {
+            const text = event.results[0][0].transcript;
+            translateVoice(text);
+        };
+        recognition.start();
+    }
+
+    async function translateVoice(text) {
+        try {
+            // Using a free translation API for demo purposes
+            const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=mr|en`);
+            const data = await res.json();
+            if(data.responseData) {
+                recordedText = data.responseData.translatedText;
+                document.getElementById('voiceStatus').innerText = "Translation Done: " + recordedText;
+            }
+        } catch(e) {
+            recordedText = text;
+            document.getElementById('voiceStatus').innerText = "Voice Added (Raw).";
+        }
+    }
+
+    // --- GENERATE ---
+    function generateRandomReview() {
+        const course = document.getElementById('serviceSelect').value;
+        let review = getRandom(intros) + " ";
+
+        if(course) {
+            const courseSentences = [
+                `I enrolled in the ${course} and it was excellent.`,
+                `The content covered in the ${course} is very comprehensive.`,
+                `I highly recommend the ${course} offered here.`
+            ];
+            review += getRandom(courseSentences) + " ";
+        }
+
+        if(recordedText) review += `${recordedText} `;
+
+        // Add 2-3 random keywords if many are selected, to keep it natural
+        selectedKeywords.forEach(k => {
+            // Fuzzy match logic
+            let key = Object.keys(keywordSentences).find(key => k.toLowerCase().includes(key.toLowerCase()) || key.toLowerCase().includes(k.toLowerCase()));
+            if(key && keywordSentences[key]) {
+                review += getRandom(keywordSentences[key]) + " ";
+            } else {
+                review += `The session on ${k} was great. `;
+            }
+        });
+
+        review += getRandom(outros);
+
+        const txt = document.getElementById('finalReview');
+        txt.value = review;
+        txt.style.display = 'block';
+        document.getElementById('copyBtn').style.display = 'block';
+        txt.scrollIntoView({behavior: "smooth"});
+    }
+
+    function copyAndOpen() {
+        const txt = document.getElementById('finalReview');
+        txt.select();
+        document.execCommand('copy');
+        if(confirm("Review Copied! Open Google Maps to paste it?")) {
+            window.location.href = GOOGLE_LINK;
+        }
+    }
+    
+    function submitNegative() {
+        alert("Thank you for your feedback. We will contact you shortly.");
+    }
+</script>
