@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Review - Hotel Royal Respite</title>
+    <style>
+        /* --- THEME COLORS --- */
+        :root {
+            --primary: #1e40af; /* Royal Blue */
+            --primary-dark: #1e3a8a;
+            --bg-color: #eff6ff; 
+            --card-bg: #ffffff;
+            --text-main: #333333;
+            --gold: #f59e0b; 
+            --gray: #64748b;
+            --border: #bfdbfe;
+            --box-border: #3b82f6; 
+            --box-bg: #f0f9ff;     
+            --highlight: #db2777;  /* Pink for Couple Friendly */
+        }
+
+        /* --- RESET --- */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0; padding: 20px 10px;
+            min-height: 100vh; display: flex;
+            justify-content: center; align-items: flex-start;
+            color: var(--text-main);
+        }
+
+        /* --- CONTAINER --- */
+        .container {
+            background: var(--card-bg); width: 100%; max-width: 500px;
+            padding: 25px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(30, 64, 175, 0.15);
+            border-top: 6px solid var(--primary); margin: auto;
+            text-align: center;
+        }
+
+        h1 { color: var(--primary-dark); margin: 5px 0 2px 0; font-size: 22px; font-weight: 800; letter-spacing: 0.5px; }
+        .location { color: var(--gray); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        
+        /* --- INPUTS --- */
+        select, input {
+            width: 100%; padding: 12px; border-radius: 10px;
+            border: 1px solid var(--border); background: #fff;
+            font-size: 14px; outline: none; margin-bottom: 10px;
+            color: var(--text-main);
+        }
+        select:focus, input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+        label { font-weight: 700; display: block; margin-top: 15px; margin-bottom: 6px; color: var(--primary-dark); font-size: 12px; text-transform: uppercase; text-align: left; }
+
+        /* --- RATING --- */
+        .star-container { display: flex; justify-content: center; gap: 8px; margin: 20px 0; }
+        .star { font-size: 42px; color: #cbd5e1; cursor: pointer; transition: transform 0.2s, color 0.2s; }
+        .star.selected { color: var(--gold); }
+
+        .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
+        .exp-btn {
+            padding: 12px 15px; border: 1px solid var(--border); border-radius: 8px;
+            background: #fff; cursor: pointer; font-weight: 600; color: var(--text-main);
+            flex: 1; transition: 0.2s; font-size: 14px;
+        }
+        .exp-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(30, 64, 175, 0.3); }
+        .action-btn {
+            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white; border: none; border-radius: 8px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 10px;
+        }
+
+        /* --- CHIPS --- */
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
+        .keyword-chip { 
+            padding: 8px 12px; background-color: #fff; border-radius: 20px; 
+            font-size: 11px; font-weight: 600; cursor: pointer; 
+            border: 1px solid var(--border); color: var(--text-main); 
+            flex-grow: 1; text-align: center; transition: 0.2s;
+        }
+        .keyword-chip.active { background-color: #dbeafe; color: var(--primary-dark); border-color: var(--primary); transform: translateY(-2px); font-weight: 700; }
+        
+        /* Highlight Style for Couple Friendly */
+        .keyword-chip.highlight {
+            border: 1px solid var(--highlight); color: var(--highlight); background-color: #fff0f5; font-weight: 700;
+        }
+        .keyword-chip.highlight.active {
+            background-color: var(--highlight); color: white; box-shadow: 0 4px 10px rgba(219, 39, 119, 0.4);
+        }
+
+        .cat-title { width:100%; font-size: 11px; font-weight: 700; color: var(--gray); margin-top: 15px; margin-bottom: 5px; border-bottom: 1px dashed var(--border); text-align: left; text-transform: uppercase; }
+
+        /* --- VOICE SECTION --- */
+        .voice-section {
+            background: #e0f2fe; padding: 12px; border-radius: 12px; 
+            margin-bottom: 20px; border: 1px dashed var(--primary); text-align: left;
+        }
+        .voice-controls { display: flex; align-items: center; gap: 10px; }
+        .mic-btn {
+            width: 45px; height: 45px; border-radius: 50%;
+            background: var(--primary); color: white; border: none;
+            font-size: 20px; cursor: pointer; box-shadow: 0 4px 10px rgba(30, 64, 175, 0.3);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .mic-active { animation: pulse 1.5s infinite; background: #1e3a8a; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(30, 64, 175, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(0,0,0,0); } }
+
+        textarea.feedback-box {
+            width: 100%; height: 130px; padding: 12px;
+            border: 1px solid var(--border); border-radius: 8px; resize: none;
+            background: #fff; margin-top: 15px; font-family: inherit; font-size: 14px;
+        }
+
+        /* --- REVIEW PREVIEW BOX STYLE --- */
+        .review-preview-box {
+            width: 100%; min-height: 140px; padding: 15px; margin-top: 20px;
+            border: 1px solid var(--box-border); border-radius: 12px;
+            background-color: var(--box-bg); color: #334155;
+            font-size: 15px; line-height: 1.6; font-family: 'Segoe UI', sans-serif;
+            resize: none; outline: none; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .copy-btn { width: 100%; padding: 12px; background-color: #10b981; color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: 600; cursor: pointer; display: none; }
+        .footer-branding { margin-top: 30px; padding-top: 15px; border-top: 1px dashed #cbd5e1; text-align: center; font-size: 12px; color: #64748b; }
+        .footer-branding img { height: 20px; vertical-align: middle; margin: 0 5px; }
+        .footer-branding a { color: var(--primary); text-decoration: none; font-weight: 700; }
+        .fade-in { animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .hidden { display: none; }
+        .toggle-name { font-size: 12px; color: var(--primary); text-decoration: underline; cursor: pointer; border: none; background: none; float: right; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="container" id="mainApp">
+    <h1>Hotel Royal Respite</h1>
+    <div class="location">Pandharpur • Stay • Dining • Events</div>
+
+    <div id="ratingScreen" class="fade-in">
+        <p style="font-weight:600; color:#555;">How was your stay with us?</p>
+        <div class="star-container">
+            <span class="star" onclick="rate(1)">★</span>
+            <span class="star" onclick="rate(2)">★</span>
+            <span class="star" onclick="rate(3)">★</span>
+            <span class="star" onclick="rate(4)">★</span>
+            <span class="star" onclick="rate(5)">★</span>
+        </div>
+        <div class="experience-btns">
+            <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Not Happy 😞</button>
+            <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Great Stay! 😍</button>
+        </div>
+        <button class="action-btn" onclick="processRating()">Next Step ➡</button>
+    </div>
+
+    <div id="privateFeedbackScreen" class="fade-in hidden">
+        <h2 style="color:var(--text-main);">We are sorry! 😔</h2>
+        <p style="font-size:14px; color:#666;">Please tell us how we can improve our services.</p>
+        <textarea id="privateFeedbackText" class="feedback-box" placeholder="What went wrong? (Room, Food, Service...)"></textarea>
+        <button class="action-btn" style="background:#475569;" onclick="submitPrivateFeedback()">Submit Feedback</button>
+    </div>
+
+    <div id="thankYouScreen" class="fade-in hidden">
+        <div style="font-size: 50px; margin-bottom:10px;">✅</div>
+        <h2 style="color:var(--primary);">Thank You!</h2>
+        <p>Your feedback has been sent to the manager.</p>
+    </div>
+
+    <div id="aiToolScreen" class="fade-in hidden" style="text-align: left;">
+        <div class="voice-section">
+            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                <span style="font-size:11px; font-weight:bold; color:var(--primary);">SPEAK (Marathi/Hindi/Eng):</span>
+                <select id="voiceLang" style="width:auto; padding:2px; font-size:11px; height:25px; margin:0;">
+                    <option value="mr-IN" selected>Marathi</option>
+                    <option value="hi-IN">Hindi</option>
+                    <option value="en-IN">English</option>
+                </select>
+            </div>
+            <div class="voice-controls">
+                <button id="micBtn" class="mic-btn" onclick="startListening()">🎤</button>
+                <div style="flex:1;">
+                    <p id="statusText" style="font-size:12px; color:#555; margin:0;">Tap mic & speak...<br>(Ex: "Room ekdum saaf hote")</p>
+                </div>
+            </div>
+            <div id="spokenTextDisplay" style="display:none; margin-top:8px; font-size:12px; color:var(--primary); background:#fff; padding:6px; border-radius:4px;"></div>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+            <div style="flex:1;">
+                <label style="margin-top:0;">Type of Visit</label>
+                <select id="serviceSelect">
+                    <option value="" disabled selected>Select...</option>
+                    <option value="Couple Stay">Couple Stay</option>
+                    <option value="Family Stay">Family Trip</option>
+                    <option value="Darshan Visit">Darshan / Pilgrimage</option>
+                    <option value="Business Trip">Business Trip</option>
+                    <option value="Wedding Event">Attended Wedding</option>
+                    <option value="Dinner">Dinner / Restaurant</option>
+                </select>
+            </div>
+            <div style="flex:1;">
+                <label style="margin-top:0;">Tone</label>
+                <select id="toneSelect">
+                    <option value="Happy">Happy 😊</option>
+                    <option value="Professional">Formal 💼</option>
+                    <option value="Short">Short ✨</option>
+                </select>
+            </div>
+        </div>
+
+        <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
+        <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
+            <input type="text" id="userName" placeholder="Your Name">
+        </div>
+
+        <label style="clear:both;">Select Highlights (Pick 3-4)</label>
+        
+        <div class="keywords-container">
+            <div class="cat-title">Special Features</div>
+            <div class="keyword-chip highlight" onclick="toggleKeyword(this, 'Couple Friendly')">💑 Couple Friendly</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Family Friendly')">👨‍👩‍👧‍👦 Family Friendly</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet Friendly')">🐾 Pet Friendly</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Extended Stay')">🗓️ Extended Stay</div>
+
+            <div class="cat-title">Top Amenities</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'AC Rooms')">❄️ AC Rooms</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'WiFi')">📶 Fast WiFi</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Parking')">🚗 Nice Parking</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'TV')">📺 TV</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Accessibility')">♿ Accessibility</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Easy Transport')">🚖 Easy Transport</div>
+
+            <div class="cat-title">Service & Staff</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Friendly Welcome')">🙏 Friendly Welcome</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Professional Staff')">👨‍💼 Professional Staff</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Service')">🌟 Best Service</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Cleanliness')">✨ Very Clean</div>
+
+            <div class="cat-title">Food & Dining</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Nice Food')">🍛 Nice Food</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Affordable')">💰 Affordable Prices</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Hygienic Food')">🥗 Hygienic</div>
+        </div>
+
+        <button class="action-btn" onclick="generateReview()">✨ Generate Magic Review</button>
+        <textarea id="reviewOutput" class="review-preview-box" style="display:none;" readonly></textarea>
+        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy & Open Google</button>
+    </div>
+
+    <div class="footer-branding">
+        Powered by <a href="https://growft.odoo.com" target="_blank">Growft</a>
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" alt="Growft Logo">
+        <div class="dev-contact">Contact us to build your AI review tool: <a href="tel:+917020370561">7020370561</a></div>
+    </div>
+</div>
+
+<script>
+    const GOOGLE_REVIEW_LINK = "https://www.google.com/travel/hotels/entity/CgoI85Hrw6aZupgIEAE/reviews?q=Hotel%20Royal%20Respite%20Pandharpur&g2lb=4965990%2C72471280%2C72560029%2C72573224%2C72647020%2C72686036%2C72803964%2C72882230%2C72958624%2C73059275%2C73064764%2C73249150%2C121522132&hl=en-IN&gl=in&cs=1&ssta=1&ts=CAEaSAoqEiYyJDB4M2JjNDE3MDAzZmVjNGVjYjoweDgzMGU4Y2E2ODdhYzhmMxoAEhoSFAoHCOoPEAIYBRIHCOoPEAIYBhgBMgIQACoJCgU6A0lOUhoA&qs=CAE4AkIJCfPIemjK6DAIQgkJ88h6aMroMAg&ictx=111&utm_campaign=sharing&utm_medium=link&utm_source=htls"; // REPLACE LINK
+    let selectedKeywords = [];
+    let translatedVoiceText = "";
+
+    // 1. RATING SYSTEM
+    let currentRating = 0;
+    function rate(stars) {
+        currentRating = stars;
+        document.querySelectorAll('.star').forEach((star, index) => {
+            star.classList.toggle('selected', index < stars);
+        });
+        if(stars >= 4) selectExp('good'); else selectExp('bad');
+    }
+    function selectExp(type) {
+        document.getElementById('btn-good').classList.remove('active');
+        document.getElementById('btn-bad').classList.remove('bad-active');
+        if (type === 'good') document.getElementById('btn-good').classList.add('active');
+        else document.getElementById('btn-bad').classList.add('bad-active');
+    }
+    function processRating() {
+        if (currentRating === 0) { alert("Please select a star rating."); return; }
+        document.getElementById('ratingScreen').classList.add('hidden');
+        if (currentRating >= 4) {
+            document.getElementById('aiToolScreen').classList.remove('hidden');
+        } else {
+            document.getElementById('privateFeedbackScreen').classList.remove('hidden');
+        }
+    }
+    function submitPrivateFeedback() {
+        if(document.getElementById('privateFeedbackText').value.trim() === "") { alert("Please tell us a bit more."); return; }
+        document.getElementById('privateFeedbackScreen').classList.add('hidden');
+        document.getElementById('thankYouScreen').classList.remove('hidden');
+    }
+
+    // 2. CONNECTORS (For Uniqueness)
+    const connectors = ["Also,", "Moreover,", "I must mention that", "Additionally,", "Plus,", "On top of that,", "Furthermore,", "Truly,", "Honestly,", "Not to mention,", "Along with that,", "To add to it,"];
+
+    // 3. EXPANDED DATASETS (25-30 Lines per Intro/Outro)
+    const reviewData = {
+        intros: {
+            "Happy": [
+                "I had a wonderful stay at Hotel Royal Respite Pandharpur.", 
+                "One of the best hotels in Pandharpur for a comfortable stay.", 
+                "Visited Pandharpur for Darshan and chose Royal Respite, truly amazing.", 
+                "Great experience staying at Hotel Royal Respite.", 
+                "Highly satisfied with the amenities and service here.",
+                "If you are looking for a clean and safe hotel in Pandharpur, this is it.",
+                "Absolutely loved the hospitality at Royal Respite.",
+                "My stay at Hotel Royal Respite was simply fantastic.",
+                "Found a hidden gem in Pandharpur, Hotel Royal Respite.",
+                "Such a delightful experience from check-in to check-out.",
+                "I can't recommend Hotel Royal Respite enough!",
+                "A perfect staycation spot in Pandharpur.",
+                "Everything about this hotel exceeded my expectations.",
+                "The vibe at Hotel Royal Respite is just so positive and welcoming.",
+                "Had a very relaxing time at Hotel Royal Respite.",
+                "Truly a royal experience at affordable rates.",
+                "I am so glad I booked my stay here.",
+                "Hotel Royal Respite made my Pandharpur trip memorable.",
+                "Best hospitality I have experienced in a long time.",
+                "A 10/10 experience at Hotel Royal Respite.",
+                "Just completed my stay and I am fully satisfied.",
+                "Hotel Royal Respite sets the bar high for hotels in Pandharpur.",
+                "An absolute delight to stay at this property.",
+                "Felt completely at home during my stay here.",
+                "The comfort level at Hotel Royal Respite is unmatched.",
+                "From the room to the food, everything was perfect."
+            ],
+            "Professional": [
+                "I recently visited Hotel Royal Respite for a business trip.", 
+                "Excellent standards maintained by the management.", 
+                "A very professional and well-managed property in Pandharpur.", 
+                "The room quality and service were top-notch.", 
+                "I recommend this hotel for its convenient location and service.",
+                "Good place for corporate stays and meetings.",
+                "Efficient service and clean rooms make this a great business hotel.",
+                "Stayed here for work and had a hassle-free experience.",
+                "The staff is professional and respects your privacy.",
+                "Hotel Royal Respite is perfect for business travelers.",
+                "Appreciate the swift check-in and check-out process.",
+                "A reliable option for professional stays in Pandharpur.",
+                "The business amenities provided were adequate.",
+                "Cleanliness and hygiene standards are commendable.",
+                "A no-nonsense, high-quality hotel for professionals.",
+                "The environment is quiet and conducive to work.",
+                "Value for money for corporate bookings.",
+                "The management ensures a smooth stay for guests.",
+                "Found the rooms to be very functional and well-equipped.",
+                "Reliable WiFi and desk space made working easy.",
+                "A sophisticated choice for accommodation in Pandharpur.",
+                "Professionalism is evident in every aspect of this hotel.",
+                "I frequently stay here for business and it never disappoints.",
+                "Highly organized and well-maintained premises.",
+                "Ideal for short business layovers."
+            ],
+            "Short": [
+                "Great hotel!", "Best place to stay in Pandharpur.", "Lovely experience.", "Highly recommended.", "5 stars for Royal Respite.", "Clean and affordable.", "Superb stay.", "Loved it.", "Will come back.", "Excellent service.", "Nice rooms.", "Very happy.", "Good location.", "Amazing hospitality.", "Best in town.", "Value for money.", "Comfortable stay.", "Safe and clean.", "Just perfect.", "Simply the best.", "Great vibe.", "Worth the price.", "Fantastic hotel.", "Nice staff.", "Good food.", "Peaceful stay.", "100% recommended.", "No complaints."
+            ]
+        },
+        keywords: {
+            "AC Rooms": ["The AC rooms are very comfortable and cooling is perfect.", "Rooms are well air-conditioned and spacious.", "Loved the chilled AC room after a hot day.", "The air conditioning worked perfectly.", "Very comfortable AC rooms."],
+            "WiFi": ["The WiFi speed was great, helped me work seamlessly.", "Free high-speed WiFi is a big plus.", "Internet connectivity is strong throughout the hotel.", "Good WiFi connection in the rooms."],
+            "Parking": ["They have ample parking space which is safe.", "Nice parking facility available for cars.", "Secure parking spot provided for my vehicle.", "Hassle-free parking availability."],
+            "TV": ["Room had a good TV with all channels.", "Entertainment options in the room were good.", "Smart TV availability made the stay better."],
+            "Accessibility": ["The hotel is wheelchair accessible and senior-citizen friendly.", "Ground floor accessibility is good.", "Easy access for elderly people."],
+            "Easy Transport": ["Public transport is easily available from here.", "Location is very convenient for travel.", "Auto and bus stand are nearby."],
+            "Friendly Welcome": ["Loved the warm and friendly welcome at the reception.", "Staff greeted us with a smile.", "Check-in process was smooth and welcoming.", "Reception staff is very polite."],
+            "Professional Staff": ["The staff is very professional and well-trained.", "Service was prompt and professional.", "Staff behavior is excellent.", "Helpful and courteous team."],
+            "Best Service": ["Best service I have experienced in Pandharpur.", "Room service is quick and efficient.", "Service quality is unmatched here.", "They are always ready to help."],
+            "Cleanliness": ["The rooms and bathrooms were spotlessly clean.", "Hygiene is their top priority.", "Very neat and tidy property.", "Housekeeping does a great job."],
+            "Nice Food": ["The food quality was excellent and tasty.", "We enjoyed the delicious meals at the restaurant.", "Breakfast and dinner were very tasty.", "Food is fresh and flavorful."],
+            "Affordable": ["The stay and food are very affordable.", "Great value for money hotel.", "Budget-friendly yet premium experience.", "Prices are very reasonable."],
+            "Hygienic Food": ["Food was fresh and prepared hygienically.", "Clean dining area and good food.", "They maintain good hygiene in the kitchen."],
+            "Couple Friendly": ["A completely safe and secure place for couples.", "Couple friendly hotel with hassle-free check-in.", "Best choice for couples looking for privacy.", "Safe environment for couples.", "Respectful staff and couple-friendly policy."],
+            "Family Friendly": ["Perfect place for a family stay.", "My family felt very safe and comfortable here.", "Kid-friendly environment.", "Best hotel for families visiting Pandharpur."],
+            "Pet Friendly": ["So happy to find a pet-friendly hotel.", "They welcomed my pet warmly.", "Great place if you are traveling with pets.", "Pet-friendly policy is a lifesaver."],
+            "Extended Stay": ["Stayed here for a week and it felt like home.", "Ideal for long extended stays.", "Comfortable for long duration trips."],
+            "Wedding Venue": ["Attended a wedding here, the arrangements were grand.", "Great venue for marriage functions.", "Banquet hall is spacious and beautiful."]
+        },
+        outros: {
+            "Happy": ["Will definitely visit again!", "Thanks to the team for a great stay.", "See you soon!", "Highly recommended to all travelers.", "5/5 experience.", "Keep it up!", "Already planning my next trip.", "Will recommend to friends and family.", "Thank you for the memories.", "Best wishes to the team.", "A must-visit place.", "Can't wait to be back.", "See you next time.", "Great job team Royal Respite.", "Loved every minute of it.", "A memorable stay indeed.", "Thanks for the great service.", "Five stars from me.", "You guys are amazing.", "Will surely return.", "Thanks for making it special.", "Keep shining.", "Best hotel experience.", "Totally loved it.", "Highly satisfied."],
+            "Professional": ["A pleasant experience overall.", "Good value for business travelers.", "Will recommend to my colleagues.", "Satisfied with the service.", "Looking forward to my next business trip.", "A solid choice for work trips.", "Good for corporate stays.", "Will book again for work.", "Professional and efficient.", "Thank you for the service.", "Great place for business.", "Recommended for professionals.", "Good amenities for work.", "Quiet and productive stay.", "Efficient staff.", "Met all my business needs.", "Clean and professional.", "Good experience.", "Reliable hotel.", "Thanks.", "Good job.", "Well managed.", "Peaceful environment.", "Good stay.", "Worth it."],
+            "Short": ["Must visit.", "Great job.", "Thanks!", "Good vibes.", "Cheers!", "Visit soon.", "Top class.", "Superb.", "Very good.", "Nice.", "Loved it.", "Great.", "Awesome.", "Best.", "Perfect.", "Good.", "A+.", "Safe.", "Clean.", "Happy.", "Recommended.", "Try it.", "Go for it.", "Nice place.", "Good staff.", "Tasty food."]
+        }
+    };
+
+    function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+    // 4. UI LOGIC
+    function toggleNameField() { 
+        const field = document.getElementById('nameArea');
+        field.style.display = field.style.display === 'block' ? 'none' : 'block';
+    }
+    
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) {
+            selectedKeywords = selectedKeywords.filter(k => k !== keyword);
+        } else {
+            selectedKeywords.push(keyword);
+        }
+    }
+
+    // 5. VOICE LOGIC
+    function startListening() {
+        if (!('webkitSpeechRecognition' in window)) { alert("Use Chrome Browser."); return; }
+        recognition = new webkitSpeechRecognition();
+        recognition.lang = document.getElementById('voiceLang').value;
+        recognition.interimResults = false;
+
+        const micBtn = document.getElementById('micBtn');
+        const statusText = document.getElementById('statusText');
+
+        recognition.onstart = () => { micBtn.classList.add('mic-active'); statusText.innerText = "Listening..."; };
+        recognition.onend = () => { micBtn.classList.remove('mic-active'); statusText.innerText = "Processing..."; };
+        
+        recognition.onresult = (event) => {
+            const text = event.results[0][0].transcript;
+            const srcLang = document.getElementById('voiceLang').value.split('-')[0];
+            document.getElementById('spokenTextDisplay').style.display = 'block';
+            document.getElementById('spokenTextDisplay').innerText = `Recorded: "${text}"`;
+            translateText(text, srcLang);
+        };
+        recognition.start();
+    }
+
+    async function translateText(text, src) {
+        if(src === 'en') { translatedVoiceText = text; return; }
+        try {
+            const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${src}|en`);
+            const data = await res.json();
+            if(data.responseData) translatedVoiceText = data.responseData.translatedText;
+        } catch(e) { translatedVoiceText = text; }
+    }
+
+    // 6. GENERATE (UPDATED FOR UNIQUENESS)
+    function generateReview() {
+        const tone = document.getElementById('toneSelect').value;
+        const name = document.getElementById('userName').value.trim();
+        const service = document.getElementById('serviceSelect').value;
+
+        if (selectedKeywords.length === 0 && !translatedVoiceText && !service) {
+            alert("Please select the visit type or highlights.");
+            return;
+        }
+
+        // Build Intro
+        let review = getRandom(reviewData.intros[tone]);
+        if(name) review = `I am ${name}. ` + review;
+        
+        if(service) review += ` I stayed here for ${service}. `;
+        
+        if(translatedVoiceText) {
+            if(Math.random() > 0.5) review += getRandom(connectors) + " ";
+            review += translatedVoiceText + ". ";
+        }
+
+        // Shuffle keywords
+        const shuffled = selectedKeywords.sort(() => 0.5 - Math.random());
+        
+        shuffled.forEach((k, index) => {
+            if(reviewData.keywords[k]) {
+                let sentence = getRandom(reviewData.keywords[k]);
+                // Random connector insertion
+                if(index > 0 && Math.random() > 0.6) {
+                    sentence = getRandom(connectors) + " " + sentence;
+                }
+                review += sentence + " ";
+            }
+        });
+
+        review += getRandom(reviewData.outros[tone]);
+
+        const box = document.getElementById('reviewOutput');
+        box.value = review;
+        box.style.display = 'block';
+        document.getElementById('copyBtn').style.display = 'block';
+        box.scrollIntoView({behavior: "smooth"});
+    }
+
+    function copyToClipboard() {
+        const box = document.getElementById("reviewOutput");
+        box.select();
+        document.execCommand('copy');
+        if(confirm("Review Copied! Open Google Maps?")) window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+</script>
+
+</body>
+</html>
