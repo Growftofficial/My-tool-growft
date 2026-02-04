@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Review - HIM & HER SALON Mira Road</title>
+    <style>
+        /* --- THEME COLORS: UNISEX SALON (Purple & Gold) --- */
+        :root {
+            --primary: #581c87; /* Deep Purple */
+            --primary-dark: #3b0764;
+            --bg-color: #f3e8ff; 
+            --card-bg: #ffffff;
+            --text-main: #333333;
+            --gold: #fbbf24; 
+            --gray: #64748b;
+            --border: #e9d5ff;
+            --box-border: #a855f7; 
+            --box-bg: #faf5ff;     
+            --highlight: #ec4899; 
+        }
+
+        /* --- RESET --- */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0; padding: 20px 10px;
+            min-height: 100vh; display: flex;
+            justify-content: center; align-items: flex-start;
+            color: var(--text-main);
+        }
+
+        /* --- CONTAINER --- */
+        .container {
+            background: var(--card-bg); width: 100%; max-width: 500px;
+            padding: 25px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(88, 28, 135, 0.15);
+            border-top: 6px solid var(--primary); margin: auto;
+            text-align: center;
+        }
+
+        h1 { color: var(--primary-dark); margin: 5px 0 2px 0; font-size: 22px; font-weight: 800; letter-spacing: 0.5px; }
+        .location { color: var(--gray); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        
+        /* --- INPUTS --- */
+        select, input, textarea {
+            width: 100%; padding: 12px; border-radius: 10px;
+            border: 1px solid var(--border); background: #fff;
+            font-size: 14px; outline: none; margin-bottom: 10px;
+            color: var(--text-main); font-family: inherit;
+        }
+        select:focus, input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2); }
+        label { font-weight: 700; display: block; margin-top: 15px; margin-bottom: 6px; color: var(--primary-dark); font-size: 12px; text-transform: uppercase; text-align: left; }
+
+        /* --- RATING --- */
+        .star-container { display: flex; justify-content: center; gap: 8px; margin: 20px 0; }
+        .star { font-size: 42px; color: #cbd5e1; cursor: pointer; transition: transform 0.2s, color 0.2s; }
+        .star.selected { color: var(--gold); }
+
+        .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
+        .exp-btn {
+            padding: 12px 15px; border: 1px solid var(--border); border-radius: 8px;
+            background: #fff; cursor: pointer; font-weight: 600; color: var(--text-main);
+            flex: 1; transition: 0.2s; font-size: 14px;
+        }
+        .exp-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(88, 28, 135, 0.3); }
+        
+        .action-btn {
+            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white; border: none; border-radius: 8px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 10px;
+        }
+
+        /* --- CHIPS --- */
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
+        .keyword-chip { 
+            padding: 8px 12px; background-color: #fff; border-radius: 20px; 
+            font-size: 11px; font-weight: 600; cursor: pointer; 
+            border: 1px solid var(--border); color: var(--text-main); 
+            flex-grow: 1; text-align: center; transition: 0.2s;
+        }
+        .keyword-chip.active { background-color: #e9d5ff; color: var(--primary-dark); border-color: var(--primary); transform: translateY(-2px); font-weight: 700; }
+        
+        .cat-title { width:100%; font-size: 11px; font-weight: 700; color: var(--gray); margin-top: 15px; margin-bottom: 5px; border-bottom: 1px dashed var(--border); text-align: left; text-transform: uppercase; }
+
+        /* --- INPUT MODES --- */
+        .input-mode-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .mode-btn { 
+            flex: 1; padding: 10px; border: 1px solid var(--primary); border-radius: 8px; 
+            background: #fff; color: var(--primary); font-weight: 600; cursor: pointer; font-size: 13px;
+        }
+        .mode-btn.active-mode { background: var(--primary); color: white; }
+
+        .voice-section, .text-section {
+            background: #f3e8ff; padding: 12px; border-radius: 12px; 
+            margin-bottom: 20px; border: 1px dashed var(--primary); text-align: left;
+        }
+        .voice-controls { display: flex; align-items: center; gap: 10px; }
+        .mic-btn {
+            width: 45px; height: 45px; border-radius: 50%;
+            background: var(--primary); color: white; border: none;
+            font-size: 20px; cursor: pointer; box-shadow: 0 4px 10px rgba(88, 28, 135, 0.3);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .mic-active { animation: pulse 1.5s infinite; background: #3b0764; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(88, 28, 135, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(0,0,0,0); } }
+
+        /* --- REVIEW PREVIEW BOX --- */
+        .review-preview-box {
+            width: 100%; min-height: 140px; padding: 15px; margin-top: 20px;
+            border: 1px solid var(--box-border); border-radius: 12px;
+            background-color: var(--box-bg); color: #334155;
+            font-size: 15px; line-height: 1.6; font-family: 'Segoe UI', sans-serif;
+            resize: none; outline: none; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .copy-btn { width: 100%; padding: 12px; background-color: #10b981; color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: 600; cursor: pointer; display: none; }
+        
+        /* --- FOOTER --- */
+        .footer-branding { margin-top: 30px; padding-top: 15px; border-top: 1px dashed #cbd5e1; text-align: center; font-size: 12px; color: #64748b; }
+        .footer-branding img { height: 20px; vertical-align: middle; margin: 0 5px; } /* Logo style */
+        .footer-branding a { color: var(--primary); text-decoration: none; font-weight: 700; }
+        
+        .fade-in { animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .hidden { display: none; }
+        .toggle-name { font-size: 12px; color: var(--primary); text-decoration: underline; cursor: pointer; border: none; background: none; float: right; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="container" id="mainApp">
+    <div style="font-size: 30px; margin-bottom: 10px;">💇‍♂️💇‍♀️</div>
+    <h1>HIM & HER SALON</h1>
+    <div class="location">Unisex Salon • Mira Road • Hair • Beauty</div>
+
+    <div id="ratingScreen" class="fade-in">
+        <p style="font-weight:600; color:#555;">How was your service today?</p>
+        <div class="star-container">
+            <span class="star" onclick="rate(1)">★</span>
+            <span class="star" onclick="rate(2)">★</span>
+            <span class="star" onclick="rate(3)">★</span>
+            <span class="star" onclick="rate(4)">★</span>
+            <span class="star" onclick="rate(5)">★</span>
+        </div>
+        <div class="experience-btns">
+            <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Not Happy 😞</button>
+            <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Loved it! 😍</button>
+        </div>
+        <button class="action-btn" onclick="processRating()">Next Step ➡</button>
+    </div>
+
+    <div id="privateFeedbackScreen" class="fade-in hidden">
+        <h2 style="color:var(--text-main);">We are sorry! 😔</h2>
+        <p style="font-size:14px; color:#666;">Please tell us how we can improve.</p>
+        <textarea id="privateFeedbackText" style="height:100px;" placeholder="What went wrong?"></textarea>
+        <button class="action-btn" style="background:#475569;" onclick="submitPrivateFeedback()">Submit Feedback</button>
+    </div>
+
+    <div id="thankYouScreen" class="fade-in hidden">
+        <div style="font-size: 50px; margin-bottom:10px;">✅</div>
+        <h2 style="color:var(--primary);">Thank You!</h2>
+        <p>Your feedback has been sent to the manager.</p>
+    </div>
+
+    <div id="aiToolScreen" class="fade-in hidden" style="text-align: left;">
+        
+        <div class="input-mode-tabs">
+            <button class="mode-btn active-mode" id="btnModeVoice" onclick="switchMode('voice')">🎤 Speak</button>
+            <button class="mode-btn" id="btnModeText" onclick="switchMode('text')">✍️ Write Review</button>
+        </div>
+
+        <div id="voiceSection" class="voice-section">
+            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                <span style="font-size:11px; font-weight:bold; color:var(--primary);">SPEAK (Hindi/English):</span>
+                <select id="voiceLang" style="width:auto; padding:2px; font-size:11px; height:25px; margin:0;">
+                    <option value="en-IN" selected>English</option>
+                    <option value="hi-IN">Hindi</option>
+                    <option value="mr-IN">Marathi</option>
+                </select>
+            </div>
+            <div class="voice-controls">
+                <button id="micBtn" class="mic-btn" onclick="startListening()">🎤</button>
+                <div style="flex:1;">
+                    <p id="statusText" style="font-size:12px; color:#555; margin:0;">Tap mic & speak...<br>(Ex: "Haircut bahut badhiya tha")</p>
+                </div>
+            </div>
+            <div id="spokenTextDisplay" style="display:none; margin-top:8px; font-size:12px; color:var(--primary); background:#fff; padding:6px; border-radius:4px;"></div>
+        </div>
+
+        <div id="textSection" class="text-section hidden">
+            <label style="margin-top:0; color:var(--primary);">Describe Your Experience (Hindi/English)</label>
+            <textarea id="manualInput" placeholder="Ex: Service was great, staff acha tha..." style="height:80px; margin-bottom:0;"></textarea>
+            <p style="font-size:11px; color:#666; margin-top:5px;">*We will polish this into professional English.</p>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+            <div style="flex:1;">
+                <label style="margin-top:0;">Service Taken</label>
+                <select id="serviceSelect">
+                    <option value="" disabled selected>Select Service...</option>
+                    <optgroup label="💇‍♂️ Men's Services">
+                        <option value="Men's Haircut">Men's Haircut</option>
+                        <option value="Beard Trim & Styling">Beard Trim & Styling</option>
+                        <option value="Head Massage">Head Massage</option>
+                    </optgroup>
+                    <optgroup label="💇‍♀️ Women's Hair">
+                        <option value="Women's Haircut">Women's Haircut</option>
+                        <option value="Global Hair Color">Global Hair Color</option>
+                        <option value="Highlights">Highlights / Balayage</option>
+                        <option value="Keratin Treatment">Keratin Treatment</option>
+                        <option value="Hair Smoothening">Hair Smoothening</option>
+                        <option value="Hair Spa">Hair Spa</option>
+                        <option value="Botox Treatment">Hair Botox Treatment</option>
+                        <option value="Nanoplastia">Nanoplastia</option>
+                        <option value="Root Touchup">Root Touchup</option>
+                    </optgroup>
+                    <optgroup label="💅 Beauty & Skin">
+                        <option value="Hydra Facial">Hydra Facial</option>
+                        <option value="D-Tan Cleanup">D-Tan Cleanup</option>
+                        <option value="Manicure & Pedicure">Manicure & Pedicure</option>
+                        <option value="Bridal Makeup">Bridal Makeup</option>
+                        <option value="Party Makeup">Party Makeup</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div style="flex:1;">
+                <label style="margin-top:0;">Tone</label>
+                <select id="toneSelect">
+                    <option value="Happy">Happy 😊</option>
+                    <option value="Professional">Professional 💼</option>
+                    <option value="Short">Short ✨</option>
+                </select>
+            </div>
+        </div>
+
+        <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
+        <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
+            <input type="text" id="userName" placeholder="Your Name">
+        </div>
+
+        <label style="clear:both;">Highlights (SEO Keywords)</label>
+        
+        <div class="keywords-container">
+            <div class="cat-title">Popular in Mira Road</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Salon in Mira Road')">🏆 Best Salon in Mira Road</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Top Hairdresser')">✂️ Top Hairdresser</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Unisex Salon Mira Road')">👫 Unisex Salon Mira Road</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Affordable Luxury')">💎 Affordable Luxury</div>
+
+            <div class="cat-title">Expert Hair Services</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Expert Colorist')">🎨 Expert Colorist</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Trendy Haircuts')">💇‍♂️ Trendy Haircuts</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Keratin Specialist')">✨ Keratin Specialist</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Hair Transformation')">🔄 Hair Transformation</div>
+
+            <div class="cat-title">Vibe & Staff</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Professional Staff')">👨‍💼 Professional Staff</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Hygienic Salon')">🧹 Hygienic & Clean</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Great Ambience')">🌸 Great Ambience</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Friendly Service')">🤝 Friendly Service</div>
+            <div class="keyword-chip" onclick="toggleKeyword(this, 'Value for Money')">💰 Value for Money</div>
+        </div>
+
+        <button class="action-btn" id="generateBtn" onclick="generateReview()">✨ Generate Magic Review</button>
+        <textarea id="reviewOutput" class="review-preview-box" style="display:none;" readonly></textarea>
+        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy & Open Google</button>
+    </div>
+
+    <div class="footer-branding">
+        Powered by <a href="https://growft.odoo.com" target="_blank">Growft</a>
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" alt="Growft Logo">
+        <div class="dev-contact">Contact us to build your AI review tool: <a href="tel:+917020370561">7020370561</a></div>
+    </div>
+</div>
+
+<script>
+    const GOOGLE_REVIEW_LINK = "https://bit.ly/3M1YgaF"; 
+    let selectedKeywords = [];
+    let voiceText = "";
+    let activeMode = 'voice';
+
+    // 1. UI SWITCHING
+    function switchMode(mode) {
+        activeMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active-mode'));
+        if(mode === 'voice') {
+            document.getElementById('btnModeVoice').classList.add('active-mode');
+            document.getElementById('voiceSection').classList.remove('hidden');
+            document.getElementById('textSection').classList.add('hidden');
+        } else {
+            document.getElementById('btnModeText').classList.add('active-mode');
+            document.getElementById('textSection').classList.remove('hidden');
+            document.getElementById('voiceSection').classList.add('hidden');
+        }
+    }
+
+    // 2. RATING SYSTEM
+    let currentRating = 0;
+    function rate(stars) {
+        currentRating = stars;
+        document.querySelectorAll('.star').forEach((star, index) => {
+            star.classList.toggle('selected', index < stars);
+        });
+        if(stars >= 4) selectExp('good'); else selectExp('bad');
+    }
+    function selectExp(type) {
+        document.getElementById('btn-good').classList.remove('active');
+        document.getElementById('btn-bad').classList.remove('bad-active');
+        if (type === 'good') document.getElementById('btn-good').classList.add('active');
+        else document.getElementById('btn-bad').classList.add('bad-active');
+    }
+    function processRating() {
+        if (currentRating === 0) { alert("Please select a star rating."); return; }
+        document.getElementById('ratingScreen').classList.add('hidden');
+        if (currentRating >= 4) {
+            document.getElementById('aiToolScreen').classList.remove('hidden');
+        } else {
+            document.getElementById('privateFeedbackScreen').classList.remove('hidden');
+        }
+    }
+    function submitPrivateFeedback() {
+        if(document.getElementById('privateFeedbackText').value.trim() === "") { alert("Please tell us a bit more."); return; }
+        document.getElementById('privateFeedbackScreen').classList.add('hidden');
+        document.getElementById('thankYouScreen').classList.remove('hidden');
+    }
+
+    // 3. VOICE LOGIC
+    function startListening() {
+        if (!('webkitSpeechRecognition' in window)) { alert("Use Chrome Browser."); return; }
+        recognition = new webkitSpeechRecognition();
+        recognition.lang = document.getElementById('voiceLang').value;
+        recognition.interimResults = false;
+        const micBtn = document.getElementById('micBtn');
+        const statusText = document.getElementById('statusText');
+
+        recognition.onstart = () => { micBtn.classList.add('mic-active'); statusText.innerText = "Listening..."; };
+        recognition.onend = () => { micBtn.classList.remove('mic-active'); statusText.innerText = "Processing..."; };
+        
+        recognition.onresult = (event) => {
+            voiceText = event.results[0][0].transcript;
+            document.getElementById('spokenTextDisplay').style.display = 'block';
+            document.getElementById('spokenTextDisplay').innerText = `Recorded: "${voiceText}"`;
+        };
+        recognition.start();
+    }
+
+    // 4. GENERATE LOGIC
+    async function generateReview() {
+        const btn = document.getElementById('generateBtn');
+        btn.innerText = "🔄 Processing...";
+        
+        const tone = document.getElementById('toneSelect').value;
+        const name = document.getElementById('userName').value.trim();
+        const service = document.getElementById('serviceSelect').value;
+        const manualText = document.getElementById('manualInput').value.trim();
+
+        // Determine input text based on active mode
+        let rawInput = "";
+        if (activeMode === 'voice') rawInput = voiceText;
+        else rawInput = manualText;
+
+        if (selectedKeywords.length === 0 && !rawInput && !service) {
+            alert("Please select a Service, Write/Speak experience, or pick Highlights.");
+            btn.innerText = "✨ Generate Magic Review";
+            return;
+        }
+
+        // Translation Step with BUG FIX
+        let finalBodyText = "";
+        if (rawInput && rawInput.length > 1) {
+            try {
+                // Autodetect to English
+                const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(rawInput)}&langpair=Autodetect|en`);
+                const data = await res.json();
+                
+                let translated = data.responseData ? data.responseData.translatedText : "";
+
+                // FILTER: If API returns error text, use original input
+                if(translated.includes("PLEASE SELECT TWO DISTINCT LANGUAGES") || translated.includes("MYMEMORY WARNING")) {
+                    finalBodyText = rawInput;
+                } else {
+                    finalBodyText = translated;
+                }
+            } catch(e) { finalBodyText = rawInput; }
+        }
+
+        // Build the Review
+        let review = getRandom(reviewData.intros[tone]);
+        if(name) review = `I am ${name}. ` + review;
+        
+        if(service) review += ` I visited for ${service}. `;
+        
+        if(finalBodyText) {
+            review += " " + finalBodyText + ". ";
+        }
+
+        const shuffled = selectedKeywords.sort(() => 0.5 - Math.random());
+        shuffled.forEach((k) => {
+            if(reviewData.keywords[k]) {
+                review += getRandom(reviewData.keywords[k]) + " ";
+            }
+        });
+
+        review += getRandom(reviewData.outros[tone]);
+
+        const box = document.getElementById('reviewOutput');
+        box.value = review;
+        box.style.display = 'block';
+        document.getElementById('copyBtn').style.display = 'block';
+        box.scrollIntoView({behavior: "smooth"});
+        btn.innerText = "✨ Generate Magic Review";
+    }
+
+    function toggleNameField() { 
+        const field = document.getElementById('nameArea');
+        field.style.display = field.style.display === 'block' ? 'none' : 'block';
+    }
+    
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) {
+            selectedKeywords = selectedKeywords.filter(k => k !== keyword);
+        } else {
+            selectedKeywords.push(keyword);
+        }
+    }
+
+    function copyToClipboard() {
+        const box = document.getElementById("reviewOutput");
+        box.select();
+        document.execCommand('copy');
+        if(confirm("Review Copied! Open Google Maps?")) window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+
+    function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+    // EXPANDED DATASETS (30+ Variations per category)
+    const reviewData = {
+        intros: {
+            "Happy": [
+                "I visited HIM & HER SALON in Mira Road and it was amazing!", 
+                "Hands down the best unisex salon in Mira Road.", 
+                "Had a fantastic experience at HIM & HER SALON.", 
+                "If you are looking for a haircut in Mira Road, this is the place.", 
+                "Totally loved the service at HIM & HER SALON today.",
+                "My go-to salon in Mira Road for all hair and beauty needs.",
+                "Such a professional and friendly team at HIM & HER SALON.",
+                "Finally found a salon in Mira Road that understands my hair.",
+                "Great vibe and excellent service at HIM & HER SALON.",
+                "Highly recommend visiting this salon for a makeover.",
+                "Just got my hair done at HIM & HER SALON and I am loving it.",
+                "A premium salon experience at affordable rates in Mira Road.",
+                "The staff at HIM & HER SALON is super talented.",
+                "Best place for grooming in Mira Road.",
+                "I am a regular customer here and they never disappoint.",
+                "Visited for the first time and I am impressed.",
+                "The ambience at HIM & HER SALON is so relaxing.",
+                "Exceptional service provided by the team.",
+                "My search for the best salon in Mira Road ends here.",
+                "HIM & HER SALON provides top-notch services.",
+                "Had a lovely pampering session today.",
+                "Quality service with great attention to detail.",
+                "Super happy with my new look from HIM & HER SALON.",
+                "They use genuine products and have great expertise.",
+                "A hidden gem in Mira Road for beauty services.",
+                "Walking into HIM & HER SALON was the best decision.",
+                "The hair experts here are truly magicians.",
+                "Felt so pampered and taken care of.",
+                "Excellent hygiene and safety standards.",
+                "The best salon experience I have had in years."
+            ],
+            "Professional": [
+                "I visited HIM & HER SALON for a service recently.", 
+                "Very professional staff and clean environment.", 
+                "HIM & HER SALON maintains high standards of hygiene.", 
+                "The stylists are well-trained and polite.", 
+                "A reliable unisex salon in Mira Road.",
+                "Good value for money and professional service.",
+                "The appointment management was smooth.",
+                "Cleanliness and staff behavior are commendable.",
+                "They provide detailed consultations before starting.",
+                "I appreciate the professionalism at HIM & HER SALON.",
+                "Efficient service and good results.",
+                "One of the better managed salons in Mira Road.",
+                "They respect your time and preferences.",
+                "A decent place for grooming and hair care.",
+                "The equipment and products used are high quality.",
+                "Professional advice given by the experts.",
+                "Satisfied with the outcome of my service.",
+                "A hygienic and safe place to visit.",
+                "Good service for the price paid.",
+                "Well trained staff and good hospitality.",
+                "I recommend this place for its disciplined staff.",
+                "The environment is suitable for relaxation.",
+                "They strictly follow salon protocols.",
+                "A hassle-free experience overall.",
+                "The staff ensures customer comfort.",
+                "Highly organized and tidy salon.",
+                "Expert services provided efficiently.",
+                "Found the pricing to be transparent and fair.",
+                "A trustworthy name in Mira Road.",
+                "Consistently good service every time."
+            ],
+            "Short": [
+                "Best salon in Mira Road!", "Great haircut.", "Loved it.", "Amazing service.", "Highly recommended.", "5 stars!", "Good vibes.", "Professional staff.", "Must visit.", "Excellent work.", "Very happy.", "Nice place.", "Good price.", "Superb.", "My favorite salon.", "Best hairdresser.", "Great experience.", "Clean salon.", "Friendly team.", "Top class.", "Worth it.", "Awesome.", "Perfect.", "Nice ambiance.", "Good job.", "Well done.", "Nice.", "Lovely.", "Fantastic.", "Great staff."
+            ]
+        },
+        keywords: {
+            "Best Salon in Mira Road": ["This is definitely the best salon in Mira Road.", "Top rated place in Mira Road for a reason.", "Number one salon in Mira Road."],
+            "Top Hairdresser": ["The hairdressers here are true artists.", "Best hairdresser I have found so far.", "Skilled hairstylists at work here."],
+            "Unisex Salon Mira Road": ["A perfect unisex salon for both men and women.", "Great unisex salon with separate sections.", "Best unisex salon in the area."],
+            "Affordable Luxury": ["Luxury services at very affordable prices.", "Feels premium but fits the budget.", "Affordable luxury right here in Mira Road."],
+            "Expert Colorist": ["The colorist did an amazing job with my hair.", "Best place for hair coloring and highlights.", "They are experts in global color and balayage."],
+            "Trendy Haircuts": ["Got the trendiest haircut today.", "They know all the latest hair trends.", "Loved my stylish new haircut."],
+            "Keratin Specialist": ["My hair feels so smooth after the Keratin treatment.", "Best place for Keratin and smoothening.", "Frizz-free hair thanks to their Keratin expert."],
+            "Hair Transformation": ["Total hair transformation achieved!", "Can't believe this transformation.", "They completely changed my look."],
+            "Professional Staff": ["The staff is extremely professional and polite.", "Courteous and well-trained staff.", "Loved the behavior of the entire team."],
+            "Hygienic Salon": ["The salon is spotless and very hygienic.", "They follow all hygiene protocols.", "Very clean and sanitized tools."],
+            "Great Ambience": ["The ambience is so soothing and nice.", "Loved the interior and vibe of the salon.", "Relaxing music and great atmosphere."],
+            "Friendly Service": ["Service with a smile always.", "Very friendly and welcoming people.", "Felt very comfortable here."],
+            "Value for Money": ["Every rupee spent here was worth it.", "Great services at reasonable rates.", "Total value for money experience."]
+        },
+        outros: {
+            "Happy": ["Will definitely come back!", "Thank you HIM & HER team.", "See you next month!", "Highly recommended to everyone.", "So happy with my look.", "Keep up the great work!", "Best salon experience ever.", "My new permanent salon.", "Thanks for the glow up!", "Love this place!", "Five stars from me.", "You guys are the best.", "Will bring my friends too.", "Totally satisfied.", "Great job!", "Can't wait for my next visit.", "Thanks for making me feel special.", "See you soon!", "A big thumbs up.", "Cheers to the team.", "Loved every bit of it.", "Going home happy.", "Best wishes.", "Highly suggested.", "Simply amazing.", "Thanks a ton.", "Keep shining.", "Loved the hospitality.", "Great experience overall.", "Will visit again soon."],
+            "Professional": ["Good job team.", "Will recommend to my colleagues.", "A pleasant visit.", "Keep maintaining the standards.", "Satisfied customer.", "Good service.", "Professional and efficient.", "Thank you.", "Nice experience.", "Decent pricing and good work.", "Will visit again.", "Good hospitality.", "Well done.", "Reliable salon.", "Thanks.", "Appreciate the service.", "Good luck.", "Recommended.", "Nice work.", "Okay, good.", "Fine experience.", "No complaints.", "Worth a visit.", "Try it once.", "Respectful staff.", "Clean place.", "Hygienic.", "Safe place.", "Good management.", "Thank you team."],
+            "Short": ["Thanks!", "Visit them.", "Great job.", "Cheers!", "Good luck.", "Recommended.", "Best.", "Superb.", "Nice.", "Love it.", "Great.", "Top.", "A+.", "Perfect.", "Done.", "Happy.", "Go for it.", "Nice one.", "Cool.", "Amazing.", "Wow.", "Fine.", "Good.", "Okay.", "Bye.", "See ya.", "Rock on.", "10/10.", "5/5.", "Thnx."]
+        }
+    };
+</script>
+
+</body>
+</html>
