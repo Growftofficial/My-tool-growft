@@ -35,10 +35,10 @@
     </div>
 
     <script>
-        // Supabase Setup
+        // --- NAYI KEYS YAHAN REPLACE KAR DI HAIN ---
         const SUPABASE_URL = 'https://ghfwvbpyqkrzysetgrnao.supabase.co'; 
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdoZnd2YnB5cWtyenNldGdybmFvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAzMDk3MjQsImV4cCI6MjA4NTg4NTcyNH0.ZAgScUNHVEm7LNMN268Ws7z7m_oTCxIv8yQ0bYlJXzQ';
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const SUPABASE_KEY = 'sb_publishable_TnpBw7PJaWye32M4D-ssOQ_K-khkL4F'; 
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         const menuItems = [
             { id: 1, name: "Paneer Masala", price: 250 },
@@ -51,24 +51,22 @@
         let cart = [];
 
         function renderMenu() {
-            try {
-                const container = document.getElementById('menu-list');
-                container.innerHTML = ''; 
-                menuItems.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = "bg-white p-4 rounded-xl flex justify-between items-center shadow-sm border border-gray-100";
-                    div.innerHTML = `
-                        <div>
-                            <p class="font-bold text-gray-800">${item.name}</p>
-                            <p class="text-orange-600 font-semibold">₹${item.price}</p>
-                        </div>
-                        <button onclick="addToCart(${item.id})" class="bg-orange-50 text-orange-600 px-6 py-2 rounded-full font-bold hover:bg-orange-600 hover:text-white transition-colors">
-                            + Add
-                        </button>
-                    `;
-                    container.appendChild(div);
-                });
-            } catch (e) { console.error("Menu Render Error:", e); }
+            const container = document.getElementById('menu-list');
+            container.innerHTML = ''; 
+            menuItems.forEach(item => {
+                const div = document.createElement('div');
+                div.className = "bg-white p-4 rounded-xl flex justify-between items-center shadow-sm border border-gray-100";
+                div.innerHTML = `
+                    <div>
+                        <p class="font-bold text-gray-800">${item.name}</p>
+                        <p class="text-orange-600 font-semibold">₹${item.price}</p>
+                    </div>
+                    <button onclick="addToCart(${item.id})" class="bg-orange-50 text-orange-600 px-6 py-2 rounded-full font-bold hover:bg-orange-600 hover:text-white transition-colors">
+                        + Add
+                    </button>
+                `;
+                container.appendChild(div);
+            });
         }
 
         function addToCart(id) {
@@ -92,7 +90,7 @@
             const tableVal = document.getElementById('table').value;
 
             if (!nameVal || !tableVal) {
-                alert("Please enter Name and Table Number!");
+                alert("Pehle details bharo bhai!");
                 return;
             }
 
@@ -103,23 +101,25 @@
             const message = "*Hotel Vijay - New Order*\n------------------------\n*Inv:* #" + invID + "\n*Name:* " + nameVal + "\n*Table:* " + tableVal + "\n*Items:* " + itemsStr + "\n*Total Bill:* ₹" + totalAmt + "\n------------------------";
             const waUrl = "https://wa.me/917498988626?text=" + encodeURIComponent(message);
 
-            // Database Save and Redirect Logic
             try {
-                await supabaseClient.from('orders').insert([{
+                // Database Save
+                const { error } = await _supabase.from('orders').insert([{
                     invoice_no: invID,
                     customer_name: nameVal,
                     table_no: parseInt(tableVal),
                     items: itemsStr,
                     total_amount: totalAmt
                 }]);
+
+                if (error) throw error;
                 window.location.href = waUrl;
+
             } catch (err) {
-                console.warn("Database save failed, redirecting to WhatsApp anyway...");
-                window.location.href = waUrl;
+                console.error("DB Error:", err);
+                window.location.href = waUrl; // Error pe bhi WhatsApp khulega
             }
         }
 
-        // Program Start
         renderMenu();
     </script>
 </body>
