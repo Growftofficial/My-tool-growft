@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotel Vijay - Order Online</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body class="bg-gray-50 pb-32 font-sans text-black">
     <div id="main-ui">
@@ -14,14 +15,23 @@
         </div>
 
         <div class="max-w-md mx-auto p-4">
+            <div id="login-container" class="mb-6">
+                <div id="g_id_onload"
+                     data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
+                     data-callback="handleCredentialResponse">
+                </div>
+                <div class="g_id_signin" data-type="standard"></div>
+            </div>
+
             <div id="order-info" class="bg-white p-5 rounded-3xl shadow-sm mb-6 border border-gray-100">
-                <h3 class="text-[10px] font-black text-gray-400 uppercase mb-3 tracking-widest text-center">Customer Details</h3>
+                <h3 id="user-welcome" class="text-[10px] font-black text-gray-400 uppercase mb-3 tracking-widest text-center">Customer Details</h3>
                 <div class="space-y-4">
-                    <input id="name" type="text" placeholder="Aapka Naam / Name" class="w-full bg-gray-50 p-4 rounded-2xl font-bold outline-none focus:ring-2 focus:ring-orange-500 border-none">
-                    <input id="table" type="number" placeholder="Table Number (Ex: 05)" class="w-full bg-gray-50 p-4 rounded-2xl font-bold outline-none focus:ring-2 focus:ring-orange-500 border-none">
+                    <input id="name" type="text" placeholder="Aapka Naam / Name" class="w-full bg-gray-50 p-4 rounded-2xl font-bold outline-none focus:ring-2 focus:ring-orange-500 border-none text-black">
+                    <input id="table" type="number" placeholder="Table Number (Ex: 05)" class="w-full bg-gray-50 p-4 rounded-2xl font-bold outline-none focus:ring-2 focus:ring-orange-500 border-none text-black">
                 </div>
             </div>
 
+            <h2 class="text-xl font-black mb-4 px-2 tracking-tight">Today's Special Menu</h2>
             <div id="menu-list" class="space-y-4">
                 </div>
         </div>
@@ -40,23 +50,104 @@
     </div>
 
     <script>
-    // 1. Agar Client ID mil gayi hai toh yahan dalo, warna isse error nahi aayega
-    const GOOGLE_CLIENT_ID = "PASTE_YOUR_ID_HERE.apps.googleusercontent.com"; 
+        // --- CONFIGURATION ---
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwQUMyN5rBmSztswmu16HBnvz27XhVnTt1aOdpEoFITeEiH22BM_ocNKb5Ub1_2EGZH/exec";
+        
+        let userData = { name: "", email: "Guest" };
+        let cart = {};
 
-    function handleCredentialResponse(response) {
-        try {
-            const payload = JSON.parse(atob(response.credential.split('.')[1]));
-            userData = { name: payload.name, email: payload.email };
-            
-            // Login ke baad auto-fill naam
-            document.getElementById('name').value = userData.name;
-            document.getElementById('user-welcome').innerText = "Namaste, " + userData.name;
-            document.getElementById('login-container').classList.add('hidden');
-        } catch (e) {
-            console.log("Login Error, continuing as Guest");
+        const menuItems = [
+            { id: 1, name: "Paneer Masala", price: 250 },
+            { id: 2, name: "Dal Tadka", price: 180 },
+            { id: 3, name: "Butter Naan", price: 40 },
+            { id: 4, name: "Veg Pulao", price: 150 },
+            { id: 5, name: "Jeera Rice", price: 120 }
+        ];
+
+        // 1. Google Login Handler
+        function handleCredentialResponse(response) {
+            try {
+                const payload = JSON.parse(atob(response.credential.split('.')[1]));
+                userData.name = payload.name;
+                userData.email = payload.email;
+                
+                document.getElementById('name').value = userData.name;
+                document.getElementById('user-welcome').innerText = "NAMASTE, " + userData.name.toUpperCase();
+                document.getElementById('login-container').classList.add('hidden');
+            } catch (e) { console.log("Guest mode active"); }
         }
-    }
-</script>
+
+        // 2. Render Menu Function
+        function renderMenu() {
+            const container = document.getElementById('menu-list');
+            container.innerHTML = '';
+            menuItems.forEach(item => {
+                const qty = cart[item.id] || 0;
+                container.innerHTML += `
+                <div class="bg-white p-5 rounded-3xl flex justify-between items-center shadow-sm border border-gray-50">
+                    <div>
+                        <p class="font-black text-gray-800 text-lg">${item.name}</p>
+                        <p class="text-orange-600 font-black">₹${item.price}</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-gray-100 p-2 rounded-2xl">
+                        <button onclick="updateQty(${item.id}, -1)" class="w-8 h-8 bg-white rounded-lg font-bold shadow-sm">-</button>
+                        <span class="font-black text-lg w-4 text-center">${qty}</span>
+                        <button onclick="updateQty(${item.id}, 1)" class="w-8 h-8 bg-orange-600 text-white rounded-lg font-bold shadow-sm">+</button>
+                    </div>
+                </div>`;
+            });
+        }
+
+        function updateQty(id, change) {
+            cart[id] = (cart[id] || 0) + change;
+            if (cart[id] <= 0) delete cart[id];
+            
+            const total = menuItems.reduce((s, i) => s + (i.price * (cart[id] || 0)), 0);
+            document.getElementById('total-price').innerText = total;
+            document.getElementById('cart-bar').classList.toggle('hidden', total === 0);
+            renderMenu();
+        }
+
+        // 3. Place Order Function
+        async function placeOrder() {
+            const nameVal = document.getElementById('name').value;
+            const tableVal = document.getElementById('table').value;
+            
+            if (!nameVal || !tableVal) return alert("Naam aur Table zaroori hai!");
+            
+            const invID = "VJ-" + Math.floor(Math.random() * 9000 + 1000);
+            const items = menuItems.filter(i => cart[i.id]).map(i => `${i.name} (${cart[i.id]})`).join(', ');
+            const total = document.getElementById('total-price').innerText;
+
+            const orderBtn = document.getElementById('orderBtn');
+            orderBtn.innerText = "SENDING...";
+            orderBtn.disabled = true;
+
+            try {
+                // Post data to Google Sheets
+                await fetch(SCRIPT_URL, { 
+                    method: 'POST', 
+                    mode: 'no-cors', 
+                    body: JSON.stringify({ 
+                        action: "add", 
+                        invoice_no: invID, 
+                        customer_name: nameVal, 
+                        table_no: tableVal, 
+                        items: items, 
+                        total_amount: total,
+                        email: userData.email 
+                    }) 
+                });
+                
+                // Redirect to tracking page
+                window.location.href = `tracking.html?id=${invID}`;
+            } catch (e) {
+                window.location.href = `tracking.html?id=${invID}`;
+            }
+        }
+
+        // Initial Load
+        renderMenu();
+    </script>
 </body>
 </html>
-
