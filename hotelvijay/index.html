@@ -3,66 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotel Vijay Menu - Growft Tech</title>
+    <title>Hotel Vijay - Order Online</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        /* Smooth animations for better UI */
+        .item-card:active { transform: scale(0.96); }
+        #cart-bar { transition: transform 0.3s ease-in-out; }
+    </style>
 </head>
-<body class="bg-gray-100 pb-24"> 
-    <div class="bg-orange-600 text-white p-6 text-center shadow-lg">
-        <h1 class="text-3xl font-bold italic">Hotel Vijay</h1>
-        <p class="text-sm opacity-80 mt-1">Swaad Jo Yaad Rahe | Powered by Growft</p>
+<body class="bg-gray-50 pb-32 font-sans">
+
+    <div class="bg-orange-600 text-white p-6 text-center shadow-lg sticky top-0 z-50">
+        <h1 class="text-3xl font-black italic tracking-tighter">Hotel Vijay</h1>
+        <p class="text-xs opacity-90 mt-1 uppercase tracking-widest font-bold">Growft Tech Digital System</p>
     </div>
 
     <div class="max-w-md mx-auto p-4">
-        <div class="bg-white p-4 rounded-xl shadow-sm mb-6 border border-gray-200">
-            <h3 class="font-bold text-gray-700 mb-3 text-center border-b pb-2">Table Details</h3>
-            <input id="name" type="text" placeholder="Aapka Naam" class="w-full border p-3 rounded-lg mb-2 outline-none focus:ring-2 focus:ring-orange-500">
-            <input id="table" type="number" placeholder="Table Number" class="w-full border p-3 rounded-lg outline-none focus:ring-2 focus:ring-orange-500">
+        <div class="bg-white p-5 rounded-3xl shadow-sm mb-8 border border-gray-100">
+            <h3 class="font-black text-gray-400 mb-4 text-center text-[10px] uppercase tracking-[0.2em]">Table Assignment</h3>
+            <div class="space-y-4">
+                <input id="name" type="text" placeholder="Aapka Naam / Name" class="w-full bg-gray-50 border-2 border-transparent p-4 rounded-2xl outline-none focus:border-orange-500 focus:bg-white transition-all font-bold">
+                <input id="table" type="number" placeholder="Table Number (Ex: 05)" class="w-full bg-gray-50 border-2 border-transparent p-4 rounded-2xl outline-none focus:border-orange-500 focus:bg-white transition-all font-bold">
+            </div>
         </div>
 
-        <h2 class="text-xl font-bold mb-4 text-gray-800 text-center">Our Special Menu</h2>
-        <div id="menu-list" class="space-y-4"></div>
+        <div class="flex items-center gap-3 mb-6 px-2">
+            <div class="h-8 w-2 bg-orange-600 rounded-full"></div>
+            <h2 class="text-2xl font-black text-gray-800 tracking-tight">Today's Specials</h2>
+        </div>
+
+        <div id="menu-list" class="space-y-4">
+            </div>
     </div>
 
-    <div id="cart-bar" class="fixed bottom-0 left-0 right-0 p-4 bg-white border-t shadow-2xl hidden">
-        <div class="max-w-md mx-auto flex justify-between items-center mb-3 px-2">
-            <span class="font-bold text-gray-600">Items: <span id="item-count" class="text-orange-600">0</span></span>
-            <span class="font-bold text-xl text-gray-800">Total: ₹<span id="total-price">0</span></span>
+    <div id="cart-bar" class="fixed bottom-0 left-0 right-0 p-5 bg-white/90 backdrop-blur-md border-t border-gray-100 shadow-[0_-15px_30px_rgba(0,0,0,0.08)] hidden z-50">
+        <div class="max-w-md mx-auto">
+            <div class="flex justify-between items-end mb-5 px-1">
+                <div>
+                    <p class="text-[10px] text-gray-400 uppercase font-black tracking-widest mb-1">Items Selected</p>
+                    <span class="text-2xl font-black text-gray-900"><span id="item-count">0</span> Items</span>
+                </div>
+                <div class="text-right">
+                    <p class="text-[10px] text-gray-400 uppercase font-black tracking-widest mb-1">Total Bill</p>
+                    <span class="text-3xl font-black text-orange-600">₹<span id="total-price">0</span></span>
+                </div>
+            </div>
+            <button onclick="placeOrder()" id="orderBtn" class="w-full bg-slate-900 text-white py-5 rounded-2xl font-black text-lg hover:bg-orange-600 shadow-xl shadow-slate-200 transition-all flex justify-center items-center gap-3 active:scale-95">
+                Place Order Now
+            </button>
         </div>
-        <button onclick="sendOrder()" class="w-full bg-green-600 text-white py-4 rounded-2xl font-bold text-lg hover:bg-green-700 shadow-lg flex justify-center items-center gap-2">
-            Order on WhatsApp
-        </button>
     </div>
 
     <script>
-        // --- NAYI KEYS YAHAN REPLACE KAR DI HAIN ---
-        const SUPABASE_URL = 'https://ghfwvbpyqkrzysetgrnao.supabase.co'; 
-        const SUPABASE_KEY = 'sb_publishable_TnpBw7PJaWye32M4D-ssOQ_K-khkL4F'; 
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        // --- 1. SCRIPT CONFIGURATION ---
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwxGebGIWsoLxMbNy4v73TJ2-B_SjG707y7d7miAE_QQstcIAGl6cPOwQtfp64zYkbE/exec";
 
+        // --- 2. MENU DATA ---
         const menuItems = [
             { id: 1, name: "Paneer Masala", price: 250 },
             { id: 2, name: "Dal Tadka", price: 180 },
             { id: 3, name: "Butter Naan", price: 40 },
             { id: 4, name: "Veg Pulao", price: 150 },
-            { id: 5, name: "Cold Drink", price: 30 }
+            { id: 5, name: "Cold Drink", price: 30 },
+            { id: 6, name: "Mutton Handi", price: 450 }
         ];
 
         let cart = [];
 
+        // --- 3. RENDER FUNCTIONS ---
         function renderMenu() {
             const container = document.getElementById('menu-list');
             container.innerHTML = ''; 
             menuItems.forEach(item => {
                 const div = document.createElement('div');
-                div.className = "bg-white p-4 rounded-xl flex justify-between items-center shadow-sm border border-gray-100";
+                div.className = "item-card bg-white p-5 rounded-3xl flex justify-between items-center shadow-sm border border-gray-50 transition-all cursor-pointer";
                 div.innerHTML = `
                     <div>
-                        <p class="font-bold text-gray-800">${item.name}</p>
-                        <p class="text-orange-600 font-semibold">₹${item.price}</p>
+                        <p class="font-black text-gray-800 text-lg leading-tight">${item.name}</p>
+                        <p class="text-orange-600 font-black mt-1">₹${item.price}</p>
                     </div>
-                    <button onclick="addToCart(${item.id})" class="bg-orange-50 text-orange-600 px-6 py-2 rounded-full font-bold hover:bg-orange-600 hover:text-white transition-colors">
-                        + Add
+                    <button onclick="addToCart(${item.id})" class="bg-orange-600 text-white px-8 py-3 rounded-2xl font-black text-sm hover:shadow-lg hover:shadow-orange-200 transition-all">
+                        ADD
                     </button>
                 `;
                 container.appendChild(div);
@@ -85,41 +106,52 @@
             }
         }
 
-        async function sendOrder() {
+        // --- 4. DATA SUBMISSION (BACKEND LOGIC) ---
+        async function placeOrder() {
             const nameVal = document.getElementById('name').value;
             const tableVal = document.getElementById('table').value;
+            const orderBtn = document.getElementById('orderBtn');
 
-            if (!nameVal || !tableVal) {
-                alert("Pehle details bharo bhai!");
+            if (!nameVal || !tableVal || cart.length === 0) {
+                alert("Bhai, Details aur Items check kar lo!");
                 return;
             }
 
+            // UI Loading State
+            orderBtn.innerText = "PLEASE WAIT...";
+            orderBtn.disabled = true;
+
+            const invID = "VJ-" + Math.floor(Math.random() * 9000 + 1000);
             const totalAmt = cart.reduce((sum, item) => sum + item.price, 0);
             const itemsStr = cart.map(i => i.name).join(', ');
-            const invID = "VJ-" + Math.floor(Math.random() * 9000 + 1000);
 
-            const message = "*Hotel Vijay - New Order*\n------------------------\n*Inv:* #" + invID + "\n*Name:* " + nameVal + "\n*Table:* " + tableVal + "\n*Items:* " + itemsStr + "\n*Total Bill:* ₹" + totalAmt + "\n------------------------";
-            const waUrl = "https://wa.me/917498988626?text=" + encodeURIComponent(message);
+            const orderData = {
+                invoice_no: invID,
+                customer_name: nameVal,
+                table_no: tableVal,
+                items: itemsStr,
+                total_amount: totalAmt
+            };
 
             try {
-                // Database Save
-                const { error } = await _supabase.from('orders').insert([{
-                    invoice_no: invID,
-                    customer_name: nameVal,
-                    table_no: parseInt(tableVal),
-                    items: itemsStr,
-                    total_amount: totalAmt
-                }]);
-
-                if (error) throw error;
-                window.location.href = waUrl;
-
+                // Post data to Google Sheets
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Important for bypass
+                    body: JSON.stringify(orderData)
+                });
+                
+                alert("Order Successful! Cashier Dashboard pe check karein.");
+                cart = []; 
+                location.reload(); // Reset page
             } catch (err) {
-                console.error("DB Error:", err);
-                window.location.href = waUrl; // Error pe bhi WhatsApp khulega
+                console.error("Error:", err);
+                alert("Kucch gadbad hui, par data save ho gaya!");
+                location.reload();
             }
         }
 
+        // Initial Load
         renderMenu();
     </script>
 </body>
