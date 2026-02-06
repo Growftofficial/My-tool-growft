@@ -32,8 +32,7 @@
             </div>
 
             <h2 class="text-xl font-black mb-4 px-2 tracking-tight">Today's Special Menu</h2>
-            <div id="menu-list" class="space-y-4">
-                </div>
+            <div id="menu-list" class="space-y-4"></div>
         </div>
 
         <div id="cart-bar" class="fixed bottom-0 left-0 right-0 p-5 bg-white border-t shadow-2xl hidden z-50">
@@ -50,7 +49,6 @@
     </div>
 
     <script>
-        // --- CONFIGURATION ---
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwQUMyN5rBmSztswmu16HBnvz27XhVnTt1aOdpEoFITeEiH22BM_ocNKb5Ub1_2EGZH/exec";
         
         let userData = { name: "", email: "Guest" };
@@ -64,20 +62,17 @@
             { id: 5, name: "Jeera Rice", price: 120 }
         ];
 
-        // 1. Google Login Handler
         function handleCredentialResponse(response) {
             try {
                 const payload = JSON.parse(atob(response.credential.split('.')[1]));
                 userData.name = payload.name;
                 userData.email = payload.email;
-                
                 document.getElementById('name').value = userData.name;
                 document.getElementById('user-welcome').innerText = "NAMASTE, " + userData.name.toUpperCase();
                 document.getElementById('login-container').classList.add('hidden');
             } catch (e) { console.log("Guest mode active"); }
         }
 
-        // 2. Render Menu Function
         function renderMenu() {
             const container = document.getElementById('menu-list');
             container.innerHTML = '';
@@ -98,21 +93,27 @@
             });
         }
 
+        // --- FIXED PRICING LOGIC ---
         function updateQty(id, change) {
             cart[id] = (cart[id] || 0) + change;
             if (cart[id] <= 0) delete cart[id];
             
-            const total = menuItems.reduce((s, i) => s + (i.price * (cart[id] || 0)), 0);
+            // Sabhi items ka total sahi se multiply karke nikalna
+            let total = 0;
+            menuItems.forEach(item => {
+                if (cart[item.id]) {
+                    total += item.price * cart[item.id];
+                }
+            });
+
             document.getElementById('total-price').innerText = total;
             document.getElementById('cart-bar').classList.toggle('hidden', total === 0);
             renderMenu();
         }
 
-        // 3. Place Order Function
         async function placeOrder() {
             const nameVal = document.getElementById('name').value;
             const tableVal = document.getElementById('table').value;
-            
             if (!nameVal || !tableVal) return alert("Naam aur Table zaroori hai!");
             
             const invID = "VJ-" + Math.floor(Math.random() * 9000 + 1000);
@@ -124,29 +125,19 @@
             orderBtn.disabled = true;
 
             try {
-                // Post data to Google Sheets
                 await fetch(SCRIPT_URL, { 
                     method: 'POST', 
                     mode: 'no-cors', 
                     body: JSON.stringify({ 
-                        action: "add", 
-                        invoice_no: invID, 
-                        customer_name: nameVal, 
-                        table_no: tableVal, 
-                        items: items, 
-                        total_amount: total,
-                        email: userData.email 
+                        action: "add", invoice_no: invID, customer_name: nameVal, 
+                        table_no: tableVal, items: items, total_amount: total, email: userData.email 
                     }) 
                 });
-                
-                // Redirect to tracking page
                 window.location.href = `tracking.html?id=${invID}`;
             } catch (e) {
                 window.location.href = `tracking.html?id=${invID}`;
             }
         }
-
-        // Initial Load
         renderMenu();
     </script>
 </body>
