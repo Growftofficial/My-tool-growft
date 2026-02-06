@@ -40,6 +40,7 @@
     </div>
 
     <script>
+        // UPDATED NEW URL
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzLUkZsUnJXAIo-aaimfbHedZ6Xq4rJ1MoY1rMDqb_10hVR3faOOxDe7eItRDjRKCpb/exec";
         
         let cart = {};
@@ -94,7 +95,6 @@
             orderBtn.innerText = "SENDING...";
             orderBtn.disabled = true;
 
-            // Yeh URL wahi hai jo manually khul raha hai
             const targetURL = "https://www.growft.online/tracorder/index.html?id=" + invID;
 
             try {
@@ -107,7 +107,6 @@
                     }) 
                 });
                 
-                // Redirection with a small delay for safety
                 setTimeout(() => { window.location.href = targetURL; }, 500);
 
             } catch (e) {
