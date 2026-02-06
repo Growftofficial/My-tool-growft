@@ -6,13 +6,11 @@
     <title>Hotel Vijay - Order Online</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Smooth animations for better UI */
         .item-card:active { transform: scale(0.96); }
         #cart-bar { transition: transform 0.3s ease-in-out; }
     </style>
 </head>
 <body class="bg-gray-50 pb-32 font-sans">
-
     <div class="bg-orange-600 text-white p-6 text-center shadow-lg sticky top-0 z-50">
         <h1 class="text-3xl font-black italic tracking-tighter">Hotel Vijay</h1>
         <p class="text-xs opacity-90 mt-1 uppercase tracking-widest font-bold">Growft Tech Digital System</p>
@@ -22,21 +20,15 @@
         <div class="bg-white p-5 rounded-3xl shadow-sm mb-8 border border-gray-100">
             <h3 class="font-black text-gray-400 mb-4 text-center text-[10px] uppercase tracking-[0.2em]">Table Assignment</h3>
             <div class="space-y-4">
-                <input id="name" type="text" placeholder="Aapka Naam / Name" class="w-full bg-gray-50 border-2 border-transparent p-4 rounded-2xl outline-none focus:border-orange-500 focus:bg-white transition-all font-bold">
-                <input id="table" type="number" placeholder="Table Number (Ex: 05)" class="w-full bg-gray-50 border-2 border-transparent p-4 rounded-2xl outline-none focus:border-orange-500 focus:bg-white transition-all font-bold">
+                <input id="name" type="text" placeholder="Aapka Naam / Name" class="w-full bg-gray-50 border-2 border-transparent p-4 rounded-2xl outline-none focus:border-orange-500 focus:bg-white transition-all font-bold text-black">
+                <input id="table" type="number" placeholder="Table Number (Ex: 05)" class="w-full bg-gray-50 border-2 border-transparent p-4 rounded-2xl outline-none focus:border-orange-500 focus:bg-white transition-all font-bold text-black">
             </div>
         </div>
 
-        <div class="flex items-center gap-3 mb-6 px-2">
-            <div class="h-8 w-2 bg-orange-600 rounded-full"></div>
-            <h2 class="text-2xl font-black text-gray-800 tracking-tight">Today's Specials</h2>
-        </div>
-
-        <div id="menu-list" class="space-y-4">
-            </div>
+        <div id="menu-list" class="space-y-4"></div>
     </div>
 
-    <div id="cart-bar" class="fixed bottom-0 left-0 right-0 p-5 bg-white/90 backdrop-blur-md border-t border-gray-100 shadow-[0_-15px_30px_rgba(0,0,0,0.08)] hidden z-50">
+    <div id="cart-bar" class="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-gray-100 shadow-[0_-15px_30px_rgba(0,0,0,0.08)] hidden z-50">
         <div class="max-w-md mx-auto">
             <div class="flex justify-between items-end mb-5 px-1">
                 <div>
@@ -48,110 +40,67 @@
                     <span class="text-3xl font-black text-orange-600">₹<span id="total-price">0</span></span>
                 </div>
             </div>
-            <button onclick="placeOrder()" id="orderBtn" class="w-full bg-slate-900 text-white py-5 rounded-2xl font-black text-lg hover:bg-orange-600 shadow-xl shadow-slate-200 transition-all flex justify-center items-center gap-3 active:scale-95">
+            <button onclick="placeOrder()" id="orderBtn" class="w-full bg-slate-900 text-white py-5 rounded-2xl font-black text-lg hover:bg-orange-600 shadow-xl transition-all flex justify-center items-center gap-3 active:scale-95">
                 Place Order Now
             </button>
         </div>
     </div>
 
     <script>
-        // --- 1. SCRIPT CONFIGURATION ---
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwxGebGIWsoLxMbNy4v73TJ2-B_SjG707y7d7miAE_QQstcIAGl6cPOwQtfp64zYkbE/exec";
-
-        // --- 2. MENU DATA ---
         const menuItems = [
             { id: 1, name: "Paneer Masala", price: 250 },
             { id: 2, name: "Dal Tadka", price: 180 },
             { id: 3, name: "Butter Naan", price: 40 },
             { id: 4, name: "Veg Pulao", price: 150 },
-            { id: 5, name: "Cold Drink", price: 30 },
-            { id: 6, name: "Mutton Handi", price: 450 }
+            { id: 5, name: "Cold Drink", price: 30 }
         ];
 
         let cart = [];
 
-        // --- 3. RENDER FUNCTIONS ---
         function renderMenu() {
             const container = document.getElementById('menu-list');
             container.innerHTML = ''; 
             menuItems.forEach(item => {
                 const div = document.createElement('div');
-                div.className = "item-card bg-white p-5 rounded-3xl flex justify-between items-center shadow-sm border border-gray-50 transition-all cursor-pointer";
-                div.innerHTML = `
-                    <div>
-                        <p class="font-black text-gray-800 text-lg leading-tight">${item.name}</p>
-                        <p class="text-orange-600 font-black mt-1">₹${item.price}</p>
-                    </div>
-                    <button onclick="addToCart(${item.id})" class="bg-orange-600 text-white px-8 py-3 rounded-2xl font-black text-sm hover:shadow-lg hover:shadow-orange-200 transition-all">
-                        ADD
-                    </button>
-                `;
+                div.className = "item-card bg-white p-5 rounded-3xl flex justify-between items-center shadow-sm border border-gray-50 transition-all";
+                div.innerHTML = `<div><p class="font-black text-gray-800 text-lg leading-tight">${item.name}</p><p class="text-orange-600 font-black mt-1">₹${item.price}</p></div><button onclick="addToCart(${item.id})" class="bg-orange-600 text-white px-8 py-3 rounded-2xl font-black text-sm active:scale-90 transition-all">ADD</button>`;
                 container.appendChild(div);
             });
         }
 
         function addToCart(id) {
-            const selectedItem = menuItems.find(item => item.id === id);
-            cart.push(selectedItem);
+            cart.push(menuItems.find(i => i.id === id));
             updateCartUI();
         }
 
         function updateCartUI() {
-            const cartBar = document.getElementById('cart-bar');
             if (cart.length > 0) {
-                cartBar.classList.remove('hidden');
+                document.getElementById('cart-bar').classList.remove('hidden');
                 document.getElementById('item-count').innerText = cart.length;
-                const total = cart.reduce((sum, item) => sum + item.price, 0);
-                document.getElementById('total-price').innerText = total;
+                document.getElementById('total-price').innerText = cart.reduce((s, i) => s + i.price, 0);
             }
         }
 
-        // --- 4. DATA SUBMISSION (BACKEND LOGIC) ---
         async function placeOrder() {
-            const nameVal = document.getElementById('name').value;
-            const tableVal = document.getElementById('table').value;
-            const orderBtn = document.getElementById('orderBtn');
-
-            if (!nameVal || !tableVal || cart.length === 0) {
-                alert("Bhai, Details aur Items check kar lo!");
-                return;
-            }
-
-            // UI Loading State
-            orderBtn.innerText = "PLEASE WAIT...";
-            orderBtn.disabled = true;
-
-            const invID = "VJ-" + Math.floor(Math.random() * 9000 + 1000);
-            const totalAmt = cart.reduce((sum, item) => sum + item.price, 0);
-            const itemsStr = cart.map(i => i.name).join(', ');
+            const name = document.getElementById('name').value;
+            const table = document.getElementById('table').value;
+            if (!name || !table || cart.length === 0) return alert("Details bhariye!");
 
             const orderData = {
-                invoice_no: invID,
-                customer_name: nameVal,
-                table_no: tableVal,
-                items: itemsStr,
-                total_amount: totalAmt
+                invoice_no: "VJ-" + Math.floor(Math.random() * 9000 + 1000),
+                customer_name: name,
+                table_no: table,
+                items: cart.map(i => i.name).join(', '),
+                total_amount: cart.reduce((s, i) => s + i.price, 0)
             };
 
             try {
-                // Post data to Google Sheets
-                await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors', // Important for bypass
-                    body: JSON.stringify(orderData)
-                });
-                
-                alert("Order Successful! Cashier Dashboard pe check karein.");
-                cart = []; 
-                location.reload(); // Reset page
-            } catch (err) {
-                console.error("Error:", err);
-                alert("Kucch gadbad hui, par data save ho gaya!");
+                await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(orderData) });
+                alert("Order Successful!");
                 location.reload();
-            }
+            } catch (e) { alert("Error saved locally!"); location.reload(); }
         }
-
-        // Initial Load
         renderMenu();
     </script>
 </body>
