@@ -2,16 +2,29 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cashier Panel - Hotel Vijay</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>@media print { .no-print { display: none !important; } body { background: white; color: black; } }</style>
+    <style>
+        @media print { .no-print { display: none !important; } body { background: white; color: black; p: 0; } .kot-card { border: 1px solid black; width: 300px; } }
+        .blink-red { animation: blinker 1s linear infinite; background-color: #450a0a; border-color: #ef4444; }
+        @keyframes blinker { 50% { opacity: 0.7; } }
+    </style>
 </head>
 <body class="bg-slate-900 text-white p-6">
-    <div class="max-w-6xl mx-auto flex justify-between items-center mb-8 border-b border-slate-700 pb-6">
-        <h1 class="text-4xl font-black text-orange-500 italic">Hotel Vijay</h1>
-        <div id="st" class="text-green-400 font-bold text-xs animate-pulse">● LIVE (Click for sound)</div>
+    <div class="max-w-6xl mx-auto flex justify-between items-center mb-8 border-b border-slate-700 pb-6 no-print">
+        <div>
+            <h1 class="text-4xl font-black text-orange-500 italic">Hotel Vijay</h1>
+            <p class="text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em]">Growft Digital Kitchen System</p>
+        </div>
+        <div id="st" class="text-green-400 font-bold text-xs animate-pulse bg-green-400/10 px-4 py-2 rounded-full border border-green-400/20">
+            ● LIVE (Click for sound)
+        </div>
     </div>
-    <div id="container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+    <div id="container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 no-print"></div>
+
+    <div id="print-area" class="hidden"></div>
 
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwQUMyN5rBmSztswmu16HBnvz27XhVnTt1aOdpEoFITeEiH22BM_ocNKb5Ub1_2EGZH/exec";
@@ -23,7 +36,11 @@
                 const r = await fetch(SCRIPT_URL + "?t=" + new Date().getTime());
                 const data = await r.json();
                 const valid = data.filter(o => o.invoice_no && o.customer_name);
-                if(!isUpdate && valid.length > lastCount && lastCount !== 0) sound.play().catch(e => {});
+                
+                // Sound logic for new orders
+                if(!isUpdate && valid.length > lastCount && lastCount !== 0) {
+                    sound.play().catch(e => {});
+                }
                 lastCount = valid.length;
                 render(valid.reverse());
             } catch (e) { console.log(e); }
@@ -33,26 +50,84 @@
             const container = document.getElementById('container');
             container.innerHTML = '';
             orders.forEach(order => {
-                container.innerHTML += `<div class="bg-slate-800 p-6 rounded-3xl border border-slate-700">
-                    <p class="text-[10px] text-orange-500 font-bold uppercase">Inv: #${order.invoice_no}</p>
-                    <h3 class="text-xl font-black uppercase">${order.customer_name}</h3>
-                    <p class="text-xs font-bold text-slate-400 mb-4 tracking-tighter uppercase">Table: ${order.table_no} | Status: ${order.status}</p>
-                    <div class="bg-slate-900/50 p-4 rounded-2xl mb-4 border border-slate-700/50 text-sm font-bold">${order.items}</div>
-                    <div class="flex gap-2 no-print">
-                        <button onclick="updateStatus('${order.invoice_no}', 'Preparing')" class="flex-1 bg-blue-600 py-3 rounded-xl font-bold text-xs">PREPARING</button>
-                        <button onclick="updateStatus('${order.invoice_no}', 'Ready')" class="flex-1 bg-green-600 py-3 rounded-xl font-bold text-xs">READY</button>
+                // Check if customer is asking for status
+                const isAsking = order.query_status === "Asked";
+                const cardClass = isAsking ? "bg-slate-800 p-6 rounded-3xl border-2 blink-red" : "bg-slate-800 p-6 rounded-3xl border border-slate-700";
+
+                container.innerHTML += `
+                <div class="${cardClass} transition-all duration-500">
+                    <div class="flex justify-between items-start mb-2">
+                        <p class="text-[10px] text-orange-500 font-bold uppercase">Inv: #${order.invoice_no}</p>
+                        ${isAsking ? '<span class="bg-red-500 text-[9px] font-black px-2 py-1 rounded-md animate-bounce">CUSTOMER ASKING!</span>' : ''}
+                    </div>
+                    <h3 class="text-xl font-black uppercase tracking-tight">${order.customer_name}</h3>
+                    <p class="text-xs font-bold text-slate-400 mb-4 tracking-tighter uppercase">Table: ${order.table_no} | Status: <span class="text-white">${order.status}</span></p>
+                    
+                    <div class="bg-slate-900/50 p-4 rounded-2xl mb-4 border border-slate-700/50 text-sm font-bold text-orange-100">
+                        ${order.items}
+                    </div>
+
+                    <div class="flex flex-wrap gap-2 no-print">
+                        <button onclick="updateStatus('${order.invoice_no}', 'Preparing')" class="flex-1 bg-blue-600 hover:bg-blue-700 py-3 rounded-xl font-bold text-[10px] transition-all">PREPARING</button>
+                        <button onclick="updateStatus('${order.invoice_no}', 'Ready')" class="flex-1 bg-green-600 hover:bg-green-700 py-3 rounded-xl font-bold text-[10px] transition-all">READY</button>
+                        <button onclick="printKOT('${order.invoice_no}', '${order.customer_name}', '${order.table_no}', '${order.items}')" class="w-full bg-slate-700 hover:bg-slate-600 py-2 rounded-xl font-bold text-[10px] mt-2 border border-slate-500">PRINT KOT (KITCHEN)</button>
                     </div>
                 </div>`;
             });
         }
 
         async function updateStatus(inv, s) {
-            await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ action: "update", invoice_no: inv, new_status: s }) });
-            load(true);
+            // Optimistic UI update
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(b => b.disabled = true);
+            
+            try {
+                await fetch(SCRIPT_URL, { 
+                    method: 'POST', 
+                    mode: 'no-cors', 
+                    body: JSON.stringify({ 
+                        action: "update", 
+                        invoice_no: inv, 
+                        new_status: s 
+                    }) 
+                });
+                load(true);
+            } catch (e) { console.error(e); }
+            buttons.forEach(b => b.disabled = false);
         }
 
-        setInterval(() => load(false), 10000); load();
-        document.body.addEventListener('click', () => { sound.play().then(() => sound.pause()); document.getElementById('st').innerText = "● LIVE (Audio ON)"; }, {once: true});
+        function printKOT(inv, name, table, items) {
+            const printArea = document.getElementById('print-area');
+            const date = new Date().toLocaleString();
+            printArea.innerHTML = `
+                <div class="kot-card p-4 text-black font-mono">
+                    <center>
+                        <h2 class="text-xl font-bold">HOTEL VIJAY (KOT)</h2>
+                        <p>-------------------------</p>
+                    </center>
+                    <p><b>INV:</b> #${inv}</p>
+                    <p><b>TABLE:</b> ${table}</p>
+                    <p><b>NAME:</b> ${name}</p>
+                    <p><b>TIME:</b> ${date}</p>
+                    <p>-------------------------</p>
+                    <div class="text-lg font-bold">${items.split(',').join('<br>')}</div>
+                    <p>-------------------------</p>
+                    <center><p>Growft Digital</p></center>
+                </div>
+            `;
+            window.print();
+        }
+
+        // Refresh every 10 seconds
+        setInterval(() => load(false), 10000);
+        load();
+
+        // Audio Activation
+        document.body.addEventListener('click', () => {
+            sound.play().then(() => sound.pause());
+            document.getElementById('st').innerText = "● LIVE (Audio ON)";
+            document.getElementById('st').className = "text-green-400 font-bold text-xs bg-green-400/10 px-4 py-2 rounded-full border border-green-400/20";
+        }, {once: true});
     </script>
 </body>
 </html>
