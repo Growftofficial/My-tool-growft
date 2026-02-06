@@ -80,28 +80,53 @@
             startTracking(invID);
         }
 
-        function startTracking(invID) {
-            document.getElementById('main-ui').innerHTML = `
-                <div class="flex flex-col items-center justify-center min-h-screen p-6 text-center bg-white">
-                    <div id="track-icon" class="text-7xl mb-4">👨‍🍳</div>
-                    <h1 class="text-2xl font-black mb-2 tracking-tighter">ORDER #${invID}</h1>
-                    <div id="track-status" class="bg-orange-500 text-white px-8 py-3 rounded-full font-bold animate-pulse">PENDING</div>
-                    <p class="mt-6 text-gray-500 text-sm italic">Bhai, Chef ne aapka order dekh liya hai. Khana aa raha hai!</p>
-                </div>`;
-            setInterval(async () => {
-                const res = await fetch(SCRIPT_URL);
-                const orders = await res.json();
-                const myOrder = orders.find(o => o.invoice_no === invID);
-                if(myOrder) {
-                    const s = document.getElementById('track-status');
-                    s.innerText = myOrder.status.toUpperCase();
-                    if(myOrder.status === "Preparing") { s.className = "bg-blue-500 text-white px-8 py-3 rounded-full font-bold animate-bounce"; document.getElementById('track-icon').innerText = "🔥"; }
-                    if(myOrder.status === "Ready") { s.className = "bg-green-500 text-white px-8 py-3 rounded-full font-bold"; document.getElementById('track-icon').innerText = "😋"; }
+      // index.html mein startTracking function ko isse replace karein
+function startTracking(invID) {
+    const trackUI = `
+        <div class="flex flex-col items-center justify-center min-h-screen p-6 text-center bg-white">
+            <div id="track-icon" class="text-7xl mb-4">👨‍🍳</div>
+            <h1 class="text-2xl font-black mb-2 tracking-tighter">ORDER #${invID}</h1>
+            <div id="track-status" class="bg-orange-500 text-white px-8 py-3 rounded-full font-bold animate-pulse text-sm">WAITING FOR CASHIER...</div>
+            <p class="mt-6 text-gray-500 text-sm italic">Bhai, Chef ne aapka order dekh liya hai. Khana aa raha hai!</p>
+            <button onclick="location.reload()" class="mt-10 text-xs text-gray-400 underline">Order naya karna hai? Click karein</button>
+        </div>`;
+    
+    document.getElementById('main-ui').innerHTML = trackUI;
+
+    // Har 8-10 second mein status check karo
+    setInterval(async () => {
+        try {
+            // Nocache taaki hamesha fresh data mile
+            const res = await fetch(SCRIPT_URL + "?t=" + new Date().getTime()); 
+            const orders = await res.json();
+            const myOrder = orders.find(o => String(o.invoice_no) === String(invID));
+
+            if(myOrder) {
+                const s = document.getElementById('track-status');
+                const icon = document.getElementById('track-icon');
+                const currentStatus = myOrder.status.trim().toLowerCase();
+
+                s.innerText = myOrder.status.toUpperCase();
+
+                if(currentStatus === "preparing") {
+                    s.className = "bg-blue-600 text-white px-8 py-3 rounded-full font-bold animate-bounce text-sm";
+                    icon.innerText = "🔥";
+                } else if(currentStatus === "ready") {
+                    s.className = "bg-green-600 text-white px-8 py-3 rounded-full font-bold text-sm";
+                    icon.innerText = "😋";
+                    // Customer ko bhi pata chale ki ready hai
+                    if(!window.readyPlayed) {
+                        new Audio('https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3').play();
+                        window.readyPlayed = true;
+                    }
                 }
-            }, 8000);
-        }
+            }
+        } catch (e) { console.log("Tracking Error"); }
+    }, 8000); // 8 second ka interval
+}
         renderMenu();
     </script>
 </body>
 </html>
+
 
