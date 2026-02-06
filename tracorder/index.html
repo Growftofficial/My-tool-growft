@@ -1,51 +1,99 @@
-<script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwQUMyN5rBmSztswmu16HBnvz27XhVnTt1aOdpEoFITeEiH22BM_ocNKb5Ub1_2EGZH/exec";
-    
-    // URL se ID lena
-    const params = new URLSearchParams(window.location.search);
-    const invID = params.get('id');
-
-    // Agar ID nahi hai toh Home par bhej do ya error dikhao
-    if (!invID) {
-        document.getElementById('inv-display').innerText = "Order Not Found";
-        document.getElementById('status-badge').innerText = "ERROR";
-        document.getElementById('status-badge').className = "mt-6 inline-block px-10 py-4 rounded-full font-black bg-red-100 text-red-600";
-    } else {
-        document.getElementById('inv-display').innerText = "#" + invID;
-    }
-
-    async function checkStatus() {
-        if (!invID) return; // ID nahi toh check mat karo
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your Order - Hotel Vijay</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-6">
+    <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl p-8 text-center border border-gray-100">
+        <div id="loader" class="text-6xl mb-4 transition-all duration-500">👨‍🍳</div>
         
-        try {
-            const res = await fetch(SCRIPT_URL + "?t=" + new Date().getTime());
-            const orders = await res.json();
+        <h2 class="text-gray-400 font-bold uppercase text-[10px] tracking-widest mb-1">Order Tracking</h2>
+        <h1 id="inv-display" class="text-2xl font-black text-slate-800 tracking-tighter">#CHECKING...</h1>
+        
+        <div id="status-badge" class="mt-6 inline-block px-10 py-4 rounded-full font-black text-lg bg-orange-100 text-orange-600 animate-pulse uppercase">
+            CONNECTING...
+        </div>
+
+        <p class="mt-8 text-gray-500 text-sm italic leading-relaxed px-4">
+            Bhai, Chef ne aapka order dekh liya hai. Khana jaldi hi aapke table par hoga!
+        </p>
+
+        <div class="mt-10 space-y-3">
+            <button onclick="location.href='https://www.growft.online/hotelvijay/'" class="w-full py-4 rounded-2xl bg-slate-900 text-white font-bold shadow-lg active:scale-95 transition-all">
+                Order More Items
+            </button>
+            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest pt-4">Powered by Growft Digital</p>
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwQUMyN5rBmSztswmu16HBnvz27XhVnTt1aOdpEoFITeEiH22BM_ocNKb5Ub1_2EGZH/exec";
+        
+        // URL se ID lena (?id=VJ-xxxx)
+        const params = new URLSearchParams(window.location.search);
+        const invID = params.get('id');
+
+        // Initial UI Setup
+        if (!invID) {
+            document.getElementById('inv-display').innerText = "Order Not Found";
+            document.getElementById('status-badge').innerText = "ERROR";
+            document.getElementById('status-badge').className = "mt-6 inline-block px-10 py-4 rounded-full font-black bg-red-100 text-red-600";
+            document.querySelector('p.italic').innerText = "URL mein Invoice ID nahi mili. Please wapas order karein.";
+        } else {
+            document.getElementById('inv-display').innerText = "#" + invID;
+        }
+
+        async function checkStatus() {
+            if (!invID) return; // ID nahi toh check mat karo
             
-            // Exact ID wala order dhundna
-            const myOrder = orders.find(o => String(o.invoice_no).trim() === String(invID).trim());
+            try {
+                // Cache bypass ke liye timestamp add kiya
+                const res = await fetch(SCRIPT_URL + "?t=" + new Date().getTime());
+                const orders = await res.json();
+                
+                // Exact ID wala order dhundna (Trim karke taaki space ka chakkar na ho)
+                const myOrder = orders.find(o => String(o.invoice_no).trim() === String(invID).trim());
 
-            if(myOrder) {
-                const badge = document.getElementById('status-badge');
-                const loader = document.getElementById('loader');
-                const status = myOrder.status.toLowerCase().trim();
-                
-                badge.innerText = myOrder.status.toUpperCase();
-                
-                if(status === "preparing") { 
-                    badge.className = "mt-6 inline-block px-10 py-4 rounded-full font-black bg-blue-100 text-blue-600 animate-bounce"; 
-                    loader.innerText = "🔥"; 
+                if(myOrder) {
+                    const badge = document.getElementById('status-badge');
+                    const loader = document.getElementById('loader');
+                    const statusText = document.querySelector('p.italic');
+                    const status = myOrder.status.toLowerCase().trim();
+                    
+                    badge.innerText = myOrder.status.toUpperCase();
+                    
+                    // 1. PENDING Status
+                    if(status === "pending") {
+                        badge.className = "mt-6 inline-block px-10 py-4 rounded-full font-black bg-orange-100 text-orange-600 animate-pulse";
+                        loader.innerText = "👨‍🍳";
+                    }
+                    // 2. PREPARING Status
+                    else if(status === "preparing") { 
+                        badge.className = "mt-6 inline-block px-10 py-4 rounded-full font-black bg-blue-100 text-blue-600 animate-bounce"; 
+                        loader.innerText = "🔥"; 
+                        statusText.innerText = "Aapka swadisht khana kitchen mein taiyar ho raha hai!";
+                    }
+                    // 3. READY / SERVED Status
+                    else if(status === "ready" || status === "served") { 
+                        badge.className = "mt-6 inline-block px-10 py-4 rounded-full font-black bg-green-500 text-white"; 
+                        loader.innerText = "😋"; 
+                        statusText.innerText = "Enjoy your meal! Aapka khana serve ho chuka hai.";
+                        badge.classList.remove('animate-pulse', 'animate-bounce');
+                    }
                 }
-                else if(status === "ready" || status === "served") { 
-                    badge.className = "mt-6 inline-block px-10 py-4 rounded-full font-black bg-green-500 text-white"; 
-                    loader.innerText = "😋"; 
-                    // Served hone par message badalna
-                    document.querySelector('p.italic').innerText = "Enjoy your meal! Aapka khana serve ho chuka hai.";
-                }
+            } catch (e) { 
+                console.log("Fetch Error:", e); 
+                document.getElementById('status-badge').innerText = "OFFLINE";
             }
-        } catch (e) { console.log("Fetch Error:", e); }
-    }
+        }
 
-    // Har 8 second mein update
-    setInterval(checkStatus, 8000); 
-    checkStatus();
-</script>
+        // Har 8 second mein auto-update
+        setInterval(checkStatus, 8000); 
+        checkStatus(); // Pehli baar turant check karo
+    </script>
+</body>
+</html>
