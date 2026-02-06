@@ -3,130 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotel Vijay - Order Online</title>
+    <title>Live Tracking - Hotel Vijay</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
-<body class="bg-gray-50 pb-32 font-sans text-black">
-    <div id="main-ui">
-        <div class="bg-orange-600 text-white p-6 text-center shadow-lg sticky top-0 z-50">
-            <h1 class="text-3xl font-black italic">Hotel Vijay</h1>
-            <p class="text-xs opacity-90 font-bold uppercase tracking-widest">Growft Digital System</p>
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-6">
+    <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl p-8 text-center border border-gray-100">
+        <div id="loader" class="text-6xl mb-4 transition-all duration-500">👨‍🍳</div>
+        
+        <h2 class="text-gray-400 font-bold uppercase text-[10px] tracking-widest mb-1">Order Tracking</h2>
+        <h1 id="inv-display" class="text-2xl font-black text-slate-800 tracking-tighter">#CHECKING...</h1>
+        
+        <div id="status-badge" class="mt-6 inline-block px-10 py-4 rounded-full font-black text-lg bg-orange-100 text-orange-600 animate-pulse uppercase">
+            CONNECTING...
         </div>
 
-        <div class="max-w-md mx-auto p-4">
-            <div id="order-info" class="bg-white p-5 rounded-3xl shadow-sm mb-6 border border-gray-100">
-                <h3 id="user-welcome" class="text-[10px] font-black text-gray-400 uppercase mb-3 tracking-widest text-center">Customer Details</h3>
-                <div class="space-y-4">
-                    <input id="name" type="text" placeholder="Aapka Naam / Name" class="w-full bg-gray-50 p-4 rounded-2xl font-bold outline-none focus:ring-2 focus:ring-orange-500 border-none text-black">
-                    <input id="table" type="number" placeholder="Table Number (Ex: 05)" class="w-full bg-gray-50 p-4 rounded-2xl font-bold outline-none focus:ring-2 focus:ring-orange-500 border-none text-black">
-                </div>
-            </div>
-
-            <h2 class="text-xl font-black mb-4 px-2 tracking-tight">Today's Special Menu</h2>
-            <div id="menu-list" class="space-y-4">
-                </div>
+        <div class="mt-6">
+            <button id="ask-btn" onclick="askCashier()" class="text-[10px] font-black border-2 border-slate-200 px-6 py-2 rounded-xl text-slate-400 hover:border-orange-500 hover:text-orange-500 transition-all uppercase tracking-widest active:scale-95">
+                Ask Status / Status Puchhein
+            </button>
+            <p id="query-msg" class="text-[9px] text-gray-400 mt-2 hidden">Request sent to cashier...</p>
         </div>
 
-        <div id="cart-bar" class="fixed bottom-0 left-0 right-0 p-5 bg-white border-t shadow-2xl hidden z-50">
-            <div class="max-w-md mx-auto flex justify-between items-center">
-                <div>
-                    <p class="text-[10px] text-gray-400 font-black">TOTAL BILL</p>
-                    <span class="text-3xl font-black text-orange-600">₹<span id="total-price">0</span></span>
-                </div>
-                <button onclick="placeOrder()" id="orderBtn" class="bg-slate-900 text-white px-8 py-4 rounded-2xl font-black active:scale-95 transition-all shadow-lg">
-                    PLACE ORDER
-                </button>
-            </div>
+        <p id="status-msg" class="mt-8 text-gray-500 text-sm italic leading-relaxed px-4">
+            Bhai, Chef ne aapka order dekh liya hai. Khana jaldi hi aapke table par hoga!
+        </p>
+
+        <div class="mt-10 space-y-3">
+            <button onclick="location.href='https://www.growft.online/hotelvijay/'" class="w-full py-4 rounded-2xl bg-slate-900 text-white font-bold shadow-lg active:scale-95 transition-all">
+                Order More Items
+            </button>
+            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest pt-4">Growft Digital System</p>
         </div>
     </div>
 
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwQUMyN5rBmSztswmu16HBnvz27XhVnTt1aOdpEoFITeEiH22BM_ocNKb5Ub1_2EGZH/exec";
-        
-        let userData = { name: "", email: "Guest" };
-        let cart = {};
+        const params = new URLSearchParams(window.location.search);
+        const invID = params.get('id');
 
-        const menuItems = [
-            { id: 1, name: "Paneer Masala", price: 250 },
-            { id: 2, name: "Dal Tadka", price: 180 },
-            { id: 3, name: "Butter Naan", price: 40 },
-            { id: 4, name: "Veg Pulao", price: 150 },
-            { id: 5, name: "Jeera Rice", price: 120 }
-        ];
-
-        function renderMenu() {
-            const container = document.getElementById('menu-list');
-            container.innerHTML = '';
-            menuItems.forEach(item => {
-                const qty = cart[item.id] || 0;
-                container.innerHTML += `
-                <div class="bg-white p-5 rounded-3xl flex justify-between items-center shadow-sm border border-gray-50">
-                    <div>
-                        <p class="font-black text-gray-800 text-lg">${item.name}</p>
-                        <p class="text-orange-600 font-black">₹${item.price}</p>
-                    </div>
-                    <div class="flex items-center gap-3 bg-gray-100 p-2 rounded-2xl">
-                        <button onclick="updateQty(${item.id}, -1)" class="w-8 h-8 bg-white rounded-lg font-bold shadow-sm">-</button>
-                        <span class="font-black text-lg w-4 text-center">${qty}</span>
-                        <button onclick="updateQty(${item.id}, 1)" class="w-8 h-8 bg-orange-600 text-white rounded-lg font-bold shadow-sm">+</button>
-                    </div>
-                </div>`;
-            });
+        if (!invID) {
+            document.getElementById('inv-display').innerText = "Order Not Found";
+        } else {
+            document.getElementById('inv-display').innerText = "#" + invID;
         }
 
-        function updateQty(id, change) {
-            cart[id] = (cart[id] || 0) + change;
-            if (cart[id] <= 0) delete cart[id];
+        // --- NEW: User Request to Cashier Logic ---
+        async function askCashier() {
+            const btn = document.getElementById('ask-btn');
+            const msg = document.getElementById('query-msg');
             
-            let total = 0;
-            menuItems.forEach(item => {
-                if (cart[item.id]) {
-                    total += item.price * cart[item.id];
-                }
-            });
-
-            document.getElementById('total-price').innerText = total;
-            document.getElementById('cart-bar').classList.toggle('hidden', total === 0);
-            renderMenu();
-        }
-
-        async function placeOrder() {
-            const nameVal = document.getElementById('name').value;
-            const tableVal = document.getElementById('table').value;
-            
-            if (!nameVal || !tableVal) return alert("Bhai, Naam aur Table zaroori hai!");
-            
-            const invID = "VJ-" + Math.floor(Math.random() * 9000 + 1000);
-            const items = menuItems.filter(i => cart[i.id]).map(i => `${i.name} (${cart[i.id]})`).join(', ');
-            const total = document.getElementById('total-price').innerText;
-
-            const orderBtn = document.getElementById('orderBtn');
-            orderBtn.innerText = "SENDING...";
-            orderBtn.disabled = true;
+            btn.innerText = "ASKING...";
+            btn.disabled = true;
 
             try {
-                // Post to Sheet
-                await fetch(SCRIPT_URL, { 
-                    method: 'POST', 
-                    mode: 'no-cors', 
+                // Cashier ko request bhej raha hai
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
                     body: JSON.stringify({ 
-                        action: "add", invoice_no: invID, customer_name: nameVal, 
-                        table_no: tableVal, items: items, total_amount: total, email: userData.email 
-                    }) 
+                        action: "ask_status", 
+                        invoice_no: invID 
+                    })
                 });
                 
-                // --- FIX: Redirection with ?id= Logic ---
-                // Isse 404 error khatam ho jayega
-                window.location.href = "https://www.growft.online/tracorder/?id=" + invID;
+                btn.innerText = "REQUEST SENT ✅";
+                btn.className = "text-[10px] font-black border-2 border-green-500 px-6 py-2 rounded-xl text-green-500 uppercase tracking-widest";
+                msg.classList.remove('hidden');
+                
+                // 30 second baad button reset karein taaki user firse puch sake
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerText = "Ask Status / Status Puchhein";
+                    btn.className = "text-[10px] font-black border-2 border-slate-200 px-6 py-2 rounded-xl text-slate-400 uppercase tracking-widest";
+                    msg.classList.add('hidden');
+                }, 30000);
 
             } catch (e) {
-                // Network slow ho tab bhi redirect kar do
-                window.location.href = "https://www.growft.online/tracorder/?id=" + invID;
+                btn.innerText = "TRY AGAIN";
+                btn.disabled = false;
             }
         }
 
-        renderMenu();
+        async function checkStatus() {
+            if (!invID) return;
+            try {
+                const res = await fetch(SCRIPT_URL + "?t=" + new Date().getTime());
+                const orders = await res.json();
+                const myOrder = orders.find(o => String(o.invoice_no).trim() === String(invID).trim());
+
+                if(myOrder) {
+                    const badge = document.getElementById('status-badge');
+                    const loader = document.getElementById('loader');
+                    const statusText = document.getElementById('status-msg');
+                    const status = myOrder.status.toLowerCase().trim();
+                    
+                    badge.innerText = myOrder.status.toUpperCase();
+                    
+                    if(status === "pending") {
+                        badge.className = "mt-6 inline-block px-10 py-4 rounded-full font-black bg-orange-100 text-orange-600 animate-pulse";
+                        loader.innerText = "👨‍🍳";
+                    }
+                    else if(status === "preparing") { 
+                        badge.className = "mt-6 inline-block px-10 py-4 rounded-full font-black bg-blue-100 text-blue-600 animate-bounce"; 
+                        loader.innerText = "🔥"; 
+                        statusText.innerText = "Cashier says: Aapka khana kitchen mein taiyar ho raha hai!";
+                    }
+                    else if(status === "ready" || status === "served") { 
+                        badge.className = "mt-6 inline-block px-10 py-4 rounded-full font-black bg-green-500 text-white"; 
+                        loader.innerText = "😋"; 
+                        statusText.innerText = "Khana Taiyar hai! Enjoy your meal.";
+                    }
+                }
+            } catch (e) { console.log(e); }
+        }
+
+        setInterval(checkStatus, 8000); 
+        checkStatus();
     </script>
 </body>
 </html>
