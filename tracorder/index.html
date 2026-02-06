@@ -21,7 +21,7 @@
             <button id="ask-btn" onclick="askCashier()" class="text-[10px] font-black border-2 border-slate-200 px-6 py-2 rounded-xl text-slate-400 hover:border-orange-500 hover:text-orange-500 transition-all uppercase tracking-widest active:scale-95">
                 Ask Status / Status Puchhein
             </button>
-            <p id="query-msg" class="text-[9px] text-gray-400 mt-2 hidden">Request sent to cashier...</p>
+            <p id="query-msg" class="text-[9px] text-gray-400 mt-2 hidden text-green-600 font-bold">Request sent to cashier...</p>
         </div>
 
         <p id="status-msg" class="mt-8 text-gray-500 text-sm italic leading-relaxed px-4">
@@ -41,14 +41,19 @@
         const params = new URLSearchParams(window.location.search);
         const invID = params.get('id');
 
+        // Initial setup
         if (!invID) {
-            document.getElementById('inv-display').innerText = "Order Not Found";
+            document.getElementById('inv-display').innerText = "ID MISSING";
+            document.getElementById('status-badge').innerText = "ERROR";
+            document.getElementById('status-badge').className = "mt-6 inline-block px-10 py-4 rounded-full font-black text-lg bg-red-100 text-red-600";
+            document.getElementById('status-msg').innerText = "Bhai, URL mein Invoice ID nahi mil rahi hai.";
         } else {
             document.getElementById('inv-display').innerText = "#" + invID;
         }
 
-        // --- NEW: User Request to Cashier Logic ---
+        // --- User Request to Cashier Logic ---
         async function askCashier() {
+            if (!invID) return;
             const btn = document.getElementById('ask-btn');
             const msg = document.getElementById('query-msg');
             
@@ -56,7 +61,6 @@
             btn.disabled = true;
 
             try {
-                // Cashier ko request bhej raha hai
                 await fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
@@ -70,7 +74,7 @@
                 btn.className = "text-[10px] font-black border-2 border-green-500 px-6 py-2 rounded-xl text-green-500 uppercase tracking-widest";
                 msg.classList.remove('hidden');
                 
-                // 30 second baad button reset karein taaki user firse puch sake
+                // 30 second reset
                 setTimeout(() => {
                     btn.disabled = false;
                     btn.innerText = "Ask Status / Status Puchhein";
@@ -112,9 +116,10 @@
                         badge.className = "mt-6 inline-block px-10 py-4 rounded-full font-black bg-green-500 text-white"; 
                         loader.innerText = "😋"; 
                         statusText.innerText = "Khana Taiyar hai! Enjoy your meal.";
+                        badge.classList.remove('animate-pulse');
                     }
                 }
-            } catch (e) { console.log(e); }
+            } catch (e) { console.log("Fetch Error:", e); }
         }
 
         setInterval(checkStatus, 8000); 
