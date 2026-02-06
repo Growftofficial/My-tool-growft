@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotel Vijay - Order & Track</title>
+    <title>Hotel Vijay - Order Online</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
-<body class="bg-gray-50 pb-32 font-sans">
+<body class="bg-gray-50 pb-32 font-sans text-black">
     <div id="main-ui">
         <div class="bg-orange-600 text-white p-6 text-center shadow-lg sticky top-0 z-50">
             <h1 class="text-3xl font-black italic">Hotel Vijay</h1>
@@ -15,44 +14,34 @@
         </div>
 
         <div class="max-w-md mx-auto p-4">
-            <div id="login-container" class="bg-white p-6 rounded-3xl shadow-sm mb-6 text-center border border-orange-100">
-                <h3 class="text-sm font-bold text-gray-500 mb-4">Ache Experience Ke Liye Login Karein</h3>
-                <div id="g_id_onload"
-                     data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
-                     data-callback="handleCredentialResponse">
+            <div id="order-info" class="bg-white p-5 rounded-3xl shadow-sm mb-6 border border-gray-100">
+                <h3 class="text-[10px] font-black text-gray-400 uppercase mb-3 tracking-widest text-center">Customer Details</h3>
+                <div class="space-y-4">
+                    <input id="name" type="text" placeholder="Aapka Naam / Name" class="w-full bg-gray-50 p-4 rounded-2xl font-bold outline-none focus:ring-2 focus:ring-orange-500 border-none">
+                    <input id="table" type="number" placeholder="Table Number (Ex: 05)" class="w-full bg-gray-50 p-4 rounded-2xl font-bold outline-none focus:ring-2 focus:ring-orange-500 border-none">
                 </div>
-                <div class="g_id_signin" data-type="standard"></div>
             </div>
 
-            <div id="order-info" class="bg-white p-5 rounded-3xl shadow-sm mb-6 border border-gray-100 hidden">
-                <p id="user-welcome" class="text-center font-bold text-orange-600 mb-4 uppercase tracking-tighter"></p>
-                <input id="table" type="number" placeholder="Table Number (Ex: 05)" class="w-full bg-gray-50 p-4 rounded-2xl font-bold outline-none focus:ring-2 focus:ring-orange-500 text-black">
-            </div>
-
-            <div id="menu-list" class="space-y-4"></div>
+            <div id="menu-list" class="space-y-4">
+                </div>
         </div>
 
         <div id="cart-bar" class="fixed bottom-0 left-0 right-0 p-5 bg-white border-t shadow-2xl hidden z-50">
             <div class="max-w-md mx-auto flex justify-between items-center">
-                <div><p class="text-[10px] text-gray-400 font-black">TOTAL BILL</p><span class="text-3xl font-black text-orange-600">₹<span id="total-price">0</span></span></div>
-                <button onclick="placeOrder()" id="orderBtn" class="bg-slate-900 text-white px-8 py-4 rounded-2xl font-black active:scale-95 transition-all">PLACE ORDER</button>
+                <div>
+                    <p class="text-[10px] text-gray-400 font-black">TOTAL BILL</p>
+                    <span class="text-3xl font-black text-orange-600">₹<span id="total-price">0</span></span>
+                </div>
+                <button onclick="placeOrder()" id="orderBtn" class="bg-slate-900 text-white px-8 py-4 rounded-2xl font-black active:scale-95 transition-all shadow-lg">
+                    PLACE ORDER
+                </button>
             </div>
         </div>
     </div>
 
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwQUMyN5rBmSztswmu16HBnvz27XhVnTt1aOdpEoFITeEiH22BM_ocNKb5Ub1_2EGZH/exec";
-        let userData = { name: "Guest", email: "guest@growft.com" };
         let cart = {};
-
-        function handleCredentialResponse(response) {
-            const payload = JSON.parse(atob(response.credential.split('.')[1]));
-            userData = { name: payload.name, email: payload.email };
-            document.getElementById('login-container').classList.add('hidden');
-            document.getElementById('order-info').classList.remove('hidden');
-            document.getElementById('user-welcome').innerText = "Swagat Hai, " + userData.name;
-            renderMenu();
-        }
 
         const menuItems = [
             { id: 1, name: "Paneer Masala", price: 250 },
@@ -66,11 +55,15 @@
             container.innerHTML = '';
             menuItems.forEach(item => {
                 const qty = cart[item.id] || 0;
-                container.innerHTML += `<div class="bg-white p-5 rounded-3xl flex justify-between items-center shadow-sm">
-                    <div><p class="font-black text-gray-800">${item.name}</p><p class="text-orange-600 font-black">₹${item.price}</p></div>
+                container.innerHTML += `
+                <div class="bg-white p-5 rounded-3xl flex justify-between items-center shadow-sm border border-gray-50">
+                    <div>
+                        <p class="font-black text-gray-800 text-lg">${item.name}</p>
+                        <p class="text-orange-600 font-black">₹${item.price}</p>
+                    </div>
                     <div class="flex items-center gap-3 bg-gray-100 p-2 rounded-2xl">
                         <button onclick="updateQty(${item.id}, -1)" class="w-8 h-8 bg-white rounded-lg font-bold shadow-sm">-</button>
-                        <span class="font-black text-lg">${qty}</span>
+                        <span class="font-black text-lg w-4 text-center">${qty}</span>
                         <button onclick="updateQty(${item.id}, 1)" class="w-8 h-8 bg-orange-600 text-white rounded-lg font-bold shadow-sm">+</button>
                     </div>
                 </div>`;
@@ -80,28 +73,58 @@
         function updateQty(id, change) {
             cart[id] = (cart[id] || 0) + change;
             if (cart[id] <= 0) delete cart[id];
+            
             const total = menuItems.reduce((s, i) => s + (i.price * (cart[i.id] || 0)), 0);
             document.getElementById('total-price').innerText = total;
-            document.getElementById('cart-bar').classList.toggle('hidden', total === 0);
+            
+            const cartBar = document.getElementById('cart-bar');
+            if(total > 0) {
+                cartBar.classList.remove('hidden');
+            } else {
+                cartBar.classList.add('hidden');
+            }
             renderMenu();
         }
 
         async function placeOrder() {
-            const table = document.getElementById('table').value;
-            if (!table) return alert("Pehle table number dalo bhai!");
+            const nameVal = document.getElementById('name').value;
+            const tableVal = document.getElementById('table').value;
+            
+            if (!nameVal || !tableVal) {
+                alert("Bhai, Naam aur Table Number zaroori hai!");
+                return;
+            }
             
             const invID = "VJ-" + Math.floor(Math.random() * 9000 + 1000);
             const items = menuItems.filter(i => cart[i.id]).map(i => `${i.name} (${cart[i.id]})`).join(', ');
+            const total = document.getElementById('total-price').innerText;
 
-            document.getElementById('orderBtn').innerText = "SENDING...";
-            await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ 
-                action: "add", invoice_no: invID, customer_name: userData.name, table_no: table, 
-                items: items, total_amount: document.getElementById('total-price').innerText, email: userData.email 
-            }) });
-            
-            window.location.href = `tracking.html?id=${invID}`;
+            const orderBtn = document.getElementById('orderBtn');
+            orderBtn.innerText = "SENDING...";
+            orderBtn.disabled = true;
+
+            const orderData = { 
+                action: "add", 
+                invoice_no: invID, 
+                customer_name: nameVal, 
+                table_no: tableVal, 
+                items: items, 
+                total_amount: total,
+                email: "Guest" // Jab tak login nahi hai tab tak Guest
+            };
+
+            try {
+                await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(orderData) });
+                // Redirect to tracking page
+                window.location.href = `tracking.html?id=${invID}`;
+            } catch (e) {
+                alert("Kuch gadbad hui, par order save ho gaya!");
+                window.location.href = `tracking.html?id=${invID}`;
+            }
         }
+
         renderMenu();
     </script>
 </body>
 </html>
+
