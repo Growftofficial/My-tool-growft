@@ -40,91 +40,23 @@
     </div>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwQUMyN5rBmSztswmu16HBnvz27XhVnTt1aOdpEoFITeEiH22BM_ocNKb5Ub1_2EGZH/exec";
-        let cart = {};
+    // 1. Agar Client ID mil gayi hai toh yahan dalo, warna isse error nahi aayega
+    const GOOGLE_CLIENT_ID = "PASTE_YOUR_ID_HERE.apps.googleusercontent.com"; 
 
-        const menuItems = [
-            { id: 1, name: "Paneer Masala", price: 250 },
-            { id: 2, name: "Dal Tadka", price: 180 },
-            { id: 3, name: "Butter Naan", price: 40 },
-            { id: 4, name: "Veg Pulao", price: 150 }
-        ];
-
-        function renderMenu() {
-            const container = document.getElementById('menu-list');
-            container.innerHTML = '';
-            menuItems.forEach(item => {
-                const qty = cart[item.id] || 0;
-                container.innerHTML += `
-                <div class="bg-white p-5 rounded-3xl flex justify-between items-center shadow-sm border border-gray-50">
-                    <div>
-                        <p class="font-black text-gray-800 text-lg">${item.name}</p>
-                        <p class="text-orange-600 font-black">₹${item.price}</p>
-                    </div>
-                    <div class="flex items-center gap-3 bg-gray-100 p-2 rounded-2xl">
-                        <button onclick="updateQty(${item.id}, -1)" class="w-8 h-8 bg-white rounded-lg font-bold shadow-sm">-</button>
-                        <span class="font-black text-lg w-4 text-center">${qty}</span>
-                        <button onclick="updateQty(${item.id}, 1)" class="w-8 h-8 bg-orange-600 text-white rounded-lg font-bold shadow-sm">+</button>
-                    </div>
-                </div>`;
-            });
+    function handleCredentialResponse(response) {
+        try {
+            const payload = JSON.parse(atob(response.credential.split('.')[1]));
+            userData = { name: payload.name, email: payload.email };
+            
+            // Login ke baad auto-fill naam
+            document.getElementById('name').value = userData.name;
+            document.getElementById('user-welcome').innerText = "Namaste, " + userData.name;
+            document.getElementById('login-container').classList.add('hidden');
+        } catch (e) {
+            console.log("Login Error, continuing as Guest");
         }
-
-        function updateQty(id, change) {
-            cart[id] = (cart[id] || 0) + change;
-            if (cart[id] <= 0) delete cart[id];
-            
-            const total = menuItems.reduce((s, i) => s + (i.price * (cart[i.id] || 0)), 0);
-            document.getElementById('total-price').innerText = total;
-            
-            const cartBar = document.getElementById('cart-bar');
-            if(total > 0) {
-                cartBar.classList.remove('hidden');
-            } else {
-                cartBar.classList.add('hidden');
-            }
-            renderMenu();
-        }
-
-        async function placeOrder() {
-            const nameVal = document.getElementById('name').value;
-            const tableVal = document.getElementById('table').value;
-            
-            if (!nameVal || !tableVal) {
-                alert("Bhai, Naam aur Table Number zaroori hai!");
-                return;
-            }
-            
-            const invID = "VJ-" + Math.floor(Math.random() * 9000 + 1000);
-            const items = menuItems.filter(i => cart[i.id]).map(i => `${i.name} (${cart[i.id]})`).join(', ');
-            const total = document.getElementById('total-price').innerText;
-
-            const orderBtn = document.getElementById('orderBtn');
-            orderBtn.innerText = "SENDING...";
-            orderBtn.disabled = true;
-
-            const orderData = { 
-                action: "add", 
-                invoice_no: invID, 
-                customer_name: nameVal, 
-                table_no: tableVal, 
-                items: items, 
-                total_amount: total,
-                email: "Guest" // Jab tak login nahi hai tab tak Guest
-            };
-
-            try {
-                await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(orderData) });
-                // Redirect to tracking page
-                window.location.href = `tracking.html?id=${invID}`;
-            } catch (e) {
-                alert("Kuch gadbad hui, par order save ho gaya!");
-                window.location.href = `tracking.html?id=${invID}`;
-            }
-        }
-
-        renderMenu();
-    </script>
+    }
+</script>
 </body>
 </html>
 
