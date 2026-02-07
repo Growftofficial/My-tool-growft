@@ -3,465 +3,615 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Review Tool - Aster4.com</title>
+    <title>Review - Fabrication Easy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- UNIVERSAL RESET --- */
+        /* --- THEME COLORS: INDUSTRIAL (Steel Blue & Grey) --- */
+        :root {
+            --primary: #1565c0; 
+            --primary-dark: #0d47a1;
+            --bg-color: #f0f4f8; 
+            --card-bg: #ffffff;
+            --text-main: #333333;
+            --gold: #ffc107; 
+            --gray: #546e7a;
+            --border: #cfd8dc;
+            --box-border: #90caf9; 
+            --box-bg: #e3f2fd;     
+            --highlight: #ff5722; 
+            --whatsapp: #25D366;
+            --danger: #d32f2f; /* Red for Lock Screen */
+        }
+
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Segoe UI', Roboto, Helvetica, sans-serif; background-color: #eff6ff; margin: 0; padding: 20px 10px; min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; }
-        
-        /* --- CONTAINER --- */
-        .container { background: white; width: 100%; max-width: 450px; padding: 25px; border-radius: 16px; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.15); border-top: 6px solid #2563eb; margin: auto; }
-        
-        /* --- CLIENT LOGO FRAME (Top) --- */
-        .logo-area { 
-            display: flex; 
-            justify-content: center; 
-            margin-bottom: 10px; 
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0; padding: 20px 10px;
+            min-height: 100vh; display: flex;
+            justify-content: center; align-items: flex-start;
+            color: var(--text-main);
         }
-        .logo-frame {
-            width: 160px;       
-            height: 80px;       
-            border: 1px solid #dbeafe;
-            border-radius: 8px;
-            background: #fff;
-            padding: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        .client-logo { 
-            max-width: 100%; 
-            max-height: 100%; 
-            object-fit: contain; 
-        }
-        
-        /* --- TYPOGRAPHY --- */
-        h2 { text-align: center; color: #1e3a8a; margin: 5px 0 2px 0; font-size: 24px; font-weight: 800; }
-        p.subtitle { text-align: center; color: #3b82f6; font-size: 13px; margin-bottom: 5px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
-        
-        /* --- CLIENT PHONE NUMBER (Header) --- */
-        .contact-header { text-align: center; margin-bottom: 20px; font-size: 15px; font-weight: 700; color: #2563eb; }
-        .contact-header a { text-decoration: none; color: inherit; background: #dbeafe; padding: 8px 15px; border-radius: 20px; display: inline-block; transition: 0.2s; }
-        .contact-header a:active { background: #bfdbfe; transform: scale(0.98); }
 
-        label { font-weight: 700; display: block; margin-top: 18px; margin-bottom: 8px; color: #334155; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
-        
-        /* --- INPUTS --- */
-        select, input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #bfdbfe; background: #eff6ff; font-size: 15px; color: #1e40af; outline: none; margin: 0; }
-        select:focus, input:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2); background: #fff; }
-        
-        /* --- CHIPS --- */
-        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; }
-        .keyword-chip { padding: 10px 12px; background-color: #fff; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid #93c5fd; user-select: none; color: #2563eb; flex-grow: 1; text-align: center; transition: all 0.2s ease; }
-        .keyword-chip.active { background-color: #2563eb; color: white; border-color: #1e40af; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); }
-        
-        /* --- BUTTONS --- */
-        .generate-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 700; margin-top: 25px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s; }
-        .generate-btn:active { transform: scale(0.98); }
-        
-        textarea { width: 100%; height: 160px; margin-top: 20px; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; resize: none; background-color: #f8fafc; color: #333; font-size: 14px; line-height: 1.5; }
-        
-        .copy-btn { width: 100%; padding: 12px; background-color: #f97316; /* Orange for Shopping Action */ color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: 600; font-size: 15px; cursor: pointer; display: none; box-shadow: 0 4px 6px rgba(249, 115, 22, 0.2); }
-        
-        .name-input-area { margin-top: 10px; display: none; }
-        .toggle-name { font-size: 13px; color: #2563eb; text-decoration: underline; cursor: pointer; border: none; background: none; padding: 0; margin-top: 5px; display: inline-block; }
+        .container {
+            background: var(--card-bg); width: 100%; max-width: 500px;
+            padding: 25px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(21, 101, 192, 0.15);
+            border-top: 6px solid var(--primary); margin: auto;
+            text-align: center;
+            position: relative;
+        }
 
-        /* --- FOOTER (UPDATED) --- */
-        .footer { margin-top: 35px; text-align: center; font-size: 12px; color: #6b7280; border-top: 1px dashed #bfdbfe; padding-top: 15px; }
-        .footer-logo { display: block; margin: 0 auto 5px auto; max-height: 30px; width: auto; opacity: 0.8; }
-        .footer a { color: #2563eb; text-decoration: none; font-weight: 700; }
-        .footer-text { margin-top: 5px; line-height: 1.6; }
+        /* --- LOCK SCREEN STYLES --- */
+        #lockScreen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 20px;
+        }
+        .lock-icon { font-size: 60px; color: var(--danger); margin-bottom: 20px; }
+        .lock-msg { font-size: 22px; font-weight: 700; color: #333; margin-bottom: 10px; }
+        .lock-sub { font-size: 14px; color: #666; margin-bottom: 30px; }
+        .contact-admin-btn {
+            background: var(--primary); color: white; padding: 12px 25px;
+            border-radius: 50px; text-decoration: none; font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        h1 { color: var(--primary-dark); margin: 5px 0 2px 0; font-size: 24px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .location { color: var(--gray); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
+
+        select, input, textarea {
+            width: 100%; padding: 12px; border-radius: 10px;
+            border: 1px solid var(--border); background: #fff;
+            font-size: 14px; outline: none; margin-bottom: 10px;
+            color: var(--text-main); font-family: inherit;
+        }
+        select:focus, input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.2); }
+        label { font-weight: 600; display: block; margin-top: 15px; margin-bottom: 6px; color: var(--primary-dark); font-size: 12px; text-transform: uppercase; text-align: left; }
+
+        /* RATING */
+        .star-container { display: flex; justify-content: center; gap: 8px; margin: 20px 0; }
+        .star { font-size: 38px; color: #cfd8dc; cursor: pointer; transition: transform 0.2s, color 0.2s; }
+        .star.selected { color: var(--gold); }
+
+        .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
+        .exp-btn {
+            padding: 12px 15px; border: 1px solid var(--border); border-radius: 8px;
+            background: #fff; cursor: pointer; font-weight: 600; color: var(--text-main);
+            flex: 1; transition: 0.2s; font-size: 13px;
+        }
+        .exp-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(21, 101, 192, 0.3); }
+
+        .action-btn {
+            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white; border: none; border-radius: 8px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 10px;
+        }
+
+        /* CHIPS */
+        .category-label {
+            font-size: 11px; font-weight: 700; color: #888; 
+            text-transform: uppercase; letter-spacing: 1px;
+            text-align: left; margin: 20px 0 8px 0; border-bottom: 1px dashed #eee;
+        }
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 5px; }
+        .keyword-chip { 
+            padding: 8px 12px; background-color: #f8f9fa; border-radius: 50px; 
+            font-size: 11px; font-weight: 500; cursor: pointer; 
+            border: 1px solid #eee; color: #555; 
+            flex-grow: 0; text-align: center; transition: 0.2s;
+        }
+        .keyword-chip.active { background: #e3f2fd; border-color: var(--primary); color: var(--primary-dark); box-shadow: 0 2px 5px rgba(21, 101, 192, 0.2); }
+
+        /* INPUT MODES */
+        .input-mode-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .mode-btn { 
+            flex: 1; padding: 10px; border: 1px solid var(--primary); border-radius: 8px; 
+            background: #fff; color: var(--primary); font-weight: 600; cursor: pointer; font-size: 13px;
+        }
+        .mode-btn.active-mode { background: var(--primary); color: white; }
+
+        .voice-section, .text-section {
+            background: #e3f2fd; padding: 12px; border-radius: 12px; 
+            margin-bottom: 20px; border: 1px dashed var(--primary); text-align: left;
+        }
+        .voice-controls { display: flex; align-items: center; gap: 10px; }
+        .mic-btn {
+            width: 45px; height: 45px; border-radius: 50%;
+            background: var(--primary); color: white; border: none;
+            font-size: 20px; cursor: pointer; box-shadow: 0 4px 10px rgba(21, 101, 192, 0.3);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .mic-active { animation: pulse 1.5s infinite; background: #d32f2f; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(21, 101, 192, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(0,0,0,0); } }
+
+        .review-preview-box {
+            width: 100%; min-height: 140px; padding: 15px; margin-top: 20px;
+            border: 1px solid var(--box-border); border-radius: 12px;
+            background-color: #fafafa; color: #334155;
+            font-size: 14px; line-height: 1.6; font-family: 'Poppins', sans-serif;
+            resize: none; outline: none; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .copy-btn { width: 100%; padding: 12px; background-color: #10b981; color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: 600; cursor: pointer; display: none; }
+        
+        /* OWNER PANEL */
+        #ownerPanel {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            border: 2px dashed var(--whatsapp);
+            border-radius: 12px;
+            background-color: #f0fdf4;
+            text-align: left;
+        }
+        .whatsapp-send-btn {
+            width: 100%; padding: 12px; background-color: var(--whatsapp);
+            color: white; border: none; border-radius: 8px;
+            font-size: 15px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* FOOTER & BUTTON GRID */
+        .button-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 25px; border-top: 1px solid #eee; padding-top: 20px; }
+        .contact-link { text-decoration: none; color: #444; font-size: 11px; font-weight: 600; display: flex; flex-direction: column; align-items: center; }
+        .icon-box { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 5px; color: white; font-size: 18px; }
+        .bg-call { background: #ff9800; } .bg-wa { background: #25D366; } .bg-web { background: #00bcd4; }
+
+        .footer-branding { margin-top: 30px; padding-top: 15px; border-top: 1px dashed #cfd8dc; text-align: center; font-size: 12px; color: #64748b; }
+        .footer-branding img { height: 20px; vertical-align: middle; margin: 0 5px; } 
+        .footer-branding a { color: var(--primary); text-decoration: none; font-weight: 700; }
+        .dev-contact { font-size: 10px; color: #999; margin-top: 5px; }
+        
+        .owner-login-trigger {
+            font-size: 11px; color: #ccc; cursor: pointer; text-decoration: none;
+            position: absolute; bottom: 5px; right: 10px;
+        }
+
+        .fade-in { animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .hidden { display: none; }
+        .toggle-name { font-size: 12px; color: var(--primary); text-decoration: underline; cursor: pointer; border: none; background: none; float: right; margin-top: 5px; }
+        
+        /* CUSTOMER VIEW */
+        .customer-card { text-align: center; padding: 20px; }
+        .customer-card h2 { color: var(--primary); }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="logo-area">
-        <div class="logo-frame">
-            <img src="https://growft.odoo.com/web/image/1473-4fd8a004/Screenshot%202026-01-06%20231809.webp" class="client-logo" alt="Aster4 Logo" loading="lazy">
+<div id="lockScreen" style="display: none;">
+    <i class="fas fa-lock lock-icon"></i>
+    <div class="lock-msg">Service Suspended</div>
+    <div class="lock-sub">This tool has been temporarily disabled due to subscription expiry or maintenance.</div>
+    <a href="tel:+917020370561" class="contact-admin-btn">Contact Provider</a>
+</div>
+
+<div class="container" id="mainApp">
+
+    <div id="customerLinkView" class="hidden customer-card">
+        <div style="font-size: 40px; margin-bottom: 10px;">👋</div>
+        <h2>Hello!</h2>
+        <p style="color:#555; font-size:14px; margin-bottom:20px;">
+            Here is the review for the fabrication work done at your place.
+            <br>Click below to copy & post.
+        </p>
+        <textarea id="customerReviewText" class="review-preview-box" readonly></textarea>
+        <button class="copy-btn" style="display:block; margin-top:15px;" onclick="copyCustomerLinkReview()">📋 Copy & Open Google</button>
+        <p style="font-size:11px; color:#999; margin-top:20px;">Thank you for choosing Fabrication Easy! 🏗️</p>
+    </div>
+
+    <div id="generatorApp">
+        <div style="font-size: 35px; margin-bottom: 5px;">🏭</div>
+        <h1>Fabrication Easy</h1>
+        <div class="location">Bahuddin Nagar • Noida • Uttar Pradesh</div>
+
+        <div id="ratingScreen" class="fade-in">
+            <p style="font-weight:600; color:#555;">How was the work quality?</p>
+            <div class="star-container">
+                <span class="star" onclick="rate(1)">★</span>
+                <span class="star" onclick="rate(2)">★</span>
+                <span class="star" onclick="rate(3)">★</span>
+                <span class="star" onclick="rate(4)">★</span>
+                <span class="star" onclick="rate(5)">★</span>
+            </div>
+            <div class="experience-btns">
+                <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Not Happy 😞</button>
+                <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Excellent! 😍</button>
+            </div>
+            <button class="action-btn" onclick="processRating()">Next Step ➡</button>
+        </div>
+
+        <div id="privateFeedbackScreen" class="fade-in hidden">
+            <h2 style="color:var(--text-main);">We are sorry! 😔</h2>
+            <p style="font-size:14px; color:#666;">We value quality. What went wrong?</p>
+            <textarea id="privateFeedbackText" style="height:100px;" placeholder="Describe the issue..."></textarea>
+            <button class="action-btn" style="background:#475569;" onclick="submitPrivateFeedback()">Submit Feedback</button>
+        </div>
+
+        <div id="thankYouScreen" class="fade-in hidden">
+            <div style="font-size: 50px; margin-bottom:10px;">✅</div>
+            <h2 style="color:var(--primary);">Thank You!</h2>
+            <p>Your feedback has been sent to the supervisor.</p>
+        </div>
+
+        <div id="aiToolScreen" class="fade-in hidden" style="text-align: left;">
+            
+            <div class="input-mode-tabs">
+                <button class="mode-btn active-mode" id="btnModeVoice" onclick="switchMode('voice')">🎤 Speak</button>
+                <button class="mode-btn" id="btnModeText" onclick="switchMode('text')">✍️ Write Review</button>
+            </div>
+
+            <div id="voiceSection" class="voice-section">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <span style="font-size:11px; font-weight:bold; color:var(--primary);">SPEAK (Hindi/English):</span>
+                    <select id="voiceLang" style="width:auto; padding:2px; font-size:11px; height:25px; margin:0;">
+                        <option value="en-IN" selected>English</option>
+                        <option value="hi-IN">Hindi</option>
+                    </select>
+                </div>
+                <div class="voice-controls">
+                    <button id="micBtn" class="mic-btn" onclick="startListening()">🎤</button>
+                    <div style="flex:1;">
+                        <p id="statusText" style="font-size:12px; color:#555; margin:0;">Tap mic & speak...<br>(Ex: "Gate ka kaam bohot mazboot hai")</p>
+                    </div>
+                </div>
+                <div id="spokenTextDisplay" style="display:none; margin-top:8px; font-size:12px; color:var(--primary); background:#fff; padding:6px; border-radius:4px;"></div>
+            </div>
+
+            <div id="textSection" class="text-section hidden">
+                <label style="margin-top:0; color:var(--primary);">Describe Experience</label>
+                <textarea id="manualInput" placeholder="Ex: Finishing was great..." style="height:80px; margin-bottom:0;"></textarea>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <div style="flex:1;">
+                    <label style="margin-top:0;">Work Done</label>
+                    <select id="serviceSelect">
+                        <option value="" disabled selected>Select Work...</option>
+                        <option value="Window & Balcony Safety">Window & Balcony Safety</option>
+                        <option value="Balcony & Terrace Railings">Balcony & Terrace Railings</option>
+                        <option value="Roofing & Sheds">Roofing & Sheds</option>
+                        <option value="Doors, Windows & Partitions">Doors, Windows & Partitions</option>
+                        <option value="Furniture">Furniture</option>
+                        <option value="Staircase Railings">Staircase Railings</option>
+                        <option value="Sliding Gates">Sliding Gates</option>
+                    </select>
+                </div>
+                <div style="flex:1;">
+                    <label style="margin-top:0;">Tone</label>
+                    <select id="toneSelect">
+                        <option value="Professional">Professional 💼</option>
+                        <option value="Happy">Happy 😊</option>
+                    </select>
+                </div>
+            </div>
+
+            <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
+            <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
+                <input type="text" id="userName" placeholder="Your Name">
+            </div>
+
+            <label style="clear:both;">What did you like? (Pick 3-4)</label>
+
+            <div class="category-label">🏭 Fabricators & Quality</div>
+            <div class="keywords-container">
+                <span class="keyword-chip" onclick="toggleKeyword(this, 'best fabricators')">best fabricators</span>
+                <span class="keyword-chip" onclick="toggleKeyword(this, 'best Steel fabricators')">best Steel fabricators</span>
+                <span class="keyword-chip" onclick="toggleKeyword(this, 'Folding gate manufacturers')">Folding gate manufacturers</span>
+                <span class="keyword-chip" onclick="toggleKeyword(this, 'best Window installation')">best Window installation</span>
+            </div>
+
+            <div class="category-label">🏠 Gates & Grills</div>
+            <div class="keywords-container">
+                <span class="keyword-chip" onclick="toggleKeyword(this, 'Modern window grill')">Modern window grill</span>
+                <span class="keyword-chip" onclick="toggleKeyword(this, 'Modern iron gate design')">Modern iron gate design</span>
+                <span class="keyword-chip" onclick="toggleKeyword(this, 'Window safety grill design')">Window safety grill design</span>
+                <span class="keyword-chip" onclick="toggleKeyword(this, 'Main gate design for home')">Main gate design for home</span>
+            </div>
+
+            <div class="category-label">🚪 Windows & Balconies</div>
+            <div class="keywords-container">
+                <span class="keyword-chip" onclick="toggleKeyword(this, 'Aluminium sliding windows')">Aluminium sliding windows</span>
+                <span class="keyword-chip" onclick="toggleKeyword(this, 'Upvc Balcony covered')">Upvc Balcony covered</span>
+                <span class="keyword-chip" onclick="toggleKeyword(this, 'Upvc sliding door')">Upvc sliding door</span>
+                <span class="keyword-chip" onclick="toggleKeyword(this, 'Invisible grill for balcony')">Invisible grill for balcony</span>
+            </div>
+
+            <div class="category-label">🔧 Railings & Sheds</div>
+            <div class="keywords-container">
+                <span class="keyword-chip" onclick="toggleKeyword(this, 'Balcony railing design')">Balcony railing design</span>
+                <span class="keyword-chip" onclick="toggleKeyword(this, 'SS railing for balcony')">SS railing for balcony</span>
+                <span class="keyword-chip" onclick="toggleKeyword(this, 'Balcony covering shed')">Balcony covering shed</span>
+            </div>
+
+            <button class="action-btn" id="generateBtn" onclick="generateReview()">✨ Generate Review</button>
+            <textarea id="reviewOutput" class="review-preview-box" style="display:none;" readonly></textarea>
+            
+            <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()" style="display:none;">📋 Copy & Open Google</button>
+            
+            <div id="ownerPanel">
+                <label style="color:var(--whatsapp); margin-top:0;">📱 Customer's WhatsApp Number</label>
+                <div style="display:flex; gap:10px;">
+                    <input type="tel" id="customerPhone" placeholder="Ex: 9876543210" style="margin-bottom:0;">
+                    <button class="whatsapp-send-btn" style="width: auto; padding: 0 20px;" onclick="sendLinkToCustomer()">🚀 Send</button>
+                </div>
+                <p style="font-size:11px; color:#555; margin-top:5px;">Customer will receive a direct link to post this review.</p>
+            </div>
+
         </div>
     </div>
 
-    <h2>Aster4.com</h2>
-    <p class="subtitle">🛍️ Trendy & Custom Fashion Store</p>
-
-    <div class="contact-header">
-        <a href="tel:+919270427301">📞 +91  8381057555</a>
+    <div class="button-grid">
+        <a href="#" class="contact-link"><div class="icon-box bg-call"><i class="fas fa-phone"></i></div> Call</a>
+        <a href="#" class="contact-link"><div class="icon-box bg-wa"><i class="fab fa-whatsapp"></i></div> WhatsApp</a>
+        <a href="#" class="contact-link"><div class="icon-box bg-web"><i class="fas fa-globe"></i></div> Website</a>
     </div>
 
-    <label>1. Delivery Location (Optional)</label>
-    <select id="locationSelect">
-        <option value="">Online Order (Pan India)</option>
-        <option value="Mumbai">Mumbai</option>
-        <option value="Pune">Pune</option>
-        <option value="Nashik">Nashik</option>
-        <option value="Thane">Thane</option>
-        <option value="Bangalore">Bangalore</option>
-        <option value="Delhi">Delhi</option>
-        <option value="Maharashtra">Maharashtra</option>
-        <option value="Hyderabad">Hyderabad</option>
-        <option value="Ahmedabad">Ahmedabad</option>
-    </select>
-
-    <label>2. What did you buy?</label>
-    <select id="toneSelect">
-        <option value="Corporate">Corporate / Bulk Order 🏢</option>
-        <option value="Trendy">Trendy / Marathi T-shirts 😎</option>
-        <option value="Family">Family / Kids / Vacation 👨‍👩‍👧‍👦</option>
-        <option value="Short">Short & Sweet ⭐</option>
-    </select>
-
-    <div style="text-align: right;">
-        <button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button>
-    </div>
-    <div class="name-input-area" id="nameArea">
-        <input type="text" id="userName" placeholder="Your Name">
-    </div>
-
-    <label>3. Select Highlights</label>
-    <div class="keywords-container" id="keywordsArea">
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Corporate Tshirt')">👔 Corporate T-Shirts</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Cricket Tshirt')">🏏 Cricket T-Shirt</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Corporate Hoodies')">🧥 Corporate Hoodies</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Event Tshirt')">🎉 Event T-Shirts</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Custom Tshirt')">🎨 Custom Printing</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Corporate Gifting')">🎁 Corporate Gifting</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Marathi Tshirt')">🚩 Marathi T-Shirts</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Vacation Tshirt')">✈️ Vacation T-Shirts</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Family Tshirt')">👨‍👩‍👧‍👦 Family Combo</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Kids Tshirt')">👶 Kids T-Shirts</div>
-    </div>
-
-    <button class="generate-btn" onclick="generateReview()">🛍️ Generate Review</button>
-
-    <textarea id="reviewOutput" placeholder="Your review will appear here..." readonly></textarea>
-    
-    <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy & Open Google</button>
-
-    <div class="footer">
-        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft" loading="lazy">
-        
-        <div class="footer-text">
-            © Copyright <a href="https://growft.net" target="_blank">growft.net</a><br>
-            Helpline: <a href="tel:+917020360561">7020360561</a>
-        </div>
+    <div class="footer-branding">
+        Powered by <a href="https://growft.net" target="_blank">Growft</a>
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" alt="Growft Logo">
+        <div class="dev-contact">Contact us to build your AI review tool: <a href="tel:+917020370561">7020370561</a></div>
+        <span class="owner-login-trigger" onclick="ownerLogin()">🔒 Owner</span>
     </div>
 </div>
 
 <script>
-    // --- CONFIGURATION ---
-    const GOOGLE_REVIEW_LINK = "https://g.page/r/CWDqjnXT1wQoEBM/review"; 
-
-    let selectedKeywords = [];
+    // --- 🔐 SECURITY & CONFIGURATION SETTINGS ---
+    const GOOGLE_REVIEW_LINK = "https://www.google.com/search?hl=en-IN&gl=in&sca_esv=0cd8ea032a50c393&sxsrf=ANbL-n6eTRWF8ZBvXSOHGeKfOu1x8bDAjQ:1770029878309&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOai7A2QiI0UBk3crQOg8woDO7Yh56bQ-ESUPWiIoY6nS8eRm59Kajo-VC_BhtYxvNHBcD6xWYvvpR3KkaMlWmM6WZTSqtALTdUkuiWRvdEzJhVxi1Q%3D%3D&q=Fabrication+Easy+Reviews&sa=X&ved=2ahUKEwiWwY2R07qSAxV8UGcHHVtAH1UQ0bkNegQIPhAH&biw=1920&bih=945&dpr=1&aic=0"; 
     
-    // --- ENGINE 2.0 DATA (MASSIVE DATABASE) ---
-    const reviewData = {
-        // 60+ INTRO VARIATIONS
-        intro: {
-            "Corporate": [
-                "We placed a bulk order for our company event with Aster4.com.",
-                "Recently partnered with Aster4 for our employee merchandise.",
-                "I was looking for professional corporate gifting solutions and found Aster4.",
-                "Our HR team ordered custom t-shirts for the annual meet from here.",
-                "Excellent B2B service provided by the team at Aster4.com.",
-                "We needed urgent hoodies for our startup team and they delivered.",
-                "A highly professional experience dealing with their corporate sales team.",
-                "I ordered 50+ custom polos for our office staff.",
-                "This is our second time ordering corporate swag from Aster4.",
-                "The best vendor we have found for corporate uniforms so far.",
-                "Seamless process from design to delivery for our bulk order.",
-                "We wanted high-quality fabric for our team and Aster4 delivered.",
-                "Sourced our event merchandise from Aster4.com this year.",
-                "Great experience ordering custom logo t-shirts.",
-                "Reliable partner for all our corporate clothing needs."
-            ],
-            "Trendy": [
-                "I absolutely love the trendy collection available at Aster4.com.",
-                "Just received my order of Marathi slogan t-shirts and they are lit!",
-                "If you want cool and quirky t-shirts, this is the place.",
-                "Found some amazing designs that relate to our local culture.",
-                "My wardrobe is getting upgraded thanks to Aster4's collection.",
-                "Ordered a few graphic tees and the print quality is superb.",
-                "Finally a site that understands what the youth wants.",
-                "The vibe of their t-shirt collection is just amazing.",
-                "Super happy with my purchase of trendy casual wear.",
-                "I saw their ad and decided to try, totally worth it.",
-                "The fit and style of their t-shirts are on point.",
-                "Best place for Marathi quote t-shirts online.",
-                "Fashionable, affordable and comfortable - that's Aster4.",
-                "I am impressed with the variety of designs they offer.",
-                "Received my parcel today and I am in love with the prints."
-            ],
-            "Family": [
-                "Ordered matching t-shirts for our upcoming family vacation.",
-                "Bought a cute combo set for me and my kids.",
-                "I was looking for comfortable kids wear and found this gem.",
-                "The fabric is so soft, perfect for my little ones.",
-                "Made our family trip extra special with matching outfits.",
-                "Great collection for kids and unisex options for the whole family.",
-                "My kids absolutely love the funny prints on their t-shirts.",
-                "Best place for custom family reunion t-shirts.",
-                "Shopping for the entire family was so easy here.",
-                "I gifted a family combo pack to my sister and she loved it.",
-                "Quality cotton wear that is safe for kids' skin.",
-                "Planning a trip? Definitely get their vacation t-shirts.",
-                "The sizes were perfect for everyone in the family.",
-                "Surprised my husband with matching father-son t-shirts.",
-                "Excellent quality clothing for toddlers and teens alike."
-            ],
-            "Short": [
-                "Great quality products.", "Amazing t-shirts.", "Value for money.", 
-                "Fast delivery service.", "Loved the prints.", "Highly recommended.", 
-                "Best online shopping experience.", "Superb fabric quality.", "Nice collection.", 
-                "Very happy with the order.", "Will order again.", "Trustworthy site.",
-                "Good packaging.", "Quick response.", "5 star service."
-            ]
-        },
-        
-        connectors: [
-            "Also,", "Plus,", "Moreover,", "The best part is,", "I must say,", 
-            "Additionally,", "On top of that,", "Honestly,", "What I liked most is,", 
-            "Furthermore,", "Not to forget,"
-        ],
+    // CHANGE THIS TO "suspended" TO LOCK THE TOOL
+    const APP_STATUS = "active"; 
+    
+    // SET EXPIRY DATE (YYYY-MM-DD)
+    const EXPIRY_DATE = "2026-12-31"; 
 
-        keywords: {
-            "Corporate Tshirt": [
-                "The fabric quality of the corporate t-shirts is premium and breathable.",
-                "Our logo printing on the corporate t-shirts came out sharp and clear.",
-                "Best place to buy corporate t-shirts in bulk at affordable rates.",
-                "The fit of the corporate t-shirts is perfect for all employees.",
-                "Everyone in the office is happy with their new corporate t-shirts.",
-                "Professional look and feel of the corporate t-shirts is impressive."
-            ],
-            "Corporate Hoodies": [
-                "The corporate hoodies are warm, cozy, and look very professional.",
-                "Premium quality material used for the corporate hoodies.",
-                "We ordered corporate hoodies for winter and they are fantastic.",
-                "The embroidery on the corporate hoodies is top-notch.",
-                "Stylish and comfortable corporate hoodies for the team.",
-                "Employees are loving the new corporate hoodies."
-            ],
-            "Event Tshirt": [
-                "They delivered our event t-shirts right on time.",
-                "The event t-shirts made our team look unified and smart.",
-                "Vibrant colors and great printing on the event t-shirts.",
-                "Perfect custom t-shirts for our company event.",
-                "Highly recommend them for any bulk event t-shirt requirements.",
-                "The event t-shirts stood out in the crowd."
-            ],
-            "Custom Tshirt": [
-                "The custom t-shirt printing quality is superior.",
-                "They brought our design to life perfectly on the custom t-shirts.",
-                "I created a unique design and the custom t-shirt came out exactly as imagined.",
-                "Very easy process to order custom t-shirts online.",
-                "Best site for high-quality custom t-shirt printing.",
-                "Customization options are endless here."
-            ],
-            "Corporate Gifting": [
-                "Aster4 is now our go-to for all corporate gifting solutions.",
-                "The packaging and quality make it perfect for corporate gifting.",
-                "Employees were thrilled with the high-quality corporate gifting items.",
-                "Affordable yet premium options for corporate gifting.",
-                "Hassle-free process for bulk corporate gifting orders.",
-                "They curated the perfect corporate gifting package for us."
-            ],
-            "Marathi Tshirt": [
-                "Being a Maharashtrian, I love their Marathi t-shirt collection.",
-                "The slogans on the Marathi t-shirts are witty and trendy.",
-                "Proud to wear these stylish Marathi t-shirts.",
-                "The print on the Marathi t-shirts does not fade after washing.",
-                "Unique designs that you won't find on other Marathi t-shirt sites.",
-                "The calligraphy on the Marathi t-shirts is beautiful."
-            ],
-            "Vacation Tshirt": [
-                "Our group looked amazing in the matching vacation t-shirts.",
-                "Got some really cool vibes with these vacation t-shirts.",
-                "The material is light and perfect for summer vacation t-shirts.",
-                "Photos came out great thanks to the matching vacation t-shirts.",
-                "Quick delivery saved us right before our trip."
-            ],
-            "Family Tshirt": [
-                "The family t-shirt combo sets are adorable.",
-                "We got so many compliments on our matching family t-shirts.",
-                "Sizes were perfect for everyone in the family t-shirt set.",
-                "Great way to bond with these matching family t-shirts.",
-                "Affordable pricing for the entire family t-shirt pack."
-            ],
-            "Kids Tshirt": [
-                "The cotton used for kids t-shirts is very skin-friendly.",
-                "My child loves the colors and comfort of the kids t-shirts.",
-                "Durable fabric that withstands rough use, perfect kids t-shirts.",
-                "Trendy designs that kids actually want to wear.",
-                "Best online site for affordable kids t-shirts."
-            ],
-            "Cricket Tshirt": [
-                "The fabric of the cricket t-shirt is breathable and perfect for matches.",
-                "Ordered custom cricket jerseys for our team and they look professional.",
-                "The print quality on the cricket t-shirt is sharp and durable.",
-                "Comfortable fit, allowing free movement while playing cricket.",
-                "Got our team name printed on the cricket t-shirts, excellent finish.",
-                "Best place to buy cricket uniforms in bulk at good rates."
-            ]
-        },
+    // --- 1. INITIALIZATION & SECURITY CHECK ---
+    let isOwnerMode = false;
 
-        // 60+ OUTRO VARIATIONS
-        outro: {
-            "Corporate": [
-                "Highly recommended for B2B orders.",
-                "Will definitely order again for our next event.",
-                "Aster4 represents quality and trust in the corporate market.",
-                "A reliable partner for all corporate merchandise.",
-                "5 stars for the professional service and delivery.",
-                "Looking forward to a long-term association.",
-                "Kudos to the team for handling our bulk order well.",
-                "If you need bulk t-shirts, go for them.",
-                "Truly satisfied with the corporate service.",
-                "Best vendor for office supplies and clothing.",
-                "Thank you for the quick turnaround time.",
-                "Our team is very happy with the products.",
-                "Professionalism at its best.",
-                "Great pricing for bulk quantities.",
-                "We will surely recommend you to other companies."
-            ],
-            "Trendy": [
-                "Check them out for the latest fashion trends.",
-                "My new favorite online shopping site for t-shirts.",
-                "Don't think twice, just buy it!",
-                "Affordable fashion at its best.",
-                "5 stars for style and comfort.",
-                "Will surely come back for more designs.",
-                "Keep adding such cool designs.",
-                "Totally satisfied with my purchase.",
-                "Best quality at this price point.",
-                "Highly recommended for college students.",
-                "Love the brand and their vision.",
-                "Shopping here was a delight.",
-                "Fast shipping and great product.",
-                "The fit is just amazing.",
-                "You have gained a loyal customer."
-            ],
-            "Family": [
-                "Thank you for making our trip special.",
-                "Highly recommended for families looking for matching sets.",
-                "Great quality at great prices for kids.",
-                "Will surely buy more for the kids soon.",
-                "Aster4 made us smile with their products.",
-                "Perfect for gifting to loved ones.",
-                "Safe and comfortable clothing for children.",
-                "5 stars from my entire family.",
-                "Best online store for family shopping.",
-                "Loved the overall experience.",
-                "My kids refuse to take the t-shirts off!",
-                "Great value for money combos.",
-                "Excellent fabric for daily wear.",
-                "Happy to support this brand.",
-                "Will recommend to all parents."
-            ],
-            "Short": [
-                "Recommended.", "Good job.", "5 Stars.", "Love it.", "Superb.", 
-                "Excellent.", "Nice.", "Great.", "Must buy.", "Awesome.",
-                "Perfect.", "Lovely.", "Fantastic.", "Quality.", "Best."
-            ]
+    window.onload = function() {
+        // A. Security Check
+        const today = new Date().toISOString().split('T')[0];
+        if(APP_STATUS === "suspended" || today > EXPIRY_DATE) {
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('lockScreen').style.display = 'flex';
+            return; // Stop execution
+        }
+
+        // B. URL Check (Customer Mode)
+        const urlParams = new URLSearchParams(window.location.search);
+        const reviewText = urlParams.get('review');
+        if (reviewText) {
+            document.getElementById('generatorApp').style.display = 'none';
+            document.getElementById('customerLinkView').classList.remove('hidden');
+            document.getElementById('customerReviewText').value = decodeURIComponent(reviewText);
+        } else if(sessionStorage.getItem('isOwner') === 'true') {
+            isOwnerMode = true;
         }
     };
 
-    // --- LOGIC ---
-    function getRandomItem(arr) {
-        return arr[Math.floor(Math.random() * arr.length)];
+    // --- 2. OWNER & WHATSAPP LOGIC ---
+    function ownerLogin() {
+        if(isOwnerMode) { alert("Already logged in as Owner."); return; }
+        const password = prompt("Enter Owner Password:");
+        if(password === "admin123") { // CHANGE PASSWORD HERE
+            isOwnerMode = true;
+            sessionStorage.setItem('isOwner', 'true');
+            alert("Owner Mode Active!");
+        } else if(password) { alert("Incorrect Password"); }
     }
 
-    function toggleNameField() {
-        const field = document.getElementById('nameArea');
-        field.style.display = field.style.display === 'block' ? 'none' : 'block';
+    function sendLinkToCustomer() {
+        const phone = document.getElementById('customerPhone').value.replace(/\D/g, '');
+        const review = document.getElementById('reviewOutput').value;
+        if(phone.length < 10) { alert("Enter valid number"); return; }
+        const finalPhone = phone.length === 10 ? "91" + phone : phone;
+        const baseUrl = window.location.href.split('?')[0];
+        const magicLink = `${baseUrl}?review=${encodeURIComponent(review)}`;
+        const msg = `Namaste! 🙏\n\nHere is the review for your Fabrication work from Fabrication Easy:\n\n*Tap this link to Post on Google:*\n${magicLink}`;
+        window.open(`https://wa.me/${finalPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function copyCustomerLinkReview() {
+        const box = document.getElementById("customerReviewText");
+        box.select();
+        document.execCommand('copy');
+        window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+
+    // --- 3. APP LOGIC ---
+    let selectedKeywords = [];
+    let voiceText = "";
+    let activeMode = 'voice';
+    const connectors = ["Also,", "Moreover,", "I must mention that,", "Additionally,", "Plus,", "On top of that,", "Furthermore,", "Truly,", "Honestly,", "Not to mention,", "Along with that,", "To add to it,"];
+
+    function switchMode(mode) {
+        activeMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active-mode'));
+        if(mode === 'voice') {
+            document.getElementById('btnModeVoice').classList.add('active-mode');
+            document.getElementById('voiceSection').classList.remove('hidden');
+            document.getElementById('textSection').classList.add('hidden');
+        } else {
+            document.getElementById('btnModeText').classList.add('active-mode');
+            document.getElementById('textSection').classList.remove('hidden');
+            document.getElementById('voiceSection').classList.add('hidden');
+        }
+    }
+
+    function rate(stars) {
+        document.querySelectorAll('.star').forEach((star, index) => {
+            star.classList.toggle('selected', index < stars);
+        });
+        if(stars >= 4) {
+            document.getElementById('btn-good').classList.add('active');
+            document.getElementById('btn-bad').classList.remove('bad-active');
+        } else {
+            document.getElementById('btn-good').classList.remove('active');
+            document.getElementById('btn-bad').classList.add('bad-active');
+        }
+    }
+    
+    function selectExp(type) {
+        if(type==='good') {
+            document.getElementById('btn-good').classList.add('active');
+            document.getElementById('btn-bad').classList.remove('bad-active');
+        } else {
+            document.getElementById('btn-good').classList.remove('active');
+            document.getElementById('btn-bad').classList.add('bad-active');
+        }
+    }
+
+    function processRating() {
+        document.getElementById('ratingScreen').classList.add('hidden');
+        document.getElementById('aiToolScreen').classList.remove('hidden');
+    }
+
+    function submitPrivateFeedback() {
+        document.getElementById('privateFeedbackScreen').classList.add('hidden');
+        document.getElementById('thankYouScreen').classList.remove('hidden');
+    }
+
+    function startListening() {
+        if (!('webkitSpeechRecognition' in window)) { alert("Use Chrome Browser."); return; }
+        recognition = new webkitSpeechRecognition();
+        recognition.lang = document.getElementById('voiceLang').value;
+        recognition.interimResults = false;
+        document.getElementById('micBtn').classList.add('mic-active');
+        document.getElementById('statusText').innerText = "Listening...";
+        recognition.onresult = (event) => {
+            voiceText = event.results[0][0].transcript;
+            document.getElementById('spokenTextDisplay').style.display = 'block';
+            document.getElementById('spokenTextDisplay').innerText = `Recorded: "${voiceText}"`;
+        };
+        recognition.onend = () => { document.getElementById('micBtn').classList.remove('mic-active'); document.getElementById('statusText').innerText = "Processing..."; };
+        recognition.start();
+    }
+
+    async function generateReview() {
+        const btn = document.getElementById('generateBtn');
+        btn.innerText = "🔄 Processing...";
+        
+        const tone = document.getElementById('toneSelect').value;
+        const name = document.getElementById('userName').value.trim();
+        const service = document.getElementById('serviceSelect').value;
+        const manualText = document.getElementById('manualInput').value.trim();
+        let rawInput = activeMode === 'voice' ? voiceText : manualText;
+
+        if (selectedKeywords.length === 0 && !rawInput && !service) {
+            alert("Please select highlights or say something.");
+            btn.innerText = "✨ Generate Review";
+            return;
+        }
+
+        let finalBodyText = "";
+        if (rawInput && rawInput.length > 1) {
+            try {
+                const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(rawInput)}&langpair=Autodetect|en`);
+                const data = await res.json();
+                let translated = data.responseData ? data.responseData.translatedText : "";
+                if(!translated.includes("PLEASE SELECT")) finalBodyText = translated;
+                else finalBodyText = rawInput;
+            } catch(e) { finalBodyText = rawInput; }
+        }
+
+        // --- PRESERVED DATASETS ---
+        // 1. OPENING LINES (40 Variations)
+        const intros = {
+            "Happy": [
+                "I got some fabrication work done by Fabrication Easy in Noida.", "Fabrication Easy is hands down the best service provider in Bahuddin Nagar.", "Recently hired them for some steel work at my home.", "I was looking for reliable fabricators in Uttar Pradesh and found them.", "Had a great experience with Fabrication Easy team.", "Just completed a renovation project with Fabrication Easy.", "Highly impressed with the quality of work provided.", "If you need strong and durable fabrication, this is the place.", "Best shop in Noida for gates and grills.", "They completely transformed the look of my balcony.", "Professional and timely service by the team.", "I am very satisfied with the welding and installation work.", "My search for the best steel fabricators ended here.", "Excellent craftsmanship and attention to detail.", "Fabrication Easy offered the best quote in Bahuddin Nagar.", "Got my main gate installed by them recently.", "Superb quality work and polite staff.", "They are true experts in aluminium and steel work.", "I highly recommend Fabrication Easy to everyone in Noida.", "The team is very skilled and efficient.", "A wonderful experience from start to finish.", "They used high-quality materials for my project.", "Very happy with the modern designs they suggested.", "Timely delivery and perfect installation.", "The durability of their work is outstanding.", "Great value for money service in UP.", "They customized the design exactly as I wanted.", "Fabrication Easy is a name you can trust.", "Solid build quality and neat finishing.", "They repaired and replaced my old grill perfectly.", "Best service experience I have had in a long time.", "The owner is very knowledgeable and helpful.", "Quick response and professional behavior.", "I got reference from a neighbor and I am glad I chose them.", "Top-notch fabrication work in the area.", "They ensured safety and aesthetics both.", "Very neat and clean installation work.", "No hidden charges, very transparent dealing.", "I love the new look of my home entrance.", "Expert fabricators with years of experience."
+            ],
+            "Professional": [
+               "Engaged Fabrication Easy for a major fabrication project.", "Professional approach and timely execution.", "Highly organized and skilled workforce.", "I recommend them for all types of industrial and home fabrication.", "Service delivery was prompt and up to the mark.", "Quality assurance is their top priority.", "Transparent pricing and billing.", "Project completed within the deadline.", "Expert advice provided for material selection.", "Durable and robust construction work.", "Found them very reliable for complex designs.", "Workmanship is of superior quality.", "Excellent coordination throughout the process.", "Standard safety measures followed during installation.", "A highly professional team in Noida.", "Clean and precise welding work.", "Satisfied with the technical expertise.", "Good management and supervision.", "Efficient and cost-effective solutions.", "Delivered exactly what was promised."
+            ]
+        };
+
+        // 2. CLOSING LINES (40 Variations)
+        const outros = {
+            "Happy": [
+                "Highly recommended!", "Will definitely hire them again.", "5 stars for the amazing work.", "Don't think twice, just go for it.", "Best fabricators in town.", "Keep up the good work Fabrication Easy.", "Worth every rupee spent.", "A big thumbs up from my side.", "Truly satisfied with the outcome.", "Looking forward to the next project.", "Must visit for quality work.", "Great job team!", "The finish is just perfect.", "Safety and style combined perfectly.", "Thanks for the quick service.", "I will recommend you to my friends/family.", "Simply the best in Bahuddin Nagar.", "You won't regret choosing them.", "Very reliable and trustworthy.", "Excellent after-sales support too.", "Made my house look modern and safe.", "Professionalism at its peak.", "Thank you for the suggestion and execution.", "Best wishes for the future.", "Quality you can rely on.", "Fantastic experience overall.", "Reasonable rates and top quality.", "So happy with the new gate.", "The railing looks sturdy and elegant.", "Flawless execution.", "They exceeded my expectations.", "A 10/10 experience.", "Glad I found Fabrication Easy.", "Superior quality material used.", "Clean and tidy work.", "Respectful and hardworking staff.", "On-time completion as promised.", "The best investment for home safety.", "Will surely visit again.", "Thanks a lot!"
+            ],
+            "Professional": [
+                "Good job team.", "Satisfied with the service.", "Recommended.", "Quality work.", "Will refer to others.", "Professional team.", "Great experience.", "Well done.", "Good finish.", "Timely service.", "Reliable firm.", "Thanks.", "Good luck.", "A+ rating.", "Nice work.", "Good support.", "Value for money.", "Strong work.", "Durable.", "Trustworthy."
+            ]
+        };
+
+        // 3. KEYWORD SENTENCES (PRESERVED & MAPPED)
+        const keywordSentences = {
+            "best fabricators": ["They are the best fabricators in Noida.", "Hard to find such skilled and best fabricators these days.", "Truly the best fabricators in Bahuddin Nagar."],
+            "best Steel fabricators": ["If you need the best Steel fabricators, call them.", "Quality proves they are the best Steel fabricators.", "Worked with many, but they are the best Steel fabricators."],
+            "Modern window grill": ["Loved the Modern window grill design they installed.", "The Modern window grill looks so stylish.", "They have a great catalogue for Modern window grill."],
+            "Aluminium sliding windows": ["The Aluminium sliding windows work so smoothly.", "High quality Aluminium sliding windows installed.", "Very happy with the Aluminium sliding windows finish."],
+            "Modern iron gate design": ["The Modern iron gate design completely changed my entrance.", "Everyone compliments the Modern iron gate design.", "They created a custom Modern iron gate design for me."],
+            "Window safety grill design": ["The Window safety grill design is both strong and good looking.", "Perfect Window safety grill design for security.", "They suggested a robust Window safety grill design."],
+            "best Window installation": ["This was the best Window installation service I've seen.", "Neat and clean, truly the best Window installation.", "Fast and the best Window installation in UP."],
+            "Upvc Balcony covered": ["Got my Upvc Balcony covered professionally.", "The Upvc Balcony covered area looks great now.", "Quality materials used for Upvc Balcony covered work."],
+            "Upvc sliding door": ["The Upvc sliding door is soundproof and sturdy.", "Installed a premium Upvc sliding door.", "Love the mechanism of the Upvc sliding door."],
+            "Main gate design for home": ["They showed me the best Main gate design for home.", "My Main gate design for home is unique and strong.", "Executed the Main gate design for home perfectly."],
+            "Balcony railing design": ["The Balcony railing design is modern and safe.", "Chose a glass and steel Balcony railing design.", "Very elegant Balcony railing design."],
+            "SS railing for balcony": ["The SS railing for balcony shines perfectly.", "Rust-free and strong SS railing for balcony.", "Installed high-grade SS railing for balcony."],
+            "Balcony covering shed": ["The Balcony covering shed is very durable.", "Protecting from rain, the Balcony covering shed is perfect.", "Sturdy structure for the Balcony covering shed."],
+            "Invisible grill for balcony": ["The Invisible grill for balcony gives a clear view.", "Modern Invisible grill for balcony installed safely.", "Best solution is the Invisible grill for balcony."],
+            "Folding gate manufacturers": ["They are the top Folding gate manufacturers in the area.", "Bought directly from Folding gate manufacturers.", "Sturdy gates from these Folding gate manufacturers."]
+        };
+
+        let review = getRandom(intros[tone]);
+        if(name) review = `I am ${name}. ` + review;
+        if(service) review += ` I contacted them for ${service}. `;
+        if(finalBodyText) review += " " + finalBodyText + ". ";
+
+        const shuffled = selectedKeywords.sort(() => 0.5 - Math.random());
+        shuffled.forEach((k, i) => {
+            // Check if k exists in keywordSentences (case insensitive match)
+            let key = Object.keys(keywordSentences).find(key => k.toLowerCase() === key.toLowerCase());
+            
+            if(key && keywordSentences[key]) {
+                let sentence = getRandom(keywordSentences[key]);
+                if(i > 0 && Math.random() > 0.6) sentence = getRandom(connectors) + " " + sentence;
+                review += sentence + " ";
+            } else {
+                review += `The ${k} work was great. `;
+            }
+        });
+
+        review += getRandom(outros[tone]);
+
+        const box = document.getElementById('reviewOutput');
+        box.value = review;
+        box.style.display = 'block';
+        box.scrollIntoView({behavior: "smooth"});
+        btn.innerText = "✨ Generate Review";
+
+        if(isOwnerMode) {
+            document.getElementById('ownerPanel').style.display = 'block';
+            document.getElementById('copyBtn').style.display = 'none';
+        } else {
+            document.getElementById('ownerPanel').style.display = 'none';
+            document.getElementById('copyBtn').style.display = 'block';
+        }
     }
 
     function toggleKeyword(element, keyword) {
         element.classList.toggle('active');
-        if (selectedKeywords.includes(keyword)) {
-            selectedKeywords = selectedKeywords.filter(item => item !== keyword);
-        } else {
-            if(selectedKeywords.length < 4) {
-                selectedKeywords.push(keyword);
-            } else {
-                alert("Please select max 4 items for a natural review.");
-                element.classList.remove('active');
-            }
-        }
+        const text = keyword || element.innerText; // Handle both passed keyword or inner text
+        if (selectedKeywords.includes(text)) selectedKeywords = selectedKeywords.filter(k => k !== text);
+        else selectedKeywords.push(text);
     }
-
-    function generateReview() {
-        const tone = document.getElementById('toneSelect').value;
-        const location = document.getElementById('locationSelect').value;
-        const userName = document.getElementById('userName').value.trim();
-        const outputBox = document.getElementById('reviewOutput');
-        const copyBtn = document.getElementById('copyBtn');
-
-        if (selectedKeywords.length === 0) {
-            alert("Please select what you bought (Keywords).");
-            return;
-        }
-        
-        outputBox.style.opacity = "0.5";
-
-        // 1. INTRO
-        let intro = getRandomItem(reviewData.intro[tone]);
-        
-        // Location Injection
-        if (location) {
-             const locPhrases = [
-                 ` Received my order in ${location} quickly.`,
-                 ` Delivery to ${location} was super fast.`,
-                 ` Best online shopping experience in ${location}.`
-             ];
-             intro = intro + getRandomItem(locPhrases);
-        }
-
-        if (userName) {
-            intro = `I am ${userName}. ` + intro;
-        }
-
-        // 2. BODY
-        let body = "";
-        const shuffledKeywords = selectedKeywords.sort(() => Math.random() - 0.5);
-        
-        shuffledKeywords.forEach((k, index) => {
-            let sentence = getRandomItem(reviewData.keywords[k]);
-            
-            if (index > 0 && Math.random() > 0.4) { 
-                let connector = getRandomItem(reviewData.connectors);
-                sentence = connector + " " + sentence;
-            }
-            body += sentence + " ";
-        });
-
-        // 3. OUTRO
-        let outro = getRandomItem(reviewData.outro[tone]);
-
-        const finalReview = intro + " " + body + outro;
-
-        setTimeout(() => {
-            outputBox.style.opacity = "1";
-            outputBox.value = finalReview;
-            copyBtn.style.display = "block"; 
-            
-            if (window.innerWidth < 600) {
-                outputBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }, 300); 
-    }
-
+    
     function copyToClipboard() {
-        const copyText = document.getElementById("reviewOutput");
-        copyText.select();
-        copyText.setSelectionRange(0, 99999); 
-        
-        navigator.clipboard.writeText(copyText.value).then(() => {
-            const isConfirmed = confirm("Review Copied! 🛍️\n\nPRO TIP: Upload a photo of your T-shirt/Hoodie for better reach!\n\nClick OK to open Google.");
-            if(isConfirmed) {
-                window.open(GOOGLE_REVIEW_LINK, '_blank');
-            }
-        });
+        const box = document.getElementById("reviewOutput");
+        box.select();
+        document.execCommand('copy');
+        if(confirm("Review Copied! Open Google Maps?")) window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+    
+    function getRandom(arr) { 
+        if(!arr) return "";
+        return arr[Math.floor(Math.random() * arr.length)]; 
     }
 </script>
 
