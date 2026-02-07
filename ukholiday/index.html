@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Review - Holiday Uttarakhand</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* --- THEME: UTTARAKHAND NATURE (Pine Green & Sky Blue) --- */
         :root {
@@ -12,53 +14,80 @@
             --secondary: #0ea5e9; /* Sky Blue */
             --bg-color: #f0fdf4; /* Mint Cream */
             --card-bg: #ffffff;
+            --text-main: #333;
+            --gold: #f59e0b;
+            --gray: #6b7280;
+            --border: #bbf7d0;
+            --box-border: #86efac;
+            --whatsapp: #25D366;
+            --danger: #d32f2f;
         }
 
-        /* --- RESET & BODY --- */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+            font-family: 'Poppins', sans-serif;
             background-color: var(--bg-color);
             margin: 0; padding: 20px 10px;
             min-height: 100vh; display: flex;
             justify-content: center; align-items: flex-start;
+            color: var(--text-main);
         }
 
-        /* --- CONTAINER --- */
         .container {
             background: var(--card-bg); width: 100%; max-width: 500px;
             padding: 25px; border-radius: 16px;
             box-shadow: 0 10px 30px rgba(21, 128, 61, 0.15);
             border-top: 6px solid var(--primary); margin: auto;
+            text-align: center;
+            position: relative;
         }
 
-        /* --- HEADER --- */
-        h2 { text-align: center; color: var(--primary-dark); margin: 5px 0 2px 0; font-size: 24px; font-weight: 800; }
-        p.subtitle { text-align: center; color: var(--secondary); font-size: 13px; margin-bottom: 5px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
-
-        /* --- CONTACT BUTTON --- */
-        .contact-header { text-align: center; margin-bottom: 20px; }
-        .contact-btn {
-            text-decoration: none; color: white; background: var(--secondary);
-            padding: 8px 18px; border-radius: 20px; display: inline-block;
-            font-size: 14px; font-weight: 700; transition: 0.2s;
-            box-shadow: 0 4px 6px rgba(14, 165, 233, 0.2);
+        /* LOCK SCREEN */
+        #lockScreen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.98); z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 20px;
         }
-        .contact-btn:hover { transform: translateY(-1px); }
+        .lock-icon { font-size: 60px; color: var(--danger); margin-bottom: 20px; }
+        .lock-msg { font-size: 22px; font-weight: 700; color: #333; margin-bottom: 10px; }
+        .contact-admin-btn {
+            background: var(--primary); color: white; padding: 12px 25px;
+            border-radius: 50px; text-decoration: none; font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
 
-        /* --- FORM ELEMENTS --- */
-        label { font-weight: 700; display: block; margin-top: 18px; margin-bottom: 8px; color: #374151; font-size: 13px; text-transform: uppercase; }
-        
-        select, input {
+        h2 { text-align: center; color: var(--primary-dark); margin: 5px 0 2px 0; font-size: 22px; font-weight: 800; }
+        .subtitle { text-align: center; color: var(--secondary); font-size: 12px; margin-bottom: 5px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* INPUTS */
+        select, input, textarea {
             width: 100%; padding: 12px; border-radius: 8px;
-            border: 1px solid #bbf7d0; background: #f0fdfa;
-            font-size: 15px; color: #1f2937; outline: none;
+            border: 1px solid var(--border); background: #f0fdfa;
+            font-size: 14px; outline: none; margin-bottom: 10px;
+            color: var(--text-main); font-family: inherit;
         }
-        select:focus, input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.1); background: #fff; }
+        select:focus, input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.1); background: #fff; }
+        label { font-weight: 700; display: block; margin-top: 15px; margin-bottom: 6px; color: #374151; font-size: 12px; text-transform: uppercase; text-align: left; }
 
-        /* --- KEYWORD CHIPS --- */
+        /* RATING */
+        .star-container { display: flex; justify-content: center; gap: 8px; margin: 20px 0; }
+        .star { font-size: 40px; color: #cbd5e1; cursor: pointer; transition: transform 0.2s, color 0.2s; }
+        .star.selected { color: var(--gold); }
+
+        .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
+        .exp-btn {
+            padding: 12px 15px; border: 1px solid var(--border); border-radius: 8px;
+            background: #fff; cursor: pointer; font-weight: 600; color: var(--text-main);
+            flex: 1; transition: 0.2s; font-size: 13px;
+        }
+        .exp-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(21, 128, 61, 0.3); }
+
+        /* KEYWORDS */
         .category-title {
-            font-size: 11px; color: #9ca3af; margin: 15px 0 5px 0; font-weight: 600; letter-spacing: 0.5px; border-bottom: 1px dashed #e5e7eb; padding-bottom: 2px;
+            font-size: 11px; color: #9ca3af; margin: 15px 0 5px 0; 
+            font-weight: 600; letter-spacing: 0.5px; border-bottom: 1px dashed #e5e7eb; 
+            padding-bottom: 2px; text-align: left;
         }
         .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 5px; }
         .keyword-chip {
@@ -69,12 +98,33 @@
         }
         .keyword-chip.active {
             background-color: var(--primary); color: white;
-            border-color: var(--primary-dark);
-            transform: translateY(-2px);
+            border-color: var(--primary-dark); transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(21, 128, 61, 0.3);
         }
 
-        /* --- BUTTONS --- */
+        /* INPUT MODES */
+        .input-mode-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .mode-btn { 
+            flex: 1; padding: 10px; border: 1px solid var(--primary); border-radius: 8px; 
+            background: #fff; color: var(--primary); font-weight: 600; cursor: pointer; font-size: 13px;
+        }
+        .mode-btn.active-mode { background: var(--primary); color: white; }
+
+        .voice-section, .text-section {
+            background: #e6fffa; padding: 12px; border-radius: 12px; 
+            margin-bottom: 20px; border: 1px dashed var(--primary); text-align: left;
+        }
+        .voice-controls { display: flex; align-items: center; gap: 10px; }
+        .mic-btn {
+            width: 45px; height: 45px; border-radius: 50%;
+            background: var(--primary); color: white; border: none;
+            font-size: 20px; cursor: pointer; box-shadow: 0 4px 10px rgba(21, 128, 61, 0.3);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .mic-active { animation: pulse 1.5s infinite; background: var(--danger); }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(21, 128, 61, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(0,0,0,0); } }
+
+        /* BUTTONS */
         .generate-btn {
             width: 100%; padding: 14px; margin-top: 25px;
             background: linear-gradient(135deg, var(--primary) 0%, #166534 100%);
@@ -82,261 +132,459 @@
             font-size: 16px; font-weight: 700; cursor: pointer;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-        .generate-btn:active { transform: scale(0.98); }
-
-        textarea {
-            width: 100%; height: 150px; margin-top: 20px; padding: 12px;
-            border: 1px solid #cbd5e1; border-radius: 8px; resize: none;
-            background-color: #f8fafc; color: #333; font-size: 14px; line-height: 1.5;
-        }
-
+        
         .copy-btn {
-            width: 100%; padding: 12px; background-color: #f59e0b; /* Amber */
+            width: 100%; padding: 12px; background-color: var(--secondary);
             color: white; border: none; border-radius: 8px; margin-top: 15px;
             font-weight: 600; font-size: 15px; cursor: pointer; display: none;
-            box-shadow: 0 4px 6px rgba(245, 158, 11, 0.2);
+            box-shadow: 0 4px 6px rgba(14, 165, 233, 0.2);
         }
 
-        .name-input-area { margin-top: 10px; display: none; }
-        .toggle-name { font-size: 13px; color: var(--primary); text-decoration: underline; cursor: pointer; border: none; background: none; padding: 0; margin-top: 5px; display: inline-block; float: right; }
+        .review-preview-box {
+            width: 100%; min-height: 140px; padding: 15px; margin-top: 20px;
+            border: 1px solid var(--box-border); border-radius: 12px;
+            background-color: #fff; color: #333; font-size: 14px;
+            resize: none; outline: none; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
 
-        /* --- FOOTER --- */
+        /* OWNER PANEL */
+        #ownerPanel {
+            display: none; margin-top: 20px; padding: 15px;
+            border: 2px dashed var(--whatsapp); border-radius: 12px;
+            background-color: #f0fdf4; text-align: left;
+        }
+        .whatsapp-send-btn {
+            width: 100%; padding: 12px; background-color: var(--whatsapp);
+            color: white; border: none; border-radius: 8px;
+            font-size: 15px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* FOOTER */
         .footer { margin-top: 35px; text-align: center; font-size: 12px; color: #6b7280; border-top: 1px dashed #bbf7d0; padding-top: 15px; }
-        .footer-logo { display: block; margin: 0 auto 5px auto; max-height: 30px; width: auto; opacity: 0.8; }
+        .footer-logo { display: block; margin: 0 auto 5px auto; max-height: 25px; width: auto; opacity: 0.8; }
         .footer a { color: var(--primary); text-decoration: none; font-weight: 700; }
-        .footer-text { margin-top: 5px; line-height: 1.6; }
+        .owner-login-trigger {
+            font-size: 11px; color: #ccc; cursor: pointer; text-decoration: none;
+            position: absolute; bottom: 5px; right: 10px;
+        }
 
+        .fade-in { animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .hidden { display: none; }
+        .toggle-name { font-size: 12px; color: var(--primary); text-decoration: underline; cursor: pointer; border: none; background: none; float: right; margin-top: 5px; }
+        
+        /* CUSTOMER VIEW */
+        .customer-card { text-align: center; padding: 20px; }
+        .customer-card h2 { color: var(--primary); }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Holiday Uttarakhand</h2>
-    <p class="subtitle">🏔️ Best Tour & Travel Agency</p>
+<div id="lockScreen" style="display: none;">
+    <i class="fas fa-lock lock-icon"></i>
+    <div class="lock-msg">Service Suspended</div>
+    <div style="font-size:14px; color:#666; margin-bottom:20px;">This tool has been disabled. Please contact the provider.</div>
+    <a href="tel:+917020360561" class="contact-admin-btn">Contact Admin</a>
+</div>
 
-    <div class="contact-header">
-        <a href="https://holidayuttarakhand.com/" target="_blank" class="contact-btn">🌐 Visit Website</a>
+<div class="container" id="mainApp">
+
+    <div id="customerLinkView" class="hidden customer-card">
+        <div style="font-size: 40px; margin-bottom: 10px;">🏔️</div>
+        <h2>Namaste!</h2>
+        <p style="color:#555; font-size:14px; margin-bottom:20px;">
+            Here is the review for your trip with Holiday Uttarakhand.
+            <br>Click below to copy & post.
+        </p>
+        <textarea id="customerReviewText" class="review-preview-box" readonly></textarea>
+        <button class="copy-btn" style="display:block; margin-top:15px;" onclick="copyCustomerLinkReview()">📋 Copy & Open Google</button>
+        <p style="font-size:11px; color:#999; margin-top:20px;">Thanks for choosing us! 🙏</p>
     </div>
 
-    <label>1. Trip Type?</label>
-    <select id="toneSelect">
-        <option value="Family">Family Vacation 👨‍👩‍👧‍👦</option>
-        <option value="Honeymoon">Couples / Honeymoon ❤️</option>
-        <option value="Spiritual">Char Dham / Yatra 🙏</option>
-        <option value="Adventure">Adventure / Friends 🎒</option>
-        <option value="General">General / Official 💼</option>
-    </select>
+    <div id="generatorApp">
+        <h2>Holiday Uttarakhand</h2>
+        <p class="subtitle">🏔️ Best Tour & Travel Agency</p>
 
-    <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
-    <div class="name-input-area" id="nameArea">
-        <input type="text" id="userName" placeholder="Your Name">
+        <div id="ratingScreen" class="fade-in">
+            <p style="font-weight:600; color:#555;">How was your trip experience?</p>
+            <div class="star-container">
+                <span class="star" onclick="rate(1)">★</span>
+                <span class="star" onclick="rate(2)">★</span>
+                <span class="star" onclick="rate(3)">★</span>
+                <span class="star" onclick="rate(4)">★</span>
+                <span class="star" onclick="rate(5)">★</span>
+            </div>
+            <div class="experience-btns">
+                <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Not Happy 😞</button>
+                <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Loved it! 😍</button>
+            </div>
+            <button class="generate-btn" onclick="processRating()">Next Step ➡</button>
+        </div>
+
+        <div id="privateFeedbackScreen" class="fade-in hidden">
+            <h3 style="color:var(--text-main); font-size:18px;">We are sorry! 😔</h3>
+            <p style="font-size:14px; color:#666;">Please tell us how we can improve.</p>
+            <textarea id="privateFeedbackText" style="height:100px;" placeholder="What went wrong?"></textarea>
+            <button class="generate-btn" style="background:#475569;" onclick="submitPrivateFeedback()">Submit Feedback</button>
+        </div>
+
+        <div id="thankYouScreen" class="fade-in hidden">
+            <div style="font-size: 50px; margin-bottom:10px;">✅</div>
+            <h2 style="color:var(--primary);">Thank You!</h2>
+            <p>Your feedback has been shared with the management.</p>
+        </div>
+
+        <div id="aiToolScreen" class="fade-in hidden" style="text-align: left;">
+            
+            <div class="input-mode-tabs">
+                <button class="mode-btn active-mode" id="btnModeVoice" onclick="switchMode('voice')">🎤 Speak</button>
+                <button class="mode-btn" id="btnModeText" onclick="switchMode('text')">✍️ Write</button>
+            </div>
+
+            <div id="voiceSection" class="voice-section">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <span style="font-size:11px; font-weight:bold; color:var(--primary);">SPEAK (Hindi/English):</span>
+                    <select id="voiceLang" style="width:auto; padding:2px; font-size:11px; height:25px; margin:0;">
+                        <option value="en-IN" selected>English</option>
+                        <option value="hi-IN">Hindi</option>
+                    </select>
+                </div>
+                <div class="voice-controls">
+                    <button id="micBtn" class="mic-btn" onclick="startListening()">🎤</button>
+                    <div style="flex:1;">
+                        <p id="statusText" style="font-size:12px; color:#555; margin:0;">Tap mic & speak...<br>(Ex: "Trip bahut accha tha")</p>
+                    </div>
+                </div>
+                <div id="spokenTextDisplay" style="display:none; margin-top:8px; font-size:12px; color:var(--primary); background:#fff; padding:6px; border-radius:4px;"></div>
+            </div>
+
+            <div id="textSection" class="text-section hidden">
+                <label style="margin-top:0; color:var(--primary);">Describe Experience</label>
+                <textarea id="manualInput" placeholder="Ex: Best travel agency..." style="height:80px; margin-bottom:0;"></textarea>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <div style="flex:1;">
+                    <label style="margin-top:0;">Trip Type</label>
+                    <select id="tripTypeSelect">
+                        <option value="Family" selected>Family</option>
+                        <option value="Honeymoon">Honeymoon</option>
+                        <option value="Spiritual">Char Dham</option>
+                        <option value="Adventure">Adventure</option>
+                        <option value="General">General</option>
+                    </select>
+                </div>
+                <div style="flex:1;">
+                    <label style="margin-top:0;">Tone</label>
+                    <select id="toneSelect">
+                        <option value="Happy">Happy 😊</option>
+                        <option value="Professional">Formal 💼</option>
+                    </select>
+                </div>
+            </div>
+
+            <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
+            <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
+                <input type="text" id="userName" placeholder="Your Name">
+            </div>
+
+            <label style="clear: both;">Highlights (Select 3-4)</label>
+            
+            <div class="category-title">SERVICE & QUALITY</div>
+            <div class="keywords-container">
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Agency')">🏆 Best Travel Agency</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Staff')">🤝 Friendly Staff</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Safety')">🛡️ Safe & Secure</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Driver')">🚕 Polite Driver</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Affordable')">💰 Affordable</div>
+            </div>
+
+            <div class="category-title">POPULAR DESTINATIONS</div>
+            <div class="keywords-container">
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Nainital')">⛵ Nainital</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Jim Corbett')">🐅 Jim Corbett</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Mussoorie')">⛰️ Mussoorie</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Auli')">❄️ Auli Skiing</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Rishikesh')">🧘 Rishikesh</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Char Dham')">🕉️ Char Dham</div>
+            </div>
+
+            <div class="category-title">OFFBEAT SPOTS</div>
+            <div class="keywords-container">
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Kaichi Dham')">🙏 Kaichi Dham</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Jageshwar Dham')">🏛️ Jageshwar</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Mukteshwar')">🍏 Mukteshwar</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Kausani')">🌄 Kausani</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Chopta')">⛺ Chopta</div>
+            </div>
+
+            <button class="generate-btn" id="generateBtn" onclick="generateReview()">✨ Generate Review</button>
+            <textarea id="reviewOutput" class="review-preview-box" style="display:none;" readonly></textarea>
+            
+            <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()" style="display:none;">📋 Copy & Open Google</button>
+
+            <div id="ownerPanel">
+                <label style="color:var(--whatsapp); margin-top:0;">📱 Customer's WhatsApp Number</label>
+                <div style="display:flex; gap:10px;">
+                    <input type="tel" id="customerPhone" placeholder="Ex: 9876543210" style="margin-bottom:0;">
+                    <button class="whatsapp-send-btn" style="width: auto; padding: 0 20px;" onclick="sendLinkToCustomer()">🚀 Send</button>
+                </div>
+                <p style="font-size:11px; color:#555; margin-top:5px;">Customer will receive a direct link to post this review.</p>
+            </div>
+
+        </div>
     </div>
-
-    <label style="clear: both;">2. Select Highlights (Pick 3-4)</label>
-    
-    <div class="category-title">SERVICE & QUALITY</div>
-    <div class="keywords-container">
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Agency')">🏆 Best Travel Agency</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Staff')">🤝 Friendly Staff</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Safety')">🛡️ Safe & Secure</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Driver')">🚕 Polite Driver</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Affordable')">💰 Affordable</div>
-    </div>
-
-    <div class="category-title">POPULAR DESTINATIONS</div>
-    <div class="keywords-container">
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Nainital')">⛵ Nainital</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Jim Corbett')">🐅 Jim Corbett</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Mussoorie')">⛰️ Mussoorie</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Auli')">❄️ Auli Skiing</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Rishikesh')">🧘 Rishikesh</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Char Dham')">🕉️ Char Dham</div>
-    </div>
-
-    <div class="category-title">OFFBEAT & SPIRITUAL SPOTS</div>
-    <div class="keywords-container">
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Kaichi Dham')">🙏 Kaichi Dham (Neem Karoli Baba)</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Jageshwar Dham')">🏛️ Jageshwar Dham</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Mukteshwar')">🍏 Mukteshwar</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Kausani')">🌄 Kausani (Sunrise)</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Ranikhet')">⛳ Ranikhet</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Bhimtal')">🛶 Bhimtal</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Almora')">🏚️ Almora</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Munsiyari')">🏔️ Munsiyari (Panchachuli)</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Chopta')">⛺ Chopta (Tungnath)</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Dhanulti')">🌲 Dhanaulti</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Ramnagar')">🛤️ Ramnagar</div>
-    </div>
-
-    <button class="generate-btn" onclick="generateReview()">🚀 Generate Review</button>
-
-    <textarea id="reviewOutput" placeholder="Your review will appear here..." readonly></textarea>
-    
-    <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy & Open Google</button>
 
     <div class="footer">
         <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft" loading="lazy">
-        
         <div class="footer-text">
-            © Copyright <a href="https://growft.net" target="_blank">growft.net</a><br>
-            Helpline: <a href="tel:+917020360561">7020360561</a>
+            © Copyright <a href="https://growft.net" target="_blank">growft.net</a>
         </div>
+        <span class="owner-login-trigger" onclick="ownerLogin()">🔒 Owner</span>
     </div>
 </div>
 
 <script>
-    // --- IMPORTANT: REPLACE WITH ACTUAL GOOGLE REVIEW LINK ---
+    // --- 🔒 CONFIGURATION & SECURITY ---
     const GOOGLE_REVIEW_LINK = "https://g.page/r/CTCrsUHLRKkFEBM/review"; 
     
-    let selectedKeywords = [];
+    // CHANGE TO "suspended" TO LOCK
+    const APP_STATUS = "active"; 
+    
+    // EXPIRY DATE (YYYY-MM-DD)
+    const EXPIRY_DATE = "2026-12-31"; 
 
-    // --- DATA ENGINE ---
+    // --- INITIALIZATION ---
+    let isOwnerMode = false;
+
+    window.onload = function() {
+        // Security Check
+        const today = new Date().toISOString().split('T')[0];
+        if(APP_STATUS === "suspended" || today > EXPIRY_DATE) {
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('lockScreen').style.display = 'flex';
+            return;
+        }
+
+        // URL Check (Customer Mode)
+        const urlParams = new URLSearchParams(window.location.search);
+        const reviewText = urlParams.get('review');
+        if (reviewText) {
+            document.getElementById('generatorApp').style.display = 'none';
+            document.getElementById('customerLinkView').classList.remove('hidden');
+            document.getElementById('customerReviewText').value = decodeURIComponent(reviewText);
+        } else if(sessionStorage.getItem('isOwner') === 'true') {
+            isOwnerMode = true;
+        }
+    };
+
+    // --- OWNER & WHATSAPP LOGIC ---
+    function ownerLogin() {
+        if(isOwnerMode) { alert("Already logged in as Owner."); return; }
+        const password = prompt("Enter Owner Password:");
+        if(password === "admin123") { // CHANGE PASSWORD
+            isOwnerMode = true;
+            sessionStorage.setItem('isOwner', 'true');
+            alert("Owner Mode Active!");
+        } else if(password) { alert("Incorrect Password"); }
+    }
+
+    function sendLinkToCustomer() {
+        const phone = document.getElementById('customerPhone').value.replace(/\D/g, '');
+        const review = document.getElementById('reviewOutput').value;
+        if(phone.length < 10) { alert("Enter valid number"); return; }
+        const finalPhone = phone.length === 10 ? "91" + phone : phone;
+        const baseUrl = window.location.href.split('?')[0];
+        const magicLink = `${baseUrl}?review=${encodeURIComponent(review)}`;
+        const msg = `Namaste! 🙏\n\nHere is the review for your trip with Holiday Uttarakhand:\n\n*Tap this link to Post:*\n${magicLink}`;
+        window.open(`https://wa.me/${finalPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function copyCustomerLinkReview() {
+        const box = document.getElementById("customerReviewText");
+        box.select();
+        document.execCommand('copy');
+        window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+
+    // --- APP LOGIC ---
+    let selectedKeywords = [];
+    let voiceText = "";
+    let activeMode = 'voice';
+    const connectors = ["Also,", "Moreover,", "I must mention that", "Additionally,", "Plus,", "On top of that,", "Furthermore,", "Truly,", "Honestly,", "Not to mention,", "Along with that,"];
+
+    function switchMode(mode) {
+        activeMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active-mode'));
+        if(mode === 'voice') {
+            document.getElementById('btnModeVoice').classList.add('active-mode');
+            document.getElementById('voiceSection').classList.remove('hidden');
+            document.getElementById('textSection').classList.add('hidden');
+        } else {
+            document.getElementById('btnModeText').classList.add('active-mode');
+            document.getElementById('textSection').classList.remove('hidden');
+            document.getElementById('voiceSection').classList.add('hidden');
+        }
+    }
+
+    function rate(stars) {
+        document.querySelectorAll('.star').forEach((star, index) => {
+            star.classList.toggle('selected', index < stars);
+        });
+        if(stars >= 4) {
+            document.getElementById('btn-good').classList.add('active');
+            document.getElementById('btn-bad').classList.remove('bad-active');
+        } else {
+            document.getElementById('btn-good').classList.remove('active');
+            document.getElementById('btn-bad').classList.add('bad-active');
+        }
+    }
+    
+    function selectExp(type) {
+        if(type==='good') {
+            document.getElementById('btn-good').classList.add('active');
+            document.getElementById('btn-bad').classList.remove('bad-active');
+        } else {
+            document.getElementById('btn-good').classList.remove('active');
+            document.getElementById('btn-bad').classList.add('bad-active');
+        }
+    }
+
+    function processRating() {
+        document.getElementById('ratingScreen').classList.add('hidden');
+        document.getElementById('aiToolScreen').classList.remove('hidden');
+    }
+
+    function submitPrivateFeedback() {
+        document.getElementById('privateFeedbackScreen').classList.add('hidden');
+        document.getElementById('thankYouScreen').classList.remove('hidden');
+    }
+
+    function startListening() {
+        if (!('webkitSpeechRecognition' in window)) { alert("Use Chrome Browser."); return; }
+        recognition = new webkitSpeechRecognition();
+        recognition.lang = document.getElementById('voiceLang').value;
+        recognition.interimResults = false;
+        document.getElementById('micBtn').classList.add('mic-active');
+        document.getElementById('statusText').innerText = "Listening...";
+        recognition.onresult = (event) => {
+            voiceText = event.results[0][0].transcript;
+            document.getElementById('spokenTextDisplay').style.display = 'block';
+            document.getElementById('spokenTextDisplay').innerText = `Recorded: "${voiceText}"`;
+        };
+        recognition.onend = () => { document.getElementById('micBtn').classList.remove('mic-active'); document.getElementById('statusText').innerText = "Processing..."; };
+        recognition.start();
+    }
+
+    async function generateReview() {
+        const btn = document.getElementById('generateBtn');
+        btn.innerText = "🔄 Processing...";
+        
+        const tone = document.getElementById('toneSelect').value;
+        const tripType = document.getElementById('tripTypeSelect').value;
+        const name = document.getElementById('userName').value.trim();
+        const manualText = document.getElementById('manualInput').value.trim();
+        let rawInput = activeMode === 'voice' ? voiceText : manualText;
+
+        if (selectedKeywords.length === 0 && !rawInput) {
+            alert("Please select highlights or say something.");
+            btn.innerText = "✨ Generate Review";
+            return;
+        }
+
+        let finalBodyText = "";
+        if (rawInput && rawInput.length > 1) {
+            try {
+                const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(rawInput)}&langpair=Autodetect|en`);
+                const data = await res.json();
+                let translated = data.responseData ? data.responseData.translatedText : "";
+                if(!translated.includes("PLEASE SELECT")) finalBodyText = translated;
+                else finalBodyText = rawInput;
+            } catch(e) { finalBodyText = rawInput; }
+        }
+
+        // --- GENERATION ---
+        let review = getRandom(reviewData.intro[tripType]);
+        if(name) review = `I am ${name}. ` + review;
+        if(finalBodyText) review += " " + finalBodyText + ". ";
+
+        const shuffled = selectedKeywords.sort(() => 0.5 - Math.random());
+        shuffled.forEach((k, i) => {
+            if(reviewData.keywords[k]) {
+                let sentence = getRandom(reviewData.keywords[k]);
+                if(i > 0 && Math.random() > 0.6) sentence = getRandom(connectors) + " " + sentence;
+                review += sentence + " ";
+            }
+        });
+
+        review += getRandom(reviewData.outro[tripType]);
+
+        const box = document.getElementById('reviewOutput');
+        box.value = review;
+        box.style.display = 'block';
+        box.scrollIntoView({behavior: "smooth"});
+        btn.innerText = "✨ Generate Review";
+
+        if(isOwnerMode) {
+            document.getElementById('ownerPanel').style.display = 'block';
+            document.getElementById('copyBtn').style.display = 'none';
+        } else {
+            document.getElementById('ownerPanel').style.display = 'none';
+            document.getElementById('copyBtn').style.display = 'block';
+        }
+    }
+
+    function toggleNameField() { 
+        const field = document.getElementById('nameArea');
+        field.style.display = field.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) selectedKeywords = selectedKeywords.filter(k => k !== keyword);
+        else selectedKeywords.push(keyword);
+    }
+    
+    function copyToClipboard() {
+        const box = document.getElementById("reviewOutput");
+        box.select();
+        document.execCommand('copy');
+        if(confirm("Review Copied! Open Google Maps?")) window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+    
+    function getRandom(arr) { 
+        if(!arr) return "";
+        return arr[Math.floor(Math.random() * arr.length)]; 
+    }
+
+    // --- DATA ---
     const reviewData = {
         intro: {
-            "Family": [
-                "We just returned from a wonderful family trip organized by Holiday Uttarakhand.",
-                "Planning a family vacation in Uttarakhand was so easy with this team.",
-                "Had a memorable family holiday thanks to the best tour operators.",
-                "If you are looking for a family tour package, they are the best.",
-                "Our kids and elders both enjoyed the trip thoroughly."
-            ],
-            "Honeymoon": [
-                "Booked our Uttarakhand honeymoon package with them and it was magical.",
-                "The most romantic trip of our lives, perfectly managed.",
-                "Thank you for making our honeymoon so special and hassle-free.",
-                "Everything from hotels to the cab was perfect for our couple tour.",
-                "Highly recommend them for customized couple tour packages."
-            ],
-            "Spiritual": [
-                "Our Yatra was successfully completed thanks to their management.",
-                "Blessed to visit Devbhoomi with such a supportive team.",
-                "They organized our spiritual tour with great care and respect.",
-                "The darshan arrangements were smooth and well managed.",
-                "Jai Baba Kedar! Thanks for the excellent Yatra package."
-            ],
-            "Adventure": [
-                "Had an adrenaline-pumping adventure tour in Uttarakhand.",
-                "The best team for trekking and rafting packages.",
-                "Went for a friends' trip to the mountains, amazing experience.",
-                "If you love adventure, book your package with them.",
-                "Totally thrilled with the arrangements for our group trip."
-            ],
-            "General": [
-                "One of the best tour and travels agencies in Uttarakhand.",
-                "Very professional service and transparent pricing.",
-                "I used their services for a business cum leisure trip.",
-                "Found them to be the most trusted tour operator.",
-                "Great experience booking with Holiday Uttarakhand."
-            ]
+            "Family": ["We just returned from a wonderful family trip organized by Holiday Uttarakhand.", "Planning a family vacation in Uttarakhand was so easy with this team.", "Had a memorable family holiday thanks to the best tour operators.", "If you are looking for a family tour package, they are the best.", "Our kids and elders both enjoyed the trip thoroughly."],
+            "Honeymoon": ["Booked our Uttarakhand honeymoon package with them and it was magical.", "The most romantic trip of our lives, perfectly managed.", "Thank you for making our honeymoon so special and hassle-free.", "Everything from hotels to the cab was perfect for our couple tour.", "Highly recommend them for customized couple tour packages."],
+            "Spiritual": ["Our Yatra was successfully completed thanks to their management.", "Blessed to visit Devbhoomi with such a supportive team.", "They organized our spiritual tour with great care and respect.", "The darshan arrangements were smooth and well managed.", "Jai Baba Kedar! Thanks for the excellent Yatra package."],
+            "Adventure": ["Had an adrenaline-pumping adventure tour in Uttarakhand.", "The best team for trekking and rafting packages.", "Went for a friends' trip to the mountains, amazing experience.", "If you love adventure, book your package with them.", "Totally thrilled with the arrangements for our group trip."],
+            "General": ["One of the best tour and travels agencies in Uttarakhand.", "Very professional service and transparent pricing.", "I used their services for a business cum leisure trip.", "Found them to be the most trusted tour operator.", "Great experience booking with Holiday Uttarakhand."]
         },
-
         keywords: {
-            // Service
-            "Best Agency": [
-                "They are truly the best travel agency in the region.",
-                "Hands down the top tour operator for Uttarakhand."
-            ],
-            "Staff": [
-                "The staff is very friendly and available 24/7.",
-                "Best management and very cooperative staff."
-            ],
-            "Safety": [
-                "We felt completely safe throughout the journey.",
-                "Very safe for solo travelers and families."
-            ],
-            "Driver": [
-                "The driver acted like a guide and was very polite.",
-                "Smooth driving skills on the mountain roads."
-            ],
-            "Affordable": [
-                "Got the most affordable packages compared to others.",
-                "Value for money services without compromising quality."
-            ],
-
-            // Main Destinations
-            "Nainital": [
-                "The Nainital tour package was perfectly planned.",
-                "Enjoyed the lake tour and sightseeing in Nainital."
-            ],
-            "Jim Corbett": [
-                "Jim Corbett safari booking was hassle-free.",
-                "We saw amazing wildlife during the Jungle Safari."
-            ],
-            "Mussoorie": [
-                "Mussoorie holiday package covered all top spots.",
-                "Loved the Kempty falls visit included in the package."
-            ],
-            "Auli": [
-                "Auli skiing tour package was the highlight of the trip.",
-                "Best place for snow lovers, well organized tour."
-            ],
-            "Rishikesh": [
-                "Rishikesh rafting package was full of fun.",
-                "The Ganga Aarti in Rishikesh was divine."
-            ],
-            "Char Dham": [
-                "Char Dham Yatra from Haridwar was managed professionally.",
-                "They handled the difficult Yatra logistics very well."
-            ],
-
-            // New & Offbeat Destinations
-            "Kaichi Dham": [
-                "The visit to Kaichi Dham (Neem Karoli Baba) was divine.",
-                "Very peaceful and spiritual vibe at Kaichi Dham.",
-                "Thanks for arranging the Kaichi Dham darshan."
-            ],
-            "Jageshwar Dham": [
-                "Jageshwar Dham ancient temples are a must-visit.",
-                "Felt a strong spiritual energy at Jageshwar Dham.",
-                "Beautiful drive through deodar forests to Jageshwar."
-            ],
-            "Mukteshwar": [
-                "Mukteshwar offered the best views of the Himalayas.",
-                "Stayed at a peaceful resort in Mukteshwar.",
-                "Chauli Ki Jali in Mukteshwar was breathtaking."
-            ],
-            "Kausani": [
-                "The sunrise view from Kausani was mesmerizing.",
-                "Kausani is truly the Switzerland of India, so scenic.",
-                "Enjoyed the panoramic view of peaks from Kausani."
-            ],
-            "Ranikhet": [
-                "Ranikhet is so calm and clean, loved the golf course.",
-                "A perfect peaceful retreat at Ranikhet.",
-                "The army cantonment vibe of Ranikhet is great."
-            ],
-            "Bhimtal": [
-                "Bhimtal is much quieter and more beautiful than Nainital.",
-                "Boating in Bhimtal lake was a serene experience.",
-                "Stayed near the lake in Bhimtal, amazing view."
-            ],
-            "Almora": [
-                "Exploring the cultural city of Almora was great.",
-                "The vibe of Almora markets and temples is unique.",
-                "Almora offered a great mix of culture and nature."
-            ],
-            "Munsiyari": [
-                "The view of Panchachuli peaks from Munsiyari is unreal.",
-                "Munsiyari is an unexplored gem of Uttarakhand.",
-                "Long drive to Munsiyari was worth it for the views."
-            ],
-            "Chopta": [
-                "Chopta Tungnath trek was an adventure of a lifetime.",
-                "Camping in Chopta under the stars was magical.",
-                "Mini Switzerland of India, Chopta is beautiful."
-            ],
-            "Dhanulti": [
-                "Dhanaulti is perfect for a quiet weekend trip.",
-                "Eco Park in Dhanaulti was lush green and cool.",
-                "Peaceful stay amidst pine trees in Dhanaulti."
-            ],
-            "Ramnagar": [
-                "Ramnagar is the perfect gateway to Jim Corbett.",
-                "Convenient stay at Ramnagar with good food.",
-                "Visited the Corbett Museum and Garjiya Devi temple in Ramnagar."
-            ]
+            "Best Agency": ["They are truly the best travel agency in the region.", "Hands down the top tour operator for Uttarakhand."],
+            "Staff": ["The staff is very friendly and available 24/7.", "Best management and very cooperative staff."],
+            "Safety": ["We felt completely safe throughout the journey.", "Very safe for solo travelers and families."],
+            "Driver": ["The driver acted like a guide and was very polite.", "Smooth driving skills on the mountain roads."],
+            "Affordable": ["Got the most affordable packages compared to others.", "Value for money services without compromising quality."],
+            "Nainital": ["The Nainital tour package was perfectly planned.", "Enjoyed the lake tour and sightseeing in Nainital."],
+            "Jim Corbett": ["Jim Corbett safari booking was hassle-free.", "We saw amazing wildlife during the Jungle Safari."],
+            "Mussoorie": ["Mussoorie holiday package covered all top spots.", "Loved the Kempty falls visit included in the package."],
+            "Auli": ["Auli skiing tour package was the highlight of the trip.", "Best place for snow lovers, well organized tour."],
+            "Rishikesh": ["Rishikesh rafting package was full of fun.", "The Ganga Aarti in Rishikesh was divine."],
+            "Char Dham": ["Char Dham Yatra from Haridwar was managed professionally.", "They handled the difficult Yatra logistics very well."],
+            "Kaichi Dham": ["The visit to Kaichi Dham (Neem Karoli Baba) was divine.", "Very peaceful and spiritual vibe at Kaichi Dham."],
+            "Jageshwar Dham": ["Jageshwar Dham ancient temples are a must-visit.", "Felt a strong spiritual energy at Jageshwar Dham."],
+            "Mukteshwar": ["Mukteshwar offered the best views of the Himalayas.", "Stayed at a peaceful resort in Mukteshwar."],
+            "Kausani": ["The sunrise view from Kausani was mesmerizing.", "Kausani is truly the Switzerland of India, so scenic."],
+            "Chopta": ["Chopta Tungnath trek was an adventure of a lifetime.", "Camping in Chopta under the stars was magical."]
         },
-
         outro: {
             "Family": ["Highly recommended for all families.", "Will definitely book again next summer.", "5 stars for the amazing hospitality."],
             "Honeymoon": ["Made our special moments memorable.", "Best choice for couples.", "Thanks for the romantic candle light dinner arrangement."],
@@ -345,82 +593,6 @@
             "General": ["Keep up the good work.", "Highly recommended.", "A trusted name in tourism."]
         }
     };
-
-    // --- LOGIC ---
-    function getRandomItem(arr) {
-        return arr[Math.floor(Math.random() * arr.length)];
-    }
-
-    function toggleNameField() {
-        const field = document.getElementById('nameArea');
-        field.style.display = field.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function toggleKeyword(element, keyword) {
-        element.classList.toggle('active');
-        if (selectedKeywords.includes(keyword)) {
-            selectedKeywords = selectedKeywords.filter(item => item !== keyword);
-        } else {
-            selectedKeywords.push(keyword);
-        }
-    }
-
-    function generateReview() {
-        const tone = document.getElementById('toneSelect').value;
-        const userName = document.getElementById('userName').value.trim();
-        const outputBox = document.getElementById('reviewOutput');
-        const copyBtn = document.getElementById('copyBtn');
-
-        if (selectedKeywords.length === 0) {
-            alert("Please select at least 2 highlights.");
-            return;
-        }
-        
-        outputBox.style.opacity = "0.5";
-
-        // 1. INTRO
-        let intro = getRandomItem(reviewData.intro[tone]);
-        if (userName) {
-            intro = `I am ${userName}. ` + intro;
-        }
-
-        // 2. BODY
-        let body = "";
-        const shuffledKeywords = selectedKeywords.sort(() => Math.random() - 0.5);
-        
-        shuffledKeywords.forEach((k) => {
-            let sentence = getRandomItem(reviewData.keywords[k]);
-            body += sentence + " ";
-        });
-
-        // 3. OUTRO
-        let outro = getRandomItem(reviewData.outro[tone]);
-
-        const finalReview = intro + " " + body + outro;
-
-        setTimeout(() => {
-            outputBox.style.opacity = "1";
-            outputBox.value = finalReview;
-            copyBtn.style.display = "block";
-            
-            if (window.innerWidth < 600) {
-                outputBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }, 300);
-    }
-
-    function copyToClipboard() {
-        const copyText = document.getElementById("reviewOutput");
-        copyText.select();
-        copyText.setSelectionRange(0, 99999);
-        
-        navigator.clipboard.writeText(copyText.value).then(() => {
-            const isConfirmed = confirm("Review Copied! 🏔️\n\nClick OK to open the website/review page.");
-            if(isConfirmed) {
-                window.open(GOOGLE_REVIEW_LINK, '_blank');
-            }
-        });
-    }
 </script>
 
 </body>
