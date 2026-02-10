@@ -7,16 +7,16 @@
     <style>
         /* --- THEME: ASTER4 (Royal Blue & Orange) --- */
         :root {
-            --primary: #2563eb; /* Royal Blue */
+            --primary: #2563eb;
             --primary-dark: #1e3a8a;
-            --secondary: #f97316; /* Orange for Call-to-Action */
-            --bg-color: #eff6ff; 
+            --secondary: #f97316;
+            --bg-color: #eff6ff;
             --card-bg: #ffffff;
             --text-main: #333;
             --border: #bfdbfe;
             --box-bg: #f8fafc;
             --whatsapp: #25D366;
-            --danger: #ef4444; /* Red for Lock */
+            --danger: #ef4444;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -101,7 +101,7 @@
             box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
         }
 
-        /* INPUT MODES (Voice/Text) */
+        /* INPUT MODES */
         .input-mode-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
         .mode-btn { 
             flex: 1; padding: 10px; border: 1px solid var(--primary); border-radius: 8px; 
@@ -178,9 +178,9 @@
 <body>
 
 <div id="lockScreen" style="display: none;">
-    <div class="lock-icon">🔒</div>
-    <div class="lock-msg">Service Suspended</div>
-    <div style="font-size:14px; color:#666; margin-bottom:20px;">
+    <div style="font-size: 60px; margin-bottom: 20px;">🔒</div>
+    <div style="font-size: 22px; font-weight: 700; color: #333; margin-bottom: 10px;">Service Suspended</div>
+    <div style="font-size: 14px; color: #666; margin-bottom: 30px;">
         This review tool is currently inactive.<br>Please contact the administrator.
     </div>
     <a href="tel:+917020360561" class="contact-admin-btn">Contact Support</a>
@@ -343,7 +343,7 @@
     const APP_STATUS = "active"; 
     
     // EXPIRY DATE (YYYY-MM-DD)
-    const EXPIRY_DATE = "2026-03-10"; 
+    const EXPIRY_DATE = "2026-10-03"; 
 
     // --- INITIALIZATION ---
     let isOwnerMode = false;
@@ -458,12 +458,16 @@
         recognition.interimResults = false;
         document.getElementById('micBtn').classList.add('mic-active');
         document.getElementById('statusText').innerText = "Listening...";
+        
         recognition.onresult = (event) => {
             voiceText = event.results[0][0].transcript;
             document.getElementById('spokenTextDisplay').style.display = 'block';
             document.getElementById('spokenTextDisplay').innerText = `Recorded: "${voiceText}"`;
         };
-        recognition.onend = () => { document.getElementById('micBtn').classList.remove('mic-active'); document.getElementById('statusText').innerText = "Processing..."; };
+        recognition.onend = () => {
+             document.getElementById('micBtn').classList.remove('mic-active'); 
+             document.getElementById('statusText').innerText = "Processing...";
+        };
         recognition.start();
     }
 
@@ -483,12 +487,23 @@
             return;
         }
 
+        // --- FIXED TRANSLATION LOGIC ---
         let finalBodyText = "";
         if (rawInput && rawInput.length > 1) {
             try {
-                const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(rawInput)}&langpair=Autodetect|en`);
+                // Determine Source Language from Dropdown
+                const srcLangCode = document.getElementById('voiceLang').value.split('-')[0]; // 'hi', 'en', 'mr'
+                
+                // If user selected English, don't translate or use Autodetect
+                let langPair = 'Autodetect|en';
+                if(srcLangCode === 'hi') langPair = 'hi|en';
+                if(srcLangCode === 'mr') langPair = 'mr|en';
+
+                const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(rawInput)}&langpair=${langPair}`);
                 const data = await res.json();
+                
                 let translated = data.responseData ? data.responseData.translatedText : "";
+                
                 if(!translated.includes("PLEASE SELECT")) finalBodyText = translated;
                 else finalBodyText = rawInput;
             } catch(e) { finalBodyText = rawInput; }
