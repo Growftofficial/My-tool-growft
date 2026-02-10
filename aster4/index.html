@@ -17,6 +17,7 @@
             --box-bg: #f8fafc;
             --whatsapp: #25D366;
             --danger: #ef4444; /* Red for Lock */
+            --gold: #f59e0b;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -53,7 +54,6 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
-        /* LOGO & HEADER */
         .logo-frame {
             width: 140px; height: 70px; border: 1px solid #dbeafe;
             border-radius: 8px; background: #fff; padding: 5px;
@@ -64,7 +64,6 @@
         h2 { margin: 5px 0 2px 0; font-size: 24px; font-weight: 800; color: var(--primary-dark); }
         .subtitle { color: var(--primary); font-size: 13px; margin-bottom: 5px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* INPUTS */
         select, input, textarea {
             width: 100%; padding: 12px; border-radius: 8px;
             border: 1px solid var(--border); background: #f0f9ff;
@@ -74,7 +73,6 @@
         select:focus, input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2); background: #fff; }
         label { font-weight: 700; display: block; margin-top: 15px; margin-bottom: 6px; color: #334155; font-size: 13px; text-transform: uppercase; text-align: left; }
 
-        /* RATING */
         .star-container { display: flex; justify-content: center; gap: 8px; margin: 20px 0; }
         .star { font-size: 42px; color: #cbd5e1; cursor: pointer; transition: transform 0.2s; }
         .star.selected { color: var(--gold); transform: scale(1.1); }
@@ -87,7 +85,6 @@
         }
         .exp-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-        /* CHIPS */
         .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; }
         .keyword-chip {
             padding: 10px 12px; background-color: #fff; border-radius: 6px;
@@ -101,7 +98,6 @@
             box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
         }
 
-        /* INPUT MODES (Voice/Text) */
         .input-mode-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
         .mode-btn { 
             flex: 1; padding: 10px; border: 1px solid var(--primary); border-radius: 8px; 
@@ -123,7 +119,6 @@
         .mic-active { animation: pulse 1.5s infinite; background: var(--danger); }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(0,0,0,0); } }
 
-        /* BUTTONS */
         .generate-btn {
             width: 100%; padding: 14px; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
             color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 700;
@@ -143,7 +138,6 @@
             resize: none; outline: none;
         }
 
-        /* OWNER PANEL */
         #ownerPanel {
             display: none; margin-top: 20px; padding: 15px;
             border: 2px dashed var(--whatsapp); border-radius: 12px;
@@ -156,7 +150,6 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        /* FOOTER */
         .footer { margin-top: 35px; text-align: center; font-size: 12px; color: #6b7280; border-top: 1px dashed #bfdbfe; padding-top: 15px; }
         .footer-logo { display: block; margin: 0 auto 5px auto; max-height: 30px; width: auto; opacity: 0.8; }
         .footer a { color: var(--primary); text-decoration: none; font-weight: 700; }
@@ -170,7 +163,6 @@
         .hidden { display: none; }
         .toggle-name { font-size: 13px; color: var(--primary); text-decoration: underline; cursor: pointer; border: none; background: none; float: right; margin-top: 5px; }
         
-        /* CUSTOMER CARD */
         .customer-card { text-align: center; padding: 20px; }
         .customer-card h2 { color: var(--primary); }
     </style>
@@ -336,20 +328,16 @@
 </div>
 
 <script>
-    // --- 🔐 SECURITY & CONFIGURATION ---
     const GOOGLE_REVIEW_LINK = "https://g.page/r/CWDqjnXT1wQoEBM/review"; 
-    
-    // CHANGE TO "suspended" TO LOCK
-    const APP_STATUS = "suspended"; 
-    
-    // EXPIRY DATE (YYYY-MM-DD)
+    const APP_STATUS = "active"; // Set to active
     const EXPIRY_DATE = "2026-12-31"; 
 
-    // --- INITIALIZATION ---
-    let isOwnerMode = true;
+    let isOwnerMode = false;
+    let selectedKeywords = [];
+    let voiceText = "";
+    let activeMode = 'voice';
 
     window.onload = function() {
-        // Security Check
         const today = new Date().toISOString().split('T')[0];
         if(APP_STATUS === "suspended" || today > EXPIRY_DATE) {
             document.getElementById('mainApp').style.display = 'none';
@@ -357,7 +345,6 @@
             return;
         }
 
-        // URL Check (Customer Mode)
         const urlParams = new URLSearchParams(window.location.search);
         const reviewText = urlParams.get('review');
         if (reviewText) {
@@ -369,11 +356,10 @@
         }
     };
 
-    // --- OWNER & WHATSAPP LOGIC ---
     function ownerLogin() {
         if(isOwnerMode) { alert("Already logged in as Owner."); return; }
         const password = prompt("Enter Owner Password:");
-        if(password === "admin123") { // CHANGE PASSWORD
+        if(password === "admin123") {
             isOwnerMode = true;
             sessionStorage.setItem('isOwner', 'true');
             alert("Owner Mode Active!");
@@ -398,12 +384,6 @@
         window.open(GOOGLE_REVIEW_LINK, '_blank');
     }
 
-    // --- APP LOGIC ---
-    let selectedKeywords = [];
-    let voiceText = "";
-    let activeMode = 'voice';
-    const connectors = ["Also,", "Moreover,", "I must mention that", "Additionally,", "Plus,", "On top of that,", "Furthermore,", "Truly,", "Honestly,", "Not to mention,", "Along with that,"];
-
     function switchMode(mode) {
         activeMode = mode;
         document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active-mode'));
@@ -422,22 +402,15 @@
         document.querySelectorAll('.star').forEach((star, index) => {
             star.classList.toggle('selected', index < stars);
         });
-        if(stars >= 4) {
-            document.getElementById('btn-good').classList.add('active');
-            document.getElementById('btn-bad').classList.remove('bad-active');
-        } else {
-            document.getElementById('btn-good').classList.remove('active');
-            document.getElementById('btn-bad').classList.add('bad-active');
-        }
     }
     
     function selectExp(type) {
         if(type==='good') {
             document.getElementById('btn-good').classList.add('active');
-            document.getElementById('btn-bad').classList.remove('bad-active');
+            document.getElementById('btn-bad').classList.remove('active');
         } else {
             document.getElementById('btn-good').classList.remove('active');
-            document.getElementById('btn-bad').classList.add('bad-active');
+            document.getElementById('btn-bad').classList.add('active');
         }
     }
 
@@ -453,7 +426,7 @@
 
     function startListening() {
         if (!('webkitSpeechRecognition' in window)) { alert("Use Chrome Browser."); return; }
-        recognition = new webkitSpeechRecognition();
+        let recognition = new webkitSpeechRecognition();
         recognition.lang = document.getElementById('voiceLang').value;
         recognition.interimResults = false;
         document.getElementById('micBtn').classList.add('mic-active');
@@ -483,31 +456,16 @@
             return;
         }
 
-        let finalBodyText = "";
-        if (rawInput && rawInput.length > 1) {
-            try {
-                const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(rawInput)}&langpair=Autodetect|en`);
-                const data = await res.json();
-                let translated = data.responseData ? data.responseData.translatedText : "";
-                if(!translated.includes("PLEASE SELECT")) finalBodyText = translated;
-                else finalBodyText = rawInput;
-            } catch(e) { finalBodyText = rawInput; }
-        }
-
-        // --- GENERATION ---
         let intro = getRandom(reviewData.intro[tone]);
         if(location) intro += ` Received my order in ${location} quickly. `;
         
         let review = intro;
         if(name) review = `I am ${name}. ` + review;
-        if(finalBodyText) review += " " + finalBodyText + ". ";
+        if(rawInput) review += " " + rawInput + ". ";
 
-        const shuffled = selectedKeywords.sort(() => 0.5 - Math.random());
-        shuffled.forEach((k, i) => {
+        selectedKeywords.forEach((k) => {
             if(reviewData.keywords[k]) {
-                let sentence = getRandom(reviewData.keywords[k]);
-                if(i > 0 && Math.random() > 0.6) sentence = getRandom(connectors) + " " + sentence;
-                review += sentence + " ";
+                review += getRandom(reviewData.keywords[k]) + " ";
             }
         });
 
@@ -521,9 +479,7 @@
 
         if(isOwnerMode) {
             document.getElementById('ownerPanel').style.display = 'block';
-            document.getElementById('copyBtn').style.display = 'none';
         } else {
-            document.getElementById('ownerPanel').style.display = 'none';
             document.getElementById('copyBtn').style.display = 'block';
         }
     }
@@ -547,38 +503,36 @@
     }
     
     function getRandom(arr) { 
-        if(!arr) return "";
+        if(!arr || arr.length === 0) return "";
         return arr[Math.floor(Math.random() * arr.length)]; 
     }
 
-    // --- DATA ---
     const reviewData = {
         intro: {
-            "Corporate": ["We placed a bulk order for our company event with Aster4.com.", "Recently partnered with Aster4 for our employee merchandise.", "I was looking for professional corporate gifting solutions and found Aster4.", "Our HR team ordered custom t-shirts for the annual meet from here.", "Excellent B2B service provided by the team at Aster4.com.", "We needed urgent hoodies for our startup team and they delivered.", "A highly professional experience dealing with their corporate sales team.", "I ordered 50+ custom polos for our office staff.", "This is our second time ordering corporate swag from Aster4.", "The best vendor we have found for corporate uniforms so far.", "Seamless process from design to delivery for our bulk order.", "We wanted high-quality fabric for our team and Aster4 delivered.", "Sourced our event merchandise from Aster4.com this year.", "Great experience ordering custom logo t-shirts.", "Reliable partner for all our corporate clothing needs."],
-            "Trendy": ["I absolutely love the trendy collection available at Aster4.com.", "Just received my order of Marathi slogan t-shirts and they are lit!", "If you want cool and quirky t-shirts, this is the place.", "Found some amazing designs that relate to our local culture.", "My wardrobe is getting upgraded thanks to Aster4's collection.", "Ordered a few graphic tees and the print quality is superb.", "Finally a site that understands what the youth wants.", "The vibe of their t-shirt collection is just amazing.", "Super happy with my purchase of trendy casual wear.", "I saw their ad and decided to try, totally worth it.", "The fit and style of their t-shirts are on point.", "Best place for Marathi quote t-shirts online.", "Fashionable, affordable and comfortable - that's Aster4.", "I am impressed with the variety of designs they offer.", "Received my parcel today and I am in love with the prints."],
-            "Family": ["Ordered matching t-shirts for our upcoming family vacation.", "Bought a cute combo set for me and my kids.", "I was looking for comfortable kids wear and found this gem.", "The fabric is so soft, perfect for my little ones.", "Made our family trip extra special with matching outfits.", "Great collection for kids and unisex options for the whole family.", "My kids absolutely love the funny prints on their t-shirts.", "Best place for custom family reunion t-shirts.", "Shopping for the entire family was so easy here.", "I gifted a family combo pack to my sister and she loved it.", "Quality cotton wear that is safe for kids' skin.", "Planning a trip? Definitely get their vacation t-shirts.", "The sizes were perfect for everyone in the family.", "Surprised my husband with matching father-son t-shirts.", "Excellent quality clothing for toddlers and teens alike."],
-            "Short": ["Great quality products.", "Amazing t-shirts.", "Value for money.", "Fast delivery service.", "Loved the prints.", "Highly recommended.", "Best online shopping experience.", "Superb fabric quality.", "Nice collection.", "Very happy with the order.", "Will order again.", "Trustworthy site.", "Good packaging.", "Quick response.", "5 star service."]
+            "Corporate": ["We placed a bulk order for our company event with Aster4.com.", "Recently partnered with Aster4 for our employee merchandise.", "I was looking for professional corporate gifting solutions and found Aster4."],
+            "Trendy": ["I absolutely love the trendy collection available at Aster4.com.", "Just received my order of Marathi slogan t-shirts and they are lit!", "If you want cool and quirky t-shirts, this is the place."],
+            "Family": ["Ordered matching t-shirts for our upcoming family vacation.", "Bought a cute combo set for me and my kids.", "The fabric is so soft, perfect for my little ones."],
+            "Short": ["Great quality products.", "Amazing t-shirts.", "Value for money."]
         },
         keywords: {
-            "Corporate Tshirt": ["The fabric quality of the corporate t-shirts is premium and breathable.", "Our logo printing on the corporate t-shirts came out sharp and clear.", "Best place to buy corporate t-shirts in bulk at affordable rates."],
-            "Corporate Hoodies": ["The corporate hoodies are warm, cozy, and look very professional.", "Premium quality material used for the corporate hoodies.", "We ordered corporate hoodies for winter and they are fantastic."],
-            "Event Tshirt": ["They delivered our event t-shirts right on time.", "The event t-shirts made our team look unified and smart.", "Vibrant colors and great printing on the event t-shirts."],
-            "Custom Tshirt": ["The custom t-shirt printing quality is superior.", "They brought our design to life perfectly on the custom t-shirts.", "I created a unique design and the custom t-shirt came out exactly as imagined."],
-            "Corporate Gifting": ["Aster4 is now our go-to for all corporate gifting solutions.", "The packaging and quality make it perfect for corporate gifting.", "Employees were thrilled with the high-quality corporate gifting items."],
-            "Marathi Tshirt": ["Being a Maharashtrian, I love their Marathi t-shirt collection.", "The slogans on the Marathi t-shirts are witty and trendy.", "Proud to wear these stylish Marathi t-shirts."],
-            "Vacation Tshirt": ["Our group looked amazing in the matching vacation t-shirts.", "Got some really cool vibes with these vacation t-shirts.", "The material is light and perfect for summer vacation t-shirts."],
-            "Family Tshirt": ["The family t-shirt combo sets are adorable.", "We got so many compliments on our matching family t-shirts.", "Sizes were perfect for everyone in the family t-shirt set."],
-            "Kids Tshirt": ["The cotton used for kids t-shirts is very skin-friendly.", "My child loves the colors and comfort of the kids t-shirts.", "Durable fabric that withstands rough use, perfect kids t-shirts."],
-            "Cricket Tshirt": ["The fabric of the cricket t-shirt is breathable and perfect for matches.", "Ordered custom cricket jerseys for our team and they look professional.", "The print quality on the cricket t-shirt is sharp and durable."]
+            "Corporate Tshirt": ["The fabric quality is premium.", "Logo printing is sharp.", "Best for bulk orders."],
+            "Corporate Hoodies": ["Warm and professional looking.", "Quality material used."],
+            "Event Tshirt": ["Delivered on time for our event.", "Team looks smart in these."],
+            "Custom Tshirt": ["Printing quality is superior.", "Design came out perfectly."],
+            "Corporate Gifting": ["Go-to for gifting solutions.", "Perfect packaging."],
+            "Marathi Tshirt": ["Love the Marathi collection.", "Slogans are trendy."],
+            "Vacation Tshirt": ["Group looked amazing in these.", "Perfect for summer."],
+            "Family Tshirt": ["Great family combo.", "Sizes are perfect."],
+            "Kids Tshirt": ["Safe for kids skin.", "Funny prints."],
+            "Cricket Tshirt": ["Comfortable for sports.", "Quality fabric."]
         },
         outro: {
-            "Corporate": ["Highly recommended for B2B orders.", "Will definitely order again for our next event.", "Aster4 represents quality and trust in the corporate market.", "A reliable partner for all corporate merchandise.", "5 stars for the professional service and delivery."],
-            "Trendy": ["Check them out for the latest fashion trends.", "My new favorite online shopping site for t-shirts.", "Don't think twice, just buy it!", "Affordable fashion at its best.", "5 stars for style and comfort."],
-            "Family": ["Thank you for making our trip special.", "Highly recommended for families looking for matching sets.", "Great quality at great prices for kids.", "Will surely buy more for the kids soon.", "Aster4 made us smile with their products."],
-            "Short": ["Recommended.", "Good job.", "5 Stars.", "Love it.", "Superb.", "Excellent.", "Nice.", "Great.", "Must buy.", "Awesome."]
+            "Corporate": ["Highly recommended for business needs.", "Will order again."],
+            "Trendy": ["Totally worth it!", "Must try for fashion lovers."],
+            "Family": ["Great experience for the whole family.", "Happy shopping!"],
+            "Short": ["5 star service.", "Highly recommended."]
         }
     };
 </script>
-
 </body>
 </html>
