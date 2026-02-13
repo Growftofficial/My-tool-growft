@@ -322,31 +322,39 @@
                     <div class="keywords-container" id="customContainer"></div>
                 </div>
 
-                <div class="category-header">CORE SERVICES</div>
+                <div class="category-header">EMERGENCY & CRITICAL CARE</div>
                 <div class="keywords-container">
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Animal hospital')">🏥 Best Animal Hospital</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Best pet hospital')">🐾 Best Pet Hospital</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, '24x7 pet hospital')">🚑 24x7 Emergency</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Best vet in Jaipur')">🥇 Best Vet in Jaipur</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Veterinarian')">👨‍⚕️ Expert Doctor</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, '24/7 emergency veterinary service')">🚑 24/7 Emergency</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet ambulance service')">🚐 Pet Ambulance</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Critical care (ICU) for pets')">🏥 Pet ICU</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Trauma and accident treatment for pets')">🤕 Trauma/Accident</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet hospitalization service')">🛌 Hospitalization</div>
                 </div>
 
-                <div class="category-header">VACCINATION & HEALTH</div>
+                <div class="category-header">SURGERY</div>
                 <div class="keywords-container">
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Dog vaccination')">💉 Dog Vaccination</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet vaccination')">💉 Pet Vaccination</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet allergy testing')">🤧 Allergy Testing</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet dental clinic')">🦷 Dental Clinic</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Puppy/Kitten first vet visit')">🍼 Puppy/Kitten First Visit</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Dog surgery services')">🐕 Dog Surgery</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Soft tissue surgery for pets')">🩺 Soft Tissue Surgery</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Orthopedic surgery for dogs')">🦴 Orthopedic Surgery</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet spay and neutering surgery')">✂️ Spay/Neuter</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet wound management')">🩹 Wound Care</div>
                 </div>
 
-                <div class="category-header">FACILITIES</div>
+                <div class="category-header">DIAGNOSTICS & LAB</div>
                 <div class="keywords-container">
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet insurance')">📄 Pet Insurance</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Quality pet food')">🥩 Quality Pet Food</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Dog hospital')">🐕 Dog Hospital</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'cat hospital')">🐈 Cat Hospital</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Exotic animal vet')">🦎 Exotic Animal Vet</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet X-ray service')">📸 X-Ray</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet ultrasound service')">🖥️ Ultrasound</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet pathology lab testing')">🔬 Pathology Lab</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet blood testing service')">🩸 Blood Test</div>
+                </div>
+
+                <div class="category-header">GENERAL CARE</div>
+                <div class="keywords-container">
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Home visit veterinary service')">🏠 Home Visit</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet dental treatment')">🦷 Dental Care</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet vaccination service')">💉 Vaccination</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Deworming and parasite control')">🐛 Deworming</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet grooming and hygiene service')">🛁 Grooming</div>
                 </div>
             </div>
 
@@ -416,7 +424,6 @@
 
     // --- FETCH DATA FUNCTION ---
     function fetchKeywordsFromSheet() {
-        // Cache Buster to force update
         const cacheBuster = "&t=" + new Date().getTime(); 
         const finalURL = SHEET_CSV_URL + cacheBuster;
 
@@ -428,7 +435,6 @@
                 return response.text();
             })
             .then(data => {
-                // Check if data is HTML (Wrong Link Error)
                 if(data.trim().startsWith("<!DOCTYPE")) {
                     console.error("Error: Link is HTML, not CSV");
                     return;
@@ -441,14 +447,11 @@
                 customContainer.innerHTML = '';
                 let hasData = false;
 
-                // Loop through rows (Start at 1 to skip header)
                 for(let i = 1; i < rows.length; i++) {
                     let keyword = rows[i].trim();
-                    // Clean quotes if CSV adds them
                     if(keyword.startsWith('"') && keyword.endsWith('"')) {
                         keyword = keyword.slice(1, -1);
                     }
-                    // Clean extra commas
                     keyword = keyword.replace(/,/g, '').trim();
                     
                     if(keyword) {
@@ -459,8 +462,6 @@
 
                 if(hasData) {
                     customCategory.classList.remove('hidden');
-                } else {
-                    console.log("Sheet Connected but Empty");
                 }
             })
             .catch(error => console.error('Error fetching sheet:', error));
@@ -665,7 +666,7 @@
     
     function getRandom(arr) { if(!arr) return ""; return arr[Math.floor(Math.random() * arr.length)]; }
 
-    // --- MASSIVE DATABASE (30k+ Combo Ready) ---
+    // --- MASSIVE DATABASE (With New Categories) ---
     const reviewDB = {
         intros: {
             "Professional": [
@@ -758,125 +759,155 @@
             ]
         },
         keywords: {
-            "Best Animal hospital": [
-                "This is the best animal hospital in {location} with modern facilities.", 
-                "Hands down the best animal hospital for comprehensive care.", 
-                "Finding the best animal hospital was hard until we came here.",
-                "Sukhada stands out as the best animal hospital in the region.",
-                "If you want the best animal hospital experience, this is it."
+            // NEW CATEGORY: EMERGENCY & CRITICAL
+            "24/7 emergency veterinary service": [
+                "Found the best 24/7 emergency veterinary service here.",
+                "Life-saving 24/7 emergency veterinary service.",
+                "Responsive 24/7 emergency veterinary service at night.",
+                "They truly provide a dedicated 24/7 emergency veterinary service.",
+                "Grateful for their reliable 24/7 emergency veterinary service."
             ],
-            "Best pet hospital": [
-                "Truly the best pet hospital I have visited for my {pet}.",
-                "Ranked as the best pet hospital in {location} for a reason.",
-                "Excellent facilities make it the best pet hospital nearby.",
-                "We trust only this place, the best pet hospital in town.",
-                "The best pet hospital for detailed checkups."
+            "Pet ambulance service": [
+                "Their Pet ambulance service was a blessing.",
+                "Quick response from the Pet ambulance service.",
+                "The Pet ambulance service is well-equipped.",
+                "Called their Pet ambulance service and they arrived fast.",
+                "Safe transport via Pet ambulance service."
             ],
-            "Best pet hospital": [
-                 "Consistently providing service that makes them the best pet hospital.",
-                 "My search for the best pet hospital ended here.",
-                 "Professionalism defines this best pet hospital.",
-                 "Highly rated as the best pet hospital for emergencies.",
-                 "The staff makes this the best pet hospital."
+            "Critical care (ICU) for pets": [
+                "The Critical care (ICU) for pets facilities are advanced.",
+                "My pet survived thanks to their Critical care (ICU) for pets.",
+                "Best Critical care (ICU) for pets in the city.",
+                "Clean and monitored Critical care (ICU) for pets.",
+                "High-standard Critical care (ICU) for pets."
             ],
-             "Dog vaccination": [
-                "Came here for dog vaccination, very smooth process.", 
-                "Painless dog vaccination carried out by the expert.", 
-                "They maintain a proper schedule for dog vaccination.",
-                "Got my puppy's dog vaccination done here, very gentle.",
-                "Best place for timely dog vaccination in {location}."
+            "Trauma and accident treatment for pets": [
+                "Expert Trauma and accident treatment for pets.",
+                "They handled the Trauma and accident treatment for pets professionally.",
+                "Best place for Trauma and accident treatment for pets.",
+                "Immediate Trauma and accident treatment for pets saved us.",
+                "Skilled team for Trauma and accident treatment for pets."
             ],
-            "Pet dental clinic": [
-                "The pet dental clinic facilities here are advanced.",
-                "Looking for a pet dental clinic? This is the one.",
-                "Their pet dental clinic solved my dog's bad breath issue.",
-                "Expert pet dental clinic services at reasonable rates.",
-                "Highly specialized pet dental clinic for cleaning and surgery."
+            "Pet hospitalization service": [
+                "The Pet hospitalization service is very hygienic.",
+                "Comfortable Pet hospitalization service for recovery.",
+                "Staff monitored my pet well during the Pet hospitalization service.",
+                "Trustworthy Pet hospitalization service.",
+                "Stress-free Pet hospitalization service."
             ],
-            "Pet vaccination": [
-                "Essential pet vaccination done at affordable rates.", 
-                "Very professional handling during pet vaccination.", 
-                "Timely pet vaccination reminders are helpful.",
-                "Ensured my {pet} was calm during pet vaccination.",
-                "Complete range of pet vaccination available."
+
+            // NEW CATEGORY: SURGERY
+            "Dog surgery services": [
+                "Excellent Dog surgery services provided.",
+                "Successful operation thanks to their Dog surgery services.",
+                "Advanced equipment for Dog surgery services.",
+                "The vet explained the Dog surgery services clearly.",
+                "Recovered fast after using their Dog surgery services."
             ],
-            "Pet insurance": [
-                "They helped me with Pet insurance for dogs claims.", 
-                "Accepts Pet insurance which is great for costly treatments.", 
-                "Explained the benefits of Pet insurance clearly.",
-                "Smooth processing of cashless Pet insurance.",
-                "Great to see a clinic supporting Pet insurance."
+            "Soft tissue surgery for pets": [
+                "Specialists in Soft tissue surgery for pets.",
+                "Our pet underwent Soft tissue surgery for pets here.",
+                "Complex Soft tissue surgery for pets handled well.",
+                "Recommended for Soft tissue surgery for pets.",
+                "Safe Soft tissue surgery for pets."
             ],
-            "Quality pet food": [
-                "They also recommend the best Quality pet food.", 
-                "Got Quality pet food prescribed specifically for my {pet}.", 
-                "Wide range of Quality pet food available at the clinic.",
-                "The doctor guided me on Quality pet food for better health.",
-                "Stocked with premium Quality pet food brands."
+            "Orthopedic surgery for dogs": [
+                "Best surgeon for Orthopedic surgery for dogs.",
+                "My dog walks again thanks to Orthopedic surgery for dogs.",
+                "Expert Orthopedic surgery for dogs available.",
+                "Complex Orthopedic surgery for dogs done perfectly.",
+                "Top-notch facility for Orthopedic surgery for dogs."
             ],
-            "Dog hospital": [
-                "The best Dog hospital in the city for all breeds.", 
-                "Treats all issues, amazing Dog hospital.", 
-                "My dog recovered quickly thanks to this Dog hospital.",
-                "Specialized facilities available at this Dog hospital.",
-                "A trusted Dog hospital for surgeries and general care."
+            "Pet spay and neutering surgery": [
+                "Quick Pet spay and neutering surgery process.",
+                "Affordable Pet spay and neutering surgery.",
+                "Safe Pet spay and neutering surgery for my pet.",
+                "The team made Pet spay and neutering surgery easy.",
+                "Routine Pet spay and neutering surgery done well."
             ],
-            "cat hospital": [
-                "Finally found a dedicated cat hospital service.",
-                "They understand feline behavior well at this cat hospital.",
-                "Quiet area for cats, great cat hospital environment.",
-                "Best cat hospital in {location} for my kitty.",
-                "Expert handling at this cat hospital."
+            "Pet wound management": [
+                "Proper Pet wound management helped healing.",
+                "Daily Pet wound management was excellent.",
+                "Hygenic Pet wound management.",
+                "Skilled staff for Pet wound management.",
+                "Fast healing with their Pet wound management."
             ],
-            "24x7 pet hospital": [
-                "A true 24x7 pet hospital that is always open.",
-                "Thank god for this 24x7 pet hospital during emergencies.",
-                "Reliable 24x7 pet hospital for late-night issues.",
-                "Always accessible, the best 24x7 pet hospital.",
-                "Peace of mind knowing there is a 24x7 pet hospital nearby."
+
+            // NEW CATEGORY: DIAGNOSTICS
+            "Pet X-ray service": [
+                "Digital Pet X-ray service is very clear.",
+                "Quick Pet X-ray service on site.",
+                "Instant results from Pet X-ray service.",
+                "Affordable Pet X-ray service.",
+                "Modern Pet X-ray service available."
             ],
-            "Best Veterinarian": [
-                "We met the Best Veterinarian for our {pet} here.",
-                "Dr. is the Best Veterinarian in {location} hands down.",
-                "Knowledgeable and kind, truly the Best Veterinarian.",
-                "Lucky to have found the Best Veterinarian for our fur baby.",
-                "Recommended by many as the Best Veterinarian in town."
+            "Pet ultrasound service": [
+                "Accurate Pet ultrasound service.",
+                "The vet performed the Pet ultrasound service gently.",
+                "Detailed report from Pet ultrasound service.",
+                "High-tech Pet ultrasound service.",
+                "Vital diagnosis via Pet ultrasound service."
             ],
-            "Best vet in Jaipur": [
-                "Undoubtedly the Best vet in Jaipur for small animals.",
-                "Search no more for the Best vet in Jaipur.",
-                "Visiting the Best vet in Jaipur changed our pet's health.",
-                "Highly experienced, the Best vet in Jaipur.",
-                "Top-class treatment from the Best vet in Jaipur."
+            "Pet pathology lab testing": [
+                "In-house Pet pathology lab testing is convenient.",
+                "Fast results from Pet pathology lab testing.",
+                "Reliable Pet pathology lab testing.",
+                "Comprehensive Pet pathology lab testing.",
+                "Trust their Pet pathology lab testing reports."
             ],
-            "Emergency vet in jaipur": [
-                "The most responsive Emergency vet in jaipur.",
-                "Saved my pet's life, best Emergency vet in jaipur.",
-                "Quick action by the Emergency vet in jaipur team.",
-                "Available at odd hours, reliable Emergency vet in jaipur.",
-                "Critical care provided by the Emergency vet in jaipur."
+            "Pet blood testing service": [
+                "Quick Pet blood testing service.",
+                "Painless sample collection for Pet blood testing service.",
+                "Accurate Pet blood testing service.",
+                "Got the Pet blood testing service results in minutes.",
+                "Essential Pet blood testing service available 24/7."
             ],
-            "Puppy/Kitten first vet visit": [
-                "Perfect place for a Puppy/Kitten first vet visit.",
-                "Made our Puppy/Kitten first vet visit very special.",
-                "Guided us well during the Puppy/Kitten first vet visit.",
-                "Got a health chart during the Puppy/Kitten first vet visit.",
-                "Zero stress during the Puppy/Kitten first vet visit."
+
+            // NEW CATEGORY: GENERAL & HOME
+            "Home visit veterinary service": [
+                "The Home visit veterinary service was so convenient.",
+                "Dr. came home via their Home visit veterinary service.",
+                "Best Home visit veterinary service in Jaipur.",
+                "Timely Home visit veterinary service.",
+                "Great Home visit veterinary service for elderly pets."
             ],
-            "Pet allergy testing": [
-                "Accurate Pet allergy testing diagnosed the itching.",
-                "Advanced Pet allergy testing available here.",
-                "Solved skin issues with Pet allergy testing.",
-                "The doctor suggested Pet allergy testing which helped.",
-                "Relief for my pet after Pet allergy testing."
+            "Deworming and parasite control": [
+                "Regular Deworming and parasite control done here.",
+                "Effective Deworming and parasite control plan.",
+                "They guided us on Deworming and parasite control.",
+                "Important Deworming and parasite control service.",
+                "Keep pets healthy with their Deworming and parasite control."
             ],
-            "Exotic animal vet": [
-                "Hard to find an Exotic animal vet, but they are here.",
-                "Great knowledge as an Exotic animal vet.",
-                "Treated my turtle/rabbit well, expert Exotic animal vet.",
-                "Specialized care from the Exotic animal vet.",
-                "Best Exotic animal vet in {location}."
-            ]
+            "Pet grooming and hygiene service": [
+                "My pet looks great after the Pet grooming and hygiene service.",
+                "Professional Pet grooming and hygiene service.",
+                "Gentle Pet grooming and hygiene service.",
+                "Hygienic Pet grooming and hygiene service.",
+                "Loved the Pet grooming and hygiene service."
+            ],
+            "Pet dental treatment": [
+                "The Pet dental treatment was very thorough.",
+                "Solved bad breath with Pet dental treatment.",
+                "Advanced Pet dental treatment equipment.",
+                "My dog's teeth are clean thanks to Pet dental treatment.",
+                "Recommended for Pet dental treatment."
+            ],
+            "Pet vaccination service": [
+                "Timely Pet vaccination service reminders.",
+                "Painless Pet vaccination service.",
+                "Complete Pet vaccination service available.",
+                "Affordable Pet vaccination service.",
+                "Trust them for Pet vaccination service."
+            ],
+
+            // EXISTING KEYWORDS
+            "Best Animal hospital": ["This is the best animal hospital in {location}.", "Hands down the best animal hospital.", "Sukhada stands out as the best animal hospital.", "If you want the best animal hospital experience, this is it."],
+            "Best Veterinary clinic": ["Truly the best veterinary clinic I have visited.", "The most reliable best veterinary clinic."],
+            "Best Vet clinic": ["A top-rated best vet clinic.", "Clean, efficient, and clearly the best vet clinic."],
+            "Animal doctor": ["The animal doctor is very knowledgeable.", "Best animal doctor in {location}."],
+            "Veterinary hospital": ["A fully equipped veterinary hospital.", "State-of-the-art veterinary hospital."],
+            "Dog vaccination": ["Painless Dog vaccination.", "Best place for Dog vaccination."],
+            "Pet insurance for dogs": ["They helped me with Pet insurance for dogs.", "Accepts Pet insurance for dogs."]
         },
         outros: {
             "Professional": [
