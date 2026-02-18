@@ -386,3 +386,108 @@
 </body>
 </html>
 <figure class="wp-block-image size-full is-resized has-custom-border about-image1"><img src="https://wealthmasteracademy.in/wp-content/themes/startup-consultant/assets/images/about-img1.png" alt="" class="wp-image-57" style="border-top-left-radius:20px;border-top-right-radius:20px;border-bottom-left-radius:20px;border-bottom-right-radius:20px;object-fit:cover;width:549px;height:auto"/></figure>
+<footer style="background: #000; color: #fff; padding: 60px 20px; font-family: 'Montserrat', sans-serif; border-top: 2px solid #ff3131;">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 40px;">
+        
+        <div style="flex: 1; min-width: 250px;">
+            <h3 style="color: #ff3131; font-weight: 900; letter-spacing: 2px; text-transform: uppercase;">WealthMaster Academy</h3>
+            <p style="color: #888; font-size: 14px; line-height: 1.6; margin-top: 20px;">
+                India's Premium Stock Market Institute. We specialize in Smart Money Concepts (SMC) and Institutional trading logic to help retail traders become professionals.
+            </p>
+        </div>
+
+        <div style="flex: 1; min-width: 150px;">
+            <h4 style="font-size: 18px; margin-bottom: 20px; border-bottom: 2px solid #ff3131; display: inline-block;">Quick Links</h4>
+            <ul style="list-style: none; padding: 0; font-size: 14px; line-height: 2.5;">
+                <li><a href="/" style="color: #ccc; text-decoration: none;">Home</a></li>
+                <li><a href="/courses" style="color: #ccc; text-decoration: none;">Our Courses</a></li>
+                <li><a href="/about" style="color: #ccc; text-decoration: none;">About Us</a></li>
+                <li><a href="/contact" style="color: #ccc; text-decoration: none;">Contact Support</a></li>
+            </ul>
+        </div>
+
+        <div style="flex: 1; min-width: 250px;">
+            <h4 style="font-size: 18px; margin-bottom: 20px; border-bottom: 2px solid #ff3131; display: inline-block;">Get In Touch</h4>
+            <p style="color: #ccc; font-size: 14px; margin-bottom: 10px;">📍 Pune, Maharashtra</p>
+            <p style="color: #ccc; font-size: 14px; margin-bottom: 10px;">📧 growftdigitalhelp@gmail.com</p>
+            <p style="color: #ff3131; font-weight: bold; font-size: 14px;">WhatsApp for Queries: +91 7020360561</p>
+        </div>
+
+    </div>
+
+    <div style="text-align: center; margin-top: 50px; padding-top: 20px; border-top: 1px solid #222; font-size: 12px; color: #555;">
+        <p>&copy; 2026 WealthMaster Academy. All Rights Reserved. Designed by Growft Digital Marketing.</p>
+        <p style="margin-top: 10px;">Trading involves risk. Please trade responsibly.</p>
+    </div>
+</footer>
+
+<div id="follower-dot"></div>
+
+<style>
+    /* Ensure body shows the default cursor */
+    body {
+        cursor: default !important;
+    }
+
+    /* Links par bhi arrow dikhe */
+    a, button {
+        cursor: pointer !important;
+    }
+
+    #follower-dot {
+        position: fixed;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        
+        /* Initial Red (When it catches the arrow) */
+        background-color: #ff3131;
+        box-shadow: 0 0 10px #ff3131, 0 0 20px #ff3131;
+        transition: background-color 0.2s, box-shadow 0.2s;
+    }
+
+    /* Green state when chasing */
+    #follower-dot.chasing {
+        background-color: #00ff00;
+        box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+    }
+</style>
+
+<script>
+    const dot = document.getElementById('follower-dot');
+    let mouseX = 0, mouseY = 0; // Arrow position
+    let dotX = 0, dotY = 0;     // Dot position
+
+    // Track mouse move
+    window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    function animate() {
+        // Trailing Math
+        dotX += (mouseX - dotX) * 0.1; // 0.1 is the speed (lower = more lag/trailing)
+        dotY += (mouseY - dotY) * 0.1;
+
+        dot.style.left = `${dotX}px`;
+        dot.style.top = `${dotY}px`;
+
+        // Check distance between dot and arrow
+        const distance = Math.sqrt(Math.pow(mouseX - dotX, 2) + Math.pow(mouseY - dotY, 2));
+
+        // Agar distance 2px se zyada hai, matlab dot abhi bhag raha hai (Green)
+        if (distance > 2) {
+            dot.classList.add('chasing');
+        } else {
+            // Agar pahunch gaya toh Red
+            dot.classList.remove('chasing');
+        }
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+</script>
