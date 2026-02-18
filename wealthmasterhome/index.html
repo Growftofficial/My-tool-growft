@@ -1,0 +1,388 @@
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&amp;display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Hero Section */
+        .hero-banner {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            color: #ffffff;
+            background-color: #000; /* Fallback color */
+        }
+
+        /* Background Video */
+        #bg-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            object-fit: cover;
+        }
+
+        /* Stylish Overlay - Trading Theme */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Red glow effect from right, Dark from left */
+            background: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(255, 49, 49, 0.2) 100%);
+            z-index: 1;
+        }
+
+        /* Content Area */
+        .content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 1000px;
+            padding: 20px;
+            animation: fadeInScale 1.5s ease-out;
+        }
+
+        .content h1 {
+            font-size: 5rem;
+            font-weight: 900;
+            line-height: 1;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 20px rgba(0,0,0,0.5);
+        }
+
+        .content h1 span {
+            color: #ff3131; /* Wealth Master Red */
+            display: block;
+        }
+
+        .content p {
+            font-size: 1.4rem;
+            margin-bottom: 40px;
+            color: #f0f0f0;
+            font-weight: 400;
+            letter-spacing: 1px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Buttons Styling */
+        .btn-box {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 18px 45px;
+            border-radius: 4px; /* Slightly sharp for professional look */
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            transition: all 0.4s ease;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: #ff3131;
+            color: white;
+            border: 2px solid #ff3131;
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 49, 49, 0.4);
+        }
+
+        .btn-outline {
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: #000;
+            transform: translateY(-5px);
+        }
+
+        /* Animations */
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .content h1 { font-size: 2.8rem; letter-spacing: 0; }
+            .content p { font-size: 1.1rem; }
+            .btn-box { flex-direction: column; align-items: center; }
+            .btn { width: 100%; max-width: 280px; text-align: center; }
+        }
+    </style>
+
+
+
+    <section class="hero-banner">
+        <video autoplay="" muted="" loop="" playsinline="" id="bg-video">
+            <source src="https://pixabay.com/videos/download/x-308080_medium.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <div class="overlay"></div>
+
+        <div class="content">
+            <h1>Wealth Master <span>Academy</span></h1>
+            <p>India's Premium Stock Market Institute. Learn strategies that big players use.</p>
+            
+            <div class="btn-box">
+                <a href="https://wealthmasteracademy.in/courses" class="btn btn-primary">Start Trading</a>
+                <a href="https://wealthmasteracademy.in/contact-us/" class="btn btn-outline">Free Demo Class</a>
+            </div>
+        </div>
+    </section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Wealth Master Academy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Sabse important fix: Horizontal scroll rokne ke liye */
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10000;
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        body {
+            padding-top: 130px; /* Navbar + Ticker height */
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            width: 100%;
+            max-width: 1300px; 
+            margin: 0 auto; 
+            padding: 10px 20px;
+        }
+
+        .logo img {
+            height: 60px;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: #000;
+            font-weight: bold;
+            font-size: 14px;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .nav-links li a:hover {
+            color: #ff3131;
+        }
+
+        .join-btn {
+            background: linear-gradient(to bottom, #444, #000);
+            color: white !important;
+            padding: 10px 25px;
+            border-radius: 50px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            white-space: nowrap;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            padding: 10px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background-color: #000;
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        /* Ticker Container Fix */
+        .ticker-container {
+            width: 100%;
+            border-top: 1px solid #eee;
+            background: #fff;
+            overflow: hidden; /* TradingView overflow fix */
+        }
+
+        /* --- Responsive Styles --- */
+        @media screen and (max-width: 1024px) {
+            body { padding-top: 120px; }
+
+            .nav-links {
+                display: none; /* Mobile pe hide */
+                flex-direction: column;
+                position: absolute;
+                top: 80px; 
+                left: 0;
+                width: 100%;
+                background: white;
+                padding: 20px 0;
+                box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+                text-align: center;
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 12px 0;
+                width: 100%;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .logo img {
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="https://wealthmasteracademy.in/">
+                <img src="https://growft.odoo.com/web/image/1560-e68b0138/wl.webp" alt="Logo">
+            </a>
+        </div>
+
+        <ul class="nav-links" id="navLinks">
+            <li><a href="https://wealthmasteracademy.in/">Home</a></li>
+            <li><a href="https://wealthmasteracademy.in/courses">Courses</a></li>
+            <li><a href="https://wealthmasteracademy.in/About-US/">About Us</a></li>
+            <li><a href="https://wealthmasteracademy.in/gallery/">Gallery</a></li>
+            <li><a href="https://wealthmasteracademy.in/contact-us/">Contact Us</a></li>
+            <li><a href="https://wealthmasteracademy.in/contact-us/" class="join-btn">Join Us!</a></li>
+        </ul>
+
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <div class="ticker-container">
+        <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+            {
+                "symbols": [
+                    { "proName": "BSE:RELIANCE", "description": "RELIANCE" },
+                    { "proName": "BSE:HDFCBANK", "description": "HDFC BANK" },
+                    { "proName": "BSE:TATASTEEL", "description": "TATA STEEL" },
+                    { "proName": "BSE:SBIN", "description": "SBI" },
+                    { "proName": "BSE:TCS", "description": "TCS" },
+                    { "proName": "BSE:INFY", "description": "INFOSYS" },
+                    { "proName": "BSE:KOTAKBANK", "description": "KOTAK BANK" }
+                ],
+                "showSymbolLogo": true,
+                "colorTheme": "light",
+                "isTransparent": false,
+                "displayMode": "compact",
+                "locale": "in"
+            }
+            </script>
+        </div>
+    </div>
+</header>
+
+<script>
+    function toggleMenu() {
+        const nav = document.getElementById('navLinks');
+        nav.classList.toggle('active');
+        
+        // Optional: Menu toggle animation
+        const spans = document.querySelectorAll('.menu-toggle span');
+        if(nav.classList.contains('active')) {
+            spans[0].style.transform = "rotate(45deg) translate(5px, 5px)";
+            spans[1].style.opacity = "0";
+            spans[2].style.transform = "rotate(-45deg) translate(6px, -7px)";
+        } else {
+            spans[0].style.transform = "none";
+            spans[1].style.opacity = "1";
+            spans[2].style.transform = "none";
+        }
+    }
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function(event) {
+        const nav = document.getElementById('navLinks');
+        const toggle = document.querySelector('.menu-toggle');
+        if (!nav.contains(event.target) && !toggle.contains(event.target)) {
+            nav.classList.remove('active');
+            const spans = document.querySelectorAll('.menu-toggle span');
+            spans[0].style.transform = "none";
+            spans[1].style.opacity = "1";
+            spans[2].style.transform = "none";
+        }
+    });
+</script>
+
+</body>
+</html>
+<figure class="wp-block-image size-full is-resized has-custom-border about-image1"><img src="https://wealthmasteracademy.in/wp-content/themes/startup-consultant/assets/images/about-img1.png" alt="" class="wp-image-57" style="border-top-left-radius:20px;border-top-right-radius:20px;border-bottom-left-radius:20px;border-bottom-right-radius:20px;object-fit:cover;width:549px;height:auto"/></figure>
