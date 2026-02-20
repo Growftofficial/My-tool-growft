@@ -1,0 +1,545 @@
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Review - Uday Video Vision</title>
+    <style>
+        /* --- THEME COLORS: DIGITAL STUDIO (Indigo & Cyan) --- */
+        :root {
+            --primary: #4f46e5; /* Indigo */
+            --primary-dark: #3730a3;
+            --bg-color: #f8fafc; 
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --gold: #f59e0b; 
+            --gray: #64748b;
+            --border: #e2e8f0;
+            --box-border: #a5b4fc; 
+            --box-bg: #eef2ff;     
+            --highlight: #06b6d4; /* Cyan */
+            --whatsapp: #25D366;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0; padding: 20px 10px;
+            min-height: 100vh; display: flex;
+            justify-content: center; align-items: flex-start;
+            color: var(--text-main);
+        }
+
+        .container {
+            background: var(--card-bg); width: 100%; max-width: 500px;
+            padding: 25px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(79, 70, 229, 0.15);
+            border-top: 6px solid var(--primary); margin: auto;
+            text-align: center;
+            position: relative;
+        }
+
+        h1 { color: var(--primary-dark); margin: 5px 0 2px 0; font-size: 24px; font-weight: 800; letter-spacing: 0.5px; }
+        .location { color: var(--gray); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
+
+        select, input, textarea {
+            width: 100%; padding: 12px; border-radius: 10px;
+            border: 1px solid var(--border); background: #fff;
+            font-size: 14px; outline: none; margin-bottom: 10px;
+            color: var(--text-main); font-family: inherit;
+        }
+        select:focus, input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2); }
+        label { font-weight: 700; display: block; margin-top: 15px; margin-bottom: 6px; color: var(--primary-dark); font-size: 12px; text-transform: uppercase; text-align: left; }
+
+        /* RATING */
+        .star-container { display: flex; justify-content: center; gap: 8px; margin: 20px 0; }
+        .star { font-size: 42px; color: #cbd5e1; cursor: pointer; transition: transform 0.2s, color 0.2s; }
+        .star.selected { color: var(--gold); }
+
+        .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
+        .exp-btn {
+            padding: 12px 15px; border: 1px solid var(--border); border-radius: 8px;
+            background: #fff; cursor: pointer; font-weight: 600; color: var(--text-main);
+            flex: 1; transition: 0.2s; font-size: 14px;
+        }
+        .exp-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3); }
+
+        .action-btn {
+            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white; border: none; border-radius: 8px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 10px;
+        }
+
+        /* CHIPS */
+        .category-label {
+            font-size: 11px; font-weight: 700; color: var(--gray); 
+            text-transform: uppercase; letter-spacing: 1px;
+            text-align: left; margin: 20px 0 8px 0; border-bottom: 1px dashed #e2e8f0;
+        }
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 5px; }
+        .keyword-chip { 
+            padding: 8px 12px; background-color: #f1f5f9; border-radius: 20px; 
+            font-size: 11px; font-weight: 600; cursor: pointer; 
+            border: 1px solid #cbd5e1; color: var(--text-main); 
+            flex-grow: 1; text-align: center; transition: 0.2s;
+        }
+        .keyword-chip.active { background: var(--box-bg); border-color: var(--primary); color: var(--primary-dark); box-shadow: 0 2px 5px rgba(79, 70, 229, 0.2); }
+
+        /* INPUT MODES */
+        .input-mode-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .mode-btn { 
+            flex: 1; padding: 10px; border: 1px solid var(--primary); border-radius: 8px; 
+            background: #fff; color: var(--primary); font-weight: 600; cursor: pointer; font-size: 13px;
+        }
+        .mode-btn.active-mode { background: var(--primary); color: white; }
+
+        .voice-section, .text-section {
+            background: #eef2ff; padding: 12px; border-radius: 12px; 
+            margin-bottom: 20px; border: 1px dashed var(--primary); text-align: left;
+        }
+        .voice-controls { display: flex; align-items: center; gap: 10px; }
+        .mic-btn {
+            width: 45px; height: 45px; border-radius: 50%;
+            background: var(--primary); color: white; border: none;
+            font-size: 20px; cursor: pointer; box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .mic-active { animation: pulse 1.5s infinite; background: #dc2626; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(0,0,0,0); } }
+
+        .review-preview-box {
+            width: 100%; min-height: 140px; padding: 15px; margin-top: 20px;
+            border: 1px solid var(--box-border); border-radius: 12px;
+            background-color: var(--box-bg); color: #334155;
+            font-size: 14px; line-height: 1.6; font-family: 'Segoe UI', sans-serif;
+            resize: none; outline: none; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .copy-btn { width: 100%; padding: 12px; background-color: #10b981; color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: 600; cursor: pointer; display: none; }
+        
+        /* OWNER PANEL */
+        #ownerPanel {
+            display: none; margin-top: 20px; padding: 15px;
+            border: 2px dashed var(--whatsapp); border-radius: 12px;
+            background-color: #f0fdf4; text-align: left;
+        }
+        .whatsapp-send-btn {
+            width: 100%; padding: 12px; background-color: var(--whatsapp);
+            color: white; border: none; border-radius: 8px;
+            font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .footer-branding { margin-top: 30px; padding-top: 15px; border-top: 1px dashed #cbd5e1; text-align: center; font-size: 12px; color: #64748b; }
+        .footer-branding img { height: 20px; vertical-align: middle; margin: 0 5px; } 
+        .footer-branding a { color: var(--primary); text-decoration: none; font-weight: 700; }
+        
+        .owner-login-trigger {
+            font-size: 11px; color: #ccc; cursor: pointer; text-decoration: none;
+            position: absolute; bottom: 5px; right: 10px;
+        }
+
+        .fade-in { animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .hidden { display: none; }
+        .toggle-name { font-size: 12px; color: var(--primary); text-decoration: underline; cursor: pointer; border: none; background: none; float: right; margin-top: 5px; }
+        
+        /* CUSTOMER VIEW */
+        .customer-card { text-align: center; padding: 20px; }
+        .customer-card h2 { color: var(--primary); }
+    </style>
+
+
+
+<div class="container" id="mainApp">
+
+    <div id="customerLinkView" class="hidden customer-card">
+        <div style="font-size: 40px; margin-bottom: 10px;">📼</div>
+        <h2>Hello!</h2>
+        <p style="color:#555; font-size:14px; margin-bottom:20px;">
+            Here is the review for your media conversion with Uday Video Vision.
+            <br>Click below to copy &amp; post.
+        </p>
+        <textarea id="customerReviewText" class="review-preview-box" readonly=""></textarea>
+        <button class="copy-btn" style="display:block; margin-top:15px;" onclick="copyCustomerLinkReview()">📋 Copy &amp; Open Google</button>
+        <p style="font-size:11px; color:#999; margin-top:20px;">Thank you for trusting us with your memories! ❤️</p>
+    </div>
+
+    <div id="generatorApp">
+        <div style="font-size: 35px; margin-bottom: 5px;">📼💽</div>
+        <h1>Uday Video Vision</h1>
+        <div class="location">VHS to Digital • Cassette Repair • Upscaling</div>
+
+        <div id="ratingScreen" class="fade-in">
+            <p style="font-weight:600; color:#555;">How was your experience?</p>
+            <div class="star-container">
+                <span class="star" onclick="rate(1)">★</span>
+                <span class="star" onclick="rate(2)">★</span>
+                <span class="star" onclick="rate(3)">★</span>
+                <span class="star" onclick="rate(4)">★</span>
+                <span class="star" onclick="rate(5)">★</span>
+            </div>
+            <div class="experience-btns">
+                <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Not Happy 😞</button>
+                <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Loved It! 😍</button>
+            </div>
+            <button class="action-btn" onclick="processRating()">Next Step ➡</button>
+        </div>
+
+        <div id="privateFeedbackScreen" class="fade-in hidden">
+            <h2 style="color:var(--text-main);">We are sorry! 😔</h2>
+            <p style="font-size:14px; color:#666;">Please tell us how we can improve.</p>
+            <textarea id="privateFeedbackText" style="height:100px;" placeholder="What went wrong?"></textarea>
+            <button class="action-btn" style="background:#475569;" onclick="submitPrivateFeedback()">Submit Feedback</button>
+        </div>
+
+        <div id="thankYouScreen" class="fade-in hidden">
+            <div style="font-size: 50px; margin-bottom:10px;">✅</div>
+            <h2 style="color:var(--text-main);">Thank You!</h2>
+            <p>Your feedback has been sent to the team.</p>
+        </div>
+
+        <div id="aiToolScreen" class="fade-in hidden" style="text-align: left;">
+            
+            <div class="input-mode-tabs">
+                <button class="mode-btn active-mode" id="btnModeVoice" onclick="switchMode('voice')">🎤 Speak</button>
+                <button class="mode-btn" id="btnModeText" onclick="switchMode('text')">✍️ Write Review</button>
+            </div>
+
+            <div id="voiceSection" class="voice-section">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <span style="font-size:11px; font-weight:bold; color:var(--primary);">SPEAK (Hindi/English):</span>
+                    <select id="voiceLang" style="width:auto; padding:2px; font-size:11px; height:25px; margin:0;">
+                        <option value="en-IN" selected="">English</option>
+                        <option value="hi-IN">Hindi</option>
+                        <option value="mr-IN">Marathi</option>
+                    </select>
+                </div>
+                <div class="voice-controls">
+                    <button id="micBtn" class="mic-btn" onclick="startListening()">🎤</button>
+                    <div style="flex:1;">
+                        <p id="statusText" style="font-size:12px; color:#555; margin:0;">Tap mic &amp; speak...<br>(Ex: "Mera purana cassette sahi ho gaya")</p>
+                    </div>
+                </div>
+                <div id="spokenTextDisplay" style="display:none; margin-top:8px; font-size:12px; color:var(--primary-dark); background:#fff; padding:6px; border-radius:4px;"></div>
+            </div>
+
+            <div id="textSection" class="text-section hidden">
+                <label style="margin-top:0; color:var(--primary);">Describe Your Experience</label>
+                <textarea id="manualInput" placeholder="Ex: Very fast conversion..." style="height:80px; margin-bottom:0;"></textarea>
+                <p style="font-size:11px; color:#666; margin-top:5px;">*We will polish this into professional English.</p>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <div style="flex:1;">
+                    <label style="margin-top:0;">Service Taken</label>
+                    <select id="serviceSelect">
+                        <option value="" disabled="" selected="">Select...</option>
+                        <optgroup label="💾 Digital Conversion">
+                            <option value="VHS to Pendrive">VHS to Pendrive</option>
+                            <option value="VCR to Digital Format">VCR to Digital Format</option>
+                            <option value="Marriage Cassette Transfer">Marriage Cassette Transfer</option>
+                            <option value="VHS to MP4">Convert VHS to MP4</option>
+                            <option value="Betamax Transfer">Betamax Transfer</option>
+                            <option value="VHS-C Conversion">VHS-C Conversion</option>
+                            <option value="Audio to MP3">Audio Cassette to MP3</option>
+                        </optgroup>
+                        <optgroup label="🛠️ Repair &amp; Cleaning">
+                            <option value="Broken Tape Repair">Broken Tape Repair</option>
+                            <option value="Fungus Cleaning">Fungus/Mold Cleaning</option>
+                            <option value="Video Quality Upscale">Video Upscaling (to HD)</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div style="flex:1;">
+                    <label style="margin-top:0;">Tone</label>
+                    <select id="toneSelect">
+                        <option value="Happy">Happy 😊</option>
+                        <option value="Professional">Professional 💼</option>
+                        <option value="Short">Short ✨</option>
+                    </select>
+                </div>
+            </div>
+
+            <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
+            <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
+                <input type="text" id="userName" placeholder="Your Name">
+            </div>
+
+            <label style="clear:both;">Highlights (SEO Keywords)</label>
+            <div class="keywords-container">
+                <div class="cat-title">Media Conversion</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'VHS to pendrive conversion')">💾 VHS to Pendrive</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Old marriage cassette to pendrive')">💍 Marriage Cassette to USB</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'VCR cassette to digital format')">📼 VCR to Digital</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Convert VHS to MP4')">🖥️ VHS to MP4</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'VCR tape recording to digital')">▶️ VCR to Digital Recording</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Digitize old home movies')">🏠 Digitize Home Movies</div>
+                
+                <div class="cat-title">Special Formats</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Betamax tape transfer')">📼 Betamax Transfer</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'VHS-C tape conversion')">📹 VHS-C Conversion</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Audio cassette to MP3 conversion')">🎵 Audio to MP3</div>
+
+                <div class="cat-title">Cleaning &amp; Repair</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'best VHS tape repair')">🛠️ Best VHS Repair</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Broken video cassette repair')">🩹 Broken Cassette Repair</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Fungus cleaning from video cassette')">🧼 Fungus Cleaning</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Mold removal from VHS tape')">🦠 Mold Removal</div>
+
+                <div class="cat-title">Enhancement</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Video quality enhancement service')">✨ Quality Enhancement</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Upscale old VHS to HD')">📺 Upscale to HD</div>
+            </div>
+
+            <button class="action-btn" id="generateBtn" onclick="generateReview()">✨ Generate Magic Review</button>
+            <textarea id="reviewOutput" class="review-preview-box" style="display:none;" readonly=""></textarea>
+            
+            <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()" style="display:none;">📋 Copy &amp; Open Google</button>
+            
+            <div id="ownerPanel">
+                <label style="color:var(--whatsapp); margin-top:0;">📱 Customer's WhatsApp Number</label>
+                <div style="display:flex; gap:10px;">
+                    <input type="tel" id="customerPhone" placeholder="Ex: 9876543210" style="margin-bottom:0;">
+                    <button class="whatsapp-send-btn" style="width: auto; padding: 0 20px;" onclick="sendLinkToCustomer()">🚀 Send</button>
+                </div>
+                <p style="font-size:11px; color:#555; margin-top:5px;">Customer will receive a direct link to post this review.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer-branding">
+        Powered by <a href="https://growft.odoo.com" target="_blank">Growft</a>
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" alt="Growft Logo" loading="lazy">
+        <span class="owner-login-trigger" onclick="ownerLogin()">🔒 Owner</span>
+    </div>
+</div>
+
+<script>
+    const GOOGLE_REVIEW_LINK = "https://share.google/oqSqrHjnDiwsbLyXR"; // CHANGE LINK HERE
+    let isOwnerMode = false;
+
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const reviewText = urlParams.get('review');
+        if (reviewText) {
+            document.getElementById('generatorApp').style.display = 'none';
+            document.getElementById('customerLinkView').classList.remove('hidden');
+            document.getElementById('customerReviewText').value = decodeURIComponent(reviewText);
+        } else if(sessionStorage.getItem('isOwner') === 'true') {
+            isOwnerMode = true;
+        }
+    };
+
+    function ownerLogin() {
+        if(isOwnerMode) { alert("Already logged in as Owner."); return; }
+        const password = prompt("Enter Owner Password:");
+        if(password === "admin123") {
+            isOwnerMode = true;
+            sessionStorage.setItem('isOwner', 'true');
+            alert("Owner Mode Active!");
+        } else if(password) { alert("Incorrect Password"); }
+    }
+
+    function sendLinkToCustomer() {
+        const phone = document.getElementById('customerPhone').value.replace(/\D/g, '');
+        const review = document.getElementById('reviewOutput').value;
+        if(phone.length < 10) { alert("Enter valid number"); return; }
+        const finalPhone = phone.length === 10 ? "91" + phone : phone;
+        const baseUrl = window.location.href.split('?')[0];
+        const magicLink = `${baseUrl}?review=${encodeURIComponent(review)}`;
+        const msg = `Hello! 👋\n\nHere is the review for your tape conversion from Uday Video Vision:\n\n*Tap this link to Post on Google:*\n${magicLink}`;
+        window.open(`https://wa.me/${finalPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function copyCustomerLinkReview() {
+        const box = document.getElementById("customerReviewText");
+        box.select();
+        document.execCommand('copy');
+        window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+
+    // --- LOGIC ---
+    let selectedKeywords = [];
+    let voiceText = "";
+    let activeMode = 'voice';
+    const connectors = ["Also,", "Moreover,", "I must mention that,", "Additionally,", "Plus,", "On top of that,", "Furthermore,", "Truly,", "Honestly,", "Not to mention,", "Along with that,", "To add to it,"];
+
+    function switchMode(mode) {
+        activeMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active-mode'));
+        if(mode === 'voice') {
+            document.getElementById('btnModeVoice').classList.add('active-mode');
+            document.getElementById('voiceSection').classList.remove('hidden');
+            document.getElementById('textSection').classList.add('hidden');
+        } else {
+            document.getElementById('btnModeText').classList.add('active-mode');
+            document.getElementById('textSection').classList.remove('hidden');
+            document.getElementById('voiceSection').classList.add('hidden');
+        }
+    }
+
+    function rate(stars) {
+        document.querySelectorAll('.star').forEach((star, index) => {
+            star.classList.toggle('selected', index < stars);
+        });
+        if(stars >= 4) {
+            document.getElementById('btn-good').classList.add('active');
+            document.getElementById('btn-bad').classList.remove('bad-active');
+        } else {
+            document.getElementById('btn-good').classList.remove('active');
+            document.getElementById('btn-bad').classList.add('bad-active');
+        }
+    }
+    
+    function selectExp(type) {
+        if(type==='good') {
+            document.getElementById('btn-good').classList.add('active');
+            document.getElementById('btn-bad').classList.remove('bad-active');
+        } else {
+            document.getElementById('btn-good').classList.remove('active');
+            document.getElementById('btn-bad').classList.add('bad-active');
+        }
+    }
+
+    function processRating() {
+        document.getElementById('ratingScreen').classList.add('hidden');
+        document.getElementById('aiToolScreen').classList.remove('hidden');
+    }
+
+    function submitPrivateFeedback() {
+        document.getElementById('privateFeedbackScreen').classList.add('hidden');
+        document.getElementById('thankYouScreen').classList.remove('hidden');
+    }
+
+    function startListening() {
+        if (!('webkitSpeechRecognition' in window)) { alert("Use Chrome Browser."); return; }
+        recognition = new webkitSpeechRecognition();
+        recognition.lang = document.getElementById('voiceLang').value;
+        recognition.interimResults = false;
+        document.getElementById('micBtn').classList.add('mic-active');
+        document.getElementById('statusText').innerText = "Listening...";
+        recognition.onresult = (event) => {
+            voiceText = event.results[0][0].transcript;
+            document.getElementById('spokenTextDisplay').style.display = 'block';
+            document.getElementById('spokenTextDisplay').innerText = `Recorded: "${voiceText}"`;
+        };
+        recognition.onend = () => { document.getElementById('micBtn').classList.remove('mic-active'); document.getElementById('statusText').innerText = "Processing..."; };
+        recognition.start();
+    }
+
+    async function generateReview() {
+        const btn = document.getElementById('generateBtn');
+        btn.innerText = "🔄 Processing...";
+        
+        const tone = document.getElementById('toneSelect').value;
+        const name = document.getElementById('userName').value.trim();
+        const service = document.getElementById('serviceSelect').value;
+        const manualText = document.getElementById('manualInput').value.trim();
+        let rawInput = activeMode === 'voice' ? voiceText : manualText;
+
+        if (selectedKeywords.length === 0 && !rawInput && !service) {
+            alert("Please select highlights or say something.");
+            btn.innerText = "✨ Generate Magic Review";
+            return;
+        }
+
+        let finalBodyText = "";
+        if (rawInput && rawInput.length > 1) {
+            try {
+                const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(rawInput)}&langpair=Autodetect|en`);
+                const data = await res.json();
+                let translated = data.responseData ? data.responseData.translatedText : "";
+                if(!translated.includes("PLEASE SELECT")) finalBodyText = translated;
+                else finalBodyText = rawInput;
+            } catch(e) { finalBodyText = rawInput; }
+        }
+
+        let review = getRandom(reviewData.intros[tone]);
+        if(name) review = `I am ${name}. ` + review;
+        if(service) review += ` I reached out to them for ${service}. `;
+        if(finalBodyText) review += " " + finalBodyText + ". ";
+
+        const shuffled = selectedKeywords.sort(() => 0.5 - Math.random());
+        shuffled.forEach((k, i) => {
+            if(reviewData.keywords[k]) {
+                let sentence = getRandom(reviewData.keywords[k]);
+                if(i > 0 && Math.random() > 0.6) sentence = getRandom(connectors) + " " + sentence;
+                review += sentence + " ";
+            }
+        });
+
+        review += getRandom(reviewData.outros[tone]);
+
+        const box = document.getElementById('reviewOutput');
+        box.value = review;
+        box.style.display = 'block';
+        box.scrollIntoView({behavior: "smooth"});
+        btn.innerText = "✨ Generate Magic Review";
+
+        if(isOwnerMode) {
+            document.getElementById('ownerPanel').style.display = 'block';
+            document.getElementById('copyBtn').style.display = 'none';
+        } else {
+            document.getElementById('ownerPanel').style.display = 'none';
+            document.getElementById('copyBtn').style.display = 'block';
+        }
+    }
+
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) selectedKeywords = selectedKeywords.filter(k => k !== keyword);
+        else selectedKeywords.push(keyword);
+    }
+    
+    function copyToClipboard() {
+        const box = document.getElementById("reviewOutput");
+        box.select();
+        document.execCommand('copy');
+        if(confirm("Review Copied! Open Google Maps?")) window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+    
+    function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+    // --- MASSIVE DATASET (Uday Video Vision specific) ---
+    const reviewData = {
+        intros: {
+            "Happy": [
+                "I found Uday Video Vision and I am so grateful for their service!", "Amazing experience preserving my old memories with Uday Video Vision.", "They helped me save videos I thought were lost forever.", "So happy with the conversion quality provided by them.", "If you have old tapes lying around, Uday Video Vision is the place to go.", "They brought my childhood memories back to life.", "A massive thank you to the Uday Video Vision team.", "Absolutely thrilled with how my videos turned out.", "They are magicians when it comes to old cassettes.", "A fantastic place to rescue vintage recordings.", "Such a smooth and emotional experience watching my old tapes again.", "I highly recommend their media conversion services.", "Just received my digital files and I am loving the quality.", "Best studio for restoring old video formats.", "They took great care of my precious family recordings.", "Visited them to save my old memories and they did not disappoint.", "I was worried about my damaged tapes, but they fixed everything.", "A trusted and reliable place for tape conversion.", "My search for a good VCR conversion lab ended here.", "Super happy with the crisp digital quality they delivered.", "They understand the emotional value of old videos.", "Truly a 5-star experience restoring my past.", "Beyond my expectations.", "Loved the quick and efficient process.", "They handled my fragile tapes with extreme care.", "Fabulous work, highly satisfied with the digital copies.", "The team is very knowledgeable about retro media formats.", "Brilliant restoration work by Uday Video Vision.", "My family was in tears watching the restored footage.", "Memories rescued for a lifetime!"
+            ],
+            "Professional": [
+                "I engaged Uday Video Vision for analog to digital media conversion.", "Highly professional tape transferring and digitizing services.", "Excellent execution and timely delivery of digital files.", "A reliable lab for restoring archived magnetic tapes.", "The digital conversion provided was of top-notch quality.", "Very systematic workflow for processing vintage media.", "Impressed with their technical expertise in handling moldy tapes.", "The MP4 files delivered were well encoded and clear.", "Great team to collaborate with for archiving old footage.", "They successfully converted obsolete formats without any data loss.", "Standard safety protocols followed for fragile cassettes.", "Good communication regarding the status of the repair.", "A smooth and hassle-free digitizing experience.", "They deliver exactly what they promise.", "Professional cleaning and upscaling services.", "Quality digital output at very reasonable rates.", "Appreciate their dedication to media preservation.", "Recommended for professional video archiving.", "Handled the fungus and physical tape damage expertly.", "A trustworthy media restoration partner.", "The resolution upscaling was handled very technically.", "Efficient turnaround time for bulk cassette conversion.", "Clean, secure, and professional handling of assets.", "They possess the right equipment for vintage tape playback.", "Met all our digital formatting requirements."
+            ],
+            "Short": [
+                "Best tape conversion!", "Amazing digital quality.", "Saved my old memories.", "Highly recommended.", "Great experience.", "Beautiful restoration.", "Cleaned my tapes perfectly.", "5 stars.", "Superb team.", "Very professional.", "Excellent MP4 quality.", "Fixed my broken cassette.", "Nice and fast service.", "Good upscaling.", "Fast delivery on pen drive.", "Awesome work.", "Best in town.", "Worth every penny.", "Precious memories saved.", "Perfect conversion."
+            ]
+        },
+        keywords: {
+            "VHS to pendrive conversion": ["They did an excellent VHS to pendrive conversion.", "The VHS to pendrive conversion process was completely seamless.", "Highly recommend them for any VHS to pendrive conversion needs.", "My tapes look great after the VHS to pendrive conversion."],
+            "Old marriage cassette to pendrive": ["I finally transferred my old marriage cassette to pendrive.", "They perfectly converted my old marriage cassette to pendrive.", "Best place to get your old marriage cassette to pendrive.", "Watching my old marriage cassette to pendrive transfer was so emotional."],
+            "VCR cassette to digital format": ["They easily changed my VCR cassette to digital format.", "Changing the VCR cassette to digital format was done flawlessly.", "I got my VCR cassette to digital format without any quality loss.", "Great service for VCR cassette to digital format."],
+            "best VHS tape repair": ["They offer the best VHS tape repair in the city.", "I thought my tape was ruined, but they did the best VHS tape repair.", "Truly the best VHS tape repair service I have ever used.", "If you need tape fixing, they are the best VHS tape repair experts."],
+            "Betamax tape transfer": ["They handled my rare Betamax tape transfer perfectly.", "It's hard to find Betamax tape transfer, but they did a great job.", "The quality of the Betamax tape transfer was surprisingly good.", "Expertly done Betamax tape transfer."],
+            "Digitize old home movies": ["They helped me digitize old home movies safely.", "It was a joy to digitize old home movies with their help.", "They are the best place to digitize old home movies.", "I managed to digitize old home movies from the 90s perfectly."],
+            "Video quality enhancement service": ["Their video quality enhancement service made the old footage look new.", "Highly recommend their video quality enhancement service.", "The video quality enhancement service really improved the colors.", "Excellent video quality enhancement service."],
+            "Upscale old VHS to HD": ["They managed to upscale old VHS to HD resolution.", "I didn't know you could upscale old VHS to HD, but they did it.", "The process to upscale old VHS to HD made a huge difference.", "Great technology used to upscale old VHS to HD."],
+            "Convert VHS to MP4": ["It was so easy to convert VHS to MP4 with them.", "They helped me convert VHS to MP4 so I can play it on my phone.", "Very affordable pricing to convert VHS to MP4.", "The best place to convert VHS to MP4 formats."],
+            "VCR tape recording to digital": ["They safely transferred my VCR tape recording to digital.", "The VCR tape recording to digital process was quick.", "Excellent quality on the VCR tape recording to digital conversion.", "I preserved my childhood by changing VCR tape recording to digital."],
+            "Fungus cleaning from video cassette": ["They did an amazing job with fungus cleaning from video cassette.", "The fungus cleaning from video cassette saved my recordings.", "Expert fungus cleaning from video cassette without damaging the tape.", "Their fungus cleaning from video cassette is a lifesaver."],
+            "Audio cassette to MP3 conversion": ["I also got some audio cassette to MP3 conversion done.", "The audio cassette to MP3 conversion sounds crystal clear.", "Fast and reliable audio cassette to MP3 conversion.", "They are great at audio cassette to MP3 conversion too."],
+            "Broken video cassette repair": ["They performed a miracle with the broken video cassette repair.", "Excellent broken video cassette repair service.", "My tape was snapped, but their broken video cassette repair fixed it.", "Highly skilled in broken video cassette repair."],
+            "Mold removal from VHS tape": ["The mold removal from VHS tape was done very safely.", "I was amazed by their mold removal from VHS tape.", "Effective mold removal from VHS tape without losing the video.", "They specialize in mold removal from VHS tape."],
+            "VHS-C tape conversion": ["They easily handled my camcorder VHS-C tape conversion.", "The VHS-C tape conversion was done perfectly into digital.", "Very happy with the VHS-C tape conversion quality.", "Great place for old VHS-C tape conversion."]
+        },
+        outros: {
+            "Happy": [
+                "Will definitely bring more tapes to them!", "Thank you Uday Video Vision for saving my memories.", "Highly recommended to all my friends and family.", "Keep preserving beautiful moments.", "So happy to watch my old videos again.", "A big thank you to the whole team.", "Can't wait to show these videos to my kids.", "You guys made our day.", "Cheers to the amazing restoration team.", "God bless Uday Video Vision.", "Simply perfect service.", "Loved every bit of the digital quality.", "Best wishes.", "Highly suggested for tape conversions.", "Thanks a ton.", "Keep shining.", "Great experience overall.", "Will recommend to everyone who has old cassettes.", "You have won a loyal customer.", "Superb job!"
+            ],
+            "Professional": [
+                "Good job team.", "Will recommend to our network.", "A pleasant collaboration.", "Keep maintaining the high technical standards.", "Satisfied client.", "Good service.", "Professional and efficient archiving.", "Thank you.", "Nice experience.", "Will work together again for bulk conversions.", "Well done.", "Reliable media lab.", "Appreciate the service.", "Good luck.", "Recommended.", "Nice work.", "Fine experience.", "No data loss, very happy.", "Worth a try for vintage media.", "Thank you team."
+            ],
+            "Short": [
+                "Thanks!", "Book them.", "Great job.", "Cheers!", "Good luck.", "Recommended.", "Best.", "Superb.", "Nice.", "Love it.", "Great.", "Top.", "A+.", "Perfect.", "Done.", "Happy.", "Go for it.", "10/10.", "5/5.", "Thnx."
+            ]
+        }
+    };
+</script>
