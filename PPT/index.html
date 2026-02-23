@@ -1,6 +1,703 @@
-<div style="position: relative; width: 100%; height: 0; padding-top: 56.2500%;
- padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
- border-radius: 8px; will-change: transform;">
-  <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;" src="https://www.canva.com/design/DAHA0qmQbIc/zHssWvxxgKxQwyBRJMEnXA/view?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
-  </iframe>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Wealth Master Academy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Sabse important fix: Horizontal scroll rokne ke liye */
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10000;
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        body {
+            padding-top: 130px; /* Navbar + Ticker height */
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            width: 100%;
+            max-width: 1300px; 
+            margin: 0 auto; 
+            padding: 10px 20px;
+        }
+
+        .logo img {
+            height: 60px;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: #000;
+            font-weight: bold;
+            font-size: 14px;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .nav-links li a:hover {
+            color: #ff3131;
+        }
+
+        .join-btn {
+            background: linear-gradient(to bottom, #444, #000);
+            color: white !important;
+            padding: 10px 25px;
+            border-radius: 50px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            white-space: nowrap;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            padding: 10px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background-color: #000;
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        /* Ticker Container Fix */
+        .ticker-container {
+            width: 100%;
+            border-top: 1px solid #eee;
+            background: #fff;
+            overflow: hidden; /* TradingView overflow fix */
+        }
+
+        /* --- Responsive Styles --- */
+        @media screen and (max-width: 1024px) {
+            body { padding-top: 120px; }
+
+            .nav-links {
+                display: none; /* Mobile pe hide */
+                flex-direction: column;
+                position: absolute;
+                top: 80px; 
+                left: 0;
+                width: 100%;
+                background: white;
+                padding: 20px 0;
+                box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+                text-align: center;
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 12px 0;
+                width: 100%;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .logo img {
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="https://wealthmasteracademy.in/">
+                <img src="https://growft.odoo.com/web/image/1560-e68b0138/wl.webp" alt="Logo">
+            </a>
+        </div>
+
+        <ul class="nav-links" id="navLinks">
+            <li><a href="https://wealthmasteracademy.in/">Home</a></li>
+            <li><a href="https://wealthmasteracademy.in/courses">Courses</a></li>
+            <li><a href="https://wealthmasteracademy.in/About-US/">About Us</a></li>
+            <li><a href="https://wealthmasteracademy.in/gallery/">Gallery</a></li>
+            <li><a href="https://wealthmasteracademy.in/contact-us/">Contact Us</a></li>
+            <li><a href="https://wealthmasteracademy.in/contact-us/" class="join-btn">Join Us!</a></li>
+        </ul>
+
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <div class="ticker-container">
+        <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+            {
+                "symbols": [
+                    { "proName": "BSE:RELIANCE", "description": "RELIANCE" },
+                    { "proName": "BSE:HDFCBANK", "description": "HDFC BANK" },
+                    { "proName": "BSE:TATASTEEL", "description": "TATA STEEL" },
+                    { "proName": "BSE:SBIN", "description": "SBI" },
+                    { "proName": "BSE:TCS", "description": "TCS" },
+                    { "proName": "BSE:INFY", "description": "INFOSYS" },
+                    { "proName": "BSE:KOTAKBANK", "description": "KOTAK BANK" }
+                ],
+                "showSymbolLogo": true,
+                "colorTheme": "light",
+                "isTransparent": false,
+                "displayMode": "compact",
+                "locale": "in"
+            }
+            </script>
+        </div>
+    </div>
+</header>
+
+<script>
+    function toggleMenu() {
+        const nav = document.getElementById('navLinks');
+        nav.classList.toggle('active');
+        
+        // Optional: Menu toggle animation
+        const spans = document.querySelectorAll('.menu-toggle span');
+        if(nav.classList.contains('active')) {
+            spans[0].style.transform = "rotate(45deg) translate(5px, 5px)";
+            spans[1].style.opacity = "0";
+            spans[2].style.transform = "rotate(-45deg) translate(6px, -7px)";
+        } else {
+            spans[0].style.transform = "none";
+            spans[1].style.opacity = "1";
+            spans[2].style.transform = "none";
+        }
+    }
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function(event) {
+        const nav = document.getElementById('navLinks');
+        const toggle = document.querySelector('.menu-toggle');
+        if (!nav.contains(event.target) && !toggle.contains(event.target)) {
+            nav.classList.remove('active');
+            const spans = document.querySelectorAll('.menu-toggle span');
+            spans[0].style.transform = "none";
+            spans[1].style.opacity = "1";
+            spans[2].style.transform = "none";
+        }
+    });
+</script>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wealth Master Academy</title>
+    <style>
+        /* Modern CSS Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Hero Container with Radial Gradient */
+        .hero-section {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            background: radial-gradient(circle, rgba(45,15,15,1) 0%, rgba(0,0,0,1) 70%);
+            color: white;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 3.5rem;
+            font-family: 'Georgia', serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0;
+            line-height: 1;
+        }
+
+        .highlight {
+            color: #ff3b30; /* Vibrant red from the image */
+            display: block;
+            font-size: 4rem;
+            font-weight: 900;
+            margin-top: 5px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 20px 0 40px;
+            color: #ccc;
+            line-height: 1.5;
+        }
+
+        /* Buttons */
+        .cta-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            border: none;
+            color: white;
+            background-color: #ff3b30;
+            box-shadow: 0 0 15px rgba(255, 59, 48, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(255, 59, 48, 0.6);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .highlight { font-size: 3rem; }
+            .cta-container { flex-direction: column; width: 80%; }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero-section">
+        <h1>Wealth Master</h1>
+        <span class="highlight">ACADEMY</span>
+        
+        <p>India's Premium Stock Market Institute. Learn strategies that big players use.</p>
+
+        <div class="cta-container">
+            <a href="#" class="btn">Start Trading</a>
+            <a href="#" class="btn">Free Demo Class</a>
+        </div>
+    </section>
+
+</body>
+</html>
+
+<section class="lead-gen-section">
+    <div class="container lead-flex">
+        
+        <div class="lead-content reveal-left">
+            <span class="top-tag">Pune's No.1 Trusted Institute</span>
+            <h1 class="lead-title">SMC & Share Market <br><span class="highlight">Classes In Pune</span></h1>
+            <p class="lead-desc">Join Mastery in Trading and Investment with WealthMaster Academy's Online and Classroom Courses in New Sangavi, Pune.</p>
+            
+            <div class="lead-check-grid">
+                <div class="check-item"><span>✔</span> Expert Institutional Mentors</div>
+                <div class="check-item"><span>✔</span> NISM Certified Training</div>
+                <div class="check-item"><span>✔</span> 500+ Success Stories</div>
+                <div class="check-item"><span>✔</span> Most Trusted in New Sangavi</div>
+            </div>
+
+            <div class="rating-box">
+                <div class="rating-info">
+                    <strong>Rating 4.9 / 5 By</strong>
+                    <div class="student-avatars">
+                        <div class="avatar" style="background:#444;"></div>
+                        <div class="avatar" style="background:#666;"></div>
+                        <div class="avatar" style="background:#888;"></div>
+                    </div>
+                    <span>500+ Students</span>
+                </div>
+            </div>
+
+            <h2 class="course-name">Mastery in SMC & Institutional Trading</h2>
+            <div class="price-tag">
+                Course Fees: <span class="old-price">₹45,000/-</span> <span class="new-price">₹14,999/-</span>
+            </div>
+        </div>
+
+        <div class="lead-form-container reveal-right">
+            <div class="form-wrapper">
+                <h2 class="form-title">Enquiry Form</h2>
+                <form action="https://formspree.io/f/xykjbkao" method="POST">
+                    <div class="input-group">
+                        <label>Full Name</label>
+                        <input type="text" name="Full_Name" placeholder="Enter your name" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>WhatsApp Number</label>
+                        <input type="tel" name="WhatsApp_Number" placeholder="10-digit number" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>City</label>
+                        <input type="text" name="City" placeholder="Your City" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Select Course</label>
+                        <select name="Selected_Course">
+                            <option value="Stock Market Basics">Stock Market Basics</option>
+                            <option value="SMC Mastery">SMC Mastery (Institutional)</option>
+                            <option value="Options Trading">Options Trading Mastery</option>
+                            <option value="Forex Trading">Forex Trading</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Any Other Inquiry?</label>
+                        <textarea name="Inquiry_Message" rows="2" placeholder="Tell us what you want to learn"></textarea>
+                    </div>
+
+                    <button type="submit" class="form-submit-btn">Submit Application</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<style>
+    /* --- Layout Styling --- */
+    .lead-gen-section {
+        background: radial-gradient(circle at top left, #0a0a0a, #000);
+        padding: 80px 0;
+        color: #fff;
+        overflow: hidden;
+    }
+    .lead-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 50px;
+        flex-wrap: wrap;
+    }
+
+    /* --- Left Side Styling --- */
+    .lead-content { flex: 1; min-width: 320px; }
+    .top-tag { color: #00ff00; font-weight: 700; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; }
+    .lead-title { font-family: 'Playfair Display', serif; font-size: clamp(35px, 5vw, 55px); margin: 15px 0; line-height: 1.1; }
+    .lead-desc { color: #ccc; font-size: 18px; margin-bottom: 30px; }
+
+    .lead-check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 35px; }
+    .check-item { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 14px; }
+    .check-item span { color: #ff3131; font-size: 18px; }
+
+    .rating-box { margin-bottom: 30px; }
+    .rating-info { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 50px; width: fit-content; }
+    .student-avatars { display: flex; }
+    .avatar { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #000; margin-left: -10px; }
+    .avatar:first-child { margin-left: 0; }
+
+    .course-name { font-size: 24px; color: #ff3131; margin-bottom: 10px; }
+    .price-tag { font-size: 22px; font-weight: 900; }
+    .old-price { text-decoration: line-through; color: #888; font-size: 18px; margin-right: 10px; }
+    .new-price { color: #00ff00; }
+
+    /* --- Form Container (Right Side) --- */
+    .lead-form-container { flex: 0.8; min-width: 320px; }
+    .form-wrapper {
+        background: #000;
+        padding: 35px;
+        border-radius: 15px;
+        border: 2px solid #ff3131;
+        box-shadow: 0 15px 40px rgba(255, 49, 49, 0.2);
+    }
+    .form-title { text-align: center; color: #ff3131; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px; }
+
+    /* --- Input Styles --- */
+    .input-group { margin-bottom: 15px; }
+    .input-group label { display: block; margin-bottom: 5px; font-size: 12px; color: #aaa; text-transform: uppercase; }
+    .input-group input, .input-group select, .input-group textarea {
+        width: 100%; background: #111; border: 1px solid #333; padding: 12px; 
+        border-radius: 6px; color: #fff; font-family: 'Montserrat', sans-serif;
+    }
+    .input-group input:focus { border-color: #ff3131; outline: none; }
+
+    .form-submit-btn {
+        width: 100%; background: #ff3131; color: #fff; border: none; padding: 16px; 
+        border-radius: 6px; cursor: pointer; font-weight: 900; font-size: 16px; 
+        text-transform: uppercase; transition: 0.3s; margin-top: 10px;
+    }
+    .form-submit-btn:hover { background: #ff4d4d; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(255, 49, 49, 0.4); }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .lead-flex { flex-direction: column; text-align: center; }
+        .lead-check-grid { justify-items: center; }
+        .rating-info { margin: 0 auto; }
+    }
+</style>
+
+
+<section class="wm-mastery-video">
+    <div class="container video-flex">
+        
+        <div class="video-container reveal-left">
+            <div class="video-wrapper">
+                <iframe 
+                    width="100%" 
+                    height="100%" 
+                    src="https://www.youtube.com/embed/1H90MP4mPi8?autoplay=0&rel=0&modestbranding=1" 
+                    title="Wealth Master Academy - Pune's Best Coaching" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+            <div class="video-badge">
+                <span>⭐</span> Pune's Top Rated Institute
+            </div>
+        </div>
+
+        <div class="content-side reveal-right">
+            <h2 class="section-title">Mastery In <span class="highlight">Trading & Investment</span> Courses In Pune</h2>
+            
+            <p class="academy-intro">
+                Wealth Master Academy is a leading <strong>coaching centre in Pune</strong>, dedicated to providing top-notch <strong>trading education</strong> through online and offline classes. 
+                We offer expert-led courses, including Demo Lectures, Trading Training, Indian and Forex Trading, and a full-fledged Trading Academy, designed to help individuals gain in-depth market knowledge and practical trading skills. 
+                Our mission is to empower aspiring traders with the right strategies and insights to navigate financial markets confidently and succeed in trading.
+            </p>
+            
+            <div class="feature-checks">
+                <div class="check-item"><span>✔</span> Award Winning Institute</div>
+                <div class="check-item"><span>✔</span> NISM Certified Trainer</div>
+                <div class="check-item"><span>✔</span> 500+ Successful Traders</div>
+                <div class="check-item"><span>✔</span> Most Trusted & Recommended</div>
+            </div>
+
+            <div class="rating-strip">
+                <div class="avatars">
+                    <img src="https://i.pravatar.cc/40?u=1" alt="student">
+                    <img src="https://i.pravatar.cc/40?u=2" alt="student">
+                    <img src="https://i.pravatar.cc/40?u=3" alt="student">
+                </div>
+                <p><strong>Rating 4.9 / 5</strong> by 500+ Pune Students</p>
+            </div>
+
+            <a href="https://wa.me/917020360561" class="cta-btn">Book Your Free Demo Class</a>
+        </div>
+
+    </div>
+</section>
+
+<style>
+    /* Section & Layout */
+    .wm-mastery-video { background: #000; padding: 100px 0; color: #fff; font-family: 'Montserrat', sans-serif; }
+    .video-flex { display: flex; align-items: center; gap: 60px; flex-wrap: wrap; }
+
+    /* Video Container Fixes */
+    .video-container { flex: 1; min-width: 350px; position: relative; }
+    .video-wrapper {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+        height: 0;
+        border-radius: 20px;
+        overflow: hidden;
+        border: 2px solid #ff3131;
+        /* Added background to show while loading */
+        background: url('https://img.youtube.com/vi/1H90MP4mPi8/maxresdefault.jpg') center/cover;
+        box-shadow: 0 0 30px rgba(255, 49, 49, 0.2);
+    }
+    .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; }
+
+    .video-badge {
+        position: absolute;
+        top: -20px; right: 20px;
+        background: #ff3131; color: #fff;
+        padding: 8px 20px; border-radius: 50px;
+        font-size: 12px; font-weight: 900;
+        text-transform: uppercase; z-index: 3;
+        box-shadow: 0 5px 15px rgba(255, 49, 49, 0.4);
+    }
+
+    /* Content Styling */
+    .content-side { flex: 1.2; min-width: 320px; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 42px; line-height: 1.1; margin-bottom: 25px; }
+    .academy-intro { color: #ccc; font-size: 16px; line-height: 1.7; margin-bottom: 30px; text-align: justify; }
+
+    .feature-checks { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px; }
+    .check-item { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14px; }
+    .check-item span { color: #ff3131; font-size: 18px; }
+
+    .rating-strip { display: flex; align-items: center; gap: 15px; margin-bottom: 40px; }
+    .avatars img { width: 35px; height: 35px; border-radius: 50%; border: 2px solid #ff3131; margin-left: -10px; }
+    .avatars img:first-child { margin-left: 0; }
+    .rating-strip p { font-size: 14px; color: #888; }
+
+    .cta-btn {
+        display: inline-block; background: #ff3131; color: #fff;
+        text-decoration: none; padding: 18px 45px; border-radius: 5px;
+        font-weight: 900; text-transform: uppercase; transition: 0.3s;
+        box-shadow: 0 0 20px rgba(255, 49, 49, 0.3);
+    }
+    .cta-btn:hover { transform: translateY(-5px); box-shadow: 0 0 40px #ff3131; }
+
+    @media (max-width: 768px) {
+        .video-flex { flex-direction: column; text-align: center; }
+        .feature-checks { justify-items: center; }
+        .rating-strip { justify-content: center; }
+    }
+</style>
+
+<footer style="background: #000; color: #fff; padding: 60px 20px; font-family: 'Montserrat', sans-serif; border-top: 2px solid #ff3131;">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 40px;">
+        
+        <div style="flex: 1; min-width: 250px;">
+            <h3 style="color: #ff3131; font-weight: 900; letter-spacing: 2px; text-transform: uppercase;">WealthMaster Academy</h3>
+            <p style="color: #888; font-size: 14px; line-height: 1.6; margin-top: 20px;">
+                India's Premium Stock Market Institute. We specialize in Smart Money Concepts (SMC) and Institutional trading logic to help retail traders become professionals.
+            </p>
+        </div>
+
+        <div style="flex: 1; min-width: 150px;">
+            <h4 style="font-size: 18px; margin-bottom: 20px; border-bottom: 2px solid #ff3131; display: inline-block;">Quick Links</h4>
+            <ul style="list-style: none; padding: 0; font-size: 14px; line-height: 2.5;">
+                <li><a href="/" style="color: #ccc; text-decoration: none;">Home</a></li>
+                <li><a href="/courses" style="color: #ccc; text-decoration: none;">Our Courses</a></li>
+                <li><a href="/about" style="color: #ccc; text-decoration: none;">About Us</a></li>
+                <li><a href="/contact" style="color: #ccc; text-decoration: none;">Contact Support</a></li>
+            </ul>
+        </div>
+
+        <div style="flex: 1; min-width: 250px;">
+            <h4 style="font-size: 18px; margin-bottom: 20px; border-bottom: 2px solid #ff3131; display: inline-block;">Get In Touch</h4>
+            <p style="color: #ccc; font-size: 14px; margin-bottom: 10px;">📍 Pune, Maharashtra</p>
+            <p style="color: #ccc; font-size: 14px; margin-bottom: 10px;">📧 growftdigitalhelp@gmail.com</p>
+            <p style="color: #ff3131; font-weight: bold; font-size: 14px;">WhatsApp for Queries: +91 7020360561</p>
+        </div>
+
+    </div>
+
+    <div style="text-align: center; margin-top: 50px; padding-top: 20px; border-top: 1px solid #222; font-size: 12px; color: #555;">
+        <p>&copy; 2026 WealthMaster Academy. All Rights Reserved. Designed by Growft Digital Marketing.</p>
+        <p style="margin-top: 10px;">Trading involves risk. Please trade responsibly.</p>
+    </div>
+</footer>
+
+<div id="follower-dot"></div>
+
+<style>
+    /* Ensure body shows the default cursor */
+    body {
+        cursor: default !important;
+    }
+
+    /* Links par bhi arrow dikhe */
+    a, button {
+        cursor: pointer !important;
+    }
+
+    #follower-dot {
+        position: fixed;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        
+        /* Initial Red (When it catches the arrow) */
+        background-color: #ff3131;
+        box-shadow: 0 0 10px #ff3131, 0 0 20px #ff3131;
+        transition: background-color 0.2s, box-shadow 0.2s;
+    }
+
+    /* Green state when chasing */
+    #follower-dot.chasing {
+        background-color: #00ff00;
+        box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+    }
+</style>
+
+<script>
+    const dot = document.getElementById('follower-dot');
+    let mouseX = 0, mouseY = 0; // Arrow position
+    let dotX = 0, dotY = 0;     // Dot position
+
+    // Track mouse move
+    window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    function animate() {
+        // Trailing Math
+        dotX += (mouseX - dotX) * 0.1; // 0.1 is the speed (lower = more lag/trailing)
+        dotY += (mouseY - dotY) * 0.1;
+
+        dot.style.left = `${dotX}px`;
+        dot.style.top = `${dotY}px`;
+
+        // Check distance between dot and arrow
+        const distance = Math.sqrt(Math.pow(mouseX - dotX, 2) + Math.pow(mouseY - dotY, 2));
+
+        // Agar distance 2px se zyada hai, matlab dot abhi bhag raha hai (Green)
+        if (distance > 2) {
+            dot.classList.add('chasing');
+        } else {
+            // Agar pahunch gaya toh Red
+            dot.classList.remove('chasing');
+        }
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+</script>
