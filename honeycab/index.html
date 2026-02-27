@@ -14,6 +14,8 @@
             --card-bg: #ffffff;
             --accent: #10b981; /* Green for success */
             --gold: #fbbf24;
+            --whatsapp: #25D366;
+            --danger: #ef4444; /* Red for Lock */
         }
 
         /* --- RESET & BODY --- */
@@ -24,6 +26,7 @@
             margin: 0; padding: 20px 10px;
             min-height: 100vh; display: flex;
             justify-content: center; align-items: flex-start;
+            color: var(--secondary);
         }
 
         /* --- CONTAINER --- */
@@ -33,6 +36,22 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             border-top: 8px solid var(--primary); margin: auto;
             text-align: center;
+            position: relative;
+        }
+
+        /* --- 🔒 LOCK SCREEN --- */
+        #lockScreen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.98); z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 20px;
+        }
+        .lock-icon { font-size: 60px; margin-bottom: 20px; color: var(--danger); }
+        .lock-msg { font-size: 24px; font-weight: 800; color: #333; margin-bottom: 10px; }
+        .contact-admin-btn {
+            background: var(--secondary); color: white; padding: 12px 25px;
+            border-radius: 50px; text-decoration: none; font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); margin-top: 10px;
         }
 
         /* --- HEADER --- */
@@ -51,13 +70,13 @@
         p { color: #374151; font-size: 15px; margin-bottom: 20px; line-height: 1.5; }
 
         /* --- INPUTS & SELECTS --- */
-        select, input {
+        select, input, textarea {
             width: 100%; padding: 12px; border-radius: 8px;
             border: 1px solid #d1d5db; background: #f9fafb;
             font-size: 15px; outline: none; margin-bottom: 10px;
-            color: #1f2937;
+            color: #1f2937; font-family: inherit;
         }
-        select:focus, input:focus { border-color: var(--primary); ring: 2px solid var(--primary); }
+        select:focus, input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2); }
         
         label { 
             font-weight: 700; display: block; margin-top: 15px; margin-bottom: 8px; 
@@ -65,13 +84,8 @@
         }
 
         /* --- STAR RATING --- */
-        .star-container {
-            display: flex; justify-content: center; gap: 8px; margin: 20px 0;
-            direction: ltr;
-        }
-        .star {
-            font-size: 42px; color: #e5e7eb; cursor: pointer; transition: transform 0.2s, color 0.2s;
-        }
+        .star-container { display: flex; justify-content: center; gap: 8px; margin: 20px 0; direction: ltr; }
+        .star { font-size: 42px; color: #e5e7eb; cursor: pointer; transition: transform 0.2s, color 0.2s; }
         .star.selected { color: var(--gold); }
         .star:hover { transform: scale(1.15); }
 
@@ -83,7 +97,6 @@
             flex: 1; max-width: 140px; transition: 0.2s;
         }
         .exp-btn.active { background: var(--primary); color: var(--secondary); border-color: var(--primary); font-weight: 800; box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3); }
-        .exp-btn.bad-active { background: #ef4444; color: white; border-color: #ef4444; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3); }
 
         .action-btn {
             width: 100%; padding: 14px; background: var(--secondary);
@@ -92,22 +105,33 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 10px; transition: 0.2s;
         }
         .action-btn:hover { background: #111827; }
-        .action-btn:active { transform: scale(0.98); }
 
-        /* --- PRIVATE FEEDBACK --- */
-        textarea.feedback-box {
-            width: 100%; height: 120px; padding: 12px;
-            border: 1px solid #d1d5db; border-radius: 8px; resize: none;
-            font-family: inherit; margin-bottom: 15px; background: #fff;
+        /* --- INPUT MODES (Voice/Text) --- */
+        .input-mode-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .mode-btn { 
+            flex: 1; padding: 10px; border: 1px solid var(--secondary); border-radius: 8px; 
+            background: #fff; color: var(--secondary); font-weight: 600; cursor: pointer; font-size: 13px;
         }
+        .mode-btn.active-mode { background: var(--secondary); color: white; }
 
-        /* --- AI TOOL STYLES --- */
-        .ai-tool-wrapper { text-align: left; display: none; }
-        
+        .voice-section, .text-section {
+            background: #fef3c7; padding: 12px; border-radius: 12px; 
+            margin-bottom: 20px; border: 1px dashed var(--primary-dark); text-align: left;
+        }
+        .voice-controls { display: flex; align-items: center; gap: 10px; }
+        .mic-btn {
+            width: 45px; height: 45px; border-radius: 50%;
+            background: var(--primary); color: var(--secondary); border: none;
+            font-size: 20px; cursor: pointer; box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .mic-active { animation: pulse 1.5s infinite; background: var(--danger); color: white; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(0,0,0,0); } }
+
+        /* --- CHIPS --- */
         .category-header {
-            font-size: 11px; color: #6b7280; margin: 15px 0 8px 0; font-weight: 700; letter-spacing: 0.5px; border-bottom: 1px dashed #d1d5db; padding-bottom: 4px;
+            font-size: 11px; color: #6b7280; margin: 15px 0 8px 0; font-weight: 700; letter-spacing: 0.5px; border-bottom: 1px dashed #d1d5db; padding-bottom: 4px; text-align: left;
         }
-        
         .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 5px; }
         .keyword-chip { 
             padding: 8px 12px; background-color: #fff; border-radius: 20px; 
@@ -117,173 +141,326 @@
         }
         .keyword-chip.active { background-color: var(--secondary); color: var(--primary); border-color: var(--secondary); transform: translateY(-2px); box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
 
+        .review-preview-box {
+            width: 100%; min-height: 140px; margin-top: 20px; padding: 12px;
+            border: 1px solid var(--primary); border-radius: 8px;
+            background-color: #fff; color: #333; font-size: 14px;
+            resize: none; outline: none;
+        }
+
         .copy-btn { width: 100%; padding: 12px; background-color: var(--accent); color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: 600; font-size: 15px; cursor: pointer; display: none; box-shadow: 0 4px 6px rgba(16, 185, 129, 0.25); }
+
+        /* --- OWNER PANEL --- */
+        #ownerPanel {
+            display: none; margin-top: 20px; padding: 15px;
+            border: 2px dashed var(--whatsapp); border-radius: 12px;
+            background-color: #f0fdf4; text-align: left;
+        }
+        .whatsapp-send-btn {
+            width: 100%; padding: 12px; background-color: var(--whatsapp);
+            color: white; border: none; border-radius: 8px;
+            font-size: 15px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
 
         /* --- UTILS --- */
         .hidden { display: none !important; }
         .fade-in { animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
         .toggle-name { font-size: 13px; color: #4b5563; text-decoration: underline; cursor: pointer; float: right; margin-top: 5px; border: none; background: none; }
 
         /* --- FOOTER --- */
         .footer { margin-top: 35px; text-align: center; font-size: 12px; color: #9ca3af; border-top: 1px dashed #d1d5db; padding-top: 15px; }
         .footer-logo { display: block; margin: 0 auto 5px auto; max-height: 28px; width: auto; opacity: 0.85; }
         .footer a { color: var(--primary-dark); text-decoration: none; font-weight: 700; }
-        .footer-text { margin-top: 5px; line-height: 1.6; }
+        .owner-login-trigger { font-size: 11px; color: #ccc; cursor: pointer; text-decoration: none; position: absolute; bottom: 5px; right: 10px; }
+
+        /* CUSTOMER VIEW */
+        .customer-card { text-align: center; padding: 20px; }
+        .customer-card h2 { color: var(--secondary); }
     </style>
 </head>
 <body>
 
-<div class="container">
-    
-    <h1>Honey Cab Udaipur</h1>
-    <div class="location">🚖 Udaipur, Rajasthan</div>
-    
-    <div>
-        <a href="tel:+917737785243" class="phone-link">📞 Book Now</a>
+<div id="lockScreen" style="display: none;">
+    <div class="lock-icon">🔒</div>
+    <div class="lock-msg">Service Suspended</div>
+    <div style="font-size:14px; color:#666; margin-bottom:20px;">
+        This review tool is currently inactive.<br>Please contact the administrator.
+    </div>
+    <a href="tel:+917020370561" class="contact-admin-btn">Contact Support</a>
+</div>
+
+<div class="container" id="mainApp">
+
+    <div id="customerLinkView" class="hidden customer-card">
+        <div style="font-size: 40px; margin-bottom: 10px;">🚖</div>
+        <h2>Hello!</h2>
+        <p style="color:#555; font-size:14px; margin-bottom:20px;">
+            Here is the review for your recent trip with Honey Cab Udaipur.
+            <br>Click below to copy & post.
+        </p>
+        <textarea id="customerReviewText" class="review-preview-box" readonly></textarea>
+        <button class="copy-btn" style="display:block; margin-top:15px;" onclick="copyCustomerLinkReview()">📋 Copy & Open Google</button>
+        <p style="font-size:11px; color:#999; margin-top:20px;">Thank you for travelling with us! ❤️</p>
     </div>
 
-    <div id="ratingScreen" class="fade-in">
-        <p>How was your journey with us?</p>
-
-        <div class="star-container">
-            <span class="star" onclick="rate(1)">★</span>
-            <span class="star" onclick="rate(2)">★</span>
-            <span class="star" onclick="rate(3)">★</span>
-            <span class="star" onclick="rate(4)">★</span>
-            <span class="star" onclick="rate(5)">★</span>
-        </div>
-
-        <div class="experience-btns">
-            <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Not Good 😞</button>
-            <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Excellent 🚕</button>
-        </div>
-
-        <button class="action-btn" onclick="processRating()">Next Step ➡</button>
-    </div>
-
-    <div id="privateFeedbackScreen" class="hidden fade-in">
-        <h2 style="color:#1f2937;">We are sorry! 😔</h2>
-        <p>Please tell us how we can improve. Your feedback helps us serve better.</p>
-        <textarea id="privateFeedbackText" class="feedback-box" placeholder="Describe the issue..."></textarea>
-        <button class="action-btn" style="background:#4b5563;" onclick="submitPrivateFeedback()">Submit Feedback</button>
-    </div>
-
-    <div id="thankYouScreen" class="hidden fade-in">
-        <div style="font-size: 50px; margin-bottom:10px;">✅</div>
-        <h2 style="color:#1f2937;">Thank You!</h2>
-        <p>Your feedback has been submitted successfully.</p>
-    </div>
-
-    <div id="aiToolScreen" class="ai-tool-wrapper fade-in">
-        <p style="text-align:center; font-weight:bold; color:var(--primary-dark); margin-bottom: 20px;">✨ Create your review in 1 click!</p>
+    <div id="generatorApp">
+        <h1>Honey Cab Udaipur</h1>
+        <div class="location">🚖 Udaipur, Rajasthan</div>
         
-        <div style="display: flex; gap: 10px;">
-            <div style="flex:1;">
-                <label style="margin-top:0;">Trip Type</label>
-                <select id="tripSelect">
-                    <option value="Udaipur">Local Sightseeing</option>
-                    <option value="Outstation">Outstation Trip</option>
-                    <option value="Airport">Airport Transfer</option>
-                    <option value="Rajasthan">Rajasthan Tour</option>
-                </select>
+        <div>
+            <a href="tel:+917737785243" class="phone-link">📞 Book Now</a>
+        </div>
+
+        <div id="ratingScreen" class="fade-in">
+            <p>How was your journey with us?</p>
+            <div class="star-container">
+                <span class="star" onclick="rate(1)">★</span>
+                <span class="star" onclick="rate(2)">★</span>
+                <span class="star" onclick="rate(3)">★</span>
+                <span class="star" onclick="rate(4)">★</span>
+                <span class="star" onclick="rate(5)">★</span>
             </div>
-            <div style="flex:1;">
-                <label style="margin-top:0;">Tone</label>
-                <select id="toneSelect">
-                    <option value="Professional">Professional 👔</option>
-                    <option value="Friendly">Friendly 😃</option>
-                    <option value="Short">Short & Sweet 👌</option>
-                    <option value="Grateful">Grateful 🙏</option>
-                </select>
+            <div class="experience-btns">
+                <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Not Good 😞</button>
+                <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Excellent 🚕</button>
             </div>
+            <button class="action-btn" onclick="processRating()">Next Step ➡</button>
         </div>
 
-        <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
-        <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
-            <input type="text" id="userName" placeholder="Your Name (Optional)">
+        <div id="privateFeedbackScreen" class="hidden fade-in">
+            <h2 style="color:#1f2937;">We are sorry! 😔</h2>
+            <p>Please tell us how we can improve. Your feedback helps us serve better.</p>
+            <textarea id="privateFeedbackText" style="height:100px;" placeholder="Describe the issue..."></textarea>
+            <button class="action-btn" style="background:#4b5563;" onclick="submitPrivateFeedback()">Submit Feedback</button>
         </div>
 
-        <label style="clear:both;">Select what you liked (Pick 3-4)</label>
-
-        <div class="category-header">LOCATION & AIRPORT SEARCH</div>
-        <div class="keywords-container">
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Udaipur City')">🏙️ Udaipur City</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Maharana Pratap Airport')">🛫 Maharana Pratap Airport</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Near Airport')">✈️ Cab Near Airport</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Railway Station')">🚂 Railway Station</div>
+        <div id="thankYouScreen" class="hidden fade-in">
+            <div style="font-size: 50px; margin-bottom:10px;">✅</div>
+            <h2 style="color:#1f2937;">Thank You!</h2>
+            <p>Your feedback has been submitted successfully.</p>
         </div>
 
-        <div class="category-header">SERVICES</div>
-        <div class="keywords-container">
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Taxi Service')">🏆 Best Taxi Service</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Online Cab Booking')">📱 Online Cab Booking</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Airport Taxi')">✈️ Airport Taxi</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Sightseeing Cab')">📸 Sightseeing Cab</div>
+        <div id="aiToolScreen" class="hidden fade-in" style="text-align: left;">
+            <p style="text-align:center; font-weight:bold; color:var(--primary-dark); margin-bottom: 20px;">✨ Create your review in 1 click!</p>
+            
+            <div class="input-mode-tabs">
+                <button class="mode-btn active-mode" id="btnModeVoice" onclick="switchMode('voice')">🎤 Speak</button>
+                <button class="mode-btn" id="btnModeText" onclick="switchMode('text')">✍️ Write</button>
+            </div>
+
+            <div id="voiceSection" class="voice-section">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <span style="font-size:11px; font-weight:bold; color:var(--secondary);">SPEAK (Hindi/English):</span>
+                    <select id="voiceLang" style="width:auto; padding:2px; font-size:11px; height:25px; margin:0;">
+                        <option value="en-IN" selected>English</option>
+                        <option value="hi-IN">Hindi</option>
+                    </select>
+                </div>
+                <div class="voice-controls">
+                    <button id="micBtn" class="mic-btn" onclick="startListening()">🎤</button>
+                    <div style="flex:1;">
+                        <p id="statusText" style="font-size:12px; color:#555; margin:0;">Tap mic & speak...<br>(Ex: "Bhaiya ne gaadi bahut achi chalayi")</p>
+                    </div>
+                </div>
+                <div id="spokenTextDisplay" style="display:none; margin-top:8px; font-size:12px; color:var(--secondary); background:#fff; padding:6px; border-radius:4px;"></div>
+            </div>
+
+            <div id="textSection" class="text-section hidden">
+                <label style="margin-top:0; color:var(--secondary);">Describe Experience</label>
+                <textarea id="manualInput" placeholder="Ex: Safe drive and polite driver..." style="height:80px; margin-bottom:0;"></textarea>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <div style="flex:1;">
+                    <label style="margin-top:0;">Trip Type</label>
+                    <select id="tripSelect">
+                        <option value="Udaipur">Local Sightseeing</option>
+                        <option value="Outstation">Outstation Trip</option>
+                        <option value="Airport">Airport Transfer</option>
+                        <option value="Rajasthan">Rajasthan Tour</option>
+                    </select>
+                </div>
+                <div style="flex:1;">
+                    <label style="margin-top:0;">Tone</label>
+                    <select id="toneSelect">
+                        <option value="Professional">Professional 👔</option>
+                        <option value="Friendly">Friendly 😃</option>
+                        <option value="Short">Short & Sweet 👌</option>
+                        <option value="Grateful">Grateful 🙏</option>
+                    </select>
+                </div>
+            </div>
+
+            <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
+            <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
+                <input type="text" id="userName" placeholder="Your Name (Optional)">
+            </div>
+
+            <label style="clear:both;">Select what you liked (Pick 3-4)</label>
+
+            <div class="category-header">LOCATION & AIRPORT SEARCH</div>
+            <div class="keywords-container">
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Udaipur City')">🏙️ Udaipur City</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Maharana Pratap Airport')">🛫 Maharana Pratap Airport</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Near Airport')">✈️ Cab Near Airport</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Railway Station')">🚂 Railway Station</div>
+            </div>
+
+            <div class="category-header">SERVICES</div>
+            <div class="keywords-container">
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Taxi Service')">🏆 Best Taxi Service</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Online Cab Booking')">📱 Online Cab Booking</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Airport Taxi')">✈️ Airport Taxi</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Sightseeing Cab')">📸 Sightseeing Cab</div>
+            </div>
+
+            <div class="category-header">EXPERIENCE & QUALITY</div>
+            <div class="keywords-container">
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Safe Drive')">🛡️ Safe Drive</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Professional Staff')">👨‍✈️ Professional Staff</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Friendly')">🤝 Friendly & Welcoming</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Reasonable Rates')">💰 Reasonable Rates</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Fast Service')">⚡ No Hassle Fast Service</div>
+            </div>
+
+            <div class="category-header">ROUTES (FROM UDAIPUR)</div>
+            <div class="keywords-container">
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'to Eklingji')">🛕 to Eklingji</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'to Nathdwara')">🙏 to Nathdwara</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'to Kumbhalgarh')">🏰 to Kumbhalgarh</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'to Chittorgarh')">🚩 to Chittorgarh</div>
+            </div>
+
+            <div class="category-header">RAJASTHAN TOURS</div>
+            <div class="keywords-container">
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Mount Abu')">🏔️ Mount Abu</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Jodhpur')">💙 Jodhpur</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Jaisalmer')">🐫 Jaisalmer</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Jaipur')">🩷 Jaipur</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Pushkar')">🕉️ Pushkar</div>
+            </div>
+
+            <button class="action-btn" style="background: var(--primary); color: var(--secondary);" id="generateBtn" onclick="generateReview()">🚀 Generate Review</button>
+
+            <textarea id="reviewOutput" class="review-preview-box" readonly></textarea>
+            
+            <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy & Open Google</button>
+
+            <div id="ownerPanel">
+                <label style="color:var(--whatsapp); margin-top:0;">📱 Customer's WhatsApp Number</label>
+                <div style="display:flex; gap:10px;">
+                    <input type="tel" id="customerPhone" placeholder="Ex: 9876543210" style="margin-bottom:0;">
+                    <button class="whatsapp-send-btn" style="width: auto; padding: 0 20px;" onclick="sendLinkToCustomer()">🚀 Send</button>
+                </div>
+                <p style="font-size:11px; color:#555; margin-top:5px;">Customer will receive a direct link to post this review.</p>
+            </div>
+
         </div>
-
-        <div class="category-header">EXPERIENCE & QUALITY</div>
-        <div class="keywords-container">
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Safe Drive')">🛡️ Safe Drive</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Professional Staff')">👨‍✈️ Professional Staff</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Friendly')">🤝 Friendly & Welcoming</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Reasonable Rates')">💰 Reasonable Rates</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Fast Service')">⚡ No Hassle Fast Service</div>
-        </div>
-
-        <div class="category-header">ROUTES (FROM UDAIPUR)</div>
-        <div class="keywords-container">
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'to Eklingji')">🛕 to Eklingji</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'to Nathdwara')">🙏 to Nathdwara</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'to Kumbhalgarh')">🏰 to Kumbhalgarh</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'to Chittorgarh')">🚩 to Chittorgarh</div>
-        </div>
-
-        <div class="category-header">RAJASTHAN TOURS</div>
-        <div class="keywords-container">
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Mount Abu')">🏔️ Mount Abu</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Jodhpur')">💙 Jodhpur</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Jaisalmer')">🐫 Jaisalmer</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Jaipur')">🩷 Jaipur</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Pushkar')">🕉️ Pushkar</div>
-        </div>
-
-        <button class="action-btn" style="background: var(--primary); color: #1f2937;" onclick="generateReview()">🚀 Generate Review</button>
-
-        <textarea id="reviewOutput" style="width:100%; height:130px; margin-top:15px; border-radius:8px; padding:10px; border:1px solid #d1d5db; display:none; background:#fff;" readonly></textarea>
-        
-        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy & Open Google</button>
     </div>
 
     <div class="footer">
         <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft">
-        
         <div class="footer-text">
-            Powered by <a href="https://growft.net" target="_blank">Growft</a><br>
-            Contact to build your AI Tool: <a href="tel:+917020370561">7020370561</a>
+            Powered by <a href="https://growft.net" target="_blank">Growft</a>
         </div>
+        <span class="owner-login-trigger" onclick="ownerLogin()">🔒 Owner</span>
     </div>
 </div>
 
 <script>
-    // --- IMPORTANT: REPLACE THIS LINK WITH HONEY CAB GOOGLE LINK ---
+    // --- 🔐 SECURITY & CONFIGURATION ---
     const GOOGLE_REVIEW_LINK = "https://g.page/r/Cc27AkldiRCmEBM/review"; 
     
-    // --- RATING LOGIC ---
-    let currentRating = 0;
-    let currentExp = '';
+    // CHANGE TO "suspended" TO LOCK THE TOOL
+    const APP_STATUS = "suspended"; 
+    
+    // EXPIRY DATE (YYYY-MM-DD)
+    const EXPIRY_DATE = "2026-12-31"; 
 
-    function rate(stars) {
-        currentRating = stars;
-        let allStars = document.querySelectorAll('.star');
-        allStars.forEach((star, index) => {
-            star.classList.toggle('selected', index < stars);
-        });
-        if(stars >= 4) selectExp('good');
-        else selectExp('bad');
+    // --- INITIALIZATION ---
+    let isOwnerMode = false;
+
+    window.onload = function() {
+        // Security Check
+        const today = new Date().toISOString().split('T')[0];
+        if(APP_STATUS === "suspended" || today > EXPIRY_DATE) {
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('lockScreen').style.display = 'flex';
+            return;
+        }
+
+        // URL Check (Customer Mode)
+        const urlParams = new URLSearchParams(window.location.search);
+        const reviewText = urlParams.get('review');
+        if (reviewText) {
+            document.getElementById('generatorApp').style.display = 'none';
+            document.getElementById('customerLinkView').classList.remove('hidden');
+            document.getElementById('customerReviewText').value = decodeURIComponent(reviewText);
+        } else if(sessionStorage.getItem('isOwner') === 'true') {
+            isOwnerMode = true;
+        }
+    };
+
+    // --- OWNER & WHATSAPP LOGIC ---
+    function ownerLogin() {
+        if(isOwnerMode) { alert("Already logged in as Owner."); return; }
+        const password = prompt("Enter Owner Password:");
+        if(password === "admin123") { // CHANGE PASSWORD HERE
+            isOwnerMode = true;
+            sessionStorage.setItem('isOwner', 'true');
+            alert("Owner Mode Active!");
+        } else if(password) { alert("Incorrect Password"); }
     }
 
+    function sendLinkToCustomer() {
+        const phone = document.getElementById('customerPhone').value.replace(/\D/g, '');
+        const review = document.getElementById('reviewOutput').value;
+        if(phone.length < 10) { alert("Enter valid number"); return; }
+        const finalPhone = phone.length === 10 ? "91" + phone : phone;
+        const baseUrl = window.location.href.split('?')[0];
+        const magicLink = `${baseUrl}?review=${encodeURIComponent(review)}`;
+        const msg = `Namaste! 🙏\n\nHere is the review for your trip with Honey Cab Udaipur:\n\n*Tap this link to Post:*\n${magicLink}`;
+        window.open(`https://wa.me/${finalPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function copyCustomerLinkReview() {
+        const box = document.getElementById("customerReviewText");
+        box.select();
+        document.execCommand('copy');
+        window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+
+    // --- APP LOGIC ---
+    let selectedKeywords = [];
+    let voiceText = "";
+    let activeMode = 'voice';
+    const connectors = ["Also,", "Moreover,", "I must mention that,", "Additionally,", "Plus,", "On top of that,", "Furthermore,", "Truly,", "Honestly,", "Not to mention,", "Along with that,"];
+
+    function switchMode(mode) {
+        activeMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active-mode'));
+        if(mode === 'voice') {
+            document.getElementById('btnModeVoice').classList.add('active-mode');
+            document.getElementById('voiceSection').classList.remove('hidden');
+            document.getElementById('textSection').classList.add('hidden');
+        } else {
+            document.getElementById('btnModeText').classList.add('active-mode');
+            document.getElementById('textSection').classList.remove('hidden');
+            document.getElementById('voiceSection').classList.add('hidden');
+        }
+    }
+
+    let currentRating = 0;
+    let currentExp = '';
+    function rate(stars) {
+        currentRating = stars;
+        document.querySelectorAll('.star').forEach((star, index) => {
+            star.classList.toggle('selected', index < stars);
+        });
+        if(stars >= 4) selectExp('good'); else selectExp('bad');
+    }
     function selectExp(type) {
         currentExp = type;
         document.getElementById('btn-good').classList.remove('active');
@@ -291,313 +468,227 @@
         if (type === 'good') document.getElementById('btn-good').classList.add('active');
         else document.getElementById('btn-bad').classList.add('bad-active');
     }
-
     function processRating() {
-        if (currentRating === 0 && currentExp === '') {
-            alert("Please select a star rating.");
-            return;
-        }
+        if (currentRating === 0 && currentExp === '') { alert("Please select a star rating."); return; }
         document.getElementById('ratingScreen').classList.add('hidden');
-        
         let isHappy = (currentRating >= 4) || (currentExp === 'good');
-        
-        if (isHappy) {
-            document.getElementById('aiToolScreen').style.display = 'block';
-        } else {
-            document.getElementById('privateFeedbackScreen').classList.remove('hidden');
-        }
+        if (isHappy) document.getElementById('aiToolScreen').classList.remove('hidden');
+        else document.getElementById('privateFeedbackScreen').classList.remove('hidden');
     }
-
     function submitPrivateFeedback() {
-        if(document.getElementById('privateFeedbackText').value.trim() === "") {
-            alert("Please write a few words.");
-            return;
-        }
+        if(document.getElementById('privateFeedbackText').value.trim() === "") { alert("Please write a few words."); return; }
         document.getElementById('privateFeedbackScreen').classList.add('hidden');
         document.getElementById('thankYouScreen').classList.remove('hidden');
     }
 
-    // --- AI GENERATION LOGIC ---
-    let selectedKeywords = [];
+    function startListening() {
+        if (!('webkitSpeechRecognition' in window)) { alert("Use Chrome Browser."); return; }
+        recognition = new webkitSpeechRecognition();
+        recognition.lang = document.getElementById('voiceLang').value;
+        recognition.interimResults = false;
+        document.getElementById('micBtn').classList.add('mic-active');
+        document.getElementById('statusText').innerText = "Listening...";
+        recognition.onresult = (event) => {
+            voiceText = event.results[0][0].transcript;
+            document.getElementById('spokenTextDisplay').style.display = 'block';
+            document.getElementById('spokenTextDisplay').innerText = `Recorded: "${voiceText}"`;
+        };
+        recognition.onend = () => { document.getElementById('micBtn').classList.remove('mic-active'); document.getElementById('statusText').innerText = "Processing..."; };
+        recognition.start();
+    }
 
-    // HUGE DATABASE TO ENSURE VARIETY
-    const reviewDB = {
-        // OPENING LINES
-        intros: {
-            "Professional": [
-                "I recently booked Honey Cab Udaipur for a trip.", "We engaged Honey Cab for our travel needs in Rajasthan.", 
-                "If you are looking for a reliable taxi service in Udaipur, this is the one.", "Excellent travel service provided by the team.",
-                "Very professional cab services experienced in Udaipur.", "I highly recommend Honey Cab Udaipur for any traveler.",
-                "Top quality car rental service delivered during our visit.", "Found them to be the most professional transport company in Udaipur.",
-                "They handled our full Rajasthan tour package professionally.", "Reliable and skilled drivers operating in Udaipur.",
-                "Recently utilized their taxi services and was thoroughly impressed.", "For anyone needing a safe cab in Udaipur, Honey Cab is the expert.",
-                "I am writing this review to commend their professionalism on our trip.", "Our experience with Honey Cab Udaipur was seamless and comfortable.",
-                "Booked a cab for a family trip and the service was outstanding.", "The best decision we made for our Udaipur trip was hiring Honey Cab.",
-                "Exceptional service standards maintained by Honey Cab.", "A truly premium travel experience in Rajasthan.",
-                "We had a requirement for a reliable taxi and they delivered.", "Efficient, punctual, and very professional service."
-            ],
-            "Friendly": [
-                "Amazing ride with Honey Cab Udaipur! 😃", "Just finished my trip with them, super happy!", 
-                "Best taxi service in Udaipur area!", "They made my trip exactly how I wanted.",
-                "So happy with the car and driver provided.", "Very polite and talented drivers.", 
-                "Loved the service! Best in Udaipur.", "My Rajasthan trip was beautiful thanks to their driving.",
-                "Super friendly team and great results.", "Thanks for the smooth ride!", 
-                "Wow! The service they provided is stunning.", "Such nice people and amazing driving skills.",
-                "Totally loved their service!", "They are simply the best cab service in Udaipur.",
-                "Had a blast on our trip thanks to Honey Cab!", "Friendly driver, clean car, happy journey!",
-                "If you want a fun and safe trip, call them.", "Best travel partners in Udaipur.",
-                "Enjoyed every bit of our sightseeing with them.", "Superb experience with the team!"
-            ],
-            "Short": [
-                "Best taxi in Udaipur.", "Good drive.", "Professional service.", "Nice car.",
-                "Recommended cab service.", "Affordable and good.", "Fast service.", "Best for tours.",
-                "Quality driving.", "Five stars.", "Great job.", "Skilled driver.",
-                "Good behavior.", "Reliable taxi.", "Smooth ride.", "On time.",
-                "Clean cab.", "Best in town.", "Great experience.", "Safe travel."
-            ],
-            "Grateful": [
-                "I am really thankful to Honey Cab for the safe journey.", "They saved my trip with quick booking.",
-                "Grateful for the honest rates and good driving.", "Thanks a lot for the beautiful tour of Rajasthan.",
-                "Appreciate the hard work put in by the driver.", "Thank you for completing the tour on time.",
-                "So glad I found honest drivers in Udaipur.", "Thanks for the perfect trip plan.",
-                "Really appreciate the car cleanliness.", "Thank you Honey Cab team for the great service.",
-                "My sincere thanks to the team.", "I appreciate how they handled my airport transfer.",
-                "Big thanks for the affordable rates.", "Grateful for the excellent hospitality.",
-                "Thank you for making our family trip memorable.", "We are grateful for the safe drive.",
-                "Thanks for being so accommodating.", "Appreciate the punctuality.",
-                "Heartfelt thanks to our driver.", "Thank you for the wonderful service."
-            ]
-        },
+    async function generateReview() {
+        const btn = document.getElementById('generateBtn');
+        btn.innerText = "🔄 Processing...";
+        
+        const tone = document.getElementById('toneSelect').value;
+        const name = document.getElementById('userName').value.trim();
+        const manualText = document.getElementById('manualInput').value.trim();
+        let rawInput = activeMode === 'voice' ? voiceText : manualText;
 
-        // CLOSING LINES
-        outros: {
-            "Professional": [
-                "Highly recommended for quality travel in Udaipur.", "The best choice for taxi needs in Rajasthan.",
-                "They ensure safe driving and timely pickup.", "Will definitely hire them again for future trips.",
-                "A trustworthy name for cabs in Udaipur.", "Professionalism at its best.",
-                "Great value for money service.", "Satisfied with the overall travel execution.",
-                "Best wishes to the business.", "Do try them for premium tours.",
-                "They are setting high standards in Udaipur taxi service.", "You can trust them for any long trip.",
-                "A reliable partner for Rajasthan tourism.", "Their dedication to safety is commendable.",
-                "The fleet quality is excellent.", "A top-tier transport provider.",
-                "We were very satisfied with the logistics.", "An exemplary travel company.",
-                "I strongly recommend their services.", "They exceeded our expectations."
-            ],
-            "Friendly": [
-                "Will call you guys again! 👍", "Best in Udaipur, hands down!", "Loving the experience! 😍",
-                "Keep up the great work!", "Don't look anywhere else in Udaipur.", "Super satisfied!",
-                "Cheers to the team!", "Will recommend to my friends.", "Thanks again!",
-                "You guys are the best.", "Totally worth it!", "Can't wait to come back to Udaipur.",
-                "Love the team's vibe.", "See you soon for the next trip.", "Had a great time!",
-                "5 stars from me!", "You rock!", "Amazing memories made.",
-                "Will book again for sure.", "Thanks for the happiness!"
-            ],
-            "Short": [
-                "Recommended.", "Good job.", "5 Stars.", "Must try.", "Great work.",
-                "Best in Udaipur.", "Nice trip.", "Happy customer.", "Thank you.",
-                "Top quality.", "Superb.", "Well done.", "Highly rated.", "Good service.",
-                "Safe ride.", "Book them.", "Great car.", "Very good.", "Perfect.", "Excellent."
-            ],
-            "Grateful": [
-                "Thanks once again.", "God bless the team.", "Really appreciate the help.",
-                "I will always recommend you.", "Thanks for being so helpful.", "Grateful for the service.",
-                "Thanks for the fair price.", "So happy with the result.", "Thank you for the support.",
-                "Much appreciated.", "Heartfelt thanks.", "Thanks for solving my travel needs.",
-                "Appreciate the quick response.", "Thank you for the honesty.", "Many thanks.",
-                "Gratitude for the safe drive.", "Thanks for the memories.", "We appreciate it.",
-                "Thanks for the kindness.", "Blessed to have found this cab."
-            ]
-        },
-
-        // KEYWORD SPECIFIC SENTENCES
-        keywords: {
-            // NEW LOCATION KEYWORDS
-            "Udaipur City": [
-                "Hands down the best cab service in Udaipur.",
-                "Top rated taxi service in Udaipur city.",
-                "If you are visiting, they offer the best cab service in Udaipur.",
-                "Most trusted cab operator in Udaipur."
-            ],
-            "Maharana Pratap Airport": [
-                "Best cab near Maharana Pratap Airport.",
-                "Excellent taxi service from Maharana Pratap Airport.",
-                "On-time pickup at Maharana Pratap Airport.",
-                "We needed a cab near Maharana Pratap Airport and they were the best."
-            ],
-            "Near Airport": [
-                "Looking for a cab near airport? Choose them.",
-                "Very convenient taxi service near the airport.",
-                "Quick availability near Udaipur airport.",
-                "Best cab near Udaipur Airport for fast pickup."
-            ],
-            "Railway Station": [
-                "Pickup from Udaipur Railway Station was on time.",
-                "Best taxi service near Udaipur Railway Station.",
-                "Driver was waiting at the railway station, very convenient."
-            ],
-
-            // EXISTING KEYWORDS
-            "Best Taxi Service": [
-                "Truly the best taxi service I have found in Udaipur.",
-                "Honey Cab is the best taxi service provider for family trips.",
-                "Hard to find such a good taxi service in Udaipur."
-            ],
-            "Online Cab Booking": [
-                "Their online cab booking process is very smooth.",
-                "I booked via online cab booking and the cab arrived instantly.",
-                "Very easy online car booking system they have."
-            ],
-            "Airport Taxi": [
-                "Best airport taxi service for pickup and drop.",
-                "On-time airport taxi service, never missed a flight.",
-                "Reliable airport taxi transfer with clean cars."
-            ],
-            "Sightseeing Cab": [
-                "They provided the best sightseeing cab for our city tour.",
-                "Our city tour cab driver knew all the best spots.",
-                "Highly recommend their sightseeing cab packages."
-            ],
-            "Safe Drive": [
-                "The driver ensured a very safe drive throughout the trip.",
-                "We felt completely safe with their driving skills.",
-                "Safety was their top priority during the drive."
-            ],
-            "Professional Staff": [
-                "The staff is very professional and disciplined.",
-                "Drivers are well-uniformed and professional staff.",
-                "A very skilled and professional team of drivers."
-            ],
-            "Friendly": [
-                "The driver was very friendly and welcoming.",
-                "Such a friendly welcoming atmosphere in the car.",
-                "Driver was polite, friendly, and helpful."
-            ],
-            "Reasonable Rates": [
-                "Got premium service at reasonable rates.",
-                "Their pricing is transparent and rates are reasonable.",
-                "Best quality service at reasonable rates in Udaipur."
-            ],
-            "Fast Service": [
-                "I was impressed by their no hassle fast service.",
-                "Quick booking and fast service delivery.",
-                "No hassle fast service for urgent bookings."
-            ],
-            // Routes
-            "to Eklingji": [
-                "The trip from Udaipur to Eklingji was divine.",
-                "We booked a cab for Udaipur to Eklingji darshan.",
-                "Smooth drive on the Udaipur to Eklingji route."
-            ],
-            "to Nathdwara": [
-                "Comfortable journey from Udaipur to Nathdwara.",
-                "Best cab for Udaipur to Nathdwara Shrinathji darshan.",
-                "Hired them for a round trip to Nathdwara."
-            ],
-            "to Kumbhalgarh": [
-                "The Udaipur to Kumbhalgarh trip was amazing.",
-                "Driver handled the Udaipur to Kumbhalgarh ghat section well.",
-                "Great experience visiting Kumbhalgarh fort with them."
-            ],
-            "to Chittorgarh": [
-                "Booked a taxi for Udaipur to Chittorgarh fort tour.",
-                "The Udaipur to Chittorgarh drive was very comfortable.",
-                "Best service for Chittorgarh day trip."
-            ],
-            // Tours
-            "Mount Abu": [
-                "Our Mount Abu trip package was excellent.",
-                "Driver knew the best routes to Mount Abu.",
-                "Enjoyed the hill station drive to Mount Abu."
-            ],
-            "Jodhpur": [
-                "The Udaipur to Jodhpur taxi service was great.",
-                "Smooth long drive to Jodhpur.",
-                "Best cab for Jodhpur transfer."
-            ],
-            "Jaisalmer": [
-                "Our Jaisalmer desert trip was memorable.",
-                "Long journey to Jaisalmer was made comfortable by the driver.",
-                "Great package for Jaisalmer tour."
-            ],
-            "Jaipur": [
-                "Hired them for a drop to Jaipur.",
-                "Safe and fast travel to Jaipur.",
-                "Best intercity cab for Jaipur."
-            ],
-             "Pushkar": [
-                "Visited Pushkar with Honey Cab and it was great.",
-                "Smooth drive to the holy city of Pushkar.",
-                "Reliable taxi for Pushkar trip."
-            ]
+        if (selectedKeywords.length === 0 && !rawInput) {
+            alert("Please select highlights or say something.");
+            btn.innerText = "🚀 Generate Review";
+            return;
         }
-    };
 
-    // --- UTILS ---
-    function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+        let finalBodyText = "";
+        if (rawInput && rawInput.length > 1) {
+            try {
+                const srcLangCode = document.getElementById('voiceLang').value.split('-')[0];
+                let langPair = 'Autodetect|en';
+                if(srcLangCode === 'hi') langPair = 'hi|en';
+                
+                const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(rawInput)}&langpair=${langPair}`);
+                const data = await res.json();
+                let translated = data.responseData ? data.responseData.translatedText : "";
+                if(!translated.includes("PLEASE SELECT")) finalBodyText = translated;
+                else finalBodyText = rawInput;
+            } catch(e) { finalBodyText = rawInput; }
+        }
+
+        // --- PRESERVED DATASETS ---
+        const reviewDB = {
+            intros: {
+                "Professional": [
+                    "I recently booked Honey Cab Udaipur for a trip.", "We engaged Honey Cab for our travel needs in Rajasthan.", 
+                    "If you are looking for a reliable taxi service in Udaipur, this is the one.", "Excellent travel service provided by the team.",
+                    "Very professional cab services experienced in Udaipur.", "I highly recommend Honey Cab Udaipur for any traveler.",
+                    "Top quality car rental service delivered during our visit.", "Found them to be the most professional transport company in Udaipur.",
+                    "They handled our full Rajasthan tour package professionally.", "Reliable and skilled drivers operating in Udaipur.",
+                    "Recently utilized their taxi services and was thoroughly impressed.", "For anyone needing a safe cab in Udaipur, Honey Cab is the expert.",
+                    "I am writing this review to commend their professionalism on our trip.", "Our experience with Honey Cab Udaipur was seamless and comfortable.",
+                    "Booked a cab for a family trip and the service was outstanding.", "The best decision we made for our Udaipur trip was hiring Honey Cab.",
+                    "Exceptional service standards maintained by Honey Cab.", "A truly premium travel experience in Rajasthan.",
+                    "We had a requirement for a reliable taxi and they delivered.", "Efficient, punctual, and very professional service."
+                ],
+                "Friendly": [
+                    "Amazing ride with Honey Cab Udaipur! 😃", "Just finished my trip with them, super happy!", 
+                    "Best taxi service in Udaipur area!", "They made my trip exactly how I wanted.",
+                    "So happy with the car and driver provided.", "Very polite and talented drivers.", 
+                    "Loved the service! Best in Udaipur.", "My Rajasthan trip was beautiful thanks to their driving.",
+                    "Super friendly team and great results.", "Thanks for the smooth ride!", 
+                    "Wow! The service they provided is stunning.", "Such nice people and amazing driving skills.",
+                    "Totally loved their service!", "They are simply the best cab service in Udaipur.",
+                    "Had a blast on our trip thanks to Honey Cab!", "Friendly driver, clean car, happy journey!",
+                    "If you want a fun and safe trip, call them.", "Best travel partners in Udaipur.",
+                    "Enjoyed every bit of our sightseeing with them.", "Superb experience with the team!"
+                ],
+                "Short": [
+                    "Best taxi in Udaipur.", "Good drive.", "Professional service.", "Nice car.",
+                    "Recommended cab service.", "Affordable and good.", "Fast service.", "Best for tours.",
+                    "Quality driving.", "Five stars.", "Great job.", "Skilled driver.",
+                    "Good behavior.", "Reliable taxi.", "Smooth ride.", "On time.",
+                    "Clean cab.", "Best in town.", "Great experience.", "Safe travel."
+                ],
+                "Grateful": [
+                    "I am really thankful to Honey Cab for the safe journey.", "They saved my trip with quick booking.",
+                    "Grateful for the honest rates and good driving.", "Thanks a lot for the beautiful tour of Rajasthan.",
+                    "Appreciate the hard work put in by the driver.", "Thank you for completing the tour on time.",
+                    "So glad I found honest drivers in Udaipur.", "Thanks for the perfect trip plan.",
+                    "Really appreciate the car cleanliness.", "Thank you Honey Cab team for the great service.",
+                    "My sincere thanks to the team.", "I appreciate how they handled my airport transfer.",
+                    "Big thanks for the affordable rates.", "Grateful for the excellent hospitality.",
+                    "Thank you for making our family trip memorable.", "We are grateful for the safe drive.",
+                    "Thanks for being so accommodating.", "Appreciate the punctuality.",
+                    "Heartfelt thanks to our driver.", "Thank you for the wonderful service."
+                ]
+            },
+            outros: {
+                "Professional": [
+                    "Highly recommended for quality travel in Udaipur.", "The best choice for taxi needs in Rajasthan.",
+                    "They ensure safe driving and timely pickup.", "Will definitely hire them again for future trips.",
+                    "A trustworthy name for cabs in Udaipur.", "Professionalism at its best.",
+                    "Great value for money service.", "Satisfied with the overall travel execution.",
+                    "Best wishes to the business.", "Do try them for premium tours.",
+                    "They are setting high standards in Udaipur taxi service.", "You can trust them for any long trip.",
+                    "A reliable partner for Rajasthan tourism.", "Their dedication to safety is commendable.",
+                    "The fleet quality is excellent.", "A top-tier transport provider.",
+                    "We were very satisfied with the logistics.", "An exemplary travel company.",
+                    "I strongly recommend their services.", "They exceeded our expectations."
+                ],
+                "Friendly": [
+                    "Will call you guys again! 👍", "Best in Udaipur, hands down!", "Loving the experience! 😍",
+                    "Keep up the great work!", "Don't look anywhere else in Udaipur.", "Super satisfied!",
+                    "Cheers to the team!", "Will recommend to my friends.", "Thanks again!",
+                    "You guys are the best.", "Totally worth it!", "Can't wait to come back to Udaipur.",
+                    "Love the team's vibe.", "See you soon for the next trip.", "Had a great time!",
+                    "5 stars from me!", "You rock!", "Amazing memories made.",
+                    "Will book again for sure.", "Thanks for the happiness!"
+                ],
+                "Short": [
+                    "Recommended.", "Good job.", "5 Stars.", "Must try.", "Great work.",
+                    "Best in Udaipur.", "Nice trip.", "Happy customer.", "Thank you.",
+                    "Top quality.", "Superb.", "Well done.", "Highly rated.", "Good service.",
+                    "Safe ride.", "Book them.", "Great car.", "Very good.", "Perfect.", "Excellent."
+                ],
+                "Grateful": [
+                    "Thanks once again.", "God bless the team.", "Really appreciate the help.",
+                    "I will always recommend you.", "Thanks for being so helpful.", "Grateful for the service.",
+                    "Thanks for the fair price.", "So happy with the result.", "Thank you for the support.",
+                    "Much appreciated.", "Heartfelt thanks.", "Thanks for solving my travel needs.",
+                    "Appreciate the quick response.", "Thank you for the honesty.", "Many thanks.",
+                    "Gratitude for the safe drive.", "Thanks for the memories.", "We appreciate it.",
+                    "Thanks for the kindness.", "Blessed to have found this cab."
+                ]
+            },
+            keywords: {
+                "Udaipur City": ["Hands down the best cab service in Udaipur.", "Top rated taxi service in Udaipur city.", "If you are visiting, they offer the best cab service in Udaipur.", "Most trusted cab operator in Udaipur."],
+                "Maharana Pratap Airport": ["Best cab near Maharana Pratap Airport.", "Excellent taxi service from Maharana Pratap Airport.", "On-time pickup at Maharana Pratap Airport.", "We needed a cab near Maharana Pratap Airport and they were the best."],
+                "Near Airport": ["Looking for a cab near airport? Choose them.", "Very convenient taxi service near the airport.", "Quick availability near Udaipur airport.", "Best cab near Udaipur Airport for fast pickup."],
+                "Railway Station": ["Pickup from Udaipur Railway Station was on time.", "Best taxi service near Udaipur Railway Station.", "Driver was waiting at the railway station, very convenient."],
+                "Best Taxi Service": ["Truly the best taxi service I have found in Udaipur.", "Honey Cab is the best taxi service provider for family trips.", "Hard to find such a good taxi service in Udaipur."],
+                "Online Cab Booking": ["Their online cab booking process is very smooth.", "I booked via online cab booking and the cab arrived instantly.", "Very easy online car booking system they have."],
+                "Airport Taxi": ["Best airport taxi service for pickup and drop.", "On-time airport taxi service, never missed a flight.", "Reliable airport taxi transfer with clean cars."],
+                "Sightseeing Cab": ["They provided the best sightseeing cab for our city tour.", "Our city tour cab driver knew all the best spots.", "Highly recommend their sightseeing cab packages."],
+                "Safe Drive": ["The driver ensured a very safe drive throughout the trip.", "We felt completely safe with their driving skills.", "Safety was their top priority during the drive."],
+                "Professional Staff": ["The staff is very professional and disciplined.", "Drivers are well-uniformed and professional staff.", "A very skilled and professional team of drivers."],
+                "Friendly": ["The driver was very friendly and welcoming.", "Such a friendly welcoming atmosphere in the car.", "Driver was polite, friendly, and helpful."],
+                "Reasonable Rates": ["Got premium service at reasonable rates.", "Their pricing is transparent and rates are reasonable.", "Best quality service at reasonable rates in Udaipur."],
+                "Fast Service": ["I was impressed by their no hassle fast service.", "Quick booking and fast service delivery.", "No hassle fast service for urgent bookings."],
+                "to Eklingji": ["The trip from Udaipur to Eklingji was divine.", "We booked a cab for Udaipur to Eklingji darshan.", "Smooth drive on the Udaipur to Eklingji route."],
+                "to Nathdwara": ["Comfortable journey from Udaipur to Nathdwara.", "Best cab for Udaipur to Nathdwara Shrinathji darshan.", "Hired them for a round trip to Nathdwara."],
+                "to Kumbhalgarh": ["The Udaipur to Kumbhalgarh trip was amazing.", "Driver handled the Udaipur to Kumbhalgarh ghat section well.", "Great experience visiting Kumbhalgarh fort with them."],
+                "to Chittorgarh": ["Booked a taxi for Udaipur to Chittorgarh fort tour.", "The Udaipur to Chittorgarh drive was very comfortable.", "Best service for Chittorgarh day trip."],
+                "Mount Abu": ["Our Mount Abu trip package was excellent.", "Driver knew the best routes to Mount Abu.", "Enjoyed the hill station drive to Mount Abu."],
+                "Jodhpur": ["The Udaipur to Jodhpur taxi service was great.", "Smooth long drive to Jodhpur.", "Best cab for Jodhpur transfer."],
+                "Jaisalmer": ["Our Jaisalmer desert trip was memorable.", "Long journey to Jaisalmer was made comfortable by the driver.", "Great package for Jaisalmer tour."],
+                "Jaipur": ["Hired them for a drop to Jaipur.", "Safe and fast travel to Jaipur.", "Best intercity cab for Jaipur."],
+                "Pushkar": ["Visited Pushkar with Honey Cab and it was great.", "Smooth drive to the holy city of Pushkar.", "Reliable taxi for Pushkar trip."]
+            }
+        };
+
+        // --- GENERATION ---
+        let intro = getRandomItem(reviewDB.intros[tone]);
+        let review = intro + " ";
+        if(name) review = `I am ${name}. ` + review;
+        if(finalBodyText) review += finalBodyText + ". ";
+
+        const shuffled = selectedKeywords.sort(() => 0.5 - Math.random());
+        shuffled.forEach((k, i) => {
+            if(reviewDB.keywords[k]) {
+                let sentence = getRandomItem(reviewDB.keywords[k]);
+                if(i > 0 && Math.random() > 0.6) sentence = getRandomItem(connectors) + " " + sentence;
+                review += sentence + " ";
+            }
+        });
+
+        review += getRandomItem(reviewDB.outros[tone]);
+
+        const box = document.getElementById('reviewOutput');
+        box.value = review;
+        box.style.display = 'block';
+        box.scrollIntoView({behavior: "smooth"});
+        btn.innerText = "🚀 Generate Review";
+
+        if(isOwnerMode) {
+            document.getElementById('ownerPanel').style.display = 'block';
+            document.getElementById('copyBtn').style.display = 'none';
+        } else {
+            document.getElementById('ownerPanel').style.display = 'none';
+            document.getElementById('copyBtn').style.display = 'block';
+        }
+    }
+
     function toggleNameField() { 
         const field = document.getElementById('nameArea');
         field.style.display = field.style.display === 'block' ? 'none' : 'block';
     }
+
     function toggleKeyword(element, keyword) {
         element.classList.toggle('active');
-        if (selectedKeywords.includes(keyword)) {
-            selectedKeywords = selectedKeywords.filter(item => item !== keyword);
-        } else {
-            selectedKeywords.push(keyword);
-        }
+        if (selectedKeywords.includes(keyword)) selectedKeywords = selectedKeywords.filter(k => k !== keyword);
+        else selectedKeywords.push(keyword);
     }
-
-    function generateReview() {
-        const userName = document.getElementById('userName').value.trim();
-        const tone = document.getElementById('toneSelect').value;
-        const tripType = document.getElementById('tripSelect').value; // Used for context if needed
-        const outputBox = document.getElementById('reviewOutput');
-        const copyBtn = document.getElementById('copyBtn');
-
-        if (selectedKeywords.length === 0) {
-            alert("Please select at least 2 highlights.");
-            return;
-        }
-        
-        outputBox.style.display = 'block';
-        outputBox.style.opacity = "0.5";
-
-        // 1. SELECT INTRO
-        let intro = getRandomItem(reviewDB.intros[tone]);
-        if (userName) intro = `I am ${userName}. ` + intro;
-
-        // 2. BODY (Keyword Sentences)
-        let body = "";
-        const shuffledKeywords = selectedKeywords.sort(() => Math.random() - 0.5);
-        shuffledKeywords.forEach((k) => {
-            if(reviewDB.keywords[k]) {
-                let sentence = getRandomItem(reviewDB.keywords[k]);
-                body += sentence + " ";
-            }
-        });
-
-        // 3. SELECT OUTRO
-        let outro = getRandomItem(reviewDB.outros[tone]);
-
-        const finalReview = intro + " " + body + outro;
-
-        setTimeout(() => {
-            outputBox.style.opacity = "1";
-            outputBox.value = finalReview;
-            copyBtn.style.display = "block";
-            if (window.innerWidth < 600) outputBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 300);
-    }
-
+    
     function copyToClipboard() {
-        const copyText = document.getElementById("reviewOutput");
-        copyText.select();
-        copyText.setSelectionRange(0, 99999); 
-        navigator.clipboard.writeText(copyText.value).then(() => {
-            const isConfirmed = confirm("Review Copied! 🚖\n\nClick OK to open Google Maps.");
-            if(isConfirmed) window.open(GOOGLE_REVIEW_LINK, '_blank');
-        });
+        const box = document.getElementById("reviewOutput");
+        box.select();
+        document.execCommand('copy');
+        if(confirm("Review Copied! 🚖\n\nClick OK to open Google Maps.")) window.open(GOOGLE_REVIEW_LINK, '_blank');
     }
+    
+    function getRandomItem(arr) { if(!arr) return ""; return arr[Math.floor(Math.random() * arr.length)]; }
 </script>
 
 </body>
