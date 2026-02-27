@@ -16,6 +16,8 @@
             --gray: #64748b;
             --red: #ef4444;
             --green: #22c55e;
+            --whatsapp: #25D366;
+            --danger: #ef4444;
         }
 
         /* --- RESET --- */
@@ -36,9 +38,27 @@
             box-shadow: 0 10px 30px rgba(2, 132, 199, 0.15);
             border-top: 6px solid var(--primary); margin: auto;
             text-align: center;
-            transition: filter 0.3s; /* Smooth blur transition */
+            position: relative;
         }
 
+        /* --- 🔒 LOCK SCREEN --- */
+        #lockScreen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.98); z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 20px;
+        }
+        .lock-icon { font-size: 60px; margin-bottom: 20px; animation: float 3s ease-in-out infinite; color: var(--danger); }
+        .lock-title { color: var(--danger); font-size: 24px; font-weight: 800; margin-bottom: 10px; }
+        .lock-msg { color: var(--gray); font-size: 16px; margin-bottom: 25px; line-height: 1.5; }
+        .contact-admin-btn {
+            background: var(--primary); color: white; padding: 12px 25px;
+            border-radius: 50px; text-decoration: none; font-weight: 700;
+            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);
+        }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+
+        /* --- HEADER --- */
         h1 { color: var(--primary-dark); margin: 5px 0 2px 0; font-size: 24px; font-weight: 800; }
         .location { color: var(--gray); font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
         
@@ -50,12 +70,13 @@
         }
 
         /* --- INPUTS --- */
-        select, input {
+        select, input, textarea {
             width: 100%; padding: 12px; border-radius: 8px;
             border: 1px solid #bae6fd; background: #f0f9ff;
             font-size: 14px; outline: none; margin-bottom: 10px;
-            color: var(--text-main);
+            color: var(--text-main); font-family: inherit;
         }
+        select:focus, input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1); background: #fff; }
         label { font-weight: 700; display: block; margin-top: 12px; margin-bottom: 6px; color: var(--primary-dark); font-size: 12px; text-transform: uppercase; text-align: left; }
 
         /* --- RATING --- */
@@ -79,7 +100,29 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 10px;
         }
 
-        /* --- CHIPS & TEXT --- */
+        /* --- INPUT MODES --- */
+        .input-mode-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .mode-btn { 
+            flex: 1; padding: 10px; border: 1px solid var(--primary); border-radius: 8px; 
+            background: #fff; color: var(--primary); font-weight: 600; cursor: pointer; font-size: 13px;
+        }
+        .mode-btn.active-mode { background: var(--primary); color: white; }
+
+        .voice-section, .text-section {
+            background: #e0f2fe; padding: 12px; border-radius: 12px; 
+            margin-bottom: 20px; border: 1px dashed var(--primary); text-align: left;
+        }
+        .voice-controls { display: flex; align-items: center; gap: 10px; }
+        .mic-btn {
+            width: 45px; height: 45px; border-radius: 50%;
+            background: var(--primary); color: white; border: none;
+            font-size: 20px; cursor: pointer; box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .mic-active { animation: pulse 1.5s infinite; background: var(--danger); }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(0,0,0,0); } }
+
+        /* --- CHIPS --- */
         .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
         .keyword-chip { 
             padding: 8px 12px; background-color: #fff; border-radius: 20px; 
@@ -88,55 +131,46 @@
             flex-grow: 1; text-align: center; transition: 0.2s;
         }
         .keyword-chip.active { background-color: var(--primary); color: white; border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 3px 6px rgba(2, 132, 199, 0.2); }
-        
-        .cat-title { width:100%; font-size: 11px; font-weight: 700; color: var(--gray); margin-top: 10px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .cat-title { width:100%; font-size: 11px; font-weight: 700; color: var(--gray); margin-top: 10px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 3px; text-transform: uppercase; letter-spacing: 0.5px; text-align: left; }
 
-        textarea.feedback-box {
-            width: 100%; height: 120px; padding: 12px;
-            border: 1px solid #bae6fd; border-radius: 8px; resize: none;
-            background: #f0f9ff; margin-bottom: 15px; font-family: inherit;
+        .review-preview-box {
+            width: 100%; min-height: 140px; margin-top: 15px; border-radius: 8px; padding: 12px; 
+            border: 1px solid var(--primary); display: none; background: #fff; resize: none; outline: none; font-size: 14px;
         }
 
         .copy-btn { width: 100%; padding: 12px; background-color: var(--green); color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: 600; font-size: 15px; cursor: pointer; display: none; box-shadow: 0 4px 6px rgba(5, 150, 105, 0.2); }
 
-        /* --- ANIMATIONS --- */
+        /* --- OWNER PANEL --- */
+        #ownerPanel {
+            display: none; margin-top: 20px; padding: 15px;
+            border: 2px dashed var(--whatsapp); border-radius: 12px;
+            background-color: #f0fdf4; text-align: left;
+        }
+        .whatsapp-send-btn {
+            width: 100%; padding: 12px; background-color: var(--whatsapp);
+            color: white; border: none; border-radius: 8px;
+            font-size: 15px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* --- UTILS --- */
         .fade-in { animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
-            70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
-        }
+        .hidden { display: none !important; }
+        .or-divider { text-align: center; font-size: 12px; color: var(--gray); margin: 20px 0; position: relative; }
+        .or-divider:before { content: ""; position: absolute; left: 0; top: 50%; width: 45%; height: 1px; background: #cbd5e1; }
+        .or-divider:after { content: ""; position: absolute; right: 0; top: 50%; width: 45%; height: 1px; background: #cbd5e1; }
+        .toggle-name { font-size: 13px; color: var(--primary); text-decoration: underline; cursor: pointer; float: right; margin-top: 5px; border: none; background: none; }
 
         /* --- FOOTER --- */
         .footer { margin-top: 35px; text-align: center; font-size: 12px; color: #94a3b8; border-top: 1px dashed #cbd5e1; padding-top: 15px; }
         .footer-logo { display: block; margin: 0 auto 5px auto; max-height: 28px; width: auto; opacity: 0.85; }
         .footer a { color: var(--primary); text-decoration: none; font-weight: 700; }
-        
-        .or-divider { text-align: center; font-size: 12px; color: var(--gray); margin: 20px 0; position: relative; }
-        .or-divider:before { content: ""; position: absolute; left: 0; top: 50%; width: 45%; height: 1px; background: #cbd5e1; }
-        .or-divider:after { content: ""; position: absolute; right: 0; top: 50%; width: 45%; height: 1px; background: #cbd5e1; }
-        
-        .toggle-name { font-size: 13px; color: var(--primary); text-decoration: underline; cursor: pointer; float: right; margin-top: 5px; border: none; background: none; }
+        .owner-login-trigger { font-size: 11px; color: #ccc; cursor: pointer; text-decoration: none; position: absolute; bottom: 5px; right: 10px; }
 
-        /* --- LOCK SCREEN STYLES (NEW) --- */
-        #lockScreen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.98);
-            z-index: 9999;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            text-align: center; padding: 20px;
-        }
-        .lock-icon { font-size: 60px; margin-bottom: 20px; animation: float 3s ease-in-out infinite; }
-        .lock-title { color: #dc2626; font-size: 24px; font-weight: 800; margin-bottom: 10px; }
-        .lock-msg { color: #475569; font-size: 16px; margin-bottom: 25px; line-height: 1.5; }
-        .contact-btn {
-            background: #2563eb; color: white; padding: 12px 25px;
-            border-radius: 50px; text-decoration: none; font-weight: 700;
-            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
-        }
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+        /* CUSTOMER VIEW */
+        .customer-card { text-align: center; padding: 20px; }
+        .customer-card h2 { color: var(--primary-dark); }
     </style>
 </head>
 <body>
@@ -145,135 +179,171 @@
     <div class="lock-icon">🔒</div>
     <div class="lock-title">Service Suspended</div>
     <div class="lock-msg">
-        This tool has been temporarily disabled due to<br>payment or subscription expiry.<br><br>
-        Please contact the administrator to reactivate.
+        This tool has been disabled.<br>Please contact the administrator.
     </div>
-    <a href="tel:+917020370561" class="contact-btn">📞 Contact Support</a>
+    <a href="tel:+917020370561" class="contact-admin-btn">📞 Contact Support</a>
 </div>
 
 <div class="container" id="mainApp">
-    
-    <h1>Vikash Memorial Eye Hospital</h1>
-    <div class="location">👁️ Chaksu • Rajasthan</div>
-    <div><a href="tel:+919001664477" class="phone-link">📞 Call Hospital</a></div>
 
-    <div id="ratingScreen" class="fade-in">
-        <p>How was your eye check-up experience?</p>
-        <div class="star-container">
-            <span class="star" onclick="rate(1)">★</span>
-            <span class="star" onclick="rate(2)">★</span>
-            <span class="star" onclick="rate(3)">★</span>
-            <span class="star" onclick="rate(4)">★</span>
-            <span class="star" onclick="rate(5)">★</span>
+    <div id="customerLinkView" class="hidden customer-card">
+        <div style="font-size: 40px; margin-bottom: 10px;">👁️</div>
+        <h2>Hello!</h2>
+        <p style="color:#555; font-size:14px; margin-bottom:20px;">
+            Here is the review for your visit to Vikash Memorial Eye Hospital.
+            <br>Click below to copy & post.
+        </p>
+        <textarea id="customerReviewText" class="review-preview-box" readonly style="display:block;"></textarea>
+        <button class="copy-btn" style="display:block; margin-top:15px;" onclick="copyCustomerLinkReview()">📋 Copy & Open Google</button>
+        <p style="font-size:11px; color:#999; margin-top:20px;">Wishing you excellent health! ❤️</p>
+    </div>
+
+    <div id="generatorApp">
+        <h1>Vikash Memorial Eye Hospital</h1>
+        <div class="location">👁️ Chaksu • Rajasthan</div>
+        <div><a href="tel:+919001664477" class="phone-link">📞 Call Hospital</a></div>
+
+        <div id="ratingScreen" class="fade-in">
+            <p>How was your eye check-up experience?</p>
+            <div class="star-container">
+                <span class="star" onclick="rate(1)">★</span>
+                <span class="star" onclick="rate(2)">★</span>
+                <span class="star" onclick="rate(3)">★</span>
+                <span class="star" onclick="rate(4)">★</span>
+                <span class="star" onclick="rate(5)">★</span>
+            </div>
+            <div class="experience-btns">
+                <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Needs Improvement 😟</button>
+                <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Great Service 👓</button>
+            </div>
+            <button class="action-btn" onclick="processRating()">Next Step ➡</button>
         </div>
-        <div class="experience-btns">
-            <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Needs Improvement 😟</button>
-            <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Great Service 👓</button>
+
+        <div id="privateFeedbackScreen" class="fade-in hidden">
+            <h2 style="color:var(--text-main);">We are sorry! 😔</h2>
+            <p>Please tell us how we can improve your patient experience.</p>
+            <textarea id="privateFeedbackText" class="feedback-box" placeholder="Describe the issue..."></textarea>
+            <button class="action-btn" style="background:var(--gray);" onclick="submitPrivateFeedback()">Submit Feedback</button>
         </div>
-        <button class="action-btn" onclick="processRating()">Next Step ➡</button>
-    </div>
 
-    <div id="privateFeedbackScreen" class="fade-in" style="display: none;">
-        <h2 style="color:var(--text-main);">We are sorry! 😔</h2>
-        <p>Please tell us how we can improve your patient experience.</p>
-        <textarea id="privateFeedbackText" class="feedback-box" placeholder="Describe the issue..."></textarea>
-        <button class="action-btn" style="background:var(--gray);" onclick="submitPrivateFeedback()">Submit Feedback</button>
-    </div>
+        <div id="thankYouScreen" class="fade-in hidden">
+            <div style="font-size: 50px; margin-bottom:10px;">✅</div>
+            <h2 style="color:var(--text-main);">Thank You!</h2>
+            <p>Your feedback has been submitted successfully.</p>
+        </div>
 
-    <div id="thankYouScreen" class="fade-in" style="display: none;">
-        <div style="font-size: 50px; margin-bottom:10px;">✅</div>
-        <h2 style="color:var(--text-main);">Thank You!</h2>
-        <p>Your feedback has been submitted successfully.</p>
-    </div>
+        <div id="aiToolScreen" class="fade-in hidden" style="text-align: left;">
+            
+            <div class="input-mode-tabs">
+                <button class="mode-btn active-mode" id="btnModeVoice" onclick="switchMode('voice')">🎤 Speak</button>
+                <button class="mode-btn" id="btnModeText" onclick="switchMode('text')">✍️ Write</button>
+            </div>
 
-    <div id="aiToolScreen" class="fade-in" style="display: none; text-align: left;">
-        
-        <div style="background: #e0f2fe; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px dashed var(--primary);">
-            <p style="margin:0 0 10px 0; font-size:13px; font-weight:700; color:var(--primary-dark);">
-                🎙️ Speak Hindi -> Get English Review
-            </p>
-            <div style="display:flex; gap:10px; align-items:center;">
-                <button onclick="startListening()" id="micBtn" style="background:var(--primary); color:white; border:none; width:50px; height:50px; border-radius:50%; font-size:24px; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.1); transition:0.2s;">🎤</button>
+            <div id="voiceSection" class="voice-section">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <span style="font-size:11px; font-weight:bold; color:var(--primary-dark);">SPEAK (Hindi/English):</span>
+                    <select id="voiceLang" style="width:auto; padding:2px; font-size:11px; height:25px; margin:0;">
+                        <option value="hi-IN">Hindi</option>
+                        <option value="en-IN">English</option>
+                    </select>
+                </div>
+                <div class="voice-controls">
+                    <button id="micBtn" class="mic-btn" onclick="startListening()">🎤</button>
+                    <div style="flex:1;">
+                        <p id="statusText" style="font-size:12px; color:var(--gray); margin:0;">
+                            Mic dabayein aur bolein...<br>
+                            (Jaise: "Checkup bahut accha hua")
+                        </p>
+                    </div>
+                </div>
+                <div id="spokenTextDisplay" style="display:none; margin-top:10px; font-size:12px; font-style:italic; color:var(--primary-dark); background:#fff; padding:8px; border-radius:4px; border-left: 3px solid var(--primary);"></div>
+            </div>
+
+            <div id="textSection" class="text-section hidden">
+                <label style="margin-top:0; color:var(--primary-dark);">Describe Experience</label>
+                <textarea id="manualInput" placeholder="Ex: Great doctor and clean hospital..." style="height:80px; margin-bottom:0;"></textarea>
+            </div>
+
+            <div class="or-divider">OR SELECT MANUALLY</div>
+
+            <div style="display: flex; gap: 10px;">
                 <div style="flex:1;">
-                    <p id="statusText" style="font-size:12px; color:var(--gray); margin:0;">
-                        Mic dabayein aur Hindi me bolein...<br>
-                        (Jaise: "Checkup bahut accha hua")
-                    </p>
+                    <label style="margin-top:0;">Location</label>
+                    <select id="locationSelect">
+                        <option value="Chaksu">Chaksu</option>
+                        <option value="Rajasthan">Rajasthan</option>
+                    </select>
+                </div>
+                <div style="flex:1;">
+                    <label style="margin-top:0;">Language</label>
+                    <select id="langSelect">
+                        <option value="en">English</option>
+                        <option value="hi">Hindi (हिंदी)</option>
+                    </select>
                 </div>
             </div>
-            <div id="spokenTextDisplay" style="display:none; margin-top:10px; font-size:12px; font-style:italic; color:var(--primary-dark); background:#fff; padding:8px; border-radius:4px; border-left: 3px solid var(--primary);"></div>
-        </div>
 
-        <div class="or-divider">OR SELECT MANUALLY</div>
+            <label>Treatment / Check-up</label>
+            <select id="procedureSelect">
+                <option value="">-- General Checkup --</option>
+                <option value="Cataract Surgery">Cataract Surgery (Motiyabind)</option>
+                <option value="LASIK">LASIK</option>
+                <option value="Glaucoma Surgery">Glaucoma Surgery</option>
+            </select>
 
-        <div style="display: flex; gap: 10px;">
-            <div style="flex:1;">
-                <label style="margin-top:0;">Location</label>
-                <select id="locationSelect">
-                    <option value="Chaksu">Chaksu</option>
-                    <option value="Rajasthan">Rajasthan</option>
-                </select>
+            <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
+            <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
+                <input type="text" id="userName" placeholder="Your Name (Optional)">
             </div>
-            <div style="flex:1;">
-                <label style="margin-top:0;">Language</label>
-                <select id="langSelect">
-                    <option value="en">English</option>
-                    <option value="hi">Hindi (हिंदी)</option>
-                    <option value="hinglish">Hinglish</option>
-                </select>
+
+            <label style="clear:both;">Select what you liked (Pick 4-5)</label>
+            
+            <div class="keywords-container">
+                <div class="cat-title">Doctor & Staff</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Eye Doctor')">👨‍⚕️ Best Eye Doctor</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Experienced Doctor')">🎓 Experienced Doctor</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Professional Staff')">🤝 Professional Staff</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Friendly Nature')">😊 Friendly Nature</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Good Listener')">👂 Good Listener</div>
+
+                <div class="cat-title">Facilities & Service</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Eye Hospital')">🏥 Best Eye Hospital</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Clean & Hygienic')">✨ Clean & Hygienic</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Fast Service')">⏱️ Fast Service</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Good Management')">📋 Good Management</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Medical Store Inside')">💊 Pharmacy Inside</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Optical Shop')">👓 Optical Shop</div>
+
+                <div class="cat-title">Treatment & Cost</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Successful Treatment')">✅ Successful Treatment</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Painless Surgery')">😌 Painless Surgery</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Affordable Fees')">💰 Affordable Fees</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Latest Machines')">⚙️ Latest Machines</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Ayushman Card')">🏥 Ayushman Card</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Laser Treatment')">⚡ Laser Treatment</div>
+
+                <div class="cat-title">Overall</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Best in Chaksu')">📍 Best in Chaksu</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Highly Recommended')">👍 Highly Recommended</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Old & Trusted')">🏛️ Old & Trusted</div>
             </div>
+
+            <button class="action-btn" id="generateBtn" onclick="generateReview()">🚀 Generate Magic Review</button>
+
+            <textarea id="reviewOutput" class="review-preview-box" readonly></textarea>
+            
+            <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy & Open Google</button>
+
+            <div id="ownerPanel">
+                <label style="color:var(--whatsapp); margin-top:0;">📱 Patient's WhatsApp Number</label>
+                <div style="display:flex; gap:10px;">
+                    <input type="tel" id="customerPhone" placeholder="Ex: 9876543210" style="margin-bottom:0;">
+                    <button class="whatsapp-send-btn" style="width: auto; padding: 0 20px;" onclick="sendLinkToCustomer()">🚀 Send</button>
+                </div>
+                <p style="font-size:11px; color:#555; margin-top:5px;">Patient will receive a direct link to post this review.</p>
+            </div>
+
         </div>
-
-        <label>Treatment / Check-up</label>
-        <select id="procedureSelect">
-            <option value="General Checkup">General Eye Check-up</option>
-            <option value="Cataract Surgery">Cataract Surgery (Motiyabind)</option>
-            <option value="LASIK">LASIK</option>
-            <option value="Glaucoma Surgery">Glaucoma Surgery</option>
-        </select>
-
-        <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
-        <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
-            <input type="text" id="userName" placeholder="Your Name (Optional)">
-        </div>
-
-        <label style="clear:both;">Select what you liked (Pick 4-5)</label>
-        
-        <div class="keywords-container">
-            <div class="cat-title">Doctor & Staff</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Eye Doctor')">👨‍⚕️ Best Eye Doctor</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Experienced Doctor')">🎓 Experienced Doctor</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Professional Staff')">🤝 Professional Staff</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Friendly Nature')">😊 Friendly Nature</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Good Listener')">👂 Good Listener</div>
-
-            <div class="cat-title">Facilities & Service</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Eye Hospital')">🏥 Best Eye Hospital</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Clean & Hygienic')">✨ Clean & Hygienic</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Fast Service')">⏱️ Fast Service</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Good Management')">📋 Good Management</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Medical Store Inside')">💊 Pharmacy Inside</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Optical Shop')">👓 Optical Shop</div>
-
-            <div class="cat-title">Treatment & Cost</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Successful Treatment')">✅ Successful Treatment</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Painless Surgery')">😌 Painless Surgery</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Affordable Fees')">💰 Affordable Fees</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Latest Machines')">⚙️ Latest Machines</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Ayushman Card')">🏥 Ayushman Card</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Laser Treatment')">⚡ Laser Treatment</div>
-
-            <div class="cat-title">Overall</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best in Chaksu')">📍 Best in Chaksu</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Highly Recommended')">👍 Highly Recommended</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Old & Trusted')">🏛️ Old & Trusted</div>
-        </div>
-
-        <button class="action-btn" onclick="generateReview()">🚀 Generate Manual Review</button>
-
-        <textarea id="reviewOutput" style="width:100%; height:140px; margin-top:15px; border-radius:8px; padding:10px; border:1px solid #bae6fd; display:none; background:#fff;" readonly></textarea>
-        
-        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy & Open Google</button>
     </div>
 
     <div class="footer">
@@ -282,33 +352,94 @@
             Powered by <a href="https://growft.net" target="_blank">Growft</a><br>
             Contact to build your AI Tool: <a href="tel:+917020370561">7020370561</a>
         </div>
+        <span class="owner-login-trigger" onclick="ownerLogin()">🔒 Owner</span>
     </div>
 </div>
 
 <script>
-    // ==========================================
-    // 🔒 SERVICE SUSPENSION LOCK (CONTROL HERE)
-    // ==========================================
-    // Set this to "false" to LOCK the tool.
-    // Set this to "true" to UNLOCK the tool.
-    
-    const SERVICE_ACTIVE = true; // <--- CURRENTLY LOCKED (Set to true to unlock)
-
-    // Lock Logic (Run Immediately)
-    if (!SERVICE_ACTIVE) {
-        document.body.style.overflow = "hidden"; // Stop scrolling
-        document.getElementById('lockScreen').style.display = "flex";
-        document.getElementById('mainApp').style.filter = "blur(8px)";
-        document.getElementById('mainApp').style.pointerEvents = "none";
-    }
-
-    // --- CONFIGURATION ---
+    // --- 🔐 SECURITY & CONFIGURATION ---
     const GOOGLE_REVIEW_LINK = "https://g.page/r/CbzNMBe581gSEBM/review"; 
     
-    // 1. RATING SYSTEM
+    // CHANGE TO "suspended" TO LOCK THE TOOL
+    const APP_STATUS = "suspended"; 
+    
+    // EXPIRY DATE (YYYY-MM-DD)
+    const EXPIRY_DATE = "2026-12-31"; 
+
+    // --- INITIALIZATION ---
+    let isOwnerMode = false;
+
+    window.onload = function() {
+        // Security Check
+        const today = new Date().toISOString().split('T')[0];
+        if(APP_STATUS === "suspended" || today > EXPIRY_DATE) {
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('lockScreen').style.display = 'flex';
+            return;
+        }
+
+        // URL Check (Customer Mode)
+        const urlParams = newSearchParams(window.location.search);
+        const reviewText = urlParams.get('review');
+        if (reviewText) {
+            document.getElementById('generatorApp').style.display = 'none';
+            document.getElementById('customerLinkView').classList.remove('hidden');
+            document.getElementById('customerReviewText').value = decodeURIComponent(reviewText);
+        } else if(sessionStorage.getItem('isOwner') === 'true') {
+            isOwnerMode = true;
+        }
+    };
+
+    // --- OWNER & WHATSAPP LOGIC ---
+    function ownerLogin() {
+        if(isOwnerMode) { alert("Already logged in as Owner."); return; }
+        const password = prompt("Enter Owner Password:");
+        if(password === "admin123") { // CHANGE PASSWORD HERE
+            isOwnerMode = true;
+            sessionStorage.setItem('isOwner', 'true');
+            alert("Owner Mode Active!");
+        } else if(password) { alert("Incorrect Password"); }
+    }
+
+    function sendLinkToCustomer() {
+        const phone = document.getElementById('customerPhone').value.replace(/\D/g, '');
+        const review = document.getElementById('reviewOutput').value;
+        if(phone.length < 10) { alert("Enter valid number"); return; }
+        const finalPhone = phone.length === 10 ? "91" + phone : phone;
+        const baseUrl = window.location.href.split('?')[0];
+        const magicLink = `${baseUrl}?review=${encodeURIComponent(review)}`;
+        const msg = `Namaste! 🙏\n\nHere is the review for your visit to Vikash Memorial Eye Hospital:\n\n*Tap this link to Post:*\n${magicLink}`;
+        window.open(`https://wa.me/${finalPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function copyCustomerLinkReview() {
+        const box = document.getElementById("customerReviewText");
+        box.select();
+        document.execCommand('copy');
+        window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+
+    // --- APP LOGIC ---
+    let selectedKeywords = [];
+    let voiceText = "";
+    let activeMode = 'voice';
+
+    function switchMode(mode) {
+        activeMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active-mode'));
+        if(mode === 'voice') {
+            document.getElementById('btnModeVoice').classList.add('active-mode');
+            document.getElementById('voiceSection').classList.remove('hidden');
+            document.getElementById('textSection').classList.add('hidden');
+        } else {
+            document.getElementById('btnModeText').classList.add('active-mode');
+            document.getElementById('textSection').classList.remove('hidden');
+            document.getElementById('voiceSection').classList.add('hidden');
+        }
+    }
+
     let currentRating = 0;
     let currentExp = '';
-
     function rate(stars) {
         currentRating = stars;
         document.querySelectorAll('.star').forEach((star, index) => {
@@ -316,7 +447,7 @@
         });
         if(stars >= 4) selectExp('good'); else selectExp('bad');
     }
-
+    
     function selectExp(type) {
         currentExp = type;
         document.getElementById('btn-good').classList.remove('active');
@@ -326,111 +457,36 @@
     }
 
     function processRating() {
-        if (currentRating === 0 && currentExp === '') {
-            alert("Please select a star rating.");
-            return;
-        }
-        document.getElementById('ratingScreen').style.display = 'none';
+        if (currentRating === 0 && currentExp === '') { alert("Please select a star rating."); return; }
+        document.getElementById('ratingScreen').classList.add('hidden');
         let isHappy = (currentRating >= 4) || (currentExp === 'good');
-        if (isHappy) {
-            document.getElementById('aiToolScreen').style.display = 'block';
-        } else {
-            document.getElementById('privateFeedbackScreen').style.display = 'block';
-        }
+        if (isHappy) document.getElementById('aiToolScreen').classList.remove('hidden');
+        else document.getElementById('privateFeedbackScreen').classList.remove('hidden');
     }
 
     function submitPrivateFeedback() {
-        if(document.getElementById('privateFeedbackText').value.trim() === "") {
-            alert("Please write a few words.");
-            return;
-        }
-        document.getElementById('privateFeedbackScreen').style.display = 'none';
-        document.getElementById('thankYouScreen').style.display = 'block';
+        if(document.getElementById('privateFeedbackText').value.trim() === "") { alert("Please write a few words."); return; }
+        document.getElementById('privateFeedbackScreen').classList.add('hidden');
+        document.getElementById('thankYouScreen').classList.remove('hidden');
     }
-
-    // 2. VOICE RECOGNITION
-    let recognition;
 
     function startListening() {
-        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-            alert("Use Google Chrome for Voice Feature.");
-            return;
-        }
-
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        recognition = new SpeechRecognition();
-        
-        recognition.lang = 'hi-IN'; 
-        recognition.interimResults = false; 
-        recognition.maxAlternatives = 1;
-
-        const micBtn = document.getElementById('micBtn');
-        const statusText = document.getElementById('statusText');
-        const spokenDisplay = document.getElementById('spokenTextDisplay');
-
-        spokenDisplay.style.display = 'none';
-        micBtn.style.animation = "pulse 1.5s infinite";
-        micBtn.style.backgroundColor = "#ef4444";
-        statusText.innerText = "Listening... (Bolein)";
-        statusText.style.color = "#ef4444";
-
-        try { recognition.start(); } catch (e) { resetMicUI(); }
-
-        recognition.onresult = function(event) {
-            recognition.stop();
-            const rawText = event.results[0][0].transcript;
-            spokenDisplay.style.display = 'block';
-            spokenDisplay.innerText = `You said: "${rawText}"`;
-            statusText.innerText = "Translating with AI...";
-            statusText.style.color = "#0284c7";
-            translateWithAPI(rawText);
+        if (!('webkitSpeechRecognition' in window)) { alert("Use Chrome Browser."); return; }
+        recognition = new webkitSpeechRecognition();
+        recognition.lang = document.getElementById('voiceLang').value;
+        recognition.interimResults = false;
+        document.getElementById('micBtn').classList.add('mic-active');
+        document.getElementById('statusText').innerText = "Listening...";
+        recognition.onresult = (event) => {
+            voiceText = event.results[0][0].transcript;
+            document.getElementById('spokenTextDisplay').style.display = 'block';
+            document.getElementById('spokenTextDisplay').innerText = `Recorded: "${voiceText}"`;
         };
-
-        recognition.onerror = function(event) {
-            resetMicUI();
-            if(event.error === 'no-speech') statusText.innerText = "No voice detected. Try again.";
-        };
-        recognition.onend = function() { resetMicUI(); };
+        recognition.onend = () => { document.getElementById('micBtn').classList.remove('mic-active'); document.getElementById('statusText').innerText = "Processing..."; };
+        recognition.start();
     }
 
-    function resetMicUI() {
-        const micBtn = document.getElementById('micBtn');
-        const statusText = document.getElementById('statusText');
-        micBtn.style.animation = "none";
-        micBtn.style.backgroundColor = "#0284c7";
-        setTimeout(() => {
-            if(statusText.innerText.includes("Translating")) return;
-            statusText.innerText = "Mic dabayein aur Hindi me bolein...";
-            statusText.style.color = "#64748b";
-        }, 3000);
-    }
-
-    async function translateWithAPI(hindiText) {
-        const location = document.getElementById('locationSelect').value;
-        const statusText = document.getElementById('statusText');
-
-        try {
-            const apiUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(hindiText)}&langpair=hi|en`;
-            const response = await fetch(apiUrl);
-            const data = await response.json();
-            
-            let translatedText = "";
-            if(data.responseData && data.responseData.translatedText) {
-                translatedText = data.responseData.translatedText;
-            } else { throw new Error("Translation failed"); }
-
-            const finalReview = `I visited Vikash Memorial Eye Hospital in ${location}. ${translatedText} Highly recommended!`;
-            displayResult(finalReview);
-            statusText.innerText = "Done!";
-
-        } catch (error) {
-            console.error("API Error:", error);
-            statusText.innerText = "Network Error. Using Offline Mode.";
-            displayResult(`I visited Vikash Memorial Eye Hospital in ${location}. Excellent service and doctors. Highly recommended!`);
-        }
-    }
-
-    // --- 3. MANUAL LOGIC (KEYWORD MAPPING) ---
+    // --- PRESERVED DATASETS ---
     const introsEn = [
         "I recently visited Vikash Memorial Eye Hospital in {loc}.",
         "My experience at Vikash Memorial Eye Hospital ({loc}) was excellent.",
@@ -521,78 +577,113 @@
         "Old & Trusted": { en: "It is an old and trusted eye care center.", hi: "यह एक पुराना और भरोसेमंद नेत्र देखभाल केंद्र है।" }
     };
 
-    function getRandom(arr) {
-        return arr[Math.floor(Math.random() * arr.length)];
-    }
-
-    let selectedKeywords = [];
-    
-    function toggleNameField() { 
-        const field = document.getElementById('nameArea');
-        field.style.display = field.style.display === 'block' ? 'none' : 'block';
-    }
-    
-    function toggleKeyword(element, keyword) {
-        element.classList.toggle('active');
-        if (selectedKeywords.includes(keyword)) {
-            selectedKeywords = selectedKeywords.filter(item => item !== keyword);
-        } else {
-            selectedKeywords.push(keyword);
-        }
-    }
-
-    function generateReview() {
+    async function generateReview() {
+        const btn = document.getElementById('generateBtn');
+        const originalText = btn.innerText;
+        btn.innerText = "🔄 Processing...";
+        
         const lang = document.getElementById('langSelect').value;
         const location = document.getElementById('locationSelect').value;
         const userName = document.getElementById('userName').value.trim();
+        const procedure = document.getElementById('procedureSelect').value;
+        const manualText = document.getElementById('manualInput').value.trim();
+        let rawInput = activeMode === 'voice' ? voiceText : manualText;
 
-        if (selectedKeywords.length === 0) { alert("Please select at least 2 highlights."); return; }
-        
-        let review = "";
-        const isHindi = (lang === 'hi');
-        
-        // 1. Random Intro
-        let introTemplate = isHindi ? getRandom(introsHi) : getRandom(introsEn);
-        review = introTemplate.replace("{loc}", location) + " ";
+        if (selectedKeywords.length === 0 && !rawInput && !procedure) {
+            alert("Please select highlights or say something.");
+            btn.innerText = originalText;
+            return;
+        }
 
-        // Add Name if present
-        if(userName) {
+        const isHindi = (lang === 'hi' || lang === 'hinglish');
+
+        // Translation
+        let finalBodyText = "";
+        if (rawInput && rawInput.length > 1) {
+            try {
+                if(!isHindi) {
+                    const srcLangCode = document.getElementById('voiceLang').value.split('-')[0];
+                    let langPair = srcLangCode === 'hi' ? 'hi|en' : 'Autodetect|en';
+                    const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(rawInput)}&langpair=${langPair}`);
+                    const data = await res.json();
+                    let translated = data.responseData ? data.responseData.translatedText : "";
+                    if(!translated.includes("PLEASE SELECT")) finalBodyText = translated;
+                    else finalBodyText = rawInput;
+                } else {
+                    finalBodyText = rawInput;
+                }
+            } catch(e) { finalBodyText = rawInput; }
+        }
+
+        // Assembly
+        let introTemplate = isHindi ? getRandomItem(introsHi) : getRandomItem(introsEn);
+        let review = introTemplate.replace(/{loc}/g, location) + " ";
+
+        if (userName) {
             review = (isHindi ? `मैं ${userName} हूँ। ` : `I am ${userName}. `) + review;
         }
 
-        // 2. Body (Keywords)
-        selectedKeywords.forEach(key => {
+        if (procedure) {
+            review += (isHindi ? `मैंने ${procedure} के लिए यहाँ विज़िट किया। ` : `I visited for ${procedure}. `);
+        }
+
+        const shuffledKeywords = selectedKeywords.sort(() => Math.random() - 0.5);
+        shuffledKeywords.forEach(key => {
             if(keywordData[key]) {
                 let sentence = isHindi ? keywordData[key].hi : keywordData[key].en;
-                sentence = sentence.replace("{loc}", location);
+                sentence = sentence.replace(/{loc}/g, location);
                 review += sentence + " ";
             }
         });
 
-        // 3. Random Outro
-        let outroTemplate = isHindi ? getRandom(outrosHi) : getRandom(outrosEn);
-        review += outroTemplate.replace("{loc}", location);
-        
-        displayResult(review);
-    }
+        if (finalBodyText) review += finalBodyText + " ";
 
-    function displayResult(text) {
+        let outroTemplate = isHindi ? getRandomItem(outrosHi) : getRandomItem(outrosEn);
+        review += outroTemplate.replace(/{loc}/g, location);
+
         const outputBox = document.getElementById('reviewOutput');
         const copyBtn = document.getElementById('copyBtn');
-        outputBox.style.display = 'block';
-        outputBox.value = text;
-        copyBtn.style.display = 'block';
-        outputBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        setTimeout(() => {
+            outputBox.style.display = 'block';
+            outputBox.style.opacity = "1";
+            outputBox.value = review;
+            btn.innerText = originalText;
+            
+            if(isOwnerMode) {
+                document.getElementById('ownerPanel').style.display = 'block';
+                document.getElementById('copyBtn').style.display = 'none';
+            } else {
+                document.getElementById('ownerPanel').style.display = 'none';
+                document.getElementById('copyBtn').style.display = 'block';
+            }
+
+            if (window.innerWidth < 600) outputBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 500);
     }
 
+    function toggleNameField() { 
+        const field = document.getElementById('nameArea');
+        field.style.display = field.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) selectedKeywords = selectedKeywords.filter(item => item !== keyword);
+        else selectedKeywords.push(keyword);
+    }
+    
     function copyToClipboard() {
         const copyText = document.getElementById("reviewOutput");
         copyText.select();
         copyText.setSelectionRange(0, 99999);
         navigator.clipboard.writeText(copyText.value).then(() => {
-            if(confirm("Review Copied! 📋\n\nClick OK to open Google Maps.")) window.open(GOOGLE_REVIEW_LINK, '_blank');
+            const isConfirmed = confirm("Review Copied! 👁️\n\nClick OK to open Google Maps.");
+            if(isConfirmed) window.open(GOOGLE_REVIEW_LINK, '_blank');
         });
     }
+    
+    function getRandomItem(arr) { if(!arr) return ""; return arr[Math.floor(Math.random() * arr.length)]; }
 </script>
 
 </body>
