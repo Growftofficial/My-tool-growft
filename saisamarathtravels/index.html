@@ -15,6 +15,8 @@
             --gold: #fbbf24;
             --gray: #475569;
             --text-dark: #1e293b;
+            --whatsapp: #25D366;
+            --danger: #ef4444; /* Red for Lock Screen */
         }
 
         /* --- RESET & BODY --- */
@@ -25,6 +27,7 @@
             margin: 0; padding: 20px 10px;
             min-height: 100vh; display: flex;
             justify-content: center; align-items: flex-start;
+            color: var(--text-dark);
         }
 
         /* --- CONTAINER --- */
@@ -34,6 +37,22 @@
             box-shadow: 0 10px 30px rgba(37, 99, 235, 0.15);
             border-top: 6px solid var(--primary); margin: auto;
             text-align: center;
+            position: relative;
+        }
+
+        /* --- 🔒 LOCK SCREEN --- */
+        #lockScreen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.98); z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 20px;
+        }
+        .lock-icon { font-size: 60px; margin-bottom: 20px; color: var(--danger); }
+        .lock-msg { font-size: 24px; font-weight: 800; color: var(--text-dark); margin-bottom: 10px; }
+        .contact-admin-btn {
+            background: var(--primary); color: white; padding: 12px 25px;
+            border-radius: 50px; text-decoration: none; font-weight: 600;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); margin-top: 10px;
         }
 
         /* --- HEADER --- */
@@ -52,13 +71,13 @@
         p { color: var(--text-dark); font-size: 15px; margin-bottom: 20px; line-height: 1.5; }
 
         /* --- INPUTS & SELECTS --- */
-        select, input {
+        select, input, textarea {
             width: 100%; padding: 12px; border-radius: 8px;
             border: 1px solid #cbd5e1; background: #f1f5f9;
             font-size: 15px; outline: none; margin-bottom: 10px;
-            color: var(--text-dark);
+            color: var(--text-dark); font-family: inherit;
         }
-        select:focus, input:focus { border-color: var(--primary); background: #fff; }
+        select:focus, input:focus, textarea:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
         
         label { 
             font-weight: 700; display: block; margin-top: 15px; margin-bottom: 8px; 
@@ -66,13 +85,8 @@
         }
 
         /* --- STAR RATING --- */
-        .star-container {
-            display: flex; justify-content: center; gap: 8px; margin: 20px 0;
-            direction: ltr;
-        }
-        .star {
-            font-size: 42px; color: #e2e8f0; cursor: pointer; transition: transform 0.2s, color 0.2s;
-        }
+        .star-container { display: flex; justify-content: center; gap: 8px; margin: 20px 0; direction: ltr; }
+        .star { font-size: 42px; color: #e2e8f0; cursor: pointer; transition: transform 0.2s, color 0.2s; }
         .star.selected { color: var(--gold); }
         .star:hover { transform: scale(1.15); }
 
@@ -90,24 +104,34 @@
             width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: white; border: none; border-radius: 8px;
             font-size: 16px; font-weight: 700; cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 10px; transition: 0.2s;
         }
         .action-btn:active { transform: scale(0.98); }
 
-        /* --- PRIVATE FEEDBACK --- */
-        textarea.feedback-box {
-            width: 100%; height: 120px; padding: 12px;
-            border: 1px solid #cbd5e1; border-radius: 8px; resize: none;
-            font-family: inherit; margin-bottom: 15px; background: #f8fafc;
+        /* --- INPUT MODES (Voice/Text) --- */
+        .input-mode-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .mode-btn { 
+            flex: 1; padding: 10px; border: 1px solid var(--primary); border-radius: 8px; 
+            background: #fff; color: var(--primary); font-weight: 600; cursor: pointer; font-size: 13px;
         }
+        .mode-btn.active-mode { background: var(--primary); color: white; }
 
-        /* --- AI TOOL STYLES --- */
-        .ai-tool-wrapper { text-align: left; display: none; }
-        
-        .category-header {
-            font-size: 11px; color: var(--gray); margin: 15px 0 8px 0; font-weight: 700; letter-spacing: 0.5px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px;
+        .voice-section, .text-section {
+            background: #e0f2fe; padding: 12px; border-radius: 12px; 
+            margin-bottom: 20px; border: 1px dashed var(--primary); text-align: left;
         }
-        
+        .voice-controls { display: flex; align-items: center; gap: 10px; }
+        .mic-btn {
+            width: 45px; height: 45px; border-radius: 50%;
+            background: var(--primary); color: white; border: none;
+            font-size: 20px; cursor: pointer; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .mic-active { animation: pulse 1.5s infinite; background: var(--danger); }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(0,0,0,0); } }
+
+        /* --- CHIPS --- */
+        .category-header { font-size: 11px; color: var(--gray); margin: 15px 0 8px 0; font-weight: 700; letter-spacing: 0.5px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px; text-align: left; }
         .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 5px; }
         .keyword-chip { 
             padding: 8px 12px; background-color: #fff; border-radius: 20px; 
@@ -117,7 +141,26 @@
         }
         .keyword-chip.active { background-color: var(--primary); color: white; border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 3px 8px rgba(37, 99, 235, 0.2); }
 
+        .review-preview-box {
+            width: 100%; min-height: 140px; margin-top: 15px; border-radius: 8px; padding: 12px; 
+            border: 1px solid var(--primary); display: none; background: #fff; resize: none; outline: none;
+            font-size: 14px; color: #333; line-height: 1.5;
+        }
+
         .copy-btn { width: 100%; padding: 12px; background-color: var(--accent); color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: 600; font-size: 15px; cursor: pointer; display: none; box-shadow: 0 4px 6px rgba(245, 158, 11, 0.25); }
+
+        /* --- OWNER PANEL --- */
+        #ownerPanel {
+            display: none; margin-top: 20px; padding: 15px;
+            border: 2px dashed var(--whatsapp); border-radius: 12px;
+            background-color: #f0fdf4; text-align: left;
+        }
+        .whatsapp-send-btn {
+            width: 100%; padding: 12px; background-color: var(--whatsapp);
+            color: white; border: none; border-radius: 8px;
+            font-size: 15px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
 
         /* --- UTILS --- */
         .hidden { display: none !important; }
@@ -130,154 +173,291 @@
         .footer { margin-top: 35px; text-align: center; font-size: 12px; color: #64748b; border-top: 1px dashed #cbd5e1; padding-top: 15px; }
         .footer-logo { display: block; margin: 0 auto 5px auto; max-height: 28px; width: auto; opacity: 0.85; }
         .footer a { color: var(--primary); text-decoration: none; font-weight: 700; }
-        .footer-text { margin-top: 5px; line-height: 1.6; }
+        .owner-login-trigger { font-size: 11px; color: #ccc; cursor: pointer; text-decoration: none; position: absolute; bottom: 5px; right: 10px; }
+
+        /* CUSTOMER VIEW */
+        .customer-card { text-align: center; padding: 20px; }
+        .customer-card h2 { color: var(--primary); }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div id="lockScreen" style="display: none;">
+    <div class="lock-icon">🔒</div>
+    <div class="lock-msg">Service Suspended</div>
+    <div style="font-size:14px; color:#666; margin-bottom:30px;">
+        This tool has been disabled. Please contact the administrator.
+    </div>
+    <a href="tel:+917020370561" class="contact-admin-btn">Contact Provider</a>
+</div>
+
+<div class="container" id="mainApp">
     
-    <h1>Sai Samartha Travels</h1>
-    <div class="tagline">🚖 Safe & Reliable Journeys</div>
-    
-    <div>
-        <a href="tel:+919870114459" class="phone-link">📞 +917559117655</a>
+    <div id="customerLinkView" class="hidden customer-card">
+        <div style="font-size: 40px; margin-bottom: 10px;">🚖</div>
+        <h2>Hello!</h2>
+        <p style="color:#555; font-size:14px; margin-bottom:20px;">
+            Here is the review for your recent trip with Sai Samarth Travels.
+            <br>Click below to copy & post.
+        </p>
+        <textarea id="customerReviewText" class="review-preview-box" readonly style="display:block;"></textarea>
+        <button class="copy-btn" style="display:block; margin-top:15px;" onclick="copyCustomerLinkReview()">📋 Copy & Open Google</button>
+        <p style="font-size:11px; color:#999; margin-top:20px;">Thank you for travelling with us! ❤️</p>
     </div>
 
-    <div id="ratingScreen" class="fade-in">
-        <p>How was your journey with us?</p>
-
-        <div class="star-container">
-            <span class="star" onclick="rate(1)">★</span>
-            <span class="star" onclick="rate(2)">★</span>
-            <span class="star" onclick="rate(3)">★</span>
-            <span class="star" onclick="rate(4)">★</span>
-            <span class="star" onclick="rate(5)">★</span>
-        </div>
-
-        <div class="experience-btns">
-            <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Not Good 😞</button>
-            <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Great Ride 🚖</button>
-        </div>
-
-        <button class="action-btn" onclick="processRating()">Next Step ➡</button>
-    </div>
-
-    <div id="privateFeedbackScreen" class="hidden fade-in">
-        <h2 style="color:var(--text-dark);">We are sorry! 😔</h2>
-        <p>Please tell us how we can improve. Your feedback will be sent directly to the owner.</p>
-        <textarea id="privateFeedbackText" class="feedback-box" placeholder="Describe the issue..."></textarea>
-        <button class="action-btn" style="background:var(--gray);" onclick="submitPrivateFeedback()">Submit Feedback</button>
-    </div>
-
-    <div id="thankYouScreen" class="hidden fade-in">
-        <div style="font-size: 50px; margin-bottom:10px;">✅</div>
-        <h2 style="color:var(--text-dark);">Thank You!</h2>
-        <p>Your feedback has been submitted successfully.</p>
-    </div>
-
-    <div id="aiToolScreen" class="ai-tool-wrapper fade-in">
-        <p style="text-align:center; font-weight:bold; color:var(--primary); margin-bottom: 20px;">✨ Create your review in 1 click!</p>
+    <div id="generatorApp">
+        <h1>Sai Samartha Travels</h1>
+        <div class="tagline">🚖 Safe & Reliable Journeys</div>
         
-        <div style="display: flex; gap: 10px;">
-            <div style="flex:1;">
-                <label style="margin-top:0;">Route / Location</label>
-                <select id="locationSelect">
-                    <option value="Nashik">Nashik</option>
-                    <option value="Nashik to Pune">Nashik to Pune</option>
-                    <option value="Nashik to Mumbai">Nashik to Mumbai</option>
-                    <option value="Nashik to Shirdi">Nashik to Shirdi</option>
-                    <option value="Nashik to Akkalkot">Nashik to Akkalkot</option>
-                    <option value="Nashik to Tuljapur">Nashik to Tuljapur</option>
-                    <option value="Nashik to Konkan">Nashik to Konkan</option>
-                    <option value="Nashik to Trimbakeshwar">Nashik to Trimbakeshwar</option>
-                    <option value="Maharashtra">Maharashtra</option>
-                </select>
+        <div>
+            <a href="tel:+919870114459" class="phone-link">📞 +917559117655</a>
+        </div>
+
+        <div id="ratingScreen" class="fade-in">
+            <p>How was your journey with us?</p>
+            <div class="star-container">
+                <span class="star" onclick="rate(1)">★</span>
+                <span class="star" onclick="rate(2)">★</span>
+                <span class="star" onclick="rate(3)">★</span>
+                <span class="star" onclick="rate(4)">★</span>
+                <span class="star" onclick="rate(5)">★</span>
             </div>
-            <div style="flex:1;">
-                <label style="margin-top:0;">Tone</label>
-                <select id="toneSelect">
-                    <option value="Professional">Professional 👔</option>
-                    <option value="Friendly">Friendly 😃</option>
-                    <option value="Short">Short & Sweet 👌</option>
-                    <option value="Grateful">Grateful 🙏</option>
-                </select>
+            <div class="experience-btns">
+                <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Not Good 😞</button>
+                <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Great Ride 🚖</button>
             </div>
+            <button class="action-btn" onclick="processRating()">Next Step ➡</button>
         </div>
 
-        <label>Which vehicle did you book?</label>
-        <select id="vehicleSelect">
-            <option value="">-- Select Vehicle (Optional) --</option>
-            <option value="Toyota Innova">Toyota Innova</option>
-            <option value="Toyota Etios">Toyota Etios</option>
-            <option value="Suzuki Baleno">Suzuki Baleno</option>
-            <option value="Suzuki Swift Dzire">Suzuki Swift Dzire</option>
-            <option value="Maruti Wagon R">Maruti Wagon R</option>
-            <option value="Suzuki Ertiga">Suzuki Ertiga</option>
-        </select>
-
-        <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
-        <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
-            <input type="text" id="userName" placeholder="Your Name (Optional)">
+        <div id="privateFeedbackScreen" class="hidden fade-in">
+            <h2 style="color:var(--text-dark);">We are sorry! 😔</h2>
+            <p>Please tell us how we can improve. Your feedback will be sent directly to the owner.</p>
+            <textarea id="privateFeedbackText" class="feedback-box" placeholder="Describe the issue..."></textarea>
+            <button class="action-btn" style="background:var(--gray);" onclick="submitPrivateFeedback()">Submit Feedback</button>
         </div>
 
-        <label style="clear:both;">Select what you liked (Pick 3-4)</label>
-
-        <div class="category-header">BOOKING & SERVICE</div>
-        <div class="keywords-container">
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Taxi Service')">🏆 Best Taxi Service</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Online Taxi Booking')">📱 Online Taxi Booking</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Travel Agency')">🏢 Best Travel Agency</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'No Hassle')">✨ No Hassle Service</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Reasonable Rates')">💰 Reasonable Rates</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Car Rental')">🚘 Best Car Rental</div>
+        <div id="thankYouScreen" class="hidden fade-in">
+            <div style="font-size: 50px; margin-bottom:10px;">✅</div>
+            <h2 style="color:var(--text-dark);">Thank You!</h2>
+            <p>Your feedback has been submitted successfully.</p>
         </div>
 
-        <div class="category-header">RIDE QUALITY</div>
-        <div class="keywords-container">
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Safe Drive')">🛡️ Safe Drive</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Professional Driver')">👨‍✈️ Professional Driver</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Friendly Welcoming')">👋 Friendly Staff</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Fastest Service')">⚡ Fastest Service</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'City Tour')">🏙️ City Tour Cab</div>
-            <div class="keyword-chip" onclick="toggleKeyword(this, 'Sightseeing Cab')">📸 Sightseeing</div>
+        <div id="aiToolScreen" class="hidden fade-in" style="text-align: left;">
+            <p style="text-align:center; font-weight:bold; color:var(--primary); margin-bottom: 20px;">✨ Create your review in 1 click!</p>
+            
+            <div class="input-mode-tabs">
+                <button class="mode-btn active-mode" id="btnModeVoice" onclick="switchMode('voice')">🎤 Speak</button>
+                <button class="mode-btn" id="btnModeText" onclick="switchMode('text')">✍️ Write</button>
+            </div>
+
+            <div id="voiceSection" class="voice-section">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <span style="font-size:11px; font-weight:bold; color:var(--primary);">SPEAK (Hindi/English):</span>
+                    <select id="voiceLang" style="width:auto; padding:2px; font-size:11px; height:25px; margin:0;">
+                        <option value="en-IN" selected>English</option>
+                        <option value="hi-IN">Hindi</option>
+                        <option value="mr-IN">Marathi</option>
+                    </select>
+                </div>
+                <div class="voice-controls">
+                    <button id="micBtn" class="mic-btn" onclick="startListening()">🎤</button>
+                    <div style="flex:1;">
+                        <p id="statusText" style="font-size:12px; color:#555; margin:0;">Tap mic & speak...<br>(Ex: "Bhaiya ne gaadi bahut achi chalayi")</p>
+                    </div>
+                </div>
+                <div id="spokenTextDisplay" style="display:none; margin-top:8px; font-size:12px; color:var(--primary); background:#fff; padding:6px; border-radius:4px;"></div>
+            </div>
+
+            <div id="textSection" class="text-section hidden">
+                <label style="margin-top:0; color:var(--primary);">Describe Experience</label>
+                <textarea id="manualInput" placeholder="Ex: Safe drive and polite driver..." style="height:80px; margin-bottom:0;"></textarea>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <div style="flex:1;">
+                    <label style="margin-top:0;">Route / Location</label>
+                    <select id="locationSelect">
+                        <option value="Nashik">Nashik</option>
+                        <option value="Nashik to Pune">Nashik to Pune</option>
+                        <option value="Nashik to Mumbai">Nashik to Mumbai</option>
+                        <option value="Nashik to Shirdi">Nashik to Shirdi</option>
+                        <option value="Nashik to Akkalkot">Nashik to Akkalkot</option>
+                        <option value="Nashik to Tuljapur">Nashik to Tuljapur</option>
+                        <option value="Nashik to Konkan">Nashik to Konkan</option>
+                        <option value="Nashik to Trimbakeshwar">Nashik to Trimbakeshwar</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                    </select>
+                </div>
+                <div style="flex:1;">
+                    <label style="margin-top:0;">Tone</label>
+                    <select id="toneSelect">
+                        <option value="Professional">Professional 👔</option>
+                        <option value="Friendly">Friendly 😃</option>
+                        <option value="Short">Short & Sweet 👌</option>
+                        <option value="Grateful">Grateful 🙏</option>
+                    </select>
+                </div>
+            </div>
+
+            <label>Which vehicle did you book?</label>
+            <select id="vehicleSelect">
+                <option value="">-- Select Vehicle (Optional) --</option>
+                <option value="Toyota Innova">Toyota Innova</option>
+                <option value="Toyota Etios">Toyota Etios</option>
+                <option value="Suzuki Baleno">Suzuki Baleno</option>
+                <option value="Suzuki Swift Dzire">Suzuki Swift Dzire</option>
+                <option value="Maruti Wagon R">Maruti Wagon R</option>
+                <option value="Suzuki Ertiga">Suzuki Ertiga</option>
+            </select>
+
+            <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
+            <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
+                <input type="text" id="userName" placeholder="Your Name (Optional)">
+            </div>
+
+            <label style="clear:both;">Select what you liked (Pick 3-4)</label>
+
+            <div class="category-header">BOOKING & SERVICE</div>
+            <div class="keywords-container">
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Taxi Service')">🏆 Best Taxi Service</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Online Taxi Booking')">📱 Online Taxi Booking</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Travel Agency')">🏢 Best Travel Agency</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'No Hassle')">✨ No Hassle Service</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Reasonable Rates')">💰 Reasonable Rates</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Car Rental')">🚘 Best Car Rental</div>
+            </div>
+
+            <div class="category-header">RIDE QUALITY</div>
+            <div class="keywords-container">
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Safe Drive')">🛡️ Safe Drive</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Professional Driver')">👨‍✈️ Professional Driver</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Friendly Welcoming')">👋 Friendly Staff</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Fastest Service')">⚡ Fastest Service</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'City Tour')">🏙️ City Tour Cab</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Sightseeing Cab')">📸 Sightseeing</div>
+            </div>
+
+            <button class="action-btn" onclick="generateReview()">🚀 Generate Review</button>
+
+            <textarea id="reviewOutput" class="review-preview-box" readonly></textarea>
+            
+            <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy & Open Google</button>
+
+            <div id="ownerPanel">
+                <label style="color:var(--whatsapp); margin-top:0;">📱 Customer's WhatsApp Number</label>
+                <div style="display:flex; gap:10px;">
+                    <input type="tel" id="customerPhone" placeholder="Ex: 9876543210" style="margin-bottom:0;">
+                    <button class="whatsapp-send-btn" style="width: auto; padding: 0 20px;" onclick="sendLinkToCustomer()">🚀 Send</button>
+                </div>
+                <p style="font-size:11px; color:#555; margin-top:5px;">Customer will receive a direct link to post this review.</p>
+            </div>
+
         </div>
-
-        <button class="action-btn" onclick="generateReview()">🚀 Generate Review</button>
-
-        <textarea id="reviewOutput" style="width:100%; height:130px; margin-top:15px; border-radius:8px; padding:10px; border:1px solid #cbd5e1; display:none; background:#fff;" readonly></textarea>
-        
-        <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy & Open Google</button>
     </div>
 
     <div class="footer">
         <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft">
-        
         <div class="footer-text">
             Powered by <a href="https://growft.net" target="_blank">Growft</a><br>
-            
         </div>
+        <span class="owner-login-trigger" onclick="ownerLogin()">🔒 Owner</span>
     </div>
 </div>
 
 <script>
-    // --- IMPORTANT: REPLACE THIS LINK ---
+    // --- 🔐 SECURITY & CONFIGURATION ---
     const GOOGLE_REVIEW_LINK = "https://g.page/r/CbwKPacQqMafEAE/review"; 
     
-    // --- RATING LOGIC ---
+    // CHANGE TO "suspended" TO LOCK THE TOOL
+    const APP_STATUS = "suspended"; 
+    
+    // EXPIRY DATE (YYYY-MM-DD)
+    const EXPIRY_DATE = "2026-12-31"; 
+
+    // --- INITIALIZATION ---
+    let isOwnerMode = false;
+
+    window.onload = function() {
+        // Security Check
+        const today = new Date().toISOString().split('T')[0];
+        if(APP_STATUS === "suspended" || today > EXPIRY_DATE) {
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('lockScreen').style.display = 'flex';
+            return;
+        }
+
+        // URL Check (Customer Mode)
+        const urlParams = new URLSearchParams(window.location.search);
+        const reviewText = urlParams.get('review');
+        if (reviewText) {
+            document.getElementById('generatorApp').style.display = 'none';
+            document.getElementById('customerLinkView').classList.remove('hidden');
+            document.getElementById('customerReviewText').value = decodeURIComponent(reviewText);
+        } else if(sessionStorage.getItem('isOwner') === 'true') {
+            isOwnerMode = true;
+        }
+    };
+
+    // --- OWNER & WHATSAPP LOGIC ---
+    function ownerLogin() {
+        if(isOwnerMode) { alert("Already logged in as Owner."); return; }
+        const password = prompt("Enter Owner Password:");
+        if(password === "admin123") { // CHANGE PASSWORD HERE
+            isOwnerMode = true;
+            sessionStorage.setItem('isOwner', 'true');
+            alert("Owner Mode Active!");
+        } else if(password) { alert("Incorrect Password"); }
+    }
+
+    function sendLinkToCustomer() {
+        const phone = document.getElementById('customerPhone').value.replace(/\D/g, '');
+        const review = document.getElementById('reviewOutput').value;
+        if(phone.length < 10) { alert("Enter valid number"); return; }
+        const finalPhone = phone.length === 10 ? "91" + phone : phone;
+        const baseUrl = window.location.href.split('?')[0];
+        const magicLink = `${baseUrl}?review=${encodeURIComponent(review)}`;
+        const msg = `Namaste! 🙏\n\nHere is the review for your trip with Sai Samarth Travels:\n\n*Tap this link to Post:*\n${magicLink}`;
+        window.open(`https://wa.me/${finalPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function copyCustomerLinkReview() {
+        const box = document.getElementById("customerReviewText");
+        box.select();
+        document.execCommand('copy');
+        window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+
+    // --- APP LOGIC ---
+    let selectedKeywords = [];
+    let voiceText = "";
+    let activeMode = 'voice';
+    const connectors = ["Also,", "Moreover,", "I must mention that,", "Additionally,", "Plus,", "On top of that,", "Furthermore,", "Truly,", "Honestly,", "Not to mention,", "Along with that,"];
+
+    function switchMode(mode) {
+        activeMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active-mode'));
+        if(mode === 'voice') {
+            document.getElementById('btnModeVoice').classList.add('active-mode');
+            document.getElementById('voiceSection').classList.remove('hidden');
+            document.getElementById('textSection').classList.add('hidden');
+        } else {
+            document.getElementById('btnModeText').classList.add('active-mode');
+            document.getElementById('textSection').classList.remove('hidden');
+            document.getElementById('voiceSection').classList.add('hidden');
+        }
+    }
+
     let currentRating = 0;
     let currentExp = '';
-
     function rate(stars) {
         currentRating = stars;
         let allStars = document.querySelectorAll('.star');
         allStars.forEach((star, index) => {
             star.classList.toggle('selected', index < stars);
         });
-        if(stars >= 4) selectExp('good');
-        else selectExp('bad');
+        if(stars >= 4) selectExp('good'); else selectExp('bad');
     }
-
+    
     function selectExp(type) {
         currentExp = type;
         document.getElementById('btn-good').classList.remove('active');
@@ -287,208 +467,154 @@
     }
 
     function processRating() {
-        if (currentRating === 0 && currentExp === '') {
-            alert("Please select a star rating.");
-            return;
-        }
+        if (currentRating === 0 && currentExp === '') { alert("Please select a star rating."); return; }
         document.getElementById('ratingScreen').classList.add('hidden');
-        
         let isHappy = (currentRating >= 4) || (currentExp === 'good');
-        
-        if (isHappy) {
-            document.getElementById('aiToolScreen').style.display = 'block';
-        } else {
-            document.getElementById('privateFeedbackScreen').classList.remove('hidden');
-        }
+        if (isHappy) document.getElementById('aiToolScreen').style.display = 'block';
+        else document.getElementById('privateFeedbackScreen').classList.remove('hidden');
     }
 
     function submitPrivateFeedback() {
-        if(document.getElementById('privateFeedbackText').value.trim() === "") {
-            alert("Please write a few words.");
-            return;
-        }
+        if(document.getElementById('privateFeedbackText').value.trim() === "") { alert("Please write a few words."); return; }
         document.getElementById('privateFeedbackScreen').classList.add('hidden');
         document.getElementById('thankYouScreen').classList.remove('hidden');
     }
 
-    // --- AI GENERATION LOGIC ---
-    let selectedKeywords = [];
-
-    const reviewDB = {
-        // 40+ INTROS SPLIT ACROSS TONES
-        intros: {
-            "Professional": [
-                "I recently booked a trip with Sai Samarth Travels for {location}.",
-                "We engaged Sai Samarth Travels for a journey in {location}.",
-                "If you need a reliable taxi service in {location}, this is the one.",
-                "Excellent cab services provided by Sai Samarth Travels in {location}.",
-                "Very professional travel agency operating in {location}.",
-                "I highly recommend Sai Samarth Travels for anyone traveling in {location}.",
-                "Top quality driving and service delivered in {location}.",
-                "Found them to be the most professional cab service in {location}.",
-                "They handled our outstation trip for {location} very professionally.",
-                "Reliable and safe taxi service for {location}.",
-                "Our experience with Sai Samarth Travels in {location} was seamless."
-            ],
-            "Friendly": [
-                "Had an amazing trip with Sai Samarth Travels in {location}! 🚗",
-                "Just finished a great ride with them for {location}, super happy!",
-                "Best taxi service in {location} area!",
-                "They made my family trip so comfortable in {location}.",
-                "So happy with the service provided by Sai Samarth Travels.",
-                "Very polite driver and smooth ride in {location}.",
-                "Loved the clean car and safe driving! Best for {location}.",
-                "My journey in {location} was perfect thanks to them.",
-                "Super friendly driver and great experience.",
-                "Wow! The service they provided for {location} was top class.",
-                "Really nice people and safe travel service."
-            ],
-            "Short": [
-                "Best taxi service for {location}.",
-                "Good ride experience in {location}.",
-                "Professional cab service.",
-                "Nice and clean car.",
-                "Recommended travels in {location}.",
-                "Affordable and good.",
-                "Fast service in {location}.",
-                "Best for city tours.",
-                "Safe driving experience.",
-                "Five stars for the driver."
-            ],
-            "Grateful": [
-                "I am really thankful to Sai Samarth Travels for the urgent booking for {location}.",
-                "They saved my day with a quick cab arrangement in {location}.",
-                "Grateful for the safe drive and honest pricing.",
-                "Thanks a lot for the comfortable journey in {location}.",
-                "Appreciate the professional behavior of the staff.",
-                "Thank you for reaching on time for {location} trip.",
-                "So glad I found a safe taxi service in {location}.",
-                "Thanks for the smooth ride.",
-                "Really appreciate the clean vehicle.",
-                "Thank you for the great service."
-            ]
-        },
-
-        // 40+ OUTROS SPLIT ACROSS TONES
-        outros: {
-            "Professional": [
-                "Highly recommended for safe travel in {location}.",
-                "The best choice for taxi booking in {location}.",
-                "They ensure punctuality and safety.",
-                "Will definitely book with them again for future trips.",
-                "A trustworthy name for travels in {location}.",
-                "Professionalism at its best.",
-                "Great value for money service.",
-                "Satisfied with the overall booking experience.",
-                "Best wishes to the team.",
-                "Do try them for outstation or local trips."
-            ],
-            "Friendly": [
-                "Will call you guys again! 👍",
-                "Best in {location}, hands down!",
-                "Loving the ride quality! 😍",
-                "Keep up the great work!",
-                "Don't look anywhere else in {location}.",
-                "Super satisfied!",
-                "Cheers to the driver!",
-                "Will recommend to my friends in {location}.",
-                "Thanks again!",
-                "You guys are the best.",
-                "Totally worth it!",
-                "Love the service.",
-                "See you soon for the next trip."
-            ],
-            "Short": [
-                "Recommended.",
-                "Good job.",
-                "5 Stars.",
-                "Must try.",
-                "Great ride.",
-                "Best in {location}.",
-                "Nice driver.",
-                "Happy customer.",
-                "Thank you.",
-                "Top quality.",
-                "Superb.",
-                "Well done.",
-                "Highly rated.",
-                "Good service."
-            ],
-            "Grateful": [
-                "Thanks once again.",
-                "God bless the team.",
-                "Really appreciate the safe drive.",
-                "I will always recommend you.",
-                "Thanks for being so helpful.",
-                "Grateful for the service.",
-                "Thanks for the fair price.",
-                "So happy with the trip.",
-                "Thank you for the support.",
-                "Much appreciated.",
-                "Heartfelt thanks.",
-                "Thanks for getting me there on time.",
-                "Appreciate the quick response.",
-                "Thank you for the honesty."
-            ]
-        },
-
-        // Keyword Specific Sentences
-        keywords: {
-            "Best Taxi Service": ["Truly the best taxi service I have found in {location}.", "Sai Samarth Travels provides the best taxi service.", "Hard to find such a good taxi service in {location}."],
-            "Best Cab Service": ["The best cab service experience I have had.", "If you want the best cab service, call them.", "Top-notch and best cab service in the city."],
-            "Online Taxi Booking": ["The online taxi booking process was very smooth.", "Easy online taxi booking and quick confirmation.", "Booked via online taxi booking and got a cab instantly."],
-            "Online Travel Booking": ["Online travel booking with them is hassle-free.", "Seamless online travel booking experience.", "Great platform for online travel booking."],
-            "Best Travel Agency": ["They are the best travel agency in {location}.", "Reliable and best travel agency for family trips.", "One of the best travel agencies I have used."],
-            "City Tour": ["We hired a city tour cab and had a great time.", "Best service for a city tour cab in {location}.", "The driver knew all the spots for the city tour."],
-            "Safe Drive": ["The drive was extremely safe and comfortable.", "Felt very safe during the entire drive.", "Safe drive is their priority."],
-            "Professional Driver": ["The driver was very professional and polite.", "We got a highly professional driver for our trip.", "Professional driver who knew the routes well."],
-            "Reasonable Rates": ["Got the booking at very reasonable rates.", "Their pricing is reasonable compared to others.", "Best service at reasonable rates."],
-            "No Hassle": ["There was no hassle at all during the booking.", "Fast service with no hassle.", "A completely no-hassle travel experience."],
-            "Fastest Service": ["Impressed by the fastest service.", "They provide the fastest service in {location}.", "Quick response and fastest service delivery."],
-            "Affordable Price": ["Very affordable price for such good quality.", "Luxury cars at an affordable price.", "Travelled comfortably at an affordable price."],
-            "Best Car Rental": ["Best car rental service I have experienced.", "For car rental needs, they are the best.", "Premium cars available for rental."],
-            "Friendly Welcoming": ["The staff was very friendly and welcoming.", "Loved the friendly welcoming nature of the driver.", "Warm and friendly welcoming service."],
-            "Sightseeing Cab": ["The sightseeing cab package was excellent.", "Driver guided us well during the sightseeing.", "Best sightseeing cab service for tourists."]
-        }
-    };
-
-    // --- UTILS ---
-    function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-    function toggleNameField() { 
-        const field = document.getElementById('nameArea');
-        field.style.display = field.style.display === 'block' ? 'none' : 'block';
-    }
-    function toggleKeyword(element, keyword) {
-        element.classList.toggle('active');
-        if (selectedKeywords.includes(keyword)) {
-            selectedKeywords = selectedKeywords.filter(item => item !== keyword);
-        } else {
-            selectedKeywords.push(keyword);
-        }
+    function startListening() {
+        if (!('webkitSpeechRecognition' in window)) { alert("Use Chrome Browser."); return; }
+        recognition = new webkitSpeechRecognition();
+        recognition.lang = document.getElementById('voiceLang').value;
+        recognition.interimResults = false;
+        document.getElementById('micBtn').classList.add('mic-active');
+        document.getElementById('statusText').innerText = "Listening...";
+        recognition.onresult = (event) => {
+            voiceText = event.results[0][0].transcript;
+            document.getElementById('spokenTextDisplay').style.display = 'block';
+            document.getElementById('spokenTextDisplay').innerText = `Recorded: "${voiceText}"`;
+        };
+        recognition.onend = () => { document.getElementById('micBtn').classList.remove('mic-active'); document.getElementById('statusText').innerText = "Processing..."; };
+        recognition.start();
     }
 
-    function generateReview() {
+    async function generateReview() {
+        const btn = document.querySelector('.action-btn');
+        const originalText = btn.innerText;
+        btn.innerText = "🔄 Processing...";
+        
         const userName = document.getElementById('userName').value.trim();
         const tone = document.getElementById('toneSelect').value;
         const location = document.getElementById('locationSelect').value;
         const vehicle = document.getElementById('vehicleSelect').value;
+        const manualText = document.getElementById('manualInput').value.trim();
         const outputBox = document.getElementById('reviewOutput');
         const copyBtn = document.getElementById('copyBtn');
+        let rawInput = activeMode === 'voice' ? voiceText : manualText;
 
-        if (selectedKeywords.length === 0) {
-            alert("Please select at least 2 highlights.");
+        if (selectedKeywords.length === 0 && !rawInput) {
+            alert("Please select at least 2 highlights or say something.");
+            btn.innerText = originalText;
             return;
         }
-        
+
+        // Translation
+        let finalBodyText = "";
+        if (rawInput && rawInput.length > 1) {
+            try {
+                const srcLangCode = document.getElementById('voiceLang').value.split('-')[0];
+                let langPair = 'Autodetect|en';
+                if(srcLangCode === 'hi') langPair = 'hi|en';
+                if(srcLangCode === 'mr') langPair = 'mr|en';
+                
+                const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(rawInput)}&langpair=${langPair}`);
+                const data = await res.json();
+                let translated = data.responseData ? data.responseData.translatedText : "";
+                if(!translated.includes("PLEASE SELECT")) finalBodyText = translated;
+                else finalBodyText = rawInput;
+            } catch(e) { finalBodyText = rawInput; }
+        }
+
+        // --- PRESERVED DATASETS ---
+        const reviewDB = {
+            intros: {
+                "Professional": [
+                    "I recently booked a trip with Sai Samarth Travels for {location}.", "We engaged Sai Samarth Travels for a journey in {location}.", 
+                    "If you need a reliable taxi service in {location}, this is the one.", "Excellent cab services provided by Sai Samarth Travels in {location}.",
+                    "Very professional travel agency operating in {location}.", "I highly recommend Sai Samarth Travels for anyone traveling in {location}.",
+                    "Top quality driving and service delivered in {location}.", "Found them to be the most professional cab service in {location}.",
+                    "They handled our outstation trip for {location} very professionally.", "Reliable and safe taxi service for {location}.",
+                    "Our experience with Sai Samarth Travels in {location} was seamless."
+                ],
+                "Friendly": [
+                    "Had an amazing trip with Sai Samarth Travels in {location}! 🚗", "Just finished a great ride with them for {location}, super happy!", 
+                    "Best taxi service in {location} area!", "They made my family trip so comfortable in {location}.",
+                    "So happy with the service provided by Sai Samarth Travels.", "Very polite driver and smooth ride in {location}.", 
+                    "Loved the clean car and safe driving! Best for {location}.", "My journey in {location} was perfect thanks to them.",
+                    "Super friendly driver and great experience.", "Wow! The service they provided for {location} was top class.", 
+                    "Really nice people and safe travel service."
+                ],
+                "Short": [
+                    "Best taxi service for {location}.", "Good ride experience in {location}.", "Professional cab service.", "Nice and clean car.",
+                    "Recommended travels in {location}.", "Affordable and good.", "Fast service in {location}.", "Best for city tours.",
+                    "Safe driving experience.", "Five stars for the driver."
+                ],
+                "Grateful": [
+                    "I am really thankful to Sai Samarth Travels for the urgent booking for {location}.", "They saved my day with a quick cab arrangement in {location}.",
+                    "Grateful for the safe drive and honest pricing.", "Thanks a lot for the comfortable journey in {location}.",
+                    "Appreciate the professional behavior of the staff.", "Thank you for reaching on time for {location} trip.",
+                    "So glad I found a safe taxi service in {location}.", "Thanks for the smooth ride.",
+                    "Really appreciate the clean vehicle.", "Thank you for the great service."
+                ]
+            },
+            outros: {
+                "Professional": [
+                    "Highly recommended for safe travel in {location}.", "The best choice for taxi booking in {location}.",
+                    "They ensure punctuality and safety.", "Will definitely book with them again for future trips.",
+                    "A trustworthy name for travels in {location}.", "Professionalism at its best.",
+                    "Great value for money service.", "Satisfied with the overall booking experience.",
+                    "Best wishes to the team.", "Do try them for outstation or local trips."
+                ],
+                "Friendly": [
+                    "Will call you guys again! 👍", "Best in {location}, hands down!", "Loving the ride quality! 😍",
+                    "Keep up the great work!", "Don't look anywhere else in {location}.", "Super satisfied!",
+                    "Cheers to the driver!", "Will recommend to my friends in {location}.", "Thanks again!",
+                    "You guys are the best.", "Totally worth it!", "Love the service.", "See you soon for the next trip."
+                ],
+                "Short": [
+                    "Recommended.", "Good job.", "5 Stars.", "Must try.", "Great ride.",
+                    "Best in {location}.", "Nice driver.", "Happy customer.", "Thank you.",
+                    "Top quality.", "Superb.", "Well done.", "Highly rated.", "Good service."
+                ],
+                "Grateful": [
+                    "Thanks once again.", "God bless the team.", "Really appreciate the safe drive.",
+                    "I will always recommend you.", "Thanks for being so helpful.", "Grateful for the service.",
+                    "Thanks for the fair price.", "So happy with the trip.", "Thank you for the support.",
+                    "Much appreciated.", "Heartfelt thanks.", "Thanks for getting me there on time.",
+                    "Appreciate the quick response.", "Thank you for the honesty."
+                ]
+            },
+            keywords: {
+                "Best Taxi Service": ["Truly the best taxi service I have found in {location}.", "Sai Samarth Travels provides the best taxi service.", "Hard to find such a good taxi service in {location}."],
+                "Online Taxi Booking": ["The online taxi booking process was very smooth.", "Easy online taxi booking and quick confirmation.", "Booked via online taxi booking and got a cab instantly."],
+                "Best Travel Agency": ["They are the best travel agency in {location}.", "Reliable and best travel agency for family trips.", "One of the best travel agencies I have used."],
+                "No Hassle": ["There was no hassle at all during the booking.", "Fast service with no hassle.", "A completely no-hassle travel experience."],
+                "Reasonable Rates": ["Got the booking at very reasonable rates.", "Their pricing is reasonable compared to others.", "Best service at reasonable rates."],
+                "Best Car Rental": ["Best car rental service I have experienced.", "For car rental needs, they are the best.", "Premium cars available for rental."],
+                "Safe Drive": ["The drive was extremely safe and comfortable.", "Felt very safe during the entire drive.", "Safe drive is their priority."],
+                "Professional Driver": ["The driver was very professional and polite.", "We got a highly professional driver for our trip.", "Professional driver who knew the routes well."],
+                "Friendly Welcoming": ["The staff was very friendly and welcoming.", "Loved the friendly welcoming nature of the driver.", "Warm and friendly welcoming service."],
+                "Fastest Service": ["Impressed by the fastest service.", "They provide the fastest service in {location}.", "Quick response and fastest service delivery."],
+                "City Tour": ["We hired a city tour cab and had a great time.", "Best service for a city tour cab in {location}.", "The driver knew all the spots for the city tour."],
+                "Sightseeing Cab": ["The sightseeing cab package was excellent.", "Driver guided us well during the sightseeing.", "Best sightseeing cab service for tourists."]
+            }
+        };
+
+        // --- GENERATION ---
         outputBox.style.display = 'block';
         outputBox.style.opacity = "0.5";
 
-        // 1. INTRO
-        let intro = getRandomItem(reviewDB.intros[tone]);
-        intro = intro.replace(/{location}/g, location);
+        let intro = getRandomItem(reviewDB.intros[tone]).replace(/{location}/g, location);
         if (userName) intro = `I am ${userName}. ` + intro;
 
-        // 2. VEHICLE SENTENCE (New Feature)
         let vehicleSentence = "";
         if (vehicle) {
             const vSentences = [
@@ -501,32 +627,51 @@
             vehicleSentence = getRandomItem(vSentences) + " ";
         }
 
-        // 3. KEYWORD BODY
         let body = "";
         const shuffledKeywords = selectedKeywords.sort(() => Math.random() - 0.5);
-        shuffledKeywords.forEach((k) => {
+        shuffledKeywords.forEach((k, i) => {
             if(reviewDB.keywords[k]) {
-                let sentence = getRandomItem(reviewDB.keywords[k]);
-                sentence = sentence.replace(/{location}/g, location);
+                let sentence = getRandomItem(reviewDB.keywords[k]).replace(/{location}/g, location);
+                if(i > 0 && Math.random() > 0.6) sentence = getRandomItem(connectors) + " " + sentence;
                 body += sentence + " ";
             }
         });
 
-        // 4. OUTRO
-        let outro = getRandomItem(reviewDB.outros[tone]);
-        outro = outro.replace(/{location}/g, location);
+        if(finalBodyText) body += finalBodyText + " ";
 
-        // COMBINE
+        let outro = getRandomItem(reviewDB.outros[tone]).replace(/{location}/g, location);
+
         const finalReview = intro + " " + vehicleSentence + body + outro;
 
         setTimeout(() => {
             outputBox.style.opacity = "1";
             outputBox.value = finalReview;
             copyBtn.style.display = "block";
+            btn.innerText = originalText;
+
+            if(isOwnerMode) {
+                document.getElementById('ownerPanel').style.display = 'block';
+                document.getElementById('copyBtn').style.display = 'none';
+            } else {
+                document.getElementById('ownerPanel').style.display = 'none';
+                document.getElementById('copyBtn').style.display = 'block';
+            }
+
             if (window.innerWidth < 600) outputBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 300);
+        }, 500);
     }
 
+    function toggleNameField() { 
+        const field = document.getElementById('nameArea');
+        field.style.display = field.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) selectedKeywords = selectedKeywords.filter(item => item !== keyword);
+        else selectedKeywords.push(keyword);
+    }
+    
     function copyToClipboard() {
         const copyText = document.getElementById("reviewOutput");
         copyText.select();
@@ -536,8 +681,9 @@
             if(isConfirmed) window.open(GOOGLE_REVIEW_LINK, '_blank');
         });
     }
+    
+    function getRandomItem(arr) { if(!arr) return ""; return arr[Math.floor(Math.random() * arr.length)]; }
 </script>
 
 </body>
 </html>
-      
