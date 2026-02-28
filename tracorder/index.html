@@ -3,126 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Tracking - Hotel Vijay</title>
+    <title>Track Your Order - Hotel Vijay</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .step-line { position: absolute; left: 19px; top: 30px; height: 100%; width: 2px; background: #e2e8f0; z-index: -1; }
+        .step-active .step-icon { background: #ea580c; box-shadow: 0 0 15px rgba(234, 88, 12, 0.4); }
+        .step-active .step-text { color: #ea580c; font-weight: 900; }
+        .pulse-orange { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+    </style>
 </head>
-<body class="bg-slate-50 min-h-screen flex items-center justify-center p-6">
-    <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl p-8 text-center border border-gray-100">
-        <div id="loader" class="text-6xl mb-4 transition-all duration-500">👨‍🍳</div>
-        
-        <h2 class="text-gray-400 font-bold uppercase text-[10px] tracking-widest mb-1">Order Tracking</h2>
-        <h1 id="inv-display" class="text-2xl font-black text-slate-800 tracking-tighter">#CHECKING...</h1>
-        
-        <div id="status-badge" class="mt-6 inline-block px-10 py-4 rounded-full font-black text-lg bg-orange-100 text-orange-600 animate-pulse uppercase">
-            CONNECTING...
+<body class="bg-slate-50 font-sans text-slate-900 pb-10">
+
+    <div class="bg-white p-6 shadow-sm flex justify-between items-center sticky top-0 z-50 border-b border-slate-100">
+        <div>
+            <h1 class="text-xl font-black italic text-orange-600">HOTEL VIJAY</h1>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Live Order Tracking</p>
+        </div>
+        <div class="bg-slate-100 px-4 py-2 rounded-2xl text-[10px] font-black tracking-tighter">
+            ID: <span id="display-id" class="text-orange-600">#0000</span>
+        </div>
+    </div>
+
+    <div class="max-w-md mx-auto p-5">
+        <div class="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50 mb-6 text-center border border-white">
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Current Status</p>
+            <h2 id="current-status-text" class="text-4xl font-black text-slate-800 mb-2 italic uppercase">Checking...</h2>
+            <div id="status-desc" class="text-xs text-slate-500 font-bold px-4">Wait kariye, hum kitchen se update le rahe hain...</div>
         </div>
 
-        <div class="mt-6">
-            <button id="ask-btn" onclick="askCashier()" class="text-[10px] font-black border-2 border-slate-200 px-6 py-2 rounded-xl text-slate-400 hover:border-orange-500 hover:text-orange-500 transition-all uppercase tracking-widest active:scale-95">
-                Ask Status / Status Puchhein
-            </button>
-            <p id="query-msg" class="text-[9px] text-gray-400 mt-2 hidden text-green-600 font-bold">Request sent to cashier...</p>
+        <div class="space-y-10 px-4 relative mt-10">
+            <div id="step-pending" class="flex items-start gap-6 relative">
+                <div class="step-line"></div>
+                <div class="step-icon w-10 h-10 rounded-2xl bg-slate-200 flex items-center justify-center text-white shrink-0 transition-all duration-500">
+                    <span class="text-lg font-bold">1</span>
+                </div>
+                <div>
+                    <h3 class="step-text text-slate-400 text-lg">Order Confirmed</h3>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase">Kitchen ko order mil gaya hai</p>
+                </div>
+            </div>
+
+            <div id="step-preparing" class="flex items-start gap-6 relative">
+                <div class="step-line"></div>
+                <div class="step-icon w-10 h-10 rounded-2xl bg-slate-200 flex items-center justify-center text-white shrink-0 transition-all duration-500">
+                    <span class="text-lg font-bold">2</span>
+                </div>
+                <div>
+                    <h3 class="step-text text-slate-400 text-lg">Preparing...</h3>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase">Chef aapka khana bana rahe hain</p>
+                </div>
+            </div>
+
+            <div id="step-ready" class="flex items-start gap-6">
+                <div class="step-icon w-10 h-10 rounded-2xl bg-slate-200 flex items-center justify-center text-white shrink-0 transition-all duration-500">
+                    <span class="text-lg font-bold">3</span>
+                </div>
+                <div>
+                    <h3 class="step-text text-slate-400 text-lg">Ready to Serve</h3>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase">Table par khana aane wala hai</p>
+                </div>
+            </div>
         </div>
 
-        <p id="status-msg" class="mt-8 text-gray-500 text-sm italic leading-relaxed px-4">
-            Bhai, Chef ne aapka order dekh liya hai. Khana jaldi hi aapke table par hoga!
-        </p>
-
-        <div class="mt-10 space-y-3">
-            <button onclick="location.href='https://www.growft.online/hotelvijay/'" class="w-full py-4 rounded-2xl bg-slate-900 text-white font-bold shadow-lg active:scale-95 transition-all">
-                Order More Items
+        <div class="mt-12">
+            <button onclick="askStatus()" id="askBtn" class="w-full bg-slate-900 text-white py-5 rounded-[2rem] font-black shadow-lg shadow-slate-300 active:scale-95 transition-all flex items-center justify-center gap-3">
+                <span class="text-xl">🛎️</span> ASK FOR STATUS
             </button>
-            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest pt-4">Growft Digital System</p>
+            <p class="text-center text-[10px] text-slate-400 mt-4 font-bold uppercase tracking-widest leading-loose">
+                Agar khana aane mein deri ho rahi ho,<br>toh upar wala button dabayein.
+            </p>
         </div>
     </div>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzLUkZsUnJXAIo-aaimfbHedZ6Xq4rJ1MoY1rMDqb_10hVR3faOOxDe7eItRDjRKCpb/exec";
-        const params = new URLSearchParams(window.location.search);
-        const invID = params.get('id');
+        // INVOICE DATA URL (Sheet 2 - Orders)
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbGRSd1nm0XE8WrHcbt7n0-wvpxwZaE3SamjGGv0rE5Qy6kJLBcjGP9pVoMEuQ9pcgt/exec";
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('id');
+        document.getElementById('display-id').innerText = "#" + orderId;
 
-        // Initial setup
-        if (!invID) {
-            document.getElementById('inv-display').innerText = "ID MISSING";
-            document.getElementById('status-badge').innerText = "ERROR";
-            document.getElementById('status-badge').className = "mt-6 inline-block px-10 py-4 rounded-full font-black text-lg bg-red-100 text-red-600";
-            document.getElementById('status-msg').innerText = "Bhai, URL mein Invoice ID nahi mil rahi hai.";
-        } else {
-            document.getElementById('inv-display').innerText = "#" + invID;
+        async function checkStatus() {
+            try {
+                const res = await fetch(SCRIPT_URL);
+                const orders = await res.json();
+                const myOrder = orders.find(o => o.invoice_no === orderId);
+
+                if (myOrder) {
+                    updateTimeline(myOrder.status);
+                }
+            } catch (e) { console.log("Polling error..."); }
         }
 
-        // --- User Request to Cashier Logic ---
-        async function askCashier() {
-            if (!invID) return;
-            const btn = document.getElementById('ask-btn');
-            const msg = document.getElementById('query-msg');
+        function updateTimeline(status) {
+            const sText = document.getElementById('current-status-text');
+            const sDesc = document.getElementById('status-desc');
             
-            btn.innerText = "ASKING...";
+            // Reset Styles
+            document.querySelectorAll('.step-icon').forEach(el => el.parentElement.classList.remove('step-active'));
+            
+            if (status === "Pending") {
+                sText.innerText = "Order Received";
+                sDesc.innerText = "Aapka order line mein hai, Chef jaldi shuru karenge.";
+                document.getElementById('step-pending').classList.add('step-active');
+            } else if (status === "Preparing") {
+                sText.innerText = "Preparing...";
+                sDesc.innerText = "Masale dal chuke hain! Garma-garam taiyar ho raha hai.";
+                document.getElementById('step-pending').classList.add('step-active');
+                document.getElementById('step-preparing').classList.add('step-active');
+            } else if (status === "Ready") {
+                sText.innerText = "READY! 🔥";
+                sDesc.innerText = "Aapka khana taiyar hai! Table par check kijiye.";
+                document.querySelectorAll('.step-icon').forEach(el => el.parentElement.classList.add('step-active'));
+                // Vibrate if mobile
+                if(window.navigator.vibrate) window.navigator.vibrate([200, 100, 200]);
+            }
+        }
+
+        async function askStatus() {
+            const btn = document.getElementById('askBtn');
+            btn.innerText = "PINGING CASHIER...";
             btn.disabled = true;
 
             try {
                 await fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
-                    body: JSON.stringify({ 
-                        action: "ask_status", 
-                        invoice_no: invID 
-                    })
+                    body: JSON.stringify({ action: "ask_status", invoice_no: orderId })
                 });
-                
-                btn.innerText = "REQUEST SENT ✅";
-                btn.className = "text-[10px] font-black border-2 border-green-500 px-6 py-2 rounded-xl text-green-500 uppercase tracking-widest";
-                msg.classList.remove('hidden');
-                
-                // 30 second reset
-                setTimeout(() => {
-                    btn.disabled = false;
-                    btn.innerText = "Ask Status / Status Puchhein";
-                    btn.className = "text-[10px] font-black border-2 border-slate-200 px-6 py-2 rounded-xl text-slate-400 uppercase tracking-widest";
-                    msg.classList.add('hidden');
-                }, 30000);
-
-            } catch (e) {
-                btn.innerText = "TRY AGAIN";
+                alert("Bhai, Cashier ko bol diya hai! Woh turant kitchen mein check karenge.");
+            } catch (e) { }
+            
+            setTimeout(() => {
+                btn.innerHTML = `<span class="text-xl">🛎️</span> ASK FOR STATUS`;
                 btn.disabled = false;
-            }
+            }, 5000);
         }
 
-        async function checkStatus() {
-            if (!invID) return;
-            try {
-                const res = await fetch(SCRIPT_URL + "?t=" + new Date().getTime());
-                const orders = await res.json();
-                const myOrder = orders.find(o => String(o.invoice_no).trim() === String(invID).trim());
-
-                if(myOrder) {
-                    const badge = document.getElementById('status-badge');
-                    const loader = document.getElementById('loader');
-                    const statusText = document.getElementById('status-msg');
-                    const status = myOrder.status.toLowerCase().trim();
-                    
-                    badge.innerText = myOrder.status.toUpperCase();
-                    
-                    if(status === "pending") {
-                        badge.className = "mt-6 inline-block px-10 py-4 rounded-full font-black bg-orange-100 text-orange-600 animate-pulse";
-                        loader.innerText = "👨‍🍳";
-                    }
-                    else if(status === "preparing") { 
-                        badge.className = "mt-6 inline-block px-10 py-4 rounded-full font-black bg-blue-100 text-blue-600 animate-bounce"; 
-                        loader.innerText = "🔥"; 
-                        statusText.innerText = "Cashier says: Aapka khana kitchen mein taiyar ho raha hai!";
-                    }
-                    else if(status === "ready" || status === "served") { 
-                        badge.className = "mt-6 inline-block px-10 py-4 rounded-full font-black bg-green-500 text-white"; 
-                        loader.innerText = "😋"; 
-                        statusText.innerText = "Khana Taiyar hai! Enjoy your meal.";
-                        badge.classList.remove('animate-pulse');
-                    }
-                }
-            } catch (e) { console.log("Fetch Error:", e); }
-        }
-
-        setInterval(checkStatus, 8000); 
+        // Live checking every 5 seconds
+        setInterval(checkStatus, 5000);
         checkStatus();
     </script>
 </body>
