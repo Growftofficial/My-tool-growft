@@ -16,9 +16,30 @@
             to { transform: translateY(0); opacity: 1; }
         }
         .track-btn-animate { animation: slideUp 0.5s ease-out forwards; }
+        
+        /* Loader Bounce Animation Tweaks */
+        .bounce-food { animation: bounceFood 1s infinite alternate; }
+        @keyframes bounceFood {
+            0% { transform: translateY(0) scale(1.1); }
+            100% { transform: translateY(-30px) scale(0.9); }
+        }
+        .shadow-pulse { animation: shadowPulse 1s infinite alternate; }
+        @keyframes shadowPulse {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(0.5); opacity: 0.1; }
+        }
     </style>
 </head>
 <body class="bg-gray-50 pb-40 font-sans text-slate-900">
+
+    <div id="menu-loader" class="fixed inset-0 bg-gray-50 z-[100] flex flex-col items-center justify-center transition-opacity duration-500">
+        <div class="relative w-32 h-32 mb-4 flex flex-col items-center">
+            <div class="text-7xl bounce-food z-10">🍔</div>
+            <div class="w-16 h-3 bg-gray-300 rounded-[100%] absolute bottom-0 shadow-pulse"></div>
+        </div>
+        <h2 class="text-2xl font-black text-slate-800 italic uppercase tracking-widest mt-4">Kitchen is Warming Up!</h2>
+        <p class="text-[10px] font-bold text-orange-500 uppercase tracking-widest mt-2 animate-pulse">Fetching Live Menu...</p>
+    </div>
 
     <div class="bg-orange-600 text-white p-6 pb-12 rounded-b-[3rem] shadow-xl sticky top-0 z-50">
         <div class="flex justify-between items-center mb-4">
@@ -31,9 +52,7 @@
             </div>
         </div>
         
-        <div class="flex gap-2 overflow-x-auto no-scrollbar py-2" id="category-tabs">
-            <p class="text-xs animate-pulse text-white/50">Loading Menu...</p>
-        </div>
+        <div class="flex gap-2 overflow-x-auto no-scrollbar py-2" id="category-tabs"></div>
     </div>
 
     <div class="max-w-md mx-auto -mt-6 p-4">
@@ -68,30 +87,43 @@
     </div>
 
     <script>
-        // Aapka Asli Master Script URL
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFZXiQ9c1CPbJ6Js0o6HtIt4mEIRigzAI6CxgXKLId5fOy3VCoLBZC_F4DAspf1h4EsA/exec";
+        // ==========================================
+        // YAHAN APNA MASTER SCRIPT URL DALNA HAI
+        // ==========================================
+        const SCRIPT_URL = "AAPKA_NAYA_EXEC_WALA_URL_YAHAN_DALO";
         
         let menuData = [];
         let cart = {};
         
-        // ✨ LOCAL STORAGE: Page load hote hi check karega ki koi purana order to nahi hai
         let currentOrderID = localStorage.getItem('activeVijayOrder') || "";
 
-        // Agar purana order mil gaya, toh Track Button apne aap dikha do
         window.onload = () => {
             if(currentOrderID) {
                 document.getElementById('track-float-btn').classList.remove('hidden');
             }
         };
 
-        // Menu Load Karo
+        // Menu Load Karo + Loader Chhupao
         async function fetchMenu() {
             try {
                 const res = await fetch(SCRIPT_URL + "?get=menu");
                 menuData = await res.json();
                 renderUI();
+                
+                // ✨ Jaise hi data load hoga, Loading screen gayab ho jayegi
+                setTimeout(() => {
+                    document.getElementById('menu-loader').style.opacity = '0';
+                    setTimeout(() => document.getElementById('menu-loader').classList.add('hidden'), 500);
+                }, 500); // Thoda smooth effect ke liye half second ka delay
+
             } catch (e) {
-                document.getElementById('category-tabs').innerHTML = "<p class='text-xs text-red-200'>Fetch Error!</p>";
+                document.getElementById('menu-loader').innerHTML = `
+                    <div class="text-center">
+                        <div class="text-5xl mb-4">😢</div>
+                        <h2 class="text-xl font-black text-red-600">Menu Load Nahi Hua!</h2>
+                        <p class="text-sm text-slate-500 mt-2">Internet connection check karein.</p>
+                        <button onclick="location.reload()" class="mt-6 bg-orange-600 text-white px-6 py-2 rounded-xl font-bold">Refresh Page</button>
+                    </div>`;
             }
         }
 
@@ -111,7 +143,6 @@
                     <div class="space-y-4">
                         ${menuData.filter(item => item.category === cat).map(item => {
                             const qty = cart[item.id] || 0;
-                            const typeColor = item.type === "Veg" ? "text-green-500" : "text-red-500";
                             return `
                             <div class="bg-white p-4 rounded-[2rem] flex gap-4 shadow-sm border border-gray-50 items-center">
                                 <div class="relative shrink-0">
@@ -119,14 +150,17 @@
                                     ${item.label ? `<span class="absolute -top-2 -left-2 bg-red-600 text-white text-[8px] font-black px-2 py-1 rounded-md animate-pulse uppercase">${item.label}</span>` : ''}
                                 </div>
                                 <div class="flex-1">
-                                    <h3 class="font-black text-slate-800 text-sm tracking-tight">${item.name}</h3>
+                                    <div class="flex items-center gap-1 mb-1">
+                                        <span class="w-1.5 h-1.5 rounded-full ${item.type === 'Veg' ? 'bg-green-500' : 'bg-red-500'}"></span>
+                                        <h3 class="font-black text-slate-800 text-sm tracking-tight leading-tight">${item.name}</h3>
+                                    </div>
                                     <p class="text-[9px] text-gray-400 mb-1 line-clamp-1">${item.desc}</p>
                                     <p class="text-orange-600 font-black">₹${item.price}</p>
                                 </div>
-                                <div class="flex items-center gap-2 bg-gray-100 p-1.5 rounded-2xl">
-                                    <button onclick="updateQty(${item.id}, -1)" class="w-8 h-8 bg-white rounded-xl font-bold shadow-sm">-</button>
+                                <div class="flex items-center gap-2 bg-gray-100 p-1.5 rounded-2xl shrink-0">
+                                    <button onclick="updateQty(${item.id}, -1)" class="w-7 h-7 flex items-center justify-center bg-white rounded-xl font-bold shadow-sm">-</button>
                                     <span class="font-black text-sm w-4 text-center">${qty}</span>
-                                    <button onclick="updateQty(${item.id}, 1)" class="w-8 h-8 bg-orange-600 text-white rounded-xl font-bold shadow-sm">+</button>
+                                    <button onclick="updateQty(${item.id}, 1)" class="w-7 h-7 flex items-center justify-center bg-orange-600 text-white rounded-xl font-bold shadow-sm">+</button>
                                 </div>
                             </div>`;
                         }).join('')}
@@ -156,7 +190,6 @@
             
             const invID = "VJ-" + Math.floor(Math.random() * 9000 + 1000);
             
-            // ✨ LOCAL STORAGE: Naya Order ID save karo
             currentOrderID = invID;
             localStorage.setItem('activeVijayOrder', invID); 
             
@@ -181,7 +214,6 @@
                 orderBtn.classList.replace('bg-slate-900', 'bg-green-600');
                 document.getElementById('track-float-btn').classList.remove('hidden');
                 
-                // Cart khali kar do taaki aur order kar sake
                 cart = {};
                 document.getElementById('total-price').innerText = "0";
                 document.getElementById('cart-bar').classList.add('hidden');
@@ -200,7 +232,7 @@
 
         function goToTracking() {
             if(currentOrderID) {
-                const timeStamp = new Date().getTime(); // Cache buster
+                const timeStamp = new Date().getTime(); 
                 window.location.href = "https://www.growft.online/tracorder/index.html?id=" + currentOrderID + "&v=" + timeStamp;
             }
         }
