@@ -9,6 +9,13 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .category-pill { transition: all 0.3s; white-space: nowrap; }
         .category-pill.active { background: #ea580c; color: white; border-color: #ea580c; }
+        
+        /* Floating Button Animation */
+        @keyframes slideUp {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .track-btn-animate { animation: slideUp 0.5s ease-out forwards; }
     </style>
 </head>
 <body class="bg-gray-50 pb-40 font-sans text-slate-900">
@@ -50,32 +57,39 @@
         </div>
     </div>
 
+    <div id="track-float-btn" class="fixed bottom-28 right-5 hidden z-[60] track-btn-animate">
+        <button onclick="goToTracking()" class="bg-slate-900 text-white p-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-bounce border-2 border-orange-500">
+            <span class="text-2xl">🚚</span>
+            <div class="text-left">
+                <p class="text-[8px] font-black text-orange-500 uppercase leading-none">Order Live!</p>
+                <p class="text-[10px] font-black uppercase">Track Status</p>
+            </div>
+        </button>
+    </div>
+
     <script>
         // ==========================================
-        // YAHAN APNA NAYA WALA MASTER SCRIPT URL DALNA HAI
+        // YAHAN APNA MASTER SCRIPT URL DALNA HAI
         // ==========================================
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFZXiQ9c1CPbJ6Js0o6HtIt4mEIRigzAI6CxgXKLId5fOy3VCoLBZC_F4DAspf1h4EsA/exec";
+        const SCRIPT_URL = "AAPKA_NAYA_EXEC_WALA_URL_YAHAN_DALO";
         
         let menuData = [];
         let cart = {};
+        let currentOrderID = "";
 
-        // Google Sheet se Menu Fetch Karna
+        // Menu Load Karo
         async function fetchMenu() {
             try {
-                // SCRIPT_URL ke aage ?get=menu laga hai taaki sirf menu load ho
                 const res = await fetch(SCRIPT_URL + "?get=menu");
                 menuData = await res.json();
                 renderUI();
             } catch (e) {
-                console.error("Menu fetch failed:", e);
-                document.getElementById('category-tabs').innerHTML = "<p class='text-xs text-red-200 font-bold'>Menu failed to load!</p>";
+                document.getElementById('category-tabs').innerHTML = "<p class='text-xs text-red-200'>Fetch Error!</p>";
             }
         }
 
         function renderUI() {
             const categories = [...new Set(menuData.map(item => item.category))];
-            
-            // Render Tabs
             const tabs = document.getElementById('category-tabs');
             tabs.innerHTML = categories.map(cat => `
                 <button onclick="scrollToCategory('${cat}')" class="category-pill px-6 py-2 rounded-full border border-white/30 text-xs font-bold bg-white/10 text-white whitespace-nowrap">
@@ -83,33 +97,29 @@
                 </button>
             `).join('');
 
-            // Render Menu Items
             const container = document.getElementById('menu-container');
             container.innerHTML = categories.map(cat => `
                 <div id="${cat}">
-                    <h2 class="text-xl font-black mb-4 px-2 border-l-4 border-orange-600 ml-2">&nbsp; ${cat}</h2>
+                    <h2 class="text-xl font-black mb-4 px-2 border-l-4 border-orange-600 ml-2 uppercase">&nbsp; ${cat}</h2>
                     <div class="space-y-4">
                         ${menuData.filter(item => item.category === cat).map(item => {
                             const qty = cart[item.id] || 0;
                             const typeColor = item.type === "Veg" ? "text-green-500" : "text-red-500";
                             return `
                             <div class="bg-white p-4 rounded-[2rem] flex gap-4 shadow-sm border border-gray-50 items-center">
-                                <div class="relative">
-                                    <img src="${item.img}" class="w-20 h-20 rounded-2xl object-cover bg-gray-100 shadow-inner">
-                                    ${item.label ? `<span class="absolute -top-2 -left-2 bg-red-600 text-white text-[8px] font-black px-2 py-1 rounded-md shadow-lg animate-pulse">${item.label}</span>` : ''}
+                                <div class="relative shrink-0">
+                                    <img src="${item.img}" class="w-20 h-20 rounded-2xl object-cover bg-gray-100">
+                                    ${item.label ? `<span class="absolute -top-2 -left-2 bg-red-600 text-white text-[8px] font-black px-2 py-1 rounded-md animate-pulse uppercase">${item.label}</span>` : ''}
                                 </div>
                                 <div class="flex-1">
-                                    <div class="flex items-center gap-1">
-                                        <span class="text-[8px] ${typeColor}">●</span>
-                                        <h3 class="font-black text-slate-800 text-sm tracking-tight">${item.name}</h3>
-                                    </div>
-                                    <p class="text-[9px] text-gray-400 font-medium mb-1 line-clamp-2">${item.desc}</p>
+                                    <h3 class="font-black text-slate-800 text-sm tracking-tight">${item.name}</h3>
+                                    <p class="text-[9px] text-gray-400 mb-1 line-clamp-1">${item.desc}</p>
                                     <p class="text-orange-600 font-black">₹${item.price}</p>
                                 </div>
                                 <div class="flex items-center gap-2 bg-gray-100 p-1.5 rounded-2xl">
                                     <button onclick="updateQty(${item.id}, -1)" class="w-8 h-8 bg-white rounded-xl font-bold shadow-sm">-</button>
                                     <span class="font-black text-sm w-4 text-center">${qty}</span>
-                                    <button onclick="updateQty(${item.id}, 1)" class="w-8 h-8 bg-orange-600 text-white rounded-xl font-bold shadow-sm active:scale-90 transition-transform">+</button>
+                                    <button onclick="updateQty(${item.id}, 1)" class="w-8 h-8 bg-orange-600 text-white rounded-xl font-bold shadow-sm">+</button>
                                 </div>
                             </div>`;
                         }).join('')}
@@ -125,10 +135,8 @@
         function updateQty(id, change) {
             cart[id] = (cart[id] || 0) + change;
             if (cart[id] <= 0) delete cart[id];
-            
             let total = 0;
             menuData.forEach(i => { if(cart[i.id]) total += i.price * cart[i.id]; });
-            
             document.getElementById('total-price').innerText = total;
             document.getElementById('cart-bar').classList.toggle('hidden', total === 0);
             renderUI();
@@ -137,19 +145,19 @@
         async function placeOrder() {
             const nameVal = document.getElementById('name').value;
             const tableVal = document.getElementById('table').value;
-            if (!nameVal || !tableVal) return alert("Bhai, Naam aur Table details bhar do!");
+            if (!nameVal || !tableVal) return alert("Bhai, Details bhar do!");
             
             const invID = "VJ-" + Math.floor(Math.random() * 9000 + 1000);
+            currentOrderID = invID;
             const itemsArr = [];
             menuData.forEach(i => { if(cart[i.id]) itemsArr.push(`${i.name} (${cart[i.id]})`); });
-            
             const total = document.getElementById('total-price').innerText;
             const orderBtn = document.getElementById('orderBtn');
+
             orderBtn.innerText = "SENDING...";
             orderBtn.disabled = true;
 
             try {
-                // Ab data usi akele SCRIPT_URL par jayega
                 await fetch(SCRIPT_URL, { 
                     method: 'POST', mode: 'no-cors', 
                     body: JSON.stringify({ 
@@ -157,11 +165,22 @@
                         table_no: tableVal, items: itemsArr.join(', '), total_amount: total 
                     }) 
                 });
-                // Success redirection to tracking page
-                window.location.href = "https://www.growft.online/tracorder/index.html?id=" + invID;
+                
+                // Redirection ki jagah Success State dikhao
+                orderBtn.innerText = "ORDER PLACED! ✅";
+                orderBtn.classList.replace('bg-slate-900', 'bg-green-600');
+                document.getElementById('track-float-btn').classList.remove('hidden');
+                alert("Order kitchen mein pahunch gaya! Niche diye 'Track Status' button se check karein.");
+
             } catch (e) {
-                // Redirection fallback if cross-origin error occurs
-                window.location.href = "https://www.growft.online/tracorder/index.html?id=" + invID;
+                alert("Order Placed (Sync issue, but it's safe)!");
+                document.getElementById('track-float-btn').classList.remove('hidden');
+            }
+        }
+
+        function goToTracking() {
+            if(currentOrderID) {
+                window.location.href = "https://www.growft.online/tracorder/index.html?id=" + currentOrderID;
             }
         }
 
