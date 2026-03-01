@@ -6,7 +6,13 @@
     <title>Cashier Dashboard - Hotel Vijay</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @media print { .no-print { display: none !important; } .kot-card { border: 1px solid black; width: 300px; padding: 15px; font-family: monospace; } }
+        /* PRINT STYLES FOR THERMAL PRINTER */
+        @media print { 
+            body * { visibility: hidden; }
+            #print-area, #print-area * { visibility: visible; color: black !important; }
+            #print-area { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 0; display: flex; justify-content: flex-start; }
+            @page { margin: 0; }
+        }
         .blink-red { animation: blinker 1s linear infinite; background-color: #450a0a !important; border: 3px solid #ef4444 !important; }
         @keyframes blinker { 50% { opacity: 0.7; } }
     </style>
@@ -34,7 +40,6 @@
     </div>
 
     <div id="analytics-section" class="max-w-7xl mx-auto hidden no-print">
-        
         <div class="bg-slate-800 p-6 rounded-3xl mb-8 flex flex-wrap gap-4 items-end border border-slate-700 shadow-xl">
             <div>
                 <label class="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-2 block">Start Date</label>
@@ -59,7 +64,7 @@
             </div>
             <div class="bg-slate-800 p-8 rounded-[2rem] border border-slate-700 shadow-xl flex justify-between items-center">
                 <div>
-                    <p class="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Total Orders Completed</p>
+                    <p class="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Total Orders</p>
                     <h2 id="report-total-orders" class="text-5xl font-black text-blue-400">0</h2>
                 </div>
                 <div class="text-5xl opacity-20">📦</div>
@@ -74,7 +79,7 @@
         </div>
     </div>
 
-    <div id="print-area" class="hidden"></div>
+    <div id="print-area" class="w-full"></div>
 
     <script>
         // ==========================================
@@ -83,16 +88,13 @@
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFZXiQ9c1CPbJ6Js0o6HtIt4mEIRigzAI6CxgXKLId5fOy3VCoLBZC_F4DAspf1h4EsA/exec";
         
         let lastOrderCount = 0;
-        let allRawOrders = []; // Analytics ke liye saara data yahan store hoga
+        let allRawOrders = []; 
         const alertSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
 
-        // 🔄 Tab Switch Function
         function switchTab(tab) {
             document.getElementById('orders-grid').classList.toggle('hidden', tab !== 'orders');
             document.getElementById('analytics-section').classList.toggle('hidden', tab !== 'analytics');
-            
             document.getElementById('tab-orders').className = tab === 'orders' ? 'bg-orange-600 px-8 py-3 rounded-2xl font-black shadow-lg shadow-orange-900/50 transition-all text-sm uppercase tracking-widest' : 'bg-slate-800 hover:bg-slate-700 px-8 py-3 rounded-2xl font-black text-slate-400 transition-all text-sm uppercase tracking-widest';
-            
             document.getElementById('tab-analytics').className = tab === 'analytics' ? 'bg-orange-600 px-8 py-3 rounded-2xl font-black shadow-lg shadow-orange-900/50 transition-all text-sm uppercase tracking-widest' : 'bg-slate-800 hover:bg-slate-700 px-8 py-3 rounded-2xl font-black text-slate-400 transition-all text-sm uppercase tracking-widest';
         }
 
@@ -101,14 +103,11 @@
                 const res = await fetch(SCRIPT_URL + "?t=" + new Date().getTime());
                 allRawOrders = await res.json();
                 
-                // Sirf Pending aur Preparing wale orders grid me dikhenge
                 const validOrders = allRawOrders.filter(o => o.invoice_no && o.status !== "Served" && o.status !== "Rejected").reverse();
-                
                 if (validOrders.length > lastOrderCount && lastOrderCount !== 0) {
-                    alertSound.play().catch(e => console.log("Audio needs interaction"));
+                    alertSound.play().catch(e => console.log("Audio needed"));
                 }
                 lastOrderCount = validOrders.length;
-                
                 renderOrders(validOrders);
             } catch (e) { console.log("Fetch Error"); }
         }
@@ -126,18 +125,12 @@
                 
                 let buttonsHtml = '';
                 if (order.status === 'Pending') {
-                    buttonsHtml = `
-                        <button onclick="updateStatus('${order.invoice_no}', 'Preparing')" class="bg-green-600 hover:bg-green-700 p-3 rounded-xl text-[10px] font-black uppercase transition-all active:scale-95">✅ Accept</button>
-                        <button onclick="updateStatus('${order.invoice_no}', 'Rejected')" class="bg-red-600 hover:bg-red-700 p-3 rounded-xl text-[10px] font-black uppercase transition-all active:scale-95">❌ Reject</button>
-                    `;
+                    buttonsHtml = `<button onclick="updateStatus('${order.invoice_no}', 'Preparing')" class="bg-green-600 hover:bg-green-700 p-3 rounded-xl text-[10px] font-black uppercase transition-all active:scale-95">✅ Accept</button>
+                                   <button onclick="updateStatus('${order.invoice_no}', 'Rejected')" class="bg-red-600 hover:bg-red-700 p-3 rounded-xl text-[10px] font-black uppercase transition-all active:scale-95">❌ Reject</button>`;
                 } else if (order.status === 'Preparing') {
-                    buttonsHtml = `
-                        <button onclick="updateStatus('${order.invoice_no}', 'Ready')" class="col-span-2 bg-blue-600 hover:bg-blue-700 p-3 rounded-xl text-[10px] font-black uppercase transition-all active:scale-95">🍲 Mark Ready</button>
-                    `;
+                    buttonsHtml = `<button onclick="updateStatus('${order.invoice_no}', 'Ready')" class="col-span-2 bg-blue-600 hover:bg-blue-700 p-3 rounded-xl text-[10px] font-black uppercase transition-all active:scale-95">🍲 Mark Ready</button>`;
                 } else if (order.status === 'Ready') {
-                    buttonsHtml = `
-                        <button onclick="updateStatus('${order.invoice_no}', 'Served')" class="col-span-2 bg-purple-600 hover:bg-purple-700 p-3 rounded-xl text-[10px] font-black uppercase transition-all active:scale-95">🏁 Order Completed</button>
-                    `;
+                    buttonsHtml = `<button onclick="updateStatus('${order.invoice_no}', 'Served')" class="col-span-2 bg-purple-600 hover:bg-purple-700 p-3 rounded-xl text-[10px] font-black uppercase transition-all active:scale-95">🏁 Order Completed</button>`;
                 }
 
                 return `
@@ -146,61 +139,147 @@
                         <span class="bg-orange-600/20 text-orange-500 text-[10px] px-3 py-1 rounded-full font-black uppercase">Table ${order.table_no}</span>
                         <span class="text-[10px] text-slate-500 font-bold">#${order.invoice_no}</span>
                     </div>
-
                     <h2 class="text-xl font-black truncate mb-1">${order.customer_name}</h2>
                     <p class="text-[10px] text-slate-400 font-bold uppercase mb-4">Status: <span class="text-white">${order.status}</span></p>
-
                     <div class="bg-slate-900/50 p-4 rounded-2xl mb-6 min-h-[80px] text-sm font-bold text-orange-50/80 leading-relaxed border border-slate-700/30">
                         ${order.items}
                     </div>
-
                     <div class="grid grid-cols-2 gap-2 no-print">
                         ${buttonsHtml}
-                        <button onclick="printKOT('${order.invoice_no}', '${order.customer_name}', '${order.table_no}', '${order.items}')" class="col-span-2 bg-slate-700 hover:bg-slate-600 p-2 rounded-xl text-[10px] font-black uppercase mt-2 border border-slate-600">🖨️ Print KOT</button>
+                        <button onclick='printProperKOT("${order.invoice_no}", "${order.customer_name}", "${order.table_no}", \`${order.items}\`)' class="col-span-2 bg-slate-700 hover:bg-slate-600 p-2 rounded-xl text-[10px] font-black uppercase mt-2 border border-slate-600">🖨️ Print KOT</button>
                     </div>
-
-                    ${isAsked ? '<div class="absolute top-2 right-2 animate-bounce bg-red-600 text-[8px] px-2 py-1 rounded font-black">CUSTOMER ASKING!</div>' : ''}
                 </div>`;
             }).join('');
         }
 
-        // 📊 SALES REPORT GENERATOR
+        async function updateStatus(inv, newStatus) {
+            try {
+                await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ action: "update", invoice_no: inv, new_status: newStatus }) });
+                fetchOrders(); 
+            } catch (e) { alert("Update failed!"); }
+        }
+
+        // ==========================================
+        // ✨ NAYA KOT PRINT FUNCTION (AS PER PHOTO)
+        // ==========================================
+        function printProperKOT(inv, name, table, itemsString) {
+            const printArea = document.getElementById('print-area');
+            const now = new Date();
+            
+            // Format Date like 18-Apr-2024
+            const dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
+            // Format Time like 4:49 pm
+            const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }).toLowerCase();
+
+            // Extract item names and quantities
+            let itemsHtml = '';
+            let totalQty = 0;
+            let count = 1;
+
+            if (itemsString) {
+                const parts = itemsString.split(',');
+                parts.forEach(p => {
+                    // Ye logic "Masala Papad (2)" ko split karega
+                    const match = p.match(/(.+?)\s*\((\d+)\)/);
+                    if (match) {
+                        const itemName = match[1].trim().toUpperCase();
+                        const qty = parseInt(match[2]);
+                        totalQty += qty;
+                        
+                        itemsHtml += `
+                            <tr>
+                                <td style="padding: 4px 0; border-bottom: 1px dotted #000; font-size: 13px;">${count}</td>
+                                <td style="padding: 4px 0; border-bottom: 1px dotted #000; font-size: 13px;">${itemName}</td>
+                                <td style="padding: 4px 0; border-bottom: 1px dotted #000; text-align: center; font-size: 13px;">QTY</td>
+                                <td style="padding: 4px 0; border-bottom: 1px dotted #000; text-align: right; font-weight: bold; font-size: 14px;">${qty}</td>
+                            </tr>
+                        `;
+                        count++;
+                    }
+                });
+            }
+
+            // Proper Thermal KOT HTML Design
+            printArea.innerHTML = `
+                <div style="width: 300px; font-family: 'Courier New', Courier, monospace; color: #000; background: #fff; padding: 10px;">
+                    
+                    <h3 style="text-align: center; margin: 0 0 15px 0; font-size: 16px; font-weight: bold;">
+                        HOTEL VIJAY<br>
+                        <span style="font-size: 14px;">Kitchen</span>
+                    </h3>
+
+                    <div style="font-size: 13px; line-height: 1.6; margin-bottom: 10px;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <div><b>Date :</b> ${dateStr}-${timeStr}</div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <div><b>Kot #</b> ${inv}</div>
+                            <div><b>Type :</b> dinin</div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <div><b>Waiter:</b> ${name}</div>
+                            <div><b>Table:</b> ${table}</div>
+                        </div>
+                    </div>
+
+                    <h4 style="text-align: center; margin: 10px 0; font-size: 16px; border-bottom: 2px solid #000; font-weight: bold;">KOT</h4>
+
+                    <table style="width: 100%; border-collapse: collapse; text-align: left; margin-bottom: 5px;">
+                        <thead>
+                            <tr style="border-bottom: 1px dashed #000; font-size: 14px;">
+                                <th style="padding-bottom: 5px; width: 10%;">#</th>
+                                <th style="padding-bottom: 5px; width: 55%;">Product</th>
+                                <th style="padding-bottom: 5px; text-align: center; width: 20%;">Uom</th>
+                                <th style="padding-bottom: 5px; text-align: right; width: 15%;">Qty</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${itemsHtml}
+                        </tbody>
+                    </table>
+
+                    <div style="display: flex; justify-content: flex-end; margin-top: 5px;">
+                        <div style="border: 1px solid #000; padding: 2px 10px; font-weight: bold; font-size: 15px; display: flex; gap: 40px;">
+                            <span>Total :</span>
+                            <span>${totalQty}</span>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: right; font-size: 11px; margin-top: 10px;">
+                        User: ADMIN
+                    </div>
+                </div>
+            `;
+            
+            // Print command trigger
+            window.print();
+        }
+
+        // Keep rest of your analytics generation logic exactly same
         function generateReport() {
             const startDateStr = document.getElementById('start-date').value;
             const endDateStr = document.getElementById('end-date').value;
-            
-            // Sirf "Served" (Completed) orders ko hi count karenge
             let completedOrders = allRawOrders.filter(o => o.status === "Served");
             
-            // Date logic (Agar Google sheet me timestamp hai toh filter karega)
             if(startDateStr && endDateStr) {
-                const start = new Date(startDateStr);
-                start.setHours(0,0,0,0);
-                const end = new Date(endDateStr);
-                end.setHours(23,59,59,999);
-                
+                const start = new Date(startDateStr); start.setHours(0,0,0,0);
+                const end = new Date(endDateStr); end.setHours(23,59,59,999);
                 completedOrders = completedOrders.filter(o => {
-                    if(!o.timestamp) return true; // Agar Sheet se date nahi aa rahi toh sab dikha dega
+                    if(!o.timestamp) return true; 
                     const orderDate = new Date(o.timestamp);
                     return orderDate >= start && orderDate <= end;
                 });
             }
 
-            let totalRevenue = 0;
-            let itemCounts = {};
-            let totalItemsSold = 0;
+            let totalRevenue = 0, itemCounts = {}, totalItemsSold = 0;
 
             completedOrders.forEach(order => {
                 totalRevenue += parseFloat(order.total_amount) || 0;
-                
-                // Strings break karna (e.g., "Masala Papad (2), Paneer (1)")
                 if(order.items) {
-                    const parts = order.items.split(',');
-                    parts.forEach(p => {
-                        const match = p.match(/(.+?)\s*\((\d+)\)/); // Naam aur Quantity alag nikalna
+                    order.items.split(',').forEach(p => {
+                        const match = p.match(/(.+?)\s*\((\d+)\)/);
                         if(match) {
-                            const name = match[1].trim();
-                            const qty = parseInt(match[2]);
+                            const name = match[1].trim(); const qty = parseInt(match[2]);
                             itemCounts[name] = (itemCounts[name] || 0) + qty;
                             totalItemsSold += qty;
                         }
@@ -208,41 +287,26 @@
                 }
             });
 
-            // Update UI
             document.getElementById('report-total-revenue').innerText = "₹" + totalRevenue;
             document.getElementById('report-total-orders').innerText = completedOrders.length;
 
-            // Generate Progress Bars for Items
             const itemListHtml = Object.keys(itemCounts).sort((a,b) => itemCounts[b] - itemCounts[a]).map(itemName => {
                 const qty = itemCounts[itemName];
                 const percentage = totalItemsSold > 0 ? ((qty / totalItemsSold) * 100).toFixed(1) : 0;
-                return `
-                <div class="mb-4">
-                    <div class="flex justify-between text-sm font-bold mb-2">
-                        <span>${itemName}</span>
-                        <span class="text-orange-400">${qty} Sold <span class="text-slate-500 text-xs ml-1">(${percentage}%)</span></span>
-                    </div>
-                    <div class="w-full bg-slate-700/50 rounded-full h-3 border border-slate-700">
-                        <div class="bg-gradient-to-r from-orange-600 to-orange-400 h-3 rounded-full shadow-[0_0_10px_rgba(234,88,12,0.5)]" style="width: ${percentage}%"></div>
-                    </div>
-                </div>
-                `;
+                return `<div class="mb-4">
+                            <div class="flex justify-between text-sm font-bold mb-2">
+                                <span>${itemName}</span>
+                                <span class="text-orange-400">${qty} Sold <span class="text-slate-500 text-xs ml-1">(${percentage}%)</span></span>
+                            </div>
+                            <div class="w-full bg-slate-700/50 rounded-full h-3 border border-slate-700">
+                                <div class="bg-gradient-to-r from-orange-600 to-orange-400 h-3 rounded-full shadow-[0_0_10px_rgba(234,88,12,0.5)]" style="width: ${percentage}%"></div>
+                            </div>
+                        </div>`;
             }).join('');
 
             document.getElementById('item-sales-list').innerHTML = itemListHtml || '<p class="text-slate-500 text-sm font-bold text-center py-10">Is date range mein koi order complete nahi hua.</p>';
         }
 
-        async function updateStatus(inv, newStatus) {
-            try {
-                await fetch(SCRIPT_URL, {
-                    method: 'POST', mode: 'no-cors',
-                    body: JSON.stringify({ action: "update", invoice_no: inv, new_status: newStatus })
-                });
-                fetchOrders(); 
-            } catch (e) { alert("Update failed!"); }
-        }
-
-        function printKOT(inv, name, table, items) { /* Same Code */ }
         document.body.addEventListener('click', () => alertSound.play().then(() => alertSound.pause()), {once: true});
         setInterval(fetchOrders, 7000);
         fetchOrders();
