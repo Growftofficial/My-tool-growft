@@ -15,12 +15,19 @@
 </head>
 <body class="bg-slate-50 font-sans text-slate-900 pb-10">
 
-    <div class="bg-white p-6 shadow-sm flex justify-between items-center sticky top-0 z-50 border-b border-slate-100">
-        <div>
-            <h1 class="text-xl font-black italic text-orange-600">HOTEL VIJAY</h1>
-            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Live Order Tracking</p>
+    <div class="bg-white p-4 shadow-sm flex justify-between items-center sticky top-0 z-50 border-b border-slate-100">
+        <div class="flex items-center gap-3">
+            <button onclick="goBackToMenu()" class="bg-slate-100 p-2 rounded-xl hover:bg-slate-200 transition-all active:scale-90">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <div>
+                <h1 class="text-lg font-black italic text-orange-600 leading-none">HOTEL VIJAY</h1>
+                <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest">Live Order Tracking</p>
+            </div>
         </div>
-        <div class="bg-slate-100 px-4 py-2 rounded-2xl text-[10px] font-black tracking-tighter">
+        <div class="bg-slate-100 px-3 py-1.5 rounded-xl text-[10px] font-black tracking-tighter">
             ID: <span id="display-id" class="text-orange-600">#0000</span>
         </div>
     </div>
@@ -77,20 +84,23 @@
     </div>
 
     <script>
-        // ==========================================
-        // YAHAN APNA NAYA WALA MASTER SCRIPT URL DALNA HAI
-        // ==========================================
+        // Aapka Master Script URL
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFZXiQ9c1CPbJ6Js0o6HtIt4mEIRigzAI6CxgXKLId5fOy3VCoLBZC_F4DAspf1h4EsA/exec";
         
         const urlParams = new URLSearchParams(window.location.search);
         const orderId = urlParams.get('id');
-        document.getElementById('display-id').innerText = "#" + orderId;
+        document.getElementById('display-id').innerText = "#" + (orderId || "0000");
+
+        // ✨ Wapas Menu par jaane ka function
+        function goBackToMenu() {
+            window.location.href = "https://www.growft.online/hotelvijay/index.html"; 
+        }
 
         async function checkStatus() {
             if (!orderId) return;
             try {
-                // Master script se orders ka data fetch karega
-                const res = await fetch(SCRIPT_URL);
+                // Time parameter add kiya taaki hamesha fresh data mile
+                const res = await fetch(SCRIPT_URL + "?t=" + new Date().getTime());
                 const orders = await res.json();
                 const myOrder = orders.find(o => o.invoice_no === orderId);
 
@@ -120,7 +130,7 @@
                 sText.innerText = "READY! 🔥";
                 sDesc.innerText = "Aapka khana taiyar hai! Table par check kijiye.";
                 document.querySelectorAll('.step-icon').forEach(el => el.parentElement.classList.add('step-active'));
-                // Vibrate if mobile
+                
                 if(window.navigator.vibrate) window.navigator.vibrate([200, 100, 200]);
             }
         }
@@ -131,7 +141,6 @@
             btn.disabled = true;
 
             try {
-                // Master script par POST request bhejega status pochne ke liye
                 await fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
@@ -146,7 +155,6 @@
             }, 5000);
         }
 
-        // Live checking every 5 seconds
         setInterval(checkStatus, 5000);
         checkStatus();
     </script>
