@@ -32,21 +32,21 @@
 
     <script>
         // ==========================================
-        // YAHAN APNA NAYA WALA MASTER SCRIPT URL DALNA HAI
+        // YAHAN APNA MASTER SCRIPT URL DALNA HAI
         // ==========================================
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFZXiQ9c1CPbJ6Js0o6HtIt4mEIRigzAI6CxgXKLId5fOy3VCoLBZC_F4DAspf1h4EsA/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyoPLJQuM2p9F_ptJfNScpmWFuNp8DOJtdyU5NJsYTq/dev";
         
         let lastOrderCount = 0;
         const alertSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
 
         async function fetchOrders() {
             try {
-                // SCRIPT_URL par direct GET request Orders laayegi
                 const res = await fetch(SCRIPT_URL + "?t=" + new Date().getTime());
                 const data = await res.json();
-                const validOrders = data.filter(o => o.invoice_no && o.status !== "Served").reverse();
                 
-                // Sound logic for new orders
+                // NAYA LOGIC: 'Served' aur 'Rejected' orders cashier screen se hat jayenge
+                const validOrders = data.filter(o => o.invoice_no && o.status !== "Served" && o.status !== "Rejected").reverse();
+                
                 if (validOrders.length > lastOrderCount && lastOrderCount !== 0) {
                     alertSound.play().catch(e => console.log("Audio needs interaction"));
                 }
@@ -59,7 +59,7 @@
         function renderOrders(orders) {
             const grid = document.getElementById('orders-grid');
             if(orders.length === 0) {
-                grid.innerHTML = '<div class="text-center col-span-full py-20 text-slate-700 font-bold animate-pulse">Waiting for new orders...</div>';
+                grid.innerHTML = '<div class="text-center col-span-full py-20 text-slate-700 font-bold animate-pulse">No Active Orders...</div>';
                 return;
             }
             
@@ -67,6 +67,23 @@
                 const isAsked = order.query_status === "Asked";
                 const cardClass = isAsked ? "bg-slate-800 p-6 rounded-[2.5rem] border-2 blink-red" : "bg-slate-800 p-6 rounded-[2.5rem] border border-slate-700";
                 
+                // NAYA LOGIC: Status ke hisaab se alag-alag buttons dikhenge
+                let buttonsHtml = '';
+                if (order.status === 'Pending') {
+                    buttonsHtml = `
+                        <button onclick="updateStatus('${order.invoice_no}', 'Preparing')" class="bg-green-600 hover:bg-green-700 p-3 rounded-xl text-[10px] font-black uppercase transition-all active:scale-95">✅ Accept</button>
+                        <button onclick="updateStatus('${order.invoice_no}', 'Rejected')" class="bg-red-600 hover:bg-red-700 p-3 rounded-xl text-[10px] font-black uppercase transition-all active:scale-95">❌ Reject</button>
+                    `;
+                } else if (order.status === 'Preparing') {
+                    buttonsHtml = `
+                        <button onclick="updateStatus('${order.invoice_no}', 'Ready')" class="col-span-2 bg-blue-600 hover:bg-blue-700 p-3 rounded-xl text-[10px] font-black uppercase transition-all active:scale-95">🍲 Mark Ready</button>
+                    `;
+                } else if (order.status === 'Ready') {
+                    buttonsHtml = `
+                        <button onclick="updateStatus('${order.invoice_no}', 'Served')" class="col-span-2 bg-purple-600 hover:bg-purple-700 p-3 rounded-xl text-[10px] font-black uppercase transition-all active:scale-95">🏁 Order Completed</button>
+                    `;
+                }
+
                 return `
                 <div class="${cardClass} transition-all duration-500 relative overflow-hidden">
                     <div class="flex justify-between items-start mb-4">
@@ -82,8 +99,7 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-2 no-print">
-                        <button onclick="updateStatus('${order.invoice_no}', 'Preparing')" class="bg-blue-600 hover:bg-blue-700 p-3 rounded-xl text-[10px] font-black uppercase transition-all active:scale-95">Preparing</button>
-                        <button onclick="updateStatus('${order.invoice_no}', 'Ready')" class="bg-green-600 hover:bg-green-700 p-3 rounded-xl text-[10px] font-black uppercase transition-all active:scale-95">Ready</button>
+                        ${buttonsHtml}
                         <button onclick="printKOT('${order.invoice_no}', '${order.customer_name}', '${order.table_no}', '${order.items}')" class="col-span-2 bg-slate-700 hover:bg-slate-600 p-2 rounded-xl text-[10px] font-black uppercase mt-2 border border-slate-600">🖨️ Print KOT</button>
                     </div>
 
@@ -99,7 +115,13 @@
                     mode: 'no-cors',
                     body: JSON.stringify({ action: "update", invoice_no: inv, new_status: newStatus })
                 });
-                fetchOrders(); // Turant naya status dikhane ke liye
+                
+                // Turant UI update karne ke liye
+                fetchOrders(); 
+                
+                if(newStatus === 'Served' || newStatus === 'Rejected') {
+                    alert("Order removed from active list.");
+                }
             } catch (e) { alert("Update failed!"); }
         }
 
@@ -123,10 +145,7 @@
             window.print();
         }
 
-        // Click anywhere to enable Audio
         document.body.addEventListener('click', () => alertSound.play().then(() => alertSound.pause()), {once: true});
-
-        // Auto Refresh every 7 seconds
         setInterval(fetchOrders, 7000);
         fetchOrders();
     </script>
