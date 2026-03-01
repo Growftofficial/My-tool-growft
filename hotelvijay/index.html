@@ -73,7 +73,16 @@
         
         let menuData = [];
         let cart = {};
-        let currentOrderID = "";
+        
+        // ✨ LOCAL STORAGE: Page load hote hi check karega ki koi purana order to nahi hai
+        let currentOrderID = localStorage.getItem('activeVijayOrder') || "";
+
+        // Agar purana order mil gaya, toh Track Button apne aap dikha do
+        window.onload = () => {
+            if(currentOrderID) {
+                document.getElementById('track-float-btn').classList.remove('hidden');
+            }
+        };
 
         // Menu Load Karo
         async function fetchMenu() {
@@ -146,7 +155,11 @@
             if (!nameVal || !tableVal) return alert("Bhai, Naam aur Table number bhool gaye!");
             
             const invID = "VJ-" + Math.floor(Math.random() * 9000 + 1000);
-            currentOrderID = invID; // Save ID for tracking button
+            
+            // ✨ LOCAL STORAGE: Naya Order ID save karo
+            currentOrderID = invID;
+            localStorage.setItem('activeVijayOrder', invID); 
+            
             const itemsArr = [];
             menuData.forEach(i => { if(cart[i.id]) itemsArr.push(`${i.name} (${cart[i.id]})`); });
             const total = document.getElementById('total-price').innerText;
@@ -164,28 +177,34 @@
                     }) 
                 });
                 
-                // ✨ DIRECT REDIRECT HATA DIYA HAI - Sirf UI update hoga
                 orderBtn.innerText = "ORDER PLACED! ✅";
                 orderBtn.classList.replace('bg-slate-900', 'bg-green-600');
                 document.getElementById('track-float-btn').classList.remove('hidden');
+                
+                // Cart khali kar do taaki aur order kar sake
+                cart = {};
+                document.getElementById('total-price').innerText = "0";
+                document.getElementById('cart-bar').classList.add('hidden');
+                renderUI();
+
                 alert("Order kitchen mein pahunch gaya! Niche 'Track Status' button se check karein.");
 
             } catch (e) {
-                // Agar network issue ho toh bhi success dikhao (CORS ki wajah se error aa sakta hai)
                 orderBtn.innerText = "ORDER PLACED! ✅";
                 orderBtn.classList.replace('bg-slate-900', 'bg-green-600');
                 document.getElementById('track-float-btn').classList.remove('hidden');
+                cart = {};
+                renderUI();
             }
         }
 
         function goToTracking() {
-    if(currentOrderID) {
-        // Niche wale link mein maine ek time-stamp jodd diya hai 
-        // Isse browser ko lagega ye naya link hai aur wo har baar naya page load karega!
-        const timeStamp = new Date().getTime();
-        window.location.href = "https://www.growft.online/tracorder/index.html?id=" + currentOrderID + "&v=" + timeStamp;
-    }
-}
+            if(currentOrderID) {
+                const timeStamp = new Date().getTime(); // Cache buster
+                window.location.href = "https://www.growft.online/tracorder/index.html?id=" + currentOrderID + "&v=" + timeStamp;
+            }
+        }
+
         fetchMenu();
     </script>
 </body>
