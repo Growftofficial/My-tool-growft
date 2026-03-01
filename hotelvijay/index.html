@@ -1,61 +1,6 @@
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotel Vijay - Smart Menu</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .category-pill { transition: all 0.3s; white-space: nowrap; }
-        .category-pill.active { background: #ea580c; color: white; border-color: #ea580c; }
-    </style>
-</head>
-<body class="bg-gray-50 pb-40 font-sans text-slate-900">
-
-    <div class="bg-orange-600 text-white p-6 pb-12 rounded-b-[3rem] shadow-xl sticky top-0 z-50">
-        <div class="flex justify-between items-center mb-4">
-            <div>
-                <h1 class="text-3xl font-black italic tracking-tighter uppercase">Hotel Vijay</h1>
-                <p class="text-[10px] font-bold opacity-80 uppercase tracking-widest">Growft Digital Menu</p>
-            </div>
-            <div class="bg-white/20 p-2 rounded-2xl backdrop-blur-md text-xs font-bold border border-white/30">
-                Table: <span id="display-table">--</span>
-            </div>
-        </div>
-        
-        <div class="flex gap-2 overflow-x-auto no-scrollbar py-2" id="category-tabs">
-            <p class="text-xs animate-pulse text-white/50">Loading Menu...</p>
-        </div>
-    </div>
-
-    <div class="max-w-md mx-auto -mt-6 p-4">
-        <div class="bg-white p-6 rounded-[2rem] shadow-sm mb-6 border border-gray-100 flex gap-4">
-            <input id="name" type="text" placeholder="Aapka Naam" class="w-full bg-gray-50 p-4 rounded-2xl font-bold outline-none border-none text-sm focus:ring-2 focus:ring-orange-500">
-            <input id="table" type="number" placeholder="Table" class="w-24 bg-gray-50 p-4 rounded-2xl font-bold outline-none border-none text-sm focus:ring-2 focus:ring-orange-500" oninput="document.getElementById('display-table').innerText = this.value">
-        </div>
-
-        <div id="menu-container" class="space-y-8"></div>
-    </div>
-
-    <div id="cart-bar" class="fixed bottom-0 left-0 right-0 p-5 bg-white/80 backdrop-blur-xl border-t border-gray-100 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] hidden z-50">
-        <div class="max-w-md mx-auto flex justify-between items-center">
-            <div>
-                <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest">Total Bill</p>
-                <span class="text-3xl font-black text-orange-600">₹<span id="total-price">0</span></span>
-            </div>
-            <button onclick="placeOrder()" id="orderBtn" class="bg-slate-900 text-white px-10 py-4 rounded-[1.5rem] font-black active:scale-95 transition-all shadow-lg hover:bg-orange-600">
-                PLACE ORDER
-            </button>
-        </div>
-    </div>
-
-    <script>
-        // 1. MENU LOAD KARNE KE LIYE URL (Sheet 1 - Menu)
-        const MENU_URL = "https://script.google.com/macros/s/AKfycbwbXOO0nv1NeFkngHIe-GNJtv1-zB3AboUYzLKSfyVVv0Gaqepc5_KN82o6Dgt3uWUsVg/exec";
-        
-        // 2. ORDER BHEJNE KE LIYE URL (Sheet 2 - Invoice/Orders)
-        const ORDER_URL = "https://script.google.com/macros/s/AKfycbGRSd1nm0XE8WrHcbt7n0-wvpxwZaE3SamjGGv0rE5Qy6kJLBcjGP9pVoMEuQ9pcgt/exec";
+<script>
+        // YAHAN APNA NAYA WALA MASTER SCRIPT URL DALNA HAI
+        const SCRIPT_URL = "https://docs.google.com/spreadsheets/d/1eoFiwdPp3bLiD7SptnFQovSCNDYAU99xrAGh8QPHfI0/edit?usp=sharing";
         
         let menuData = [];
         let cart = {};
@@ -63,7 +8,8 @@
         // Google Sheet se Menu Fetch Karna
         async function fetchMenu() {
             try {
-                const res = await fetch(MENU_URL + "?get=menu");
+                // SCRIPT_URL ke aage ?get=menu laga hai taaki sirf menu load ho
+                const res = await fetch(SCRIPT_URL + "?get=menu");
                 menuData = await res.json();
                 renderUI();
             } catch (e) {
@@ -87,16 +33,16 @@
             const container = document.getElementById('menu-container');
             container.innerHTML = categories.map(cat => `
                 <div id="${cat}">
-                    <h2 class="text-xl font-black mb-4 px-2 border-l-4 border-orange-600 ml-2">&nbsp; ${cat}</h2>
+                    <h2 class="text-xl font-black mb-4 px-2 border-l-4 border-orange-600 ml-2 uppercase">&nbsp; ${cat}</h2>
                     <div class="space-y-4">
                         ${menuData.filter(item => item.category === cat).map(item => {
                             const qty = cart[item.id] || 0;
                             const typeColor = item.type === "Veg" ? "text-green-500" : "text-red-500";
                             return `
                             <div class="bg-white p-4 rounded-[2rem] flex gap-4 shadow-sm border border-gray-50 items-center">
-                                <div class="relative">
+                                <div class="relative shrink-0">
                                     <img src="${item.img}" class="w-20 h-20 rounded-2xl object-cover bg-gray-100 shadow-inner">
-                                    ${item.label ? `<span class="absolute -top-2 -left-2 bg-red-600 text-white text-[8px] font-black px-2 py-1 rounded-md shadow-lg animate-pulse">${item.label}</span>` : ''}
+                                    ${item.label ? `<span class="absolute -top-2 -left-2 bg-red-600 text-white text-[8px] font-black px-2 py-1 rounded-md shadow-lg animate-pulse uppercase">${item.label}</span>` : ''}
                                 </div>
                                 <div class="flex-1">
                                     <div class="flex items-center gap-1">
@@ -106,7 +52,7 @@
                                     <p class="text-[9px] text-gray-400 font-medium mb-1 line-clamp-2">${item.desc}</p>
                                     <p class="text-orange-600 font-black">₹${item.price}</p>
                                 </div>
-                                <div class="flex items-center gap-2 bg-gray-100 p-1.5 rounded-2xl">
+                                <div class="flex items-center gap-2 bg-gray-100 p-1.5 rounded-2xl shrink-0">
                                     <button onclick="updateQty(${item.id}, -1)" class="w-8 h-8 bg-white rounded-xl font-bold shadow-sm">-</button>
                                     <span class="font-black text-sm w-4 text-center">${qty}</span>
                                     <button onclick="updateQty(${item.id}, 1)" class="w-8 h-8 bg-orange-600 text-white rounded-xl font-bold shadow-sm active:scale-90 transition-transform">+</button>
@@ -137,7 +83,7 @@
         async function placeOrder() {
             const nameVal = document.getElementById('name').value;
             const tableVal = document.getElementById('table').value;
-            if (!nameVal || !tableVal) return alert("Bhai, Details bhar do!");
+            if (!nameVal || !tableVal) return alert("Bhai, Naam aur Table number bhool gaye!");
             
             const invID = "VJ-" + Math.floor(Math.random() * 9000 + 1000);
             const itemsArr = [];
@@ -149,15 +95,14 @@
             orderBtn.disabled = true;
 
             try {
-                // ORDER_URL (Invoice Data URL) par data bhej rahe hain
-                await fetch(ORDER_URL, { 
+                // Ab data usi akele SCRIPT_URL par jayega
+                await fetch(SCRIPT_URL, { 
                     method: 'POST', mode: 'no-cors', 
                     body: JSON.stringify({ 
                         action: "add", invoice_no: invID, customer_name: nameVal, 
                         table_no: tableVal, items: itemsArr.join(', '), total_amount: total 
                     }) 
                 });
-                // Success redirection to tracking page
                 window.location.href = "https://www.growft.online/tracorder/index.html?id=" + invID;
             } catch (e) {
                 window.location.href = "https://www.growft.online/tracorder/index.html?id=" + invID;
@@ -166,5 +111,3 @@
 
         fetchMenu();
     </script>
-</body>
-</html>
