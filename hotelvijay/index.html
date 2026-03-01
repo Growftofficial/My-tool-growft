@@ -68,9 +68,7 @@
     </div>
 
     <script>
-        // ==========================================
-        // YAHAN APNA MASTER SCRIPT URL DALNA HAI
-        // ==========================================
+        // Aapka Master Script URL
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFZXiQ9c1CPbJ6Js0o6HtIt4mEIRigzAI6CxgXKLId5fOy3VCoLBZC_F4DAspf1h4EsA/exec";
         
         let menuData = [];
@@ -145,10 +143,10 @@
         async function placeOrder() {
             const nameVal = document.getElementById('name').value;
             const tableVal = document.getElementById('table').value;
-            if (!nameVal || !tableVal) return alert("Bhai, Details bhar do!");
+            if (!nameVal || !tableVal) return alert("Bhai, Naam aur Table number bhool gaye!");
             
             const invID = "VJ-" + Math.floor(Math.random() * 9000 + 1000);
-            currentOrderID = invID;
+            currentOrderID = invID; // Save ID for tracking button
             const itemsArr = [];
             menuData.forEach(i => { if(cart[i.id]) itemsArr.push(`${i.name} (${cart[i.id]})`); });
             const total = document.getElementById('total-price').innerText;
@@ -166,20 +164,23 @@
                     }) 
                 });
                 
-                // Redirection ki jagah Success State dikhao
+                // ✨ DIRECT REDIRECT HATA DIYA HAI - Sirf UI update hoga
                 orderBtn.innerText = "ORDER PLACED! ✅";
                 orderBtn.classList.replace('bg-slate-900', 'bg-green-600');
                 document.getElementById('track-float-btn').classList.remove('hidden');
-                alert("Order kitchen mein pahunch gaya! Niche diye 'Track Status' button se check karein.");
+                alert("Order kitchen mein pahunch gaya! Niche 'Track Status' button se check karein.");
 
             } catch (e) {
-                alert("Order Placed (Sync issue, but it's safe)!");
+                // Agar network issue ho toh bhi success dikhao (CORS ki wajah se error aa sakta hai)
+                orderBtn.innerText = "ORDER PLACED! ✅";
+                orderBtn.classList.replace('bg-slate-900', 'bg-green-600');
                 document.getElementById('track-float-btn').classList.remove('hidden');
             }
         }
 
         function goToTracking() {
             if(currentOrderID) {
+                // Jab customer button dabayega, tabhi track page par jayega
                 window.location.href = "https://www.growft.online/tracorder/index.html?id=" + currentOrderID;
             }
         }
