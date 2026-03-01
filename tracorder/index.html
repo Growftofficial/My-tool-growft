@@ -77,15 +77,19 @@
     </div>
 
     <script>
-        // INVOICE DATA URL (Sheet 2 - Orders)
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbGRSd1nm0XE8WrHcbt7n0-wvpxwZaE3SamjGGv0rE5Qy6kJLBcjGP9pVoMEuQ9pcgt/exec";
+        // ==========================================
+        // YAHAN APNA NAYA WALA MASTER SCRIPT URL DALNA HAI
+        // ==========================================
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFZXiQ9c1CPbJ6Js0o6HtIt4mEIRigzAI6CxgXKLId5fOy3VCoLBZC_F4DAspf1h4EsA/exec";
         
         const urlParams = new URLSearchParams(window.location.search);
         const orderId = urlParams.get('id');
         document.getElementById('display-id').innerText = "#" + orderId;
 
         async function checkStatus() {
+            if (!orderId) return;
             try {
+                // Master script se orders ka data fetch karega
                 const res = await fetch(SCRIPT_URL);
                 const orders = await res.json();
                 const myOrder = orders.find(o => o.invoice_no === orderId);
@@ -127,6 +131,7 @@
             btn.disabled = true;
 
             try {
+                // Master script par POST request bhejega status pochne ke liye
                 await fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
