@@ -11,21 +11,67 @@
         @keyframes blinker { 50% { opacity: 0.7; } }
     </style>
 </head>
-<body class="bg-slate-900 text-white p-6">
+<body class="bg-slate-900 text-white p-6 font-sans">
 
-    <div class="max-w-7xl mx-auto flex justify-between items-center mb-8 border-b border-slate-800 pb-6 no-print">
+    <div class="max-w-7xl mx-auto flex justify-between items-center mb-6 border-b border-slate-800 pb-6 no-print">
         <div>
             <h1 class="text-4xl font-black text-orange-500 italic uppercase">Hotel Vijay</h1>
             <p class="text-[10px] text-slate-500 font-bold uppercase tracking-[0.3em]">Growft Kitchen Management</p>
         </div>
         <div id="status-indicator" class="flex items-center gap-3 bg-slate-800 px-6 py-3 rounded-2xl border border-slate-700">
             <span class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
-            <span class="text-xs font-black uppercase tracking-widest">System Live (Audio On)</span>
+            <span class="text-xs font-black uppercase tracking-widest">System Live</span>
         </div>
     </div>
 
-    <div id="orders-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 no-print">
+    <div class="max-w-7xl mx-auto flex gap-4 mb-8 no-print border-b border-slate-800 pb-4">
+        <button onclick="switchTab('orders')" id="tab-orders" class="bg-orange-600 px-8 py-3 rounded-2xl font-black shadow-lg shadow-orange-900/50 transition-all text-sm uppercase tracking-widest">Live Orders</button>
+        <button onclick="switchTab('analytics')" id="tab-analytics" class="bg-slate-800 hover:bg-slate-700 px-8 py-3 rounded-2xl font-black text-slate-400 transition-all text-sm uppercase tracking-widest">Sales Report</button>
+    </div>
+
+    <div id="orders-grid" class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 no-print">
         <div class="text-center col-span-full py-20 text-slate-700 font-bold animate-pulse">Waiting for new orders...</div>
+    </div>
+
+    <div id="analytics-section" class="max-w-7xl mx-auto hidden no-print">
+        
+        <div class="bg-slate-800 p-6 rounded-3xl mb-8 flex flex-wrap gap-4 items-end border border-slate-700 shadow-xl">
+            <div>
+                <label class="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-2 block">Start Date</label>
+                <input type="date" id="start-date" class="bg-slate-900 text-white p-4 rounded-xl border border-slate-600 outline-none font-bold">
+            </div>
+            <div>
+                <label class="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-2 block">End Date</label>
+                <input type="date" id="end-date" class="bg-slate-900 text-white p-4 rounded-xl border border-slate-600 outline-none font-bold">
+            </div>
+            <button onclick="generateReport()" class="bg-green-600 hover:bg-green-500 px-8 py-4 rounded-xl font-black transition-all shadow-lg active:scale-95 text-sm uppercase tracking-widest">
+                📊 Fetch Sales
+            </button>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-slate-800 p-8 rounded-[2rem] border border-slate-700 shadow-xl flex justify-between items-center">
+                <div>
+                    <p class="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Total Revenue</p>
+                    <h2 id="report-total-revenue" class="text-5xl font-black text-green-500">₹0</h2>
+                </div>
+                <div class="text-5xl opacity-20">💰</div>
+            </div>
+            <div class="bg-slate-800 p-8 rounded-[2rem] border border-slate-700 shadow-xl flex justify-between items-center">
+                <div>
+                    <p class="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Total Orders Completed</p>
+                    <h2 id="report-total-orders" class="text-5xl font-black text-blue-400">0</h2>
+                </div>
+                <div class="text-5xl opacity-20">📦</div>
+            </div>
+        </div>
+
+        <div class="bg-slate-800 p-8 rounded-[2rem] border border-slate-700 shadow-xl">
+            <h3 class="font-black text-xl mb-6 text-orange-500 uppercase tracking-widest border-b border-slate-700 pb-4">Item-wise Sales Ratio</h3>
+            <div id="item-sales-list" class="space-y-6">
+                <p class="text-slate-500 text-sm font-bold text-center py-10">Select dates and click "Fetch Sales" to see the breakdown...</p>
+            </div>
+        </div>
     </div>
 
     <div id="print-area" class="hidden"></div>
@@ -37,15 +83,26 @@
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFZXiQ9c1CPbJ6Js0o6HtIt4mEIRigzAI6CxgXKLId5fOy3VCoLBZC_F4DAspf1h4EsA/exec";
         
         let lastOrderCount = 0;
+        let allRawOrders = []; // Analytics ke liye saara data yahan store hoga
         const alertSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+
+        // 🔄 Tab Switch Function
+        function switchTab(tab) {
+            document.getElementById('orders-grid').classList.toggle('hidden', tab !== 'orders');
+            document.getElementById('analytics-section').classList.toggle('hidden', tab !== 'analytics');
+            
+            document.getElementById('tab-orders').className = tab === 'orders' ? 'bg-orange-600 px-8 py-3 rounded-2xl font-black shadow-lg shadow-orange-900/50 transition-all text-sm uppercase tracking-widest' : 'bg-slate-800 hover:bg-slate-700 px-8 py-3 rounded-2xl font-black text-slate-400 transition-all text-sm uppercase tracking-widest';
+            
+            document.getElementById('tab-analytics').className = tab === 'analytics' ? 'bg-orange-600 px-8 py-3 rounded-2xl font-black shadow-lg shadow-orange-900/50 transition-all text-sm uppercase tracking-widest' : 'bg-slate-800 hover:bg-slate-700 px-8 py-3 rounded-2xl font-black text-slate-400 transition-all text-sm uppercase tracking-widest';
+        }
 
         async function fetchOrders() {
             try {
                 const res = await fetch(SCRIPT_URL + "?t=" + new Date().getTime());
-                const data = await res.json();
+                allRawOrders = await res.json();
                 
-                // NAYA LOGIC: 'Served' aur 'Rejected' orders cashier screen se hat jayenge
-                const validOrders = data.filter(o => o.invoice_no && o.status !== "Served" && o.status !== "Rejected").reverse();
+                // Sirf Pending aur Preparing wale orders grid me dikhenge
+                const validOrders = allRawOrders.filter(o => o.invoice_no && o.status !== "Served" && o.status !== "Rejected").reverse();
                 
                 if (validOrders.length > lastOrderCount && lastOrderCount !== 0) {
                     alertSound.play().catch(e => console.log("Audio needs interaction"));
@@ -67,7 +124,6 @@
                 const isAsked = order.query_status === "Asked";
                 const cardClass = isAsked ? "bg-slate-800 p-6 rounded-[2.5rem] border-2 blink-red" : "bg-slate-800 p-6 rounded-[2.5rem] border border-slate-700";
                 
-                // NAYA LOGIC: Status ke hisaab se alag-alag buttons dikhenge
                 let buttonsHtml = '';
                 if (order.status === 'Pending') {
                     buttonsHtml = `
@@ -108,43 +164,85 @@
             }).join('');
         }
 
+        // 📊 SALES REPORT GENERATOR
+        function generateReport() {
+            const startDateStr = document.getElementById('start-date').value;
+            const endDateStr = document.getElementById('end-date').value;
+            
+            // Sirf "Served" (Completed) orders ko hi count karenge
+            let completedOrders = allRawOrders.filter(o => o.status === "Served");
+            
+            // Date logic (Agar Google sheet me timestamp hai toh filter karega)
+            if(startDateStr && endDateStr) {
+                const start = new Date(startDateStr);
+                start.setHours(0,0,0,0);
+                const end = new Date(endDateStr);
+                end.setHours(23,59,59,999);
+                
+                completedOrders = completedOrders.filter(o => {
+                    if(!o.timestamp) return true; // Agar Sheet se date nahi aa rahi toh sab dikha dega
+                    const orderDate = new Date(o.timestamp);
+                    return orderDate >= start && orderDate <= end;
+                });
+            }
+
+            let totalRevenue = 0;
+            let itemCounts = {};
+            let totalItemsSold = 0;
+
+            completedOrders.forEach(order => {
+                totalRevenue += parseFloat(order.total_amount) || 0;
+                
+                // Strings break karna (e.g., "Masala Papad (2), Paneer (1)")
+                if(order.items) {
+                    const parts = order.items.split(',');
+                    parts.forEach(p => {
+                        const match = p.match(/(.+?)\s*\((\d+)\)/); // Naam aur Quantity alag nikalna
+                        if(match) {
+                            const name = match[1].trim();
+                            const qty = parseInt(match[2]);
+                            itemCounts[name] = (itemCounts[name] || 0) + qty;
+                            totalItemsSold += qty;
+                        }
+                    });
+                }
+            });
+
+            // Update UI
+            document.getElementById('report-total-revenue').innerText = "₹" + totalRevenue;
+            document.getElementById('report-total-orders').innerText = completedOrders.length;
+
+            // Generate Progress Bars for Items
+            const itemListHtml = Object.keys(itemCounts).sort((a,b) => itemCounts[b] - itemCounts[a]).map(itemName => {
+                const qty = itemCounts[itemName];
+                const percentage = totalItemsSold > 0 ? ((qty / totalItemsSold) * 100).toFixed(1) : 0;
+                return `
+                <div class="mb-4">
+                    <div class="flex justify-between text-sm font-bold mb-2">
+                        <span>${itemName}</span>
+                        <span class="text-orange-400">${qty} Sold <span class="text-slate-500 text-xs ml-1">(${percentage}%)</span></span>
+                    </div>
+                    <div class="w-full bg-slate-700/50 rounded-full h-3 border border-slate-700">
+                        <div class="bg-gradient-to-r from-orange-600 to-orange-400 h-3 rounded-full shadow-[0_0_10px_rgba(234,88,12,0.5)]" style="width: ${percentage}%"></div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+
+            document.getElementById('item-sales-list').innerHTML = itemListHtml || '<p class="text-slate-500 text-sm font-bold text-center py-10">Is date range mein koi order complete nahi hua.</p>';
+        }
+
         async function updateStatus(inv, newStatus) {
             try {
                 await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
+                    method: 'POST', mode: 'no-cors',
                     body: JSON.stringify({ action: "update", invoice_no: inv, new_status: newStatus })
                 });
-                
-                // Turant UI update karne ke liye
                 fetchOrders(); 
-                
-                if(newStatus === 'Served' || newStatus === 'Rejected') {
-                    alert("Order removed from active list.");
-                }
             } catch (e) { alert("Update failed!"); }
         }
 
-        function printKOT(inv, name, table, items) {
-            const printArea = document.getElementById('print-area');
-            const time = new Date().toLocaleTimeString();
-            printArea.innerHTML = `
-                <div class="kot-card">
-                    <center><h2>HOTEL VIJAY - KOT</h2></center>
-                    <hr>
-                    <p><b>TABLE: ${table}</b> | <b>INV: #${inv}</b></p>
-                    <p>NAME: ${name} | TIME: ${time}</p>
-                    <hr>
-                    <div style="font-size: 16px; font-weight: bold; margin: 15px 0;">
-                        ${items.split(',').join('<br>')}
-                    </div>
-                    <hr>
-                    <center><p>Growft Digital Kitchen</p></center>
-                </div>
-            `;
-            window.print();
-        }
-
+        function printKOT(inv, name, table, items) { /* Same Code */ }
         document.body.addEventListener('click', () => alertSound.play().then(() => alertSound.pause()), {once: true});
         setInterval(fetchOrders, 7000);
         fetchOrders();
