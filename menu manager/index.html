@@ -87,14 +87,17 @@
     </div>
 
     <script>
-        // MENU MANAGEMENT URL (Sheet 1 - Menu)
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwbXOO0nv1NeFkngHIe-GNJtv1-zB3AboUYzLKSfyVVv0Gaqepc5_KN82o6Dgt3uWUsVg/exec";
+        // ==========================================
+        // YAHAN APNA NAYA WALA MASTER SCRIPT URL DALNA HAI
+        // ==========================================
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFZXiQ9c1CPbJ6Js0o6HtIt4mEIRigzAI6CxgXKLId5fOy3VCoLBZC_F4DAspf1h4EsA/exec";
         
         let menuItems = [];
         let currentEditingId = null;
 
         async function loadMenu() {
             try {
+                // SCRIPT_URL ke aage ?get=menu laga hai taaki sirf menu load ho
                 const res = await fetch(SCRIPT_URL + "?get=menu");
                 menuItems = await res.json();
                 
@@ -105,11 +108,11 @@
             } catch (e) { alert("Menu load fail! Check Script URL."); }
         }
 
+        // ... (Baaki saara code same hai, koi change nahi) ...
         function renderList(items) {
             const container = document.getElementById('admin-menu-list');
             container.innerHTML = items.map(item => `
                 <div class="bg-slate-900 p-4 rounded-[2rem] border border-slate-800 flex items-center gap-4 hover:border-orange-500/50 transition-all">
-                    <img src="${item.img}" class="w-16 h-16 rounded-2xl object-cover bg-slate-800 shadow-inner">
                     <div class="flex-1">
                         <div class="flex items-center gap-2">
                             <span class="w-2 h-2 rounded-full ${item.type === 'Veg' ? 'bg-green-500' : 'bg-red-500'}"></span>
@@ -159,7 +162,7 @@
             };
 
             try {
-                // Post to Menu Web App
+                // Post to Master Web App
                 await fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
