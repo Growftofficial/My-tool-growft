@@ -10,10 +10,30 @@
         .step-active .step-icon { background: #ea580c; box-shadow: 0 0 15px rgba(234, 88, 12, 0.4); }
         .step-active .step-text { color: #ea580c; font-weight: 900; }
         .pulse-orange { animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        
+        /* 📡 Naya Loader Animation CSS */
+        .bounce-icon { animation: bounceIcon 1s infinite alternate; }
+        @keyframes bounceIcon {
+            0% { transform: translateY(0) scale(1.1); }
+            100% { transform: translateY(-30px) scale(0.9); }
+        }
+        .shadow-pulse { animation: shadowPulse 1s infinite alternate; }
+        @keyframes shadowPulse {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(0.5); opacity: 0.1; }
+        }
     </style>
 </head>
 <body class="bg-slate-50 font-sans text-slate-900 pb-10">
+
+    <div id="tracking-loader" class="fixed inset-0 bg-slate-900 z-[100] flex flex-col items-center justify-center transition-opacity duration-500 text-white">
+        <div class="relative w-32 h-32 mb-4 flex flex-col items-center">
+            <div class="text-7xl bounce-icon z-10">📡</div>
+            <div class="w-16 h-3 bg-orange-600 rounded-[100%] absolute bottom-0 shadow-pulse blur-sm"></div>
+        </div>
+        <h2 class="text-2xl font-black italic uppercase tracking-widest mt-4">Locating Order...</h2>
+        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2 animate-pulse">Contacting Kitchen...</p>
+    </div>
 
     <div class="bg-white p-4 shadow-sm flex justify-between items-center sticky top-0 z-50 border-b border-slate-100">
         <div class="flex items-center gap-3">
@@ -108,15 +128,18 @@
             window.location.href = "https://www.growft.online/hotelvijay/index.html"; 
         }
 
-        // ✨ Order Complete Hone Par Memory Clear Karne Ka Function
+        // Order Complete Hone Par Memory Clear Karne Ka Function
         function finishOrder() {
-            localStorage.removeItem('activeVijayOrder'); // Phone ki memory clear ki
+            localStorage.removeItem('activeVijayOrder'); 
             alert("Asha hai aapko khana pasand aaya! Thank You.");
-            goBackToMenu(); // Wapas menu par bhej diya
+            goBackToMenu(); 
         }
 
         async function checkStatus() {
-            if (!orderId) return;
+            if (!orderId) {
+                document.getElementById('tracking-loader').innerHTML = '<h2 class="text-2xl font-black text-red-500">Order ID Not Found!</h2>';
+                return;
+            }
             try {
                 const res = await fetch(SCRIPT_URL + "?t=" + new Date().getTime());
                 const orders = await res.json();
@@ -125,7 +148,21 @@
                 if (myOrder) {
                     updateTimeline(myOrder.status);
                 }
-            } catch (e) { console.log("Polling error..."); }
+
+                // ✨ Data aate hi Loading Screen smoothly gayab kar do
+                const loader = document.getElementById('tracking-loader');
+                if(!loader.classList.contains('hidden')) {
+                    loader.style.opacity = '0';
+                    setTimeout(() => loader.classList.add('hidden'), 500);
+                }
+
+            } catch (e) { 
+                console.log("Polling error..."); 
+                const loader = document.getElementById('tracking-loader');
+                if(!loader.classList.contains('hidden')) {
+                    loader.innerHTML = '<h2 class="text-2xl font-black text-red-500">Connection Error!</h2><p class="text-xs text-white">Retrying...</p>';
+                }
+            }
         }
 
         function updateTimeline(status) {
@@ -153,13 +190,11 @@
                 sDesc.innerText = "Khana table par hai! Button dabakar confirm karein.";
                 document.querySelectorAll('.step-icon').forEach(el => el.parentElement.classList.add('step-active'));
                 
-                // Show completion button, hide ask button
                 askBtn.classList.add('hidden');
                 helperText.classList.add('hidden');
                 completeBtn.classList.remove('hidden');
 
                 if(status === "Served") {
-                    // Agar cashier ne khud "Order Completed" kar diya hai, toh memory hatha do auto.
                     localStorage.removeItem('activeVijayOrder');
                 }
                 if(window.navigator.vibrate) window.navigator.vibrate([200, 100, 200]);
@@ -172,7 +207,6 @@
                 helperText.classList.add('hidden');
                 rejectedMsg.classList.remove('hidden');
                 
-                // Memory turant clear kardo taaki customer firse order kar sake
                 localStorage.removeItem('activeVijayOrder'); 
             }
         }
