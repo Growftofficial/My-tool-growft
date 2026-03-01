@@ -6,7 +6,19 @@
     <title>Cashier Dashboard - Hotel Vijay</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @media print { .no-print { display: none !important; } .kot-card { border: 1px solid black; width: 300px; padding: 15px; font-family: monospace; } }
+        /* ✨ NAYA: Normal screen par print area hamesha hidden rahega */
+        @media screen { 
+            #print-area { display: none !important; } 
+        }
+
+        /* PRINT STYLES FOR THERMAL PRINTER */
+        @media print { 
+            body * { visibility: hidden; }
+            #print-area, #print-area * { visibility: visible; color: black !important; }
+            #print-area { display: flex !important; position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 0; justify-content: flex-start; }
+            @page { margin: 0; }
+        }
+        
         .blink-red { animation: blinker 1s linear infinite; background-color: #450a0a !important; border: 3px solid #ef4444 !important; }
         @keyframes blinker { 50% { opacity: 0.7; } }
     </style>
@@ -85,21 +97,15 @@
     <div id="print-area" class="w-full"></div>
 
     <script>
-        // ==========================================
-        // YAHAN APNA MASTER SCRIPT URL DALNA HAI
-        // ==========================================
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFZXiQ9c1CPbJ6Js0o6HtIt4mEIRigzAI6CxgXKLId5fOy3VCoLBZC_F4DAspf1h4EsA/exec";
         
         let lastOrderCount = 0;
         let allRawOrders = []; 
         let systemActive = false;
         
-        // 🔊 Sound Object
         const alertSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
 
-        // ✨ NAYA: SYSTEM START FUNCTION (Unlocks Audio)
         function startSystem() {
-            // Browser ko trick karke audio permission leni hoti hai
             alertSound.play().then(() => {
                 alertSound.pause();
                 alertSound.currentTime = 0;
@@ -108,7 +114,6 @@
             document.getElementById('sound-unlocker').classList.add('hidden');
             systemActive = true;
             
-            // Ab checking chalu karo
             fetchOrders();
             setInterval(fetchOrders, 7000);
         }
@@ -121,7 +126,7 @@
         }
 
         async function fetchOrders() {
-            if(!systemActive) return; // Bina permission ke request nahi jayegi
+            if(!systemActive) return; 
             
             try {
                 const res = await fetch(SCRIPT_URL + "?t=" + new Date().getTime());
@@ -129,7 +134,6 @@
                 
                 const validOrders = allRawOrders.filter(o => o.invoice_no && o.status !== "Served" && o.status !== "Rejected").reverse();
                 
-                // 🔊 Agar naya order hai, toh bajao sound!
                 if (validOrders.length > lastOrderCount && lastOrderCount !== 0) {
                     alertSound.play().catch(e => console.log("Still blocking audio:", e));
                 }
@@ -186,13 +190,13 @@
             } catch (e) { alert("Update failed!"); }
         }
 
-        // KOT aur Report generate karne wale functions wahi purane wale hain (chupaye gaye hain taaki code lamba na ho)
         function printProperKOT(inv, name, table, itemsString) {
             const printArea = document.getElementById('print-area');
             const now = new Date();
             const dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
             const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }).toLowerCase();
             let itemsHtml = ''; let totalQty = 0; let count = 1;
+            
             if (itemsString) {
                 const parts = itemsString.split(',');
                 parts.forEach(p => {
@@ -204,8 +208,15 @@
                     }
                 });
             }
+            
             printArea.innerHTML = `<div style="width: 300px; font-family: 'Courier New', Courier, monospace; color: #000; background: #fff; padding: 10px;"><h3 style="text-align: center; margin: 0 0 15px 0; font-size: 16px; font-weight: bold;">HOTEL VIJAY<br><span style="font-size: 14px;">Kitchen</span></h3><div style="font-size: 13px; line-height: 1.6; margin-bottom: 10px;"><div style="display: flex; justify-content: space-between;"><div><b>Date :</b> ${dateStr}-${timeStr}</div></div><div style="display: flex; justify-content: space-between;"><div><b>Kot #</b> ${inv}</div><div><b>Type :</b> Dine-in</div></div><div style="display: flex; justify-content: space-between;"><div><b>Customer:</b> ${name}</div><div><b>Table:</b> ${table}</div></div><div style="display: flex; justify-content: space-between;"><div><b>Waiter:</b> QR/Online</div></div></div><h4 style="text-align: center; margin: 10px 0; font-size: 16px; border-bottom: 2px solid #000; font-weight: bold;">KOT</h4><table style="width: 100%; border-collapse: collapse; text-align: left; margin-bottom: 5px;"><thead><tr style="border-bottom: 1px dashed #000; font-size: 14px;"><th style="padding-bottom: 5px; width: 10%;">#</th><th style="padding-bottom: 5px; width: 55%;">Product</th><th style="padding-bottom: 5px; text-align: center; width: 20%;">Uom</th><th style="padding-bottom: 5px; text-align: right; width: 15%;">Qty</th></tr></thead><tbody>${itemsHtml}</tbody></table><div style="display: flex; justify-content: flex-end; margin-top: 5px;"><div style="border: 1px solid #000; padding: 2px 10px; font-weight: bold; font-size: 15px; display: flex; gap: 40px;"><span>Total :</span><span>${totalQty}</span></div></div><div style="text-align: right; font-size: 11px; margin-top: 10px;">User: ADMIN</div></div>`;
+            
             window.print();
+            
+            // ✨ NAYA CODE: Print hone ke 1 second baad KOT ko mita do
+            setTimeout(() => {
+                printArea.innerHTML = '';
+            }, 1000);
         }
 
         function generateReport() {
