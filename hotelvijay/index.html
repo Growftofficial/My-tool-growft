@@ -179,12 +179,13 @@
         }
 
         function goToTracking() {
-            if(currentOrderID) {
-                // Jab customer button dabayega, tabhi track page par jayega
-                window.location.href = "https://www.growft.online/tracorder/index.html?id=" + currentOrderID;
-            }
-        }
-
+    if(currentOrderID) {
+        // Niche wale link mein maine ek time-stamp jodd diya hai 
+        // Isse browser ko lagega ye naya link hai aur wo har baar naya page load karega!
+        const timeStamp = new Date().getTime();
+        window.location.href = "https://www.growft.online/tracorder/index.html?id=" + currentOrderID + "&v=" + timeStamp;
+    }
+}
         fetchMenu();
     </script>
 </body>
