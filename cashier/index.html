@@ -6,24 +6,18 @@
     <title>Cashier Dashboard - Hotel Vijay</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* ✨ NAYA: Normal screen par print area hamesha hidden rahega */
-        @media screen { 
-            #print-area { display: none !important; } 
-        }
-
-        /* PRINT STYLES FOR THERMAL PRINTER */
+        @media screen { #print-area { display: none !important; } }
         @media print { 
             body * { visibility: hidden; }
             #print-area, #print-area * { visibility: visible; color: black !important; }
             #print-area { display: flex !important; position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 0; justify-content: flex-start; }
             @page { margin: 0; }
         }
-        
         .blink-red { animation: blinker 1s linear infinite; background-color: #450a0a !important; border: 3px solid #ef4444 !important; }
         @keyframes blinker { 50% { opacity: 0.7; } }
     </style>
 </head>
-<body class="bg-slate-900 text-white p-6 font-sans">
+<body class="bg-slate-900 text-white p-6 font-sans relative">
 
     <div id="sound-unlocker" class="fixed inset-0 bg-slate-950 z-[200] flex flex-col items-center justify-center text-center px-4">
         <div class="text-7xl mb-6">🔕</div>
@@ -32,6 +26,12 @@
         <button onclick="startSystem()" class="bg-green-600 hover:bg-green-500 px-10 py-5 rounded-[2rem] text-white font-black text-xl shadow-[0_0_30px_rgba(22,163,74,0.5)] animate-bounce active:scale-95 transition-all">
             🔊 START SYSTEM NOW
         </button>
+    </div>
+
+    <div id="action-loader" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-[300] hidden flex-col items-center justify-center text-center px-4">
+        <div class="w-16 h-16 border-4 border-slate-700 border-t-orange-500 rounded-full animate-spin mb-6"></div>
+        <h2 class="text-2xl font-black text-orange-500 uppercase tracking-[0.2em] animate-pulse">Updating System...</h2>
+        <p class="text-xs text-slate-400 font-bold mt-2">Kripya wait karein</p>
     </div>
 
     <div class="max-w-7xl mx-auto flex justify-between items-center mb-6 border-b border-slate-800 pb-6 no-print">
@@ -97,6 +97,9 @@
     <div id="print-area" class="w-full"></div>
 
     <script>
+        // ==========================================
+        // YAHAN APNA MASTER SCRIPT URL DALNA HAI
+        // ==========================================
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFZXiQ9c1CPbJ6Js0o6HtIt4mEIRigzAI6CxgXKLId5fOy3VCoLBZC_F4DAspf1h4EsA/exec";
         
         let lastOrderCount = 0;
@@ -183,11 +186,25 @@
             }).join('');
         }
 
+        // ✨ NAYA UPDATE STATUS FUNCTION (WITH LOADER)
         async function updateStatus(inv, newStatus) {
+            const loader = document.getElementById('action-loader');
+            loader.classList.remove('hidden'); // Loader chalu
+
             try {
-                await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ action: "update", invoice_no: inv, new_status: newStatus }) });
-                fetchOrders(); 
-            } catch (e) { alert("Update failed!"); }
+                await fetch(SCRIPT_URL, { 
+                    method: 'POST', 
+                    mode: 'no-cors', 
+                    body: JSON.stringify({ action: "update", invoice_no: inv, new_status: newStatus }) 
+                });
+                
+                // Naya data laakar UI update karo
+                await fetchOrders(); 
+            } catch (e) { 
+                alert("Update failed! Internet connection check karein."); 
+            } finally {
+                loader.classList.add('hidden'); // Loader band (Chahe success ho ya fail)
+            }
         }
 
         function printProperKOT(inv, name, table, itemsString) {
@@ -213,7 +230,6 @@
             
             window.print();
             
-            // ✨ NAYA CODE: Print hone ke 1 second baad KOT ko mita do
             setTimeout(() => {
                 printArea.innerHTML = '';
             }, 1000);
