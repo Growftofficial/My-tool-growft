@@ -9,8 +9,12 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .category-pill { transition: all 0.3s; white-space: nowrap; }
         .category-pill.active { background: #ea580c; color: white; border-color: #ea580c; }
+        
+        /* Floating Track Button Animation */
         @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .track-btn-animate { animation: slideUp 0.5s ease-out forwards; }
+        
+        /* Loader Animations */
         .bounce-food { animation: bounceFood 1s infinite alternate; }
         @keyframes bounceFood { 0% { transform: translateY(0) scale(1.1); } 100% { transform: translateY(-30px) scale(0.9); } }
         .shadow-pulse { animation: shadowPulse 1s infinite alternate; }
@@ -73,7 +77,7 @@
 
     <script>
         // ==========================================
-        // YAHAN APNA MASTER SCRIPT URL DALNA HAI
+        // AAPKA MASTER SCRIPT URL
         // ==========================================
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFZXiQ9c1CPbJ6Js0o6HtIt4mEIRigzAI6CxgXKLId5fOy3VCoLBZC_F4DAspf1h4EsA/exec";
         
@@ -187,15 +191,21 @@
                     }) 
                 });
 
+                // ========================================================
                 // 🚀 2. TELEGRAM NOTIFICATION BHEJ RAHE HAIN
+                // ========================================================
                 const botToken = "8653026327:AAHGkq9vAEKaC-9PpoFaHqdNFWrJPKpHgco"; 
                 const chatId = "7766518587";     
-                const tgMessage = `🚨 *NEW ORDER RECEIVED!* 🚨\n\n🧾 *Invoice:* #${invID}\n🍽 *Table:* ${tableVal}\n👤 *Name:* ${nameVal}\n📦 *Items:* \n${itemsArr.join('\n')}\n\n💰 *Total:* ₹${total}`;
                 
-                const tgUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(tgMessage)}&parse_mode=Markdown`;
+                // ⚠️ DHYAN RAHE: Agar aapka cashier page alag link par hai toh yahan badal dijiye
+                const cashierLink = "https://www.growft.online/cashier/";
                 
-                // Background mein chupke se Telegram ko hit karega
+                const tgMessage = `🚨 NEW ORDER RECEIVED! 🚨\n\n🧾 Invoice: #${invID}\n🍽 Table: ${tableVal}\n👤 Name: ${nameVal}\n📦 Items: \n${itemsArr.join('\n')}\n\n💰 Total: ₹${total}\n\n👇 Click here to Open Cashier & Print KOT:\n${cashierLink}`;
+                
+                const tgUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(tgMessage)}`;
+                
                 fetch(tgUrl).catch(e => console.log("Telegram silent error"));
+                // ========================================================
                 
                 // 3. UI Update (Success)
                 orderBtn.innerText = "ORDER PLACED! ✅";
@@ -221,6 +231,7 @@
         function goToTracking() {
             if(currentOrderID) {
                 const timeStamp = new Date().getTime(); 
+                // ⚠️ DHYAN RAHE: Agar aapka tracking page folder ke andar hai toh path check kar lijiye
                 window.location.href = "https://www.growft.online/tracorder/index.html?id=" + currentOrderID + "&v=" + timeStamp;
             }
         }
