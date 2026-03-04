@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Review - Winning Traders Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- THEME: TRADING & STOCK MARKET (Dark Navy & Bullish Green) --- */
+        :root {
+            --primary: #1e293b; /* Dark Navy Slate */
+            --primary-light: #334155;
+            --accent: #10b981; /* Bullish Green */
+            --accent-hover: #059669;
+            --bg-color: #f1f5f9; 
+            --card-bg: #ffffff;
+            --gold: #f59e0b;
+            --gray: #64748b;
+            --border: #cbd5e1;
+            --box-bg: #f8fafc;
+            --whatsapp: #25D366;
+            --danger: #ef4444;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0; padding: 20px 10px;
+            min-height: 100vh; display: flex;
+            justify-content: center; align-items: flex-start;
+            color: #334155;
+        }
+
+        .container {
+            background: var(--card-bg); width: 100%; max-width: 500px;
+            padding: 25px; border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
+            border-top: 6px solid var(--accent); margin: auto;
+            text-align: center;
+            position: relative;
+        }
+
+        /* --- 🔒 LOCK SCREEN --- */
+        #lockScreen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.98); z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 20px;
+        }
+        .lock-icon { font-size: 60px; margin-bottom: 20px; color: var(--danger); }
+        .lock-msg { font-size: 24px; font-weight: 800; color: #333; margin-bottom: 10px; }
+        .contact-admin-btn {
+            background: var(--primary); color: white; padding: 12px 25px;
+            border-radius: 50px; text-decoration: none; font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        /* HEADER */
+        h1 { color: var(--primary); margin: 5px 0 5px 0; font-size: 22px; font-weight: 800; line-height: 1.3; text-transform: uppercase; }
+        .subtitle { font-size: 13px; color: #64748b; margin-bottom: 10px; font-weight: 600; }
+        .location { 
+            color: var(--accent); font-size: 12px; font-weight: 700; 
+            text-transform: uppercase; letter-spacing: 0.5px; 
+            margin-bottom: 15px; display: inline-block; 
+            background: #ecfdf5; padding: 5px 12px; border-radius: 15px; border: 1px solid #a7f3d0;
+        }
+
+        /* INPUTS */
+        select, input, textarea {
+            width: 100%; padding: 12px; border-radius: 8px;
+            border: 1px solid var(--border); background: var(--box-bg);
+            font-size: 14px; outline: none; margin-bottom: 10px;
+            color: #333; font-family: inherit; font-weight: 500;
+        }
+        select:focus, input:focus, textarea:focus { border-color: var(--accent); background: #fff; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2); }
+        label { font-weight: 700; display: block; margin-top: 12px; margin-bottom: 6px; color: var(--primary); font-size: 12px; text-transform: uppercase; text-align: left; }
+
+        /* RATING */
+        .star-container { display: flex; justify-content: center; gap: 8px; margin: 20px 0; }
+        .star { font-size: 40px; color: #e2e8f0; cursor: pointer; transition: transform 0.2s; }
+        .star.selected { color: var(--gold); transform: scale(1.1); }
+
+        .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
+        .exp-btn {
+            padding: 12px 15px; border: 1px solid var(--border); border-radius: 8px;
+            background: #fff; cursor: pointer; font-weight: 600; color: var(--gray);
+            flex: 1; max-width: 140px; transition: 0.2s; font-size: 14px;
+        }
+        .exp-btn.active { background: var(--accent); color: white; border-color: var(--accent); box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); }
+
+        /* INPUT MODES */
+        .input-mode-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .mode-btn { 
+            flex: 1; padding: 10px; border: 1px solid var(--primary); border-radius: 8px; 
+            background: #fff; color: var(--primary); font-weight: 600; cursor: pointer; font-size: 13px;
+        }
+        .mode-btn.active-mode { background: var(--primary); color: white; }
+
+        .voice-section, .text-section {
+            background: #f1f5f9; padding: 12px; border-radius: 12px; 
+            margin-bottom: 20px; border: 1px dashed var(--primary); text-align: left;
+        }
+        .voice-controls { display: flex; align-items: center; gap: 10px; }
+        .mic-btn {
+            width: 45px; height: 45px; border-radius: 50%;
+            background: var(--primary); color: white; border: none;
+            font-size: 20px; cursor: pointer; box-shadow: 0 4px 10px rgba(30, 41, 59, 0.3);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .mic-active { animation: pulse 1.5s infinite; background: var(--danger); }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(30, 41, 59, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(0,0,0,0); } }
+
+        /* CHIPS */
+        .category-header { font-size: 11px; color: var(--primary-light); margin: 15px 0 8px 0; font-weight: 700; letter-spacing: 0.5px; border-bottom: 1px dashed var(--border); padding-bottom: 4px; text-align: left; }
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 5px; }
+        .keyword-chip { 
+            padding: 8px 10px; background-color: #fff; border-radius: 20px; 
+            font-size: 11px; font-weight: 600; cursor: pointer; 
+            border: 1px solid var(--border); color: var(--primary-light); 
+            flex-grow: 1; text-align: center; transition: 0.2s;
+        }
+        .keyword-chip.active { background-color: var(--accent); color: white; border-color: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 3px 8px rgba(16, 185, 129, 0.3); }
+
+        /* BUTTONS */
+        .action-btn {
+            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white; border: none; border-radius: 8px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 10px;
+        }
+        .action-btn:active { transform: scale(0.98); }
+        
+        .copy-btn { width: 100%; padding: 12px; background-color: var(--accent); color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: 700; font-size: 15px; cursor: pointer; display: none; box-shadow: 0 4px 6px rgba(16, 185, 129, 0.3); }
+
+        .review-preview-box {
+            width: 100%; min-height: 140px; margin-top: 15px; border-radius: 8px; padding: 12px; 
+            border: 1px solid var(--border); display: none; background: #fff; resize: none; outline: none; line-height: 1.5;
+        }
+
+        /* OWNER PANEL */
+        #ownerPanel {
+            display: none; margin-top: 20px; padding: 15px;
+            border: 2px dashed var(--whatsapp); border-radius: 12px;
+            background-color: #f0fdf4; text-align: left;
+        }
+        .whatsapp-send-btn {
+            width: 100%; padding: 12px; background-color: var(--whatsapp);
+            color: white; border: none; border-radius: 8px;
+            font-size: 15px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* UTILS & FOOTER */
+        .fade-in { animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .hidden { display: none !important; }
+        .toggle-name { font-size: 13px; color: var(--accent); text-decoration: underline; cursor: pointer; float: right; margin-top: 5px; border: none; background: none; font-weight: 600;}
+
+        .footer { margin-top: 35px; text-align: center; font-size: 12px; color: var(--gray); border-top: 1px dashed var(--border); padding-top: 15px; }
+        .footer-logo { display: block; margin: 0 auto 5px auto; max-height: 28px; width: auto; opacity: 0.85; }
+        .footer a { color: var(--primary); text-decoration: none; font-weight: 700; }
+        .owner-login-trigger { font-size: 11px; color: #ccc; cursor: pointer; text-decoration: none; position: absolute; bottom: 5px; right: 10px; }
+
+        /* CUSTOMER VIEW */
+        .customer-card { text-align: center; padding: 20px; }
+        .customer-card h2 { color: var(--primary); }
+    </style>
+</head>
+<body>
+
+<div id="lockScreen" style="display: none;">
+    <div class="lock-icon">🔒</div>
+    <div class="lock-msg">Service Suspended</div>
+    <div style="font-size:14px; color:#666; margin-bottom:30px;">
+        This tool has been temporarily disabled.<br>Please contact the administrator.
+    </div>
+    <a href="tel:+917020370561" class="contact-admin-btn">Contact Provider</a>
+</div>
+
+<div class="container" id="mainApp">
+
+    <div id="customerLinkView" class="hidden customer-card">
+        <div style="font-size: 45px; margin-bottom: 10px;">📈</div>
+        <h2>Hello Trader!</h2>
+        <p style="color:#64748b; font-size:14px; margin-bottom:20px;">
+            Here is the review for your experience with Winning Traders Hub.
+            <br>Click below to copy & post.
+        </p>
+        <textarea id="customerReviewText" class="review-preview-box" readonly style="display:block;"></textarea>
+        <button class="copy-btn" style="display:block; margin-top:15px;" onclick="copyCustomerLinkReview()">📋 Copy & Open Google</button>
+        <p style="font-size:11px; color:#94a3b8; margin-top:20px;">Wishing you profitable trades! 💰</p>
+    </div>
+
+    <div id="generatorApp">
+        <h1>Winning Traders Hub & Institute</h1>
+        <div class="subtitle">📈 Premium Trading Academy</div>
+        <div class="location">📍 Delhi • Burari • Noida</div>
+
+        <div id="ratingScreen" class="fade-in">
+            <p style="font-weight:600; color:#334155;">How was your learning experience?</p>
+            <div class="star-container">
+                <span class="star" onclick="rate(1)">★</span>
+                <span class="star" onclick="rate(2)">★</span>
+                <span class="star" onclick="rate(3)">★</span>
+                <span class="star" onclick="rate(4)">★</span>
+                <span class="star" onclick="rate(5)">★</span>
+            </div>
+            <div class="experience-btns">
+                <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Needs Work 📉</button>
+                <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Profitable! 🚀</button>
+            </div>
+            <button class="action-btn" onclick="processRating()">Next Step ➡</button>
+        </div>
+
+        <div id="privateFeedbackScreen" class="hidden fade-in">
+            <h2 style="color:var(--primary);">We are sorry! 😔</h2>
+            <p style="font-size:14px; color:#64748b;">Please tell us how we can improve our courses or support.</p>
+            <textarea id="privateFeedbackText" style="height:100px; width:100%; border:1px solid #cbd5e1; border-radius:8px; padding:10px;" placeholder="Describe the issue..."></textarea>
+            <button class="action-btn" style="background:var(--gray);" onclick="submitPrivateFeedback()">Submit Feedback</button>
+        </div>
+
+        <div id="thankYouScreen" class="hidden fade-in">
+            <div style="font-size: 50px; margin-bottom:10px; color:var(--accent);">✅</div>
+            <h2 style="color:var(--primary);">Thank You!</h2>
+            <p style="color:#64748b;">Your feedback has been submitted to the mentors.</p>
+        </div>
+
+        <div id="aiToolScreen" class="hidden fade-in" style="text-align: left;">
+            
+            <div class="input-mode-tabs">
+                <button class="mode-btn active-mode" id="btnModeVoice" onclick="switchMode('voice')">🎤 Speak</button>
+                <button class="mode-btn" id="btnModeText" onclick="switchMode('text')">✍️ Write</button>
+            </div>
+
+            <div id="voiceSection" class="voice-section">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <span style="font-size:11px; font-weight:bold; color:var(--primary);">SPEAK (Hindi/English):</span>
+                    <select id="voiceLang" style="width:auto; padding:2px; font-size:11px; height:25px; margin:0;">
+                        <option value="en-IN" selected>English</option>
+                        <option value="hi-IN">Hindi</option>
+                    </select>
+                </div>
+                <div class="voice-controls">
+                    <button id="micBtn" class="mic-btn" onclick="startListening()">🎤</button>
+                    <div style="flex:1;">
+                        <p id="statusText" style="font-size:12px; color:#64748b; margin:0;">Tap mic & speak...<br>(Ex: "Sir ne trading bahot achi sikhayi")</p>
+                    </div>
+                </div>
+                <div id="spokenTextDisplay" style="display:none; margin-top:8px; font-size:12px; color:var(--accent); background:#fff; padding:6px; border-radius:4px; font-weight:600;"></div>
+            </div>
+
+            <div id="textSection" class="text-section hidden">
+                <label style="margin-top:0; color:var(--primary);">Describe Experience</label>
+                <textarea id="manualInput" placeholder="Ex: Best mentor for options trading..." style="height:80px; margin-bottom:0;"></textarea>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <div style="flex:1;">
+                    <label style="margin-top:0;">Location</label>
+                    <select id="locationSelect">
+                        <option value="Delhi">Delhi</option>
+                        <option value="Burari">Burari</option>
+                        <option value="Noida">Noida</option>
+                        <option value="Gurugram">Gurugram</option>
+                        <option value="NCR">Delhi NCR</option>
+                        <option value="Online">Online Classes</option>
+                    </select>
+                </div>
+                <div style="flex:1;">
+                    <label style="margin-top:0;">Tone</label>
+                    <select id="toneSelect">
+                        <option value="Enthusiastic">Enthusiastic 🚀</option>
+                        <option value="Professional">Professional 👔</option>
+                        <option value="Grateful">Grateful 🙏</option>
+                        <option value="Short">Short 👌</option>
+                    </select>
+                </div>
+            </div>
+
+            <label>Course / Program Taken</label>
+            <select id="courseSelect">
+                <option value="">-- General Institute Review --</option>
+                <option value="Stock Market Course">Stock Market Course</option>
+                <option value="Intraday Trading Course">Intraday Trading Course</option>
+                <option value="Options Trading">Options Trading</option>
+                <option value="Forex Trading Classes">Forex Trading Classes</option>
+                <option value="SMC Trading Course">SMC Trading Course</option>
+                <option value="Price Action Masterclass">Price Action Masterclass</option>
+                <option value="Order Flow Analysis">Order Flow Analysis</option>
+                <option value="Algo Trading Course">Algo Trading Course</option>
+                <option value="Swing Trading Workshop">Swing Trading Workshop</option>
+            </select>
+
+            <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
+            <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
+                <input type="text" id="userName" placeholder="Your Name (Optional)">
+            </div>
+
+            <label style="clear:both;">Select Highlights (Pick 3-4)</label>
+
+            <div class="category-header">INSTITUTE & QUALITY</div>
+            <div class="keywords-container">
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Trading academy')">🏆 Best Trading Academy</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Stock market courses')">📈 Best Stock Market Courses</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Share market classes')">📊 Best Share Market Classes</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Trading institute')">🏛️ Top Trading Institute</div>
+            </div>
+
+            <div class="category-header">CORE TRADING COURSES</div>
+            <div class="keywords-container">
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Intraday trading course near me')">⏱️ Intraday Course</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Options Trading')">📉 Options Trading</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Swing trading workshops')">🎢 Swing Trading Workshop</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Price action trading masterclass')">🕯️ Price Action Masterclass</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Forex trading classes')">💱 Forex Trading Classes</div>
+            </div>
+
+            <div class="category-header">ADVANCED & PRO CONCEPTS</div>
+            <div class="keywords-container">
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'SMC trading course')">🏦 SMC Trading Course</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Order flow analysis training')">🌊 Order Flow Analysis</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Algo trading course for non-programmers')">🤖 Algo Trading (No Code)</div>
+            </div>
+
+            <div class="category-header">MENTORSHIP & RESULTS</div>
+            <div class="keywords-container">
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Live Market Support')">🔴 Live Market Support</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Profitable Strategies')">💰 Profitable Strategies</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Mentor')">👨‍🏫 Best Mentor</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Recovered Losses')">✅ Recovered Losses</div>
+            </div>
+
+            <button class="action-btn" id="generateBtn" onclick="generateReview()">🚀 Generate Review</button>
+
+            <textarea id="reviewOutput" class="review-preview-box" readonly></textarea>
+            
+            <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy & Open Google</button>
+
+            <div id="ownerPanel">
+                <label style="color:var(--whatsapp); margin-top:0;">📱 Student's WhatsApp Number</label>
+                <div style="display:flex; gap:10px;">
+                    <input type="tel" id="customerPhone" placeholder="Ex: 9876543210" style="margin-bottom:0;">
+                    <button class="whatsapp-send-btn" style="width: auto; padding: 0 20px;" onclick="sendLinkToCustomer()">🚀 Send</button>
+                </div>
+                <p style="font-size:11px; color:#64748b; margin-top:5px;">Student will receive a direct link to post this review.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer">
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft" loading="lazy">
+        <div style="margin-top: 5px;">
+            Powered by <a href="https://growft.net" target="_blank">Growft</a>
+        </div>
+        <span class="owner-login-trigger" onclick="ownerLogin()">🔒 Owner</span>
+    </div>
+</div>
+
+<script>
+    // --- 🔐 SECURITY & CONFIGURATION ---
+    const GOOGLE_REVIEW_LINK = "https://g.page/r/CdBhRk-qC6qHEBM/review"; // **REPLACE THIS LINK**
+    
+    // CHANGE TO "suspended" TO LOCK THE TOOL
+    const APP_STATUS = "active"; 
+    const EXPIRY_DATE = "2026-12-31"; 
+
+    // --- INITIALIZATION ---
+    let isOwnerMode = false;
+
+    window.onload = function() {
+        const today = new Date().toISOString().split('T')[0];
+        if(APP_STATUS === "suspended" || today > EXPIRY_DATE) {
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('lockScreen').style.display = 'flex';
+            return;
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const reviewText = urlParams.get('review');
+        if (reviewText) {
+            document.getElementById('generatorApp').style.display = 'none';
+            document.getElementById('customerLinkView').classList.remove('hidden');
+            document.getElementById('customerReviewText').value = decodeURIComponent(reviewText);
+        } else if(sessionStorage.getItem('isOwner') === 'true') {
+            isOwnerMode = true;
+        }
+    };
+
+    // --- OWNER & WHATSAPP LOGIC ---
+    function ownerLogin() {
+        if(isOwnerMode) { alert("Already logged in as Owner."); return; }
+        const password = prompt("Enter Owner Password:");
+        if(password === "admin123") { 
+            isOwnerMode = true;
+            sessionStorage.setItem('isOwner', 'true');
+            alert("Owner Mode Active! You can now send reviews to students via WhatsApp.");
+        } else if(password) { alert("Incorrect Password"); }
+    }
+
+    function sendLinkToCustomer() {
+        const phone = document.getElementById('customerPhone').value.replace(/\D/g, '');
+        const review = document.getElementById('reviewOutput').value;
+        if(phone.length < 10) { alert("Enter valid number"); return; }
+        const finalPhone = phone.length === 10 ? "91" + phone : phone;
+        const baseUrl = window.location.href.split('?')[0];
+        const magicLink = `${baseUrl}?review=${encodeURIComponent(review)}`;
+        const msg = `Hello! 👋\n\nHere is the review for your experience at Winning Traders Hub:\n\n*Tap this link to Post on Google:*\n${magicLink}`;
+        window.open(`https://wa.me/${finalPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function copyCustomerLinkReview() {
+        const box = document.getElementById("customerReviewText");
+        box.select();
+        document.execCommand('copy');
+        window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+
+    // --- APP LOGIC ---
+    let selectedKeywords = [];
+    let voiceText = "";
+    let activeMode = 'voice';
+
+    function switchMode(mode) {
+        activeMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active-mode'));
+        if(mode === 'voice') {
+            document.getElementById('btnModeVoice').classList.add('active-mode');
+            document.getElementById('voiceSection').classList.remove('hidden');
+            document.getElementById('textSection').classList.add('hidden');
+        } else {
+            document.getElementById('btnModeText').classList.add('active-mode');
+            document.getElementById('textSection').classList.remove('hidden');
+            document.getElementById('voiceSection').classList.add('hidden');
+        }
+    }
+
+    let currentRating = 0;
+    let currentExp = '';
+    function rate(stars) {
+        currentRating = stars;
+        document.querySelectorAll('.star').forEach((star, index) => {
+            star.classList.toggle('selected', index < stars);
+        });
+        if(stars >= 4) selectExp('good'); else selectExp('bad');
+    }
+    function selectExp(type) {
+        currentExp = type;
+        document.getElementById('btn-good').classList.remove('active');
+        document.getElementById('btn-bad').classList.remove('bad-active');
+        if (type === 'good') document.getElementById('btn-good').classList.add('active');
+        else document.getElementById('btn-bad').classList.add('bad-active');
+    }
+    function processRating() {
+        if (currentRating === 0 && currentExp === '') { alert("Please select a star rating."); return; }
+        document.getElementById('ratingScreen').classList.add('hidden');
+        let isHappy = (currentRating >= 4) || (currentExp === 'good');
+        if (isHappy) document.getElementById('aiToolScreen').classList.remove('hidden');
+        else document.getElementById('privateFeedbackScreen').classList.remove('hidden');
+    }
+    function submitPrivateFeedback() {
+        document.getElementById('privateFeedbackScreen').classList.add('hidden');
+        document.getElementById('thankYouScreen').classList.remove('hidden');
+    }
+
+    function startListening() {
+        if (!('webkitSpeechRecognition' in window)) { alert("Use Chrome Browser on Android."); return; }
+        recognition = new webkitSpeechRecognition();
+        recognition.lang = document.getElementById('voiceLang').value;
+        recognition.interimResults = false;
+        document.getElementById('micBtn').classList.add('mic-active');
+        document.getElementById('statusText').innerText = "Listening...";
+        recognition.onresult = (event) => {
+            voiceText = event.results[0][0].transcript;
+            document.getElementById('spokenTextDisplay').style.display = 'block';
+            document.getElementById('spokenTextDisplay').innerText = `Recorded: "${voiceText}"`;
+        };
+        recognition.onend = () => { document.getElementById('micBtn').classList.remove('mic-active'); document.getElementById('statusText').innerText = "Processing..."; };
+        recognition.start();
+    }
+
+    async function generateReview() {
+        const btn = document.getElementById('generateBtn');
+        btn.innerText = "🔄 Processing...";
+        
+        const userName = document.getElementById('userName').value.trim();
+        const tone = document.getElementById('toneSelect').value;
+        const location = document.getElementById('locationSelect').value;
+        const courseType = document.getElementById('courseSelect').value;
+        const manualText = document.getElementById('manualInput').value.trim();
+        let rawInput = activeMode === 'voice' ? voiceText : manualText;
+
+        if (selectedKeywords.length === 0 && !rawInput && !courseType) {
+            alert("Please select highlights or write/speak something.");
+            btn.innerText = "🚀 Generate Review";
+            return;
+        }
+
+        // Translation
+        let finalBodyText = "";
+        if (rawInput && rawInput.length > 1) {
+            try {
+                const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(rawInput)}&langpair=Autodetect|en`);
+                const data = await res.json();
+                let translated = data.responseData ? data.responseData.translatedText : "";
+                if(!translated.includes("PLEASE SELECT")) finalBodyText = translated;
+                else finalBodyText = rawInput;
+            } catch(e) { finalBodyText = rawInput; }
+        }
+
+        // Generation
+        let courseText = courseType ? courseType : "trading program";
+        let intro = getRandom(reviewDB.intros[tone]);
+        intro = intro.replace(/{location}/g, location).replace(/{course}/g, courseText);
+        if (userName) intro = `I am ${userName}. ` + intro;
+
+        let body = "";
+        const shuffledKeywords = selectedKeywords.sort(() => Math.random() - 0.5);
+        shuffledKeywords.forEach((k) => {
+            if(reviewDB.keywords[k]) {
+                let sentence = getRandom(reviewDB.keywords[k]);
+                sentence = sentence.replace(/{location}/g, location);
+                body += sentence + " ";
+            }
+        });
+
+        if(finalBodyText) body += " " + finalBodyText + ". ";
+
+        let outro = getRandom(reviewDB.outros[tone]);
+
+        const finalReview = intro + " " + body + outro;
+
+        const box = document.getElementById('reviewOutput');
+        box.value = finalReview;
+        box.style.display = 'block';
+        box.scrollIntoView({behavior: "smooth"});
+        btn.innerText = "🚀 Generate Review";
+
+        if(isOwnerMode) {
+            document.getElementById('ownerPanel').style.display = 'block';
+            document.getElementById('copyBtn').style.display = 'none';
+        } else {
+            document.getElementById('ownerPanel').style.display = 'none';
+            document.getElementById('copyBtn').style.display = 'block';
+        }
+    }
+
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) selectedKeywords = selectedKeywords.filter(k => k !== keyword);
+        else selectedKeywords.push(keyword);
+    }
+    
+    function toggleNameField() { 
+        const field = document.getElementById('nameArea');
+        field.style.display = field.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function copyToClipboard() {
+        const box = document.getElementById("reviewOutput");
+        box.select();
+        document.execCommand('copy');
+        if(confirm("Review Copied! 🚀\n\nClick OK to open Google Maps and paste.")) window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+    
+    function getRandom(arr) { if(!arr) return ""; return arr[Math.floor(Math.random() * arr.length)]; }
+
+    // --- MASSIVE TRADING DATASETS ---
+    const reviewDB = {
+        intros: {
+            "Professional": [
+                "I enrolled at Winning Traders Hub & Institute in {location} for their {course}.",
+                "Winning Traders Hub provides highly structured education for the {course}.",
+                "If you are looking for professional trading education in {location}, this institute is excellent.",
+                "My experience with the {course} at Winning Traders Hub has been highly educational.",
+                "A very systematic and professional approach to teaching the {course} in {location}.",
+                "I highly recommend the {course} provided by the mentors here.",
+                "The curriculum for the {course} at this {location} institute is very comprehensive.",
+                "Glad to have completed my {course} from Winning Traders Hub.",
+                "The quality of knowledge shared in the {course} is exceptional.",
+                "For serious traders in {location}, this is the premier institute."
+            ],
+            "Enthusiastic": [
+                "Joining Winning Traders Hub for the {course} was the best decision of my trading career! 🚀",
+                "Absolutely mind-blowing {course} training in {location}!",
+                "The way they teach {course} is just next level. Highly impressed!",
+                "My trading psychology completely changed after joining the {course} here! 💸",
+                "If you want to become a profitable trader in {location}, join their {course} blindly!",
+                "Superb energy, great community, and the best {course} in {location}!",
+                "Finally found an institute that teaches REAL trading concepts. Loved the {course}!",
+                "The {course} exceeded all my expectations. Boom! 📈",
+                "Such an eye-opening experience learning the {course} from experts here.",
+                "The mentors are phenomenal! Best {course} experience ever."
+            ],
+            "Short": [
+                "Best institute in {location} for {course}.",
+                "Great experience learning the {course}.",
+                "Highly recommend their {course}.",
+                "Top-notch {course} training.",
+                "Very good faculty and {course} structure.",
+                "Changed my trading style. Best {course}.",
+                "Worth every penny for the {course}.",
+                "Excellent {course} in {location}.",
+                "Best place to learn trading.",
+                "Superb {course} and mentorship."
+            ],
+            "Grateful": [
+                "I am extremely grateful to the mentors for the {course} training in {location}.",
+                "Thank you Winning Traders Hub for simplifying the {course} for me.",
+                "My trading journey got a real direction after this {course}. Huge thanks!",
+                "Grateful for the hand-holding support during the {course}.",
+                "Thanks to the team in {location} for making me a confident trader.",
+                "I was losing money before, but this {course} saved my capital. Thank you!",
+                "Appreciate the patience of the mentors while teaching the {course}.",
+                "Heartfelt thanks for the deep insights shared in the {course}.",
+                "I owe my recent profits to the {course} taught here. 🙏",
+                "Thanks for the amazing guidance and {course} material."
+            ]
+        },
+        keywords: {
+            "Best Trading academy": [
+                "It is undoubtedly the best trading academy in {location}.",
+                "If you want to build a career, this is the best trading academy.",
+                "Proud to be an alumni of the best trading academy."
+            ],
+            "Best Stock market courses": [
+                "They offer the best stock market courses from basics to advanced.",
+                "I researched a lot and found they have the best stock market courses.",
+                "The curriculum makes them the provider of the best stock market courses."
+            ],
+            "Best Share market classes": [
+                "These are the best share market classes you can attend in {location}.",
+                "The best share market classes for beginners to understand market dynamics.",
+                "Highly interactive and simply the best share market classes."
+            ],
+            "Trading institute": [
+                "This is a premium trading institute with top facilities.",
+                "The best trading institute in {location} for serious learners.",
+                "A very reputed trading institute with proven results."
+            ],
+            "Intraday trading course near me": [
+                "Their intraday trading course is very practical and action-oriented.",
+                "Best intraday trading course for quick momentum capture.",
+                "Learned exact entry and exit points in the intraday trading course."
+            ],
+            "Options Trading": [
+                "The options trading strategies taught are highly accurate.",
+                "Mastered options buying and selling through their options trading module.",
+                "Options trading is made so simple by the mentors here."
+            ],
+            "Swing trading workshops": [
+                "The swing trading workshops are perfect for part-time traders.",
+                "Learned to ride big trends in their swing trading workshops.",
+                "Excellent stock selection methods taught in the swing trading workshops."
+            ],
+            "Price action trading masterclass": [
+                "The price action trading masterclass clears all chart-reading doubts.",
+                "No indicators needed after taking their price action trading masterclass.",
+                "Pure chart reading taught perfectly in the price action trading masterclass."
+            ],
+            "Forex trading classes": [
+                "Their forex trading classes cover global market concepts brilliantly.",
+                "Best forex trading classes in {location} with live setups.",
+                "Learned currency pairs deeply in the forex trading classes."
+            ],
+            "SMC trading course": [
+                "The SMC trading course is a game-changer for understanding institutional moves.",
+                "Smart Money Concepts (SMC) trading course is highly advanced here.",
+                "Finally understood liquidity and blocks via the SMC trading course."
+            ],
+            "Order flow analysis training": [
+                "The order flow analysis training gives an edge over retail traders.",
+                "Learned to see trapped buyers/sellers in the order flow analysis training.",
+                "Order flow analysis training is a must-do, taught brilliantly here."
+            ],
+            "Algo trading course for non-programmers": [
+                "The algo trading course for non-programmers is so easy to deploy.",
+                "Automated my strategies thanks to the algo trading course for non-programmers.",
+                "Best algo trading course for non-programmers who want emotionless trading."
+            ],
+            "Live Market Support": [
+                "The live market support is what makes this institute stand out.",
+                "Mentors guide you with live market support to build confidence.",
+                "Holding trades becomes easier with their live market support."
+            ],
+            "Profitable Strategies": [
+                "They teach highly profitable strategies with proper risk management.",
+                "The profitable strategies shared are backtested and reliable.",
+                "My win rate increased using their profitable strategies."
+            ],
+            "Best Mentor": [
+                "The faculty is truly the best mentor you can ask for.",
+                "Having the best mentor makes a huge difference in trading psychology.",
+                "They act as the best mentor, not just teachers."
+            ],
+            "Recovered Losses": [
+                "I finally recovered losses following their strict risk management rules.",
+                "Helped me shift from a gambler mindset and recovered losses.",
+                "Recovered losses and now trading consistently in green."
+            ]
+        },
+        outros: {
+            "Professional": [
+                "I strongly recommend Winning Traders Hub to aspiring traders.",
+                "A great investment in financial education.",
+                "Will definitely refer my colleagues to this institute.",
+                "Professionalism and quality education at its peak.",
+                "The best platform to start a professional trading journey.",
+                "Five stars for the comprehensive curriculum.",
+                "Highly satisfied with the knowledge imparted.",
+                "A trustworthy institute for stock market education.",
+                "Great environment for serious financial learning.",
+                "Quality of education justifies the fee completely."
+            ],
+            "Enthusiastic": [
+                "If you want to print money from the market, join them! 💸",
+                "Best decision ever! 100% recommended! 🚀",
+                "Don't waste time elsewhere, this is the ultimate hub!",
+                "Super excited for my trading journey ahead! 📈",
+                "A big thumbs up to the entire team!",
+                "Trading looks so much easier now. Let's go! 🔥",
+                "5 Stars! Keep rocking Winning Traders Hub!",
+                "To all future traders, this is the holy grail!",
+                "Best community and best setups! Boom!",
+                "Love the energy of the mentors. Highly recommended!"
+            ],
+            "Short": [
+                "Highly recommended.",
+                "5 Stars.",
+                "Best in {location}.",
+                "Great learning experience.",
+                "Must join for traders.",
+                "Top quality education.",
+                "Very satisfied.",
+                "Thank you.",
+                "Superb institute.",
+                "Value for money."
+            ],
+            "Grateful": [
+                "Thank you to the mentors for changing my life.",
+                "Forever grateful for the knowledge and support.",
+                "I will always recommend Winning Traders Hub to beginners.",
+                "Thanks for being so patient and clearing all doubts.",
+                "Appreciate the lifetime support provided.",
+                "Thanks for saving my capital from market traps.",
+                "Grateful for the amazing trading community.",
+                "You guys are doing a great job educating retailers.",
+                "Much appreciated.",
+                "Thanks for the financial independence."
+            ]
+        }
+    };
+</script>
+
+</body>
+</html>
