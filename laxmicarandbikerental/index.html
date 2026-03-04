@@ -1,14 +1,24 @@
-<meta charset="UTF-8">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Review Generator - Laxmi Car &amp; Bike Rental</title>
+    <title>Review - Hotel Royal Respite</title>
     <style>
-        /* --- THEME COLORS (Red/White/Black) --- */
+        /* --- THEME COLORS --- */
         :root {
-            --primary: #d32f2f; /* Red */
-            --primary-dark: #b71c1c;
-            --bg-color: #fff5f5;
-            --white: #ffffff;
-            --text: #333333;
+            --primary: #1e40af; /* Royal Blue */
+            --primary-dark: #1e3a8a;
+            --bg-color: #eff6ff; 
+            --card-bg: #ffffff;
+            --text-main: #333333;
+            --gold: #f59e0b; 
+            --gray: #64748b;
+            --border: #bfdbfe;
+            --box-border: #3b82f6; 
+            --box-bg: #f0f9ff;     
+            --highlight: #db2777;  /* Pink for Couple Friendly */
+            --whatsapp: #25D366;
         }
 
         /* --- RESET --- */
@@ -19,458 +29,543 @@
             margin: 0; padding: 20px 10px;
             min-height: 100vh; display: flex;
             justify-content: center; align-items: flex-start;
-            color: var(--text);
+            color: var(--text-main);
         }
 
         /* --- CONTAINER --- */
         .container {
-            background: var(--white); width: 100%; max-width: 500px;
-            padding: 25px; border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(211, 47, 47, 0.15);
+            background: var(--card-bg); width: 100%; max-width: 500px;
+            padding: 25px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(30, 64, 175, 0.15);
             border-top: 6px solid var(--primary); margin: auto;
+            text-align: center;
+            position: relative;
         }
 
-        h2 { text-align: center; color: var(--primary-dark); margin: 0 0 5px 0; font-size: 24px; font-weight: 800; }
-        .subtitle { text-align: center; color: #555; font-size: 13px; margin-bottom: 20px; font-weight: 600; }
+        /* --- LOGO STYLE --- */
+        .business-logo {
+            max-width: 180px;
+            height: auto;
+            margin-bottom: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h1 { color: var(--primary-dark); margin: 5px 0 2px 0; font-size: 22px; font-weight: 800; letter-spacing: 0.5px; }
+        .location { color: var(--gray); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
         
-        label {
-            font-weight: 700; display: block; margin-top: 15px;
-            margin-bottom: 8px; color: #444; font-size: 12px;
-            text-transform: uppercase; letter-spacing: 0.5px;
-        }
-
         /* --- INPUTS --- */
-        select, input {
-            width: 100%; padding: 12px; border-radius: 8px;
-            border: 1px solid #ffcdd2; background: #fff;
-            font-size: 15px; color: #333; outline: none; margin-bottom: 5px;
+        select, input, textarea {
+            width: 100%; padding: 12px; border-radius: 10px;
+            border: 1px solid var(--border); background: #fff;
+            font-size: 14px; outline: none; margin-bottom: 10px;
+            color: var(--text-main); font-family: inherit;
         }
-        select:focus, input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1); }
+        select:focus, input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+        label { font-weight: 700; display: block; margin-top: 15px; margin-bottom: 6px; color: var(--primary-dark); font-size: 12px; text-transform: uppercase; text-align: left; }
 
-        /* --- VEHICLE TOGGLE --- */
-        .vehicle-group { display: flex; gap: 10px; margin-bottom: 10px; }
-        .vehicle-option {
-            flex: 1; text-align: center; padding: 12px;
-            border: 1px solid #ffcdd2; border-radius: 8px;
-            background: #fff; cursor: pointer; font-weight: 600; font-size: 14px;
-            color: #555; transition: 0.2s;
+        /* --- RATING --- */
+        .star-container { display: flex; justify-content: center; gap: 8px; margin: 20px 0; }
+        .star { font-size: 42px; color: #cbd5e1; cursor: pointer; transition: transform 0.2s, color 0.2s; }
+        .star.selected { color: var(--gold); }
+
+        .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
+        .exp-btn {
+            padding: 12px 15px; border: 1px solid var(--border); border-radius: 8px;
+            background: #fff; cursor: pointer; font-weight: 600; color: var(--text-main);
+            flex: 1; transition: 0.2s; font-size: 14px;
         }
-        .vehicle-option.selected {
-            background: var(--primary); color: white; border-color: var(--primary);
-            box-shadow: 0 4px 6px rgba(211, 47, 47, 0.2);
+        .exp-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(30, 64, 175, 0.3); }
+        .action-btn {
+            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white; border: none; border-radius: 8px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 10px;
         }
 
-        /* --- VOICE SECTION --- */
-        .voice-section {
-            background: #ffebee; border: 1px dashed #ef5350;
-            padding: 12px; border-radius: 12px; margin-bottom: 15px;
+        /* --- CHIPS --- */
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
+        .keyword-chip { 
+            padding: 8px 12px; background-color: #fff; border-radius: 20px; 
+            font-size: 11px; font-weight: 600; cursor: pointer; 
+            border: 1px solid var(--border); color: var(--text-main); 
+            flex-grow: 1; text-align: center; transition: 0.2s;
+        }
+        .keyword-chip.active { background-color: #dbeafe; color: var(--primary-dark); border-color: var(--primary); transform: translateY(-2px); font-weight: 700; }
+        
+        .keyword-chip.highlight { border: 1px solid var(--highlight); color: var(--highlight); background-color: #fff0f5; font-weight: 700; }
+        .keyword-chip.highlight.active { background-color: var(--highlight); color: white; box-shadow: 0 4px 10px rgba(219, 39, 119, 0.4); }
+
+        .cat-title { width:100%; font-size: 11px; font-weight: 700; color: var(--gray); margin-top: 15px; margin-bottom: 5px; border-bottom: 1px dashed var(--border); text-align: left; text-transform: uppercase; }
+
+        /* --- INPUT MODES --- */
+        .input-mode-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .mode-btn { 
+            flex: 1; padding: 10px; border: 1px solid var(--primary); border-radius: 8px; 
+            background: #fff; color: var(--primary); font-weight: 600; cursor: pointer; font-size: 13px;
+        }
+        .mode-btn.active-mode { background: var(--primary); color: white; }
+
+        .voice-section, .text-section {
+            background: #e0f2fe; padding: 12px; border-radius: 12px; 
+            margin-bottom: 20px; border: 1px dashed var(--primary); text-align: left;
         }
         .voice-controls { display: flex; align-items: center; gap: 10px; }
-        
         .mic-btn {
             width: 45px; height: 45px; border-radius: 50%;
             background: var(--primary); color: white; border: none;
-            font-size: 20px; cursor: pointer; box-shadow: 0 4px 10px rgba(211, 47, 47, 0.3);
+            font-size: 20px; cursor: pointer; box-shadow: 0 4px 10px rgba(30, 64, 175, 0.3);
             display: flex; align-items: center; justify-content: center;
         }
-        .mic-active { animation: pulse 1.5s infinite; background: #b71c1c; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(183, 28, 28, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(0,0,0,0); } }
+        .mic-active { animation: pulse 1.5s infinite; background: #1e3a8a; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(30, 64, 175, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(0,0,0,0); } }
 
-        /* --- KEYWORD CHIPS --- */
-        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; }
-        .keyword-chip {
-            padding: 8px 12px; background-color: #fff; border-radius: 50px;
-            font-size: 12px; font-weight: 500; cursor: pointer;
-            border: 1px solid #e0e0e0; color: #555;
-            flex-grow: 1; text-align: center; transition: all 0.2s ease;
+        /* --- REVIEW PREVIEW BOX --- */
+        .review-preview-box {
+            width: 100%; min-height: 140px; padding: 15px; margin-top: 20px;
+            border: 1px solid var(--box-border); border-radius: 12px;
+            background-color: var(--box-bg); color: #334155;
+            font-size: 15px; line-height: 1.6; font-family: 'Segoe UI', sans-serif;
+            resize: none; outline: none; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
-        .keyword-chip.active {
-            background-color: #ffcdd2; color: #b71c1c; border-color: #ef5350;
-            font-weight: 700; transform: translateY(-1px);
-            box-shadow: 0 2px 5px rgba(211, 47, 47, 0.2);
-        }
-        .chip-hidden { display: none; }
 
-        /* --- BUTTONS --- */
-        .generate-btn {
-            width: 100%; padding: 14px; margin-top: 25px;
-            background: linear-gradient(135deg, #d32f2f 0%, #c62828 100%);
+        .copy-btn { width: 100%; padding: 12px; background-color: #10b981; color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: 600; cursor: pointer; display: none; }
+
+        /* OWNER PANEL */
+        #ownerPanel {
+            display: none; margin-top: 20px; padding: 15px;
+            border: 2px dashed var(--whatsapp); border-radius: 12px;
+            background-color: #f0fdf4; text-align: left;
+        }
+        .whatsapp-send-btn {
+            width: 100%; padding: 12px; background-color: var(--whatsapp);
             color: white; border: none; border-radius: 8px;
-            font-size: 16px; font-weight: 600; cursor: pointer;
-            box-shadow: 0 4px 10px rgba(211, 47, 47, 0.2);
-        }
-        
-        textarea {
-            width: 100%; height: 130px; margin-top: 20px; padding: 12px;
-            border: 1px solid #ccc; border-radius: 8px; resize: none;
-            background-color: #fafafa; color: #333; font-size: 14px;
-        }
-        
-        .copy-btn {
-            width: 100%; padding: 12px; background-color: #2e7d32;
-            color: white; border: none; border-radius: 8px; margin-top: 15px;
-            font-weight: 600; font-size: 15px; cursor: pointer; display: none;
+            font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        .toggle-name {
-            font-size: 12px; color: var(--primary); text-decoration: underline;
-            cursor: pointer; border: none; background: none; float: right; margin-top: 5px;
-        }
-        .name-input-area { margin-top: 10px; display: none; clear: both; }
-
-        /* --- FOOTER --- */
-        .footer-branding {
-            margin-top: 35px; padding-top: 15px; border-top: 1px dashed #e0e0e0;
-            text-align: center; font-size: 12px; color: #666;
-        }
+        .footer-branding { margin-top: 30px; padding-top: 15px; border-top: 1px dashed #cbd5e1; text-align: center; font-size: 12px; color: #64748b; }
         .footer-branding img { height: 20px; vertical-align: middle; margin: 0 5px; }
         .footer-branding a { color: var(--primary); text-decoration: none; font-weight: 700; }
-        .dev-contact { margin-top: 5px; font-size: 11px; }
+        
+        .owner-login-trigger {
+            font-size: 11px; color: #ccc; cursor: pointer; text-decoration: none;
+            position: absolute; bottom: 5px; right: 10px;
+        }
+
+        .fade-in { animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .hidden { display: none; }
+        .toggle-name { font-size: 12px; color: var(--primary); text-decoration: underline; cursor: pointer; border: none; background: none; float: right; margin-top: 5px; }
+        
+        /* CUSTOMER VIEW */
+        .customer-card { text-align: center; padding: 20px; }
+        .customer-card h2 { color: var(--primary); }
     </style>
+</head>
+<body>
 
+<div class="container" id="mainApp">
 
-
-<div class="container">
-    <h2>Laxmi Car &amp; Bike Rental</h2>
-    <p class="subtitle">📍 Cunchelim • Mapusa • Siolim</p>
-
-    <label>1. Vehicle Category</label>
-    <div class="vehicle-group">
-        <div class="vehicle-option selected" onclick="updateVehicleList('2w', this)">🛵 Bike / Scooter</div>
-        <div class="vehicle-option" onclick="updateVehicleList('4w', this)">🚗 Car / Jeep</div>
+    <div id="customerLinkView" class="hidden customer-card">
+        <div style="font-size: 40px; margin-bottom: 10px;">👋</div>
+        <h2>Hello!</h2>
+        <p style="color:#555; font-size:14px; margin-bottom:20px;">
+            Here is the review for your recent stay at Hotel Royal Respite.
+            <br>Click below to copy & post.
+        </p>
+        <textarea id="customerReviewText" class="review-preview-box" readonly></textarea>
+        <button class="copy-btn" style="display:block; margin-top:15px;" onclick="copyCustomerLinkReview()">📋 Copy & Open Google</button>
+        <p style="font-size:11px; color:#999; margin-top:20px;">Thank you for your support! ❤️</p>
     </div>
 
-    <label>Select Model</label>
-    <select id="vehicleModelSelect"></select>
+    <div id="generatorApp">
+        <img src="https://growft.odoo.com/web/image/1576-c0d41dfd/royal%20respite%20.webp" alt="Hotel Royal Respite Logo" class="business-logo">
+        
+        <h1>Hotel Royal Respite</h1>
+        <div class="location">Pandharpur • Stay • Dining • Events</div>
 
-    <label>2. Voice Input (Speak in Hindi/Local)</label>
-    <div class="voice-section">
-        <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-            <span style="font-size:11px; font-weight:bold; color:#d32f2f;">LANGUAGE:</span>
-            <select id="voiceLang" style="width:auto; padding:2px; font-size:12px; height:25px; margin:0;">
-                <option value="hi-IN">Hindi</option>
-                <option value="mr-IN">Marathi</option>
-                <option value="en-IN">English</option>
-                <option value="gu-IN">Gujarati</option>
-                <option value="bn-IN">Bengali</option>
-                <option value="kn-IN">Kannada</option>
-                <option value="ml-IN">Malayalam</option>
-            </select>
-        </div>
-        <div class="voice-controls">
-            <button id="micBtn" class="mic-btn" onclick="startListening()">🎤</button>
-            <div style="flex:1;">
-                <p id="micStatus" style="font-size:12px; color:#555; margin:0;">
-                    Tap mic &amp; speak...<br>
-                    (Ex: "Hitesh bhai ne bahut achi service di")
-                </p>
+        <div id="ratingScreen" class="fade-in">
+            <p style="font-weight:600; color:#555;">How was your stay with us?</p>
+            <div class="star-container">
+                <span class="star" onclick="rate(1)">★</span>
+                <span class="star" onclick="rate(2)">★</span>
+                <span class="star" onclick="rate(3)">★</span>
+                <span class="star" onclick="rate(4)">★</span>
+                <span class="star" onclick="rate(5)">★</span>
             </div>
+            <div class="experience-btns">
+                <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Not Happy 😞</button>
+                <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Great Stay! 😍</button>
+            </div>
+            <button class="action-btn" onclick="processRating()">Next Step ➡</button>
         </div>
-        <div id="voiceResult" style="display:none; margin-top:8px; font-size:12px; color:#d32f2f; background:#fff; padding:6px; border-radius:4px;"></div>
+
+        <div id="privateFeedbackScreen" class="fade-in hidden">
+            <h2 style="color:var(--text-main);">We are sorry! 😔</h2>
+            <p style="font-size:14px; color:#666;">Please tell us how we can improve our services.</p>
+            <textarea id="privateFeedbackText" placeholder="What went wrong? (Room, Food, Service...)"></textarea>
+            <button class="action-btn" style="background:#475569;" onclick="submitPrivateFeedback()">Submit Feedback</button>
+        </div>
+
+        <div id="thankYouScreen" class="fade-in hidden">
+            <div style="font-size: 50px; margin-bottom:10px;">✅</div>
+            <h2 style="color:var(--primary);">Thank You!</h2>
+            <p>Your feedback has been sent to the manager.</p>
+        </div>
+
+        <div id="aiToolScreen" class="fade-in hidden" style="text-align: left;">
+            
+            <div class="input-mode-tabs">
+                <button class="mode-btn active-mode" id="btnModeVoice" onclick="switchMode('voice')">🎤 Speak</button>
+                <button class="mode-btn" id="btnModeText" onclick="switchMode('text')">✍️ Write Review</button>
+            </div>
+
+            <div id="voiceSection" class="voice-section">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <span style="font-size:11px; font-weight:bold; color:var(--primary);">SPEAK (Marathi/Hindi/Eng):</span>
+                    <select id="voiceLang" style="width:auto; padding:2px; font-size:11px; height:25px; margin:0;">
+                        <option value="mr-IN" selected>Marathi</option>
+                        <option value="hi-IN">Hindi</option>
+                        <option value="en-IN">English</option>
+                    </select>
+                </div>
+                <div class="voice-controls">
+                    <button id="micBtn" class="mic-btn" onclick="startListening()">🎤</button>
+                    <div style="flex:1;">
+                        <p id="statusText" style="font-size:12px; color:#555; margin:0;">Tap mic & speak...<br>(Ex: "Room ekdum saaf hote")</p>
+                    </div>
+                </div>
+                <div id="spokenTextDisplay" style="display:none; margin-top:8px; font-size:12px; color:var(--primary); background:#fff; padding:6px; border-radius:4px;"></div>
+            </div>
+
+            <div id="textSection" class="text-section hidden">
+                <label style="margin-top:0; color:var(--primary);">Describe Your Experience</label>
+                <textarea id="manualInput" placeholder="Ex: Best stay, room was clean..." style="height:80px; margin-bottom:0;"></textarea>
+                <p style="font-size:11px; color:#666; margin-top:5px;">*We will polish this into professional English.</p>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <div style="flex:1;">
+                    <label style="margin-top:0;">Type of Visit</label>
+                    <select id="serviceSelect">
+                        <option value="" disabled selected>Select...</option>
+                        <option value="Couple Stay">Couple Stay</option>
+                        <option value="Family Stay">Family Trip</option>
+                        <option value="Darshan Visit">Darshan / Pilgrimage</option>
+                        <option value="Business Trip">Business Trip</option>
+                        <option value="Wedding Event">Attended Wedding</option>
+                        <option value="Dinner">Dinner / Restaurant</option>
+                    </select>
+                </div>
+                <div style="flex:1;">
+                    <label style="margin-top:0;">Tone</label>
+                    <select id="toneSelect">
+                        <option value="Happy">Happy 😊</option>
+                        <option value="Professional">Formal 💼</option>
+                        <option value="Short">Short ✨</option>
+                    </select>
+                </div>
+            </div>
+
+            <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
+            <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
+                <input type="text" id="userName" placeholder="Your Name">
+            </div>
+
+            <label style="clear:both;">Select Highlights (Pick 3-4)</label>
+            
+            <div class="keywords-container">
+                <div class="cat-title">Special Features</div>
+                <div class="keyword-chip highlight" onclick="toggleKeyword(this, 'Couple Friendly')">💑 Couple Friendly</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Family Friendly')">👨‍👩‍👧‍👦 Family Friendly</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet Friendly')">🐾 Pet Friendly</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Extended Stay')">🗓️ Extended Stay</div>
+
+                <div class="cat-title">Top Amenities</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'AC Rooms')">❄️ AC Rooms</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'WiFi')">📶 Fast WiFi</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Parking')">🚗 Nice Parking</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'TV')">📺 TV</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Accessibility')">♿ Accessibility</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Easy Transport')">🚖 Easy Transport</div>
+
+                <div class="cat-title">Service & Staff</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Friendly Welcome')">🙏 Friendly Welcome</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Professional Staff')">👨‍💼 Professional Staff</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Service')">🌟 Best Service</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Cleanliness')">✨ Very Clean</div>
+
+                <div class="cat-title">Food & Dining</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Nice Food')">🍛 Nice Food</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Affordable')">💰 Affordable Prices</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Hygienic Food')">🥗 Hygienic</div>
+            </div>
+
+            <button class="action-btn" id="generateBtn" onclick="generateReview()">✨ Generate Magic Review</button>
+            <textarea id="reviewOutput" class="review-preview-box" style="display:none;" readonly></textarea>
+            
+            <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()" style="display:none;">📋 Copy & Open Google</button>
+            
+            <div id="ownerPanel">
+                <label style="color:var(--whatsapp); margin-top:0;">📱 Customer's WhatsApp Number</label>
+                <div style="display:flex; gap:10px;">
+                    <input type="tel" id="customerPhone" placeholder="Ex: 9876543210" style="margin-bottom:0;">
+                    <button class="whatsapp-send-btn" style="width: auto; padding: 0 20px;" onclick="sendLinkToCustomer()">🚀 Send</button>
+                </div>
+                <p style="font-size:11px; color:#555; margin-top:5px;">Customer will receive a direct link to post this review.</p>
+            </div>
+
+        </div>
     </div>
-
-    <div style="text-align: center; color: #94a3b8; font-size: 11px; margin: 10px 0;">--- OR SELECT HIGHLIGHTS ---</div>
-
-    <label>3. Select What You Liked (Pick 3-4)</label>
-    <div class="keywords-container">
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Service')">🌟 Best Service</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Hassle Free')">✅ Hassle Free</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Easy Paperwork')">📄 Easy Paperwork</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Quick Pickup')">⚡ Quick Pickup</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Deposit Refund')">💸 Instant Refund</div>
-        
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Mapusa Service')">📍 Mapusa Service</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Siolim Delivery')">🏡 Siolim Delivery</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Cunchelim Office')">🏢 Cunchelim Office</div>
-
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Good Condition')">🛠️ Good Condition</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'New Model')">🆕 New Model</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Clean Vehicle')">✨ Clean Vehicle</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Good Mileage')">⛽ Good Mileage</div>
-
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Polite Staff')">👨‍💼 Polite Staff</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Hitesh Bhai')">👤 Hitesh Bhai</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Helpful Owner')">🤝 Helpful Owner</div>
-
-        <div class="keyword-chip bike-only" onclick="toggleKeyword(this, '2 Helmets')">⛑️ 2 Helmets</div>
-        <div class="keyword-chip bike-only" onclick="toggleKeyword(this, 'Phone Holder')">📱 Phone Holder</div>
-        
-        <div class="keyword-chip car-only chip-hidden" onclick="toggleKeyword(this, 'Powerful AC')">❄️ Powerful AC</div>
-        <div class="keyword-chip car-only chip-hidden" onclick="toggleKeyword(this, 'Bluetooth Music')">🎵 Music System</div>
-        <div class="keyword-chip car-only chip-hidden" onclick="toggleKeyword(this, 'Clean Interiors')">🛋️ Clean Interiors</div>
-
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Affordable Price')">💰 Best Price</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Highly Recommended')">👍 Recommended</div>
-        <div class="keyword-chip" onclick="toggleKeyword(this, 'Safe Drive')">🛡️ Safe Drive</div>
-    </div>
-
-    <div style="margin-top:15px;">
-        <label>Tone</label>
-        <select id="toneSelect">
-            <option value="Tourist">Tourist / Vacation Mode 🏖️</option>
-            <option value="Quick">Professional &amp; Direct ⚡</option>
-            <option value="Grateful">Grateful &amp; Happy 🙏</option>
-        </select>
-        <button class="toggle-name" onclick="document.getElementById('nameArea').style.display='block'">+ Add Name</button>
-    </div>
-    <div class="name-input-area" id="nameArea" style="display:none; margin-top:5px;">
-        <input type="text" id="userName" placeholder="Your Name">
-    </div>
-
-    <button class="generate-btn" onclick="generateReview()">🚀 Generate Unique Review</button>
-
-    <textarea id="reviewOutput" placeholder="Your review will appear here..." readonly=""></textarea>
-    
-    <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy &amp; Open Google</button>
 
     <div class="footer-branding">
         Powered by <a href="https://growft.odoo.com" target="_blank">Growft</a>
         <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" alt="Growft Logo">
-        <div class="dev-contact">
-            Contact us to build your AI review tool: <a href="tel:+917020370561">7020370561</a>
-        </div>
+        <div class="dev-contact">Contact us to build your AI review tool: <a href="tel:+917020370561">7020370561</a></div>
+        <span class="owner-login-trigger" onclick="ownerLogin()">🔒 Owner</span>
     </div>
 </div>
 
 <script>
-    const GOOGLE_REVIEW_LINK = "https://admin.trustindex.io/api/googleWriteReview?place-id=ChIJTSK50UfrvzsR9HQFhKgEnGE"; // REPLACE THIS
-    let selectedKeywords = [];
-    let currentCategory = '2w'; 
-    let translatedVoiceText = "";
+    const GOOGLE_REVIEW_LINK = "https://www.google.com/travel/search?ts=CAEaSAooEiYyJDB4M2JjNDE3MDAzZmVjNGVjYjoweDgzMGU4Y2E2ODdhYzhmMxIcEhQKBwjqDxAEGAESBwjqDxAEGAIYATIECAAQACoHCgU6A0lOUg&qs=CAEyE0Nnb0k4NUhydzZhWnVwZ0lFQUU4AkIJCfPIemjK6DAIQgkJ88h6aMroMAg&utm_campaign=sharing&utm_medium=link_btn&utm_source=htls"; 
+    let isOwnerMode = false;
 
-    // --- 1. DATASETS (Specific to Laxmi Car Bike Rental) ---
-    const vehicleModels = {
-        '2w': ["Honda Activa", "Yamaha Fascino", "TVS Jupiter", "Suzuki Access", "Dio", "Royal Enfield Classic 350", "Royal Enfield Bullet", "Scooty (General)"],
-        '4w': ["Toyota Innova Crysta", "Mahindra Thar 4x4", "Maruti Ertiga", "Hyundai Verna", "Maruti Baleno", "Hyundai Creta", "Maruti Swift", "Maruti WagonR", "Kia Carens", "Hyundai i20", "Self Drive Car"]
-    };
-
-    // --- 50+ UNIQUE OPENING LINES ---
-    const reviewData = {
-        intro: {
-            "Tourist": [
-                "Just started my Goa trip from Mapusa with a {model}.", "Landed in Goa and rented a {model} from Laxmi Rental immediately.", "Our Goa vacation started perfectly thanks to Hitesh bhai and team.",
-                "Came to Goa for a holiday and found this gem in Cunchelim.", "Traveling in Goa became so easy with their {model}.", "If you are a tourist in Mapusa or Siolim, this is the best place to rent.",
-                "Arrived at Mapusa and picked up a {model} immediately.", "We were looking for a reliable rental near Siolim and found them.", "Best decision to rent from Laxmi Car & Bike Rental for our trip.",
-                "A perfect start to our family vacation in North Goa.", "Was worried about rental scams, but found this genuine place in Cunchelim.", "Needed a reliable vehicle to explore Anjuna and Vagator, and they delivered.",
-                "My Goa trip was amazing, largely thanks to the {model} provided.", "Found them on Google near Mapusa and I am glad I did.", "Rented a {model} to explore North Goa beaches.", "Smooth start to our journey from their Cunchelim office."
-            ],
-            "Quick": [
-                "Needed a quick ride near Mapusa.", "Very fast process at Cunchelim office, took a {model}.", "Found them easily near HP Petrol Pump Cunchelim.", "Got my {model} within 10 minutes of arrival.",
-                "Super fast service, no wasting time.", "Instant booking and delivery of the {model}.", "Walked in and drove out in minutes.", "No long waiting times here, very efficient.",
-                "Quickest rental service I have found in Mapusa/Siolim.", "Urgent requirement fulfilled immediately.", "Fastest paperwork I have seen in Goa.", "Got the vehicle without any delay.",
-                "Smooth and fast transaction.", "Very prompt service.", "Saved us a lot of time, highly efficient."
-            ],
-            "Grateful": [
-                "I am so thankful to Hitesh bhai for the {model}.", "Big thanks to the Laxmi Rental team for the excellent service.", "They really saved my trip with a last-minute booking.",
-                "Heartfelt thanks for the smooth experience.", "Grateful for the honest service provided in Siolim.", "Such a helpful team, really appreciate it.",
-                "Thank you for being so cooperative throughout the trip.", "Made our trip stress-free, thank you!", "God bless this honest business.", "A wonderful experience, thanks to the staff.",
-                "Really happy with the service and the {model}.", "Appreciate the clean vehicle and good service.", "Thanks for the quick deposit refund.", "You guys are the best in Mapusa!", "Thank you for the warm welcome."
-            ]
-        },
-        // --- 50+ UNIQUE CLOSING LINES ---
-        outro: {
-            "Tourist": [
-                "Highly recommended for all tourists visiting Goa! 🌴", "Best way to explore Goa. 5 stars!", "Will definitely rent from Laxmi Rental on my next trip.", "Don't look anywhere else in Mapusa, just book here.",
-                "Made our vacation memorable.", "Thanks for the amazing service.", "See you guys next time!", "Perfect companion for a Goa trip.", "Enjoyed the ride thoroughly.",
-                "Goa is incomplete without a good ride, thanks!", "Adding this to my favorites list.", "Recommend to all my friends coming to Goa.", "5-star experience for sure.",
-                "Loved the vibe and the service.", "Cheers to the team!"
-            ],
-            "Quick": [
-                "If you are in Cunchelim, just go to them.", "Saved us a lot of time. Recommended.", "Good condition vehicles and fast service.", "Quick, easy, and reliable.",
-                "Best for quick rentals in Mapusa.", "Don't waste time searching, go here.", "Speedy service, good vehicles.", "Instant service, highly recommended.",
-                "Efficient team, good job.", "Will come back for the speed.", "No headache, just ride.", "Time-saving service.", "Process was a breeze.",
-                "Fastest rental in town.", "Recommended for urgent needs."
-            ],
-            "Grateful": [
-                "Thank you for the warm welcome.", "Made our trip stress-free. Highly recommended.", "Honest and reliable people.", "Will recommend because of their behavior.",
-                "Nice people to deal with.", "Respectful and honest service.", "Felt safe dealing with them.", "Good people, good business.", "Trustworthy guys, go for it.",
-                "Thanks for being so helpful.", "Appreciate the support.", "Great customer care.", "Rare to find such good people.", "Politeness matters, and they have it.", "Customer satisfaction is their priority."
-            ]
-        },
-        // --- KEYWORD VARIATIONS (Massive list) ---
-        keywords: {
-            "Best Service": ["Service quality is unmatched.", "Truly the best service in Goa.", "Hands down the best rental agency.", "Impressed with their service.", "Top-notch service standards.", "Service was beyond expectations.", "They really care about customers.", "Best service provider in Mapusa.", "Exceptional service quality.", "Very happy with the service.", "They serve with a smile.", "Professional and best service.", "Service is their priority.", "No complaints about service.", "Simply the best service."],
-            "Mapusa Service": ["Best rental near Mapusa.", "Convenient for Mapusa residents.", "Located perfectly in Mapusa.", "My go-to rental in Mapusa.", "If you are in Mapusa, call them.", "Easy access from Mapusa market.", "Mapusa's finest rental.", "Great service in Mapusa.", "Reliable agency in Mapusa.", "Top choice in Mapusa."],
-            "Siolim Delivery": ["Delivery to Siolim was quick.", "Got the bike delivered in Siolim.", "Best rental service near Siolim.", "Siolim delivery was hassle-free.", "Easy option for Siolim stay.", "They serve Siolim area well.", "Quick drop at Siolim.", "Convenient for Siolim tourists.", "Prompt service in Siolim.", "Siolim branch is good."],
-            "Cunchelim Office": ["Visited their Cunchelim office.", "Located near HP Pump Cunchelim.", "Easy to find in Cunchelim.", "Cunchelim office staff is great.", "Best rental in Cunchelim.", "Start your trip from Cunchelim.", "Nice office in Cunchelim.", "Cunchelim location is convenient.", "Picked up from Cunchelim.", "Friendly vibe at Cunchelim office."],
-            "Hitesh Bhai": ["Hitesh bhai is a gem.", "Thanks to Hitesh bhai.", "Hitesh bhai guided us well.", "Met Hitesh bhai, very polite.", "Special thanks to Hitesh bhai.", "Hitesh bhai is very helpful.", "Great dealing with Hitesh bhai.", "Hitesh bhai ensures quality.", "Kind soul Hitesh bhai.", "Hitesh bhai is the owner.", "Shoutout to Hitesh bhai.", "Hitesh bhai made it easy.", "Trust Hitesh bhai.", "Hitesh bhai is professional.", "Appreciate Hitesh bhai."],
-            "Hassle Free": ["The process was completely hassle-free.", "Zero headache, smooth process.", "Renting was a breeze.", "No complicated rules.", "Seamless experience.", "Stress-free rental experience.", "No unnecessary formalities.", "Very convenient and hassle-free.", "Everything went smoothly.", "No drama, just pure service.", "Hassle-free pick up and drop.", "Simple and hassle-free procedure.", "Enjoyed the hassle-free booking.", "Smooth sailing all the way.", "Totally trouble-free rental."],
-            "Easy Paperwork": ["Paperwork took just 2 minutes.", "Minimal documents required.", "Fast documentation process.", "ID proof and license, that's it.", "No lengthy forms to fill.", "Quick and easy paperwork.", "Documents verified instantly.", "Simple formalities.", "No keeping original IDs.", "Paperwork was a breeze.", "Hassle-free documentation.", "Very convenient paperwork.", "Instant approval process.", "Transparent paperwork.", "Documentation was very fast."],
-            "Quick Pickup": ["Got the vehicle immediately.", "Handover process was super fast.", "No waiting time at pickup.", "Instant delivery.", "Started our trip without delay.", "Quickest handover ever.", "Bike was ready for us.", "Car was delivered instantly.", "No delay in handover.", "Prompt vehicle delivery.", "Picked up the keys in seconds.", "Very efficient handover.", "Got the bike in 5 mins.", "Speedy handover process.", "Immediate possession given."],
-            "Deposit Refund": ["Deposit was refunded instantly.", "Got my security deposit back immediately via UPI.", "Honest with the refund policy.", "No deduction in deposit.", "Transparent deposit return.", "Immediate refund at drop.", "Deposit returned without hassle.", "Safe deposit process.", "Quickest refund ever.", "Trustworthy with deposits.", "Refunded on the spot.", "Instant GPay refund.", "Smooth deposit return.", "No issues with security money.", "Deposit was returned fully."],
-            "No Hidden Charges": ["Absolutely no hidden charges.", "Transparency in billing was good.", "What they quoted is what I paid.", "Honest pricing.", "No extra demands at drop.", "No surprise costs.", "Pricing was transparent.", "No hidden fees.", "Clear pricing structure.", "Paid exactly what was agreed.", "No last minute charges.", "Honest billing.", "Fair and transparent deal.", "No secret costs.", "Upfront pricing."],
-            "Good Condition": ["The {model} was in mint condition.", "Mechanically the vehicle was perfect.", "No breakdowns, great condition.", "Well maintained fleet.", "Felt safe driving this vehicle.", "Condition was showroom like.", "Engine performance was top.", "Vehicle ran like new.", "Perfect condition vehicle.", "Zero mechanical issues.", "Top class condition.", "Vehicle was in great shape.", "Maintained very well.", "Smooth running condition.", "Flawless condition."],
-            "New Model": ["Got the latest model {model}.", "Vehicle looked showroom fresh.", "New fleet available.", "Latest technology features.", "Less driven vehicle provided.", "Brand new vehicle.", "Latest edition model.", "Got a new registration vehicle.", "Modern features included.", "New bike feel.", "Digital meter console.", "Fresh piece provided.", "Latest BS6 model.", "New fleet of cars.", "Current year model."],
-            "Clean Vehicle": ["Vehicle was spotless and clean.", "Sanitized vehicle provided.", "Dust-free and shiny.", "Washed before delivery.", "Cleanliness was top notch.", "Smelled fresh.", "Very hygienic.", "Neat and tidy vehicle.", "Sparkling clean.", "Well cleaned before handover.", "Hygiene standards maintained.", "Clean inside out.", "Dust free seats.", "Freshly washed.", "Immaculate cleanliness."],
-            "Good Mileage": ["The {model} gave amazing mileage.", "Fuel efficiency was great.", "Saved money on fuel.", "Got excellent average.", "Economic ride.", "Very fuel efficient.", "Mileage was a surprise.", "Petrol consumption low.", "Great mileage for Goa.", "Budget friendly on fuel.", "Good average per liter.", "Efficient engine.", "Saved on petrol costs.", "Mileage was impressive.", "Long rides, less fuel."],
-            "Polite Staff": ["Staff is very polite.", "Very cooperative team.", "They speak very nicely.", "Humble and down to earth.", "Respectful behavior.", "Courteous staff.", "Well behaved team.", "Very polite attitude.", "Friendly staff members.", "They listen patiently.", "Soft spoken staff.", "Very mannerly.", "Politeness is key here.", "Good behavior.", "Staff treats you well."],
-            "Helpful Owner": ["Very helpful nature.", "Helped us with directions too.", "Supported us throughout the trip.", "Always available on call.", "Went out of their way to help.", "Extremely helpful team.", "Guided us for places.", "Helpful with luggage.", "Assistive staff.", "Helped in planning trip.", "Very supportive.", "Ready to help anytime.", "Helpful advice given.", "Assisted us well.", "Helpful attitude."],
-            "Trustworthy": ["Very trustworthy rental agency.", "Genuine people, no scams.", "You can trust them blindly.", "Reliable service in Madgaon.", "Honest dealing.", "Trust is their motto.", "Most trusted agency.", "Safe and trustworthy.", "Reliable people.", "Faith in their service.", "Trustable brand.", "Genuine service.", "No fraud here.", "Trustworthy owner.", "Reliable and safe."],
-            "2 Helmets": ["Provided 2 clean helmets.", "Safety gear included.", "Good quality helmets given.", "Helmets for pillion too.", "Hygienic helmets provided.", "Complimentary helmets.", "Clean and safe helmets.", "Helmets fit well.", "Visor helmets given.", "Safety first.", "Helmets were in good condition.", "Two helmets included.", "Rider and pillion helmets.", "Safety helmets provided.", "Good helmets."],
-            "Phone Holder": ["Bike had a mobile holder.", "Navigation was easy with the phone holder.", "Phone mount was very useful.", "Great addition for tourists.", "Helped in using Maps.", "Mobile stand provided.", "Good for GPS.", "Phone holder works well.", "Holder was sturdy.", "Useful accessory.", "Easy navigation.", "Mount for phone.", "Convenient holder.", "Phone stayed safe.", "Helped find ways."],
-            "Powerful AC": ["AC was chilling.", "Air conditioning worked perfectly.", "Beat the Goa heat with powerful AC.", "Cooling was instant.", "Climate control was good.", "AC cooled the cabin fast.", "Chilled AC.", "AC performance top.", "Cool interiors.", "AC was a lifesaver.", "Perfect cooling.", "Rear AC worked too.", "Strong AC.", "AC maintenance good.", "Cooled quickly."],
-            "Bluetooth Music": ["Music system was great.", "Enjoyed songs via Bluetooth.", "Good sound system.", "Audio system worked well.", "Entertainment sorted.", "Bluetooth connectivity.", "Played my playlist.", "Good speakers.", "Music on the go.", "Infotainment was good.", "Easy phone connect.", "Sound quality crisp.", "Good bass.", "Music system worked.", "Audio was clear."],
-            "Clean Interiors": ["Interiors were spotless.", "Seats were clean and vacuumed.", "Smelled fresh inside.", "Hygienic cabin.", "Dashboard and mats were clean.", "Tidy interiors.", "Inside was clean.", "Dust free cabin.", "Fresh smell.", "Well maintained inside.", "Clean upholstery.", "Spotless seats.", "Clean floor mats.", "Interior detailing done.", "Hygiene maintained."],
-            "Affordable Price": ["Very pocket-friendly rates.", "Best rates in the market.", "Got a great deal.", "Reasonable pricing.", "Value for money.", "Cheap and best.", "Budget rental.", "Affordable daily rates.", "Good discounts.", "Fair price.", "Not expensive.", "Cost effective.", "Great pricing.", "Low cost rental.", "Wallet friendly."],
-            "Highly Recommended": ["Highly recommended!", "My top pick in Goa.", "Recommend to everyone.", "Must try service.", "Strongly recommended.", "10/10 recommended.", "I suggest this place.", "Don't go anywhere else.", "Top recommendation.", "Highly suggested.", "My vote for them.", "Best choice.", "Fully recommended.", "Do visit them.", "My recommendation."],
-            "Safe Drive": ["Felt very safe driving.", "Safety was prioritized.", "Reliable vehicle for a safe trip.", "Good brakes and tyres for safety.", "Secure ride.", "Safe vehicle.", "Safety features working.", "Felt secure.", "Safe journey.", "Reliable and safe.", "Safe for families.", "Good safety.", "Secure drive.", "Safe condition.", "Risk free ride."],
-            "On Time": ["Delivery was on time.", "Punctual service.", "Vehicle ready upon arrival.", "No waiting, on-time pickup.", "Respects time.", "Timely service.", "Prompt delivery.", "On schedule.", "Time efficient.", "Punctuality matters.", "Right on time.", "No delays.", "Timely pickup.", "On time drop.", "Respectful of time."]
+    // --- INITIALIZATION ---
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const reviewText = urlParams.get('review');
+        if (reviewText) {
+            document.getElementById('generatorApp').style.display = 'none';
+            document.getElementById('customerLinkView').classList.remove('hidden');
+            document.getElementById('customerReviewText').value = decodeURIComponent(reviewText);
+        } else if(sessionStorage.getItem('isOwner') === 'true') {
+            isOwnerMode = true;
         }
     };
 
-    function pickRandom(array) {
-        if (!array || array.length === 0) return "";
-        return array[Math.floor(Math.random() * array.length)];
+    // --- OWNER LOGIC ---
+    function ownerLogin() {
+        if(isOwnerMode) { alert("Already logged in as Owner."); return; }
+        const password = prompt("Enter Owner Password:");
+        if(password === "admin123") { // DEFAULT PASSWORD
+            isOwnerMode = true;
+            sessionStorage.setItem('isOwner', 'true');
+            alert("Owner Mode Active!");
+        } else if(password) { alert("Incorrect Password"); }
     }
 
-    // --- UI LOGIC ---
-    function updateVehicleList(category, element) {
-        currentCategory = category;
-        
-        document.querySelectorAll('.vehicle-option').forEach(el => el.classList.remove('selected'));
-        element.classList.add('selected');
+    function sendLinkToCustomer() {
+        const phone = document.getElementById('customerPhone').value.replace(/\D/g, '');
+        const review = document.getElementById('reviewOutput').value;
+        if(phone.length < 10) { alert("Enter valid number"); return; }
+        const finalPhone = phone.length === 10 ? "91" + phone : phone;
+        const baseUrl = window.location.href.split('?')[0];
+        const magicLink = `${baseUrl}?review=${encodeURIComponent(review)}`;
+        const msg = `Hello! 👋\n\nHere is the review for your stay at Hotel Royal Respite:\n\n*Tap this link to Post on Google:*\n${magicLink}`;
+        window.open(`https://wa.me/${finalPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
 
-        const select = document.getElementById('vehicleModelSelect');
-        select.innerHTML = ""; 
-        vehicleModels[category].forEach(model => {
-            let option = document.createElement('option');
-            option.value = model;
-            option.text = model;
-            select.appendChild(option);
+    function copyCustomerLinkReview() {
+        const box = document.getElementById("customerReviewText");
+        box.select();
+        document.execCommand('copy');
+        window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+
+    // --- LOGIC ---
+    let selectedKeywords = [];
+    let voiceText = "";
+    let activeMode = 'voice';
+    const connectors = ["Also,", "Moreover,", "I must mention that,", "Additionally,", "Plus,", "On top of that,", "Furthermore,", "Truly,", "Honestly,", "Not to mention,", "Along with that,", "To add to it,"];
+
+    function switchMode(mode) {
+        activeMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active-mode'));
+        if(mode === 'voice') {
+            document.getElementById('btnModeVoice').classList.add('active-mode');
+            document.getElementById('voiceSection').classList.remove('hidden');
+            document.getElementById('textSection').classList.add('hidden');
+        } else {
+            document.getElementById('btnModeText').classList.add('active-mode');
+            document.getElementById('textSection').classList.remove('hidden');
+            document.getElementById('voiceSection').classList.add('hidden');
+        }
+    }
+
+    function rate(stars) {
+        document.querySelectorAll('.star').forEach((star, index) => {
+            star.classList.toggle('selected', index < stars);
+        });
+        if(stars >= 4) {
+            document.getElementById('btn-good').classList.add('active');
+            document.getElementById('btn-bad').classList.remove('bad-active');
+        } else {
+            document.getElementById('btn-good').classList.remove('active');
+            document.getElementById('btn-bad').classList.add('bad-active');
+        }
+    }
+    
+    function selectExp(type) {
+        if(type==='good') {
+            document.getElementById('btn-good').classList.add('active');
+            document.getElementById('btn-bad').classList.remove('bad-active');
+        } else {
+            document.getElementById('btn-good').classList.remove('active');
+            document.getElementById('btn-bad').classList.add('bad-active');
+        }
+    }
+
+    function processRating() {
+        document.getElementById('ratingScreen').classList.add('hidden');
+        document.getElementById('aiToolScreen').classList.remove('hidden');
+    }
+
+    function submitPrivateFeedback() {
+        document.getElementById('privateFeedbackScreen').classList.add('hidden');
+        document.getElementById('thankYouScreen').classList.remove('hidden');
+    }
+
+    function startListening() {
+        if (!('webkitSpeechRecognition' in window)) { alert("Use Chrome Browser."); return; }
+        recognition = new webkitSpeechRecognition();
+        recognition.lang = document.getElementById('voiceLang').value;
+        recognition.interimResults = false;
+        document.getElementById('micBtn').classList.add('mic-active');
+        document.getElementById('statusText').innerText = "Listening...";
+        recognition.onresult = (event) => {
+            voiceText = event.results[0][0].transcript;
+            document.getElementById('spokenTextDisplay').style.display = 'block';
+            document.getElementById('spokenTextDisplay').innerText = `Recorded: "${voiceText}"`;
+        };
+        recognition.onend = () => { document.getElementById('micBtn').classList.remove('mic-active'); document.getElementById('statusText').innerText = "Processing..."; };
+        recognition.start();
+    }
+
+    async function generateReview() {
+        const btn = document.getElementById('generateBtn');
+        btn.innerText = "🔄 Processing...";
+        
+        const tone = document.getElementById('toneSelect').value;
+        const name = document.getElementById('userName').value.trim();
+        const service = document.getElementById('serviceSelect').value;
+        const manualText = document.getElementById('manualInput').value.trim();
+        let rawInput = activeMode === 'voice' ? voiceText : manualText;
+
+        if (selectedKeywords.length === 0 && !rawInput && !service) {
+            alert("Please select highlights or write/speak your experience.");
+            btn.innerText = "✨ Generate Magic Review";
+            return;
+        }
+
+        let finalBodyText = "";
+        if (rawInput && rawInput.length > 1) {
+            try {
+                const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(rawInput)}&langpair=Autodetect|en`);
+                const data = await res.json();
+                let translated = data.responseData ? data.responseData.translatedText : "";
+                if(!translated.includes("PLEASE SELECT")) finalBodyText = translated;
+                else finalBodyText = rawInput;
+            } catch(e) { finalBodyText = rawInput; }
+        }
+
+        let review = getRandom(reviewData.intros[tone]);
+        if(name) review = `I am ${name}. ` + review;
+        if(service) review += ` We visited for ${service}. `;
+        if(finalBodyText) review += " " + finalBodyText + ". ";
+
+        const shuffled = selectedKeywords.sort(() => 0.5 - Math.random());
+        shuffled.forEach((k, i) => {
+            if(reviewData.keywords[k]) {
+                let sentence = getRandom(reviewData.keywords[k]);
+                if(i > 0 && Math.random() > 0.6) sentence = getRandom(connectors) + " " + sentence;
+                review += sentence + " ";
+            }
         });
 
-        // Toggle visibility
-        if (category === '2w') {
-            document.querySelectorAll('.bike-only').forEach(el => el.classList.remove('chip-hidden'));
-            document.querySelectorAll('.car-only').forEach(el => el.classList.add('chip-hidden'));
+        review += getRandom(reviewData.outros[tone]);
+
+        const box = document.getElementById('reviewOutput');
+        box.value = review;
+        box.style.display = 'block';
+        box.scrollIntoView({behavior: "smooth"});
+        btn.innerText = "✨ Generate Magic Review";
+
+        if(isOwnerMode) {
+            document.getElementById('ownerPanel').style.display = 'block';
+            document.getElementById('copyBtn').style.display = 'none';
         } else {
-            document.querySelectorAll('.bike-only').forEach(el => el.classList.add('chip-hidden'));
-            document.querySelectorAll('.car-only').forEach(el => el.classList.remove('chip-hidden'));
+            document.getElementById('ownerPanel').style.display = 'none';
+            document.getElementById('copyBtn').style.display = 'block';
         }
-        
-        selectedKeywords = [];
-        document.querySelectorAll('.keyword-chip').forEach(el => el.classList.remove('active'));
     }
 
-    window.onload = function() {
-        updateVehicleList('2w', document.querySelector('.vehicle-option.selected'));
+    function toggleNameField() { 
+        const field = document.getElementById('nameArea');
+        field.style.display = field.style.display === 'block' ? 'none' : 'block';
     }
 
     function toggleKeyword(element, keyword) {
         element.classList.toggle('active');
-        if (selectedKeywords.includes(keyword)) {
-            selectedKeywords = selectedKeywords.filter(k => k !== keyword);
-        } else {
-            selectedKeywords.push(keyword);
-        }
+        if (selectedKeywords.includes(keyword)) selectedKeywords = selectedKeywords.filter(k => k !== keyword);
+        else selectedKeywords.push(keyword);
     }
-
-    // --- VOICE LOGIC ---
-    let recognition;
-    function startListening() {
-        if (!('webkitSpeechRecognition' in window)) {
-            alert("Use Chrome Browser.");
-            return;
-        }
-        recognition = new webkitSpeechRecognition();
-        const langCode = document.getElementById('voiceLang').value;
-        recognition.lang = langCode;
-        recognition.interimResults = false;
-
-        const micBtn = document.getElementById('micBtn');
-        const statusText = document.getElementById('micStatus');
-
-        recognition.onstart = () => { micBtn.classList.add('mic-active'); statusText.innerText = "Listening..."; };
-        recognition.onend = () => { micBtn.classList.remove('mic-active'); statusText.innerText = "Processing..."; };
-        
-        recognition.onresult = (event) => {
-            const transcript = event.results[0][0].transcript;
-            const sourceLang = langCode.split('-')[0];
-            document.getElementById('voiceResult').style.display = 'block';
-            document.getElementById('voiceResult').innerText = `Recorded: "${transcript}"`;
-            translateText(transcript, sourceLang);
-        };
-        recognition.start();
-    }
-
-    async function translateText(text, sourceLang) {
-        if(sourceLang === 'en') {
-            translatedVoiceText = text;
-            document.getElementById('micStatus').innerText = "Voice Added!";
-            return;
-        }
-        try {
-            const response = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${sourceLang}|en`);
-            const data = await response.json();
-            if(data.responseData) {
-                translatedVoiceText = data.responseData.translatedText;
-                document.getElementById('micStatus').innerText = "Translation Done!";
-                document.getElementById('voiceResult').innerText += `\nTranslated: "${translatedVoiceText}"`;
-            }
-        } catch (e) {
-            translatedVoiceText = text;
-            document.getElementById('micStatus').innerText = "Voice Added (Raw).";
-        }
-    }
-
-    // --- GENERATION LOGIC ---
-    function generateReview() {
-        const tone = document.getElementById('toneSelect').value;
-        const userName = document.getElementById('userName').value.trim();
-        const model = document.getElementById('vehicleModelSelect').value;
-        const outputBox = document.getElementById('reviewOutput');
-        const copyBtn = document.getElementById('copyBtn');
-
-        if (selectedKeywords.length === 0 && !translatedVoiceText) {
-            alert("Please select highlights or use voice input.");
-            return;
-        }
-        
-        outputBox.style.opacity = "0.5";
-
-        const processText = (text) => {
-            return text.replace(/{model}/g, model);
-        };
-
-        // 1. INTRO
-        let intro = processText(pickRandom(reviewData.intro[tone]));
-        if (userName) intro = `I am ${userName}. ` + intro;
-
-        // 2. BODY
-        let body = "";
-        
-        if(translatedVoiceText) {
-            body += translatedVoiceText + ". ";
-        }
-
-        const shuffledKeywords = selectedKeywords.sort(() => Math.random() - 0.5);
-        shuffledKeywords.forEach(k => {
-            if(reviewData.keywords[k]) {
-                let sentence = processText(pickRandom(reviewData.keywords[k]));
-                body += sentence + " ";
-            }
-        });
-
-        // 3. OUTRO
-        let outro = processText(pickRandom(reviewData.outro[tone]));
-
-        const finalReview = intro + " " + body + outro;
-
-        setTimeout(() => {
-            outputBox.style.opacity = "1";
-            outputBox.value = finalReview;
-            copyBtn.style.display = "block";
-            outputBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 300);
-    }
-
+    
     function copyToClipboard() {
-        const copyText = document.getElementById("reviewOutput");
-        copyText.select();
-        copyText.setSelectionRange(0, 99999);
-        navigator.clipboard.writeText(copyText.value).then(() => {
-            const isConfirmed = confirm("Review Copied! 📋\n\nClick OK to open Google and paste.");
-            if(isConfirmed) window.open(GOOGLE_REVIEW_LINK, '_blank');
-        });
+        const box = document.getElementById("reviewOutput");
+        box.select();
+        document.execCommand('copy');
+        if(confirm("Review Copied! Open Google Maps?")) window.open(GOOGLE_REVIEW_LINK, '_blank');
     }
+    
+    function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+    // --- EXPANDED MASSIVE DATASET (40+ Variations per category) ---
+    const reviewData = {
+        intros: {
+            "Happy": [
+                "I had a wonderful stay at Hotel Royal Respite Pandharpur.", "One of the best hotels in Pandharpur for a comfortable stay.", "Visited Pandharpur for Darshan and chose Royal Respite, truly amazing.", "Great experience staying at Hotel Royal Respite.", "Highly satisfied with the amenities and service here.", "If you are looking for a clean and safe hotel in Pandharpur, this is it.", "Absolutely loved the hospitality at Royal Respite.", "My stay at Hotel Royal Respite was simply fantastic.", "Found a hidden gem in Pandharpur, Hotel Royal Respite.", "Such a delightful experience from check-in to check-out.", "I can't recommend Hotel Royal Respite enough!", "A perfect staycation spot in Pandharpur.", "Everything about this hotel exceeded my expectations.", "The vibe at Hotel Royal Respite is just so positive and welcoming.", "Had a very relaxing time at Hotel Royal Respite.", "Truly a royal experience at affordable rates.", "I am so glad I booked my stay here.", "Hotel Royal Respite made my Pandharpur trip memorable.", "Best hospitality I have experienced in a long time.", "A 10/10 experience at Hotel Royal Respite.", "Just completed my stay and I am fully satisfied.", "Hotel Royal Respite sets the bar high for hotels in Pandharpur.", "An absolute delight to stay at this property.", "Felt completely at home during my stay here.", "The comfort level at Hotel Royal Respite is unmatched.", "From the room to the food, everything was perfect.", "What an amazing property right in the heart of the city.", "The perfect getaway hotel for family and friends.", "Enjoyed every moment of my stay.", "I've traveled a lot, but this hotel really stands out for its service.", "A beautiful, serene, and well-maintained property.", "This hotel provides the perfect balance of luxury and comfort.", "We felt extremely welcomed and pampered.", "Our Darshan trip became so much easier thanks to this hotel.", "The interiors are beautiful and the vibe is peaceful."
+            ],
+            "Professional": [
+                "I recently visited Hotel Royal Respite for a business trip.", "Excellent standards maintained by the management.", "A very professional and well-managed property in Pandharpur.", "The room quality and service were top-notch.", "I recommend this hotel for its convenient location and service.", "Good place for corporate stays and meetings.", "Efficient service and clean rooms make this a great business hotel.", "Stayed here for work and had a hassle-free experience.", "The staff is professional and respects your privacy.", "Hotel Royal Respite is perfect for business travelers.", "Appreciate the swift check-in and check-out process.", "A reliable option for professional stays in Pandharpur.", "The business amenities provided were adequate.", "Cleanliness and hygiene standards are commendable.", "A no-nonsense, high-quality hotel for professionals.", "The environment is quiet and conducive to work.", "Value for money for corporate bookings.", "The management ensures a smooth stay for guests.", "Found the rooms to be very functional and well-equipped.", "Reliable WiFi and desk space made working easy.", "A sophisticated choice for accommodation in Pandharpur.", "Professionalism is evident in every aspect of this hotel.", "I frequently stay here for business and it never disappoints.", "Highly organized and well-maintained premises.", "Ideal for short business layovers.", "The billing and reception process is extremely transparent.", "Great corporate standard facilities.", "Quiet rooms which are perfect for resting after a long workday.", "They handle their guests with utmost respect and professionalism.", "The staff strictly adheres to hygiene and safety protocols."
+            ],
+            "Short": [
+                "Great hotel!", "Best place to stay in Pandharpur.", "Lovely experience.", "Highly recommended.", "5 stars for Royal Respite.", "Clean and affordable.", "Superb stay.", "Loved it.", "Will come back.", "Excellent service.", "Nice rooms.", "Very happy.", "Good location.", "Amazing hospitality.", "Best in town.", "Value for money.", "Comfortable stay.", "Safe and clean.", "Just perfect.", "Simply the best.", "Great vibe.", "Worth the price.", "Fantastic hotel.", "Nice staff.", "Good food.", "Peaceful stay.", "100% recommended.", "No complaints.", "A+ hotel.", "Top notch."
+            ]
+        },
+        keywords: {
+            "AC Rooms": ["The AC rooms are very comfortable and cooling is perfect.", "Rooms are well air-conditioned and spacious.", "Loved the chilled AC room after a hot day.", "The air conditioning worked perfectly without any noise.", "Super cozy and cool rooms."],
+            "WiFi": ["The WiFi speed was great, helped me work seamlessly.", "Free high-speed WiFi is a big plus.", "Internet connectivity is strong throughout the hotel.", "Good WiFi connection in the rooms.", "No buffering issues at all."],
+            "Parking": ["They have ample parking space which is safe.", "Nice parking facility available for cars.", "Secure parking spot provided for my vehicle.", "Hassle-free parking availability.", "Big relief to have dedicated parking."],
+            "TV": ["Room had a good TV with all channels.", "Entertainment options in the room were good.", "Smart TV availability made the stay better.", "Big screen TV in the room.", "Cable and OTT apps were working fine."],
+            "Accessibility": ["The hotel is wheelchair accessible and senior-citizen friendly.", "Ground floor accessibility is good.", "Easy access for elderly people.", "Lifts are spacious and accessible.", "Very convenient layout for all ages."],
+            "Easy Transport": ["Public transport is easily available from here.", "Location is very convenient for travel.", "Auto and bus stand are nearby.", "Easy to get a cab from this location.", "Centrally located with good transport links."],
+            "Friendly Welcome": ["Loved the warm and friendly welcome at the reception.", "Staff greeted us with a smile.", "Check-in process was smooth and welcoming.", "Reception staff is very polite.", "Felt very welcomed upon arrival."],
+            "Professional Staff": ["The staff is very professional and well-trained.", "Service was prompt and professional.", "Staff behavior is excellent.", "Helpful and courteous team.", "The management team is doing a great job."],
+            "Best Service": ["Best service I have experienced in Pandharpur.", "Room service is quick and efficient.", "Service quality is unmatched here.", "They are always ready to help.", "Exceptional customer service."],
+            "Cleanliness": ["The rooms and bathrooms were spotlessly clean.", "Hygiene is their top priority.", "Very neat and tidy property.", "Housekeeping does a great job.", "Linens and towels were fresh and clean."],
+            "Nice Food": ["The food quality was excellent and tasty.", "We enjoyed the delicious meals at the restaurant.", "Breakfast and dinner were very tasty.", "Food is fresh and flavorful.", "The chef cooks amazing local dishes."],
+            "Affordable": ["The stay and food are very affordable.", "Great value for money hotel.", "Budget-friendly yet premium experience.", "Prices are very reasonable.", "You get premium facilities at standard rates."],
+            "Hygienic Food": ["Food was fresh and prepared hygienically.", "Clean dining area and good food.", "They maintain good hygiene in the kitchen.", "Food quality is safe and standard.", "Felt completely safe eating at their restaurant."],
+            "Couple Friendly": ["A completely safe and secure place for couples.", "Couple friendly hotel with hassle-free check-in.", "Best choice for couples looking for privacy.", "Safe environment for couples.", "Respectful staff and couple-friendly policy."],
+            "Family Friendly": ["Perfect place for a family stay.", "My family felt very safe and comfortable here.", "Kid-friendly environment.", "Best hotel for families visiting Pandharpur.", "Spacious rooms perfect for the whole family."],
+            "Pet Friendly": ["So happy to find a pet-friendly hotel.", "They welcomed my pet warmly.", "Great place if you are traveling with pets.", "Pet-friendly policy is a lifesaver.", "My dog loved the stay as much as I did!"],
+            "Extended Stay": ["Stayed here for a week and it felt like home.", "Ideal for long extended stays.", "Comfortable for long duration trips.", "Great weekly packages for longer visits.", "Did not want to leave, very comfortable for long stays."],
+            "Wedding Venue": ["Attended a wedding here, the arrangements were grand.", "Great venue for marriage functions.", "Banquet hall is spacious and beautiful.", "The event management team is fabulous.", "Perfect location for destination weddings or events."]
+        },
+        outros: {
+            "Happy": [
+                "Will definitely visit again!", "Thanks to the team for a great stay.", "See you soon!", "Highly recommended to all travelers.", "5/5 experience.", "Keep it up!", "Already planning my next trip.", "Will recommend to friends and family.", "Thank you for the memories.", "Best wishes to the team.", "A must-visit place.", "Can't wait to be back.", "See you next time.", "Great job team Royal Respite.", "Loved every minute of it.", "A memorable stay indeed.", "Thanks for the great service.", "Five stars from me.", "You guys are amazing.", "Will surely return.", "Thanks for making it special.", "Keep shining.", "Best hotel experience.", "Totally loved it.", "Highly satisfied.", "Our new favorite spot in the city.", "Thanks for treating us like royalty.", "Couldn't have asked for a better stay.", "Leaving with great memories.", "We will cherish this trip!"
+            ],
+            "Professional": [
+                "A pleasant experience overall.", "Good value for business travelers.", "Will recommend to my colleagues.", "Satisfied with the service.", "Looking forward to my next business trip.", "A solid choice for work trips.", "Good for corporate stays.", "Will book again for work.", "Professional and efficient.", "Thank you for the service.", "Great place for business.", "Recommended for professionals.", "Good amenities for work.", "Quiet and productive stay.", "Efficient staff.", "Met all my business needs.", "Clean and professional.", "Good experience.", "Reliable hotel.", "Thanks.", "Good job.", "Well managed.", "Peaceful environment.", "Good stay.", "Worth it.", "Standard operating procedures are followed well.", "Prompt invoicing and hassle-free checkout.", "Consistent quality throughout.", "A dependable hospitality partner.", "Will keep coming back for official visits."
+            ],
+            "Short": [
+                "Must visit.", "Great job.", "Thanks!", "Good vibes.", "Cheers!", "Visit soon.", "Top class.", "Superb.", "Very good.", "Nice.", "Loved it.", "Great.", "Awesome.", "Best.", "Perfect.", "Good.", "A+.", "Safe.", "Clean.", "Happy.", "Recommended.", "Try it.", "Go for it.", "Nice place.", "Good staff.", "Tasty food.", "5/5.", "10/10.", "Brilliant.", "Lovely."
+            ]
+        }
+    };
 </script>
+
+</body>
+</html>
