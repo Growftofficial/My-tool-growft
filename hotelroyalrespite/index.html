@@ -506,7 +506,7 @@
     }
 
     function toggleKeyword(element, keyword) {
-        element.classList.toggle('suspended');
+        element.classList.toggle('active');
         if (selectedKeywords.includes(keyword)) selectedKeywords = selectedKeywords.filter(k => k !== keyword);
         else selectedKeywords.push(keyword);
     }
