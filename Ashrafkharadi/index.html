@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Review - Ashraf's Scissors Hands Salon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- PRO THEME: PREMIUM SALON (Obsidian & Luxury Gold) --- */
+        :root {
+            --primary: #d4af37; /* Luxury Gold */
+            --primary-glow: rgba(212, 175, 55, 0.4);
+            --bg-color: #09090b; /* Deep Obsidian */
+            --card-bg: #18181b;
+            --text-main: #f4f4f5;
+            --text-muted: #a1a1aa;
+            --gold: #fbbf24;
+            --gold-glow: rgba(251, 191, 36, 0.4);
+            --border: #27272a;
+            --input-bg: #27272a;
+            --whatsapp: #25D366;
+            --whatsapp-glow: rgba(37, 211, 102, 0.4);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at 50% 0%, #2a2415 0%, transparent 60%);
+            color: var(--text-main);
+            margin: 0; padding: 20px 10px;
+            min-height: 100vh; display: flex;
+            justify-content: center; align-items: flex-start;
+            overflow-x: hidden;
+        }
+
+        /* --- ADVANCED ANIMATIONS --- */
+        @keyframes slideUpFade {
+            0% { opacity: 0; transform: translateY(40px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            40% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 var(--primary-glow); }
+            70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .fade-in-up { animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        /* --- MAIN CARD --- */
+        .container {
+            background: var(--card-bg); width: 100%; max-width: 520px;
+            padding: 30px 25px; border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255,255,255,0.05);
+            border-top: 4px solid var(--primary); margin: auto;
+            text-align: center; position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1 { 
+            font-family: 'Oswald', sans-serif; color: #fff; 
+            margin: 5px 0 5px 0; font-size: 32px; font-weight: 700; 
+            letter-spacing: 2px; text-transform: uppercase;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        .subtitle { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase;}
+        .location { 
+            color: #000; font-size: 12px; font-weight: 700; 
+            text-transform: uppercase; letter-spacing: 1px; 
+            margin-bottom: 20px; display: inline-block; 
+            background: var(--primary); padding: 6px 16px; border-radius: 20px;
+            box-shadow: 0 4px 10px var(--primary-glow);
+        }
+
+        /* --- INPUTS & SELECTS --- */
+        select, input, textarea {
+            width: 100%; padding: 14px; border-radius: 12px;
+            border: 1px solid var(--border); background: var(--input-bg);
+            font-size: 14px; outline: none; margin-bottom: 12px;
+            color: var(--text-main); font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+        select:focus, input:focus, textarea:focus { 
+            border-color: var(--primary); 
+            box-shadow: 0 0 10px var(--primary-glow); 
+            background: #1f1f22;
+        }
+        optgroup { color: var(--primary); font-weight: 600; background: #18181b; }
+        option { color: var(--text-main); font-weight: 400; }
+        label { font-weight: 600; display: block; margin-top: 15px; margin-bottom: 8px; color: var(--text-muted); font-size: 12px; text-transform: uppercase; text-align: left; letter-spacing: 0.5px;}
+
+        /* --- RATING STARS (Bouncy) --- */
+        .star-container { display: flex; justify-content: center; gap: 10px; margin: 25px 0; }
+        .star { font-size: 45px; color: #3f3f46; cursor: pointer; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .star:hover { transform: scale(1.1); color: #52525b; }
+        .star.selected { color: var(--gold); transform: scale(1.15); text-shadow: 0 0 15px var(--gold-glow); }
+
+        /* --- EXPERIENCE BUTTONS --- */
+        .experience-btns { display: flex; gap: 12px; margin-bottom: 30px; justify-content: center; }
+        .exp-btn {
+            padding: 14px 15px; border: 1px solid var(--border); border-radius: 12px;
+            background: var(--input-bg); cursor: pointer; font-weight: 600; color: var(--text-muted);
+            flex: 1; max-width: 150px; transition: all 0.3s ease; font-size: 14px;
+        }
+        .exp-btn:hover { background: #3f3f46; color: white; transform: translateY(-2px); }
+        .exp-btn.active { background: var(--primary); color: #000; border-color: var(--primary); box-shadow: 0 8px 15px var(--primary-glow); }
+        .exp-btn#btn-bad.bad-active { background: #3f3f46; color: white; border-color: #52525b; }
+
+        /* --- INPUT TABS --- */
+        .input-mode-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .mode-btn { 
+            flex: 1; padding: 12px; border: 1px solid var(--border); border-radius: 12px; 
+            background: var(--input-bg); color: var(--text-muted); font-weight: 600; cursor: pointer; font-size: 13px; transition: 0.3s;
+        }
+        .mode-btn.active-mode { background: #fff; color: #000; border-color: #fff; box-shadow: 0 4px 10px rgba(255,255,255,0.2); }
+
+        /* --- MIC SECTION --- */
+        .voice-section, .text-section {
+            background: rgba(212, 175, 55, 0.05); padding: 15px; border-radius: 16px; 
+            margin-bottom: 20px; border: 1px dashed rgba(212, 175, 55, 0.3); text-align: left;
+        }
+        .voice-controls { display: flex; align-items: center; gap: 15px; }
+        .mic-btn {
+            width: 55px; height: 55px; border-radius: 50%;
+            background: var(--primary); color: #000; border: none;
+            font-size: 22px; cursor: pointer; transition: 0.3s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .mic-btn:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--primary-glow); }
+        .mic-active { animation: pulseGlow 1.5s infinite; background: #fff; color: #000; }
+
+        /* --- KEYWORD CHIPS (Pro level) --- */
+        .category-header { font-size: 11px; color: var(--primary); margin: 20px 0 10px 0; font-weight: 700; letter-spacing: 1px; border-bottom: 1px solid rgba(212, 175, 55, 0.2); padding-bottom: 6px; text-align: left; }
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 5px; }
+        .keyword-chip { 
+            padding: 10px 14px; background-color: var(--input-bg); border-radius: 30px; 
+            font-size: 12px; font-weight: 500; cursor: pointer; 
+            border: 1px solid var(--border); color: var(--text-muted); 
+            flex-grow: 1; text-align: center; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .keyword-chip:hover { border-color: var(--primary); color: white; }
+        .keyword-chip.active { 
+            background: linear-gradient(135deg, var(--primary), #b3912a); 
+            color: #000; border-color: transparent; 
+            transform: translateY(-3px) scale(1.05); 
+            box-shadow: 0 8px 15px var(--primary-glow); 
+            font-weight: 600;
+        }
+
+        /* --- BUTTONS --- */
+        .action-btn {
+            width: 100%; padding: 16px; background: linear-gradient(135deg, #d4af37, #b3912a);
+            color: #000; border: none; border-radius: 12px;
+            font-size: 16px; font-weight: 700; cursor: pointer; letter-spacing: 1px;
+            box-shadow: 0 10px 20px -5px var(--primary-glow); margin-top: 15px;
+            transition: all 0.3s ease; display: flex; justify-content: center; align-items: center; gap: 10px;
+        }
+        .action-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 25px -5px var(--primary-glow); filter: brightness(1.1); }
+        .action-btn:active { transform: translateY(1px); }
+        
+        .copy-btn { width: 100%; padding: 15px; background-color: #fff; color: #000; border: none; border-radius: 12px; margin-top: 15px; font-weight: 700; font-size: 15px; cursor: pointer; display: none; transition: 0.3s; }
+        .copy-btn:hover { background: #f4f4f5; transform: translateY(-2px); }
+
+        .review-preview-box {
+            width: 100%; min-height: 160px; margin-top: 20px; border-radius: 12px; padding: 15px; 
+            border: 1px solid rgba(212, 175, 55, 0.5); display: none; background: rgba(0,0,0,0.3); resize: none; outline: none; line-height: 1.6; font-size: 14px; font-weight: 400; color: #fff; box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+            animation: popIn 0.5s ease;
+        }
+
+        /* --- LOADING SPINNER --- */
+        .spinner {
+            width: 20px; height: 20px; border: 3px solid rgba(0,0,0,0.3);
+            border-radius: 50%; border-top-color: #000; animation: spin 1s ease-in-out infinite; display: none;
+        }
+
+        /* --- OWNER PANEL --- */
+        #ownerPanel {
+            display: none; margin-top: 25px; padding: 20px;
+            border: 1px solid rgba(37, 211, 102, 0.3); border-radius: 16px;
+            background-color: rgba(37, 211, 102, 0.05); text-align: left;
+        }
+        .whatsapp-send-btn {
+            width: 100%; padding: 14px; background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white; border: none; border-radius: 12px;
+            font-size: 15px; font-weight: 700; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 8px 15px var(--whatsapp-glow);
+        }
+        .whatsapp-send-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+        /* --- UTILS --- */
+        .hidden { display: none !important; }
+        .toggle-name { font-size: 13px; color: var(--text-muted); text-decoration: underline; cursor: pointer; float: right; margin-top: 5px; border: none; background: none; font-weight: 500; transition: 0.2s;}
+        .toggle-name:hover { color: #fff; }
+
+        /* --- FOOTER --- */
+        .footer { margin-top: 40px; text-align: center; font-size: 12px; color: #ffffff; border-top: 1px solid var(--border); padding-top: 20px; position: relative;}
+        .footer-logo { display: block; margin: 0 auto 8px auto; max-height: 28px; width: auto; opacity: 0.5; filter: grayscale(100%) invert(1); transition: 0.3s;}
+        .footer-logo:hover { opacity: 1; }
+        .footer a { color: #ffffff; text-decoration: none; font-weight: 600; }
+        .owner-login-trigger {
+            font-size: 11px; color: #ffffff; cursor: pointer; text-decoration: none;
+            position: absolute; bottom: 0px; right: 5px; transition: 0.2s;
+        }
+        .owner-login-trigger:hover { color: #d4af37; }
+    </style>
+</head>
+<body>
+
+<div id="lockScreen" style="display: none;">
+    <div style="font-size: 60px; margin-bottom: 20px;">🔒</div>
+    <div style="font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 10px;">Access Denied</div>
+    <div style="font-size: 14px; color: var(--text-muted); margin-bottom: 30px;">
+        This tool has been disabled. Please contact the administrator.
+    </div>
+</div>
+
+<div class="container fade-in-up" id="mainApp">
+
+    <div id="customerLinkView" class="hidden fade-in-up" style="text-align: center; padding: 20px;">
+        <div style="font-size: 50px; margin-bottom: 10px; animation: popIn 0.5s ease;">✨</div>
+        <h2 style="color: #fff; font-family: 'Oswald', sans-serif; letter-spacing: 1px;">THANK YOU!</h2>
+        <p style="color:var(--text-muted); font-size:14px; margin-bottom:20px;">
+            Here is the review for your recent visit to our salon.<br>Click below to copy & post to Google.
+        </p>
+        <textarea id="customerReviewText" class="review-preview-box" readonly style="display:block;"></textarea>
+        <button class="action-btn" style="display:block; margin-top:15px; background: #fff; color: #000; box-shadow: 0 10px 20px rgba(255,255,255,0.2);" onclick="copyCustomerLinkReview()">📋 Copy & Open Google</button>
+        <p style="font-size:11px; color:#555; margin-top:20px;">Keep shining! ✨</p>
+    </div>
+
+    <div id="generatorApp">
+        <h1>Ashraf's Scissors Hands</h1>
+        <div class="subtitle">Premium Unisex Salon & Bridal Studio</div>
+        <div class="location">📍 Wakad • Kharadi • Pimpri Chinchwad • Pune</div>
+
+        <div id="ratingScreen" class="fade-in-up">
+            <p style="font-weight: 600; color: #fff; font-size: 16px;">How was your salon experience?</p>
+            <div class="star-container">
+                <span class="star" onclick="rate(1)">★</span>
+                <span class="star" onclick="rate(2)">★</span>
+                <span class="star" onclick="rate(3)">★</span>
+                <span class="star" onclick="rate(4)">★</span>
+                <span class="star" onclick="rate(5)">★</span>
+            </div>
+            <div class="experience-btns">
+                <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Needs Work 😞</button>
+                <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Fabulous! ✨</button>
+            </div>
+            <button class="action-btn" onclick="processRating()">Continue ➡</button>
+        </div>
+
+        <div id="privateFeedbackScreen" class="hidden fade-in-up">
+            <h2 style="color:#fff; font-family: 'Oswald';">We are sorry 😔</h2>
+            <p style="color: var(--text-muted);">Please tell us how we can improve.</p>
+            <textarea id="privateFeedbackText" placeholder="Describe the issue..." style="height: 120px;"></textarea>
+            <button class="action-btn" onclick="submitPrivateFeedback()">Submit Feedback</button>
+        </div>
+
+        <div id="thankYouScreen" class="hidden fade-in-up">
+            <div style="font-size: 60px; margin-bottom:10px; color: var(--whatsapp);">✅</div>
+            <h2 style="color:#fff; font-family: 'Oswald';">Feedback Received</h2>
+            <p style="color: var(--text-muted);">Thank you for helping us improve.</p>
+        </div>
+
+        <div id="aiToolScreen" class="hidden fade-in-up" style="text-align: left;">
+            
+            <div class="input-mode-tabs">
+                <button class="mode-btn active-mode" id="btnModeVoice" onclick="switchMode('voice')">🎤 Speak</button>
+                <button class="mode-btn" id="btnModeText" onclick="switchMode('text')">✍️ Write</button>
+            </div>
+
+            <div id="voiceSection" class="voice-section">
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                    <span style="font-size:11px; font-weight:700; color:var(--primary); letter-spacing: 1px;">SPEAK (Eng/Hindi/Marathi):</span>
+                    <select id="voiceLang" style="width:auto; padding:4px 8px; font-size:11px; height:auto; margin:0;">
+                        <option value="en-IN" selected>English</option>
+                        <option value="hi-IN">Hindi</option>
+                        <option value="mr-IN">Marathi</option>
+                    </select>
+                </div>
+                <div class="voice-controls">
+                    <button id="micBtn" class="mic-btn" onclick="startListening()">🎤</button>
+                    <div style="flex:1;">
+                        <p id="statusText" style="font-size:13px; color:#fff; margin:0; font-weight: 500;">Tap mic & speak...<br><span style="font-weight: 400; color: var(--text-muted); font-size: 11px;">(Ex: "Haircut khup mast kela")</span></p>
+                    </div>
+                </div>
+                <div id="spokenTextDisplay" style="display:none; margin-top:10px; font-size:13px; color:var(--primary); background:rgba(212, 175, 55, 0.1); padding:8px 12px; border-radius:8px; border: 1px solid rgba(212, 175, 55, 0.3); font-weight: 500;"></div>
+            </div>
+
+            <div id="textSection" class="text-section hidden">
+                <label style="margin-top:0; color: #fff;">Describe Experience</label>
+                <textarea id="manualInput" placeholder="Ex: The staff was amazing and my hair looks great..." style="height:90px; margin-bottom:0;"></textarea>
+            </div>
+
+            <label style="margin-top:0;">1. Select Branch Location</label>
+            <select id="locationSelect">
+                <option value="Wakad">Wakad</option>
+                <option value="Kharadi">Kharadi</option>
+                <option value="Pimpri Chinchwad">Pimpri Chinchwad</option>
+                <option value="Pune">Pune</option>
+            </select>
+
+            <div style="display: flex; gap: 15px;">
+                <div style="flex:1;">
+                    <label>2. Salon Service</label>
+                    <select id="serviceSelect">
+                        <optgroup label="Men's Services">
+                            <option value="hair cut">Hair Cut</option>
+                            <option value="hair colour">Hair Colour</option>
+                            <option value="beard trim">Beard Trim</option>
+                            <option value="facial">Facial</option>
+                            <option value="hairloss treatment">Hairloss Treatment</option>
+                            <option value="hair spa">Hair Spa</option>
+                            <option value="hair straightening">Hair Straightening</option>
+                            <option value="curly hair treatment">Curly Hair Treatment</option>
+                            <option value="hair styling">Hair Styling</option>
+                            <option value="keratin treatment">Keratin Treatment</option>
+                        </optgroup>
+                        <optgroup label="Women's Services">
+                            <option value="hair cut">Hair Cut</option>
+                            <option value="hair colour">Hair Colour</option>
+                            <option value="facial">Facial</option>
+                            <option value="hairloss treatment">Hairloss Treatment</option>
+                            <option value="hair spa">Hair Spa</option>
+                            <option value="hair straightening">Hair Straightening</option>
+                            <option value="curly hair treatment">Curly Hair Treatment</option>
+                            <option value="hair styling">Hair Styling</option>
+                            <option value="keratin treatment">Keratin Treatment</option>
+                            <option value="makeup">Makeup</option>
+                            <option value="global hair colour">Global Hair Colour</option>
+                            <option value="bridal makeup">Bridal Makeup</option>
+                            <option value="waxing">Waxing</option>
+                            <option value="eyebrow threading">Eyebrow Threading</option>
+                            <option value="balayage">Balayage</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div style="flex:1;">
+                    <label>3. Vibe/Tone</label>
+                    <select id="toneSelect">
+                        <option value="Glamorous">Glamorous ✨</option>
+                        <option value="Professional">Professional 👔</option>
+                        <option value="Appreciative">Appreciative 🙏</option>
+                        <option value="Short">Short & Crisp 👌</option>
+                    </select>
+                </div>
+            </div>
+
+            <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
+            <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
+                <input type="text" id="userName" placeholder="Your Name (Optional)">
+            </div>
+
+            <label style="clear:both; margin-top: 25px;">4. Select Highlights (Pick 2-4)</label>
+
+            <div class="category-header">SALON & AMBIANCE</div>
+            <div class="keywords-container">
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Hair salon')">✂️ Best Hair Salon</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'best unisex salon')">👫 Best Unisex Salon</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'clean envirement')">🧼 Clean Environment</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'reasonable rates')">💰 Reasonable Rates</div>
+            </div>
+
+            <div class="category-header">BEAUTY & EXPERTISE</div>
+            <div class="keywords-container">
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'best beauty parlour')">💄 Best Beauty Parlour</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'best makeup artist')">🎨 Best Makeup Artist</div>
+            </div>
+
+            <div class="category-header">STAFF & QUALITY</div>
+            <div class="keywords-container">
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'proffessional salon')">👔 Professional Salon</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'proffessional beauticians')">👩‍🎨 Expert Beauticians</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'premium products')">🧴 Premium Products</div>
+            </div>
+
+            <button class="action-btn" id="generateBtn" onclick="generateReview()">
+                <span class="spinner" id="btnSpinner"></span>
+                <span id="btnText">⚡ Craft Unique Review</span>
+            </button>
+
+            <textarea id="reviewOutput" class="review-preview-box" readonly></textarea>
+            
+            <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy & Open Google</button>
+
+            <div id="ownerPanel">
+                <label style="color:var(--whatsapp); margin-top:0;">📱 Client's WhatsApp Number</label>
+                <div style="display:flex; gap:10px;">
+                    <input type="tel" id="customerPhone" placeholder="Ex: 9876543210" style="margin-bottom:0; background: rgba(0,0,0,0.2);">
+                    <button class="whatsapp-send-btn" style="width: auto; padding: 0 20px;" onclick="sendLinkToCustomer()">🚀 Send</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer">
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft" loading="lazy">
+        <div class="footer-text">
+            Powered by <a href="https://growft.net" target="_blank">Growft</a>
+        </div>
+        <span class="owner-login-trigger" onclick="ownerLogin()">🔒 Owner Login</span>
+    </div>
+</div>
+
+<script>
+    // --- APP CONFIG ---
+    const GOOGLE_REVIEW_LINK = "https://g.page/r/CUah3TKXvLUvEBM/review"; 
+    const APP_STATUS = "active"; 
+    const EXPIRY_DATE = "2026-12-31"; 
+    let isOwnerMode = false;
+
+    // --- INITIALIZATION ---
+    window.onload = function() {
+        const today = new Date().toISOString().split('T')[0];
+        if(APP_STATUS === "suspended" || today > EXPIRY_DATE) {
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('lockScreen').style.display = 'flex';
+            return;
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const reviewText = urlParams.get('review');
+        if (reviewText) {
+            document.getElementById('generatorApp').style.display = 'none';
+            document.getElementById('customerLinkView').classList.remove('hidden');
+            document.getElementById('customerReviewText').value = decodeURIComponent(reviewText);
+        } else if(sessionStorage.getItem('isOwner') === 'true') {
+            isOwnerMode = true;
+        }
+    };
+
+    function ownerLogin() {
+        if(isOwnerMode) { alert("Already logged in as Owner."); return; }
+        const password = prompt("Enter Owner Password:");
+        if(password === "admin123") { 
+            isOwnerMode = true;
+            sessionStorage.setItem('isOwner', 'true');
+            alert("Owner Mode Active! Pro controls unlocked.");
+        } else if(password) { alert("Incorrect Password"); }
+    }
+
+    function sendLinkToCustomer() {
+        const phone = document.getElementById('customerPhone').value.replace(/\D/g, '');
+        const review = document.getElementById('reviewOutput').value;
+        if(phone.length < 10) { alert("Enter valid 10-digit number"); return; }
+        const finalPhone = phone.length === 10 ? "91" + phone : phone;
+        const baseUrl = window.location.href.split('?')[0];
+        const magicLink = `${baseUrl}?review=${encodeURIComponent(review)}`;
+        const msg = `Hi there! ✨\n\nThanks for visiting Ashraf's Scissors Hands Salon.\nHere is your custom review:\n\n*Tap this link to Post:*\n${magicLink}`;
+        window.open(`https://wa.me/${finalPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function copyCustomerLinkReview() {
+        const box = document.getElementById("customerReviewText");
+        box.select();
+        document.execCommand('copy');
+        window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+
+    // --- UI LOGIC ---
+    let selectedKeywords = [];
+    let voiceText = "";
+    let activeMode = 'voice';
+
+    function switchMode(mode) {
+        activeMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active-mode'));
+        if(mode === 'voice') {
+            document.getElementById('btnModeVoice').classList.add('active-mode');
+            document.getElementById('voiceSection').classList.remove('hidden');
+            document.getElementById('textSection').classList.add('hidden');
+        } else {
+            document.getElementById('btnModeText').classList.add('active-mode');
+            document.getElementById('textSection').classList.remove('hidden');
+            document.getElementById('voiceSection').classList.add('hidden');
+        }
+    }
+
+    let currentRating = 0;
+    let currentExp = '';
+    function rate(stars) {
+        currentRating = stars;
+        document.querySelectorAll('.star').forEach((star, index) => {
+            star.classList.toggle('selected', index < stars);
+        });
+        if(stars >= 4) selectExp('good'); else selectExp('bad');
+    }
+    function selectExp(type) {
+        currentExp = type;
+        document.getElementById('btn-good').classList.remove('active');
+        document.getElementById('btn-bad').classList.remove('bad-active');
+        if (type === 'good') document.getElementById('btn-good').classList.add('active');
+        else document.getElementById('btn-bad').classList.add('bad-active');
+    }
+    function processRating() {
+        if (currentRating === 0 && currentExp === '') { alert("Please select a star rating first."); return; }
+        document.getElementById('ratingScreen').classList.add('hidden');
+        let isHappy = (currentRating >= 4) || (currentExp === 'good');
+        if (isHappy) document.getElementById('aiToolScreen').classList.remove('hidden');
+        else document.getElementById('privateFeedbackScreen').classList.remove('hidden');
+    }
+    function submitPrivateFeedback() {
+        document.getElementById('privateFeedbackScreen').classList.add('hidden');
+        document.getElementById('thankYouScreen').classList.remove('hidden');
+    }
+
+    // --- VOICE LOGIC ---
+    function startListening() {
+        if (!('webkitSpeechRecognition' in window)) { alert("Speech Recognition requires Chrome browser."); return; }
+        let recognition = new webkitSpeechRecognition();
+        recognition.lang = document.getElementById('voiceLang').value;
+        recognition.interimResults = false;
+        document.getElementById('micBtn').classList.add('mic-active');
+        document.getElementById('statusText').innerText = "Listening to you...";
+        
+        recognition.onresult = (event) => {
+            voiceText = event.results[0][0].transcript;
+            document.getElementById('spokenTextDisplay').style.display = 'block';
+            document.getElementById('spokenTextDisplay').innerText = `Recorded: "${voiceText}"`;
+        };
+        recognition.onerror = (e) => {
+            document.getElementById('statusText').innerText = "Mic Error. Try writing.";
+            document.getElementById('micBtn').classList.remove('mic-active');
+        };
+        recognition.onend = () => { 
+            document.getElementById('micBtn').classList.remove('mic-active'); 
+            document.getElementById('statusText').innerText = "Processing complete."; 
+        };
+        recognition.start();
+    }
+
+    // --- PRO GENERATION ENGINE WITH ANTI-REPETITION ---
+    let usedIntros = [];
+    let usedOutros = [];
+
+    async function generateReview() {
+        const btnText = document.getElementById('btnText');
+        const spinner = document.getElementById('btnSpinner');
+        const box = document.getElementById('reviewOutput');
+        
+        const userName = document.getElementById('userName').value.trim();
+        const location = document.getElementById('locationSelect').value;
+        let tone = document.getElementById('toneSelect').value;
+        const serviceType = document.getElementById('serviceSelect').value;
+        const manualText = document.getElementById('manualInput').value.trim();
+        let rawInput = activeMode === 'voice' ? voiceText : manualText;
+
+        if (selectedKeywords.length === 0 && !rawInput) {
+            alert("Please select highlights or say something about your salon visit.");
+            return;
+        }
+
+        // Start Pro Loading Animation
+        btnText.innerText = "Crafting Magic...";
+        spinner.style.display = "inline-block";
+        box.style.display = 'none';
+
+        // Fake network delay for premium feel
+        setTimeout(async () => {
+            let finalBodyText = "";
+            if (rawInput && rawInput.length > 1) {
+                try {
+                    const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(rawInput)}&langpair=Autodetect|en`);
+                    const data = await res.json();
+                    let translated = data.responseData ? data.responseData.translatedText : "";
+                    if(!translated.includes("PLEASE SELECT")) finalBodyText = translated;
+                    else finalBodyText = rawInput;
+                } catch(e) { finalBodyText = rawInput; }
+            }
+
+            // --- 1. PICK UNIQUE INTRO ---
+            let intro = "";
+            let safeTries = 0;
+            let availableIntros = reviewDB.intros[tone] || reviewDB.intros["Glamorous"];
+            do {
+                intro = availableIntros[Math.floor(Math.random() * availableIntros.length)];
+                safeTries++;
+            } while (usedIntros.includes(intro) && safeTries < 50);
+            
+            usedIntros.push(intro);
+            if(usedIntros.length > 25) usedIntros.shift();
+
+            intro = intro.replace(/{service}/g, serviceType).replace(/{location}/g, location);
+            if (userName) intro = `I am ${userName}. ` + intro;
+
+            // --- 2. BUILD BODY & SHUFFLE KEYWORDS ---
+            let body = "";
+            const shuffledKeywords = [...selectedKeywords].sort(() => Math.random() - 0.5);
+            shuffledKeywords.forEach((k) => {
+                if(reviewDB.keywords[k]) {
+                    let sentence = reviewDB.keywords[k][Math.floor(Math.random() * reviewDB.keywords[k].length)];
+                    sentence = sentence.replace(/{location}/g, location);
+                    body += sentence + " ";
+                }
+            });
+
+            if(finalBodyText) body += " " + finalBodyText + ". ";
+
+            // --- 3. PICK UNIQUE OUTRO ---
+            let outro = "";
+            safeTries = 0;
+            let availableOutros = reviewDB.outros[tone] || reviewDB.outros["Glamorous"];
+            do {
+                outro = availableOutros[Math.floor(Math.random() * availableOutros.length)];
+                safeTries++;
+            } while (usedOutros.includes(outro) && safeTries < 50);
+
+            usedOutros.push(outro);
+            if(usedOutros.length > 25) usedOutros.shift();
+            
+            outro = outro.replace(/{location}/g, location);
+
+            const finalReview = (intro + " " + body + outro).trim();
+
+            // End Animation & Show Review
+            spinner.style.display = "none";
+            btnText.innerText = "⚡ Generate Another Variation";
+            
+            box.value = finalReview;
+            box.style.display = 'block';
+            
+            // Re-trigger animation
+            box.style.animation = 'none';
+            box.offsetHeight; /* trigger reflow */
+            box.style.animation = null; 
+
+            box.scrollIntoView({behavior: "smooth", block: "nearest"});
+            
+            if(isOwnerMode) {
+                document.getElementById('ownerPanel').style.display = 'block';
+                document.getElementById('copyBtn').style.display = 'none';
+            } else {
+                document.getElementById('ownerPanel').style.display = 'none';
+                document.getElementById('copyBtn').style.display = 'block';
+            }
+        }, 800); // 800ms loading illusion
+    }
+
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) selectedKeywords = selectedKeywords.filter(k => k !== keyword);
+        else selectedKeywords.push(keyword);
+    }
+    
+    function toggleNameField() { 
+        const field = document.getElementById('nameArea');
+        field.style.display = (field.style.display === 'block' || field.style.display === '') ? 'none' : 'block';
+    }
+
+    function copyToClipboard() {
+        const box = document.getElementById("reviewOutput");
+        box.select();
+        document.execCommand('copy');
+        if(confirm("Review Copied! Open Google Maps?")) window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+
+    // --- MASSIVE SALON DATABASE (30 INTROS, 30 OUTROS per vibe, with slang & variations) ---
+    const reviewDB = {
+        intros: {
+            "Glamorous": [
+                "finally got my {service} done from here and the results are mindblowing.",
+                "was searching for a good salon in {location} and stumbled upon Ashraf's Scissors Hands.",
+                "tbh I was super nervous for my {service} but they completely nailed the look.",
+                "my friend suggested me this place for {service} and broo they did magic.",
+                "literally the best decision to get my grooming done here.",
+                "Got my {service} yesterday... and I am absolutely glowing.",
+                "Ashraf's Scissors Hands is the goat of salons in {location} fr.",
+                "I travel all the way to {location} just for my {service} here.",
+                "honestly speaking, best grooming and beauty spot in {location}.",
+                "i don't usually write reviews but this {service} forced me to.",
+                "yoo this place is an absolute vibe for any {service}.",
+                "just had my {service} session here and the results are absolute fire.",
+                "This salon in {location} does not miss! 🔥 So hyped about my look.",
+                "blew my mind with this {service} today.",
+                "hands down the most fabulous salon in {location}.",
+                "my new {service} is unreal. big shoutout to the staff.",
+                "if u want a perfect makeover, just come here blindly.",
+                "i was looking for a crazy good {service} and found this gem.",
+                "got pampered here and i really love the work.",
+                "the vibe of this place in {location} is just awesome.",
+                "crazy good {service} done by the stylists here.",
+                "im obsessed with my new {service} ngl.",
+                "best look i have got till date in {location}.",
+                "was a random walk-in for a {service} and it was the best choice.",
+                "this salon in {location} is highly underrated.",
+                "can't get over how good my {service} looks rn.",
+                "so freakin happy with my {service} today.",
+                "if u need a {service}, Ashraf's Scissors Hands is the only place.",
+                "they completely killed it with my {service} man.",
+                "this place gives the best makeovers in {location} hands down."
+            ],
+            "Professional": [
+                "I recently visited Ashraf's Scissors Hands in {location} for a {service}.", 
+                "Highly professional and hygienic salon in {location}.",
+                "For anyone seeking a precise {service}, this studio is the right place.",
+                "I was very impressed by the hygiene standards maintained at this {location} branch.",
+                "Excellent consultation and execution for my {service}.",
+                "A premium salon experience from start to finish.",
+                "The team here is incredibly skilled at what they do.",
+                "I did a lot of research before booking my {service} here.",
+                "Very neat and clean salon in {location} for {service}.",
+                "The stylist explained the whole {service} process very well.",
+                "really appreciate the cleanliness of this beauty parlour.",
+                "They use fresh tools and maintain great hygiene for {service}.",
+                "Very polite staff and proper professional environment.",
+                "Great experience getting my {service} done here in {location}.",
+                "I highly recommend this salon for anyone looking for safe {service}.",
+                "The detailing in their work is very impressive.",
+                "Probably the most professional unisex salon in {location}.",
+                "Got my {service} done with zero issues, very smooth process.",
+                "They are very patient and listen to what you exactly want.",
+                "Very good hospitality and amazing {service} quality.",
+                "The whole {service} was done with utmost care.",
+                "I am very satisfied with the {service} provided.",
+                "They are true professionals in {location}.",
+                "Would definitely rate them 5 stars for the {service}.",
+                "Cleanliness is 10/10 at this studio.",
+                "The artists here take their time to perfect the {service}.",
+                "Very comfortable setup and professional beauticians.",
+                "A very safe place to get your {service}.",
+                "I am really impressed by their {service} skills.",
+                "Best place for a hygienic and detailed {service}."
+            ],
+            "Appreciative": [
+                "I am so incredibly happy with my {service} from Ashraf's Scissors Hands! ❤️", 
+                "A huge thank you to the team in {location} for making my {service} such a great experience.", 
+                "They brought my vision to life perfectly during my {service}.",
+                "I felt so comfortable and relaxed during my {service} today.",
+                "Words can't describe how much I love my new {service}.",
+                "Such a welcoming and talented bunch of stylists.",
+                "Thank you for being so patient and creating this fabulous look.",
+                "Absolutely in love with the {service} I got here.",
+                "thanks a lot guys for the beautiful {service}.",
+                "u guys are the best in {location} seriously.",
+                "im so grateful i chose this place for my {service}.",
+                "they treated me so well during the whole {service}.",
+                "huge respect for the artists here in {location}.",
+                "my {service} looks exactly how i imagined it.",
+                "could not have asked for a better {service} experience.",
+                "you guys made my {service} so memorable.",
+                "i am in love with the results of my {service}.",
+                "they are so humble and polite.",
+                "thank u so much for the amazing {service}!",
+                "really appreciate the hard work on my {service}.",
+                "such a sweet staff and awesome {service}.",
+                "i am super duper happy with the final result.",
+                "they really care about their clients.",
+                "best {service} experience ever, thank u guys.",
+                "i felt right at home getting my {service} here.",
+                "blessed to find such good beauticians in {location}.",
+                "they made sure i was comfortable during the {service}.",
+                "so much love for this salon in {location}.",
+                "thank you for the perfect {service}.",
+                "i cant stop smiling looking at my new {service}."
+            ],
+            "Short": [
+                "Best {service} in {location}.", 
+                "Got my {service} here, totally worth it.", 
+                "Highly recommend Ashraf's Scissors Hands.", 
+                "Amazing {service} and great vibe.",
+                "Super clean and great stylists.",
+                "10/10 experience for my {service}.",
+                "just awsome {service}.",
+                "loved the {service}.",
+                "best place in {location}.",
+                "very good {service}.",
+                "nice work guys.",
+                "osm {service} done here.",
+                "superb quality {service}.",
+                "great salon.",
+                "loved my new look.",
+                "best parlour.",
+                "very nice {service}.",
+                "good job.",
+                "worth the money.",
+                "fabulous results.",
+                "best beauticians.",
+                "awesome place.",
+                "very clean shop.",
+                "nice people.",
+                "perfect {service}.",
+                "really good work.",
+                "top class {service}.",
+                "best in town.",
+                "fabulous {service}.",
+                "great experience."
+            ]
+        },
+        keywords: {
+            "Best Hair salon": [
+                "this is hands down the best hair salon in {location}.", 
+                "if u need a good haircut, this is the best hair salon.", 
+                "they definitely run the best hair salon in the area man.",
+                "was searching for the best hair salon and found them."
+            ],
+            "best beauty parlour": [
+                "this is absolutely the best beauty parlour i have ever been to.", 
+                "clean, modern, and clearly the best beauty parlour around.", 
+                "proud to say i get my grooming done at the best beauty parlour in {location}.",
+                "no doubt it is the best beauty parlour here."
+            ],
+            "best unisex salon": [
+                "the atmosphere is great, easily the best unisex salon in {location}.", 
+                "my partner and I both come here, best unisex salon for sure.", 
+                "they cater to everyone perfectly, truly the best unisex salon.",
+                "highly rate this as the best unisex salon in town."
+            ],
+            "best makeup artist": [
+                "they have the best makeup artist who makes you look flawless.", 
+                "shoutout to the best makeup artist here, the base was so smooth.", 
+                "if u need party or bridal looks, they have the best makeup artist.",
+                "got so many compliments thanks to their best makeup artist."
+            ],
+            "proffessional salon": [
+                "everything is so organized, it's a highly proffessional salon.", 
+                "u can feel the premium vibe in this proffessional salon.", 
+                "they maintain high standards like a truly proffessional salon."
+            ],
+            "clean envirement": [
+                "really loved the clean envirement and hygiene maintained here.", 
+                "the tools are sanitized and it's a very clean envirement.", 
+                "a safe and clean envirement is their top priority."
+            ],
+            "proffessional beauticians": [
+                "the staff here are truly proffessional beauticians.", 
+                "shoutout to the proffessional beauticians who know exactly what they are doing.", 
+                "you are in safe hands with their proffessional beauticians."
+            ],
+            "reasonable rates": [
+                "they offer all these premium services at very reasonable rates.", 
+                "the pricing is transparent and they have reasonable rates for everything.", 
+                "u get luxury treatment at very reasonable rates here."
+            ],
+            "premium products": [
+                "they only use premium products which is great for hair and skin.", 
+                "loved that they applied premium products during the service.", 
+                "u can feel the difference because they use premium products."
+            ]
+        },
+        outros: {
+            "Glamorous": [
+                "will highly highly reccomend.",
+                "cant wait to get my next makeover from here.",
+                "love u guys, keep up the good work.",
+                "kudos to the team. see u soon.",
+                "definitly bringing my friends here next time.",
+                "100% recommended to everyone.",
+                "thanks for the awesome look bhai.",
+                "worth every single penny.",
+                "if u are in {location}, just go blindly.",
+                "never going anywhere else for my hair.",
+                "can't wait to come back for more pampering! ✨", 
+                "10/10 would recommend to anyone looking to glow up.", 
+                "if you're thinking about it, just book an appointment here.",
+                "already planning my next session with them.",
+                "don't trust anyone else with your hair fr.",
+                "absolutely crushed it. see you guys soon.",
+                "best decision ever. 🔥",
+                "stay awesome, Ashraf's Scissors Hands team!",
+                "they got a customer for life now.",
+                "will def be back for more soon.",
+                "big W for this salon.",
+                "crazy good work guys, keep it up.",
+                "highly suggest everyone to check them out.",
+                "if u want a fabulous look, this is the spot.",
+                "going to flaunt this hairstyle everywhere now.",
+                "super hyped with the results man.",
+                "thanks for the fresh look guys.",
+                "best salon experience hands down.",
+                "see you soon for the next one.",
+                "highly highly recommend this place to all."
+            ],
+            "Professional": [
+                "I highly recommend Ashraf's Scissors Hands to all in {location}.", 
+                "The hygiene, skill, and guidance are top-tier.", 
+                "A truly premium salon experience.",
+                "Will definitely return for future services.",
+                "I confidently recommend their services to everyone.",
+                "They set a very high standard for salons.",
+                "Exceptional work and great customer service.",
+                "Thank you for a seamless and professional experience.",
+                "Would strongly recommend them to my colleagues.",
+                "Very satisfied with the overall service.",
+                "The post-care instructions were also very helpful.",
+                "I am extremely pleased with the final outcome.",
+                "Five stars for their professionalism and talent.",
+                "They are truly masters of their craft.",
+                "I will certainly be a returning customer.",
+                "Thank you to the entire team for the great work.",
+                "Highly professional and highly recommended.",
+                "They definitely know what they are doing.",
+                "Great value for money considering the quality.",
+                "Very happy I chose this salon.",
+                "I will be recommending them to family and friends.",
+                "Kudos to the management and stylists.",
+                "A very safe and reliable place for beauty treatments.",
+                "They exceeded my expectations in every way.",
+                "Glad to have such a good salon in {location}.",
+                "Thank you for the excellent service.",
+                "I rate them 10/10 for cleanliness and skill.",
+                "Very polite and respectful staff.",
+                "Looking forward to my next appointment.",
+                "Excellent salon, keep up the good standard."
+            ],
+            "Appreciative": [
+                "Thank you so much to the stylists for the beautiful work. ❤️", 
+                "I am forever grateful for the artistry and patience.", 
+                "I'll flaunt this look with pride every day.",
+                "You guys are the best!",
+                "Thanks for making this such a memorable experience.",
+                "My heart is so full. Thank you!",
+                "Appreciate the amazing work and good vibes.",
+                "Sending lots of love to the talented team here.",
+                "God bless the hands of these beauticians.",
+                "thank you for making my dream look a reality.",
+                "i am so thankful for the care you took.",
+                "much love to the whole salon family.",
+                "i will always cherish this makeover.",
+                "thank u guys from the bottom of my heart.",
+                "u guys literally made my day.",
+                "im so so happy, thank you again.",
+                "best people and best artists.",
+                "thanks for being so kind and accommodating.",
+                "i appreciate the effort put into my service.",
+                "stay blessed you guys, amazing work.",
+                "thank you for the wonderful pampering session.",
+                "i am absolutely thrilled with my hair.",
+                "thanks for treating me so nicely.",
+                "lots of love and respect for this studio.",
+                "u guys rock! thank u.",
+                "so glad i trusted you guys.",
+                "thank u for the beautiful results and conversations.",
+                "my favorite salon forever now.",
+                "appreciate all the hard work guys.",
+                "thank you for an unforgettable experience."
+            ],
+            "Short": [
+                "Definitely coming back.", 
+                "Highly recommended.", 
+                "5 stars!", 
+                "Best salon in town.",
+                "Great job.",
+                "Thank you guys.",
+                "loved it.",
+                "best parlour.",
+                "nice people.",
+                "awsome work.",
+                "superb.",
+                "very happy.",
+                "will visit again.",
+                "osm.",
+                "great stuff.",
+                "fabulous look.",
+                "10/10.",
+                "must visit.",
+                "top quality.",
+                "worth it.",
+                "best in {location}.",
+                "thanks a lot.",
+                "good vibes.",
+                "very clean.",
+                "amazing.",
+                "perfect.",
+                "highly satisfied.",
+                "brilliant work.",
+                "thanks team.",
+                "love it."
+            ]
+        }
+    };
+</script>
+
+</body>
+</html>
