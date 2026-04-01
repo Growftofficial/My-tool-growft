@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Review - Scissor Tattoo Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- PRO THEME: DARK TATTOO STUDIO (Obsidian, Crimson & Gold) --- */
+        :root {
+            --primary: #ef4444; /* Neon Crimson */
+            --primary-glow: rgba(239, 68, 68, 0.4);
+            --bg-color: #09090b; /* Deep Obsidian */
+            --card-bg: #18181b;
+            --text-main: #f4f4f5;
+            --text-muted: #a1a1aa;
+            --gold: #fbbf24;
+            --gold-glow: rgba(251, 191, 36, 0.4);
+            --border: #27272a;
+            --input-bg: #27272a;
+            --whatsapp: #25D366;
+            --whatsapp-glow: rgba(37, 211, 102, 0.4);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at 50% 0%, #3f0f0f 0%, transparent 60%);
+            color: var(--text-main);
+            margin: 0; padding: 20px 10px;
+            min-height: 100vh; display: flex;
+            justify-content: center; align-items: flex-start;
+            overflow-x: hidden;
+        }
+
+        /* --- ADVANCED ANIMATIONS --- */
+        @keyframes slideUpFade {
+            0% { opacity: 0; transform: translateY(40px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            40% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 var(--primary-glow); }
+            70% { box-shadow: 0 0 0 15px rgba(239,68,68,0); }
+            100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); }
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .fade-in-up { animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        /* --- MAIN CARD --- */
+        .container {
+            background: var(--card-bg); width: 100%; max-width: 520px;
+            padding: 30px 25px; border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255,255,255,0.05);
+            border-top: 4px solid var(--primary); margin: auto;
+            text-align: center; position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1 { 
+            font-family: 'Oswald', sans-serif; color: #fff; 
+            margin: 5px 0 5px 0; font-size: 32px; font-weight: 700; 
+            letter-spacing: 2px; text-transform: uppercase;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        .subtitle { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase;}
+        .location { 
+            color: var(--primary); font-size: 12px; font-weight: 700; 
+            text-transform: uppercase; letter-spacing: 1px; 
+            margin-bottom: 20px; display: inline-block; 
+            background: rgba(239, 68, 68, 0.1); padding: 6px 16px; border-radius: 20px;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        /* --- INPUTS & SELECTS --- */
+        select, input, textarea {
+            width: 100%; padding: 14px; border-radius: 12px;
+            border: 1px solid var(--border); background: var(--input-bg);
+            font-size: 14px; outline: none; margin-bottom: 12px;
+            color: var(--text-main); font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+        select:focus, input:focus, textarea:focus { 
+            border-color: var(--primary); 
+            box-shadow: 0 0 10px var(--primary-glow); 
+            background: #1f1f22;
+        }
+        label { font-weight: 600; display: block; margin-top: 15px; margin-bottom: 8px; color: var(--text-muted); font-size: 12px; text-transform: uppercase; text-align: left; letter-spacing: 0.5px;}
+
+        /* --- RATING STARS (Bouncy) --- */
+        .star-container { display: flex; justify-content: center; gap: 10px; margin: 25px 0; }
+        .star { font-size: 45px; color: #3f3f46; cursor: pointer; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .star:hover { transform: scale(1.1); color: #52525b; }
+        .star.selected { color: var(--gold); transform: scale(1.15); text-shadow: 0 0 15px var(--gold-glow); }
+
+        /* --- EXPERIENCE BUTTONS --- */
+        .experience-btns { display: flex; gap: 12px; margin-bottom: 30px; justify-content: center; }
+        .exp-btn {
+            padding: 14px 15px; border: 1px solid var(--border); border-radius: 12px;
+            background: var(--input-bg); cursor: pointer; font-weight: 600; color: var(--text-muted);
+            flex: 1; max-width: 150px; transition: all 0.3s ease; font-size: 14px;
+        }
+        .exp-btn:hover { background: #3f3f46; color: white; transform: translateY(-2px); }
+        .exp-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 8px 15px var(--primary-glow); }
+        .exp-btn#btn-bad.bad-active { background: #3f3f46; color: white; border-color: #52525b; }
+
+        /* --- INPUT TABS --- */
+        .input-mode-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .mode-btn { 
+            flex: 1; padding: 12px; border: 1px solid var(--border); border-radius: 12px; 
+            background: var(--input-bg); color: var(--text-muted); font-weight: 600; cursor: pointer; font-size: 13px; transition: 0.3s;
+        }
+        .mode-btn.active-mode { background: #fff; color: #000; border-color: #fff; box-shadow: 0 4px 10px rgba(255,255,255,0.2); }
+
+        /* --- MIC SECTION --- */
+        .voice-section, .text-section {
+            background: rgba(239, 68, 68, 0.05); padding: 15px; border-radius: 16px; 
+            margin-bottom: 20px; border: 1px dashed rgba(239, 68, 68, 0.3); text-align: left;
+        }
+        .voice-controls { display: flex; align-items: center; gap: 15px; }
+        .mic-btn {
+            width: 55px; height: 55px; border-radius: 50%;
+            background: var(--primary); color: white; border: none;
+            font-size: 22px; cursor: pointer; transition: 0.3s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .mic-btn:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--primary-glow); }
+        .mic-active { animation: pulseGlow 1.5s infinite; background: #fff; color: var(--primary); }
+
+        /* --- KEYWORD CHIPS (Pro level) --- */
+        .category-header { font-size: 11px; color: var(--primary); margin: 20px 0 10px 0; font-weight: 700; letter-spacing: 1px; border-bottom: 1px solid rgba(239,68,68,0.2); padding-bottom: 6px; text-align: left; }
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 5px; }
+        .keyword-chip { 
+            padding: 10px 14px; background-color: var(--input-bg); border-radius: 30px; 
+            font-size: 12px; font-weight: 500; cursor: pointer; 
+            border: 1px solid var(--border); color: var(--text-muted); 
+            flex-grow: 1; text-align: center; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .keyword-chip:hover { border-color: var(--primary); color: white; }
+        .keyword-chip.active { 
+            background: linear-gradient(135deg, var(--primary), #b91c1c); 
+            color: white; border-color: transparent; 
+            transform: translateY(-3px) scale(1.05); 
+            box-shadow: 0 8px 15px var(--primary-glow); 
+        }
+
+        /* --- BUTTONS --- */
+        .action-btn {
+            width: 100%; padding: 16px; background: linear-gradient(135deg, #ef4444, #b91c1c);
+            color: white; border: none; border-radius: 12px;
+            font-size: 16px; font-weight: 700; cursor: pointer; letter-spacing: 1px;
+            box-shadow: 0 10px 20px -5px var(--primary-glow); margin-top: 15px;
+            transition: all 0.3s ease; display: flex; justify-content: center; align-items: center; gap: 10px;
+        }
+        .action-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 25px -5px var(--primary-glow); filter: brightness(1.1); }
+        .action-btn:active { transform: translateY(1px); }
+        
+        .copy-btn { width: 100%; padding: 15px; background-color: #fff; color: #000; border: none; border-radius: 12px; margin-top: 15px; font-weight: 700; font-size: 15px; cursor: pointer; display: none; transition: 0.3s; }
+        .copy-btn:hover { background: #f4f4f5; transform: translateY(-2px); }
+
+        .review-preview-box {
+            width: 100%; min-height: 160px; margin-top: 20px; border-radius: 12px; padding: 15px; 
+            border: 1px solid rgba(239, 68, 68, 0.5); display: none; background: rgba(0,0,0,0.3); resize: none; outline: none; line-height: 1.6; font-size: 14px; font-weight: 400; color: #fff; box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+            animation: popIn 0.5s ease;
+        }
+
+        /* --- LOADING SPINNER --- */
+        .spinner {
+            width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%; border-top-color: #fff; animation: spin 1s ease-in-out infinite; display: none;
+        }
+
+        /* --- OWNER PANEL --- */
+        #ownerPanel {
+            display: none; margin-top: 25px; padding: 20px;
+            border: 1px solid rgba(37, 211, 102, 0.3); border-radius: 16px;
+            background-color: rgba(37, 211, 102, 0.05); text-align: left;
+        }
+        .whatsapp-send-btn {
+            width: 100%; padding: 14px; background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white; border: none; border-radius: 12px;
+            font-size: 15px; font-weight: 700; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 8px 15px var(--whatsapp-glow);
+        }
+        .whatsapp-send-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+        /* --- UTILS --- */
+        .hidden { display: none !important; }
+        .toggle-name { font-size: 13px; color: var(--text-muted); text-decoration: underline; cursor: pointer; float: right; margin-top: 5px; border: none; background: none; font-weight: 500; transition: 0.2s;}
+        .toggle-name:hover { color: #fff; }
+
+        /* --- FOOTER --- */
+        .footer { margin-top: 40px; text-align: center; font-size: 12px; color: #ffffff; border-top: 1px solid var(--border); padding-top: 20px; position: relative;}
+        .footer-logo { display: block; margin: 0 auto 8px auto; max-height: 28px; width: auto; opacity: 0.5; filter: grayscale(100%) invert(1); transition: 0.3s;}
+        .footer-logo:hover { opacity: 1; }
+        .footer a { color: #ffffff; text-decoration: none; font-weight: 600; }
+        .owner-login-trigger {
+            font-size: 11px; color: #ffffff; cursor: pointer; text-decoration: none;
+            position: absolute; bottom: 0px; right: 5px; transition: 0.2s;
+        }
+        .owner-login-trigger:hover { color: #fff; }
+    </style>
+</head>
+<body>
+
+<div id="lockScreen" style="display: none;">
+    <div style="font-size: 60px; margin-bottom: 20px;">🔒</div>
+    <div style="font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 10px;">Access Denied</div>
+    <div style="font-size: 14px; color: var(--text-muted); margin-bottom: 30px;">
+        This tool has been disabled. Please contact the administrator.
+    </div>
+</div>
+
+<div class="container fade-in-up" id="mainApp">
+
+    <div id="customerLinkView" class="hidden fade-in-up" style="text-align: center; padding: 20px;">
+        <div style="font-size: 50px; margin-bottom: 10px; animation: popIn 0.5s ease;">🖋️</div>
+        <h2 style="color: #fff; font-family: 'Oswald', sans-serif; letter-spacing: 1px;">THANK YOU!</h2>
+        <p style="color:var(--text-muted); font-size:14px; margin-bottom:20px;">
+            Here is the review for your recent ink session.<br>Click below to copy & post to Google.
+        </p>
+        <textarea id="customerReviewText" class="review-preview-box" readonly style="display:block;"></textarea>
+        <button class="action-btn" style="display:block; margin-top:15px; background: #fff; color: #000; box-shadow: 0 10px 20px rgba(255,255,255,0.2);" onclick="copyCustomerLinkReview()">📋 Copy & Open Google</button>
+        <p style="font-size:11px; color:#555; margin-top:20px;">Wear your art with pride! 🖤</p>
+    </div>
+
+    <div id="generatorApp">
+        <h1>Scissor Tattoo Studio</h1>
+        <div class="subtitle">Custom Ink, Precision & Artistry</div>
+        <div class="location">📍 Pimpale Gurav & PCMC</div>
+
+        <div id="ratingScreen" class="fade-in-up">
+            <p style="font-weight: 600; color: #fff; font-size: 16px;">How was your ink experience?</p>
+            <div class="star-container">
+                <span class="star" onclick="rate(1)">★</span>
+                <span class="star" onclick="rate(2)">★</span>
+                <span class="star" onclick="rate(3)">★</span>
+                <span class="star" onclick="rate(4)">★</span>
+                <span class="star" onclick="rate(5)">★</span>
+            </div>
+            <div class="experience-btns">
+                <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Needs Work 😞</button>
+                <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Amazing Art! 🔥</button>
+            </div>
+            <button class="action-btn" onclick="processRating()">Continue ➡</button>
+        </div>
+
+        <div id="privateFeedbackScreen" class="hidden fade-in-up">
+            <h2 style="color:#fff; font-family: 'Oswald';">We are sorry 😔</h2>
+            <p style="color: var(--text-muted);">Please tell us how we can improve.</p>
+            <textarea id="privateFeedbackText" placeholder="Describe the issue..." style="height: 120px;"></textarea>
+            <button class="action-btn" onclick="submitPrivateFeedback()">Submit Feedback</button>
+        </div>
+
+        <div id="thankYouScreen" class="hidden fade-in-up">
+            <div style="font-size: 60px; margin-bottom:10px; color: var(--whatsapp);">✅</div>
+            <h2 style="color:#fff; font-family: 'Oswald';">Feedback Received</h2>
+            <p style="color: var(--text-muted);">Thank you for helping us improve.</p>
+        </div>
+
+        <div id="aiToolScreen" class="hidden fade-in-up" style="text-align: left;">
+            
+            <div class="input-mode-tabs">
+                <button class="mode-btn active-mode" id="btnModeVoice" onclick="switchMode('voice')">🎤 Speak</button>
+                <button class="mode-btn" id="btnModeText" onclick="switchMode('text')">✍️ Write</button>
+            </div>
+
+            <div id="voiceSection" class="voice-section">
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                    <span style="font-size:11px; font-weight:700; color:var(--primary); letter-spacing: 1px;">SPEAK (Hindi/English):</span>
+                    <select id="voiceLang" style="width:auto; padding:4px 8px; font-size:11px; height:auto; margin:0;">
+                        <option value="en-IN" selected>English</option>
+                        <option value="hi-IN">Hindi</option>
+                    </select>
+                </div>
+                <div class="voice-controls">
+                    <button id="micBtn" class="mic-btn" onclick="startListening()">🎤</button>
+                    <div style="flex:1;">
+                        <p id="statusText" style="font-size:13px; color:#fff; margin:0; font-weight: 500;">Tap mic & speak...<br><span style="font-weight: 400; color: var(--text-muted); font-size: 11px;">(Ex: "Tattoo bahut clean banaya hai")</span></p>
+                    </div>
+                </div>
+                <div id="spokenTextDisplay" style="display:none; margin-top:10px; font-size:13px; color:var(--primary); background:rgba(239, 68, 68, 0.1); padding:8px 12px; border-radius:8px; border: 1px solid rgba(239, 68, 68, 0.3); font-weight: 500;"></div>
+            </div>
+
+            <div id="textSection" class="text-section hidden">
+                <label style="margin-top:0; color: #fff;">Describe Experience</label>
+                <textarea id="manualInput" placeholder="Ex: Malhar did an amazing job on my sleeve..." style="height:90px; margin-bottom:0;"></textarea>
+            </div>
+
+            <label style="margin-top:0;">1. Select Studio Location</label>
+            <select id="locationSelect">
+                <option value="Pimpale Gurav">Pimpale Gurav</option>
+                <option value="Kalewadi">Kalewadi</option>
+                <option value="Pimpri">Pimpri</option>
+                <option value="Chinchwad">Chinchwad</option>
+                <option value="PCMC">PCMC</option>
+                <option value="Pune">Pune</option>
+            </select>
+
+            <div style="display: flex; gap: 15px;">
+                <div style="flex:1;">
+                    <label>2. Tattoo Service</label>
+                    <select id="serviceSelect">
+                        <option value="custom tattoo">Custom Tattoo</option>
+                        <option value="sleeve tattoo">Sleeve Tattoo</option>
+                        <option value="cover up tattoo">Cover Up Tattoo</option>
+                        <option value="tattoo touch up">Tattoo Touch-up</option>
+                        <option value="tattoo removal">Tattoo Removal</option>
+                    </select>
+                </div>
+                <div style="flex:1;">
+                    <label>3. Vibe/Tone</label>
+                    <select id="toneSelect">
+                        <option value="Edgy">Edgy & Cool 🔥</option>
+                        <option value="Professional">Professional 👔</option>
+                        <option value="Appreciative">Appreciative 🙏</option>
+                        <option value="Short">Short & Crisp 👌</option>
+                    </select>
+                </div>
+            </div>
+
+            <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
+            <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
+                <input type="text" id="userName" placeholder="Your Name (Optional)">
+            </div>
+
+            <label style="clear:both; margin-top: 25px;">4. Select Highlights (Pick 2-4)</label>
+
+            <div class="category-header">ARTISTS & STUDIO</div>
+            <div class="keywords-container">
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'best tattoo artists in')">🏆 Best Artists</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Best tattoo studio')">🖤 Best Studio</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'top rated tattoo shops')">⭐ Top Rated</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'malhar was really tallented artist')">🎨 Malhar is Elite</div>
+            </div>
+
+            <div class="category-header">TATTOO STYLES</div>
+            <div class="keywords-container">
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'custom tattoo artist')">✏️ Custom Art</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'fine line tattoo artists')">✒️ Fine Line</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'realism tattoo artist')">🖼️ Realism</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'watercolor tattoos')">💧 Watercolor</div>
+            </div>
+
+            <div class="category-header">TYPES & PLACEMENTS</div>
+            <div class="keywords-container">
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'mini tattoo')">🤏 Mini Tattoos</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'wrist tattoos')">🤚 Wrist Tattoos</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'face tattoos')">😎 Face Tattoos</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'memorial tattoos')">🕊️ Memorial</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'sleeve tattoos for men / women')">🦾 Full Sleeve</div>
+            </div>
+
+            <div class="category-header">FIXES & REMOVAL</div>
+            <div class="keywords-container">
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'tattoo cover up')">🔄 Amazing Cover Up</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'emergency tattoo cover up')">🚨 Emergency Cover Up</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'best tattoo touch up service')">✨ Touch Up</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Tatto removal near me')">❌ Safe Removal</div>
+            </div>
+
+            <button class="action-btn" id="generateBtn" onclick="generateReview()">
+                <span class="spinner" id="btnSpinner"></span>
+                <span id="btnText">⚡ Craft Unique Review</span>
+            </button>
+
+            <textarea id="reviewOutput" class="review-preview-box" readonly></textarea>
+            
+            <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy & Open Google</button>
+
+            <div id="ownerPanel">
+                <label style="color:var(--whatsapp); margin-top:0;">📱 Client's WhatsApp Number</label>
+                <div style="display:flex; gap:10px;">
+                    <input type="tel" id="customerPhone" placeholder="Ex: 9876543210" style="margin-bottom:0; background: rgba(0,0,0,0.2);">
+                    <button class="whatsapp-send-btn" style="width: auto; padding: 0 20px;" onclick="sendLinkToCustomer()">🚀 Send</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer">
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft" loading="lazy">
+        <div class="footer-text">
+            Powered by <a href="https://growft.net" target="_blank">Growft</a>
+        </div>
+        <span class="owner-login-trigger" onclick="ownerLogin()">🔒 Owner Login</span>
+    </div>
+</div>
+
+<script>
+    // --- APP CONFIG ---
+    const GOOGLE_REVIEW_LINK = "https://share.google/T7x2B2BMw32K2jwIs"; 
+    const APP_STATUS = "active"; 
+    const EXPIRY_DATE = "2026-12-31"; 
+    let isOwnerMode = false;
+
+    // --- INITIALIZATION ---
+    window.onload = function() {
+        const today = new Date().toISOString().split('T')[0];
+        if(APP_STATUS === "suspended" || today > EXPIRY_DATE) {
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('lockScreen').style.display = 'flex';
+            return;
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const reviewText = urlParams.get('review');
+        if (reviewText) {
+            document.getElementById('generatorApp').style.display = 'none';
+            document.getElementById('customerLinkView').classList.remove('hidden');
+            document.getElementById('customerReviewText').value = decodeURIComponent(reviewText);
+        } else if(sessionStorage.getItem('isOwner') === 'true') {
+            isOwnerMode = true;
+        }
+    };
+
+    function ownerLogin() {
+        if(isOwnerMode) { alert("Already logged in as Owner."); return; }
+        const password = prompt("Enter Owner Password:");
+        if(password === "admin123") { 
+            isOwnerMode = true;
+            sessionStorage.setItem('isOwner', 'true');
+            alert("Owner Mode Active! Pro controls unlocked.");
+        } else if(password) { alert("Incorrect Password"); }
+    }
+
+    function sendLinkToCustomer() {
+        const phone = document.getElementById('customerPhone').value.replace(/\D/g, '');
+        const review = document.getElementById('reviewOutput').value;
+        if(phone.length < 10) { alert("Enter valid 10-digit number"); return; }
+        const finalPhone = phone.length === 10 ? "91" + phone : phone;
+        const baseUrl = window.location.href.split('?')[0];
+        const magicLink = `${baseUrl}?review=${encodeURIComponent(review)}`;
+        const msg = `Hey! 🤘\n\nThanks for getting inked at Scissor Tattoo Studio.\nHere is your custom review:\n\n*Tap this link to Post:*\n${magicLink}`;
+        window.open(`https://wa.me/${finalPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function copyCustomerLinkReview() {
+        const box = document.getElementById("customerReviewText");
+        box.select();
+        document.execCommand('copy');
+        window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+
+    // --- UI LOGIC ---
+    let selectedKeywords = [];
+    let voiceText = "";
+    let activeMode = 'voice';
+
+    function switchMode(mode) {
+        activeMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active-mode'));
+        if(mode === 'voice') {
+            document.getElementById('btnModeVoice').classList.add('active-mode');
+            document.getElementById('voiceSection').classList.remove('hidden');
+            document.getElementById('textSection').classList.add('hidden');
+        } else {
+            document.getElementById('btnModeText').classList.add('active-mode');
+            document.getElementById('textSection').classList.remove('hidden');
+            document.getElementById('voiceSection').classList.add('hidden');
+        }
+    }
+
+    let currentRating = 0;
+    let currentExp = '';
+    function rate(stars) {
+        currentRating = stars;
+        document.querySelectorAll('.star').forEach((star, index) => {
+            star.classList.toggle('selected', index < stars);
+        });
+        if(stars >= 4) selectExp('good'); else selectExp('bad');
+    }
+    function selectExp(type) {
+        currentExp = type;
+        document.getElementById('btn-good').classList.remove('active');
+        document.getElementById('btn-bad').classList.remove('bad-active');
+        if (type === 'good') document.getElementById('btn-good').classList.add('active');
+        else document.getElementById('btn-bad').classList.add('bad-active');
+    }
+    function processRating() {
+        if (currentRating === 0 && currentExp === '') { alert("Please select a star rating first."); return; }
+        document.getElementById('ratingScreen').classList.add('hidden');
+        let isHappy = (currentRating >= 4) || (currentExp === 'good');
+        if (isHappy) document.getElementById('aiToolScreen').classList.remove('hidden');
+        else document.getElementById('privateFeedbackScreen').classList.remove('hidden');
+    }
+    function submitPrivateFeedback() {
+        document.getElementById('privateFeedbackScreen').classList.add('hidden');
+        document.getElementById('thankYouScreen').classList.remove('hidden');
+    }
+
+    // --- VOICE LOGIC ---
+    function startListening() {
+        if (!('webkitSpeechRecognition' in window)) { alert("Speech Recognition requires Chrome browser."); return; }
+        let recognition = new webkitSpeechRecognition();
+        recognition.lang = document.getElementById('voiceLang').value;
+        recognition.interimResults = false;
+        document.getElementById('micBtn').classList.add('mic-active');
+        document.getElementById('statusText').innerText = "Listening to you...";
+        
+        recognition.onresult = (event) => {
+            voiceText = event.results[0][0].transcript;
+            document.getElementById('spokenTextDisplay').style.display = 'block';
+            document.getElementById('spokenTextDisplay').innerText = `Recorded: "${voiceText}"`;
+        };
+        recognition.onerror = (e) => {
+            document.getElementById('statusText').innerText = "Mic Error. Try writing.";
+            document.getElementById('micBtn').classList.remove('mic-active');
+        };
+        recognition.onend = () => { 
+            document.getElementById('micBtn').classList.remove('mic-active'); 
+            document.getElementById('statusText').innerText = "Processing complete."; 
+        };
+        recognition.start();
+    }
+
+    // --- PRO GENERATION ENGINE WITH ANIMATIONS ---
+    let usedIntros = [];
+    let usedOutros = [];
+
+    async function generateReview() {
+        const btnText = document.getElementById('btnText');
+        const spinner = document.getElementById('btnSpinner');
+        const box = document.getElementById('reviewOutput');
+        
+        const userName = document.getElementById('userName').value.trim();
+        const location = document.getElementById('locationSelect').value;
+        let tone = document.getElementById('toneSelect').value;
+        const serviceType = document.getElementById('serviceSelect').value;
+        const manualText = document.getElementById('manualInput').value.trim();
+        let rawInput = activeMode === 'voice' ? voiceText : manualText;
+
+        if (selectedKeywords.length === 0 && !rawInput) {
+            alert("Please select highlights or say something about your tattoo.");
+            return;
+        }
+
+        // Start Pro Loading Animation
+        btnText.innerText = "Crafting Magic...";
+        spinner.style.display = "inline-block";
+        box.style.display = 'none';
+
+        // Fake network delay for premium feel
+        setTimeout(async () => {
+            let finalBodyText = "";
+            if (rawInput && rawInput.length > 1) {
+                try {
+                    const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(rawInput)}&langpair=Autodetect|en`);
+                    const data = await res.json();
+                    let translated = data.responseData ? data.responseData.translatedText : "";
+                    if(!translated.includes("PLEASE SELECT")) finalBodyText = translated;
+                    else finalBodyText = rawInput;
+                } catch(e) { finalBodyText = rawInput; }
+            }
+
+            // --- 1. PICK UNIQUE INTRO ---
+            let intro = "";
+            let safeTries = 0;
+            let availableIntros = reviewDB.intros[tone] || reviewDB.intros["Edgy"];
+            do {
+                intro = availableIntros[Math.floor(Math.random() * availableIntros.length)];
+                safeTries++;
+            } while (usedIntros.includes(intro) && safeTries < 50);
+            
+            usedIntros.push(intro);
+            if(usedIntros.length > 25) usedIntros.shift();
+
+            intro = intro.replace(/{service}/g, serviceType).replace(/{location}/g, location);
+            if (userName) intro = `I am ${userName}. ` + intro;
+
+            // --- 2. BUILD BODY & SHUFFLE KEYWORDS ---
+            let body = "";
+            const shuffledKeywords = [...selectedKeywords].sort(() => Math.random() - 0.5);
+            shuffledKeywords.forEach((k) => {
+                if(reviewDB.keywords[k]) {
+                    let sentence = reviewDB.keywords[k][Math.floor(Math.random() * reviewDB.keywords[k].length)];
+                    sentence = sentence.replace(/{location}/g, location);
+                    body += sentence + " ";
+                }
+            });
+
+            if(finalBodyText) body += " " + finalBodyText + ". ";
+
+            // --- 3. PICK UNIQUE OUTRO ---
+            let outro = "";
+            safeTries = 0;
+            let availableOutros = reviewDB.outros[tone] || reviewDB.outros["Edgy"];
+            do {
+                outro = availableOutros[Math.floor(Math.random() * availableOutros.length)];
+                safeTries++;
+            } while (usedOutros.includes(outro) && safeTries < 50);
+
+            usedOutros.push(outro);
+            if(usedOutros.length > 25) usedOutros.shift();
+            
+            outro = outro.replace(/{location}/g, location);
+
+            const finalReview = (intro + " " + body + outro).trim();
+
+            // End Animation & Show Review
+            spinner.style.display = "none";
+            btnText.innerText = "⚡ Generate Another Variation";
+            
+            box.value = finalReview;
+            box.style.display = 'block';
+            
+            // Re-trigger animation
+            box.style.animation = 'none';
+            box.offsetHeight; /* trigger reflow */
+            box.style.animation = null; 
+
+            box.scrollIntoView({behavior: "smooth", block: "nearest"});
+            
+            if(isOwnerMode) {
+                document.getElementById('ownerPanel').style.display = 'block';
+                document.getElementById('copyBtn').style.display = 'none';
+            } else {
+                document.getElementById('ownerPanel').style.display = 'none';
+                document.getElementById('copyBtn').style.display = 'block';
+            }
+        }, 800); // 800ms loading illusion
+    }
+
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) selectedKeywords = selectedKeywords.filter(k => k !== keyword);
+        else selectedKeywords.push(keyword);
+    }
+    
+    function toggleNameField() { 
+        const field = document.getElementById('nameArea');
+        field.style.display = (field.style.display === 'block' || field.style.display === '') ? 'none' : 'block';
+    }
+
+    function copyToClipboard() {
+        const box = document.getElementById("reviewOutput");
+        box.select();
+        document.execCommand('copy');
+        if(confirm("Review Copied! Open Google Maps?")) window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+
+    // --- MASSIVE HUMANIZED DATABASE (Preserved from previous step) ---
+    const reviewDB = {
+        intros: {
+            "Edgy": [
+                "finally got my {service} done from here and it's mindblowing bro.",
+                "was searching for a good place in {location} and stumbled upon scissor tattoo.",
+                "tbh I was super nervous for my {service} but these guys made it so easy.",
+                "my friend suggested me this place for {service} and broo they nailed it.",
+                "literally the best decision to get inked here.",
+                "Got my {service} yesterday... still cant stop looking at it.",
+                "scissor tattoo studio is the goat of {location} fr.",
+                "I travel all the way to {location} just for my {service}.",
+                "honestly speaking, best tattoo shop in {location}.",
+                "i don't usually write reviews but this {service} forced me to.",
+                "yoo this place is an absolute vibe for {service}.",
+                "just survived my {service} session here and the results are absolute fire.",
+                "Scissor Tattoo Studio in {location} does not miss! 🔥 So hyped.",
+                "blew my mind with this {service} today.",
+                "hands down the most badass tattoo shop in {location}.",
+                "my new {service} is unreal. big shoutout to the crew.",
+                "if u want sick ink, just come here blindly.",
+                "i was looking for a crazy {service} and found this gem.",
+                "got tattooed here and i am really love the work.",
+                "the vibe of this place in {location} is just aweseom.",
+                "crazy good {service} done by the guys here.",
+                "im obsessed with my new {service} ngl.",
+                "best ink i have got till date in {location}.",
+                "was a random walk-in for a {service} and it was the best choice.",
+                "this studio in {location} is highly underrated.",
+                "can't get over how sick my {service} looks rn.",
+                "so freakin happy with my {service} today.",
+                "if u need a {service}, scissor tattoo is the only place.",
+                "they completely killed it with my {service} man.",
+                "this place gives the best tattoos in {location} hands down."
+            ],
+            "Professional": [
+                "I recently visited Scissor Tattoo Studio in {location} for a {service}.", 
+                "Highly professional and hygienic studio in {location}.",
+                "For anyone seeking a precise {service}, Scissor Tattoo Studio is the right place.",
+                "I was very impressed by the hygiene standards maintained at this {location} studio.",
+                "Excellent consultation and execution for my {service}.",
+                "A premium tattooing experience from start to finish.",
+                "The team here is incredibly skilled at what they do.",
+                "I did a lot of research before booking my {service} here.",
+                "Very neat and clean studio in {location} for {service}.",
+                "The artist explained the whole {service} process very well.",
+                "really appreciate the cleanliness of this tattoo shop.",
+                "They use fresh needles and maintain great hygiene for {service}.",
+                "Very polite staff and proper professional environment.",
+                "Great experience getting my {service} done here in {location}.",
+                "I highly recommend this studio for anyone looking for safe {service}.",
+                "The detailing in their work is very impressive.",
+                "Probably the most professional tattoo studio in {location}.",
+                "Got my {service} done with zero issues, very smooth process.",
+                "They are very patient and listen to what you want.",
+                "Very good hospitality and amazing {service} quality.",
+                "The whole {service} was done with utmost care.",
+                "I am very satisfied with the {service} provided.",
+                "They are true professionals in {location}.",
+                "Would definitely rate them 5 stars for the {service}.",
+                "Cleanliness is 10/10 at this studio.",
+                "The artists here take their time to perfect the {service}.",
+                "Very comfortable setup and professional artists.",
+                "A very safe place to get your first {service}.",
+                "I am really impressed by their {service} skills.",
+                "Best place for a hygienic and detailed {service}."
+            ],
+            "Appreciative": [
+                "I am so incredibly happy with my {service} from Scissor Tattoo Studio! ❤️", 
+                "A huge thank you to the team in {location} for making my {service} such a great experience.", 
+                "They brought my vision to life perfectly during my {service}.",
+                "I felt so comfortable during my {service} today.",
+                "Words can't describe how much I love my new {service}.",
+                "Such a welcoming and talented bunch of artists.",
+                "Thank you for being so patient and creating this masterpiece.",
+                "Absolutely in love with the {service} I got here.",
+                "thanks a lot guys for the beautiful {service}.",
+                "u guys are the best in {location} seriously.",
+                "im so grateful i chose this place for my {service}.",
+                "they treated me so well during the whole {service}.",
+                "huge respect for the artists here in {location}.",
+                "my {service} looks exactly how i imagined it.",
+                "could not have asked for a better {service} experience.",
+                "you guys made my first {service} so memorable.",
+                "i am in love with the details on my {service}.",
+                "they are so humble and polite.",
+                "thank u so much for the amazing {service}!",
+                "really appreciate the hard work on my {service}.",
+                "such a sweet staff and awesome {service}.",
+                "i am super duper happy with the final result.",
+                "they really care about their clients.",
+                "best {service} experience ever, thank u guys.",
+                "i felt right at home getting my {service} here.",
+                "blessed to find such good artists in {location}.",
+                "they made sure i was comfortable during the {service}.",
+                "so much love for this studio in {location}.",
+                "thank you for the perfect {service}.",
+                "i cant stop smiling looking at my new {service}."
+            ],
+            "Short": [
+                "Best {service} in {location}.", 
+                "Got my {service} here, totally worth it.", 
+                "Highly recommend Scissor Tattoo Studio.", 
+                "Amazing {service} and great vibe.",
+                "Super clean and great artists.",
+                "10/10 experience for my {service}.",
+                "just awsome {service}.",
+                "loved the {service}.",
+                "best place in {location}.",
+                "very good {service}.",
+                "nice work guys.",
+                "osm {service} done here.",
+                "superb quality {service}.",
+                "great studio.",
+                "loved my new ink.",
+                "best tattoo shop.",
+                "very nice {service}.",
+                "good job.",
+                "worth the money.",
+                "sick tattoos.",
+                "best artists.",
+                "awesome place.",
+                "very clean shop.",
+                "nice people.",
+                "perfect {service}.",
+                "really good ink.",
+                "top class {service}.",
+                "best in town.",
+                "fabulous {service}.",
+                "great experience."
+            ]
+        },
+        keywords: {
+            "best tattoo artists in": [
+                "they literally have the best tattoo artists in {location} tbh.", 
+                "was looking for best tattoo artists in {location} and found them.", 
+                "hands down the best tattoo artists in the area man.",
+                "if u want good work, they are the best tattoo artists in {location}."
+            ],
+            "Best tattoo studio": [
+                "this is absolutely the best tattoo studio i have ever been to.", 
+                "clean, modern, and clearly the best tattoo studio around.", 
+                "proud to say i got inked at the best tattoo studio in {location}.",
+                "no doubt it is the best tattoo studio here."
+            ],
+            "malhar was really tallented artist": [
+                "also malhar was really tallented artist, his detailing is crazy.", 
+                "shoutout to malhar man, he was really tallented artist.", 
+                "malhar bhaiya is a really tallented artist.",
+                "malhar is a really tallented artist who made me feel so comfortable."
+            ],
+            "top rated tattoo shops": [
+                "it makes sense why this is one of the top rated tattoo shops in {location}.", 
+                "i checked out many places, but this is clearly among the top rated tattoo shops.", 
+                "living up to its name as one of the top rated tattoo shops tbh."
+            ],
+            "custom tattoo artist": [
+                "the custom tattoo artist took my rough idea and designed a masterpiece.", 
+                "working with a custom tattoo artist made my piece truly unique.", 
+                "brilliant custom tattoo artist who understands exactly what u want."
+            ],
+            "fine line tattoo artists": [
+                "their fine line tattoo artists are incredibly precise.", 
+                "if u want delicate work, they are the go-to fine line tattoo artists.", 
+                "the line work is so crisp, truly expert fine line tattoo artists."
+            ],
+            "realism tattoo artist": [
+                "the realism tattoo artist brought my portrait to life flawlessly.", 
+                "unbelievable shading done by their realism tattoo artist.", 
+                "if u want 3D art, ask for their realism tattoo artist."
+            ],
+            "watercolor tattoos": [
+                "they do the most vibrant watercolor tattoos ive seen.", 
+                "my piece looks like an actual painting, their watercolor tattoos are elite.", 
+                "the color blending on their watercolor tattoos is stunning."
+            ],
+            "mini tattoo": [
+                "perfect execution even on a mini tattoo.", 
+                "got a highly detailed mini tattoo that healed beautifully.", 
+                "they do small mini tattoos perfectly without any blowout."
+            ],
+            "wrist tattoos": [
+                "i got one of my wrist tattoos here and the placement was perfect.", 
+                "super gentle handling, especially for sensitive areas like wrist tattoos.", 
+                "the sizing and design for my wrist tattoos were spot on."
+            ],
+            "face tattoos": [
+                "highly skilled and trustworthy, even for bold placements like face tattoos.", 
+                "they maintain the highest hygiene which is vital for face tattoos."
+            ],
+            "memorial tattoos": [
+                "they handled my request for memorial tattoos with so much respect.", 
+                "my memorial tattoo turned out beautiful, a perfect tribute.", 
+                "very empathetic artists when dealing with special memorial tattoos."
+            ],
+            "sleeve tattoos for men / women": [
+                "they design the most cohesive sleeve tattoos for men and women.", 
+                "i'm working on my full arm, and their sleeve tattoos are incredible.", 
+                "the flow of their sleeve tattoos are expertly planned."
+            ],
+            "tattoo cover up": [
+                "my tattoo cover up is looking so natural, cant even see the old one.", 
+                "did a tattoo cover up and it looks dope.", 
+                "gave me my confidence back with an amazing tattoo cover up."
+            ],
+            "emergency tattoo cover up": [
+                "saved my skin with a brilliant emergency tattoo cover up.", 
+                "if u need an emergency tattoo cover up done right, this is the place."
+            ],
+            "best tattoo touch up service": [
+                "i came back to use their best tattoo touch up service to refresh old ink.", 
+                "they offer the best tattoo touch up service making old pieces look new."
+            ],
+            "Tatto removal near me": [
+                "if u are searching for Tatto removal near me, they offer safe sessions.", 
+                "their process is highly professional for anyone needing Tatto removal near me."
+            ]
+        },
+        outros: {
+            "Edgy": [
+                "will highly highly reccomend.",
+                "cant wait to get my next piece from here.",
+                "love u guys, keep up the good work.",
+                "kudos to the team. see u soon.",
+                "definitly bringing my friends here next time.",
+                "100% recommended to everyone.",
+                "thanks for the awesome ink bhai.",
+                "worth every single penny.",
+                "if u are in {location}, just go blindly.",
+                "never going anywhere else for tattoos.",
+                "can't wait to come back for more ink! 🤘", 
+                "10/10 would recommend to anyone looking to get tattooed.", 
+                "if you're thinking about it, just book an appointment here.",
+                "already planning my next piece with them.",
+                "don't trust anyone else with your skin fr.",
+                "absolutely crushed it. see you guys soon.",
+                "best decision ever. 🔥",
+                "stay awesome, scissor tattoo team!",
+                "they got a customer for life now.",
+                "will def be back for more soon.",
+                "big W for this studio.",
+                "crazy good work guys, keep it up.",
+                "highly suggest everyone to check them out.",
+                "if u want sick tattoos, this is the spot.",
+                "going to flaunt this tattoo everywhere now.",
+                "super hyped with the results man.",
+                "thanks for the drip guys.",
+                "best tattoo experience hands down.",
+                "see you soon for the next one.",
+                "highly highly recommend this place to all."
+            ],
+            "Professional": [
+                "I highly recommend Scissor Tattoo Studio to all in {location}.", 
+                "The hygiene, skill, and guidance are top-tier.", 
+                "A truly premium tattooing experience.",
+                "Will definitely return for future projects.",
+                "I confidently recommend their services to everyone.",
+                "They set a very high standard for tattoo studios.",
+                "Exceptional work and great customer service.",
+                "Thank you for a seamless and professional experience.",
+                "Would strongly recommend them to my colleagues.",
+                "Very satisfied with the overall service.",
+                "The aftercare instructions were also very helpful.",
+                "I am extremely pleased with the final outcome.",
+                "Five stars for their professionalism and talent.",
+                "They are truly masters of their craft.",
+                "I will certainly be a returning customer.",
+                "Thank you to the entire team for the great work.",
+                "Highly professional and highly recommended.",
+                "They definitely know what they are doing.",
+                "Great value for money considering the quality.",
+                "Very happy I chose this studio.",
+                "I will be recommending them to family and friends.",
+                "Kudos to the management and artists.",
+                "A very safe and reliable place for tattoos.",
+                "They exceeded my expectations in every way.",
+                "Glad to have such a good studio in {location}.",
+                "Thank you for the excellent service.",
+                "I rate them 10/10 for cleanliness and skill.",
+                "Very polite and respectful staff.",
+                "Looking forward to my next appointment.",
+                "Excellent studio, keep up the good standard."
+            ],
+            "Appreciative": [
+                "Thank you so much to the artists for the beautiful work. ❤️", 
+                "I am forever grateful for the artistry and patience.", 
+                "I'll wear this art with pride every day.",
+                "You guys are the best!",
+                "Thanks for making this such a memorable experience.",
+                "My heart is so full. Thank you!",
+                "Appreciate the amazing work and good vibes.",
+                "Sending lots of love to the talented team here.",
+                "God bless the hands of these artists.",
+                "thank you for making my dream tattoo a reality.",
+                "i am so thankful for the care you took.",
+                "much love to the whole scissor tattoo family.",
+                "i will always cherish this piece of art.",
+                "thank u guys from the bottom of my heart.",
+                "u guys literally made my day.",
+                "im so so happy, thank you again.",
+                "best people and best artists.",
+                "thanks for being so kind and accommodating.",
+                "i appreciate the effort put into my tattoo.",
+                "stay blessed you guys, amazing work.",
+                "thank you for the wonderful memories.",
+                "i am absolutely thrilled with my tattoo.",
+                "thanks for treating me so nicely.",
+                "lots of love and respect for this studio.",
+                "u guys rock! thank u.",
+                "so glad i trusted you guys.",
+                "thank u for the beautiful ink and conversations.",
+                "my favorite tattoo studio forever now.",
+                "appreciate all the hard work guys.",
+                "thank you for an unforgettable experience."
+            ],
+            "Short": [
+                "Definitely coming back.", 
+                "Highly recommended.", 
+                "5 stars!", 
+                "Best ink in town.",
+                "Great job.",
+                "Thank you guys.",
+                "loved it.",
+                "best studio.",
+                "nice people.",
+                "awsome work.",
+                "superb.",
+                "very happy.",
+                "will visit again.",
+                "osm.",
+                "great stuff.",
+                "sick ink.",
+                "10/10.",
+                "must visit.",
+                "top quality.",
+                "worth it.",
+                "best in {location}.",
+                "thanks a lot.",
+                "good vibes.",
+                "very clean.",
+                "amazing.",
+                "perfect.",
+                "highly satisfied.",
+                "brilliant work.",
+                "thanks team.",
+                "love it."
+            ]
+        }
+    };
+</script>
+
+</body>
+</html>
