@@ -368,7 +368,7 @@
     // "ACTIVE" लिखोगे तो टूल चलेगा। 
     // "SUSPENDED" लिखोगे तो टूल बंद होकर सस्पेंड स्क्रीन दिखाएगा।
     
-    const APP_STATUS = "ACTIVE"; 
+    const APP_STATUS = "SUSPENDED"; 
     
     // =======================================================
 
@@ -378,7 +378,7 @@
     // --- INITIALIZATION ---
     window.onload = function() {
         // Checking the status lock
-        if(APP_STATUS.trim().toUpperCase() === "ACTIVATE") {
+        if(APP_STATUS.trim().toUpperCase() === "SUSPENDED") {
             document.getElementById('mainApp').style.display = 'none';
             document.getElementById('suspendedScreen').style.display = 'flex';
             return; // Stop running the rest of the app
