@@ -32,6 +32,34 @@
             color: var(--text-main);
         }
 
+        /* --- SUSPENDED OVERLAY --- */
+        .suspended-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(15, 23, 42, 0.95);
+            z-index: 99999;
+            display: none; /* Controlled by JS */
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .suspended-box {
+            background: #ffffff; padding: 40px 30px; border-radius: 16px;
+            max-width: 400px; width: 100%; text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border-top: 8px solid #ef4444;
+            animation: popIn 0.4s ease-out;
+        }
+
+        @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .suspended-icon { font-size: 60px; margin-bottom: 10px; line-height: 1; }
+        .suspended-title { color: #ef4444; font-size: 24px; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        .suspended-text { color: #475569; font-size: 15px; line-height: 1.6; margin-bottom: 25px; }
+        .suspended-contact { background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px dashed #cbd5e1; font-size: 13px; color: #64748b; }
+        .suspended-contact a { color: #ef4444; font-weight: bold; text-decoration: none; }
+
         /* --- CONTAINER --- */
         .container {
             background: var(--card-bg); width: 100%; max-width: 500px;
@@ -43,15 +71,7 @@
         }
 
         /* --- LOGO STYLE --- */
-        .business-logo {
-            max-width: 180px;
-            height: auto;
-            margin-bottom: 10px;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
+        .business-logo { max-width: 180px; height: auto; margin-bottom: 10px; display: block; margin-left: auto; margin-right: auto; }
         h1 { color: var(--primary-dark); margin: 5px 0 2px 0; font-size: 22px; font-weight: 800; letter-spacing: 0.5px; }
         .location { color: var(--gray); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
         
@@ -164,6 +184,20 @@
     </style>
 </head>
 <body>
+
+<div class="suspended-overlay" id="suspendedScreen">
+    <div class="suspended-box">
+        <div class="suspended-icon">⛔</div>
+        <div class="suspended-title">Account Suspended</div>
+        <div class="suspended-text">
+            This review tool is currently inactive or has been suspended by the administrator.
+        </div>
+        <div class="suspended-contact">
+            Please contact the service provider to restore access.<br><br>
+            Powered by <strong>Growft</strong>
+        </div>
+    </div>
+</div>
 
 <div class="container" id="mainApp">
 
@@ -328,11 +362,28 @@
 </div>
 
 <script>
+    // =======================================================
+    // 🔴 टूल को चालू या बंद करने का स्विच (MASTER LOCK) 🔴
+    // =======================================================
+    // "ACTIVE" लिखोगे तो टूल चलेगा। 
+    // "SUSPENDED" लिखोगे तो टूल बंद होकर सस्पेंड स्क्रीन दिखाएगा।
+    
+    const APP_STATUS = "ACTIVE"; 
+    
+    // =======================================================
+
     const GOOGLE_REVIEW_LINK = "https://www.google.com/travel/search?ts=CAEaSAooEiYyJDB4M2JjNDE3MDAzZmVjNGVjYjoweDgzMGU4Y2E2ODdhYzhmMxIcEhQKBwjqDxAEGAESBwjqDxAEGAIYATIECAAQACoHCgU6A0lOUg&qs=CAEyE0Nnb0k4NUhydzZhWnVwZ0lFQUU4AkIJCfPIemjK6DAIQgkJ88h6aMroMAg&utm_campaign=sharing&utm_medium=link_btn&utm_source=htls"; 
     let isOwnerMode = false;
 
     // --- INITIALIZATION ---
     window.onload = function() {
+        // Checking the status lock
+        if(APP_STATUS.trim().toUpperCase() === "ACTIVATE") {
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('suspendedScreen').style.display = 'flex';
+            return; // Stop running the rest of the app
+        }
+
         const urlParams = new URLSearchParams(window.location.search);
         const reviewText = urlParams.get('review');
         if (reviewText) {
@@ -520,7 +571,7 @@
     
     function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-    // --- EXPANDED MASSIVE DATASET (40+ Variations per category) ---
+    // --- EXPANDED MASSIVE DATASET ---
     const reviewData = {
         intros: {
             "Happy": [
