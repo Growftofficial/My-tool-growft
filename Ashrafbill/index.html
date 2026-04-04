@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ashraf Salon ERP</title>
+    <style>
+      body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #e9ecef; margin: 0; padding: 15px; }
+      .card { max-width: 450px; margin: 20px auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+      h2, h3 { text-align: center; color: #2c3e50; margin-top: 0; }
+      label { font-weight: bold; font-size: 13px; color: #555; display: block; margin-top: 15px; }
+      input, select, button { width: 100%; padding: 12px; margin-top: 5px; border-radius: 8px; border: 1px solid #ced4da; box-sizing: border-box; font-size: 15px; }
+      input:focus { border-color: #3498db; outline: none; }
+      
+      .btn-primary { background-color: #3498db; color: white; border: none; font-weight: bold; cursor: pointer; margin-top: 20px; transition: 0.3s; }
+      .btn-primary:hover { background-color: #2980b9; }
+      .btn-success { background-color: #27ae60; color: white; border: none; font-weight: bold; cursor: pointer; margin-top: 20px; }
+      .btn-success:hover { background-color: #219653; }
+      
+      /* Panels - Hidden by Default */
+      #cashier-panel, #manager-panel, #owner-panel { display: none; }
+      
+      .amount-grid { display: flex; gap: 10px; }
+      .amount-grid div { flex: 1; }
+      .final-amt { background-color: #e8f8f5; font-weight: bold; color: #16a085; font-size: 18px; }
+      .header-bar { background-color: #2c3e50; color: white; padding: 12px; border-radius: 8px; text-align: center; margin-bottom: 20px; font-weight: bold; }
+      .logout-txt { color: #e74c3c; text-align: center; display: block; margin-top: 15px; text-decoration: none; font-weight: bold; cursor: pointer;}
+    </style>
+  </head>
+  <body>
+
+    <div id="login-screen" class="card">
+      <h2>✂️ Ashraf Salon</h2>
+      <p style="text-align:center; color:#7f8c8d; margin-bottom:20px;">Staff & Admin Login</p>
+      
+      <input type="text" id="loginId" placeholder="Enter User ID">
+      <input type="password" id="loginPass" placeholder="Enter Password">
+      
+      <button class="btn-primary" onclick="doLogin()" id="btnLogin">Secure Login</button>
+      <p id="errorMsg" style="color:#e74c3c; text-align:center; display:none; margin-top:15px; font-weight:bold;"></p>
+    </div>
+
+    <div id="cashier-panel" class="card">
+      <div class="header-bar">POS System - <span id="displayBranch"></span></div>
+      
+      <input type="hidden" id="currentBranch">
+
+      <label>Customer Name</label>
+      <input type="text" id="custName" placeholder="e.g. Rahul Sharma">
+      
+      <label>WhatsApp Number</label>
+      <input type="number" id="custNum" placeholder="10 Digit Mobile Number">
+
+      <label>Services Billed</label>
+      <input type="text" id="services" placeholder="e.g. Haircut, Spa, Bleach">
+
+      <div class="amount-grid">
+        <div>
+          <label>Subtotal (₹)</label>
+          <input type="number" id="subtotal" value="0" oninput="calculateTotal()">
+        </div>
+        <div>
+          <label>Discount (₹)</label>
+          <input type="number" id="discount" value="0" oninput="calculateTotal()">
+        </div>
+      </div>
+
+      <label>Final Amount (₹)</label>
+      <input type="number" id="finalAmount" class="final-amt" readonly value="0">
+      
+      <button class="btn-success" onclick="submitBill()" id="btnSave">Save & Send WhatsApp</button>
+      
+      <a class="logout-txt" onclick="location.reload()">🔒 Logout</a>
+    </div>
+
+    <div id="manager-panel" class="card">
+      <div class="header-bar">Manager Inventory Panel</div>
+      <p style="text-align:center;">Service modification tools will appear here soon.</p>
+      <a class="logout-txt" onclick="location.reload()">🔒 Logout</a>
+    </div>
+
+    <div id="owner-panel" class="card">
+      <div class="header-bar">Owner Sales Analytics</div>
+      <p style="text-align:center;">Real-time sales charts and Export to Excel will appear here soon.</p>
+      <a class="logout-txt" onclick="location.reload()">🔒 Logout</a>
+    </div>
+
+    <script>
+      // 1. LOGIN LOGIC
+      function doLogin() {
+        var id = document.getElementById("loginId").value;
+        var pass = document.getElementById("loginPass").value;
+        var btn = document.getElementById("btnLogin");
+        var errorTxt = document.getElementById("errorMsg");
+        
+        if(!id || !pass) {
+          errorTxt.innerText = "Please enter both ID and Password!";
+          errorTxt.style.display = "block";
+          return;
+        }
+
+        btn.innerHTML = "Checking Details...";
+        btn.disabled = true;
+        errorTxt.style.display = "none";
+
+        google.script.run
+          .withSuccessHandler(function(response) {
+            btn.innerHTML = "Secure Login";
+            btn.disabled = false;
+            
+            if(response.status === "success") {
+              document.getElementById("login-screen").style.display = "none";
+              
+              if(response.role === "Cashier") {
+                document.getElementById("cashier-panel").style.display = "block";
+                document.getElementById("displayBranch").innerText = response.branch;
+                document.getElementById("currentBranch").value = response.branch; // Set hidden field
+              } 
+              else if(response.role === "Manager") {
+                document.getElementById("manager-panel").style.display = "block";
+              } 
+              else if(response.role === "Owner") {
+                document.getElementById("owner-panel").style.display = "block";
+              }
+            } else {
+              errorTxt.innerText = response.message;
+              errorTxt.style.display = "block";
+            }
+          })
+          .checkLogin(id, pass);
+      }
+
+      // 2. CASHIER CALCULATION
+      function calculateTotal() {
+        var sub = parseFloat(document.getElementById("subtotal").value) || 0;
+        var disc = parseFloat(document.getElementById("discount").value) || 0;
+        document.getElementById("finalAmount").value = (sub - disc > 0) ? (sub - disc) : 0;
+      }
+
+      // 3. SUBMIT BILL LOGIC
+      function submitBill() {
+        var btn = document.getElementById("btnSave");
+        var data = {
+          branch: document.getElementById("currentBranch").value,
+          name: document.getElementById("custName").value,
+          phone: document.getElementById("custNum").value,
+          services: document.getElementById("services").value,
+          subtotal: document.getElementById("subtotal").value,
+          discount: document.getElementById("discount").value,
+          finalAmount: document.getElementById("finalAmount").value
+        };
+
+        if(!data.name || !data.phone || data.finalAmount == 0) {
+          alert("Please enter Name, WhatsApp Number and valid Amount!");
+          return;
+        }
+
+        btn.innerHTML = "Saving Bill...";
+        btn.disabled = true;
+
+        // Send to Code.gs
+        google.script.run
+          .withSuccessHandler(function(response) {
+            if(response.status === "success") {
+              alert("✅ " + response.message + "\nInvoice: " + response.invoice);
+              
+              // WhatsApp Bhejne ka function call hoga
+              sendWhatsApp(response.invoice, data);
+              
+              // Form Clear karna
+              document.getElementById("custName").value = '';
+              document.getElementById("custNum").value = '';
+              document.getElementById("services").value = '';
+              document.getElementById("subtotal").value = '0';
+              document.getElementById("discount").value = '0';
+              document.getElementById("finalAmount").value = '0';
+            } else {
+              alert("❌ Error: " + response.message);
+            }
+            btn.innerHTML = "Save & Send WhatsApp";
+            btn.disabled = false;
+          })
+          .saveBillData(data);
+      }
+
+      // 4. WHATSAPP GENERATOR LOGIC
+      function sendWhatsApp(invoice, data) {
+        var msg = "✨ *ASHRAF SALON - INVOICE* ✨\n";
+        msg += "--------------------------------------\n";
+        msg += "👤 *Customer:* " + data.name + "\n";
+        msg += "📄 *Invoice No:* " + invoice + "\n";
+        msg += "🏠 *Branch:* " + data.branch + "\n";
+        msg += "--------------------------------------\n";
+        msg += "💇‍♂️ *Services:* " + data.services + "\n";
+        msg += "💰 *Subtotal:* ₹" + data.subtotal + "\n";
+        msg += "🏷️ *Discount:* ₹" + data.discount + "\n";
+        msg += "✅ *Final Amount: ₹" + data.finalAmount + "*\n";
+        msg += "--------------------------------------\n";
+        msg += "Thank you for visiting! 😊";
+
+        // Text ko link mein badalna
+        var encodedMsg = encodeURIComponent(msg);
+        var waLink = "https://wa.me/91" + data.phone + "?text=" + encodedMsg;
+        
+        // Naye tab mein WhatsApp kholna
+        window.open(waLink, '_blank');
+      }
+    </script>
+  </body>
+</html>
