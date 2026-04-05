@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ashraf Salon - Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-card { background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); width: 350px; text-align: center; }
+        h2 { color: #333; margin-bottom: 1.5rem; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #5a67d8; }
+        .error { color: red; margin-top: 10px; }
+        .brand { font-size: 24px; font-weight: bold; margin-bottom: 10px; color: #667eea; }
+    </style>
+</head>
+<body>
+<div class="login-card">
+    <div class="brand">Ashraf Salon</div>
+    <h2>Login</h2>
+    <input type="text" id="userId" placeholder="User ID">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Sign In</button>
+    <div id="error" class="error"></div>
+</div>
+
+<script>
+    const API_URL = 'https://script.google.com/macros/s/AKfycbwLsFhpq-Qh8s_PyulaNVdSTt43dwoaD3S5Di_qDZjGpoT4iXXDPdEhL7mYWxWVPF-K1w/exec'; // 👈 अपना URL डालें
+
+    async function login() {
+        const userId = document.getElementById('userId').value;
+        const password = document.getElementById('password').value;
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ action: 'login', user_id: userId, password: password })
+            });
+            const result = await response.json();
+            if (result.success) {
+                sessionStorage.setItem('token', result.data.token);
+                sessionStorage.setItem('role', result.data.role);
+                sessionStorage.setItem('branchId', result.data.branchId);
+                sessionStorage.setItem('branchName', result.data.branchName);
+                if (result.data.role === 'owner') window.location.href = 'owner.html';
+                else if (result.data.role === 'cashier') window.location.href = 'cashier.html';
+                else if (result.data.role === 'manager') window.location.href = 'manager.html';
+            } else {
+                document.getElementById('error').innerText = result.error;
+            }
+        } catch (err) {
+            document.getElementById('error').innerText = 'Network error. Check API URL.';
+        }
+    }
+</script>
+</body>
+</html>

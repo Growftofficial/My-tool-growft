@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ashraf - Cashier Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f5f7fa; margin: 0; padding: 20px; }
+        .header { background: #667eea; color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .container { display: flex; flex-wrap: wrap; gap: 20px; }
+        .services, .cart, .recent { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); flex: 1; min-width: 280px; }
+        .service-item, .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
+        button { background: #667eea; color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; }
+        button.delete { background: #e53e3e; }
+        button.whatsapp { background: #25D366; }
+        input, .discount-input { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; }
+        .total { font-size: 1.4rem; font-weight: bold; color: #2d3748; margin: 10px 0; }
+        .bill-template { display: none; background: white; padding: 20px; width: 350px; font-family: monospace; }
+        .recent-bill-item { padding: 8px; border-bottom: 1px solid #ddd; font-size: 14px; }
+        h3 { margin-top: 0; color: #2d3748; }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h2>Ashraf Salon - Cashier Panel</h2>
+    <div>Branch: <strong id="branchName"></strong> | <button onclick="logout()">Logout</button></div>
+</div>
+<div class="container">
+    <div class="services">
+        <h3>📋 Services & Offers</h3>
+        <div id="servicesList"></div>
+    </div>
+    <div class="cart">
+        <h3>🛒 Current Bill</h3>
+        <div id="cartItems"></div>
+        <div>Subtotal: ₹<span id="subtotal">0</span></div>
+        <input type="number" id="manualDiscount" placeholder="Extra Discount (₹)" value="0" step="10">
+        <div class="total">Total: ₹<span id="total">0</span></div>
+        <input type="text" id="custName" placeholder="Customer Name">
+        <input type="text" id="custPhone" placeholder="Customer Phone">
+        <button onclick="saveBill()" style="width:100%; margin-top:10px;">✅ Generate Bill</button>
+        <button id="shareBtn" onclick="shareLastBill()" style="width:100%; background:#25D366; display:none;">📤 Share on WhatsApp</button>
+    </div>
+    <div class="recent">
+        <h3>📜 Recent Bills (This Branch)</h3>
+        <div id="recentBills">Loading...</div>
+    </div>
+</div>
+
+<!-- Hidden bill template for JPEG -->
+<div id="billTemplate" class="bill-template">
+    <div style="text-align:center;">
+        <h2>✨ Ashraf Salon ✨</h2>
+        <p><strong id="templateBranch"></strong></p>
+        <p>Invoice: <span id="invNo"></span><br>Date: <span id="billDate"></span></p>
+    </div>
+    <hr>
+    <p>Customer: <span id="billCustName"></span><br>Phone: <span id="billCustPhone"></span></p>
+    <hr>
+    <div id="billItems"></div>
+    <hr>
+    <p>Subtotal: ₹<span id="billSubtotal"></span><br>Discount: ₹<span id="billDiscount"></span><br><strong>Total: ₹<span id="billTotal"></span></strong></p>
+    <hr>
+    <p style="font-size:12px; text-align:center;">Thank you! Visit again</p>
+</div>
+
+<script>
+    const API_URL = 'https://script.google.com/macros/s/AKfycbwLsFhpq-Qh8s_PyulaNVdSTt43dwoaD3S5Di_qDZjGpoT4iXXDPdEhL7mYWxWVPF-K1w/exec';
+    let services = [];
+    let cart = [];
+    let lastBillData = null;
+    let branchName = sessionStorage.branchName || 'Ashraf';
+
+    document.getElementById('branchName').innerText = branchName;
+
+    async function loadServices() {
+        const res = await fetch(`${API_URL}?action=getServices&token=${sessionStorage.token}`);
+        const json = await res.json();
+        if (json.success) services = json.data;
+        renderServices();
+    }
+
+    function renderServices() {
+        const container = document.getElementById('servicesList');
+        container.innerHTML = '';
+        services.forEach(s => {
+            const effective = s.price * (1 - s.offer/100);
+            const offerText = s.offer > 0 ? `🔥 ${s.offer}% OFF → ₹${effective}` : '';
+            const div = document.createElement('div');
+            div.className = 'service-item';
+            div.innerHTML = `
+                <div><strong>${s.name}</strong><br>₹${s.price} ${offerText}</div>
+                <button onclick="addToCart('${s.id}')">Add</button>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function addToCart(id) {
+        const service = services.find(s => s.id == id);
+        const existing = cart.find(i => i.id == id);
+        if (existing) existing.qty++;
+        else cart.push({ ...service, qty: 1, effectivePrice: service.price * (1 - service.offer/100) });
+        renderCart();
+    }
+
+    function renderCart() {
+        const cartDiv = document.getElementById('cartItems');
+        cartDiv.innerHTML = '';
+        let subtotal = 0;
+        cart.forEach(item => {
+            const lineTotal = item.effectivePrice * item.qty;
+            subtotal += lineTotal;
+            cartDiv.innerHTML += `
+                <div class="cart-item">
+                    <span>${item.name} x${item.qty} = ₹${lineTotal}</span>
+                    <button class="delete" onclick="removeFromCart('${item.id}')">X</button>
+                </div>
+            `;
+        });
+        document.getElementById('subtotal').innerText = subtotal;
+        const discount = parseFloat(document.getElementById('manualDiscount').value) || 0;
+        document.getElementById('total').innerText = subtotal - discount;
+    }
+
+    function removeFromCart(id) {
+        cart = cart.filter(i => i.id != id);
+        renderCart();
+    }
+
+    document.getElementById('manualDiscount').addEventListener('input', renderCart);
+
+    async function saveBill() {
+        const subtotal = parseFloat(document.getElementById('subtotal').innerText);
+        const manualDiscount = parseFloat(document.getElementById('manualDiscount').value) || 0;
+        const total = subtotal - manualDiscount;
+        const customerName = document.getElementById('custName').value;
+        const customerPhone = document.getElementById('custPhone').value;
+        if (!customerName || !customerPhone) { alert("Customer name and phone required"); return; }
+        const itemsJson = JSON.stringify(cart.map(i => ({ name: i.name, qty: i.qty, price: i.effectivePrice })));
+        const res = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({
+                action: 'saveBill',
+                token: sessionStorage.token,
+                branchId: sessionStorage.branchId,
+                cashierId: sessionStorage.userId || 'cashier',
+                customerName, customerPhone,
+                itemsJson, subtotal, manualDiscount, total
+            })
+        });
+        const json = await res.json();
+        if (json.success) {
+            lastBillData = {
+                billId: json.data.billId,
+                customerName, customerPhone,
+                items: cart,
+                subtotal, discount: manualDiscount, total,
+                date: new Date().toLocaleString(),
+                branch: branchName
+            };
+            alert('Bill saved! ID: ' + json.data.billId);
+            document.getElementById('shareBtn').style.display = 'inline-block';
+            cart = [];
+            renderCart();
+            document.getElementById('custName').value = '';
+            document.getElementById('custPhone').value = '';
+            document.getElementById('manualDiscount').value = '0';
+            loadRecentBills();
+        } else alert('Error: ' + json.error);
+    }
+
+    async function shareLastBill() {
+        if (!lastBillData) return;
+        document.getElementById('invNo').innerText = lastBillData.billId;
+        document.getElementById('billDate').innerText = lastBillData.date;
+        document.getElementById('billCustName').innerText = lastBillData.customerName;
+        document.getElementById('billCustPhone').innerText = lastBillData.customerPhone;
+        document.getElementById('templateBranch').innerText = lastBillData.branch;
+        let itemsHtml = '';
+        lastBillData.items.forEach(i => { itemsHtml += `<p>${i.name} x${i.qty} = ₹${i.effectivePrice * i.qty}</p>`; });
+        document.getElementById('billItems').innerHTML = itemsHtml;
+        document.getElementById('billSubtotal').innerText = lastBillData.subtotal;
+        document.getElementById('billDiscount').innerText = lastBillData.discount;
+        document.getElementById('billTotal').innerText = lastBillData.total;
+
+        const node = document.getElementById('billTemplate');
+        const jpeg = await htmlToImage.toJpeg(node, { quality: 0.95 });
+        const blob = await (await fetch(jpeg)).blob();
+        const file = new File([blob], 'bill.jpg', { type: 'image/jpeg' });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({ title: 'Ashraf Salon Bill', text: 'Your bill', files: [file] });
+        } else {
+            const link = document.createElement('a');
+            link.download = 'bill.jpg';
+            link.href = jpeg;
+            link.click();
+            alert("Downloaded. Please share manually on WhatsApp.");
+        }
+    }
+
+    async function loadRecentBills() {
+        const res = await fetch(`${API_URL}?action=getBranchBills&token=${sessionStorage.token}`);
+        const json = await res.json();
+        if (json.success) {
+            const myBranchId = sessionStorage.branchId;
+            const myBills = json.data.filter(b => b.branchId === myBranchId).slice(-10);
+            const div = document.getElementById('recentBills');
+            if (myBills.length === 0) div.innerHTML = 'No bills yet.';
+            else div.innerHTML = myBills.map(b => `<div class="recent-bill-item">${b.id} | ${b.customer} | ₹${b.total} <br> <small>${new Date(b.date).toLocaleString()}</small></div>`).join('');
+        } else div.innerHTML = 'Error loading bills.';
+    }
+
+    function logout() {
+        sessionStorage.clear();
+        window.location.href = 'login.html';
+    }
+
+    loadServices();
+    loadRecentBills();
+</script>
+</body>
+</html>

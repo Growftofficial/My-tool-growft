@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ashraf - Owner Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f5f7fa; margin: 0; padding: 20px; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px 20px; border-radius: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; min-width: 700px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; vertical-align: middle; }
+        th { background: #667eea; color: white; }
+        button { background: #28a745; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 5px; }
+        .view-btn { background: #3498db; }
+        .whatsapp-btn { background: #25D366; }
+        .call-btn { background: #e67e22; }
+        .filter { margin: 15px 0; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        select, input { padding: 8px; border-radius: 6px; border: 1px solid #ccc; }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); justify-content: center; align-items: center; }
+        .modal-content { background: white; padding: 20px; border-radius: 15px; max-width: 500px; width: 90%; max-height: 80%; overflow-y: auto; position: relative; }
+        .close { position: absolute; right: 20px; top: 10px; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .bill-detail-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
+        .action-buttons { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px; }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h2>📊 Ashraf Salon - Owner Dashboard</h2>
+    <button onclick="logout()" style="background:#e53e3e;">Logout</button>
+</div>
+<div class="card">
+    <h3>Revenue & Bill Details</h3>
+    <div class="filter">
+        <label>Filter by Branch:</label>
+        <select id="branchFilter">
+            <option value="all">All Branches (Combined)</option>
+            <option value="branch1">Kharadi</option>
+            <option value="branch2">Wakad</option>
+            <option value="branch3">Mira road</option>
+            <option value="branch4">Thane</option>
+        </select>
+        <button onclick="exportToExcel()">📎 Export to Excel</button>
+    </div>
+    <div id="reportTable">Loading...</div>
+</div>
+
+<div id="billModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h3>🧾 Bill Details</h3>
+        <div id="modalBody">Loading...</div>
+        <div id="modalActions" class="action-buttons"></div>
+    </div>
+</div>
+
+<script>
+    const API_URL = 'https://script.google.com/macros/s/AKfycbwLsFhpq-Qh8s_PyulaNVdSTt43dwoaD3S5Di_qDZjGpoT4iXXDPdEhL7mYWxWVPF-K1w/exec'; // 👈 अपना URL डालें
+    let allSales = [];
+
+    async function loadSales() {
+        const res = await fetch(`${API_URL}?action=getSalesData&token=${sessionStorage.token}`);
+        const json = await res.json();
+        if (json.success) {
+            allSales = json.data;
+            applyFilter();
+        } else {
+            document.getElementById('reportTable').innerHTML = `<p style="color:red;">Error: ${json.error}</p>`;
+        }
+    }
+
+    function applyFilter() {
+        const filter = document.getElementById('branchFilter').value;
+        let filtered = allSales;
+        if (filter !== 'all') filtered = allSales.filter(sale => sale.branchId === filter);
+        renderTable(filtered);
+        window.filteredData = filtered;
+    }
+
+    function renderTable(sales) {
+        let html = `</table><thead><tr><th>Bill ID</th><th>Branch</th><th>Customer</th><th>Phone</th><th>Date & Time</th><th>Total (₹)</th><th>Actions</th></tr></thead><tbody>`;
+        let totalRevenue = 0;
+        sales.forEach(sale => {
+            totalRevenue += sale.total;
+            const phone = sale.customerPhone || '';
+            const whatsappLink = phone ? `https://wa.me/${phone.replace(/\D/g, '')}?text=Hello ${encodeURIComponent(sale.customer || '')}, your bill ${sale.billId} total ₹${sale.total}. Thanks for visiting Ashraf Salon!` : '#';
+            const callLink = phone ? `tel:${phone}` : '#';
+            html += `<tr>
+                        <td>${sale.billId}</td>
+                        <td>${sale.branchName || sale.branchId}</td>
+                        <td>${sale.customer || '—'}</td>
+                        <td>${phone || '—'}</td>
+                        <td>${new Date(sale.date).toLocaleString()}</td>
+                        <td>₹${sale.total}</td>
+                        <td class="action-buttons">
+                            <button class="view-btn" onclick="showBillDetails('${sale.billId}')">View</button>
+                            ${phone ? `<a href="${whatsappLink}" target="_blank"><button class="whatsapp-btn">💬 WhatsApp</button></a>
+                                       <a href="${callLink}"><button class="call-btn">📞 Call</button></a>` : '<span style="color:gray;">No phone</span>'}
+                        </td>
+                     </tr>`;
+        });
+        html += `<tr style="background:#f0f0f0;"><td colspan="5"><strong>Total Revenue</strong></td><td colspan="2"><strong>₹${totalRevenue}</strong></td></tr>`;
+        html += `</tbody></table>`;
+        document.getElementById('reportTable').innerHTML = html;
+    }
+
+    async function showBillDetails(billId) {
+        const bill = allSales.find(s => s.billId === billId);
+        if (!bill) { document.getElementById('modalBody').innerHTML = 'Bill not found.'; document.getElementById('billModal').style.display = 'flex'; return; }
+        let items = [];
+        try { items = JSON.parse(bill.itemsJson || '[]'); } catch(e) { items = []; }
+        let itemsHtml = '<div style="margin:10px 0;"><strong>Services:</strong></div>';
+        items.forEach(item => {
+            itemsHtml += `<div class="bill-detail-item"><span>${item.name} x${item.qty}</span><span>₹${item.price * item.qty}</span></div>`;
+        });
+        const subtotal = items.reduce((sum, i) => sum + (i.price * i.qty), 0);
+        const discount = bill.manualDiscount || 0;
+        const total = bill.total;
+        const phone = bill.customerPhone || '';
+        const whatsappLink = phone ? `https://wa.me/${phone.replace(/\D/g, '')}?text=Hello ${encodeURIComponent(bill.customer || '')}, your bill ${bill.billId} total ₹${total}. Thanks for visiting Ashraf Salon!` : '#';
+        const callLink = phone ? `tel:${phone}` : '#';
+        const modalContent = `
+            <p><strong>Bill ID:</strong> ${bill.billId}</p>
+            <p><strong>Branch:</strong> ${bill.branchName || bill.branchId}</p>
+            <p><strong>Customer:</strong> ${bill.customer || '—'}</p>
+            <p><strong>Phone:</strong> ${phone || '—'}</p>
+            <p><strong>Date:</strong> ${new Date(bill.date).toLocaleString()}</p>
+            <hr>${itemsHtml}<hr>
+            <div class="bill-detail-item"><strong>Subtotal</strong><span>₹${subtotal}</span></div>
+            <div class="bill-detail-item"><strong>Manual Discount</strong><span>- ₹${discount}</span></div>
+            <div class="bill-detail-item"><strong>Total Paid</strong><span><strong>₹${total}</strong></span></div>
+        `;
+        document.getElementById('modalBody').innerHTML = modalContent;
+        let modalActions = '';
+        if (phone) {
+            modalActions = `<a href="${whatsappLink}" target="_blank"><button class="whatsapp-btn">💬 WhatsApp Customer</button></a>
+                            <a href="${callLink}"><button class="call-btn">📞 Call Customer</button></a>`;
+        } else {
+            modalActions = '<span style="color:gray;">No phone number available</span>';
+        }
+        document.getElementById('modalActions').innerHTML = modalActions;
+        document.getElementById('billModal').style.display = 'flex';
+    }
+
+    function closeModal() { document.getElementById('billModal').style.display = 'none'; }
+    function exportToExcel() {
+        const dataToExport = window.filteredData || allSales;
+        const wsData = dataToExport.map(s => ({
+            'Bill ID': s.billId, 'Branch': s.branchName || s.branchId, 'Customer': s.customer,
+            'Phone': s.customerPhone || '', 'Date': s.date, 'Total (₹)': s.total,
+            'Items JSON': s.itemsJson
+        }));
+        const ws = XLSX.utils.json_to_sheet(wsData);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Ashraf_Sales');
+        XLSX.writeFile(wb, `Ashraf_Revenue_${new Date().toISOString().slice(0,19)}.xlsx`);
+    }
+    document.getElementById('branchFilter').addEventListener('change', applyFilter);
+    function logout() { sessionStorage.clear(); window.location.href = 'login.html'; }
+    loadSales();
+</script>
+</body>
+</html>
