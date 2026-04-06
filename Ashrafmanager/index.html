@@ -42,7 +42,7 @@
         </div>
     </div>
 
-    <div id="cashier-panel" class="hidden p-4 md:p-6 max-w-6xl mx-auto">
+    <div id="cashier-panel" class="hidden p-4 md:p-6 max-w-6xl mx-auto hide-on-print">
         <div class="flex justify-between items-center bg-white p-4 rounded-lg shadow mb-6 border-l-4 border-blue-600">
             <div>
                 <h1 class="text-2xl font-bold text-gray-800">Cashier Desk</h1>
@@ -117,7 +117,7 @@
                         </div>
                     </div>
 
-                    <div class="mt-6 border-t pt-4">
+                    <div class="mt-6 border-t pt-4 hide-on-print">
                         <select id="payment-mode" class="w-full p-2 border rounded mb-4 bg-gray-50 outline-none">
                             <option value="Cash">Cash</option>
                             <option value="UPI">UPI</option>
@@ -135,7 +135,7 @@
         </div>
     </div>
 
-    <div id="manager-panel" class="hidden p-4 md:p-6 max-w-6xl mx-auto">
+    <div id="manager-panel" class="hidden p-4 md:p-6 max-w-6xl mx-auto hide-on-print">
         <div class="flex justify-between items-center bg-white p-4 rounded-lg shadow mb-6 border-l-4 border-purple-600">
             <div>
                 <h1 class="text-2xl font-bold text-gray-800">Manager Dashboard</h1>
@@ -187,7 +187,7 @@
         </div>
     </div>
 
-    <div id="owner-panel" class="hidden p-4 md:p-6 max-w-7xl mx-auto">
+    <div id="owner-panel" class="hidden p-4 md:p-6 max-w-7xl mx-auto hide-on-print">
         <div class="flex justify-between items-center bg-gray-900 p-4 rounded-lg shadow mb-6 border-l-4 border-yellow-400">
             <div>
                 <h1 class="text-2xl font-bold text-white">Owner's Dashboard</h1>
@@ -197,6 +197,8 @@
                 <option value="ALL">All Branches</option>
                 <option value="WAKAD">Wakad</option>
                 <option value="KHARADI">Kharadi</option>
+                <option value="MIRA ROAD">Mira Road</option>
+                <option value="THANE">Thane</option>
             </select>
         </div>
 
@@ -210,11 +212,11 @@
                 <h2 id="ow-today-rev" class="text-3xl font-black text-green-600">₹0</h2>
             </div>
             <div class="bg-white p-4 rounded-lg shadow border-b-4 border-orange-500">
-                <p class="text-gray-500 font-bold text-sm">CASH RECEIVED</p>
+                <p class="text-gray-500 font-bold text-sm">CASH IN</p>
                 <h2 id="ow-cash-rev" class="text-3xl font-black text-orange-500">₹0</h2>
             </div>
             <div class="bg-white p-4 rounded-lg shadow border-b-4 border-purple-500">
-                <p class="text-gray-500 font-bold text-sm">UPI/CARD RECEIVED</p>
+                <p class="text-gray-500 font-bold text-sm">UPI/CARD IN</p>
                 <h2 id="ow-upi-rev" class="text-3xl font-black text-purple-600">₹0</h2>
             </div>
         </div>
@@ -235,19 +237,17 @@
     </div>
 
     <script>
-        // 🚀 API URL
-        const API_URL = "https://script.google.com/macros/s/AKfycbzCnZru5Uet6ll9S7G81aWZYM9aBnbrK9YNdF3VS0Ko2XUn1UwnN3uN1WsXIwtJI1WY/exec";
+        // 🚀 NAYA API URL LAGA DIYA HAI
+        const API_URL = "https://script.google.com/macros/s/AKfycbxilZfkO3TdZtZefxKLjgCMVHtwDVSopN6U0eCDZXM3kwLde9l6FO1ajIBMKbwvoy06/exec";
 
         let currentBranch = "";
         let loggedInUser = "";
         let userRole = "";
         
-        // Cashier Logic Variables
         let billItemsArray = [];
         let billSubtotal = 0;
         let finalInvoiceNumber = "";
         
-        // Owner Logic Variables
         let masterSalesData = [];
 
         // Clock Update
@@ -256,7 +256,6 @@
             if(dElem) dElem.innerText = new Date().toLocaleString('en-IN'); 
         }, 1000);
 
-        // Core Fetch Function
         async function callBackendAPI(action, data) {
             try {
                 let response = await fetch(API_URL, {
@@ -264,7 +263,7 @@
                     body: JSON.stringify({ action: action, ...data })
                 });
                 return await response.json();
-            } catch (error) { throw new Error("Server connection failed!"); }
+            } catch (error) { throw new Error("Server connection failed! Please check your internet."); }
         }
 
         // ================= LOGIN & NAVIGATION LOGIC =================
@@ -289,7 +288,6 @@
                     document.getElementById('login-page').classList.add('hidden');
 
                     if(userRole === "Cashier") {
-                        // Cashier gets NO Top Nav
                         switchTab('cashier-panel');
                     } 
                     else if (userRole === "Manager") {
@@ -323,24 +321,21 @@
             errBox.classList.remove('hidden');
         }
 
-        // 🔄 MAGIC TAB SWITCHER
         function switchTab(tabId) {
-            // Hide all panels
             ['cashier-panel', 'manager-panel', 'owner-panel'].forEach(id => {
                 document.getElementById(id).classList.add('hidden');
             });
 
-            // Reset Tab Button Styling
             ['nav-cashier', 'nav-manager', 'nav-owner'].forEach(id => {
                 let btn = document.getElementById(id);
-                btn.classList.remove('bg-blue-600', 'text-white');
-                btn.classList.add('text-gray-600', 'hover:bg-gray-200');
+                if(btn) {
+                    btn.classList.remove('bg-blue-600', 'text-white');
+                    btn.classList.add('text-gray-600', 'hover:bg-gray-200');
+                }
             });
 
-            // Show selected panel
             document.getElementById(tabId).classList.remove('hidden');
 
-            // Setup specific logic based on tab
             let activeBtn;
             if(tabId === 'cashier-panel') {
                 activeBtn = document.getElementById('nav-cashier');
@@ -353,7 +348,6 @@
                 loadOwnerDashboard();
             }
 
-            // Highlight Active Tab
             if(activeBtn) {
                 activeBtn.classList.remove('text-gray-600', 'hover:bg-gray-200');
                 activeBtn.classList.add('bg-blue-600', 'text-white');
@@ -374,7 +368,7 @@
                         drop.add(opt);
                     });
                 }
-            } catch (err) { console.log(err); }
+            } catch (err) { console.log("Service load error."); }
         }
 
         function addServiceToBill() {
@@ -431,12 +425,11 @@
                     btn.classList.add('hidden'); 
                     document.getElementById('action-buttons').classList.remove('hidden'); 
                     document.getElementById('new-bill-btn').classList.remove('hidden');
-                } else { alert("Failed: " + res.message); btn.innerText = "Save Again"; btn.disabled = false; }
-            } catch(err) { alert("System Error"); btn.innerText = "Save Again"; btn.disabled = false; }
+                } else { alert("Failed: " + res.message); btn.innerText = "💾 1. Save Bill"; btn.disabled = false; }
+            } catch(err) { alert("System Error"); btn.innerText = "💾 1. Save Bill"; btn.disabled = false; }
         }
 
         function resetBillingDesk() {
-            // Soft reset without reloading page
             billItemsArray = [];
             billSubtotal = 0;
             finalInvoiceNumber = "";
@@ -465,7 +458,7 @@
             let finalTotal = billSubtotal - manualDiscount;
             let txt = `✂️ *ASHRAF SALON* ✂️\n📍 Branch: ${currentBranch}\n🧾 Inv: ${finalInvoiceNumber}\n📅 Date: ${dateStr}\n------------------------\n👤 Name: ${document.getElementById('cust-name').value || "Guest"}\n📱 Mob: ${p}\n------------------------\n*Services:*\n`;
             billItemsArray.forEach(i => { txt += `▪ ${i.name} - ₹${i.price}\n`; });
-            txt += `------------------------\n💰 Subtotal: ₹${billSubtotal}\n🎁 Discount: ₹${manualDiscount}\n✅ *Total Paid: ₹${finalTotal}*\n------------------------\n🙏 Thank you!`;
+            txt += `------------------------\n💰 Subtotal: ₹${billSubtotal}\n🎁 Discount: ₹${manualDiscount}\n✅ *Total Paid: ₹${finalTotal}*\n------------------------\n🙏 Thank you for visiting!`;
             
             p = p.length === 10 ? "91" + p : p; 
             window.open(`https://api.whatsapp.com/send?phone=${p}&text=${encodeURIComponent(txt)}`, '_blank');
@@ -526,12 +519,12 @@
         }
 
         async function deleteService(id, name) {
-            if(!confirm(`Delete "${name}" ?`)) return;
+            if(!confirm(`Kya aap sach mein "${name}" ko delete karna chahte hain?`)) return;
             try {
                 let res = await callBackendAPI("deleteService", { serviceId: id });
                 if(res.success) loadManagerServices(); 
                 else alert("Delete Failed: " + res.message);
-            } catch(e) { alert("System Error!"); }
+            } catch(e) { alert("System Error during delete!"); }
         }
 
         // ================= OWNER DASHBOARD LOGIC =================
@@ -543,7 +536,7 @@
                 if(res.success) {
                     masterSalesData = res.data; 
                     processOwnerData(); 
-                } else { alert("Sales data nahi mila!"); }
+                } else { alert("Sales data nahi mila: " + res.message); }
             } catch(e) { alert("Data fetch me error aayi!"); }
         }
 
@@ -551,11 +544,14 @@
             const branchFilter = document.getElementById('owner-branch-filter').value;
             const tbody = document.getElementById('owner-sales-list');
             let totalRev = 0, todayRev = 0, cashRev = 0, upiRev = 0;
-            const todayStr = new Date().toLocaleDateString('en-GB'); 
+            
+            // Aaj ki date string
+            const todayObj = new Date();
+            let d = todayObj.getDate(), m = todayObj.getMonth() + 1, y = todayObj.getFullYear();
+            const todayStr = (d < 10 ? '0'+d : d) + '/' + (m < 10 ? '0'+m : m) + '/' + y;
 
             let filteredData = branchFilter !== "ALL" ? masterSalesData.filter(i => i.branch === branchFilter) : masterSalesData;
             
-            // Sort by latest first (Assuming Google Sheet appends rows, so last is newest)
             filteredData = filteredData.slice().reverse(); 
 
             tbody.innerHTML = ""; 
@@ -588,7 +584,7 @@
             }
 
             if(filteredData.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-red-500 font-bold">No sales data found.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-red-500 font-bold">No sales data found for this branch.</td></tr>`;
             }
 
             document.getElementById('ow-total-rev').innerText = "₹" + totalRev.toLocaleString('en-IN');
