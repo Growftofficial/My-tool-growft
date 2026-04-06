@@ -22,10 +22,17 @@
 </head>
 <body class="bg-gray-100 font-sans text-gray-800">
 
+    <div id="top-nav" class="hidden bg-white shadow-md mb-6 p-3 flex justify-center gap-2 md:gap-6 hide-on-print border-t-4 border-blue-800 sticky top-0 z-50">
+        <button id="nav-cashier" onclick="switchTab('cashier-panel')" class="px-4 py-2 font-bold rounded transition text-gray-600 hover:bg-gray-200 hidden">🛒 Billing Desk</button>
+        <button id="nav-manager" onclick="switchTab('manager-panel')" class="px-4 py-2 font-bold rounded transition text-gray-600 hover:bg-gray-200 hidden">⚙️ Services</button>
+        <button id="nav-owner" onclick="switchTab('owner-panel')" class="px-4 py-2 font-bold rounded transition text-gray-600 hover:bg-gray-200 hidden">📊 Sales Dashboard</button>
+        <button onclick="location.reload()" class="px-4 py-2 font-bold rounded transition text-red-600 bg-red-50 hover:bg-red-100 ml-auto border border-red-200">Logout</button>
+    </div>
+
     <div id="login-page" class="min-h-screen flex items-center justify-center">
         <div class="bg-white p-8 rounded-lg shadow-lg w-96 border-t-4 border-blue-600">
             <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">Ashraf Salon</h2>
-            <p class="text-center text-gray-500 mb-6">Staff Login Panel</p>
+            <p class="text-center text-gray-500 mb-6">Staff & Admin Login</p>
             
             <input type="text" id="username" placeholder="Login ID" class="w-full p-3 border rounded mb-4 bg-gray-50 outline-none focus:ring-2 focus:ring-blue-500">
             <input type="password" id="password" placeholder="Password" class="w-full p-3 border rounded mb-6 bg-gray-50 outline-none focus:ring-2 focus:ring-blue-500">
@@ -41,7 +48,7 @@
                 <h1 class="text-2xl font-bold text-gray-800">Cashier Desk</h1>
                 <p class="text-sm text-blue-600 font-semibold">Branch: <span id="branch-name-display" class="uppercase"></span></p>
             </div>
-            <button onclick="location.reload()" class="bg-red-100 text-red-600 px-4 py-2 rounded font-bold hover:bg-red-200 transition">Logout</button>
+            <button id="cashier-logout" onclick="location.reload()" class="bg-red-100 text-red-600 px-4 py-2 rounded font-bold hover:bg-red-200 transition">Logout</button>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -67,7 +74,6 @@
 
             <div class="lg:col-span-5">
                 <div class="bg-white p-6 rounded-lg shadow border-2 border-gray-200">
-                    
                     <div id="capture-bill-area" class="bg-white p-4" style="font-family: monospace;">
                         <div class="text-center mb-4 border-b-2 border-dashed border-gray-400 pb-4">
                             <h2 class="text-2xl font-bold text-gray-800">ASHRAF SALON</h2>
@@ -75,12 +81,10 @@
                             <p class="text-sm text-gray-600" id="receipt-date"></p>
                             <p class="text-xs text-gray-500 mt-1">Invoice: <span id="invoice-id">Pending...</span></p>
                         </div>
-                        
                         <div class="mb-4 text-sm">
                             <p><strong>Name:</strong> <span id="receipt-name">-</span></p>
                             <p><strong>Mob:</strong> <span id="receipt-phone">-</span></p>
                         </div>
-
                         <table class="w-full text-sm mb-4">
                             <thead>
                                 <tr class="border-b border-gray-300">
@@ -90,7 +94,6 @@
                             </thead>
                             <tbody id="bill-items-list"></tbody>
                         </table>
-
                         <div class="border-t-2 border-dashed border-gray-400 pt-4 text-sm">
                             <div class="flex justify-between mb-1">
                                 <span>Subtotal:</span>
@@ -120,13 +123,12 @@
                             <option value="UPI">UPI</option>
                             <option value="Card">Card</option>
                         </select>
-
                         <button id="save-btn" onclick="saveBillToDatabase()" class="w-full bg-blue-600 text-white p-3 rounded font-bold hover:bg-blue-700 transition mb-3 shadow">💾 1. Save Bill</button>
-                        
                         <div id="action-buttons" class="hidden flex gap-2">
                             <button onclick="printThermalBill()" class="flex-1 bg-gray-800 text-white p-3 rounded font-bold hover:bg-gray-900 transition shadow">🖨️ Print Receipt</button>
                             <button onclick="sendTextWhatsApp()" class="flex-1 bg-green-500 text-white p-3 rounded font-bold hover:bg-green-600 transition shadow">📲 Send WA</button>
                         </div>
+                        <button id="new-bill-btn" onclick="resetBillingDesk()" class="w-full mt-3 bg-blue-100 text-blue-700 p-3 rounded font-bold hover:bg-blue-200 transition shadow hidden">🔄 Create New Bill</button>
                     </div>
                 </div>
             </div>
@@ -139,26 +141,18 @@
                 <h1 class="text-2xl font-bold text-gray-800">Manager Dashboard</h1>
                 <p class="text-sm text-purple-600 font-semibold">Service Management</p>
             </div>
-            <button onclick="location.reload()" class="bg-red-100 text-red-600 px-4 py-2 rounded font-bold hover:bg-red-200 transition">Logout</button>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div class="lg:col-span-1 bg-white p-6 rounded-lg shadow">
                 <h3 class="font-bold text-lg mb-4 text-gray-700 border-b pb-2">➕ Add New Service</h3>
-                
                 <label class="block text-sm font-semibold mb-1">Service Name</label>
                 <input type="text" id="new-srv-name" placeholder="e.g. Keratin Spa" class="w-full p-2 border rounded mb-3 outline-none focus:ring-2 focus:ring-purple-500">
-                
                 <label class="block text-sm font-semibold mb-1">Category</label>
                 <select id="new-srv-category" class="w-full p-2 border rounded mb-3 outline-none focus:ring-2 focus:ring-purple-500">
-                    <option value="Hair">Hair</option>
-                    <option value="Beard">Beard</option>
-                    <option value="Skin">Skin</option>
-                    <option value="Makeup">Makeup</option>
-                    <option value="Nails">Nails</option>
-                    <option value="Spa">Spa/Massage</option>
+                    <option value="Hair">Hair</option><option value="Beard">Beard</option><option value="Skin">Skin</option>
+                    <option value="Makeup">Makeup</option><option value="Nails">Nails</option><option value="Spa">Spa/Massage</option>
                 </select>
-
                 <div class="grid grid-cols-2 gap-2 mb-3">
                     <div>
                         <label class="block text-sm font-semibold mb-1">Price (₹)</label>
@@ -169,11 +163,9 @@
                         <input type="number" id="new-srv-discount" value="0" class="w-full p-2 border rounded outline-none focus:ring-2 focus:ring-purple-500" oninput="calcNewServiceTotal()">
                     </div>
                 </div>
-
                 <label class="block text-sm font-semibold mb-1 text-green-600">Final Price (₹)</label>
                 <input type="number" id="new-srv-final" disabled value="0" class="w-full p-2 border rounded mb-4 bg-gray-100 font-bold text-gray-700">
-
-                <button id="add-srv-btn" onclick="submitNewService()" class="w-full bg-purple-600 text-white p-3 rounded font-bold hover:bg-purple-700 transition shadow">Save Service to System</button>
+                <button id="add-srv-btn" onclick="submitNewService()" class="w-full bg-purple-600 text-white p-3 rounded font-bold hover:bg-purple-700 transition shadow">Save Service</button>
             </div>
 
             <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow overflow-hidden">
@@ -181,16 +173,10 @@
                     <h3 class="font-bold text-lg text-gray-700">📋 Active Services</h3>
                     <button onclick="loadManagerServices()" class="text-sm bg-gray-200 px-3 py-1 rounded hover:bg-gray-300">🔄 Refresh</button>
                 </div>
-                
                 <div class="overflow-x-auto max-h-[500px]">
                     <table class="w-full text-sm text-left">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-100 sticky top-0">
-                            <tr>
-                                <th class="px-4 py-3">Service Name</th>
-                                <th class="px-4 py-3">Category</th>
-                                <th class="px-4 py-3">Final Price</th>
-                                <th class="px-4 py-3 text-center">Action</th>
-                            </tr>
+                            <tr><th class="px-4 py-3">Service Name</th><th class="px-4 py-3">Category</th><th class="px-4 py-3">Final Price</th><th class="px-4 py-3 text-center">Action</th></tr>
                         </thead>
                         <tbody id="manager-service-list">
                             <tr><td colspan="4" class="text-center py-4">Loading services...⏳</td></tr>
@@ -201,25 +187,76 @@
         </div>
     </div>
 
+    <div id="owner-panel" class="hidden p-4 md:p-6 max-w-7xl mx-auto">
+        <div class="flex justify-between items-center bg-gray-900 p-4 rounded-lg shadow mb-6 border-l-4 border-yellow-400">
+            <div>
+                <h1 class="text-2xl font-bold text-white">Owner's Dashboard</h1>
+                <p class="text-sm text-yellow-400 font-semibold">Master Financial View</p>
+            </div>
+            <select id="owner-branch-filter" onchange="processOwnerData()" class="p-2 rounded font-bold text-gray-800 outline-none">
+                <option value="ALL">All Branches</option>
+                <option value="WAKAD">Wakad</option>
+                <option value="KHARADI">Kharadi</option>
+            </select>
+        </div>
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <div class="bg-white p-4 rounded-lg shadow border-b-4 border-blue-500">
+                <p class="text-gray-500 font-bold text-sm">TOTAL REVENUE</p>
+                <h2 id="ow-total-rev" class="text-3xl font-black text-gray-800">₹0</h2>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow border-b-4 border-green-500">
+                <p class="text-gray-500 font-bold text-sm">TODAY'S SALE</p>
+                <h2 id="ow-today-rev" class="text-3xl font-black text-green-600">₹0</h2>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow border-b-4 border-orange-500">
+                <p class="text-gray-500 font-bold text-sm">CASH RECEIVED</p>
+                <h2 id="ow-cash-rev" class="text-3xl font-black text-orange-500">₹0</h2>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow border-b-4 border-purple-500">
+                <p class="text-gray-500 font-bold text-sm">UPI/CARD RECEIVED</p>
+                <h2 id="ow-upi-rev" class="text-3xl font-black text-purple-600">₹0</h2>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="font-bold text-lg mb-4 text-gray-700 border-b pb-2">🧾 Recent Transactions (Last 50 Bills)</h3>
+            <div class="overflow-x-auto max-h-[400px]">
+                <table class="w-full text-sm text-left">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-100 sticky top-0">
+                        <tr><th class="px-4 py-3">Date</th><th class="px-4 py-3">Invoice</th><th class="px-4 py-3">Branch</th><th class="px-4 py-3">Customer</th><th class="px-4 py-3">Services</th><th class="px-4 py-3">Mode</th><th class="px-4 py-3 text-right">Amount</th></tr>
+                    </thead>
+                    <tbody id="owner-sales-list">
+                        <tr><td colspan="7" class="text-center py-4">Fetching live sales data...⏳</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // 🚀 AAPKA NAYA API URL YAHAN HAI
+        // 🚀 API URL
         const API_URL = "https://script.google.com/macros/s/AKfycbzCnZru5Uet6ll9S7G81aWZYM9aBnbrK9YNdF3VS0Ko2XUn1UwnN3uN1WsXIwtJI1WY/exec";
 
         let currentBranch = "";
         let loggedInUser = "";
+        let userRole = "";
         
-        // Cashier Variables
+        // Cashier Logic Variables
         let billItemsArray = [];
         let billSubtotal = 0;
         let finalInvoiceNumber = "";
+        
+        // Owner Logic Variables
+        let masterSalesData = [];
 
+        // Clock Update
         setInterval(() => { 
             const dElem = document.getElementById('receipt-date');
             if(dElem) dElem.innerText = new Date().toLocaleString('en-IN'); 
         }, 1000);
 
-        // ================= MASTER FETCH =================
+        // Core Fetch Function
         async function callBackendAPI(action, data) {
             try {
                 let response = await fetch(API_URL, {
@@ -227,13 +264,10 @@
                     body: JSON.stringify({ action: action, ...data })
                 });
                 return await response.json();
-            } catch (error) {
-                console.error("API Error:", error);
-                throw new Error("Server se connect nahi ho paya! Internet check karein.");
-            }
+            } catch (error) { throw new Error("Server connection failed!"); }
         }
 
-        // ================= LOGIN LOGIC =================
+        // ================= LOGIN & NAVIGATION LOGIC =================
         async function handleLogin() {
             const user = document.getElementById('username').value.trim();
             const pass = document.getElementById('password').value.trim();
@@ -247,22 +281,31 @@
                 
                 if(res.success) {
                     loggedInUser = user;
+                    userRole = res.role;
                     currentBranch = res.branch ? res.branch.toUpperCase() : "HQ";
+                    
+                    document.getElementById('branch-name-display').innerText = currentBranch;
+                    document.getElementById('receipt-branch').innerText = currentBranch;
                     document.getElementById('login-page').classList.add('hidden');
 
-                    if(res.role === "Cashier") {
-                        document.getElementById('branch-name-display').innerText = currentBranch;
-                        document.getElementById('receipt-branch').innerText = currentBranch;
-                        document.getElementById('cashier-panel').classList.remove('hidden');
-                        fetchServicesForCashier(); 
+                    if(userRole === "Cashier") {
+                        // Cashier gets NO Top Nav
+                        switchTab('cashier-panel');
                     } 
-                    else if (res.role === "Manager") {
-                        document.getElementById('manager-panel').classList.remove('hidden');
-                        loadManagerServices(); // Load table for manager
+                    else if (userRole === "Manager") {
+                        document.getElementById('cashier-logout').classList.add('hidden');
+                        document.getElementById('top-nav').classList.remove('hidden');
+                        document.getElementById('nav-cashier').classList.remove('hidden');
+                        document.getElementById('nav-manager').classList.remove('hidden');
+                        switchTab('manager-panel');
                     }
-                    else {
-                        alert(`Welcome Owner! Dashboard coming next.`);
-                        location.reload();
+                    else if (userRole === "Owner") {
+                        document.getElementById('cashier-logout').classList.add('hidden');
+                        document.getElementById('top-nav').classList.remove('hidden');
+                        document.getElementById('nav-cashier').classList.remove('hidden');
+                        document.getElementById('nav-manager').classList.remove('hidden');
+                        document.getElementById('nav-owner').classList.remove('hidden');
+                        switchTab('owner-panel');
                     }
                 } else {
                     showLoginError(res.message);
@@ -280,7 +323,44 @@
             errBox.classList.remove('hidden');
         }
 
-        // ================= CASHIER FUNCTIONS =================
+        // 🔄 MAGIC TAB SWITCHER
+        function switchTab(tabId) {
+            // Hide all panels
+            ['cashier-panel', 'manager-panel', 'owner-panel'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+
+            // Reset Tab Button Styling
+            ['nav-cashier', 'nav-manager', 'nav-owner'].forEach(id => {
+                let btn = document.getElementById(id);
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('text-gray-600', 'hover:bg-gray-200');
+            });
+
+            // Show selected panel
+            document.getElementById(tabId).classList.remove('hidden');
+
+            // Setup specific logic based on tab
+            let activeBtn;
+            if(tabId === 'cashier-panel') {
+                activeBtn = document.getElementById('nav-cashier');
+                fetchServicesForCashier();
+            } else if(tabId === 'manager-panel') {
+                activeBtn = document.getElementById('nav-manager');
+                loadManagerServices();
+            } else if(tabId === 'owner-panel') {
+                activeBtn = document.getElementById('nav-owner');
+                loadOwnerDashboard();
+            }
+
+            // Highlight Active Tab
+            if(activeBtn) {
+                activeBtn.classList.remove('text-gray-600', 'hover:bg-gray-200');
+                activeBtn.classList.add('bg-blue-600', 'text-white');
+            }
+        }
+
+        // ================= CASHIER DESK LOGIC =================
         async function fetchServicesForCashier() {
             try {
                 let res = await callBackendAPI("fetchServices", {});
@@ -294,7 +374,7 @@
                         drop.add(opt);
                     });
                 }
-            } catch (err) { alert("Services load nahi ho payi."); }
+            } catch (err) { console.log(err); }
         }
 
         function addServiceToBill() {
@@ -350,8 +430,30 @@
                 if(res.success) {
                     btn.classList.add('hidden'); 
                     document.getElementById('action-buttons').classList.remove('hidden'); 
+                    document.getElementById('new-bill-btn').classList.remove('hidden');
                 } else { alert("Failed: " + res.message); btn.innerText = "Save Again"; btn.disabled = false; }
             } catch(err) { alert("System Error"); btn.innerText = "Save Again"; btn.disabled = false; }
+        }
+
+        function resetBillingDesk() {
+            // Soft reset without reloading page
+            billItemsArray = [];
+            billSubtotal = 0;
+            finalInvoiceNumber = "";
+            document.getElementById('cust-name').value = "";
+            document.getElementById('cust-phone').value = "";
+            document.getElementById('manual-discount').value = "0";
+            document.getElementById('invoice-id').innerText = "Pending...";
+            document.getElementById('receipt-name').innerText = "-";
+            document.getElementById('receipt-phone').innerText = "-";
+            
+            updateBillUI();
+            
+            document.getElementById('save-btn').classList.remove('hidden');
+            document.getElementById('save-btn').innerText = "💾 1. Save Bill";
+            document.getElementById('save-btn').disabled = false;
+            document.getElementById('action-buttons').classList.add('hidden');
+            document.getElementById('new-bill-btn').classList.add('hidden');
         }
 
         function printThermalBill() { window.print(); }
@@ -369,26 +471,21 @@
             window.open(`https://api.whatsapp.com/send?phone=${p}&text=${encodeURIComponent(txt)}`, '_blank');
         }
 
-
-        // ================= MANAGER PANEL FUNCTIONS =================
-        
-        // Auto Calculate Final Price in Form
+        // ================= MANAGER PANEL LOGIC =================
         function calcNewServiceTotal() {
             let p = parseInt(document.getElementById('new-srv-price').value) || 0;
             let d = parseInt(document.getElementById('new-srv-discount').value) || 0;
             document.getElementById('new-srv-final').value = p - d;
         }
 
-        // Fetch & Show Services in Table
         async function loadManagerServices() {
             const tbody = document.getElementById('manager-service-list');
             tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4">Fetching from database...⏳</td></tr>';
-            
             try {
                 let res = await callBackendAPI("fetchServices", {});
                 if(res.success) {
                     tbody.innerHTML = "";
-                    res.data.reverse().forEach(srv => { // Reverse to show latest first
+                    res.data.reverse().forEach(srv => {
                         tbody.innerHTML += `
                             <tr class="border-b hover:bg-gray-50">
                                 <td class="px-4 py-3 font-medium">${srv.serviceName}</td>
@@ -401,12 +498,9 @@
                         `;
                     });
                 }
-            } catch(e) {
-                tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-red-500">Failed to load data!</td></tr>';
-            }
+            } catch(e) { tbody.innerHTML = '<tr><td colspan="4" class="text-center text-red-500">Data Load Error</td></tr>'; }
         }
 
-        // Add New Service API Call
         async function submitNewService() {
             const name = document.getElementById('new-srv-name').value.trim();
             const cat = document.getElementById('new-srv-category').value;
@@ -415,45 +509,93 @@
             const final = price - discount;
 
             if(!name || price <= 0) return alert("Service Name aur valid Price daalna zaruri hai!");
-
             const btn = document.getElementById('add-srv-btn');
             btn.innerText = "Saving...⏳"; btn.disabled = true;
 
-            const serviceData = {
-                name: name, category: cat, originalPrice: price, discount: discount, finalPrice: final
-            };
-
+            const serviceData = { name: name, category: cat, originalPrice: price, discount: discount, finalPrice: final };
             try {
                 let res = await callBackendAPI("addService", { serviceData: serviceData });
                 if(res.success) {
                     alert("✅ Service successfully added!");
-                    // Form Reset
-                    document.getElementById('new-srv-name').value = "";
-                    document.getElementById('new-srv-price').value = "0";
-                    document.getElementById('new-srv-discount').value = "0";
-                    document.getElementById('new-srv-final').value = "0";
-                    // Reload Table
+                    document.getElementById('new-srv-name').value = ""; document.getElementById('new-srv-price').value = "0";
+                    document.getElementById('new-srv-discount').value = "0"; document.getElementById('new-srv-final').value = "0";
                     loadManagerServices();
                 } else { alert("Error: " + res.message); }
             } catch(e) { alert("System Error!"); }
-            
-            btn.innerText = "Save Service to System"; btn.disabled = false;
+            btn.innerText = "Save Service"; btn.disabled = false;
         }
 
-        // Delete Service API Call
         async function deleteService(id, name) {
-            if(!confirm(`Kya aap sach mein "${name}" ko delete karna chahte hain?`)) return;
-
+            if(!confirm(`Delete "${name}" ?`)) return;
             try {
                 let res = await callBackendAPI("deleteService", { serviceId: id });
-                if(res.success) {
-                    loadManagerServices(); // Reload table after delete
-                } else {
-                    alert("Delete Failed: " + res.message);
-                }
-            } catch(e) { alert("System Error during delete!"); }
+                if(res.success) loadManagerServices(); 
+                else alert("Delete Failed: " + res.message);
+            } catch(e) { alert("System Error!"); }
         }
 
+        // ================= OWNER DASHBOARD LOGIC =================
+        async function loadOwnerDashboard() {
+            const tbody = document.getElementById('owner-sales-list');
+            tbody.innerHTML = '<tr><td colspan="7" class="text-center py-4">Fetching live sales data...⏳</td></tr>';
+            try {
+                let res = await callBackendAPI("fetchSalesData", {});
+                if(res.success) {
+                    masterSalesData = res.data; 
+                    processOwnerData(); 
+                } else { alert("Sales data nahi mila!"); }
+            } catch(e) { alert("Data fetch me error aayi!"); }
+        }
+
+        function processOwnerData() {
+            const branchFilter = document.getElementById('owner-branch-filter').value;
+            const tbody = document.getElementById('owner-sales-list');
+            let totalRev = 0, todayRev = 0, cashRev = 0, upiRev = 0;
+            const todayStr = new Date().toLocaleDateString('en-GB'); 
+
+            let filteredData = branchFilter !== "ALL" ? masterSalesData.filter(i => i.branch === branchFilter) : masterSalesData;
+            
+            // Sort by latest first (Assuming Google Sheet appends rows, so last is newest)
+            filteredData = filteredData.slice().reverse(); 
+
+            tbody.innerHTML = ""; 
+            let limit = Math.min(filteredData.length, 50);
+
+            for(let i=0; i<filteredData.length; i++) {
+                let bill = filteredData[i];
+                let amt = parseFloat(bill.amount) || 0;
+
+                totalRev += amt;
+                if(bill.paymentMode.toLowerCase() === "cash") cashRev += amt;
+                else upiRev += amt; 
+                
+                if(bill.date === todayStr) todayRev += amt;
+
+                if(i < limit) {
+                    let modeColor = bill.paymentMode.toLowerCase() === "cash" ? "text-orange-600" : "text-purple-600";
+                    tbody.innerHTML += `
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="px-4 py-2">${bill.date} <span class="text-xs text-gray-400 block">${bill.time}</span></td>
+                            <td class="px-4 py-2 font-mono text-xs">${bill.invoiceNo}</td>
+                            <td class="px-4 py-2 font-bold">${bill.branch}</td>
+                            <td class="px-4 py-2">${bill.customerName}</td>
+                            <td class="px-4 py-2 text-xs truncate max-w-[150px]">${bill.services}</td>
+                            <td class="px-4 py-2 font-bold ${modeColor}">${bill.paymentMode}</td>
+                            <td class="px-4 py-2 text-right font-bold text-green-600">₹${amt}</td>
+                        </tr>
+                    `;
+                }
+            }
+
+            if(filteredData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-red-500 font-bold">No sales data found.</td></tr>`;
+            }
+
+            document.getElementById('ow-total-rev').innerText = "₹" + totalRev.toLocaleString('en-IN');
+            document.getElementById('ow-today-rev').innerText = "₹" + todayRev.toLocaleString('en-IN');
+            document.getElementById('ow-cash-rev').innerText = "₹" + cashRev.toLocaleString('en-IN');
+            document.getElementById('ow-upi-rev').innerText = "₹" + upiRev.toLocaleString('en-IN');
+        }
     </script>
 </body>
 </html>
