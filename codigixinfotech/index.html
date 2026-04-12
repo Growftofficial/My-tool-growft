@@ -175,9 +175,31 @@
         .social-footer { display: flex; justify-content: center; gap: 15px; margin-bottom: 15px; }
         .social-footer a { color: var(--primary); transition: 0.2s; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background: var(--box-bg); }
         .social-footer a:hover { background: var(--primary); color: white; transform: scale(1.1); }
+        
+        /* --- 🔒 LOCK SCREEN STYLES --- */
+        #lockScreen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.98); z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 20px;
+        }
+        .contact-admin-btn {
+            background: var(--primary); color: white; padding: 12px 25px;
+            border-radius: 50px; text-decoration: none; font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); margin-top: 20px; display: inline-block;
+        }
     </style>
 </head>
 <body>
+
+<div id="lockScreen" style="display: none;">
+    <div style="font-size: 60px; margin-bottom: 20px;">🔒</div>
+    <div style="font-size: 24px; font-weight: 800; color: #333; margin-bottom: 10px;">Service Suspended</div>
+    <div style="font-size: 14px; color: #666; margin-bottom: 30px;">
+        This tool has been disabled. Please contact the administrator.
+    </div>
+    <a href="tel:+917020360561" class="contact-admin-btn">Contact Provider</a>
+</div>
 
 <div class="container" id="mainApp">
 
@@ -356,11 +378,25 @@
 
 <script>
     // --- CONFIGURATION ---
-    const GOOGLE_REVIEW_LINK = "https://g.page/r/CanwB2V3WKp5EBM/review"; // REPLACE WITH CLIENT'S ACTUAL GOOGLE LINK
+    const GOOGLE_REVIEW_LINK = "https://g.page/r/CanwB2V3WKp5EBM/review"; 
+    
+    // 🔴 TOOL IS NOW SUSPENDED 🔴
+    const APP_STATUS = "suspended"; 
+    const EXPIRY_DATE = "2026-12-31"; 
+    
     let isOwnerMode = false;
 
     // --- INITIALIZATION ---
     window.onload = function() {
+        const today = new Date().toISOString().split('T')[0];
+        
+        // Check Lock Status
+        if(APP_STATUS === "suspended" || today > EXPIRY_DATE) {
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('lockScreen').style.display = 'flex';
+            return;
+        }
+
         const urlParams = new URLSearchParams(window.location.search);
         const reviewText = urlParams.get('review');
         if (reviewText) {
@@ -453,7 +489,6 @@
             ]
         },
         keywords: {
-            // Services
             "Marketing Agency": ["They are undoubtedly the most reliable Marketing Agency in town.", "Finding a good Marketing Agency is tough, but Codigix is perfect.", "This Marketing Agency truly understands market dynamics."],
             "Digital Marketing": ["Their approach to Digital Marketing is highly innovative.", "They handle our entire Digital Marketing portfolio efficiently.", "The best place for 360-degree Digital Marketing."],
             "digital marketing agency": ["A highly proactive digital marketing agency.", "If you need a results-oriented digital marketing agency, this is it.", "The most transparent digital marketing agency we've worked with."],
@@ -463,18 +498,12 @@
             "social media marketing agency": ["A very creative social media marketing agency.", "This social media marketing agency totally revamped our brand image.", "They are a highly engaging social media marketing agency."],
             "content marketing services": ["Their content marketing services significantly boosted our organic traffic.", "High-quality output from their content marketing services.", "We rely heavily on their content marketing services."],
             "pay per click advertising company": ["An expert pay per click advertising company that knows how to target the right audience.", "This pay per click advertising company reduced our cost-per-lead.", "A very data-driven pay per click advertising company."],
-
-            // Niche
             "Hospitals & Clinics": ["They highly specialize in marketing for Hospitals & Clinics.", "Our patient footfall increased—great for Hospitals & Clinics.", "They know exactly how to market Hospitals & Clinics."],
             "Healthcare Marketing Agency": ["They are the premier Healthcare Marketing Agency in the region.", "As a Healthcare Marketing Agency, they strictly follow medical compliance.", "The best Healthcare Marketing Agency we have partnered with."],
             "B2B lead generation agency": ["A fantastic B2B lead generation agency that delivers quality prospects.", "They excel as a B2B lead generation agency.", "Our sales pipeline is full thanks to this B2B lead generation agency."],
-
-            // Location & Value
             "Pune digital marketing services": ["They offer the finest Pune digital marketing services.", "If you need Pune digital marketing services, they are the top choice.", "We've tried many, but their Pune digital marketing services are the best."],
             "affordable digital marketing for startups": ["They provide truly affordable digital marketing for startups.", "The best option for affordable digital marketing for startups.", "We scaled fast because of their affordable digital marketing for startups."],
             "affordable price": ["Top tier service at a very affordable price.", "Everything was delivered at an affordable price.", "You get premium agency work at an affordable price."],
-
-            // Team
             "good service": ["We received consistently good service throughout the campaign.", "Good service and transparent reporting.", "They are known for their exceptionally good service."],
             "polite staff": ["The polite staff makes it a joy to collaborate with them.", "Very knowledgeable and polite staff.", "The polite staff is always ready to assist with our queries."]
         }
@@ -548,7 +577,7 @@
         };
         recognition.onend = () => { 
             document.getElementById('micBtn').classList.remove('mic-active'); 
-            document.getElementById('micStatus').innerText = "Processing..."; 
+            document.getElementById('micStatus').innerText = "Processing complete."; 
         };
         recognition.start();
     }
