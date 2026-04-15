@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Review - Tectigon IT Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- PRO THEME: CYBER TECH (Deep Slate, Neon Cyan & Indigo) --- */
+        :root {
+            --primary: #06b6d4; /* Neon Cyan */
+            --primary-glow: rgba(6, 182, 212, 0.4);
+            --secondary: #6366f1; /* Indigo */
+            --bg-color: #020617; /* Very Dark Slate */
+            --card-bg: #0f172a; /* Dark Slate */
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --gold: #fbbf24;
+            --gold-glow: rgba(251, 191, 36, 0.4);
+            --border: #1e293b;
+            --input-bg: #1e293b;
+            --whatsapp: #25D366;
+            --whatsapp-glow: rgba(37, 211, 102, 0.4);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at 50% 0%, #1e1b4b 0%, transparent 70%);
+            color: var(--text-main);
+            margin: 0; padding: 20px 10px;
+            min-height: 100vh; display: flex;
+            justify-content: center; align-items: flex-start;
+            overflow-x: hidden;
+        }
+
+        /* --- ADVANCED ANIMATIONS --- */
+        @keyframes slideUpFade {
+            0% { opacity: 0; transform: translateY(40px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            40% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 var(--primary-glow); }
+            70% { box-shadow: 0 0 0 15px rgba(6, 182, 212, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(6, 182, 212, 0); }
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .fade-in-up { animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        /* --- MAIN CARD --- */
+        .container {
+            background: var(--card-bg); width: 100%; max-width: 540px;
+            padding: 30px 25px; border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255,255,255,0.05);
+            border-top: 4px solid var(--primary); margin: auto;
+            text-align: center; position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        /* --- 🔒 LOCK SCREEN STYLES --- */
+        #lockScreen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-color); z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 20px;
+        }
+        .contact-admin-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff; padding: 12px 25px;
+            border-radius: 50px; text-decoration: none; font-weight: 700;
+            box-shadow: 0 4px 15px var(--primary-glow); margin-top: 20px; display: inline-block;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1 { 
+            font-family: 'Montserrat', sans-serif; color: #fff; 
+            margin: 5px 0 5px 0; font-size: 28px; font-weight: 800; 
+            letter-spacing: 1px; text-transform: uppercase;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        .subtitle { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase;}
+        .location { 
+            color: #fff; font-size: 12px; font-weight: 700; 
+            text-transform: uppercase; letter-spacing: 1px; 
+            margin-bottom: 20px; display: inline-block; 
+            background: linear-gradient(135deg, var(--primary), var(--secondary)); 
+            padding: 6px 16px; border-radius: 20px;
+            box-shadow: 0 4px 10px var(--primary-glow);
+        }
+
+        /* --- INPUTS & SELECTS --- */
+        select, input, textarea {
+            width: 100%; padding: 14px; border-radius: 12px;
+            border: 1px solid var(--border); background: var(--input-bg);
+            font-size: 14px; outline: none; margin-bottom: 12px;
+            color: var(--text-main); font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+        select:focus, input:focus, textarea:focus { 
+            border-color: var(--primary); 
+            box-shadow: 0 0 10px var(--primary-glow); 
+            background: #0f172a;
+        }
+        optgroup { color: var(--primary); font-weight: 600; background: #020617; }
+        option { color: var(--text-main); font-weight: 400; }
+        label { font-weight: 600; display: block; margin-top: 15px; margin-bottom: 8px; color: var(--text-muted); font-size: 12px; text-transform: uppercase; text-align: left; letter-spacing: 0.5px;}
+
+        /* --- RATING STARS (Bouncy) --- */
+        .star-container { display: flex; justify-content: center; gap: 10px; margin: 25px 0; }
+        .star { font-size: 45px; color: #334155; cursor: pointer; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .star:hover { transform: scale(1.1); color: #475569; }
+        .star.selected { color: var(--gold); transform: scale(1.15); text-shadow: 0 0 15px var(--gold-glow); }
+
+        /* --- EXPERIENCE BUTTONS --- */
+        .experience-btns { display: flex; gap: 12px; margin-bottom: 30px; justify-content: center; }
+        .exp-btn {
+            padding: 14px 15px; border: 1px solid var(--border); border-radius: 12px;
+            background: var(--input-bg); cursor: pointer; font-weight: 600; color: var(--text-muted);
+            flex: 1; max-width: 150px; transition: all 0.3s ease; font-size: 14px;
+        }
+        .exp-btn:hover { background: #334155; color: white; transform: translateY(-2px); }
+        .exp-btn.active { background: var(--primary); color: #000; border-color: var(--primary); box-shadow: 0 8px 15px var(--primary-glow); }
+        .exp-btn#btn-bad.bad-active { background: #334155; color: white; border-color: #475569; }
+
+        /* --- INPUT TABS --- */
+        .input-mode-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .mode-btn { 
+            flex: 1; padding: 12px; border: 1px solid var(--border); border-radius: 12px; 
+            background: var(--input-bg); color: var(--text-muted); font-weight: 600; cursor: pointer; font-size: 13px; transition: 0.3s;
+        }
+        .mode-btn.active-mode { background: #fff; color: #000; border-color: #fff; box-shadow: 0 4px 10px rgba(255,255,255,0.2); }
+
+        /* --- MIC SECTION --- */
+        .voice-section, .text-section {
+            background: rgba(6, 182, 212, 0.05); padding: 15px; border-radius: 16px; 
+            margin-bottom: 20px; border: 1px dashed rgba(6, 182, 212, 0.3); text-align: left;
+        }
+        .voice-controls { display: flex; align-items: center; gap: 15px; }
+        .mic-btn {
+            width: 55px; height: 55px; border-radius: 50%;
+            background: var(--primary); color: #000; border: none;
+            font-size: 22px; cursor: pointer; transition: 0.3s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .mic-btn:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--primary-glow); }
+        .mic-active { animation: pulseGlow 1.5s infinite; background: #fff; color: #000; }
+
+        /* --- KEYWORD CHIPS (Pro level) --- */
+        .category-header { font-size: 11px; color: var(--primary); margin: 20px 0 10px 0; font-weight: 700; letter-spacing: 1px; border-bottom: 1px solid rgba(6, 182, 212, 0.2); padding-bottom: 6px; text-align: left; }
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 5px; }
+        .keyword-chip { 
+            padding: 10px 14px; background-color: var(--input-bg); border-radius: 30px; 
+            font-size: 12px; font-weight: 500; cursor: pointer; 
+            border: 1px solid var(--border); color: var(--text-muted); 
+            flex-grow: 1; text-align: center; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .keyword-chip:hover { border-color: var(--primary); color: white; }
+        .keyword-chip.active { 
+            background: linear-gradient(135deg, var(--primary), var(--secondary)); 
+            color: #fff; border-color: transparent; 
+            transform: translateY(-3px) scale(1.05); 
+            box-shadow: 0 8px 15px var(--primary-glow); 
+            font-weight: 600;
+        }
+
+        /* --- BUTTONS --- */
+        .action-btn {
+            width: 100%; padding: 16px; background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff; border: none; border-radius: 12px;
+            font-size: 16px; font-weight: 700; cursor: pointer; letter-spacing: 1px;
+            box-shadow: 0 10px 20px -5px var(--primary-glow); margin-top: 15px;
+            transition: all 0.3s ease; display: flex; justify-content: center; align-items: center; gap: 10px;
+        }
+        .action-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 25px -5px var(--primary-glow); filter: brightness(1.1); }
+        .action-btn:active { transform: translateY(1px); }
+        
+        .copy-btn { width: 100%; padding: 15px; background-color: #fff; color: #000; border: none; border-radius: 12px; margin-top: 15px; font-weight: 700; font-size: 15px; cursor: pointer; display: none; transition: 0.3s; }
+        .copy-btn:hover { background: #f8fafc; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,255,255,0.2); }
+
+        .review-preview-box {
+            width: 100%; min-height: 160px; margin-top: 20px; border-radius: 12px; padding: 15px; 
+            border: 1px solid rgba(6, 182, 212, 0.5); display: none; background: rgba(0,0,0,0.3); resize: none; outline: none; line-height: 1.6; font-size: 14px; font-weight: 400; color: #fff; box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+            animation: popIn 0.5s ease;
+        }
+
+        /* --- LOADING SPINNER --- */
+        .spinner {
+            width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%; border-top-color: #fff; animation: spin 1s ease-in-out infinite; display: none;
+        }
+
+        /* --- OWNER PANEL --- */
+        #ownerPanel {
+            display: none; margin-top: 25px; padding: 20px;
+            border: 1px solid rgba(37, 211, 102, 0.3); border-radius: 16px;
+            background-color: rgba(37, 211, 102, 0.05); text-align: left;
+        }
+        .whatsapp-send-btn {
+            width: 100%; padding: 14px; background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white; border: none; border-radius: 12px;
+            font-size: 15px; font-weight: 700; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 8px 15px var(--whatsapp-glow);
+        }
+        .whatsapp-send-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+        /* --- UTILS --- */
+        .hidden { display: none !important; }
+        .toggle-name { font-size: 13px; color: var(--text-muted); text-decoration: underline; cursor: pointer; float: right; margin-top: 5px; border: none; background: none; font-weight: 500; transition: 0.2s;}
+        .toggle-name:hover { color: #fff; }
+
+        /* --- FOOTER --- */
+        .footer { margin-top: 40px; text-align: center; font-size: 12px; color: #ffffff; border-top: 1px solid var(--border); padding-top: 20px; position: relative;}
+        .footer-logo { display: block; margin: 0 auto 8px auto; max-height: 28px; width: auto; opacity: 0.5; filter: grayscale(100%) invert(1); transition: 0.3s;}
+        .footer-logo:hover { opacity: 1; }
+        .footer a { color: #ffffff; text-decoration: none; font-weight: 600; }
+        .owner-login-trigger {
+            font-size: 11px; color: #ffffff; cursor: pointer; text-decoration: none;
+            position: absolute; bottom: 0px; right: 5px; transition: 0.2s;
+        }
+        .owner-login-trigger:hover { color: var(--primary); }
+    </style>
+</head>
+<body>
+
+<div id="lockScreen" style="display: none;">
+    <div style="font-size: 60px; margin-bottom: 20px;">🔒</div>
+    <div style="font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 10px;">Access Denied</div>
+    <div style="font-size: 14px; color: var(--text-muted); margin-bottom: 30px;">
+        This tool has been disabled. Please contact the administrator.
+    </div>
+    <a href="tel:+917020360561" class="contact-admin-btn">Contact Provider</a>
+</div>
+
+<div class="container fade-in-up" id="mainApp">
+
+    <div id="customerLinkView" class="hidden fade-in-up" style="text-align: center; padding: 20px;">
+        <div style="font-size: 50px; margin-bottom: 10px; animation: popIn 0.5s ease;">💻🚀</div>
+        <h2 style="color: #fff; font-family: 'Montserrat', sans-serif; letter-spacing: 1px;">THANK YOU!</h2>
+        <p style="color:var(--text-muted); font-size:14px; margin-bottom:20px;">
+            Here is the review for your experience with Tectigon IT Solutions.<br>Click below to copy & post to Google.
+        </p>
+        <textarea id="customerReviewText" class="review-preview-box" readonly style="display:block;"></textarea>
+        <button class="action-btn" style="display:block; margin-top:15px; background: #fff; color: #000; box-shadow: 0 10px 20px rgba(255,255,255,0.2);" onclick="copyCustomerLinkReview()">📋 Copy & Open Google</button>
+        <p style="font-size:11px; color:#555; margin-top:20px;">Thanks for partnering with us! 🚀</p>
+    </div>
+
+    <div id="generatorApp">
+        <h1>Tectigon IT Solutions</h1>
+        <div class="subtitle">Empowering Digital Transformation</div>
+        <div class="location">📍 Global IT & Digital Services</div>
+
+        <div id="ratingScreen" class="fade-in-up">
+            <p style="font-weight: 600; color: #fff; font-size: 16px;">How was your experience with us?</p>
+            <div class="star-container">
+                <span class="star" onclick="rate(1)">★</span>
+                <span class="star" onclick="rate(2)">★</span>
+                <span class="star" onclick="rate(3)">★</span>
+                <span class="star" onclick="rate(4)">★</span>
+                <span class="star" onclick="rate(5)">★</span>
+            </div>
+            <div class="experience-btns">
+                <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Needs Work 😞</button>
+                <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Excellent! 🚀</button>
+            </div>
+            <button class="action-btn" onclick="processRating()">Continue ➡</button>
+        </div>
+
+        <div id="privateFeedbackScreen" class="hidden fade-in-up">
+            <h2 style="color:#fff; font-family: 'Montserrat';">We value your feedback</h2>
+            <p style="color: var(--text-muted);">Please tell us how we can improve.</p>
+            <textarea id="privateFeedbackText" placeholder="Describe the issue or your concern..." style="height: 120px;"></textarea>
+            <button class="action-btn" onclick="submitPrivateFeedback()">Submit Feedback</button>
+        </div>
+
+        <div id="thankYouScreen" class="hidden fade-in-up">
+            <div style="font-size: 60px; margin-bottom:10px; color: var(--whatsapp);">✅</div>
+            <h2 style="color:#fff; font-family: 'Montserrat';">Feedback Received</h2>
+            <p style="color: var(--text-muted);">Thank you for helping us improve our services.</p>
+        </div>
+
+        <div id="aiToolScreen" class="hidden fade-in-up" style="text-align: left;">
+            
+            <div class="input-mode-tabs">
+                <button class="mode-btn active-mode" id="btnModeVoice" onclick="switchMode('voice')">🎤 Speak</button>
+                <button class="mode-btn" id="btnModeText" onclick="switchMode('text')">✍️ Write</button>
+            </div>
+
+            <div id="voiceSection" class="voice-section">
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                    <span style="font-size:11px; font-weight:700; color:var(--primary); letter-spacing: 1px;">SPEAK (Eng/Hindi/Marathi):</span>
+                    <select id="voiceLang" style="width:auto; padding:4px 8px; font-size:11px; height:auto; margin:0;">
+                        <option value="en-IN" selected>English</option>
+                        <option value="hi-IN">Hindi</option>
+                        <option value="mr-IN">Marathi</option>
+                    </select>
+                </div>
+                <div class="voice-controls">
+                    <button id="micBtn" class="mic-btn" onclick="startListening()">🎤</button>
+                    <div style="flex:1;">
+                        <p id="statusText" style="font-size:13px; color:#fff; margin:0; font-weight: 500;">Tap mic & speak...<br><span style="font-weight: 400; color: var(--text-muted); font-size: 11px;">(Ex: "Inki web development service bahut achi hai")</span></p>
+                    </div>
+                </div>
+                <div id="spokenTextDisplay" style="display:none; margin-top:10px; font-size:13px; color:var(--primary); background:rgba(6, 182, 212, 0.1); padding:8px 12px; border-radius:8px; border: 1px solid rgba(6, 182, 212, 0.3); font-weight: 500;"></div>
+            </div>
+
+            <div id="textSection" class="text-section hidden">
+                <label style="margin-top:0; color: #fff;">Describe Experience</label>
+                <textarea id="manualInput" placeholder="Ex: The software they built for us is very robust and scales well..." style="height:90px; margin-bottom:0;"></textarea>
+            </div>
+
+            <label style="margin-top:0;">1. Select Location</label>
+            <select id="locationSelect">
+                <option value="Pune">Pune</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Bangalore">Bangalore</option>
+                <option value="Pan India">Pan India</option>
+                <option value="Global">Global</option>
+            </select>
+
+            <div style="display: flex; gap: 15px;">
+                <div style="flex:1;">
+                    <label>2. Core Service</label>
+                    <select id="serviceSelect">
+                        <optgroup label="Development">
+                            <option value="Custom Web Design">Custom Web Design</option>
+                            <option value="Mobile App Development">Mobile App Development</option>
+                            <option value="Custom Software Building">Custom Software Building</option>
+                        </optgroup>
+                        <optgroup label="Marketing">
+                            <option value="Digital Marketing">Digital Marketing</option>
+                            <option value="Social Media Management">Social Media Management</option>
+                            <option value="Google Ads Management">Google Ads</option>
+                            <option value="Meta Ads Management">Meta Ads</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div style="flex:1;">
+                    <label>3. Vibe/Tone</label>
+                    <select id="toneSelect">
+                        <option value="Professional">Professional 💼</option>
+                        <option value="Enthusiastic">Happy/Enthusiastic 🚀</option>
+                        <option value="Short">Short & Direct ⚡</option>
+                    </select>
+                </div>
+            </div>
+
+            <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name / Company</button></div>
+            <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
+                <input type="text" id="userName" placeholder="Your Name or Company Name">
+            </div>
+
+            <label style="clear:both; margin-top: 25px;">4. Select Highlights (Pick 2-4)</label>
+
+            <div class="category-header">DEVELOPMENT</div>
+            <div class="keywords-container">
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Custom Web Design')">💻 Custom Web Design</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Mobile App Development')">📱 Mobile App Development</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Custom Software Building')">⚙️ Custom Software Building</div>
+            </div>
+
+            <div class="category-header">MARKETING</div>
+            <div class="keywords-container">
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Digital Marketing Agency')">📈 Digital Marketing Agency</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Social Media management')">📱 Social Media Management</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'meta ads')">🎯 Meta Ads</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'google ads')">🔍 Google Ads</div>
+            </div>
+
+            <div class="category-header">EXPERIENCE & VALUE</div>
+            <div class="keywords-container">
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'supportive staff')">🤝 Supportive Staff</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'genuine work')">💯 Genuine Work</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'reasonable fees')">💰 Reasonable Fees</div>
+            </div>
+
+            <button class="action-btn" id="generateBtn" onclick="generateReview()">
+                <span class="spinner" id="btnSpinner"></span>
+                <span id="btnText">⚡ Craft Unique Review</span>
+            </button>
+
+            <textarea id="reviewOutput" class="review-preview-box" readonly></textarea>
+            
+            <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy & Open Google</button>
+
+            <div id="ownerPanel">
+                <label style="color:var(--whatsapp); margin-top:0;">📱 Client's WhatsApp Number</label>
+                <div style="display:flex; gap:10px;">
+                    <input type="tel" id="customerPhone" placeholder="Ex: 9876543210" style="margin-bottom:0; background: rgba(0,0,0,0.2);">
+                    <button class="whatsapp-send-btn" style="width: auto; padding: 0 20px;" onclick="sendLinkToCustomer()">🚀 Send</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer">
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft" loading="lazy">
+        <div class="footer-text">
+            Powered by <a href="https://growft.net" target="_blank">Growft</a>
+        </div>
+        <span class="owner-login-trigger" onclick="ownerLogin()">🔒 Owner Login</span>
+    </div>
+</div>
+
+<script>
+    // --- APP CONFIG ---
+    const GOOGLE_REVIEW_LINK = "https://maps.app.goo.gl/tFYG8SYCoZpSuawMA?g_st=ic"; 
+    
+    // 🔴 TOOL IS CURRENTLY ACTIVE 🔴
+    // Change to "suspended" to lock the tool.
+    const APP_STATUS = "active"; 
+    const EXPIRY_DATE = "2026-12-31"; 
+    
+    let isOwnerMode = false;
+
+    // --- INITIALIZATION ---
+    window.onload = function() {
+        const today = new Date().toISOString().split('T')[0];
+        
+        // LOCK SCREEN LOGIC
+        if(APP_STATUS === "suspended" || today > EXPIRY_DATE) {
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('lockScreen').style.display = 'flex';
+            return;
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const reviewText = urlParams.get('review');
+        if (reviewText) {
+            document.getElementById('generatorApp').style.display = 'none';
+            document.getElementById('customerLinkView').classList.remove('hidden');
+            document.getElementById('customerReviewText').value = decodeURIComponent(reviewText);
+        } else if(sessionStorage.getItem('isOwner') === 'true') {
+            isOwnerMode = true;
+        }
+    };
+
+    function ownerLogin() {
+        if(isOwnerMode) { alert("Already logged in as Owner."); return; }
+        const password = prompt("Enter Owner Password:");
+        if(password === "admin123") { 
+            isOwnerMode = true;
+            sessionStorage.setItem('isOwner', 'true');
+            alert("Owner Mode Active! Pro controls unlocked.");
+        } else if(password) { alert("Incorrect Password"); }
+    }
+
+    function sendLinkToCustomer() {
+        const phone = document.getElementById('customerPhone').value.replace(/\D/g, '');
+        const review = document.getElementById('reviewOutput').value;
+        if(phone.length < 10) { alert("Enter valid 10-digit number"); return; }
+        const finalPhone = phone.length === 10 ? "91" + phone : phone;
+        const baseUrl = window.location.href.split('?')[0];
+        const magicLink = `${baseUrl}?review=${encodeURIComponent(review)}`;
+        const msg = `Hi there! 🚀\n\nThank you for partnering with Tectigon IT Solutions Pvt Ltd.\nHere is the custom review we drafted for you:\n\n*Tap this link to Post to Google:*\n${magicLink}`;
+        window.open(`https://wa.me/${finalPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function copyCustomerLinkReview() {
+        const box = document.getElementById("customerReviewText");
+        box.select();
+        document.execCommand('copy');
+        window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+
+    // --- UI LOGIC ---
+    let selectedKeywords = [];
+    let voiceText = "";
+    let activeMode = 'voice';
+
+    function switchMode(mode) {
+        activeMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active-mode'));
+        if(mode === 'voice') {
+            document.getElementById('btnModeVoice').classList.add('active-mode');
+            document.getElementById('voiceSection').classList.remove('hidden');
+            document.getElementById('textSection').classList.add('hidden');
+        } else {
+            document.getElementById('btnModeText').classList.add('active-mode');
+            document.getElementById('textSection').classList.remove('hidden');
+            document.getElementById('voiceSection').classList.add('hidden');
+        }
+    }
+
+    let currentRating = 0;
+    let currentExp = '';
+    function rate(stars) {
+        currentRating = stars;
+        document.querySelectorAll('.star').forEach((star, index) => {
+            star.classList.toggle('selected', index < stars);
+        });
+        if(stars >= 4) selectExp('good'); else selectExp('bad');
+    }
+    function selectExp(type) {
+        currentExp = type;
+        document.getElementById('btn-good').classList.remove('active');
+        document.getElementById('btn-bad').classList.remove('bad-active');
+        if (type === 'good') document.getElementById('btn-good').classList.add('active');
+        else document.getElementById('btn-bad').classList.add('bad-active');
+    }
+    function processRating() {
+        if (currentRating === 0 && currentExp === '') { alert("Please select a star rating first."); return; }
+        document.getElementById('ratingScreen').classList.add('hidden');
+        let isHappy = (currentRating >= 4) || (currentExp === 'good');
+        if (isHappy) document.getElementById('aiToolScreen').classList.remove('hidden');
+        else document.getElementById('privateFeedbackScreen').classList.remove('hidden');
+    }
+    function submitPrivateFeedback() {
+        document.getElementById('privateFeedbackScreen').classList.add('hidden');
+        document.getElementById('thankYouScreen').classList.remove('hidden');
+    }
+
+    // --- VOICE LOGIC ---
+    function startListening() {
+        if (!('webkitSpeechRecognition' in window)) { alert("Speech Recognition requires Chrome browser."); return; }
+        let recognition = new webkitSpeechRecognition();
+        recognition.lang = document.getElementById('voiceLang').value;
+        recognition.interimResults = false;
+        document.getElementById('micBtn').classList.add('mic-active');
+        document.getElementById('statusText').innerText = "Listening to you...";
+        
+        recognition.onresult = (event) => {
+            voiceText = event.results[0][0].transcript;
+            document.getElementById('spokenTextDisplay').style.display = 'block';
+            document.getElementById('spokenTextDisplay').innerText = `Recorded: "${voiceText}"`;
+        };
+        recognition.onerror = (e) => {
+            document.getElementById('statusText').innerText = "Mic Error. Try writing.";
+            document.getElementById('micBtn').classList.remove('mic-active');
+        };
+        recognition.onend = () => { 
+            document.getElementById('micBtn').classList.remove('mic-active'); 
+            document.getElementById('statusText').innerText = "Processing complete."; 
+        };
+        recognition.start();
+    }
+
+    // --- PRO GENERATION ENGINE WITH ANTI-REPETITION ---
+    let usedIntros = [];
+    let usedOutros = [];
+
+    async function generateReview() {
+        const btnText = document.getElementById('btnText');
+        const spinner = document.getElementById('btnSpinner');
+        const box = document.getElementById('reviewOutput');
+        
+        const userName = document.getElementById('userName').value.trim();
+        const location = document.getElementById('locationSelect').value;
+        let tone = document.getElementById('toneSelect').value;
+        const serviceType = document.getElementById('serviceSelect').value;
+        const manualText = document.getElementById('manualInput').value.trim();
+        let rawInput = activeMode === 'voice' ? voiceText : manualText;
+
+        if (selectedKeywords.length === 0 && !rawInput) {
+            alert("Please select highlights or write something about your experience.");
+            return;
+        }
+
+        // Start Pro Loading Animation
+        btnText.innerText = "Crafting AI Review...";
+        spinner.style.display = "inline-block";
+        box.style.display = 'none';
+
+        // Fake network delay for premium feel
+        setTimeout(async () => {
+            let finalBodyText = "";
+            if (rawInput && rawInput.length > 1) {
+                try {
+                    const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(rawInput)}&langpair=Autodetect|en`);
+                    const data = await res.json();
+                    let translated = data.responseData ? data.responseData.translatedText : "";
+                    if(!translated.includes("PLEASE SELECT")) finalBodyText = translated;
+                    else finalBodyText = rawInput;
+                } catch(e) { finalBodyText = rawInput; }
+            }
+
+            // --- 1. PICK UNIQUE INTRO ---
+            let intro = "";
+            let safeTries = 0;
+            let availableIntros = reviewDB.intros[tone] || reviewDB.intros["Professional"];
+            do {
+                intro = availableIntros[Math.floor(Math.random() * availableIntros.length)];
+                safeTries++;
+            } while (usedIntros.includes(intro) && safeTries < 50);
+            
+            usedIntros.push(intro);
+            if(usedIntros.length > 25) usedIntros.shift();
+
+            intro = intro.replace(/{service}/g, serviceType).replace(/{location}/g, location);
+            if (userName) intro = `This is ${userName}. ` + intro;
+
+            // --- 2. BUILD BODY & SHUFFLE KEYWORDS ---
+            let body = "";
+            const shuffledKeywords = [...selectedKeywords].sort(() => Math.random() - 0.5);
+            shuffledKeywords.forEach((k) => {
+                if(reviewDB.keywords[k]) {
+                    let sentence = reviewDB.keywords[k][Math.floor(Math.random() * reviewDB.keywords[k].length)];
+                    sentence = sentence.replace(/{location}/g, location);
+                    body += sentence + " ";
+                }
+            });
+
+            if(finalBodyText) body += " " + finalBodyText + ". ";
+
+            // --- 3. PICK UNIQUE OUTRO ---
+            let outro = "";
+            safeTries = 0;
+            let availableOutros = reviewDB.outros[tone] || reviewDB.outros["Professional"];
+            do {
+                outro = availableOutros[Math.floor(Math.random() * availableOutros.length)];
+                safeTries++;
+            } while (usedOutros.includes(outro) && safeTries < 50);
+
+            usedOutros.push(outro);
+            if(usedOutros.length > 25) usedOutros.shift();
+            
+            outro = outro.replace(/{location}/g, location);
+
+            const finalReview = (intro + " " + body + outro).trim();
+
+            // End Animation & Show Review
+            spinner.style.display = "none";
+            btnText.innerText = "⚡ Generate Another Variation";
+            
+            box.value = finalReview;
+            box.style.display = 'block';
+            
+            // Re-trigger animation
+            box.style.animation = 'none';
+            box.offsetHeight; /* trigger reflow */
+            box.style.animation = null; 
+
+            box.scrollIntoView({behavior: "smooth", block: "nearest"});
+            
+            if(isOwnerMode) {
+                document.getElementById('ownerPanel').style.display = 'block';
+                document.getElementById('copyBtn').style.display = 'none';
+            } else {
+                document.getElementById('ownerPanel').style.display = 'none';
+                document.getElementById('copyBtn').style.display = 'block';
+            }
+        }, 800); 
+    }
+
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) selectedKeywords = selectedKeywords.filter(k => k !== keyword);
+        else selectedKeywords.push(keyword);
+    }
+    
+    function toggleNameField() { 
+        const field = document.getElementById('nameArea');
+        field.style.display = (field.style.display === 'block' || field.style.display === '') ? 'none' : 'block';
+    }
+
+    function copyToClipboard() {
+        const box = document.getElementById("reviewOutput");
+        box.select();
+        document.execCommand('copy');
+        if(confirm("Review Copied! Open Google Maps?")) window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+
+    // --- MASSIVE IT AGENCY DATABASE (30 INTROS, 30 OUTROS, MULTIPLE KEYWORD VARIATIONS) ---
+    const reviewDB = {
+        intros: {
+            "Professional": [
+                "Partnering with Tectigon IT Solutions Pvt Ltd for our {service} has been a highly strategic move.",
+                "We recently hired Tectigon IT Solutions for {service} and the execution was flawless.",
+                "Tectigon IT Solutions is an exceptional tech firm based in {location}. We engaged them for {service}.",
+                "A highly professional and results-driven tech agency. They handled our {service} perfectly.",
+                "I highly recommend Tectigon IT Solutions for comprehensive {service} solutions.",
+                "Their systematic approach to {service} in {location} is highly commendable.",
+                "Tectigon IT Solutions has consistently delivered on their promises regarding our {service}.",
+                "Working with the team at Tectigon has streamlined our processes, especially in {service}.",
+                "An excellent IT and digital firm. They possess deep industry knowledge in {service}.",
+                "We appreciate the transparent reporting and professional communication from Tectigon regarding our {service}.",
+                "Tectigon IT Solutions proved to be the right technical partner for our {service} needs.",
+                "Their technical expertise in {service} is evident from day one.",
+                "We outsourced our {service} to Tectigon and the results have been outstanding.",
+                "A reliable IT partner in {location}. They successfully managed our {service} project.",
+                "The project management and delivery for our {service} was handled exceptionally well.",
+                "Tectigon IT Solutions demonstrates a high level of proficiency in {service}.",
+                "We have had a very smooth experience working with Tectigon on our {service}.",
+                "Their team provides enterprise-grade {service} with great efficiency.",
+                "For anyone looking for {service}, Tectigon IT Solutions in {location} is highly recommended.",
+                "They delivered our {service} project exactly as scoped and on time.",
+                "Tectigon is a highly capable IT agency that completely transformed our {service}.",
+                "Our experience with Tectigon IT Solutions for {service} has been thoroughly professional.",
+                "They offer scalable and secure solutions, particularly in {service}.",
+                "We are very satisfied with the {service} provided by Tectigon IT Solutions.",
+                "They maintain a very high standard of quality assurance in their {service} delivery.",
+                "Tectigon is a leading IT firm in {location} that specializes in {service}.",
+                "The architecture and deployment of our {service} was handled perfectly.",
+                "A trustworthy agency that delivers top-tier {service}.",
+                "We chose Tectigon for our {service} after evaluating many vendors, and it was the best choice.",
+                "Their innovative approach to {service} sets them apart from other IT firms."
+            ],
+            "Enthusiastic": [
+                "Tectigon IT Solutions completely transformed our business with their {service}! 🚀",
+                "So happy with the ROI we are getting after hiring Tectigon for {service}.",
+                "The team at Tectigon is incredibly supportive and genuinely cares about our {service} project.",
+                "If you want to scale your business, these are the guys to call for {service}!",
+                "Our metrics have skyrocketed since Tectigon took over our {service}.",
+                "Absolutely thrilled with their creative approach and fast execution on our {service}.",
+                "Finding a trustworthy IT agency is hard, but Tectigon is a true gem for {service}.",
+                "They handled our {service} with so much dedication, I couldn't be happier! 😍",
+                "Fast, reliable, and extremely talented team. What a great experience with our {service}!",
+                "Huge thanks to Tectigon IT Solutions for taking our brand to the next level with their {service}.",
+                "Mind-blowing results from Tectigon! Their {service} is top-notch.",
+                "I am super impressed with how they executed our {service} project.",
+                "Tectigon is hands down the best IT agency in {location} for {service}!",
+                "They totally over-delivered on our {service}. Highly impressed!",
+                "The energy and expertise the Tectigon team brings to {service} is amazing.",
+                "We love working with Tectigon! Their {service} gave us incredible results.",
+                "Best decision we ever made was trusting Tectigon with our {service}.",
+                "They turned our vision into reality perfectly with their {service}. 🌟",
+                "A massive shoutout to Tectigon IT Solutions for their brilliant {service}!",
+                "Our app and web presence look amazing thanks to their {service}.",
+                "They are wizards at what they do! So happy with the {service}.",
+                "Tectigon's team is so dynamic, they made the {service} process a breeze.",
+                "Could not have asked for a better partner for our {service} needs.",
+                "They are fast, communicative, and simply the best at {service}!",
+                "Tectigon rocks! Highly recommend them for anything related to {service}.",
+                "I am beyond satisfied with the quality of the {service} they provided.",
+                "Their team goes above and beyond to ensure success in {service}.",
+                "We are seeing fantastic growth thanks to Tectigon's {service}.",
+                "So glad we found Tectigon IT Solutions in {location} for our {service}!",
+                "They completely crushed our expectations on the {service} project. 💯"
+            ],
+            "Short": [
+                "Best IT agency in {location} for {service}.",
+                "Highly recommended for {service}.",
+                "Excellent team and clear strategies for {service}.",
+                "Great ROI for our business. 5 Stars!",
+                "Top software and marketing firm in {location}.",
+                "Very practical and helpful team.",
+                "Top-notch {service}.",
+                "Loved the fast response and execution.",
+                "Best decision for our brand was hiring them for {service}.",
+                "Genuine and hardworking IT agency.",
+                "Great results from their {service}.",
+                "Superb quality work.",
+                "Highly professional IT company.",
+                "Awesome experience with Tectigon.",
+                "Best {service} provider.",
+                "Very happy with the {service}.",
+                "They deliver on time.",
+                "Great tech partner.",
+                "Excellent {service} and support.",
+                "Highly skilled developers.",
+                "Top digital agency.",
+                "Perfect execution of our {service}.",
+                "Very reliable IT firm.",
+                "Good pricing and great {service}.",
+                "Awesome team to work with.",
+                "Quick and efficient {service}.",
+                "10/10 for their {service}.",
+                "Very smooth process.",
+                "Highly recommend Tectigon.",
+                "Best in the {location} market."
+            ]
+        },
+        keywords: {
+            "Custom Web Design": [
+                "Their Custom Web Design perfectly captured our brand identity.", 
+                "They offer top-notch Custom Web Design services with great UI/UX.", 
+                "The Custom Web Design they created for us is highly responsive and fast.",
+                "We receive so many compliments on the Custom Web Design they built."
+            ],
+            "Mobile App Development": [
+                "The Mobile App Development team delivered a seamless, bug-free application.", 
+                "Their expertise in Mobile App Development is clearly visible in the final product.", 
+                "They handled the entire Mobile App Development lifecycle very professionally.",
+                "For robust and scalable Mobile App Development, Tectigon is the best."
+            ],
+            "Custom Software Building": [
+                "They excel at Custom Software Building tailored to specific business needs.", 
+                "Our operations are much smoother thanks to their Custom Software Building.", 
+                "Their approach to Custom Software Building solved complex operational bottlenecks for us.",
+                "Highly impressed by the architecture of their Custom Software Building."
+            ],
+            "Digital Marketing Agency": [
+                "As a Digital Marketing Agency, they significantly boosted our online presence.", 
+                "A highly results-driven Digital Marketing Agency that actually delivers.", 
+                "Tectigon is undoubtedly the most transparent Digital Marketing Agency we have worked with.",
+                "If you need a reliable Digital Marketing Agency, they are the top choice."
+            ],
+            "Social Media management": [
+                "Their Social Media management increased our brand engagement tenfold.", 
+                "Brilliant Social Media management team that creates viral and organic content.", 
+                "We outsourced our Social Media management to them and the growth is phenomenal.",
+                "Highly creative strategies used in their Social Media management."
+            ],
+            "meta ads": [
+                "The ROI on the meta ads they ran for us was phenomenal.", 
+                "They are absolute experts at optimizing meta ads for maximum conversions.", 
+                "Our cost per lead dropped significantly after they took over our meta ads.",
+                "Their strategy for targeting audiences via meta ads is spot on."
+            ],
+            "google ads": [
+                "Our inbound lead volume skyrocketed after they managed our google ads.", 
+                "Highly proficient in managing high-budget google ads campaigns.", 
+                "The search visibility we gained through their google ads is incredible.",
+                "They know exactly how to get the highest Quality Score on google ads."
+            ],
+            "supportive staff": [
+                "The supportive staff was always available to answer our technical queries.", 
+                "A big thank you to their incredibly supportive staff for handling last-minute changes.", 
+                "You can expect very transparent communication from their supportive staff.",
+                "The supportive staff makes the entire development process stress-free."
+            ],
+            "genuine work": [
+                "They deliver genuine work with complete transparency in their coding and marketing.", 
+                "It is hard to find such genuine work in the IT sector these days.", 
+                "We appreciate the genuine work and ethical practices they follow.",
+                "They don't make false promises; they just deliver pure, genuine work."
+            ],
+            "reasonable fees": [
+                "All these premium IT services come at very reasonable fees.", 
+                "You get top-tier development and marketing at reasonable fees.", 
+                "Their pricing model is transparent and they charge very reasonable fees.",
+                "Excellent value for money with highly reasonable fees for complex projects."
+            ]
+        },
+        outros: {
+            "Professional": [
+                "I highly recommend their digital and IT services to any business aiming to scale.",
+                "A very worthwhile investment for our technology budget.",
+                "Kudos to the Tectigon management for maintaining high standards.",
+                "We look forward to a long-term professional relationship with them.",
+                "Excellent value for the retainer and development fees paid.",
+                "A five-star experience in the software and marketing domain.",
+                "We confidently recommend Tectigon IT Solutions for complex projects.",
+                "They are a trusted technology partner for our firm.",
+                "Their commitment to excellence makes them highly recommendable.",
+                "We will definitely engage them for our future IT requirements.",
+                "Tectigon has proven to be a reliable vendor for our company.",
+                "A very seamless and professional B2B engagement.",
+                "We are thoroughly satisfied with the deliverables.",
+                "Thank you to the entire development and marketing teams.",
+                "They set a benchmark for IT service delivery in the region.",
+                "Highly commendable work ethics and technical prowess.",
+                "We strongly endorse Tectigon IT Solutions Pvt Ltd.",
+                "A highly capable and technically sound IT agency.",
+                "We are pleased to give them a glowing 5-star review.",
+                "An asset to any business looking to digitize their operations.",
+                "Great project management and excellent technical delivery.",
+                "We appreciate their promptness and technical accuracy.",
+                "They are definitely our go-to agency for all IT needs.",
+                "Superior service quality and great communication.",
+                "Highly professional and highly recommended.",
+                "They deliver exactly what they promise.",
+                "A very positive and productive business engagement.",
+                "We value their expertise and professional approach.",
+                "Tectigon IT Solutions is highly recommended by our team.",
+                "Looking forward to achieving more technological milestones together."
+            ],
+            "Enthusiastic": [
+                "Thank you so much to the entire Tectigon team! 🚀",
+                "Looking forward to achieving more milestones together! 📈",
+                "Best investment we ever made for our company's digital growth!",
+                "I can't thank the team enough for their continuous support.",
+                "If you are confused about which IT agency to pick, just go with Tectigon!",
+                "Highly recommended to all startup founders and business owners.",
+                "Cheers to more leads, better software, and high sales! 💼",
+                "A completely game-changing experience for us.",
+                "You guys absolutely rock! Thanks for everything.",
+                "Can't wait to start our next project with them!",
+                "They are the best in the business, hands down! 🔥",
+                "So grateful we found this amazing team.",
+                "Tectigon is literally a lifesaver for our tech needs.",
+                "Love their work, love their team, highly recommend! ❤️",
+                "They totally exceeded our wildest expectations.",
+                "100% recommended to anyone looking to grow online.",
+                "We are lifelong clients now. Thanks Tectigon!",
+                "Awesome job guys, keep up the fantastic work.",
+                "Don't think twice, just hire them! 💯",
+                "They brought our dream project to life beautifully.",
+                "We are absolutely thrilled with the results.",
+                "Sending lots of love to the Tectigon development team.",
+                "They are true wizards of the digital world! 🧙‍♂️",
+                "Best agency experience we've ever had.",
+                "So excited to see where our partnership goes next.",
+                "They deserve all the praise and 5 stars! ⭐",
+                "Incredible work, highly highly recommend.",
+                "Thanks for taking our business to the moon! 🌕",
+                "Simply the best IT agency we have worked with.",
+                "Tectigon IT Solutions is the real deal!"
+            ],
+            "Short": [
+                "Must hire!",
+                "10/10 experience.",
+                "Thanks a lot.",
+                "Highly recommended.",
+                "Great job team.",
+                "Very satisfied.",
+                "Worth the price.",
+                "Best IT agency.",
+                "Top software firm.",
+                "Great ROI.",
+                "Awesome developers.",
+                "Excellent marketing.",
+                "Very professional.",
+                "Fast and reliable.",
+                "Great technical support.",
+                "5 stars all the way.",
+                "Superb quality.",
+                "Very happy.",
+                "Great value.",
+                "Brilliant work.",
+                "Highly skilled.",
+                "Good communication.",
+                "Perfect execution.",
+                "Very trustworthy.",
+                "Best in town.",
+                "Loved their work.",
+                "Great agency.",
+                "Top notch.",
+                "Thank you Tectigon.",
+                "Highly recommend them."
+            ]
+        }
+    };
+</script>
+
+</body>
+</html>
