@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Review Generator - Hotel Dosti Moshi</title>
+    <style>
+        /* --- THEME COLORS: FOOD & SPICE (Orange, Red, Amber) --- */
+        :root {
+            --primary: #ea580c; /* Spicy Orange */
+            --primary-dark: #9a3412;
+            --bg-color: #fffbeb; 
+            --card-bg: #ffffff;
+            --text-main: #431407;
+            --gold: #f59e0b; 
+            --gray: #78350f;
+            --border: #fed7aa;
+            --box-border: #fb923c; 
+            --box-bg: #fff7ed;     
+            --highlight: #dc2626; /* Chili Red */
+            --whatsapp: #25D366;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0; padding: 20px 10px;
+            min-height: 100vh; display: flex;
+            justify-content: center; align-items: flex-start;
+            color: var(--text-main);
+        }
+
+        .container {
+            background: var(--card-bg); width: 100%; max-width: 500px;
+            padding: 25px; border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(234, 88, 12, 0.15);
+            border-top: 6px solid var(--primary); margin: auto;
+            position: relative;
+        }
+
+        h1 { text-align: center; color: var(--primary-dark); margin: 5px 0 2px 0; font-size: 24px; font-weight: 800; letter-spacing: 0.5px; }
+        .location { text-align: center; color: var(--gray); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; line-height: 1.4; }
+        
+        label {
+            font-weight: 700; display: block; margin-top: 15px;
+            margin-bottom: 8px; color: var(--primary-dark); font-size: 12px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+
+        /* --- INPUTS --- */
+        select, input, textarea {
+            width: 100%; padding: 12px; border-radius: 8px;
+            border: 1px solid var(--border); background: #fffcf0;
+            font-size: 14px; color: #333; outline: none; margin-bottom: 5px;
+            font-family: inherit; transition: 0.3s;
+        }
+        select:focus, input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.2); background: #fff; }
+
+        /* --- RATING --- */
+        .star-container { display: flex; justify-content: center; gap: 8px; margin: 20px 0; }
+        .star { font-size: 42px; color: #e2e8f0; cursor: pointer; transition: transform 0.2s, color 0.2s; }
+        .star.selected { color: var(--gold); }
+
+        .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
+        .exp-btn {
+            padding: 12px 15px; border: 1px solid var(--border); border-radius: 8px;
+            background: #fff; cursor: pointer; font-weight: 600; color: var(--text-main);
+            flex: 1; transition: 0.2s; font-size: 14px; text-align: center;
+        }
+        .exp-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(234, 88, 12, 0.3); }
+        
+        .action-btn {
+            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--highlight) 100%);
+            color: white; border: none; border-radius: 8px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(234, 88, 12, 0.2); margin-top: 15px; transition: 0.2s;
+        }
+
+        /* --- INPUT MODES --- */
+        .input-mode-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .mode-btn { 
+            flex: 1; padding: 10px; border: 1px solid var(--primary); border-radius: 8px; 
+            background: #fff; color: var(--primary); font-weight: 600; cursor: pointer; font-size: 13px;
+        }
+        .mode-btn.active-mode { background: var(--primary); color: white; }
+
+        /* --- VOICE SECTION --- */
+        .voice-section, .text-section {
+            background: #fff7ed; border: 1px dashed var(--primary);
+            padding: 12px; border-radius: 12px; margin-bottom: 15px;
+        }
+        .voice-controls { display: flex; align-items: center; gap: 10px; }
+        
+        .mic-btn {
+            width: 45px; height: 45px; border-radius: 50%;
+            background: var(--primary); color: white; border: none;
+            font-size: 20px; cursor: pointer; box-shadow: 0 4px 10px rgba(234, 88, 12, 0.3);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .mic-active { animation: pulse 1.5s infinite; background: var(--highlight); }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(0,0,0,0); } }
+
+        /* --- KEYWORD CHIPS --- */
+        .category-title { font-size: 11px; font-weight: 700; color: #9a3412; text-transform: uppercase; margin: 15px 0 8px 0; border-bottom: 1px dashed #fed7aa; padding-bottom: 3px; }
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; }
+        .keyword-chip {
+            padding: 8px 12px; background-color: #fff; border-radius: 6px;
+            font-size: 11px; font-weight: 600; cursor: pointer;
+            border: 1px solid #fed7aa; color: #9a3412;
+            flex-grow: 1; text-align: center; transition: all 0.2s ease;
+        }
+        .keyword-chip.active {
+            background-color: var(--primary); color: #fff; border-color: var(--primary);
+            box-shadow: 0 2px 5px rgba(234, 88, 12, 0.2);
+        }
+
+        /* --- REVIEW PREVIEW BOX --- */
+        .review-preview-box {
+            width: 100%; min-height: 140px; padding: 15px; margin-top: 20px;
+            border: 1px solid var(--box-border); border-radius: 12px;
+            background-color: var(--box-bg); color: #1e293b;
+            font-size: 15px; line-height: 1.6; font-family: 'Segoe UI', sans-serif;
+            resize: none; outline: none; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .copy-btn {
+            width: 100%; padding: 14px; background-color: #16a34a;
+            color: white; border: none; border-radius: 8px; margin-top: 15px;
+            font-weight: 700; font-size: 15px; cursor: pointer; display: none;
+        }
+
+        /* --- OWNER PANEL --- */
+        #ownerPanel {
+            display: none; margin-top: 20px; padding: 15px;
+            border: 2px dashed var(--whatsapp); border-radius: 12px;
+            background-color: #f0fdf4; text-align: left;
+        }
+        .whatsapp-send-btn {
+            width: 100%; padding: 12px; background-color: var(--whatsapp);
+            color: white; border: none; border-radius: 8px;
+            font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .toggle-name {
+            font-size: 12px; color: var(--primary); text-decoration: underline;
+            cursor: pointer; border: none; background: none; float: right; margin-top: 5px; font-weight: bold;
+        }
+        .name-input-area { margin-top: 10px; display: none; clear: both; }
+
+        /* --- FOOTER --- */
+        .footer-branding {
+            margin-top: 35px; padding-top: 15px; border-top: 1px dashed #e2e8f0;
+            text-align: center; font-size: 12px; color: #64748b;
+        }
+        .footer-branding img { height: 20px; vertical-align: middle; margin: 0 5px; }
+        .footer-branding a { color: var(--primary); text-decoration: none; font-weight: 700; }
+        
+        .owner-login-trigger {
+            font-size: 11px; color: #cbd5e1; cursor: pointer; text-decoration: none;
+            position: absolute; bottom: 5px; right: 10px;
+        }
+
+        .fade-in { animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .hidden { display: none; }
+        
+        /* CUSTOMER VIEW */
+        .customer-card { text-align: center; padding: 20px; }
+        .customer-card h2 { color: var(--primary); }
+    </style>
+</head>
+<body>
+
+<div class="container" id="mainApp">
+
+    <div id="customerLinkView" class="hidden customer-card">
+        <div style="font-size: 45px; margin-bottom: 10px;">🍲😋</div>
+        <h2>Hello Foodie!</h2>
+        <p style="color:#555; font-size:14px; margin-bottom:20px;">
+            Here is the review for your delicious meal at Hotel Dosti.
+            <br>Click below to copy & post on Google.
+        </p>
+        <textarea id="customerReviewText" class="review-preview-box" readonly></textarea>
+        <button class="copy-btn" style="display:block; margin-top:15px;" onclick="copyCustomerLinkReview()">📋 Copy & Open Google</button>
+        <p style="font-size:11px; color:#999; margin-top:20px;">Thank you for your love! ❤️</p>
+    </div>
+
+    <div id="generatorApp">
+        <div style="font-size: 35px; text-align:center; margin-bottom: 5px;">🍲☕🌶️</div>
+        <h1>Hotel Dosti</h1>
+        <div class="location">📍 Moshi Gaon • Pimpri-Chinchwad • Pune</div>
+
+        <div id="ratingScreen" class="fade-in">
+            <p style="font-weight:600; color:#555; text-align:center;">How was the food & service today?</p>
+            <div class="star-container">
+                <span class="star" onclick="rate(1)">★</span>
+                <span class="star" onclick="rate(2)">★</span>
+                <span class="star" onclick="rate(3)">★</span>
+                <span class="star" onclick="rate(4)">★</span>
+                <span class="star" onclick="rate(5)">★</span>
+            </div>
+            <div class="experience-btns">
+                <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Needs Improvement</button>
+                <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Excellent! 😍</button>
+            </div>
+            <button class="action-btn" onclick="processRating()">Next Step ➡</button>
+        </div>
+
+        <div id="privateFeedbackScreen" class="fade-in hidden">
+            <h2 style="color:var(--text-main);">We value your feedback</h2>
+            <p style="font-size:14px; color:#666; text-align:center;">Please tell us how we can improve our taste/service.</p>
+            <textarea id="privateFeedbackText" style="height:100px;" placeholder="Tell us your concern..."></textarea>
+            <button class="action-btn" style="background:#475569;" onclick="submitPrivateFeedback()">Submit Feedback</button>
+        </div>
+
+        <div id="thankYouScreen" class="fade-in hidden">
+            <div style="font-size: 50px; margin-bottom:10px; text-align:center;">✅</div>
+            <h2 style="color:var(--primary); text-align:center;">Thank You!</h2>
+            <p style="text-align:center;">Your feedback has been sent to the kitchen team.</p>
+        </div>
+
+        <div id="aiToolScreen" class="fade-in hidden" style="text-align: left;">
+            
+            <label>1. Share Your Experience</label>
+            <div class="input-mode-tabs">
+                <button class="mode-btn active-mode" id="btnModeVoice" onclick="switchMode('voice')">🎤 Speak</button>
+                <button class="mode-btn" id="btnModeText" onclick="switchMode('text')">✍️ Write</button>
+            </div>
+
+            <div id="voiceSection" class="voice-section">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <span style="font-size:11px; font-weight:bold; color:var(--primary);">LANGUAGE:</span>
+                    <select id="voiceLang" style="width:auto; padding:2px; font-size:11px; height:25px; margin:0;">
+                        <option value="mr-IN">Marathi</option>
+                        <option value="hi-IN">Hindi</option>
+                        <option value="en-IN">English</option>
+                    </select>
+                </div>
+                <div class="voice-controls">
+                    <button id="micBtn" class="mic-btn" onclick="startListening()">🎤</button>
+                    <div style="flex:1;">
+                        <p id="micStatus" style="font-size:12px; color:#555; margin:0;">Tap mic & speak...<br>(Ex: "Misal pav khup chan hota")</p>
+                    </div>
+                </div>
+                <div id="spokenTextDisplay" style="display:none; margin-top:8px; font-size:12px; color:var(--highlight); background:#fff; padding:6px; border-radius:4px; font-weight:600;"></div>
+            </div>
+
+            <div id="textSection" class="text-section hidden">
+                <textarea id="manualInput" placeholder="Ex: Best vada sample in Moshi..." style="height:80px; margin-bottom:0;"></textarea>
+                <p style="font-size:11px; color:#666; margin-top:5px;">*We will polish this into professional English.</p>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <div style="flex:1;">
+                    <label style="margin-top:0;">Main Item Had</label>
+                    <select id="serviceSelect">
+                        <option value="" disabled selected>Select...</option>
+                        <option value="Special Misal Pav">Special Misal Pav</option>
+                        <option value="Vada Sample">Vada Sample</option>
+                        <option value="Vada Pav & Tea">Vada Pav & Tea</option>
+                        <option value="Samosa & Poha">Samosa & Poha</option>
+                        <option value="Special Maharashtrian Thali">Full Thali</option>
+                        <option value="Evening Snacks">Evening Snacks</option>
+                    </select>
+                </div>
+                <div style="flex:1;">
+                    <label style="margin-top:0;">Tone</label>
+                    <select id="toneSelect">
+                        <option value="Happy">Happy Foodie 😊</option>
+                        <option value="Professional">Professional 💼</option>
+                        <option value="Short">Short & Direct ⚡</option>
+                    </select>
+                </div>
+            </div>
+
+            <div><button class="toggle-name" onclick="document.getElementById('nameArea').style.display='block'">+ Add Your Name</button></div>
+            <div class="name-input-area" id="nameArea">
+                <input type="text" id="userName" placeholder="Your Name (Optional)">
+            </div>
+
+            <label style="clear:both;">2. Select Highlights (SEO Keywords)</label>
+            <div class="keywords-container">
+                
+                <div class="category-title">Food & Taste</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'best vada sample')">🌶️ best vada sample</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'best misal')">🥘 best misal</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Authentic Maharashtrian snacks')">🚩 Authentic Snacks</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Spicy vada pav')">🌶️ Spicy vada pav</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Hot and fresh vada pav')">🔥 Fresh Vada Pav</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Tasty tea point')">☕ Tasty tea point</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Best snacks in Moshi')">🏆 Best snacks in Moshi</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Top misal house in Moshi')">🥇 Top misal house</div>
+
+                <div class="category-title">Service & Vibe</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'best ambience')">✨ best ambience</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Clean and hygienic food')">🧹 Hygienic Food</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Quick bites nearby')">⚡ Quick bites nearby</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Budget-friendly snacks nearby')">💰 Budget-friendly</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Family snack corner')">👨‍👩‍👧‍👦 Family snack corner</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Takeaway snack center')">🥡 Takeaway center</div>
+
+                <div class="category-title">Search Keywords</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Snack center near me')">🔍 Snack center near me</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Evening snacks near me')">🔍 Evening snacks near me</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Best street food near me')">🔍 Best street food</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Tea and snacks corner')">🔍 Tea & snacks corner</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Breakfast point near Moshi')">🌅 Breakfast point</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Late night snacks')">🌙 Late night snacks</div>
+            </div>
+
+            <button class="action-btn" id="generateBtn" onclick="generateReview()">🚀 Generate Magic Review</button>
+            <textarea id="reviewOutput" class="review-preview-box" style="display:none;" readonly></textarea>
+            
+            <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy & Open Google</button>
+            
+            <div id="ownerPanel">
+                <label style="color:var(--whatsapp); margin-top:0;">📱 Customer's WhatsApp Number</label>
+                <div style="display:flex; gap:10px;">
+                    <input type="tel" id="customerPhone" placeholder="Ex: 9876543210" style="margin-bottom:0;">
+                    <button class="whatsapp-send-btn" style="width: auto; padding: 0 20px;" onclick="sendLinkToCustomer()">🚀 Send</button>
+                </div>
+                <p style="font-size:11px; color:#555; margin-top:5px;">Customer will receive a direct link to post this review.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer-branding">
+        Powered by <a href="https://growft.odoo.com" target="_blank">Growft</a>
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" alt="Growft Logo">
+        <span class="owner-login-trigger" onclick="ownerLogin()">🔒 Owner</span>
+    </div>
+</div>
+
+<script>
+    // --- CONFIGURATION ---
+    const GOOGLE_REVIEW_LINK = "https://maps.app.goo.gl/5iwEEQthA5MV7kNu8?g_st=ic"; // REPLACE WITH ACTUAL LINK
+    let isOwnerMode = false;
+
+    // --- INITIALIZATION ---
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const reviewText = urlParams.get('review');
+        if (reviewText) {
+            document.getElementById('generatorApp').style.display = 'none';
+            document.getElementById('customerLinkView').classList.remove('hidden');
+            document.getElementById('customerReviewText').value = decodeURIComponent(reviewText);
+        } else if(sessionStorage.getItem('isOwner') === 'true') {
+            isOwnerMode = true;
+        }
+    };
+
+    // --- OWNER LOGIC ---
+    function ownerLogin() {
+        if(isOwnerMode) { alert("Already logged in."); return; }
+        const password = prompt("Enter Owner Password:");
+        if(password === "admin123") {
+            isOwnerMode = true;
+            sessionStorage.setItem('isOwner', 'true');
+            alert("Owner Mode Active!");
+        } else if(password) { alert("Incorrect Password"); }
+    }
+
+    function sendLinkToCustomer() {
+        const phone = document.getElementById('customerPhone').value.replace(/\D/g, '');
+        const review = document.getElementById('reviewOutput').value;
+        if(phone.length < 10) { alert("Enter valid number"); return; }
+        const finalPhone = phone.length === 10 ? "91" + phone : phone;
+        const baseUrl = window.location.href.split('?')[0];
+        const magicLink = `${baseUrl}?review=${encodeURIComponent(review)}`;
+        const msg = `Namaste! 🙏\n\nHere is the review for your delicious meal at Hotel Dosti:\n\n*Tap this link to Post on Google:*\n${magicLink}`;
+        window.open(`https://wa.me/${finalPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function copyCustomerLinkReview() {
+        const box = document.getElementById("customerReviewText");
+        box.select();
+        document.execCommand('copy');
+        window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+
+    // --- DATASETS ---
+    const reviewData = {
+        intro: {
+            "Happy": [
+                "Hotel Dosti in Moshi is the best place for a quick snack break!", 
+                "I had an amazing meal at Hotel Dosti today, the taste was superb.", 
+                "If you are looking for authentic Maharashtrian snacks in PCMC, visit Hotel Dosti.",
+                "Absolutely loved the vibe and food at Hotel Dosti.", 
+                "Hotel Dosti is my new favorite spot for breakfast in Moshi.",
+                "Great experience with fresh food and polite staff at Hotel Dosti."
+            ],
+            "Professional": [
+                "I visited Hotel Dosti for a quick business lunch, and the service was excellent.", 
+                "A very clean and well-managed snack center in the Moshi Gaon area.", 
+                "The hygiene standards and food quality at Hotel Dosti are very high.", 
+                "I highly recommend Hotel Dosti for their systematic service and authentic taste.",
+                "Consistently good service and fresh snacks every time I visit Hotel Dosti."
+            ],
+            "Short": [
+                "Best snacks in Moshi!", "Great taste and ambience.", "Highly recommended for Misal and Vada Pav.", 
+                "Lovely food at Hotel Dosti. 5 Stars!", "Top-notch snack corner in Pune."
+            ]
+        },
+        outro: {
+            "Happy": [
+                "Will definitely visit again soon! 😋", "Thank you team Dosti for the great service. 👍", 
+                "Best breakfast I've had in a long time!", "Highly recommended to all foodies in Pune!",
+                "Cheers to the best Vada Pav in town! 🌶️"
+            ],
+            "Professional": [
+                "I highly recommend their services to everyone.", "A very worthwhile food destination.", 
+                "Kudos to the management for maintaining high hygiene standards.", "Satisfied with the overall quality."
+            ],
+            "Short": [
+                "Must visit!", "10/10 Taste.", "Thanks guys.", "Great job.", "Worth the money."
+            ]
+        },
+        keywords: {
+            "best vada sample": ["The vada sample here is incredibly spicy and flavorful.", "I've tried many, but this is the best vada sample in Moshi."],
+            "best misal": ["Their special misal is a must-try for everyone.", "Hands down the best misal I have ever had in Pune."],
+            "best ambience": ["The ambience is very peaceful and clean, perfect for family.", "Loved the interior and the comfortable ambience here."],
+            "Spicy vada pav": ["Their spicy vada pav is exactly what a true Mumbaikar/Punekar needs.", "Perfectly spiced and hot vada pav."],
+            "Tasty tea point": ["The tea here is very refreshing and the perfect partner for snacks.", "Best tea point to hang out with friends."],
+            "Hygienic Food": ["I was impressed by the clean and hygienic food preparation.", "A very safe and hygienic place for snacks."],
+            "Budget-friendly": ["Great taste at a very budget-friendly price point.", "Best value for money snack center nearby."],
+            "Quick bites nearby": ["Ideal spot for quick bites if you are passing through Moshi.", "Very fast service, perfect for quick bites."],
+            "Breakfast point near Moshi": ["Best breakfast point near Moshi for morning cravings.", "Fresh and hot breakfast served daily."],
+            "Snack center near me": ["I am glad I found this excellent snack center near me.", "The top-rated snack center near me for sure."]
+        }
+    };
+
+    // --- APP LOGIC ---
+    let selectedKeywords = [];
+    let voiceText = "";
+    let activeMode = 'voice';
+    const connectors = ["Also,", "Moreover,", "I must mention that,", "Additionally,", "Plus,", "On top of that,", "Furthermore,", "Truly,", "Honestly,"];
+
+    function switchMode(mode) {
+        activeMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active-mode'));
+        if(mode === 'voice') {
+            document.getElementById('btnModeVoice').classList.add('active-mode');
+            document.getElementById('voiceSection').classList.remove('hidden');
+            document.getElementById('textSection').classList.add('hidden');
+        } else {
+            document.getElementById('btnModeText').classList.add('active-mode');
+            document.getElementById('textSection').classList.remove('hidden');
+            document.getElementById('voiceSection').classList.add('hidden');
+        }
+    }
+
+    function rate(stars) {
+        document.querySelectorAll('.star').forEach((star, index) => {
+            star.classList.toggle('selected', index < stars);
+        });
+    }
+    
+    function selectExp(type) {
+        document.getElementById('btn-good').classList.remove('active');
+        document.getElementById('btn-bad').classList.remove('active');
+        if(type==='good') document.getElementById('btn-good').classList.add('active');
+        else document.getElementById('btn-bad').classList.add('active');
+    }
+
+    function processRating() {
+        document.getElementById('ratingScreen').classList.add('hidden');
+        document.getElementById('aiToolScreen').classList.remove('hidden');
+    }
+
+    function submitPrivateFeedback() {
+        document.getElementById('privateFeedbackScreen').classList.add('hidden');
+        document.getElementById('thankYouScreen').classList.remove('hidden');
+    }
+
+    function startListening() {
+        if (!('webkitSpeechRecognition' in window)) { alert("Use Chrome Browser."); return; }
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = document.getElementById('voiceLang').value;
+        recognition.interimResults = false;
+        document.getElementById('micBtn').classList.add('mic-active');
+        document.getElementById('micStatus').innerText = "Listening...";
+        recognition.onresult = (event) => {
+            voiceText = event.results[0][0].transcript;
+            document.getElementById('spokenTextDisplay').style.display = 'block';
+            document.getElementById('spokenTextDisplay').innerText = `Recorded: "${voiceText}"`;
+        };
+        recognition.onend = () => { document.getElementById('micBtn').classList.remove('mic-active'); document.getElementById('micStatus').innerText = "Processing..."; };
+        recognition.start();
+    }
+
+    async function generateReview() {
+        const btn = document.getElementById('generateBtn');
+        btn.innerText = "🔄 Processing...";
+        
+        const tone = document.getElementById('toneSelect').value;
+        const userName = document.getElementById('userName').value.trim();
+        const service = document.getElementById('serviceSelect').value;
+        const manualText = document.getElementById('manualInput').value.trim();
+        let rawInput = activeMode === 'voice' ? voiceText : manualText;
+
+        if (selectedKeywords.length === 0 && !rawInput && !service) {
+            alert("Please select highlights or say something.");
+            btn.innerText = "🚀 Generate Review";
+            return;
+        }
+
+        let finalBodyText = "";
+        if (rawInput && rawInput.length > 1) {
+            try {
+                const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(rawInput)}&langpair=Autodetect|en`);
+                const data = await res.json();
+                let translated = data.responseData ? data.responseData.translatedText : "";
+                if(!translated.includes("PLEASE SELECT")) finalBodyText = translated;
+                else finalBodyText = rawInput;
+            } catch(e) { finalBodyText = rawInput; }
+        }
+
+        let review = pickRandom(reviewData.intro[tone]);
+        if(userName) review = `I am ${userName}. ` + review;
+        if(service) review += ` I tried their ${service}. `;
+        if(finalBodyText) review += finalBodyText + ". ";
+
+        const shuffledKeywords = selectedKeywords.sort(() => 0.5 - Math.random());
+        shuffledKeywords.forEach((k, i) => {
+            if(reviewData.keywords[k]) {
+                let sentence = pickRandom(reviewData.keywords[k]);
+                if(i > 0 && Math.random() > 0.6) sentence = pickRandom(connectors) + " " + sentence;
+                review += sentence + " ";
+            }
+        });
+
+        review += pickRandom(reviewData.outro[tone]);
+
+        const box = document.getElementById('reviewOutput');
+        box.value = review;
+        box.style.display = 'block';
+        box.scrollIntoView({behavior: "smooth"});
+        btn.innerText = "🚀 Generate Review";
+
+        if(isOwnerMode) {
+            document.getElementById('ownerPanel').style.display = 'block';
+            document.getElementById('copyBtn').style.display = 'none';
+        } else {
+            document.getElementById('ownerPanel').style.display = 'none';
+            document.getElementById('copyBtn').style.display = 'block';
+        }
+    }
+
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) selectedKeywords = selectedKeywords.filter(k => k !== keyword);
+        else selectedKeywords.push(keyword);
+    }
+    
+    function copyToClipboard() {
+        const box = document.getElementById("reviewOutput");
+        box.select();
+        document.execCommand('copy');
+        if(confirm("Review Copied! Open Google Maps?")) window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+    
+    function pickRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+</script>
+
+</body>
+</html>
