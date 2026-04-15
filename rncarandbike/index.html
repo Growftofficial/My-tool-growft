@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Review Generator - RN Car and Bike Rent</title>
+    <style>
+        /* --- THEME COLORS: GOA SUNSET (Orange & Dark Slate) --- */
+        :root {
+            --primary: #ea580c; /* Sunset Orange */
+            --primary-dark: #c2410c;
+            --bg-color: #fff7ed; 
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --gold: #f59e0b; 
+            --gray: #64748b;
+            --border: #fed7aa;
+            --box-border: #fdba74; 
+            --box-bg: #fffedd;     
+            --highlight: #2563eb; /* Blue for accents */
+            --whatsapp: #25D366;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0; padding: 20px 10px;
+            min-height: 100vh; display: flex;
+            justify-content: center; align-items: flex-start;
+            color: var(--text-main);
+        }
+
+        .container {
+            background: var(--card-bg); width: 100%; max-width: 500px;
+            padding: 25px; border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(234, 88, 12, 0.15);
+            border-top: 6px solid var(--primary); margin: auto;
+            position: relative;
+        }
+
+        h1 { text-align: center; color: var(--primary-dark); margin: 5px 0 5px 0; font-size: 24px; font-weight: 800; letter-spacing: 0.5px; }
+        .location { text-align: center; color: var(--gray); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; line-height: 1.5; }
+        
+        label {
+            font-weight: 700; display: block; margin-top: 15px;
+            margin-bottom: 8px; color: var(--primary); font-size: 12px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+
+        /* --- INPUTS --- */
+        select, input, textarea {
+            width: 100%; padding: 12px; border-radius: 8px;
+            border: 1px solid var(--border); background: #fffaf5;
+            font-size: 14px; color: #333; outline: none; margin-bottom: 5px;
+            font-family: inherit; transition: 0.3s;
+        }
+        select:focus, input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.2); background: #fff; }
+
+        /* --- RATING --- */
+        .star-container { display: flex; justify-content: center; gap: 8px; margin: 20px 0; }
+        .star { font-size: 42px; color: #e2e8f0; cursor: pointer; transition: transform 0.2s, color 0.2s; }
+        .star.selected { color: var(--gold); }
+
+        .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
+        .exp-btn {
+            padding: 12px 15px; border: 1px solid var(--border); border-radius: 8px;
+            background: #fff; cursor: pointer; font-weight: 600; color: var(--text-main);
+            flex: 1; transition: 0.2s; font-size: 14px; text-align: center;
+        }
+        .exp-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(234, 88, 12, 0.3); }
+        
+        .action-btn {
+            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white; border: none; border-radius: 8px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(234, 88, 12, 0.2); margin-top: 15px; transition: 0.2s;
+        }
+        .action-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        /* --- VEHICLE TOGGLE --- */
+        .vehicle-group { display: flex; gap: 10px; margin-bottom: 10px; }
+        .vehicle-option {
+            flex: 1; text-align: center; padding: 12px;
+            border: 1px solid var(--border); border-radius: 8px;
+            background: #fffaf5; cursor: pointer; font-weight: 600; font-size: 14px;
+            color: #64748b; transition: 0.2s;
+        }
+        .vehicle-option.selected {
+            background: var(--primary); color: white; border-color: var(--primary);
+            box-shadow: 0 4px 6px rgba(234, 88, 12, 0.2);
+        }
+
+        /* --- INPUT MODES --- */
+        .input-mode-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .mode-btn { 
+            flex: 1; padding: 10px; border: 1px solid var(--primary); border-radius: 8px; 
+            background: #fff; color: var(--primary); font-weight: 600; cursor: pointer; font-size: 13px;
+            text-align: center;
+        }
+        .mode-btn.active-mode { background: var(--primary); color: white; }
+
+        /* --- VOICE SECTION --- */
+        .voice-section, .text-section {
+            background: #fffaf5; border: 1px dashed var(--primary);
+            padding: 12px; border-radius: 12px; margin-bottom: 15px;
+        }
+        .voice-controls { display: flex; align-items: center; gap: 10px; }
+        
+        .mic-btn {
+            width: 45px; height: 45px; border-radius: 50%;
+            background: var(--primary); color: white; border: none;
+            font-size: 20px; cursor: pointer; box-shadow: 0 4px 10px rgba(234, 88, 12, 0.3);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .mic-active { animation: pulse 1.5s infinite; background: #dc2626; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(0,0,0,0); } }
+
+        /* --- KEYWORD CHIPS --- */
+        .category-title { font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin: 15px 0 8px 0; border-bottom: 1px dashed #e2e8f0; padding-bottom: 3px; }
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; }
+        .keyword-chip {
+            padding: 8px 12px; background-color: #fff; border-radius: 6px;
+            font-size: 11px; font-weight: 600; cursor: pointer;
+            border: 1px solid #cbd5e1; color: #475569;
+            flex-grow: 1; text-align: center; transition: all 0.2s ease;
+        }
+        .keyword-chip.active {
+            background-color: #ffedd5; color: #c2410c; border-color: var(--primary);
+            box-shadow: 0 2px 5px rgba(234, 88, 12, 0.2);
+        }
+        .chip-hidden { display: none; }
+
+        /* --- REVIEW PREVIEW BOX --- */
+        .review-preview-box {
+            width: 100%; min-height: 140px; padding: 15px; margin-top: 20px;
+            border: 1px solid var(--box-border); border-radius: 12px;
+            background-color: var(--box-bg); color: #1e293b;
+            font-size: 15px; line-height: 1.6; font-family: 'Segoe UI', sans-serif;
+            resize: none; outline: none; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .copy-btn {
+            width: 100%; padding: 14px; background-color: #10b981;
+            color: white; border: none; border-radius: 8px; margin-top: 15px;
+            font-weight: 700; font-size: 15px; cursor: pointer; display: none;
+        }
+
+        /* --- OWNER PANEL --- */
+        #ownerPanel {
+            display: none; margin-top: 20px; padding: 15px;
+            border: 2px dashed var(--whatsapp); border-radius: 12px;
+            background-color: #f0fdf4; text-align: left;
+        }
+        .whatsapp-send-btn {
+            width: 100%; padding: 12px; background-color: var(--whatsapp);
+            color: white; border: none; border-radius: 8px;
+            font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .toggle-name {
+            font-size: 12px; color: var(--highlight); text-decoration: underline;
+            cursor: pointer; border: none; background: none; float: right; margin-top: 5px; font-weight: bold;
+        }
+        .name-input-area { margin-top: 10px; display: none; clear: both; }
+
+        /* --- FOOTER --- */
+        .footer-branding {
+            margin-top: 35px; padding-top: 15px; border-top: 1px dashed #e2e8f0;
+            text-align: center; font-size: 12px; color: #64748b;
+        }
+        .footer-branding img { height: 20px; vertical-align: middle; margin: 0 5px; } 
+        .footer-branding a { color: var(--primary); text-decoration: none; font-weight: 700; }
+        
+        .owner-login-trigger {
+            font-size: 11px; color: #cbd5e1; cursor: pointer; text-decoration: none;
+            position: absolute; bottom: 5px; right: 10px;
+        }
+
+        .fade-in { animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .hidden { display: none; }
+        
+        /* CUSTOMER VIEW */
+        .customer-card { text-align: center; padding: 20px; }
+        .customer-card h2 { color: var(--primary); }
+    </style>
+</head>
+<body>
+
+<div class="container" id="mainApp">
+
+    <div id="customerLinkView" class="hidden customer-card">
+        <div style="font-size: 45px; margin-bottom: 10px;">🛵🚗</div>
+        <h2>Hello!</h2>
+        <p style="color:#555; font-size:14px; margin-bottom:20px;">
+            Here is the review for your vehicle rental with RN Car and Bike Rent.
+            <br>Click below to copy & post.
+        </p>
+        <textarea id="customerReviewText" class="review-preview-box" readonly></textarea>
+        <button class="copy-btn" style="display:block; margin-top:15px;" onclick="copyCustomerLinkReview()">📋 Copy & Open Google</button>
+        <p style="font-size:11px; color:#999; margin-top:20px;">Thank you for your support! ❤️</p>
+    </div>
+
+    <div id="generatorApp">
+        <div style="font-size: 35px; text-align:center; margin-bottom: 5px;">🛵🌴🚗</div>
+        <h1>RN Car and Bike Rent</h1>
+        <div class="location">📍 Railway Station • Sanscar Society • Madgaon, Goa</div>
+
+        <div id="ratingScreen" class="fade-in">
+            <p style="font-weight:600; color:#555; text-align:center;">How was your rental experience?</p>
+            <div class="star-container">
+                <span class="star" onclick="rate(1)">★</span>
+                <span class="star" onclick="rate(2)">★</span>
+                <span class="star" onclick="rate(3)">★</span>
+                <span class="star" onclick="rate(4)">★</span>
+                <span class="star" onclick="rate(5)">★</span>
+            </div>
+            <div class="experience-btns">
+                <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Not Happy 😞</button>
+                <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Excellent! 😍</button>
+            </div>
+            <button class="action-btn" onclick="processRating()">Next Step ➡</button>
+        </div>
+
+        <div id="privateFeedbackScreen" class="fade-in hidden">
+            <h2 style="color:var(--text-main);">We are sorry! 😔</h2>
+            <p style="font-size:14px; color:#666; text-align:center;">Please tell us how we can improve.</p>
+            <textarea id="privateFeedbackText" style="height:100px;" placeholder="What went wrong?"></textarea>
+            <button class="action-btn" style="background:#475569;" onclick="submitPrivateFeedback()">Submit Feedback</button>
+        </div>
+
+        <div id="thankYouScreen" class="fade-in hidden">
+            <div style="font-size: 50px; margin-bottom:10px; text-align:center;">✅</div>
+            <h2 style="color:var(--primary); text-align:center;">Thank You!</h2>
+            <p style="text-align:center;">Your feedback has been sent to the owner.</p>
+        </div>
+
+        <div id="aiToolScreen" class="fade-in hidden" style="text-align: left;">
+            
+            <label style="margin-top:0;">1. Vehicle Category</label>
+            <div class="vehicle-group">
+                <div class="vehicle-option selected" onclick="updateVehicleList('2w', this)">🛵 Bike / Scooter</div>
+                <div class="vehicle-option" onclick="updateVehicleList('4w', this)">🚗 Car / Jeep</div>
+            </div>
+
+            <label>Select Model</label>
+            <select id="vehicleModelSelect"></select>
+
+            <label>2. Share Your Experience</label>
+            <div class="input-mode-tabs">
+                <button class="mode-btn active-mode" id="btnModeVoice" onclick="switchMode('voice')">🎤 Speak</button>
+                <button class="mode-btn" id="btnModeText" onclick="switchMode('text')">✍️ Write</button>
+            </div>
+
+            <div id="voiceSection" class="voice-section">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <span style="font-size:11px; font-weight:bold; color:var(--primary);">LANGUAGE:</span>
+                    <select id="voiceLang" style="width:auto; padding:2px; font-size:11px; height:25px; margin:0;">
+                        <option value="hi-IN">Hindi</option>
+                        <option value="en-IN">English</option>
+                        <option value="mr-IN">Marathi</option>
+                        <option value="gu-IN">Gujarati</option>
+                        <option value="bn-IN">Bengali</option>
+                    </select>
+                </div>
+                <div class="voice-controls">
+                    <button id="micBtn" class="mic-btn" onclick="startListening()">🎤</button>
+                    <div style="flex:1;">
+                        <p id="micStatus" style="font-size:12px; color:#555; margin:0;">Tap mic & speak...<br>(Ex: "Gaadi bahut saaf thi aur owner helpful hai")</p>
+                    </div>
+                </div>
+                <div id="spokenTextDisplay" style="display:none; margin-top:8px; font-size:12px; color:var(--primary-dark); background:#fff; padding:6px; border-radius:4px; font-weight:600;"></div>
+            </div>
+
+            <div id="textSection" class="text-section hidden">
+                <textarea id="manualInput" placeholder="Ex: Hassle free booking and clean vehicle..." style="height:80px; margin-bottom:0;"></textarea>
+                <p style="font-size:11px; color:#666; margin-top:5px;">*We will polish this into professional English.</p>
+            </div>
+
+            <label>3. Select Highlights (Pick 3-4)</label>
+            <div class="keywords-container">
+                
+                <div class="category-title">Service & Process</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Service')">🌟 Best Service</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Hassle Free')">✅ Hassle Free</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Easy Paperwork')">📄 Easy Paperwork</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Quick Handover')">⚡ Quick Handover</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Deposit Refund')">💸 Instant Refund</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'No Hidden Charges')">🚫 No Hidden Charges</div>
+                
+                <div class="category-title">Location Options</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Madgaon Service')">📍 Madgaon Service</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Station Pickup')">🚉 Station Pickup</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Station Delivery')">🏡 Station Delivery</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Madgaon Office')">🏢 Madgaon Office</div>
+
+                <div class="category-title">Vehicle Quality</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Good Condition')">🛠️ Good Condition</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'New Model')">🆕 New Model</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Clean Vehicle')">✨ Clean Vehicle</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Well Maintained')">🔧 Well Maintained</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Good Mileage')">⛽ Good Mileage</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Smooth Engine')">🏎️ Smooth Engine</div>
+
+                <div class="category-title">Staff & Support</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Polite Staff')">👨‍💼 Polite Staff</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Friendly Owner')">👤 Friendly Owner</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Helpful')">🤝 Helpful</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Trustworthy')">🛡️ Trustworthy</div>
+
+                <div class="category-title">Vehicle Add-ons</div>
+                <div class="keyword-chip bike-only" onclick="toggleKeyword(this, '2 Helmets')">⛑️ 2 Helmets</div>
+                <div class="keyword-chip bike-only" onclick="toggleKeyword(this, 'Phone Holder')">📱 Phone Holder</div>
+                
+                <div class="keyword-chip car-only chip-hidden" onclick="toggleKeyword(this, 'Powerful AC')">❄️ Powerful AC</div>
+                <div class="keyword-chip car-only chip-hidden" onclick="toggleKeyword(this, 'Bluetooth Music')">🎵 Bluetooth Music</div>
+                <div class="keyword-chip car-only chip-hidden" onclick="toggleKeyword(this, 'Clean Interiors')">🛋️ Clean Interiors</div>
+
+                <div class="category-title">Value</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Affordable Price')">💰 Affordable Price</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Highly Recommended')">👍 Recommended</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Safe Drive')">🛡️ Safe Drive</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'On Time')">⏰ On Time</div>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <div style="flex:1;">
+                    <label style="margin-top:0;">Tone</label>
+                    <select id="toneSelect">
+                        <option value="Tourist">Tourist / Vacation 🏖️</option>
+                        <option value="Quick">Professional & Direct ⚡</option>
+                        <option value="Grateful">Grateful & Happy 🙏</option>
+                    </select>
+                </div>
+            </div>
+
+            <div><button class="toggle-name" onclick="document.getElementById('nameArea').style.display='block'">+ Add Your Name</button></div>
+            <div class="name-input-area" id="nameArea">
+                <input type="text" id="userName" placeholder="Your Name (Optional)">
+            </div>
+
+            <button class="action-btn" id="generateBtn" onclick="generateReview()">🚀 Generate Magic Review</button>
+            <textarea id="reviewOutput" class="review-preview-box" style="display:none;" readonly></textarea>
+            
+            <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()" style="display:none;">📋 Copy & Open Google</button>
+            
+            <div id="ownerPanel">
+                <label style="color:var(--whatsapp); margin-top:0;">📱 Customer's WhatsApp Number</label>
+                <div style="display:flex; gap:10px;">
+                    <input type="tel" id="customerPhone" placeholder="Ex: 9876543210" style="margin-bottom:0;">
+                    <button class="whatsapp-send-btn" style="width: auto; padding: 0 20px;" onclick="sendLinkToCustomer()">🚀 Send</button>
+                </div>
+                <p style="font-size:11px; color:#555; margin-top:5px;">Customer will receive a direct link to post this review.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer-branding">
+        Powered by <a href="https://growft.odoo.com" target="_blank">Growft</a>
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" alt="Growft Logo">
+        <span class="owner-login-trigger" onclick="ownerLogin()">🔒 Owner</span>
+    </div>
+</div>
+
+<script>
+    // --- CONFIGURATION ---
+    const GOOGLE_REVIEW_LINK = "https://g.page/r/CXsaHV_WBUytEBM/review"; // REPLACE WITH ACTUAL GOOGLE LINK
+    let isOwnerMode = false;
+
+    // --- INITIALIZATION ---
+    window.onload = function() {
+        updateVehicleList('2w', document.querySelector('.vehicle-option.selected'));
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const reviewText = urlParams.get('review');
+        if (reviewText) {
+            document.getElementById('generatorApp').style.display = 'none';
+            document.getElementById('customerLinkView').classList.remove('hidden');
+            document.getElementById('customerReviewText').value = decodeURIComponent(reviewText);
+        } else if(sessionStorage.getItem('isOwner') === 'true') {
+            isOwnerMode = true;
+        }
+    };
+
+    // --- OWNER LOGIC ---
+    function ownerLogin() {
+        if(isOwnerMode) { alert("Already logged in as Owner."); return; }
+        const password = prompt("Enter Owner Password:");
+        if(password === "admin123") { // CHANGE PASSWORD HERE
+            isOwnerMode = true;
+            sessionStorage.setItem('isOwner', 'true');
+            alert("Owner Mode Active!");
+        } else if(password) { alert("Incorrect Password"); }
+    }
+
+    function sendLinkToCustomer() {
+        const phone = document.getElementById('customerPhone').value.replace(/\D/g, '');
+        const review = document.getElementById('reviewOutput').value;
+        if(phone.length < 10) { alert("Enter valid number"); return; }
+        const finalPhone = phone.length === 10 ? "91" + phone : phone;
+        const baseUrl = window.location.href.split('?')[0];
+        const magicLink = `${baseUrl}?review=${encodeURIComponent(review)}`;
+        const msg = `Hello! 👋\n\nHere is the review for your vehicle rental with RN Car and Bike Rent:\n\n*Tap this link to Post on Google:*\n${magicLink}`;
+        window.open(`https://wa.me/${finalPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function copyCustomerLinkReview() {
+        const box = document.getElementById("customerReviewText");
+        box.select();
+        document.execCommand('copy');
+        window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+
+    // --- DATASETS ---
+    const vehicleModels = {
+        '2w': ["Honda Activa", "Yamaha Fascino", "Royal Enfield Bullet", "Suzuki Access", "TVS Jupiter", "Dio", "Bike", "Scooter"],
+        '4w': ["Toyota Innova", "Mahindra Thar", "Swift", "Baleno", "Hyundai i20", "Ertiga", "Creta", "WagonR", "Celerio", "Dzire", "Kia Carens", "Car"]
+    };
+
+    const reviewIntros = {
+        "Tourist": [
+            "Just started my Goa trip from Madgaon station with a {model}.", "Landed in Goa and rented a {model} right outside Madgaon station.", "Our Goa vacation started perfectly thanks to this rental service.",
+            "Came to Goa for a holiday and found this gem near Madgaon station.", "Traveling in Goa became so easy with their {model}.", "If you are a tourist in Madgaon, this is the best place to rent.",
+            "Arrived at Madgaon station and picked up a {model} immediately.", "We were looking for a reliable rental in South Goa and found them.", "Best decision to rent from RN Car and Bike Rent for our trip.",
+            "A perfect start to our family vacation in Goa.", "Was worried about rental scams, but found this genuine place.", "Needed a reliable vehicle to explore the beaches, and they delivered.",
+            "My Goa trip was amazing, largely thanks to the {model} provided.", "Found them on Google near Madgaon and I am glad I did.", "Rented a {model} to explore South Goa.", "Smooth start to our journey from the railway station."
+        ],
+        "Quick": [
+            "Needed a quick ride right outside Madgaon station.", "Very fast process at the railway station, took a {model}.", "Found them easily near Margaon railway station.", "Got my {model} within 10 minutes of arrival.",
+            "Super fast service, no wasting time.", "Instant booking and delivery of the {model}.", "Walked in and drove out in minutes.", "No long waiting times here, very efficient.",
+            "Quickest rental service I have found in Madgaon.", "Urgent requirement fulfilled immediately.", "Fastest paperwork I have seen in Goa.", "Got the vehicle without any delay.",
+            "Smooth and fast transaction.", "Very prompt service at the station.", "Saved us a lot of time, highly efficient."
+        ],
+        "Grateful": [
+            "I am so thankful to the RN Car and Bike Rent team for the {model}.", "Big thanks to the team for the excellent service.", "They really saved my trip with a last-minute booking.",
+            "Heartfelt thanks for the smooth experience.", "Grateful for the honest service provided.", "Such a helpful team, really appreciate it.",
+            "Thank you for being so cooperative throughout the trip.", "Made our trip stress-free, thank you!", "God bless this honest business.", "A wonderful experience, thanks to the staff.",
+            "Really happy with the service and the {model}.", "Appreciate the clean vehicle and good service.", "Thanks for the quick deposit refund.", "You guys are the best in Madgaon!", "Thank you for the warm welcome."
+        ]
+    };
+
+    const reviewOutros = {
+        "Tourist": [
+            "Highly recommended for all tourists visiting Goa! 🌴", "Best way to explore Goa. 5 stars!", "Will definitely rent from here on my next Goa trip.", "Don't look anywhere else, just book here.",
+            "Made our vacation memorable.", "Thanks for the amazing service.", "See you guys next time!", "Perfect companion for a Goa trip.", "Enjoyed the ride thoroughly.",
+            "Goa is incomplete without a good ride, thanks!", "Adding this to my favorites list.", "Recommend to all my friends coming to Goa.", "5-star experience for sure.",
+            "Loved the vibe and the service.", "Cheers to the team!"
+        ],
+        "Quick": [
+            "If you are at the station, just go to them.", "Saved us a lot of time. Recommended.", "Good condition vehicles and fast service.", "Quick, easy, and reliable.",
+            "Best for quick rentals in Madgaon.", "Don't waste time searching, go here.", "Speedy service, good vehicles.", "Instant service, highly recommended.",
+            "Efficient team, good job.", "Will come back for the speed.", "No headache, just ride.", "Time-saving service.", "Process was a breeze.",
+            "Fastest rental in town.", "Recommended for urgent needs."
+        ],
+        "Grateful": [
+            "Thank you for the warm welcome.", "Made our trip stress-free. Highly recommended.", "Honest and reliable people.", "Will recommend because of their behavior.",
+            "Nice people to deal with.", "Respectful and honest service.", "Felt safe dealing with them.", "Good people, good business.", "Trustworthy guys, go for it.",
+            "Thanks for being so helpful.", "Appreciate the support.", "Great customer care.", "Rare to find such good people.", "Politeness matters, and they have it.", "Customer satisfaction is their priority."
+        ]
+    };
+
+    const keywordSentences = {
+        "Best Service": ["Service quality is unmatched.", "Truly the best service in Goa.", "Hands down the best rental agency.", "Impressed with their service.", "Top-notch service standards."],
+        "Madgaon Service": ["Best rental near Madgaon.", "Convenient for Madgaon tourists.", "Located perfectly near Madgaon.", "My go-to rental in Madgaon.", "If you are in Madgaon, call them."],
+        "Station Delivery": ["Delivery to the station was quick.", "Got the vehicle delivered at the station.", "Best rental service near the station.", "Station delivery was hassle-free."],
+        "Madgaon Office": ["Visited their Madgaon office.", "Located near Sanscar Society.", "Easy to find in Madgaon.", "Madgaon office staff is great.", "Best rental in Madgaon."],
+        "Friendly Owner": ["The owner is a gem.", "Thanks to the helpful owner.", "The owner guided us well.", "Met the owner, very polite.", "Special thanks to the owner."],
+        "Hassle Free": ["The process was completely hassle-free.", "Zero headache, smooth process.", "Renting was a breeze.", "No complicated rules.", "Seamless experience."],
+        "Easy Paperwork": ["Paperwork took just 2 minutes.", "Minimal documents required.", "Fast documentation process.", "ID proof and license, that's it.", "No lengthy forms to fill."],
+        "Quick Handover": ["Got the vehicle immediately.", "Handover process was super fast.", "No waiting time at pickup.", "Instant delivery.", "Started our trip without delay."],
+        "Deposit Refund": ["Deposit was refunded instantly.", "Got my security deposit back immediately via UPI.", "Honest with the refund policy.", "No deduction in deposit.", "Transparent deposit return."],
+        "No Hidden Charges": ["Absolutely no hidden charges.", "Transparency in billing was good.", "What they quoted is what I paid.", "Honest pricing.", "No extra demands at drop."],
+        "Good Condition": ["The {model} was in mint condition.", "Mechanically the vehicle was perfect.", "No breakdowns, great condition.", "Well maintained fleet.", "Felt safe driving this vehicle."],
+        "New Model": ["Got the latest model {model}.", "Vehicle looked showroom fresh.", "New fleet available.", "Latest technology features.", "Less driven vehicle provided."],
+        "Clean Vehicle": ["Vehicle was spotless and clean.", "Sanitized vehicle provided.", "Dust-free and shiny.", "Washed before delivery.", "Cleanliness was top notch."],
+        "Well Maintained": ["Engine was smooth and well maintained.", "Regularly serviced vehicle.", "Brakes and tyres were perfect.", "No rattling noises.", "Kept in excellent condition."],
+        "Good Mileage": ["The {model} gave amazing mileage.", "Fuel efficiency was great.", "Saved money on fuel.", "Got excellent average.", "Economic ride."],
+        "Smooth Engine": ["Engine was buttery smooth.", "Very refined engine.", "No noise or vibration.", "Ride quality was smooth.", "Pickup was great."],
+        "Polite Staff": ["Staff is very polite.", "Very cooperative team.", "They speak very nicely.", "Humble and down to earth.", "Respectful behavior."],
+        "Helpful": ["Very helpful nature.", "Helped us with directions too.", "Supported us throughout the trip.", "Always available on call.", "Went out of their way to help."],
+        "Trustworthy": ["Very trustworthy rental agency.", "Genuine people, no scams.", "You can trust them blindly.", "Reliable service in Madgaon.", "Honest dealing."],
+        "2 Helmets": ["Provided 2 clean helmets.", "Safety gear included.", "Good quality helmets given.", "Helmets for pillion too.", "Hygienic helmets provided."],
+        "Phone Holder": ["Bike had a mobile holder.", "Navigation was easy with the phone holder.", "Phone mount was very useful.", "Great addition for tourists.", "Helped in using Maps."],
+        "Powerful AC": ["AC was chilling.", "Air conditioning worked perfectly.", "Beat the Goa heat with powerful AC.", "Cooling was instant.", "Climate control was good."],
+        "Bluetooth Music": ["Music system was great.", "Enjoyed songs via Bluetooth.", "Good sound system.", "Audio system worked well.", "Entertainment sorted."],
+        "Clean Interiors": ["Interiors were spotless.", "Seats were clean and vacuumed.", "Smelled fresh inside.", "Hygienic cabin.", "Dashboard and mats were clean."],
+        "Affordable Price": ["Very pocket-friendly rates.", "Best rates in the market.", "Got a great deal.", "Reasonable pricing.", "Value for money."],
+        "Highly Recommended": ["Highly recommended!", "My top pick in Goa.", "Recommend to everyone.", "Must try service.", "Strongly recommended."],
+        "Safe Drive": ["Felt very safe driving.", "Safety was prioritized.", "Reliable vehicle for a safe trip.", "Good brakes and tyres for safety.", "Secure ride."],
+        "On Time": ["Delivery was on time.", "Punctual service.", "Vehicle ready upon arrival.", "No waiting, on-time pickup.", "Respects time."],
+        "Station Pickup": ["Pickup right outside Madgaon station.", "Very convenient location.", "Easy pickup from railway station.", "Walkable distance from station.", "Best location for tourists."]
+    };
+
+    // --- APP LOGIC ---
+    let selectedKeywords = [];
+    let voiceText = "";
+    let activeMode = 'voice';
+    let currentCategory = '2w'; 
+    const connectors = ["Also,", "Moreover,", "I must mention that,", "Additionally,", "Plus,", "On top of that,", "Furthermore,", "Truly,", "Honestly,", "Not to mention,", "Along with that,"];
+
+    function updateVehicleList(category, element) {
+        currentCategory = category;
+        document.querySelectorAll('.vehicle-option').forEach(el => el.classList.remove('selected'));
+        element.classList.add('selected');
+
+        const select = document.getElementById('vehicleModelSelect');
+        select.innerHTML = ""; 
+        vehicleModels[category].forEach(model => {
+            let option = document.createElement('option');
+            option.value = model;
+            option.text = model;
+            select.appendChild(option);
+        });
+
+        if (category === '2w') {
+            document.querySelectorAll('.bike-only').forEach(el => el.classList.remove('chip-hidden'));
+            document.querySelectorAll('.car-only').forEach(el => el.classList.add('chip-hidden'));
+        } else {
+            document.querySelectorAll('.bike-only').forEach(el => el.classList.add('chip-hidden'));
+            document.querySelectorAll('.car-only').forEach(el => el.classList.remove('chip-hidden'));
+        }
+        
+        selectedKeywords = [];
+        document.querySelectorAll('.keyword-chip').forEach(el => el.classList.remove('active'));
+    }
+
+    function switchMode(mode) {
+        activeMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active-mode'));
+        if(mode === 'voice') {
+            document.getElementById('btnModeVoice').classList.add('active-mode');
+            document.getElementById('voiceSection').classList.remove('hidden');
+            document.getElementById('textSection').classList.add('hidden');
+        } else {
+            document.getElementById('btnModeText').classList.add('active-mode');
+            document.getElementById('textSection').classList.remove('hidden');
+            document.getElementById('voiceSection').classList.add('hidden');
+        }
+    }
+
+    function rate(stars) {
+        document.querySelectorAll('.star').forEach((star, index) => {
+            star.classList.toggle('selected', index < stars);
+        });
+        if(stars >= 4) {
+            document.getElementById('btn-good').classList.add('active');
+            document.getElementById('btn-bad').classList.remove('bad-active');
+        } else {
+            document.getElementById('btn-good').classList.remove('active');
+            document.getElementById('btn-bad').classList.add('bad-active');
+        }
+    }
+    
+    function selectExp(type) {
+        if(type==='good') {
+            document.getElementById('btn-good').classList.add('active');
+            document.getElementById('btn-bad').classList.remove('bad-active');
+        } else {
+            document.getElementById('btn-good').classList.remove('active');
+            document.getElementById('btn-bad').classList.add('bad-active');
+        }
+    }
+
+    function processRating() {
+        document.getElementById('ratingScreen').classList.add('hidden');
+        document.getElementById('aiToolScreen').classList.remove('hidden');
+    }
+
+    function submitPrivateFeedback() {
+        document.getElementById('privateFeedbackScreen').classList.add('hidden');
+        document.getElementById('thankYouScreen').classList.remove('hidden');
+    }
+
+    function startListening() {
+        if (!('webkitSpeechRecognition' in window)) { alert("Use Chrome Browser."); return; }
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = document.getElementById('voiceLang').value;
+        recognition.interimResults = false;
+        document.getElementById('micBtn').classList.add('mic-active');
+        document.getElementById('micStatus').innerText = "Listening...";
+        
+        recognition.onresult = (event) => {
+            voiceText = event.results[0][0].transcript;
+            document.getElementById('spokenTextDisplay').style.display = 'block';
+            document.getElementById('spokenTextDisplay').innerText = `Recorded: "${voiceText}"`;
+        };
+        recognition.onend = () => { 
+            document.getElementById('micBtn').classList.remove('mic-active'); 
+            document.getElementById('micStatus').innerText = "Processing..."; 
+        };
+        recognition.start();
+    }
+
+    async function generateReview() {
+        const btn = document.getElementById('generateBtn');
+        btn.innerText = "🔄 Processing...";
+        
+        const tone = document.getElementById('toneSelect').value;
+        const userName = document.getElementById('userName').value.trim();
+        const model = document.getElementById('vehicleModelSelect').value;
+        const manualText = document.getElementById('manualInput').value.trim();
+        let rawInput = activeMode === 'voice' ? voiceText : manualText;
+
+        if (selectedKeywords.length === 0 && !rawInput) {
+            alert("Please select highlights or write/speak your experience.");
+            btn.innerText = "🚀 Generate Magic Review";
+            return;
+        }
+
+        let finalBodyText = "";
+        if (rawInput && rawInput.length > 1) {
+            try {
+                const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(rawInput)}&langpair=Autodetect|en`);
+                const data = await res.json();
+                let translated = data.responseData ? data.responseData.translatedText : "";
+                if(!translated.includes("PLEASE SELECT") && !translated.includes("MYMEMORY")) {
+                    finalBodyText = translated;
+                } else {
+                    finalBodyText = rawInput;
+                }
+            } catch(e) { finalBodyText = rawInput; }
+        }
+
+        const processText = (text) => text.replace(/{model}/g, model);
+
+        let review = processText(pickRandom(reviewIntros[tone]));
+        if(userName) review = `I am ${userName}. ` + review;
+        if(finalBodyText) review += " " + finalBodyText + ". ";
+
+        const shuffledKeywords = selectedKeywords.sort(() => 0.5 - Math.random());
+        shuffledKeywords.forEach((k, i) => {
+            if(keywordSentences[k]) {
+                let sentence = processText(pickRandom(keywordSentences[k]));
+                if(i > 0 && Math.random() > 0.6) sentence = pickRandom(connectors) + " " + sentence;
+                review += sentence + " ";
+            }
+        });
+
+        review += processText(pickRandom(reviewOutros[tone]));
+
+        const box = document.getElementById('reviewOutput');
+        box.value = review;
+        box.style.display = 'block';
+        box.scrollIntoView({behavior: "smooth"});
+        btn.innerText = "🚀 Generate Magic Review";
+
+        if(isOwnerMode) {
+            document.getElementById('ownerPanel').style.display = 'block';
+            document.getElementById('copyBtn').style.display = 'none';
+        } else {
+            document.getElementById('ownerPanel').style.display = 'none';
+            document.getElementById('copyBtn').style.display = 'block';
+        }
+    }
+
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) {
+            selectedKeywords = selectedKeywords.filter(k => k !== keyword);
+        } else {
+            selectedKeywords.push(keyword);
+        }
+    }
+    
+    function copyToClipboard() {
+        const box = document.getElementById("reviewOutput");
+        box.select();
+        document.execCommand('copy');
+        if(confirm("Review Copied! 📋\n\nClick OK to open Google and paste.")) {
+            window.open(GOOGLE_REVIEW_LINK, '_blank');
+        }
+    }
+    
+    function pickRandom(arr) { 
+        if(!arr || arr.length === 0) return "";
+        return arr[Math.floor(Math.random() * arr.length)]; 
+    }
+</script>
+
+</body>
+</html>
