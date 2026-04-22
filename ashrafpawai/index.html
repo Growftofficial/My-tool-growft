@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Review - Ashraf's Scissors Hands Salon & Academy Powai</title>
+    <style>
+        /* --- THEME COLORS: LUXURY GOLD & BLACK --- */
+        :root {
+            --primary: #c5a059; /* Classic Gold */
+            --primary-dark: #1a1a1a; /* Pitch Black */
+            --bg-color: #f4f4f5; 
+            --card-bg: #ffffff;
+            --text-main: #18181b;
+            --gold-bright: #fbbf24; 
+            --gray: #71717a;
+            --border: #e4e4e7;
+            --box-border: #d4d4d8; 
+            --box-bg: #fafafa;     
+            --highlight: #d97706; 
+            --whatsapp: #25D366;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0; padding: 20px 10px;
+            min-height: 100vh; display: flex;
+            justify-content: center; align-items: flex-start;
+            color: var(--text-main);
+        }
+
+        .container {
+            background: var(--card-bg); width: 100%; max-width: 500px;
+            padding: 25px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-top: 6px solid var(--primary); margin: auto;
+            position: relative;
+        }
+
+        h1 { color: var(--primary-dark); margin: 5px 0 2px 0; font-size: 20px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; }
+        .location { color: var(--gray); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; line-height: 1.4; }
+        
+        label {
+            font-weight: 700; display: block; margin-top: 15px;
+            margin-bottom: 8px; color: var(--primary-dark); font-size: 12px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+
+        /* --- INPUTS --- */
+        select, input, textarea {
+            width: 100%; padding: 12px; border-radius: 8px;
+            border: 1px solid var(--border); background: #ffffff;
+            font-size: 14px; color: #333; outline: none; margin-bottom: 5px;
+            font-family: inherit; transition: 0.3s;
+        }
+        select:focus, input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.1); }
+
+        /* --- RATING --- */
+        .star-container { display: flex; justify-content: center; gap: 8px; margin: 20px 0; }
+        .star { font-size: 42px; color: #e4e4e7; cursor: pointer; transition: transform 0.2s, color 0.2s; }
+        .star.selected { color: var(--gold-bright); }
+
+        .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
+        .exp-btn {
+            padding: 12px 15px; border: 1px solid var(--border); border-radius: 8px;
+            background: #fff; cursor: pointer; font-weight: 600; color: var(--text-main);
+            flex: 1; transition: 0.2s; font-size: 13px; text-align: center;
+        }
+        .exp-btn.active { background: var(--primary-dark); color: white; border-color: var(--primary-dark); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        
+        .action-btn {
+            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, #9a7b41 100%);
+            color: white; border: none; border-radius: 8px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(197, 160, 89, 0.2); margin-top: 15px; transition: 0.2s;
+        }
+
+        /* --- INPUT MODES --- */
+        .input-mode-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .mode-btn { 
+            flex: 1; padding: 10px; border: 1px solid var(--primary); border-radius: 8px; 
+            background: #fff; color: var(--primary); font-weight: 600; cursor: pointer; font-size: 13px;
+        }
+        .mode-btn.active-mode { background: var(--primary); color: white; }
+
+        /* --- VOICE SECTION --- */
+        .voice-section, .text-section {
+            background: #fefce8; border: 1px dashed var(--primary);
+            padding: 12px; border-radius: 12px; margin-bottom: 15px;
+        }
+        .voice-controls { display: flex; align-items: center; gap: 10px; }
+        
+        .mic-btn {
+            width: 45px; height: 45px; border-radius: 50%;
+            background: var(--primary-dark); color: white; border: none;
+            font-size: 20px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .mic-active { animation: pulse 1.5s infinite; background: #dc2626; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(0,0,0,0); } }
+
+        /* --- KEYWORD CHIPS --- */
+        .category-title { font-size: 10px; font-weight: 700; color: #a1a1aa; text-transform: uppercase; margin: 15px 0 8px 0; border-bottom: 1px dashed #e4e4e7; padding-bottom: 3px; }
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 6px; }
+        .keyword-chip {
+            padding: 8px 10px; background-color: #fff; border-radius: 6px;
+            font-size: 11px; font-weight: 600; cursor: pointer;
+            border: 1px solid #e4e4e7; color: #52525b;
+            flex-grow: 1; text-align: center; transition: all 0.2s ease;
+        }
+        .keyword-chip.active {
+            background-color: #fefce8; color: var(--primary); border-color: var(--primary);
+            box-shadow: 0 2px 5px rgba(197, 160, 89, 0.1);
+        }
+
+        /* --- REVIEW PREVIEW BOX --- */
+        .review-preview-box {
+            width: 100%; min-height: 140px; padding: 15px; margin-top: 20px;
+            border: 1px solid var(--box-border); border-radius: 12px;
+            background-color: var(--box-bg); color: #1e293b;
+            font-size: 14px; line-height: 1.6; font-family: 'Segoe UI', sans-serif;
+            resize: none; outline: none; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .copy-btn {
+            width: 100%; padding: 14px; background-color: var(--primary-dark);
+            color: white; border: none; border-radius: 8px; margin-top: 15px;
+            font-weight: 700; font-size: 15px; cursor: pointer; display: none;
+        }
+
+        /* --- OWNER PANEL --- */
+        #ownerPanel {
+            display: none; margin-top: 20px; padding: 15px;
+            border: 2px dashed var(--whatsapp); border-radius: 12px;
+            background-color: #f0fdf4; text-align: left;
+        }
+        .whatsapp-send-btn {
+            width: 100%; padding: 12px; background-color: var(--whatsapp);
+            color: white; border: none; border-radius: 8px;
+            font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .toggle-name {
+            font-size: 11px; color: var(--primary); text-decoration: underline;
+            cursor: pointer; border: none; background: none; float: right; margin-top: 5px;
+        }
+        .name-input-area { margin-top: 10px; display: none; clear: both; }
+
+        .footer-branding {
+            margin-top: 35px; padding-top: 15px; border-top: 1px dashed #e4e4e7;
+            text-align: center; font-size: 12px; color: #a1a1aa;
+        }
+        .footer-branding img { height: 20px; vertical-align: middle; margin: 0 5px; }
+        .footer-branding a { color: var(--primary); text-decoration: none; font-weight: 700; }
+        
+        .owner-login-trigger {
+            font-size: 11px; color: #e4e4e7; cursor: pointer; text-decoration: none;
+            position: absolute; bottom: 5px; right: 10px;
+        }
+
+        .fade-in { animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .hidden { display: none; }
+        
+        /* CUSTOMER VIEW */
+        .customer-card { text-align: center; padding: 20px; }
+        .customer-card h2 { color: var(--primary); }
+    </style>
+</head>
+<body>
+
+<div class="container" id="mainApp">
+
+    <div id="customerLinkView" class="hidden customer-card">
+        <div style="font-size: 45px; margin-bottom: 10px;">✂️✨</div>
+        <h2>Hello Gorgeous!</h2>
+        <p style="color:#555; font-size:14px; margin-bottom:20px;">
+            Here is the review for your stunning transformation at Ashraf's Scissors Hands Salon.
+            <br>Click below to copy & post on Google.
+        </p>
+        <textarea id="customerReviewText" class="review-preview-box" readonly></textarea>
+        <button class="copy-btn" style="display:block; margin-top:15px;" onclick="copyCustomerLinkReview()">📋 Copy & Open Google</button>
+        <p style="font-size:11px; color:#999; margin-top:20px;">Thank you for your love! ❤️</p>
+    </div>
+
+    <div id="generatorApp">
+        <div style="font-size: 35px; text-align:center; margin-bottom: 5px;">✂️🧤</div>
+        <h1>Ashraf's Scissors Hands</h1>
+        <div class="location">📍 Galleria Mall • Hiranandani Gardens • Powai</div>
+
+        <div id="ratingScreen" class="fade-in">
+            <p style="font-weight:600; color:#555; text-align:center;">How was your makeover/learning experience?</p>
+            <div class="star-container">
+                <span class="star" onclick="rate(1)">★</span>
+                <span class="star" onclick="rate(2)">★</span>
+                <span class="star" onclick="rate(3)">★</span>
+                <span class="star" onclick="rate(4)">★</span>
+                <span class="star" onclick="rate(5)">★</span>
+            </div>
+            <div class="experience-btns">
+                <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Needs Improvement</button>
+                <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Excellent! 😍</button>
+            </div>
+            <button class="action-btn" onclick="processRating()">Next Step ➡</button>
+        </div>
+
+        <div id="privateFeedbackScreen" class="fade-in hidden">
+            <h2 style="color:var(--text-main);">We value your feedback</h2>
+            <p style="font-size:14px; color:#666; text-align:center;">Please tell us how we can improve our service.</p>
+            <textarea id="privateFeedbackText" style="height:100px;" placeholder="Tell us your concern..."></textarea>
+            <button class="action-btn" style="background:#475569;" onclick="submitPrivateFeedback()">Submit Feedback</button>
+        </div>
+
+        <div id="thankYouScreen" class="fade-in hidden">
+            <div style="font-size: 50px; margin-bottom:10px; text-align:center;">✅</div>
+            <h2 style="color:var(--primary); text-align:center;">Thank You!</h2>
+            <p style="text-align:center;">Your feedback has been sent to the management.</p>
+        </div>
+
+        <div id="aiToolScreen" class="fade-in hidden" style="text-align: left;">
+            
+            <label>1. Share Your Experience</label>
+            <div class="input-mode-tabs">
+                <button class="mode-btn active-mode" id="btnModeVoice" onclick="switchMode('voice')">🎤 Speak</button>
+                <button class="mode-btn" id="btnModeText" onclick="switchMode('text')">✍️ Write</button>
+            </div>
+
+            <div id="voiceSection" class="voice-section">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <span style="font-size:11px; font-weight:bold; color:var(--primary);">LANGUAGE:</span>
+                    <select id="voiceLang" style="width:auto; padding:2px; font-size:11px; height:25px; margin:0;">
+                        <option value="hi-IN">Hindi</option>
+                        <option value="mr-IN">Marathi</option>
+                        <option value="en-IN">English</option>
+                    </select>
+                </div>
+                <div class="voice-controls">
+                    <button id="micBtn" class="mic-btn" onclick="startListening()">🎤</button>
+                    <div style="flex:1;">
+                        <p id="micStatus" style="font-size:12px; color:#555; margin:0;">Tap mic & speak...<br>(Ex: "Mera haircut bahut acha hua")</p>
+                    </div>
+                </div>
+                <div id="spokenTextDisplay" style="display:none; margin-top:8px; font-size:12px; color:var(--highlight); background:#fff; padding:6px; border-radius:4px; font-weight:600;"></div>
+            </div>
+
+            <div id="textSection" class="text-section hidden">
+                <textarea id="manualInput" placeholder="Ex: Professional hair and makeup services in Powai..." style="height:80px; margin-bottom:0;"></textarea>
+                <p style="font-size:11px; color:#666; margin-top:5px;">*We will polish this into professional English.</p>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <div style="flex:1;">
+                    <label style="margin-top:0;">Primary Service</label>
+                    <select id="serviceSelect">
+                        <option value="" disabled selected>Select...</option>
+                        <option value="Professional Haircut">Haircut / Styling</option>
+                        <option value="Balayage Hair Color">Hair Color / Balayage</option>
+                        <option value="Nanoplastia Treatment">Nanoplastia / Keratin</option>
+                        <option value="Bridal Beauty Services">Bridal / Event Makeup</option>
+                        <option value="Professional Facials">Skin Care / Facial</option>
+                        <option value="Acrylic Nail Extension">Nails / Mani-Pedi</option>
+                        <option value="Men's Grooming">Men's Grooming</option>
+                        <option value="Academy Training">Salon Academy</option>
+                    </select>
+                </div>
+                <div style="flex:1;">
+                    <label style="margin-top:0;">Tone</label>
+                    <select id="toneSelect">
+                        <option value="Happy">Happy 😊</option>
+                        <option value="Professional">Formal 💼</option>
+                        <option value="Short">Short ⚡</option>
+                    </select>
+                </div>
+            </div>
+
+            <div><button class="toggle-name" onclick="document.getElementById('nameArea').style.display='block'">+ Add Your Name</button></div>
+            <div class="name-input-area" id="nameArea">
+                <input type="text" id="userName" placeholder="Your Name (Optional)">
+            </div>
+
+            <label style="clear:both;">2. Select Highlights (SEO Keywords)</label>
+            <div class="keywords-container">
+                
+                <div class="category-title">Hair & Styling</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Professional Haircut powai')">💇‍♂️ Professional Haircut Powai</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Hair Styling Services near me')">✨ Hair Styling Services</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'best Shampoo and Conditioning')">🧼 Best Shampoo & Conditioning</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Balayage Hair Color')">🎨 Balayage Hair Color</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Hair Salon Near Me')">🔍 Hair Salon Near Me</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Nanoplastia treatment near me')">🔄 Nanoplastia Treatment</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Best salon for curly hair')">🌀 Best Salon For Curly Hair</div>
+
+                <div class="category-title">Skin & Bridal</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'best Skin Care Treatments')">🧴 Skin Care Treatments</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Professional Facials near me')">💦 Professional Facials</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Skin cycling facial treatments')">💆‍♀️ Skin Cycling Facials</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Bridal Beauty Services near me')">👰 Bridal Beauty Services</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Wedding Hair and Makeup')">💄 Wedding Makeup</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Event Preparation Packages')">🎉 Event Prep Packages</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Professional Makeup Artist')">🎨 Pro Makeup Artist</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Bridal Salon Services')">👑 Bridal Salon Services</div>
+
+                <div class="category-title">Waxing & Nails</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'best Body Waxing Services')">🍯 Body Waxing</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Full Body Waxing near me')">✨ Full Body Waxing</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Manicure and Pedicure near me')">💅 Manicure & Pedicure</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Acrylic Nail Extension')">💎 Acrylic Nail Extension</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Nail Salon Near Me')">🔍 Nail Salon Near Me</div>
+
+                <div class="category-title">Men & Grooming</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Professional Shaving Service')">🪒 Professional Shaving</div>
+                <div class="keyword-chip" onclick="toggleKeyword(this, 'Men’s Grooming')">🧔 Men’s Grooming</div>
+            </div>
+
+            <button class="action-btn" id="generateBtn" onclick="generateReview()">🚀 Generate Magic Review</button>
+            <textarea id="reviewOutput" class="review-preview-box" style="display:none;" readonly></textarea>
+            
+            <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()" style="display:none;">📋 Copy & Open Google</button>
+            
+            <div id="ownerPanel">
+                <label style="color:var(--whatsapp); margin-top:0;">📱 Customer's WhatsApp Number</label>
+                <div style="display:flex; gap:10px;">
+                    <input type="tel" id="customerPhone" placeholder="Ex: 9876543210" style="margin-bottom:0;">
+                    <button class="whatsapp-send-btn" style="width: auto; padding: 0 20px;" onclick="sendLinkToCustomer()">🚀 Send</button>
+                </div>
+                <p style="font-size:11px; color:#555; margin-top:5px;">Customer will receive a direct link to post this review.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer-branding">
+        Powered by <a href="https://growft.odoo.com" target="_blank">Growft</a>
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" alt="Growft Logo">
+        <span class="owner-login-trigger" onclick="ownerLogin()">🔒 Owner</span>
+    </div>
+</div>
+
+<script>
+    // --- CONFIGURATION ---
+    const GOOGLE_REVIEW_LINK = "https://g.page/r/CR-2ljXGRZMgEBM/review"; // REPLACE WITH ACTUAL LINK
+    let isOwnerMode = false;
+
+    // --- INITIALIZATION ---
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const reviewText = urlParams.get('review');
+        if (reviewText) {
+            document.getElementById('generatorApp').style.display = 'none';
+            document.getElementById('customerLinkView').classList.remove('hidden');
+            document.getElementById('customerReviewText').value = decodeURIComponent(reviewText);
+        } else if(sessionStorage.getItem('isOwner') === 'true') {
+            isOwnerMode = true;
+        }
+    };
+
+    // --- OWNER LOGIC ---
+    function ownerLogin() {
+        if(isOwnerMode) { alert("Already logged in."); return; }
+        const password = prompt("Enter Owner Password:");
+        if(password === "admin123") {
+            isOwnerMode = true;
+            sessionStorage.setItem('isOwner', 'true');
+            alert("Owner Mode Active!");
+        } else if(password) { alert("Incorrect Password"); }
+    }
+
+    function sendLinkToCustomer() {
+        const phone = document.getElementById('customerPhone').value.replace(/\D/g, '');
+        const review = document.getElementById('reviewOutput').value;
+        if(phone.length < 10) { alert("Enter valid number"); return; }
+        const finalPhone = phone.length === 10 ? "91" + phone : phone;
+        const baseUrl = window.location.href.split('?')[0];
+        const magicLink = `${baseUrl}?review=${encodeURIComponent(review)}`;
+        const msg = `Hello! 👋\n\nHere is the review for your makeover at Ashraf's Scissors Hands (Powai):\n\n*Tap this link to Post on Google:*\n${magicLink}`;
+        window.open(`https://wa.me/${finalPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function copyCustomerLinkReview() {
+        const box = document.getElementById("customerReviewText");
+        box.select();
+        document.execCommand('copy');
+        window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+
+    // --- DATASETS ---
+    const reviewData = {
+        intro: {
+            "Happy": [
+                "I had an absolutely fantastic experience at Ashraf's Scissors Hands Salon & Academy in Powai.", 
+                "One of the best hair and beauty salons in Hiranandani Gardens, truly impressed.", 
+                "Found this amazing place in Galleria Mall while looking for a premium salon, and I am glad I did.",
+                "Absolutely loved the vibe and the professional styling I got here today.", 
+                "Ashraf's Scissors Hands is my new favorite spot for hair color and styling in Powai.",
+                "Great experience from start to finish, the team at Galleria Shopping Mall is highly skilled.",
+                "Powai finally has a truly international standard salon and academy."
+            ],
+            "Professional": [
+                "I visited Ashraf's Scissors Hands Salon & Academy in Powai for a specialized beauty treatment.", 
+                "A highly professional and clean salon facility located conveniently in Galleria Shopping Mall.", 
+                "The technical expertise of the stylists at Ashraf's Scissors Hands Powai is commendable.", 
+                "I highly recommend this salon for those seeking premium bridal and grooming services in Hiranandani Gardens.",
+                "Efficient service delivery and high standards of hygiene followed throughout my visit."
+            ],
+            "Short": [
+                "Best hair salon in Powai!", "Excellent bridal makeup and hair services.", "Highly recommended for styling and Skin Care.", 
+                "Loved my new look at Ashraf's. 5 Stars!", "Top-notch luxury salon in Hiranandani."
+            ]
+        },
+        outro: {
+            "Happy": [
+                "Will definitely visit again soon! 😍", "Thank you team Ashraf for the great transformation. 👍", 
+                "Best makeover I've had in a long time!", "Highly recommended to everyone in Powai!",
+                "Five stars from me! ✂️✨"
+            ],
+            "Professional": [
+                "I highly recommend their services to professionals seeking quality grooming.", "A very worthwhile salon visit.", 
+                "Kudos to the management for maintaining high standards.", "Satisfied with the overall outcome."
+            ],
+            "Short": [
+                "Must visit!", "10/10 service.", "Thanks guys.", "Great job.", "Worth the price."
+            ]
+        },
+        keywords: {
+            "Professional Haircut powai": ["If you are looking for a Professional Haircut powai, this is the place.", "They gave me the best Professional Haircut powai has to offer."],
+            "Hair Styling Services near me": ["Their Hair Styling Services near me are top-notch.", "Best option when searching for Hair Styling Services near me."],
+            "best Shampoo and Conditioning": ["They offer the best Shampoo and Conditioning treatment.", "Loved the best Shampoo and Conditioning they provided before the cut."],
+            "Balayage Hair Color": ["The Balayage Hair Color turned out exactly how I wanted it.", "I highly recommend them for trendy Balayage Hair Color."],
+            "Hair Salon Near Me": ["This is definitely the best Hair Salon Near Me.", "My favorite Hair Salon Near Me in the Hiranandani area."],
+            "best Skin Care Treatments": ["They offer the best Skin Care Treatments I've found in Powai.", "Completely satisfied with the results of their best Skin Care Treatments."],
+            "Professional Facials near me": ["The Professional Facials near me left my skin glowing and refreshed.", "Must try their Professional Facials near me for a relaxing experience."],
+            "best Body Waxing Services": ["They provide the best Body Waxing Services with zero hassle.", "Very hygienic and the best Body Waxing Services."],
+            "Full Body Waxing near me": ["Quick and relatively painless Full Body Waxing near me.", "Highly recommend their Full Body Waxing near me."],
+            "Bridal Beauty Services near me": ["If you need Bridal Beauty Services near me, this is the most reliable place.", "They provided an exceptional Bridal Beauty Services near me for my special day."],
+            "Wedding Hair and Makeup": ["Their Wedding Hair and Makeup was absolutely flawless.", "The team did a fabulous job on the Wedding Hair and Makeup."],
+            "Event Preparation Packages": ["I loved their Event Preparation Packages.", "Their Event Preparation Packages are perfect for any big day."],
+            "Professional Makeup Artist": ["They have a highly skilled Professional Makeup Artist.", "The Professional Makeup Artist here made me look stunning."],
+            "Bridal Salon Services": ["They offer premium Bridal Salon Services.", "Very happy with the Bridal Salon Services provided."],
+            "Manicure and Pedicure near me": ["The Manicure and Pedicure near me was very relaxing.", "Best spot for Manicure and Pedicure near me."],
+            "Acrylic Nail Extension": ["My Acrylic Nail Extension looks stunning and very natural.", "Best place in Powai for Acrylic Nail Extension."],
+            "Professional Shaving Service": ["Highly satisfied with their Professional Shaving Service.", "Clean and precise Professional Shaving Service."],
+            "Men’s Grooming": ["They excel in Men’s Grooming.", "Best spot for complete Men’s Grooming."],
+            "Nail Salon Near Me": ["This is my go-to Nail Salon Near Me.", "Excellent Nail Salon Near Me in Galleria Mall."],
+            "Nanoplastia treatment near me": ["The Nanoplastia treatment near me at this salon is a game changer for frizzy hair.", "Best place for Nanoplastia treatment near me in Powai."],
+            "Best salon for curly hair": ["They know exactly how to handle curls, truly the Best salon for curly hair.", "If you have curls, this is the Best salon for curly hair."],
+            "Skin cycling facial treatments": ["Their Skin cycling facial treatments are very modern and effective.", "I saw great results from the Skin cycling facial treatments."]
+        }
+    };
+
+    // --- APP LOGIC ---
+    let selectedKeywords = [];
+    let voiceText = "";
+    let activeMode = 'voice';
+    const connectors = ["Also,", "Moreover,", "I must mention that,", "Additionally,", "Plus,", "On top of that,", "Furthermore,", "Truly,", "Honestly,"];
+
+    function switchMode(mode) {
+        activeMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active-mode'));
+        if(mode === 'voice') {
+            document.getElementById('btnModeVoice').classList.add('active-mode');
+            document.getElementById('voiceSection').classList.remove('hidden');
+            document.getElementById('textSection').classList.add('hidden');
+        } else {
+            document.getElementById('btnModeText').classList.add('active-mode');
+            document.getElementById('textSection').classList.remove('hidden');
+            document.getElementById('voiceSection').classList.add('hidden');
+        }
+    }
+
+    function rate(stars) {
+        document.querySelectorAll('.star').forEach((star, index) => {
+            star.classList.toggle('selected', index < stars);
+        });
+    }
+    
+    function selectExp(type) {
+        document.getElementById('btn-good').classList.remove('active');
+        document.getElementById('btn-bad').classList.remove('active');
+        if(type==='good') document.getElementById('btn-good').classList.add('active');
+        else document.getElementById('btn-bad').classList.add('active');
+    }
+
+    function processRating() {
+        document.getElementById('ratingScreen').classList.add('hidden');
+        document.getElementById('aiToolScreen').classList.remove('hidden');
+    }
+
+    function submitPrivateFeedback() {
+        document.getElementById('privateFeedbackScreen').classList.add('hidden');
+        document.getElementById('thankYouScreen').classList.remove('hidden');
+    }
+
+    function startListening() {
+        if (!('webkitSpeechRecognition' in window)) { alert("Use Chrome Browser."); return; }
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = document.getElementById('voiceLang').value;
+        recognition.interimResults = false;
+        document.getElementById('micBtn').classList.add('mic-active');
+        document.getElementById('micStatus').innerText = "Listening...";
+        recognition.onresult = (event) => {
+            voiceText = event.results[0][0].transcript;
+            document.getElementById('spokenTextDisplay').style.display = 'block';
+            document.getElementById('spokenTextDisplay').innerText = `Recorded: "${voiceText}"`;
+        };
+        recognition.onend = () => { document.getElementById('micBtn').classList.remove('mic-active'); document.getElementById('micStatus').innerText = "Processing..."; };
+        recognition.start();
+    }
+
+    async function generateReview() {
+        const btn = document.getElementById('generateBtn');
+        btn.innerText = "🔄 Processing...";
+        
+        const tone = document.getElementById('toneSelect').value;
+        const userName = document.getElementById('userName').value.trim();
+        const service = document.getElementById('serviceSelect').value;
+        const manualText = document.getElementById('manualInput').value.trim();
+        let rawInput = activeMode === 'voice' ? voiceText : manualText;
+
+        if (selectedKeywords.length === 0 && !rawInput && !service) {
+            alert("Please select highlights or say something.");
+            btn.innerText = "🚀 Generate Review";
+            return;
+        }
+
+        let finalBodyText = "";
+        if (rawInput && rawInput.length > 1) {
+            try {
+                const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(rawInput)}&langpair=Autodetect|en`);
+                const data = await res.json();
+                let translated = data.responseData ? data.responseData.translatedText : "";
+                if(!translated.includes("PLEASE SELECT") && !translated.includes("MYMEMORY")) finalBodyText = translated;
+                else finalBodyText = rawInput;
+            } catch(e) { finalBodyText = rawInput; }
+        }
+
+        let review = pickRandom(reviewData.intro[tone]);
+        if(userName) review = `I am ${userName}. ` + review;
+        if(service) review += ` I visited for ${service}. `;
+        if(finalBodyText) review += finalBodyText + ". ";
+
+        const shuffledKeywords = selectedKeywords.sort(() => 0.5 - Math.random());
+        shuffledKeywords.forEach((k, i) => {
+            if(reviewData.keywords[k]) {
+                let sentence = pickRandom(reviewData.keywords[k]);
+                if(i > 0 && Math.random() > 0.6) sentence = pickRandom(connectors) + " " + sentence;
+                review += sentence + " ";
+            }
+        });
+
+        review += pickRandom(reviewData.outro[tone]);
+
+        const box = document.getElementById('reviewOutput');
+        box.value = review;
+        box.style.display = 'block';
+        box.scrollIntoView({behavior: "smooth"});
+        btn.innerText = "🚀 Generate Review";
+
+        if(isOwnerMode) {
+            document.getElementById('ownerPanel').style.display = 'block';
+            document.getElementById('copyBtn').style.display = 'none';
+        } else {
+            document.getElementById('ownerPanel').style.display = 'none';
+            document.getElementById('copyBtn').style.display = 'block';
+        }
+    }
+
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) selectedKeywords = selectedKeywords.filter(k => k !== keyword);
+        else selectedKeywords.push(keyword);
+    }
+    
+    function copyToClipboard() {
+        const box = document.getElementById("reviewOutput");
+        box.select();
+        document.execCommand('copy');
+        if(confirm("Review Copied! Open Google Maps?")) window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+    
+    function pickRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+</script>
+
+</body>
+</html>
