@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Ashraf's | Unisex Salon & Academy</title>
+    <!-- Google Fonts + Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .snap-x { scroll-snap-type: x mandatory; }
+        .snap-center { scroll-snap-align: center; }
+        
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-up {
+            animation: fade-in-up 0.8s ease-out forwards;
+        }
+
+        /* Scroll reveal styles */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: #fff;
+            max-width: 500px;
+            width: 90%;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            position: relative;
+        }
+        .close-modal {
+            position: absolute;
+            top: 10px; right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+        }
+        .social-icon {
+            transition: all 0.3s ease;
+        }
+        .social-icon:hover {
+            opacity: 0.7;
+            transform: translateY(-2px);
+        }
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            background: white;
+            position: absolute;
+            top: 70px;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            z-index: 50;
+            border-top: 1px solid #eee;
+        }
+        .mobile-menu.active {
+            display: flex;
+        }
+        .mobile-menu a {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-weight: 600;
+        }
+        @media (min-width: 768px) {
+            .mobile-menu {
+                display: none !important;
+            }
+        }
+        .hero-carousel {
+            aspect-ratio: 16 / 9;
+        }
+        @media (min-width: 768px) {
+            .hero-carousel {
+                aspect-ratio: auto;
+                height: 85vh;
+            }
+        }
+        .callback-input {
+            border: 1px solid #e2e2e2;
+            border-radius: 0;
+            padding: 12px 16px;
+            width: 100%;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .callback-input:focus {
+            outline: none;
+            border-color: #D4AF7A;
+        }
+        .submit-btn {
+            background: linear-gradient(135deg, #7c5730, #D4AF7A);
+            color: white;
+            padding: 12px 24px;
+            width: 100%;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            border: none;
+        }
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #5b403c, #c49a5f);
+            transform: translateY(-2px);
+        }
+        .gold-text {
+            color: #D4AF7A;
+        }
+        .service-card-enrich {
+            transition: all 0.3s ease;
+        }
+        .service-card-enrich:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+        }
+        .service-card-enrich img {
+            transition: transform 0.5s ease;
+        }
+        .service-card-enrich:hover img {
+            transform: scale(1.03);
+        }
+        .service-icon {
+            font-size: 2.2rem;
+            color: #D4AF7A;
+            margin-bottom: 0.75rem;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body class="bg-[#F9F6F0] text-[#1E1A16]">
+
+<!-- Sticky Header -->
+<header class="sticky top-0 w-full z-50 bg-white shadow-md">
+    <div class="flex justify-between items-center px-6 md:px-12 py-3 max-w-7xl mx-auto relative">
+        <div class="flex items-center">
+            <img alt="Ashraf's Unisex Salon Logo" class="h-16 md:h-20 w-auto" src="https://www.rncarandbikerental.net/web/image/784-8f55ec69/ashraf%20bg%20white.webp">
+        </div>
+        <nav class="hidden md:flex space-x-8">
+            <a class="text-sm font-semibold uppercase tracking-wide border-b-2 border-[#D4AF7A] pb-1" href="#">HOME</a>
+            <a class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-[#D4AF7A]" href="#">SERVICES</a>
+            <a class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-[#D4AF7A]" href="#">STORE LOCATOR</a>
+            <a class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-[#D4AF7A]" href="#">ABOUT US</a>
+            <a class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-[#D4AF7A]" href="#">ACADEMY</a>
+        </nav>
+        <div class="flex items-center gap-4">
+            <button class="bg-gradient-to-r from-[#7c5730] to-[#D4AF7A] text-white text-sm uppercase tracking-wide px-6 py-2 hover:from-[#5b403c] hover:to-[#c49a5f] transition hidden md:block">BOOK NOW</button>
+            <button id="menuBtn" class="md:hidden text-[#271310] focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+    </div>
+    <div id="mobileMenu" class="mobile-menu md:hidden">
+        <a href="#">HOME</a>
+        <a href="#">SERVICES</a>
+        <a href="#">STORE LOCATOR</a>
+        <a href="#">ABOUT US</a>
+        <a href="#">ACADEMY</a>
+        <button class="bg-gradient-to-r from-[#7c5730] to-[#D4AF7A] text-white text-sm uppercase tracking-wide px-6 py-2 mt-2 w-full">BOOK NOW</button>
+    </div>
+</header>
+
+<main>
+    <!-- Hero Carousel -->
+    <section class="relative overflow-hidden hero-carousel">
+        <div class="flex h-full transition-transform duration-1000 ease-in-out" id="hero-slider">
+            <div class="min-w-full h-full relative">
+                <div class="absolute inset-0 bg-black/40 z-10"></div>
+                <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Unisex salon">
+                <div class="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4">
+                    <h1 class="font-serif text-3xl md:text-7xl text-white mb-4 animate-fade-in-up">Unisex Luxury Redefined</h1>
+                    <p class="text-white/90 text-sm md:text-lg max-w-2xl mb-8">Bespoke grooming for him & her — artisanal mastery with a modern touch.</p>
+                    <button class="bg-gradient-to-r from-[#7c5730] to-[#D4AF7A] text-white px-6 py-2 md:px-8 md:py-3 text-sm md:text-base hover:from-[#5b403c] hover:to-[#c49a5f] transition">EXPLORE SERVICES</button>
+                </div>
+            </div>
+            <div class="min-w-full h-full relative">
+                <div class="absolute inset-0 bg-black/40 z-10"></div>
+                <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Master stylist">
+                <div class="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4">
+                    <h1 class="font-serif text-3xl md:text-7xl text-white mb-4">Master The Craft</h1>
+                    <p class="text-white/90 text-sm md:text-lg max-w-2xl mb-8">Join our elite unisex academy — learn from industry's finest artisans.</p>
+                    <button class="bg-gradient-to-r from-[#7c5730] to-[#D4AF7A] text-white px-6 py-2 md:px-8 md:py-3 text-sm md:text-base hover:from-[#5b403c] hover:to-[#c49a5f] transition">VIEW ACADEMY</button>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex space-x-4">
+            <button class="w-8 h-1 bg-white/50 hover:bg-[#D4AF7A]" onclick="moveSlider(0)"></button>
+            <button class="w-8 h-1 bg-white/50 hover:bg-[#D4AF7A]" onclick="moveSlider(1)"></button>
+        </div>
+    </section>
+
+    <!-- SERVICES SECTION with scroll animation -->
+    <section class="py-20 px-6 md:px-12 bg-[#FAF8F5]">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-12 scroll-reveal">
+                <div class="flex items-center justify-center gap-3 mb-4">
+                    <span class="w-8 h-[1px] bg-[#D4AF7A]"></span>
+                    <span class="text-sm font-semibold text-[#D4AF7A] uppercase tracking-[0.2em]">✦ Our Services ✦</span>
+                    <span class="w-8 h-[1px] bg-[#D4AF7A]"></span>
+                </div>
+                <h2 class="text-3xl md:text-5xl font-serif text-[#271310] mb-4">For Him & Her</h2>
+                <p class="text-gray-600">Premium grooming and beauty services across multiple categories.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 1. Skin -->
+                <div class="service-card-enrich bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl cursor-pointer scroll-reveal">
+                    <div class="overflow-hidden h-64">
+                        <img class="w-full h-full object-cover" src="https://www.rncarandbikerental.net/unsplash/g-m8EDc4X6Q/800/skin%20care.jpg?unique=2ad7c6c5" alt="Skin Care">
+                    </div>
+                    <div class="p-6 text-center">
+                        <i class="fas fa-spa service-icon"></i>
+                        <h3 class="text-xl font-bold text-[#271310] mb-2">Skin</h3>
+                        <p class="text-gray-500 mb-4">Facials, anti-aging, acne solutions, glow therapies, and skin brightening for both men & women.</p>
+                        <a href="#" class="inline-flex items-center text-sm font-semibold text-[#D4AF7A] hover:text-[#b3925c] transition-colors">
+                            View Services <span class="ml-1">→</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 2. Hair -->
+                <div class="service-card-enrich bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl cursor-pointer scroll-reveal" style="transition-delay: 0.1s;">
+                    <div class="overflow-hidden h-64">
+                        <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1562322140-8baeececf3df?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hair Services">
+                    </div>
+                    <div class="p-6 text-center">
+                        <i class="fas fa-cut service-icon"></i>
+                        <h3 class="text-xl font-bold text-[#271310] mb-2">Hair</h3>
+                        <p class="text-gray-500 mb-4">Expert haircuts, styling, coloring, keratin, straightening, scalp treatments for all hair types.</p>
+                        <a href="#" class="inline-flex items-center text-sm font-semibold text-[#D4AF7A] hover:text-[#b3925c] transition-colors">
+                            View Services <span class="ml-1">→</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 3. Nail -->
+                <div class="service-card-enrich bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl cursor-pointer scroll-reveal" style="transition-delay: 0.2s;">
+                    <div class="overflow-hidden h-64">
+                        <img class="w-full h-full object-cover" src="https://www.rncarandbikerental.net/unsplash/gb6gtiTZKB8/801/manicure.jpg?unique=02462e9a" alt="Nail Services">
+                    </div>
+                    <div class="p-6 text-center">
+                        <i class="fas fa-hand-peace service-icon"></i>
+                        <h3 class="text-xl font-bold text-[#271310] mb-2">Nail</h3>
+                        <p class="text-gray-500 mb-4">Manicure, pedicure, nail extensions, gel nails, nail art, and cuticle care – unisex.</p>
+                        <a href="#" class="inline-flex items-center text-sm font-semibold text-[#D4AF7A] hover:text-[#b3925c] transition-colors">
+                            View Services <span class="ml-1">→</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 4. Makeup -->
+                <div class="service-card-enrich bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl cursor-pointer scroll-reveal">
+                    <div class="overflow-hidden h-64">
+                        <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Makeup">
+                    </div>
+                    <div class="p-6 text-center">
+                        <i class="fas fa-brush service-icon"></i>
+                        <h3 class="text-xl font-bold text-[#271310] mb-2">Makeup</h3>
+                        <p class="text-gray-500 mb-4">Bridal, party, HD, airbrush, and professional makeup for women & special occasions.</p>
+                        <a href="#" class="inline-flex items-center text-sm font-semibold text-[#D4AF7A] hover:text-[#b3925c] transition-colors">
+                            View Services <span class="ml-1">→</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 5. Spa -->
+                <div class="service-card-enrich bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl cursor-pointer scroll-reveal" style="transition-delay: 0.1s;">
+                    <div class="overflow-hidden h-64">
+                        <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Spa">
+                    </div>
+                    <div class="p-6 text-center">
+                        <i class="fas fa-hot-tub service-icon"></i>
+                        <h3 class="text-xl font-bold text-[#271310] mb-2">Spa</h3>
+                        <p class="text-gray-500 mb-4">Aromatherapy, deep tissue, hot stone massage, body wraps, and relaxation therapies.</p>
+                        <a href="#" class="inline-flex items-center text-sm font-semibold text-[#D4AF7A] hover:text-[#b3925c] transition-colors">
+                            View Services <span class="ml-1">→</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 6. Mani-Pedi -->
+                <div class="service-card-enrich bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl cursor-pointer scroll-reveal" style="transition-delay: 0.2s;">
+                    <div class="overflow-hidden h-64">
+                        <img class="w-full h-full object-cover" src="https://www.rncarandbikerental.net/unsplash/gb6gtiTZKB8/801/manicure.jpg?unique=02462e9a" alt="Mani-Pedi">
+                    </div>
+                    <div class="p-6 text-center">
+                        <i class="fas fa-hand-sparkles service-icon"></i>
+                        <h3 class="text-xl font-bold text-[#271310] mb-2">Mani-Pedi</h3>
+                        <p class="text-gray-500 mb-4">Classic, gel, and spa manicure & pedicure – for healthy, beautiful hands and feet.</p>
+                        <a href="#" class="inline-flex items-center text-sm font-semibold text-[#D4AF7A] hover:text-[#b3925c] transition-colors">
+                            View Services <span class="ml-1">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12 scroll-reveal">
+                <a href="#" class="inline-block border-2 border-[#D4AF7A] text-[#D4AF7A] hover:bg-[#D4AF7A] hover:text-white font-semibold px-8 py-3 rounded-full transition-all duration-300">
+                    View All Services
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY SECTION with scroll animation -->
+    <section class="py-20 px-6 md:px-12">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 scroll-reveal">
+                <span class="text-sm text-[#D4AF7A] tracking-[0.2em] uppercase">✦ GALLERY ✦</span>
+                <h2 class="text-3xl md:text-5xl font-serif text-[#271310] mt-2">Our Work</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                <div class="md:col-span-8 relative overflow-hidden h-64 md:h-96 group scroll-reveal">
+                    <img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="https://www.rncarandbikerental.net/unsplash/x1UvHQ-OWvw/796/hair%20styling.jpg?unique=241252ef" alt="Academy Insights">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                        <span class="text-white border border-[#D4AF7A] px-4 py-1 text-xs md:text-sm">ACADEMY INSIGHTS</span>
+                    </div>
+                </div>
+                <div class="md:col-span-4 relative overflow-hidden h-64 md:h-96 group scroll-reveal" style="transition-delay: 0.1s;">
+                    <img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="https://www.rncarandbikerental.net/unsplash/RET5wTioLZ0/797/hair%20styling.jpg?unique=97dc73b4" alt="Hair Styling">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                        <span class="text-white border border-[#D4AF7A] px-4 py-1 text-xs md:text-sm">VIEW DETAIL</span>
+                    </div>
+                </div>
+                <div class="md:col-span-4 relative overflow-hidden h-48 md:h-64 group scroll-reveal">
+                    <img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="https://www.rncarandbikerental.net/unsplash/KdbCwfzcwWE/804/makeup.jpg?unique=76c8cf82" alt="Makeover">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                        <span class="text-white border border-[#D4AF7A] px-4 py-1 text-xs md:text-sm">VIEW MAKEOVER</span>
+                    </div>
+                </div>
+                <div class="md:col-span-8 relative overflow-hidden h-48 md:h-64 group scroll-reveal" style="transition-delay: 0.1s;">
+                    <img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="https://images.unsplash.com/photo-1622296089863-eb7fc530daa8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Salon Vibe">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                        <span class="text-white border border-[#D4AF7A] px-4 py-1 text-xs md:text-sm">SALON VIBE</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials with scroll animation -->
+    <section class="py-20 px-6 md:px-12 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 scroll-reveal">
+                <span class="text-sm text-[#D4AF7A] tracking-[0.2em] uppercase">✦ TESTIMONIALS ✦</span>
+                <h2 class="text-3xl md:text-5xl font-serif text-[#271310] mt-2">Client Experiences</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="p-6 md:p-8 border border-gray-200 text-center scroll-reveal">
+                    <div class="flex justify-center text-[#D4AF7A] mb-4">★★★★★</div>
+                    <p class="italic text-gray-600 text-sm md:text-base mb-4">"The attention to detail here is unparalleled. It's not just a haircut; it's a therapeutic experience in a setting of pure luxury. Ashraf is a true master of the craft — for both men and women."</p>
+                    <span class="text-xs md:text-sm uppercase font-semibold">JULIAN VANCE</span>
+                </div>
+                <div class="p-6 md:p-8 border border-gray-200 text-center scroll-reveal" style="transition-delay: 0.1s;">
+                    <div class="flex justify-center text-[#D4AF7A] mb-4">★★★★★</div>
+                    <p class="italic text-gray-600 text-sm md:text-base mb-4">"Finally found a place that understands the nuances of classic barbering with a contemporary twist. The academy's influence shows in every stylist's work — truly unisex friendly."</p>
+                    <span class="text-xs md:text-sm uppercase font-semibold">MARCUS REED</span>
+                </div>
+                <div class="p-6 md:p-8 border border-gray-200 text-center scroll-reveal" style="transition-delay: 0.2s;">
+                    <div class="flex justify-center text-[#D4AF7A] mb-4">★★★★★</div>
+                    <p class="italic text-gray-600 text-sm md:text-base mb-4">"The spa treatments are a game changer. The mocha accents and minimalist design create an environment of complete serenity. Highly recommended for everyone."</p>
+                    <span class="text-xs md:text-sm uppercase font-semibold">ELLIOT CHASE</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Request a Callback with scroll animation -->
+    <section class="py-20 px-6 md:px-12 bg-[#FAF8F5]">
+        <div class="max-w-3xl mx-auto text-center scroll-reveal">
+            <span class="text-sm text-[#D4AF7A] tracking-[0.2em] uppercase">✦ WE'RE HERE FOR YOU ✦</span>
+            <h2 class="text-3xl md:text-4xl font-serif text-[#271310] mt-2 mb-8">Request a Callback</h2>
+            <form id="callbackForm" action="https://formspree.io/f/mnjynnry" method="POST" class="space-y-6">
+                <div>
+                    <input type="text" name="name" placeholder="Name" required class="callback-input">
+                </div>
+                <div>
+                    <input type="tel" name="number" placeholder="Number" required class="callback-input">
+                </div>
+                <div class="flex items-start gap-3 text-left">
+                    <input type="checkbox" id="optin" name="optin" value="Yes" class="mt-1 w-4 h-4 accent-[#D4AF7A]">
+                    <label for="optin" class="text-sm text-gray-700">I would like to opt in to receive promotional information and offers from Ashraf's on email/SMS/Whatsapp</label>
+                </div>
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+            <div id="formMessage" class="mt-4 text-sm hidden"></div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer (no change) -->
+<footer class="bg-[#1E1A16] text-white py-12">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <div class="text-xl font-serif font-bold">ASHRAF'S</div>
+                <div class="text-sm text-gray-300 mt-1">UNISEX SALON & ACADEMY EST. 2008</div>
+                <button class="border border-[#D4AF7A] text-[#D4AF7A] text-xs uppercase tracking-wide px-4 py-1.5 mt-4 hover:bg-[#D4AF7A] hover:text-[#1E1A16] transition">BOOK NOW</button>
+                <div class="text-sm text-gray-300 italic mt-6">Artisanal Mastery.<br>Contemporary Luxury.<br>For Him & Her.</div>
+                <div class="flex space-x-4 mt-4">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f text-gray-300 hover:text-[#D4AF7A] text-lg"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram text-gray-300 hover:text-[#D4AF7A] text-lg"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-youtube text-gray-300 hover:text-[#D4AF7A] text-lg"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter text-gray-300 hover:text-[#D4AF7A] text-lg"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-sm uppercase font-bold mb-4 gold-text">QUICK LINKS</h4>
+                <ul class="space-y-2 text-sm text-gray-300">
+                    <li><a href="#" class="hover:text-[#D4AF7A]">HOME</a></li>
+                    <li><a href="#" class="hover:text-[#D4AF7A]">SERVICES</a></li>
+                    <li><a href="#" class="hover:text-[#D4AF7A]">ACADEMY</a></li>
+                    <li><a href="#" class="hover:text-[#D4AF7A]">CAREERS</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-sm uppercase font-bold mb-4 gold-text">SUPPORT</h4>
+                <ul class="space-y-2 text-sm text-gray-300">
+                    <li><a href="#" class="hover:text-[#D4AF7A]">PRIVACY POLICY</a></li>
+                    <li><a href="#" class="hover:text-[#D4AF7A]">TERMS OF SERVICE</a></li>
+                    <li><a href="#" class="hover:text-[#D4AF7A]">CONTACT US</a></li>
+                    <li><a href="#" class="hover:text-[#D4AF7A]">STORE LOCATOR</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-sm uppercase font-bold mb-4 gold-text">CONTACT INFO</h4>
+                <ul class="space-y-2 text-sm text-gray-300">
+                    <li class="flex gap-2"><i class="fas fa-map-marker-alt gold-text mt-1"></i> <span>Galleria Mall, Powai, Mumbai</span></li>
+                    <li class="flex gap-2"><i class="fas fa-phone-alt gold-text mt-1"></i> <span>022 4026 3442 / 3441</span></li>
+                    <li class="flex gap-2"><i class="fas fa-envelope gold-text mt-1"></i> <span>concierge@ashrafscissors.com</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="text-center text-gray-400 text-xs mt-10 pt-6 border-t border-gray-700">
+            © 2025 ASHRAF'S SCISSORS HANDS SALON & ACADEMY 
+        </div>
+    </div>
+</footer>
+
+<!-- Modal -->
+<div id="serviceModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3 id="modalTitle" class="text-2xl font-serif mb-2"></h3>
+        <p id="modalPrice" class="text-[#D4AF7A] font-bold text-xl mb-4"></p>
+        <p id="modalDesc" class="text-gray-700 mb-6"></p>
+        <button class="bg-gradient-to-r from-[#7c5730] to-[#D4AF7A] text-white px-6 py-2 hover:from-[#5b403c] hover:to-[#c49a5f] transition">Book Now</button>
+    </div>
+</div>
+
+<script>
+    // Hero Slider
+    let currentSlide = 0;
+    const totalSlides = 2;
+    const slider = document.getElementById('hero-slider');
+    function moveSlider(index) {
+        currentSlide = index;
+        slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+    }
+    setInterval(() => {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        moveSlider(currentSlide);
+    }, 5000);
+
+    // Modal logic
+    const modal = document.getElementById('serviceModal');
+    const closeModal = document.querySelector('.close-modal');
+    closeModal.addEventListener('click', () => modal.style.display = 'none');
+    window.addEventListener('click', (e) => { if(e.target === modal) modal.style.display = 'none'; });
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('active');
+    });
+
+    // Formspree submission
+    const callbackForm = document.getElementById('callbackForm');
+    const formMessage = document.getElementById('formMessage');
+    callbackForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(callbackForm);
+        try {
+            const response = await fetch(callbackForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            });
+            if (response.ok) {
+                formMessage.textContent = '✨ Thank you! We will call you back shortly. ✨';
+                formMessage.classList.remove('hidden');
+                formMessage.classList.add('text-green-600');
+                callbackForm.reset();
+                setTimeout(() => {
+                    formMessage.classList.add('hidden');
+                }, 5000);
+            } else {
+                throw new Error('Form submission failed');
+            }
+        } catch (error) {
+            formMessage.textContent = '⚠️ Something went wrong. Please try again later.';
+            formMessage.classList.remove('hidden');
+            formMessage.classList.add('text-red-600');
+            setTimeout(() => {
+                formMessage.classList.add('hidden');
+            }, 5000);
+        }
+    });
+
+    // Scroll reveal animation using Intersection Observer
+    const revealElements = document.querySelectorAll('.scroll-reveal');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                observer.unobserve(entry.target); // once revealed, stop observing
+            }
+        });
+    }, { threshold: 0.2, rootMargin: '0px 0px -50px 0px' }); // trigger when 20% visible
+    
+    revealElements.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
