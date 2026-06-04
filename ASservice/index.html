@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Services | Ashraf's Unisex Salon & Academy</title>
+    <!-- Google Fonts + Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        .gold-text { color: #D4AF7A; }
+        .gold-bg { background: #D4AF7A; }
+        .gold-border { border-color: #D4AF7A; }
+        
+        .social-icon { transition: all 0.3s ease; }
+        .social-icon:hover { opacity: 0.7; transform: translateY(-2px); }
+        
+        .mobile-menu { 
+            display: none; 
+            flex-direction: column; 
+            background: white; 
+            position: absolute; 
+            top: 70px; 
+            left: 0; 
+            right: 0; 
+            padding: 20px; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); 
+            z-index: 50; 
+            border-top: 1px solid #eee; 
+        }
+        .mobile-menu.active { display: flex; }
+        .mobile-menu a { 
+            padding: 12px 0; 
+            border-bottom: 1px solid #f0f0f0; 
+            font-weight: 600; 
+        }
+        @media (min-width: 768px) { 
+            .mobile-menu { display: none !important; } 
+        }
+        
+        /* ========== SCROLL ANIMATIONS ========== */
+        .scroll-hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .fade-up {
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .fade-up.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .fade-left {
+            transform: translateX(-50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .fade-left.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0);
+        }
+        
+        .fade-right {
+            transform: translateX(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .fade-right.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0);
+        }
+        
+        .scale-in {
+            transform: scale(0.8);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .scale-in.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+        
+        .zoom-in {
+            transform: scale(0.9);
+            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .zoom-in.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+        
+        /* Service Card */
+        .service-card {
+            background: white;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid #f0f0f0;
+            overflow: hidden;
+        }
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-color: #D4AF7A;
+        }
+        
+        .service-img {
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .service-card:hover .service-img {
+            transform: scale(1.05);
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background: white;
+            max-width: 900px;
+            width: 90%;
+            border-radius: 20px;
+            overflow: hidden;
+            animation: modalFadeIn 0.3s ease;
+        }
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Booking Popup */
+        .booking-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+        }
+        .booking-modal.active {
+            display: flex;
+        }
+        .booking-content {
+            background: white;
+            max-width: 500px;
+            width: 90%;
+            border-radius: 20px;
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        .category-tab {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .category-tab.active {
+            background: #D4AF7A;
+            color: white;
+        }
+        .category-tab:not(.active):hover {
+            background: #D4AF7A20;
+            color: #7c5730;
+        }
+        
+        .cta-btn {
+            background: linear-gradient(135deg, #7c5730, #D4AF7A);
+            transition: all 0.3s ease;
+        }
+        .cta-btn:hover {
+            background: linear-gradient(135deg, #5b403c, #c49a5f);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(212, 175, 122, 0.3);
+        }
+        
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #D4AF7A; border-radius: 4px; }
+        
+        .visible {
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: translate(0) scale(1) !important;
+        }
+        
+        .close-modal {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .close-modal:hover {
+            color: #D4AF7A;
+        }
+        
+        input, select, textarea {
+            outline: none;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #D4AF7A;
+        }
+    </style>
+</head>
+<body class="bg-[#F9F6F0] text-[#1E1A16] font-['Montserrat']">
+
+<!-- ===== HEADER ===== -->
+<header class="sticky top-0 w-full z-50 bg-white shadow-md">
+    <div class="flex justify-between items-center px-6 md:px-12 py-3 max-w-7xl mx-auto relative">
+        <div class="flex items-center">
+            <img alt="Ashraf's Unisex Salon Logo" class="h-14 w-auto" src="https://www.rncarandbikerental.net/web/image/784-8f55ec69/ashraf%20bg%20white.webp">
+        </div>
+        <nav class="hidden md:flex space-x-8">
+            <a class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-[#D4AF7A] transition" href="#">HOME</a>
+            <a class="text-sm font-semibold uppercase tracking-wide border-b-2 border-[#D4AF7A] pb-1 text-[#D4AF7A]" href="#">SERVICES</a>
+            <a class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-[#D4AF7A] transition" href="#">STORE LOCATOR</a>
+            <a class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-[#D4AF7A] transition" href="#">ABOUT US</a>
+            <a class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-[#D4AF7A] transition" href="#">ACADEMY</a>
+        </nav>
+        <div class="flex items-center gap-4">
+            <button class="bg-gradient-to-r from-[#7c5730] to-[#D4AF7A] text-white text-sm uppercase tracking-wide px-6 py-2 hover:from-[#5b403c] hover:to-[#c49a5f] transition hidden md:block rounded-full">BOOK NOW</button>
+            <button id="menuBtn" class="md:hidden text-[#271310] focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+    </div>
+    <div id="mobileMenu" class="mobile-menu md:hidden">
+        <a href="#">HOME</a>
+        <a href="#">SERVICES</a>
+        <a href="#">STORE LOCATOR</a>
+        <a href="#">ABOUT US</a>
+        <a href="#">ACADEMY</a>
+        <button class="bg-gradient-to-r from-[#7c5730] to-[#D4AF7A] text-white text-sm uppercase tracking-wide px-6 py-2 mt-2 w-full rounded-full">BOOK NOW</button>
+    </div>
+</header>
+
+<main>
+    <!-- ===== HERO SECTION ===== -->
+    <section class="relative h-[60vh] min-h-[450px] parallax" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1521592163135-6d62d1b7e4b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
+        <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+            <span class="text-[#D4AF7A] text-sm tracking-[0.3em] uppercase mb-4 scroll-hidden fade-up">✦ PREMIUM GROOMING ✦</span>
+            <h1 class="font-serif text-5xl md:text-7xl text-white mb-6 scroll-hidden fade-up delay-1">Our Services</h1>
+            <div class="w-20 h-[2px] bg-[#D4AF7A] mx-auto mb-6 scroll-hidden scale-in"></div>
+            <p class="text-white/90 text-base md:text-lg max-w-2xl scroll-hidden fade-up delay-2">Experience the finest unisex grooming services tailored just for you</p>
+        </div>
+    </section>
+
+    <!-- ===== CATEGORY TABS ===== -->
+    <section class="py-12 px-6 md:px-12 bg-white border-b border-gray-100 sticky top-[72px] z-40 shadow-sm">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-wrap justify-center gap-3 stagger-container">
+                <button class="category-tab active px-6 py-2 rounded-full text-sm font-semibold transition bg-[#D4AF7A] text-white">ALL SERVICES</button>
+                <button class="category-tab px-6 py-2 rounded-full text-sm font-semibold transition bg-gray-100 text-gray-700 hover:bg-[#D4AF7A]/20">Skin</button>
+                <button class="category-tab px-6 py-2 rounded-full text-sm font-semibold transition bg-gray-100 text-gray-700 hover:bg-[#D4AF7A]/20">Hair</button>
+                <button class="category-tab px-6 py-2 rounded-full text-sm font-semibold transition bg-gray-100 text-gray-700 hover:bg-[#D4AF7A]/20">Nail</button>
+                <button class="category-tab px-6 py-2 rounded-full text-sm font-semibold transition bg-gray-100 text-gray-700 hover:bg-[#D4AF7A]/20">Makeup</button>
+                <button class="category-tab px-6 py-2 rounded-full text-sm font-semibold transition bg-gray-100 text-gray-700 hover:bg-[#D4AF7A]/20">Spa</button>
+                <button class="category-tab px-6 py-2 rounded-full text-sm font-semibold transition bg-gray-100 text-gray-700 hover:bg-[#D4AF7A]/20">Mani-Pedi</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SERVICES GRID SECTION ===== -->
+    <section class="py-20 px-6 md:px-12">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- SKIN SERVICES -->
+            <div class="category-section mb-20" data-category="Skin">
+                <div class="flex items-center gap-3 mb-8 scroll-hidden fade-left">
+                    <div class="w-12 h-12 rounded-full bg-[#D4AF7A]/10 flex items-center justify-center">
+                        <i class="fas fa-face-smile text-2xl text-[#D4AF7A]"></i>
+                    </div>
+                    <h3 class="text-3xl font-serif text-[#271310]">Skin Treatments</h3>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Facial Therapy -->
+                    <div class="service-card rounded-xl overflow-hidden scroll-hidden zoom-in">
+                        <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Facial Therapy" class="service-img w-full">
+                        <div class="p-5">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="text-xl font-bold text-[#271310]">Facial Therapy</h4>
+                                <span class="price-tag text-lg font-bold text-[#D4AF7A]">₹1,499+</span>
+                            </div>
+                            <p class="text-gray-500 text-sm mb-3">Deep cleansing, exfoliation & hydration for glowing skin</p>
+                            <div class="flex justify-between items-center mt-3">
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded">⏱ 30-45 min</span>
+                                <button class="view-more-btn text-[#D4AF7A] text-sm font-semibold hover:underline" data-service='{"name":"Facial Therapy","price":"₹1,499+","duration":"30-45 min","category":"Skin","description":"A luxurious facial treatment that deeply cleanses, exfoliates, and hydrates your skin. Includes gentle massage with premium products suitable for all skin types.","fullDesc":"Experience ultimate relaxation with our signature Facial Therapy. This treatment includes:\n\n• Deep pore cleansing\n• Gentle exfoliation \n• Face, neck & shoulder massage\n• Hydrating mask application\n• Serum & moisturizer finish\n\nPerfect for dull, tired skin. Recommended every 3-4 weeks for best results.","image":"https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"}'>View More →</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Anti-Aging Treatment -->
+                    <div class="service-card rounded-xl overflow-hidden scroll-hidden zoom-in delay-1">
+                        <img src="https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Anti-Aging" class="service-img w-full">
+                        <div class="p-5">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="text-xl font-bold text-[#271310]">Anti-Aging Treatment</h4>
+                                <span class="price-tag text-lg font-bold text-[#D4AF7A]">₹2,499+</span>
+                            </div>
+                            <p class="text-gray-500 text-sm mb-3">Reduce fine lines & wrinkles with advanced techniques</p>
+                            <div class="flex justify-between items-center mt-3">
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded">⏱ 45-60 min</span>
+                                <button class="view-more-btn text-[#D4AF7A] text-sm font-semibold hover:underline" data-service='{"name":"Anti-Aging Treatment","price":"₹2,499+","duration":"45-60 min","category":"Skin","description":"Advanced treatment to reduce fine lines, wrinkles, and restore youthful glow.","fullDesc":"Our Anti-Aging Treatment uses cutting-edge techniques to combat signs of aging:\n\n• Collagen-boosting massage\n• Peptide-rich serums\n• LED light therapy\n• Firming mask application\n• Antioxidant protection\n\nVisible results after first session.","image":"https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"}'>View More →</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Acne Control -->
+                    <div class="service-card rounded-xl overflow-hidden scroll-hidden zoom-in delay-2">
+                        <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Acne Control" class="service-img w-full">
+                        <div class="p-5">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="text-xl font-bold text-[#271310]">Acne Control</h4>
+                                <span class="price-tag text-lg font-bold text-[#D4AF7A]">₹1,299+</span>
+                            </div>
+                            <p class="text-gray-500 text-sm mb-3">Specialized acne & blemish treatment for clear skin</p>
+                            <div class="flex justify-between items-center mt-3">
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded">⏱ 40 min</span>
+                                <button class="view-more-btn text-[#D4AF7A] text-sm font-semibold hover:underline" data-service='{"name":"Acne Control","price":"₹1,299+","duration":"40 min","category":"Skin","description":"Professional acne treatment to reduce breakouts and prevent future acne.","fullDesc":"Targeted solution for acne-prone skin:\n\n• Deep pore extraction\n• Salicylic acid treatment\n• Calming mask\n• Oil-control therapy\n• Home care recommendations\n\nSafe for active acne. Results visible within 1 week.","image":"https://images.unsplash.com/photo-1556228720-195a672e8a03?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"}'>View More →</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Glow Therapy -->
+                    <div class="service-card rounded-xl overflow-hidden scroll-hidden zoom-in">
+                        <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Glow Therapy" class="service-img w-full">
+                        <div class="p-5">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="text-xl font-bold text-[#271310]">Glow Therapy</h4>
+                                <span class="price-tag text-lg font-bold text-[#D4AF7A]">₹1,799+</span>
+                            </div>
+                            <p class="text-gray-500 text-sm mb-3">Instant radiance & brightening treatment</p>
+                            <div class="flex justify-between items-center mt-3">
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded">⏱ 35 min</span>
+                                <button class="view-more-btn text-[#D4AF7A] text-sm font-semibold hover:underline" data-service='{"name":"Glow Therapy","price":"₹1,799+","duration":"35 min","category":"Skin","description":"Get instant radiance with our signature glow treatment.","fullDesc":"Perfect before any special occasion:\n\n• Vitamin C infusion\n• Brightening enzymes\n• Light therapy\n• Hydrating mask\n• SPF protection\n\nInstant glowing results!","image":"https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"}'>View More →</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HAIR SERVICES -->
+            <div class="category-section mb-20" data-category="Hair">
+                <div class="flex items-center gap-3 mb-8 scroll-hidden fade-left">
+                    <div class="w-12 h-12 rounded-full bg-[#D4AF7A]/10 flex items-center justify-center">
+                        <i class="fas fa-cut text-2xl text-[#D4AF7A]"></i>
+                    </div>
+                    <h3 class="text-3xl font-serif text-[#271310]">Hair Services</h3>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="service-card rounded-xl overflow-hidden scroll-hidden zoom-in">
+                        <img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Haircut" class="service-img w-full">
+                        <div class="p-5">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="text-xl font-bold text-[#271310]">Haircut & Styling</h4>
+                                <span class="price-tag text-lg font-bold text-[#D4AF7A]">₹599+</span>
+                            </div>
+                            <p class="text-gray-500 text-sm mb-3">Expert cuts for men & women by professional stylists</p>
+                            <div class="flex justify-between items-center mt-3">
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded">⏱ 30-45 min</span>
+                                <button class="view-more-btn text-[#D4AF7A] text-sm font-semibold hover:underline" data-service='{"name":"Haircut & Styling","price":"₹599+","duration":"30-45 min","category":"Hair","description":"Professional haircut and styling by expert stylists.","fullDesc":"Precision haircut tailored to your face shape:\n\n• Consultation\n• Precision cutting\n• Blow-dry & styling\n• Product recommendation\n\nIncludes shampoo & conditioning.","image":"https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"}'>View More →</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="service-card rounded-xl overflow-hidden scroll-hidden zoom-in delay-1">
+                        <img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hair Color" class="service-img w-full">
+                        <div class="p-5">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="text-xl font-bold text-[#271310]">Hair Color</h4>
+                                <span class="price-tag text-lg font-bold text-[#D4AF7A]">₹1,999+</span>
+                            </div>
+                            <p class="text-gray-500 text-sm mb-3">Global, highlights, ombre & creative colors</p>
+                            <div class="flex justify-between items-center mt-3">
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded">⏱ 2-3 hours</span>
+                                <button class="view-more-btn text-[#D4AF7A] text-sm font-semibold hover:underline" data-service='{"name":"Hair Color","price":"₹1,999+","duration":"2-3 hours","category":"Hair","description":"Professional hair coloring services with premium brands.","fullDesc":"Transform your look with expert coloring:\n\n• Premium ammonia-free colors\n• Highlights / Lowlights\n• Ombre / Balayage\n• Root touch-up\n• Color protection advice\n\nPatch test mandatory.","image":"https://images.unsplash.com/photo-1562322140-8baeececf3df?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"}'>View More →</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="service-card rounded-xl overflow-hidden scroll-hidden zoom-in delay-2">
+                        <img src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Keratin" class="service-img w-full">
+                        <div class="p-5">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="text-xl font-bold text-[#271310]">Keratin Treatment</h4>
+                                <span class="price-tag text-lg font-bold text-[#D4AF7A]">₹4,999+</span>
+                            </div>
+                            <p class="text-gray-500 text-sm mb-3">Smooth & frizz-free hair for 3-4 months</p>
+                            <div class="flex justify-between items-center mt-3">
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded">⏱ 2-3 hours</span>
+                                <button class="view-more-btn text-[#D4AF7A] text-sm font-semibold hover:underline" data-service='{"name":"Keratin Treatment","price":"₹4,999+","duration":"2-3 hours","category":"Hair","description":"Advanced keratin smoothing treatment for frizz-free hair.","fullDesc":"Get salon-smooth hair:\n\n• Deep cleansing\n• Keratin application\n• Heat sealing\n• Smoothes frizz\n• Lasts 3-4 months\n\nSafe for all hair types.","image":"https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"}'>View More →</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Add more categories similarly... -->
+            <div class="text-center py-12">
+                <p class="text-gray-500">✨ More services in Nail, Makeup, Spa & Mani-Pedi categories ✨</p>
+                <p class="text-sm text-gray-400 mt-2">Click on category tabs above to explore all services</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA SECTION ===== -->
+    <section class="py-24 px-6 md:px-12 parallax scroll-hidden zoom-in" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl md:text-5xl font-serif text-white mb-5">Ready for a <span class="text-[#D4AF7A]">Transformation</span>?</h2>
+            <p class="text-gray-300 text-lg mb-8">Book your appointment today and experience luxury grooming at its finest.</p>
+            <button class="cta-btn text-white px-10 py-4 text-lg uppercase tracking-wide rounded-full font-semibold">BOOK APPOINTMENT →</button>
+        </div>
+    </section>
+</main>
+
+<!-- ===== DETAIL MODAL ===== -->
+<div id="detailModal" class="modal">
+    <div class="modal-content">
+        <div class="relative">
+            <img id="modalImage" src="" alt="" class="w-full h-64 object-cover">
+            <button class="close-modal absolute top-4 right-4 bg-white rounded-full w-10 h-10 flex items-center justify-center text-2xl hover:bg-[#D4AF7A] hover:text-white transition">&times;</button>
+        </div>
+        <div class="p-8">
+            <div class="flex justify-between items-start mb-4">
+                <h3 id="modalTitle" class="text-3xl font-serif text-[#271310]"></h3>
+                <span id="modalPrice" class="text-2xl font-bold text-[#D4AF7A]"></span>
+            </div>
+            <div class="flex gap-4 mb-4 text-sm text-gray-500">
+                <span><i class="far fa-clock"></i> <span id="modalDuration"></span></span>
+                <span><i class="fas fa-tag"></i> <span id="modalCategory"></span></span>
+            </div>
+            <div id="modalFullDesc" class="text-gray-600 leading-relaxed mb-6 whitespace-pre-line"></div>
+            <div class="flex gap-4">
+                <button id="bookNowFromModal" class="cta-btn text-white px-8 py-3 rounded-full font-semibold flex-1">BOOK NOW</button>
+                <button class="close-modal border border-gray-300 px-8 py-3 rounded-full font-semibold hover:border-[#D4AF7A] hover:text-[#D4AF7A] transition">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== BOOKING POPUP MODAL ===== -->
+<div id="bookingModal" class="booking-modal">
+    <div class="booking-content">
+        <div class="bg-[#D4AF7A] text-white p-4 flex justify-between items-center">
+            <h3 class="text-xl font-semibold">Book Appointment</h3>
+            <button class="close-booking text-white text-2xl hover:text-[#1E1A16]">&times;</button>
+        </div>
+        <div class="p-6">
+            <form id="bookingForm">
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold mb-1">Service</label>
+                    <input type="text" id="bookingService" class="w-full border rounded-lg px-4 py-2 bg-gray-50" readonly>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold mb-1">Full Name *</label>
+                    <input type="text" required class="w-full border rounded-lg px-4 py-2 focus:border-[#D4AF7A]">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold mb-1">Phone Number *</label>
+                    <input type="tel" required class="w-full border rounded-lg px-4 py-2 focus:border-[#D4AF7A]">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold mb-1">Email</label>
+                    <input type="email" class="w-full border rounded-lg px-4 py-2 focus:border-[#D4AF7A]">
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-semibold mb-1">Preferred Date</label>
+                        <input type="date" required class="w-full border rounded-lg px-4 py-2 focus:border-[#D4AF7A]">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-1">Preferred Time</label>
+                        <select class="w-full border rounded-lg px-4 py-2 focus:border-[#D4AF7A]">
+                            <option>10:00 AM</option>
+                            <option>11:00 AM</option>
+                            <option>12:00 PM</option>
+                            <option>1:00 PM</option>
+                            <option>2:00 PM</option>
+                            <option>3:00 PM</option>
+                            <option>4:00 PM</option>
+                            <option>5:00 PM</option>
+                            <option>6:00 PM</option>
+                            <option>7:00 PM</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold mb-1">Special Requests (Optional)</label>
+                    <textarea rows="2" class="w-full border rounded-lg px-4 py-2 focus:border-[#D4AF7A]"></textarea>
+                </div>
+                <button type="submit" class="cta-btn text-white w-full py-3 rounded-lg font-semibold">CONFIRM BOOKING</button>
+                <p class="text-xs text-gray-400 text-center mt-3">We'll contact you within 30 minutes to confirm</p>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="bg-[#1E1A16] text-white py-16">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+            <div>
+                <div class="text-2xl font-serif font-bold">ASHRAF'S</div>
+                <div class="text-sm text-gray-400 mt-1">UNISEX SALON & ACADEMY</div>
+                <div class="text-xs text-gray-500 mb-4">EST. 2008</div>
+                <div class="flex space-x-4 mt-5">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f text-gray-400 hover:text-[#D4AF7A] text-lg"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram text-gray-400 hover:text-[#D4AF7A] text-lg"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-youtube text-gray-400 hover:text-[#D4AF7A] text-lg"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter text-gray-400 hover:text-[#D4AF7A] text-lg"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-sm uppercase font-bold mb-5 gold-text tracking-wider">QUICK LINKS</h4>
+                <ul class="space-y-3 text-sm text-gray-400">
+                    <li><a href="#" class="hover:text-[#D4AF7A] transition">HOME</a></li>
+                    <li><a href="#" class="hover:text-[#D4AF7A] transition">SERVICES</a></li>
+                    <li><a href="#" class="hover:text-[#D4AF7A] transition">ABOUT US</a></li>
+                    <li><a href="#" class="hover:text-[#D4AF7A] transition">ACADEMY</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-sm uppercase font-bold mb-5 gold-text tracking-wider">SUPPORT</h4>
+                <ul class="space-y-3 text-sm text-gray-400">
+                    <li><a href="#" class="hover:text-[#D4AF7A] transition">PRIVACY POLICY</a></li>
+                    <li><a href="#" class="hover:text-[#D4AF7A] transition">TERMS OF SERVICE</a></li>
+                    <li><a href="#" class="hover:text-[#D4AF7A] transition">CONTACT US</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-sm uppercase font-bold mb-5 gold-text tracking-wider">CONTACT INFO</h4>
+                <ul class="space-y-3 text-sm text-gray-400">
+                    <li class="flex gap-3"><i class="fas fa-map-marker-alt gold-text mt-1"></i> <span>Galleria Mall, Powai, Mumbai</span></li>
+                    <li class="flex gap-3"><i class="fas fa-phone-alt gold-text mt-1"></i> <span>022 4026 3442 / 3441</span></li>
+                    <li class="flex gap-3"><i class="fas fa-envelope gold-text mt-1"></i> <span>concierge@ashrafscissors.com</span></li>
+                    <li class="flex gap-3"><i class="fas fa-clock gold-text mt-1"></i> <span>10 AM - 8 PM | Mon-Sun</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="text-center text-gray-500 text-xs mt-12 pt-8 border-t border-gray-800">
+            © 2025 ASHRAF'S UNISEX SALON & ACADEMY – ALL RIGHTS RESERVED.
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Mobile Menu
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if(menuBtn) {
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+    }
+    
+    // Scroll Animation
+    const scrollElements = document.querySelectorAll('.scroll-hidden');
+    const elementInView = (el, offset = 100) => {
+        const elementTop = el.getBoundingClientRect().top;
+        return (elementTop <= (window.innerHeight - offset));
+    };
+    const displayScrollElement = (element) => {
+        element.classList.add('visible');
+    };
+    const handleScrollAnimation = () => {
+        scrollElements.forEach((el) => {
+            if (elementInView(el, 100)) {
+                displayScrollElement(el);
+            }
+        });
+    };
+    
+    // Category Tabs
+    const categoryTabs = document.querySelectorAll('.category-tab');
+    const categorySections = document.querySelectorAll('.category-section');
+    
+    categoryTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            categoryTabs.forEach(t => {
+                t.classList.remove('active', 'bg-[#D4AF7A]', 'text-white');
+                t.classList.add('bg-gray-100', 'text-gray-700');
+            });
+            tab.classList.remove('bg-gray-100', 'text-gray-700');
+            tab.classList.add('active', 'bg-[#D4AF7A]', 'text-white');
+            
+            const filter = tab.textContent.trim();
+            if (filter === 'ALL SERVICES') {
+                categorySections.forEach(section => section.style.display = 'block');
+            } else {
+                categorySections.forEach(section => {
+                    const category = section.getAttribute('data-category');
+                    section.style.display = category === filter ? 'block' : 'none';
+                });
+            }
+        });
+    });
+    
+    // View More Modal
+    const detailModal = document.getElementById('detailModal');
+    const bookingModal = document.getElementById('bookingModal');
+    let currentService = null;
+    
+    document.querySelectorAll('.view-more-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const serviceData = JSON.parse(btn.getAttribute('data-service'));
+            currentService = serviceData;
+            
+            document.getElementById('modalImage').src = serviceData.image;
+            document.getElementById('modalTitle').textContent = serviceData.name;
+            document.getElementById('modalPrice').textContent = serviceData.price;
+            document.getElementById('modalDuration').textContent = serviceData.duration;
+            document.getElementById('modalCategory').textContent = serviceData.category;
+            document.getElementById('modalFullDesc').textContent = serviceData.fullDesc;
+            
+            detailModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+    
+    // Close modals
+    document.querySelectorAll('.close-modal, .close-booking').forEach(btn => {
+        btn.addEventListener('click', () => {
+            detailModal.classList.remove('active');
+            bookingModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+    });
+    
+    // Book Now from modal
+    document.getElementById('bookNowFromModal').addEventListener('click', () => {
+        detailModal.classList.remove('active');
+        if (currentService) {
+            document.getElementById('bookingService').value = currentService.name;
+            bookingModal.classList.add('active');
+        }
+    });
+    
+    // Booking form submit
+    document.getElementById('bookingForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('Thank you! We will contact you within 30 minutes to confirm your appointment.');
+        bookingModal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    });
+    
+    window.addEventListener('load', handleScrollAnimation);
+    window.addEventListener('scroll', handleScrollAnimation);
+    
+    setTimeout(() => {
+        scrollElements.forEach((el) => {
+            if (elementInView(el, 100)) el.classList.add('visible');
+        });
+    }, 100);
+</script>
+</body>
+</html>
