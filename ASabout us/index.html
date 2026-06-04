@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>About Us | Ashraf's Unisex Salon & Academy</title>
+    <!-- Google Fonts + Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        .gold-text { color: #D4AF7A; }
+        .gold-bg { background: #D4AF7A; }
+        .gold-border { border-color: #D4AF7A; }
+        
+        .social-icon { transition: all 0.3s ease; }
+        .social-icon:hover { opacity: 0.7; transform: translateY(-2px); }
+        
+        .mobile-menu { 
+            display: none; 
+            flex-direction: column; 
+            background: white; 
+            position: absolute; 
+            top: 70px; 
+            left: 0; 
+            right: 0; 
+            padding: 20px; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); 
+            z-index: 50; 
+            border-top: 1px solid #eee; 
+        }
+        .mobile-menu.active { display: flex; }
+        .mobile-menu a { 
+            padding: 12px 0; 
+            border-bottom: 1px solid #f0f0f0; 
+            font-weight: 600; 
+        }
+        @media (min-width: 768px) { 
+            .mobile-menu { display: none !important; } 
+        }
+        
+        /* ========== SCROLL ANIMATIONS ========== */
+        .scroll-hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        /* Fade Up Animation */
+        .fade-up {
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .fade-up.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        /* Fade Left */
+        .fade-left {
+            transform: translateX(-50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .fade-left.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0);
+        }
+        
+        /* Fade Right */
+        .fade-right {
+            transform: translateX(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .fade-right.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0);
+        }
+        
+        /* Scale In */
+        .scale-in {
+            transform: scale(0.8);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .scale-in.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+        
+        /* Zoom In */
+        .zoom-in {
+            transform: scale(0.9);
+            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .zoom-in.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+        
+        /* Stagger Children */
+        .stagger-container > * {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .stagger-container.visible > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
+        .stagger-container.visible > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
+        .stagger-container.visible > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
+        .stagger-container.visible > *:nth-child(4) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
+        
+        /* Flip In */
+        .flip-in {
+            transform: perspective(1000px) rotateY(90deg);
+            transition: all 0.8s ease;
+        }
+        .flip-in.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: perspective(1000px) rotateY(0);
+        }
+        
+        /* Default visible for elements without animation on load */
+        .visible {
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: translate(0) scale(1) rotate(0) !important;
+        }
+        
+        /* Stat Card Hover */
+        .stat-card {
+            background: linear-gradient(135deg, #fff 0%, #FAF8F5 100%);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        /* Timeline Styling */
+        .timeline {
+            position: relative;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, #D4AF7A, #7c5730, #D4AF7A);
+        }
+        @media (max-width: 768px) {
+            .timeline::before { left: 20px; }
+        }
+        
+        /* Value Cards */
+        .value-card {
+            background: white;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        .value-card:hover {
+            border-bottom-color: #D4AF7A;
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+        }
+        
+        /* CTA Button */
+        .cta-btn {
+            background: linear-gradient(135deg, #7c5730, #D4AF7A);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-btn:hover {
+            background: linear-gradient(135deg, #5b403c, #c49a5f);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(212, 175, 122, 0.3);
+        }
+        
+        /* Parallax Effect */
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #D4AF7A; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #7c5730; }
+        
+        /* Timeline Item Animation */
+        .timeline-item {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.6s ease;
+        }
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .timeline-item:nth-child(even) {
+            transform: translateX(30px);
+        }
+        .timeline-item:nth-child(even).visible {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body class="bg-[#F9F6F0] text-[#1E1A16] font-['Montserrat']">
+
+<!-- ===== HEADER ===== -->
+<header class="sticky top-0 w-full z-50 bg-white shadow-md">
+    <div class="flex justify-between items-center px-6 md:px-12 py-3 max-w-7xl mx-auto relative">
+        <div class="flex items-center">
+            <img alt="Ashraf's Unisex Salon Logo" class="h-14 w-auto" src="https://www.rncarandbikerental.net/web/image/784-8f55ec69/ashraf%20bg%20white.webp">
+        </div>
+        <nav class="hidden md:flex space-x-8">
+            <a class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-[#D4AF7A] transition" href="#">HOME</a>
+            <a class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-[#D4AF7A] transition" href="#">SERVICES</a>
+            <a class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-[#D4AF7A] transition" href="#">STORE LOCATOR</a>
+            <a class="text-sm font-semibold uppercase tracking-wide border-b-2 border-[#D4AF7A] pb-1 text-[#D4AF7A]" href="#">ABOUT US</a>
+            <a class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-[#D4AF7A] transition" href="#">ACADEMY</a>
+        </nav>
+        <div class="flex items-center gap-4">
+            <button class="bg-gradient-to-r from-[#7c5730] to-[#D4AF7A] text-white text-sm uppercase tracking-wide px-6 py-2 hover:from-[#5b403c] hover:to-[#c49a5f] transition hidden md:block rounded-full">BOOK NOW</button>
+            <button id="menuBtn" class="md:hidden text-[#271310] focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+    </div>
+    <div id="mobileMenu" class="mobile-menu md:hidden">
+        <a href="#">HOME</a>
+        <a href="#">SERVICES</a>
+        <a href="#">STORE LOCATOR</a>
+        <a href="#">ABOUT US</a>
+        <a href="#">ACADEMY</a>
+        <button class="bg-gradient-to-r from-[#7c5730] to-[#D4AF7A] text-white text-sm uppercase tracking-wide px-6 py-2 mt-2 w-full rounded-full">BOOK NOW</button>
+    </div>
+</header>
+
+<main>
+    <!-- ===== HERO SECTION ===== -->
+    <section class="relative h-[70vh] min-h-[500px] parallax" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
+        <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+            <span class="text-[#D4AF7A] text-sm tracking-[0.3em] uppercase mb-4 scroll-hidden fade-up">✦ EST. 2008 ✦</span>
+            <h1 class="font-serif text-5xl md:text-7xl text-white mb-6 scroll-hidden fade-up delay-1">Our Story</h1>
+            <div class="w-20 h-[2px] bg-[#D4AF7A] mx-auto mb-6 scroll-hidden scale-in"></div>
+            <p class="text-white/90 text-base md:text-lg max-w-2xl scroll-hidden fade-up delay-2">Artisanal Mastery — Redefining Unisex Grooming Since Day One</p>
+        </div>
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <i class="fas fa-chevron-down text-white text-2xl"></i>
+        </div>
+    </section>
+
+    <!-- ===== INTRO SECTION ===== -->
+    <section class="py-24 px-6 md:px-12">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="scroll-hidden fade-left">
+                    <div class="relative">
+                        <div class="absolute -top-6 -left-6 w-32 h-32 border-t-2 border-l-2 border-[#D4AF7A]"></div>
+                        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Salon Interior" class="rounded-lg shadow-2xl w-full relative z-10">
+                        <div class="absolute -bottom-6 -right-6 w-32 h-32 border-b-2 border-r-2 border-[#D4AF7A]"></div>
+                    </div>
+                </div>
+                <div class="scroll-hidden fade-right">
+                    <span class="text-sm text-[#D4AF7A] tracking-[0.2em] uppercase font-semibold">✦ The Legacy ✦</span>
+                    <h2 class="text-4xl md:text-5xl font-serif text-[#271310] mt-3 mb-6">Where Luxury Meets <span class="text-[#D4AF7A]">Artistry</span></h2>
+                    <p class="text-gray-700 mb-5 leading-relaxed">Founded in 2008 by master stylist <span class="font-bold text-[#D4AF7A]">Ashraf Salmani</span>, Ashraf's Unisex Salon & Academy was born from a singular vision — to create a space where impeccable grooming meets artistic expression, without boundaries of gender.</p>
+                    <p class="text-gray-700 mb-5 leading-relaxed">What started as a small boutique salon with just 3 chairs has grown into Mumbai's most trusted destination for premium unisex grooming.</p>
+                    <p class="text-gray-700 leading-relaxed">Today, we're proud to have trained over <span class="font-bold text-[#D4AF7A]">1,500+</span> aspiring stylists and served <span class="font-bold text-[#D4AF7A]">50,000+</span> delighted clients.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MISSION & VISION ===== -->
+    <section class="py-20 px-6 md:px-12 bg-gradient-to-br from-[#1E1A16] to-[#2A241F] text-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-sm text-[#D4AF7A] tracking-[0.2em] uppercase scroll-hidden fade-up">✦ Our Purpose ✦</span>
+                <h2 class="text-4xl md:text-5xl font-serif mt-3 scroll-hidden fade-up delay-1">Why We Exist</h2>
+                <div class="w-16 h-[2px] bg-[#D4AF7A] mx-auto mt-4 scroll-hidden scale-in"></div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="bg-white/5 backdrop-blur-sm p-10 rounded-2xl border border-white/10 hover:border-[#D4AF7A]/50 transition-all duration-300 scroll-hidden fade-left">
+                    <div class="w-16 h-16 rounded-full bg-[#D4AF7A]/20 flex items-center justify-center mb-6">
+                        <i class="fas fa-star text-3xl text-[#D4AF7A]"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif mb-4">Our Mission</h3>
+                    <p class="text-gray-300 leading-relaxed">To empower individuals through exceptional grooming experiences, blending international techniques with personalized care — making every client feel confident, rejuvenated, and celebrated.</p>
+                </div>
+                <div class="bg-white/5 backdrop-blur-sm p-10 rounded-2xl border border-white/10 hover:border-[#D4AF7A]/50 transition-all duration-300 scroll-hidden fade-right">
+                    <div class="w-16 h-16 rounded-full bg-[#D4AF7A]/20 flex items-center justify-center mb-6">
+                        <i class="fas fa-eye text-3xl text-[#D4AF7A]"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif mb-4">Our Vision</h3>
+                    <p class="text-gray-300 leading-relaxed">To become India's most revered unisex salon chain and grooming academy — setting benchmarks in service excellence, innovation, and artistry.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== STATS SECTION ===== -->
+    <section class="py-24 px-6 md:px-12 bg-[#FAF8F5]">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-sm text-[#D4AF7A] tracking-[0.2em] uppercase font-semibold scroll-hidden fade-up">✦ By The Numbers ✦</span>
+                <h2 class="text-4xl md:text-5xl font-serif text-[#271310] mt-3 scroll-hidden fade-up delay-1">Our Journey in Numbers</h2>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 stagger-container">
+                <div class="stat-card rounded-2xl p-8 text-center">
+                    <div class="text-5xl md:text-6xl font-bold text-[#D4AF7A] font-serif counter" data-target="17">0</div>
+                    <div class="text-sm uppercase tracking-wide mt-3 text-gray-600 font-semibold">Years of Excellence</div>
+                    <div class="text-xs text-gray-400 mt-2">2008 - 2025</div>
+                </div>
+                <div class="stat-card rounded-2xl p-8 text-center">
+                    <div class="text-5xl md:text-6xl font-bold text-[#D4AF7A] font-serif counter" data-target="50">0</div>
+                    <div class="text-sm uppercase tracking-wide mt-3 text-gray-600 font-semibold">Happy Clients</div>
+                    <div class="text-xs text-gray-400 mt-2">50,000+ Served</div>
+                </div>
+                <div class="stat-card rounded-2xl p-8 text-center">
+                    <div class="text-5xl md:text-6xl font-bold text-[#D4AF7A] font-serif counter" data-target="15">0</div>
+                    <div class="text-sm uppercase tracking-wide mt-3 text-gray-600 font-semibold">Students Trained</div>
+                    <div class="text-xs text-gray-400 mt-2">1,500+ Graduates</div>
+                </div>
+                <div class="stat-card rounded-2xl p-8 text-center">
+                    <div class="text-5xl md:text-6xl font-bold text-[#D4AF7A] font-serif counter" data-target="25">0</div>
+                    <div class="text-sm uppercase tracking-wide mt-3 text-gray-600 font-semibold">Expert Stylists</div>
+                    <div class="text-xs text-gray-400 mt-2">+ Creative Team</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TIMELINE SECTION ===== -->
+    <section class="py-24 px-6 md:px-12 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-sm text-[#D4AF7A] tracking-[0.2em] uppercase font-semibold scroll-hidden fade-up">✦ The Path ✦</span>
+                <h2 class="text-4xl md:text-5xl font-serif text-[#271310] mt-3 scroll-hidden fade-up delay-1">Our Journey Through Time</h2>
+            </div>
+            <div class="timeline relative">
+                <div class="grid md:grid-cols-2 gap-8 relative">
+                    <div class="space-y-8">
+                        <div class="bg-[#FAF8F5] p-6 rounded-xl timeline-item scroll-hidden">
+                            <div class="absolute -right-3 top-6 w-6 h-6 rounded-full bg-[#D4AF7A] hidden md:block" style="position: relative; left: auto; right: -15px;"></div>
+                            <div class="text-2xl font-bold text-[#D4AF7A] mb-2">2008</div>
+                            <h3 class="text-xl font-bold text-[#271310]">The Beginning</h3>
+                            <p class="text-gray-600">Ashraf's opens its first boutique salon in Bandra, Mumbai with just 3 chairs.</p>
+                        </div>
+                        <div class="bg-[#FAF8F5] p-6 rounded-xl timeline-item scroll-hidden">
+                            <div class="text-2xl font-bold text-[#D4AF7A] mb-2">2017</div>
+                            <h3 class="text-xl font-bold text-[#271310]">Ashraf's Academy Launched</h3>
+                            <p class="text-gray-600">Professional grooming academy with international curriculum.</p>
+                        </div>
+                        <div class="bg-[#FAF8F5] p-6 rounded-xl timeline-item scroll-hidden">
+                            <div class="text-2xl font-bold text-[#D4AF7A] mb-2">2025</div>
+                            <h3 class="text-xl font-bold text-[#271310]">The Present</h3>
+                            <p class="text-gray-600">5 locations, 25+ master stylists, 1,500+ graduates.</p>
+                        </div>
+                    </div>
+                    <div class="space-y-8 mt-8 md:mt-16">
+                        <div class="bg-[#FAF8F5] p-6 rounded-xl timeline-item scroll-hidden">
+                            <div class="text-2xl font-bold text-[#D4AF7A] mb-2">2013</div>
+                            <h3 class="text-xl font-bold text-[#271310]">Expansion</h3>
+                            <p class="text-gray-600">Second location in Andheri with specialized treatments.</p>
+                        </div>
+                        <div class="bg-[#FAF8F5] p-6 rounded-xl timeline-item scroll-hidden">
+                            <div class="text-2xl font-bold text-[#D4AF7A] mb-2">2022</div>
+                            <h3 class="text-xl font-bold text-[#271310]">Unisex Revolution</h3>
+                            <p class="text-gray-600">Rebranded as Unisex Salon, welcoming all genders.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOUNDER SECTION ===== -->
+    <section class="py-24 px-6 md:px-12 bg-gradient-to-r from-[#F9F6F0] to-[#FAF8F5]">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="order-2 md:order-1 scroll-hidden fade-left">
+                    <span class="text-sm text-[#D4AF7A] tracking-[0.2em] uppercase font-semibold">✦ The Visionary ✦</span>
+                    <h2 class="text-4xl md:text-5xl font-serif text-[#271310] mt-3 mb-4">Ashraf <span class="text-[#D4AF7A]">Salmani</span></h2>
+                    <p class="text-gray-600 italic mb-6 text-lg">"Grooming is not just a service — it's an art form that builds confidence."</p>
+                    <p class="text-gray-700 leading-relaxed mb-5">With over 25 years of experience in the luxury grooming industry, Ashraf has trained under masters in London, Milan, and Dubai.</p>
+                    <p class="text-gray-700 leading-relaxed mb-6">Today, he personally mentors every academy batch and ensures each salon maintains the highest standards.</p>
+                    <div class="flex gap-5">
+                        <a href="#" class="w-10 h-10 rounded-full bg-[#D4AF7A] flex items-center justify-center text-white hover:bg-[#7c5730] transition"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-[#D4AF7A] flex items-center justify-center text-white hover:bg-[#7c5730] transition"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-[#D4AF7A] flex items-center justify-center text-white hover:bg-[#7c5730] transition"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="order-1 md:order-2 scroll-hidden fade-right">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-[#D4AF7A] rounded-full translate-x-4 translate-y-4"></div>
+                        <img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Ashraf Salmani" class="rounded-full w-full max-w-md mx-auto relative z-10 shadow-2xl">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CORE VALUES ===== -->
+    <section class="py-24 px-6 md:px-12 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-sm text-[#D4AF7A] tracking-[0.2em] uppercase font-semibold scroll-hidden fade-up">✦ What We Believe ✦</span>
+                <h2 class="text-4xl md:text-5xl font-serif text-[#271310] mt-3 scroll-hidden fade-up delay-1">Our Core Values</h2>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="value-card p-8 rounded-xl text-center scroll-hidden zoom-in">
+                    <div class="w-20 h-20 rounded-full bg-[#D4AF7A]/10 flex items-center justify-center mx-auto mb-5">
+                        <i class="fas fa-heart text-3xl text-[#D4AF7A]"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif text-[#271310] mb-3">Passion</h3>
+                    <p class="text-gray-600">We love what we do, and it shows in every service we provide.</p>
+                </div>
+                <div class="value-card p-8 rounded-xl text-center scroll-hidden zoom-in delay-1">
+                    <div class="w-20 h-20 rounded-full bg-[#D4AF7A]/10 flex items-center justify-center mx-auto mb-5">
+                        <i class="fas fa-hand-sparkles text-3xl text-[#D4AF7A]"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif text-[#271310] mb-3">Excellence</h3>
+                    <p class="text-gray-600">Never compromising on quality, hygiene, or client satisfaction.</p>
+                </div>
+                <div class="value-card p-8 rounded-xl text-center scroll-hidden zoom-in delay-2">
+                    <div class="w-20 h-20 rounded-full bg-[#D4AF7A]/10 flex items-center justify-center mx-auto mb-5">
+                        <i class="fas fa-users text-3xl text-[#D4AF7A]"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif text-[#271310] mb-3">Inclusivity</h3>
+                    <p class="text-gray-600">A safe, welcoming space for everyone — regardless of gender.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA SECTION ===== -->
+    <section class="py-24 px-6 md:px-12 parallax scroll-hidden zoom-in" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1621605815971-fbc98d665033?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl md:text-5xl font-serif text-white mb-5">Experience The <span class="text-[#D4AF7A]">Ashraf's</span> Difference</h2>
+            <p class="text-gray-300 text-lg mb-8">Book your appointment today and discover why we're Mumbai's most trusted unisex salon.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button class="cta-btn text-white px-8 py-3 text-sm uppercase tracking-wide rounded-full font-semibold">BOOK NOW →</button>
+                <button class="border-2 border-[#D4AF7A] text-[#D4AF7A] px-8 py-3 text-sm uppercase tracking-wide rounded-full font-semibold hover:bg-[#D4AF7A] hover:text-[#1E1A16] transition">VIEW SERVICES</button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="bg-[#1E1A16] text-white py-16">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+            <div>
+                <div class="text-2xl font-serif font-bold">ASHRAF'S</div>
+                <div class="text-sm text-gray-400 mt-1">UNISEX SALON & ACADEMY</div>
+                <div class="text-xs text-gray-500 mb-4">EST. 2008</div>
+                <button class="border border-[#D4AF7A] text-[#D4AF7A] text-xs uppercase tracking-wide px-5 py-2 mt-2 hover:bg-[#D4AF7A] hover:text-[#1E1A16] transition rounded-full">BOOK NOW</button>
+                <div class="text-sm text-gray-400 italic mt-6">Artisanal Mastery.<br>Contemporary Luxury.<br>For Him & Her.</div>
+                <div class="flex space-x-4 mt-5">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f text-gray-400 hover:text-[#D4AF7A] text-lg"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram text-gray-400 hover:text-[#D4AF7A] text-lg"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-youtube text-gray-400 hover:text-[#D4AF7A] text-lg"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter text-gray-400 hover:text-[#D4AF7A] text-lg"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-sm uppercase font-bold mb-5 gold-text tracking-wider">QUICK LINKS</h4>
+                <ul class="space-y-3 text-sm text-gray-400">
+                    <li><a href="#" class="hover:text-[#D4AF7A] transition">HOME</a></li>
+                    <li><a href="#" class="hover:text-[#D4AF7A] transition">SERVICES</a></li>
+                    <li><a href="#" class="hover:text-[#D4AF7A] transition">ACADEMY</a></li>
+                    <li><a href="#" class="hover:text-[#D4AF7A] transition">CAREERS</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-sm uppercase font-bold mb-5 gold-text tracking-wider">SUPPORT</h4>
+                <ul class="space-y-3 text-sm text-gray-400">
+                    <li><a href="#" class="hover:text-[#D4AF7A] transition">PRIVACY POLICY</a></li>
+                    <li><a href="#" class="hover:text-[#D4AF7A] transition">TERMS OF SERVICE</a></li>
+                    <li><a href="#" class="hover:text-[#D4AF7A] transition">CONTACT US</a></li>
+                    <li><a href="#" class="hover:text-[#D4AF7A] transition">STORE LOCATOR</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-sm uppercase font-bold mb-5 gold-text tracking-wider">CONTACT INFO</h4>
+                <ul class="space-y-3 text-sm text-gray-400">
+                    <li class="flex gap-3"><i class="fas fa-map-marker-alt gold-text mt-1"></i> <span>Galleria Mall, Powai, Mumbai</span></li>
+                    <li class="flex gap-3"><i class="fas fa-phone-alt gold-text mt-1"></i> <span>022 4026 3442 / 3441</span></li>
+                    <li class="flex gap-3"><i class="fas fa-envelope gold-text mt-1"></i> <span>concierge@ashrafscissors.com</span></li>
+                    <li class="flex gap-3"><i class="fas fa-clock gold-text mt-1"></i> <span>10 AM - 8 PM | Mon-Sun</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="text-center text-gray-500 text-xs mt-12 pt-8 border-t border-gray-800">
+            © 2025 ASHRAF'S UNISEX SALON & ACADEMY – ARTISANAL MASTERY. ALL RIGHTS RESERVED.
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Mobile Menu Toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if(menuBtn) {
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+    }
+    
+    // ========== SCROLL ANIMATION WITH INTERSECTION OBSERVER ==========
+    const scrollElements = document.querySelectorAll('.scroll-hidden');
+    
+    const elementInView = (el, offset = 100) => {
+        const elementTop = el.getBoundingClientRect().top;
+        return (elementTop <= (window.innerHeight - offset));
+    };
+    
+    const displayScrollElement = (element) => {
+        element.classList.add('visible');
+    };
+    
+    const hideScrollElement = (element) => {
+        element.classList.remove('visible');
+    };
+    
+    const handleScrollAnimation = () => {
+        scrollElements.forEach((el) => {
+            if (elementInView(el, 100)) {
+                displayScrollElement(el);
+            } else {
+                // Optional: hide when out of view (comment if you want them to stay visible)
+                // hideScrollElement(el);
+            }
+        });
+    };
+    
+    // Counter Animation Function
+    function animateCounter(counterElement, targetValue, suffix = '') {
+        let currentValue = 0;
+        const increment = Math.ceil(targetValue / 50);
+        const interval = setInterval(() => {
+            currentValue += increment;
+            if (currentValue >= targetValue) {
+                currentValue = targetValue;
+                clearInterval(interval);
+            }
+            if (suffix === 'K') {
+                counterElement.textContent = currentValue + '+';
+            } else {
+                counterElement.textContent = currentValue;
+            }
+        }, 30);
+    }
+    
+    // Trigger counters when stats section is visible
+    let countersTriggered = false;
+    const statsSection = document.querySelector('.bg-\\[\\#FAF8F5\\]');
+    
+    const handleCounters = () => {
+        if (!countersTriggered && statsSection && elementInView(statsSection, 200)) {
+            countersTriggered = true;
+            const counters = document.querySelectorAll('.counter');
+            const values = [17, 50, 15, 25];
+            counters.forEach((counter, index) => {
+                let target = values[index];
+                let suffix = '';
+                if (index === 1) suffix = 'K';
+                animateCounter(counter, target, suffix);
+            });
+        }
+    };
+    
+    // Initial check and event listeners
+    window.addEventListener('load', () => {
+        handleScrollAnimation();
+        handleCounters();
+    });
+    
+    window.addEventListener('scroll', () => {
+        handleScrollAnimation();
+        handleCounters();
+    });
+    
+    // Add visible class to already visible elements on load
+    setTimeout(() => {
+        scrollElements.forEach((el) => {
+            if (elementInView(el, 100)) {
+                el.classList.add('visible');
+            }
+        });
+    }, 100);
+</script>
+
+</body>
+</html>
