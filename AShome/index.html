@@ -133,31 +133,93 @@
         }
         .animate-fade-in-up { animation: fade-in-up 0.8s ease-out forwards; }
         
-        .modal {
+        /* Modal Styles for Appointment Form */
+        .booking-modal {
             display: none;
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.7);
             z-index: 1000;
             justify-content: center;
             align-items: center;
+            backdrop-filter: blur(5px);
         }
-        .modal-content {
-            background: #fff;
-            max-width: 500px;
+        .booking-modal.active { display: flex; }
+        .modal-container {
+            background: white;
+            max-width: 550px;
             width: 90%;
-            padding: 2rem;
-            border-radius: 12px;
-            text-align: center;
+            max-height: 85vh;
+            overflow-y: auto;
+            border-radius: 24px;
+            padding: 30px;
             position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
-        .close-modal {
+        .close-modal-btn {
             position: absolute;
-            top: 10px; right: 20px;
+            top: 15px; right: 20px;
             font-size: 28px;
             cursor: pointer;
+            color: #999;
         }
+        .close-modal-btn:hover { color: #D4AF7A; }
+        .modal-container h2 { font-size: 28px; margin-bottom: 20px; text-align: center; }
+        .appointment-input, .appointment-select, .appointment-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e2e2e2;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s ease;
+            background: white;
+            border-radius: 12px;
+            margin-top: 5px;
+        }
+        .appointment-input:focus, .appointment-select:focus, .appointment-textarea:focus {
+            outline: none;
+            border-color: #D4AF7A;
+            box-shadow: 0 0 0 2px rgba(212, 175, 122, 0.1);
+        }
+        .submit-btn-modal {
+            background: linear-gradient(135deg, #7c5730, #D4AF7A);
+            color: white;
+            padding: 12px 20px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .submit-btn-modal:hover { background: linear-gradient(135deg, #5b403c, #c49a5f); transform: translateY(-2px); }
+        .popup-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 1100;
+            justify-content: center;
+            align-items: center;
+        }
+        .popup-modal.active { display: flex; }
+        .popup-content {
+            background: white;
+            max-width: 400px;
+            width: 90%;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            animation: popupSlide 0.3s ease-out;
+        }
+        @keyframes popupSlide { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .popup-icon { width: 70px; height: 70px; background: #D4AF7A; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+        .popup-icon i { font-size: 35px; color: white; }
+        .popup-title { font-size: 24px; font-weight: 700; color: #271310; margin-bottom: 12px; }
+        .popup-message { color: #666; margin-bottom: 25px; line-height: 1.6; }
+        .popup-btn { background: linear-gradient(135deg, #7c5730, #D4AF7A); color: white; border: none; padding: 10px 25px; border-radius: 40px; font-weight: 600; cursor: pointer; }
     </style>
 </head>
 <body class="bg-[#F9F6F0] text-[#1E1A16]">
@@ -169,7 +231,6 @@
             <img alt="Ashraf's Unisex Salon Logo" class="h-16 md:h-20 w-auto" src="https://www.rncarandbikerental.net/web/image/784-8f55ec69/ashraf%20bg%20white.webp">
         </div>
         <nav class="hidden md:flex space-x-8">
-            <!-- Desktop Navigation: All links updated -->
             <a class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-[#D4AF7A] transition" href="https://www.growft.online/AShome/">HOME</a>
             <a class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-[#D4AF7A] transition" href="https://www.growft.online/ASservice/">SERVICES</a>
             <a class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-[#D4AF7A] transition" href="https://www.growft.online/ASstorelocater/">STORE LOCATOR</a>
@@ -178,7 +239,7 @@
             <a class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-[#D4AF7A] transition" href="https://www.growft.online/AScontactus/">CONTACT US</a>
         </nav>
         <div class="flex items-center gap-4">
-            <button class="bg-gradient-to-r from-[#7c5730] to-[#D4AF7A] text-white text-sm uppercase tracking-wide px-6 py-2 hover:from-[#5b403c] hover:to-[#c49a5f] transition hidden md:block rounded-full">BOOK NOW</button>
+            <button id="bookNowBtn" class="bg-gradient-to-r from-[#7c5730] to-[#D4AF7A] text-white text-sm uppercase tracking-wide px-6 py-2 hover:from-[#5b403c] hover:to-[#c49a5f] transition hidden md:block rounded-full">BOOK NOW</button>
             <button id="menuBtn" class="md:hidden text-[#271310] focus:outline-none">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -186,7 +247,7 @@
             </button>
         </div>
     </div>
-    <!-- Mobile Menu: Links updated -->
+    <!-- Mobile Menu -->
     <div id="mobileMenu" class="mobile-menu md:hidden">
         <a href="https://www.growft.online/AShome/">HOME</a>
         <a href="https://www.growft.online/ASservice/">SERVICES</a>
@@ -194,7 +255,7 @@
         <a href="https://www.growft.online/ASabout%20us/">ABOUT US</a>
         <a href="#">ACADEMY</a>
         <a href="https://www.growft.online/AScontactus/">CONTACT US</a>
-        <button class="bg-gradient-to-r from-[#7c5730] to-[#D4AF7A] text-white text-sm uppercase tracking-wide px-6 py-2 mt-2 w-full rounded-full">BOOK NOW</button>
+        <button id="mobileBookNowBtn" class="bg-gradient-to-r from-[#7c5730] to-[#D4AF7A] text-white text-sm uppercase tracking-wide px-6 py-2 mt-2 w-full rounded-full">BOOK NOW</button>
     </div>
 </header>
 
@@ -208,7 +269,7 @@
                 <div class="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4">
                     <h1 class="font-serif text-3xl md:text-7xl text-white mb-4 animate-fade-in-up">Unisex Luxury Redefined</h1>
                     <p class="text-white/90 text-sm md:text-lg max-w-2xl mb-8">Bespoke grooming for him & her — artisanal mastery with a modern touch.</p>
-                    <button class="bg-gradient-to-r from-[#7c5730] to-[#D4AF7A] text-white px-6 py-2 md:px-8 md:py-3 text-sm md:text-base hover:from-[#5b403c] hover:to-[#c49a5f] transition rounded-full">EXPLORE SERVICES</button>
+                    <button id="heroBookBtn" class="bg-gradient-to-r from-[#7c5730] to-[#D4AF7A] text-white px-6 py-2 md:px-8 md:py-3 text-sm md:text-base hover:from-[#5b403c] hover:to-[#c49a5f] transition rounded-full">EXPLORE SERVICES</button>
                 </div>
             </div>
             <div class="min-w-full h-full relative">
@@ -401,7 +462,7 @@
     </section>
 </main>
 
-<!-- Footer: Links updated -->
+<!-- Footer -->
 <footer class="bg-[#1E1A16] text-white py-16">
     <div class="max-w-7xl mx-auto px-6 md:px-12">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
@@ -409,7 +470,7 @@
                 <div class="text-2xl font-serif font-bold">ASHRAF'S</div>
                 <div class="text-sm text-gray-400 mt-1">UNISEX SALON & ACADEMY</div>
                 <div class="text-xs text-gray-500 mb-4">EST. 2008</div>
-                <button class="border border-[#D4AF7A] text-[#D4AF7A] text-xs uppercase tracking-wide px-5 py-2 mt-2 hover:bg-[#D4AF7A] hover:text-[#1E1A16] transition rounded-full">BOOK NOW</button>
+                <button id="footerBookBtn" class="border border-[#D4AF7A] text-[#D4AF7A] text-xs uppercase tracking-wide px-5 py-2 mt-2 hover:bg-[#D4AF7A] hover:text-[#1E1A16] transition rounded-full">BOOK NOW</button>
                 <div class="text-sm text-gray-400 italic mt-6">Artisanal Mastery.<br>Contemporary Luxury.<br>For Him & Her.</div>
                 <div class="flex space-x-4 mt-5">
                     <a href="#" class="social-icon"><i class="fab fa-facebook-f text-gray-400 hover:text-[#D4AF7A] text-lg"></i></a>
@@ -454,18 +515,72 @@
     </div>
 </footer>
 
-<!-- Modal -->
-<div id="serviceModal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3 id="modalTitle" class="text-2xl font-serif mb-2"></h3><p id="modalPrice" class="text-[#D4AF7A] font-bold text-xl mb-4"></p><p id="modalDesc" class="text-gray-700 mb-6"></p><button class="bg-gradient-to-r from-[#7c5730] to-[#D4AF7A] text-white px-6 py-2 hover:from-[#5b403c] hover:to-[#c49a5f] transition rounded-full">Book Now</button></div></div>
+<!-- Modal for Appointment Booking -->
+<div id="appointmentModal" class="booking-modal">
+    <div class="modal-container">
+        <span class="close-modal-btn">&times;</span>
+        <h2 class="font-serif">Book an Appointment</h2>
+        <form id="modalAppointmentForm" action="https://formspree.io/f/mdavkbby" method="POST" class="space-y-4">
+            <div><label class="block text-sm font-medium">Full Name *</label><input type="text" name="name" required class="appointment-input"></div>
+            <div><label class="block text-sm font-medium">Email Address *</label><input type="email" name="email" required class="appointment-input"></div>
+            <div><label class="block text-sm font-medium">Phone Number *</label><input type="tel" name="phone" required class="appointment-input"></div>
+            <div><label class="block text-sm font-medium">Preferred Date *</label><input type="date" name="date" required class="appointment-input"></div>
+            <div><label class="block text-sm font-medium">Preferred Time *</label><select name="time" required class="appointment-select"><option value="">Select time</option><option>10:00 AM</option><option>10:30 AM</option><option>11:00 AM</option><option>11:30 AM</option><option>12:00 PM</option><option>12:30 PM</option><option>01:00 PM</option><option>01:30 PM</option><option>02:00 PM</option><option>02:30 PM</option><option>03:00 PM</option><option>03:30 PM</option><option>04:00 PM</option><option>04:30 PM</option><option>05:00 PM</option><option>05:30 PM</option><option>06:00 PM</option><option>06:30 PM</option><option>07:00 PM</option></select></div>
+            <div><label class="block text-sm font-medium">Service Required *</label><select name="service" required class="appointment-select"><option value="">Select service</option><option>Signature Haircut</option><option>Beard Sculpting</option><option>Luxury Spa</option><option>Hair Color Studio</option><option>Bridal & Groom Grooming</option><option>Skin Care</option><option>Nail Care</option><option>Makeup</option><option>Mani-Pedi</option><option>Consultation Only</option></select></div>
+            <div><label class="block text-sm font-medium">Preferred Location *</label><select name="location" required class="appointment-select"><option value="">Select location</option><option>Powai (Galleria Mall)</option><option>Andheri East (Marol Naka)</option><option>Andheri East (Sakinaka)</option><option>Mulund West (Vasant Oscar)</option><option>Thane (Naupada)</option><option>Pune - Wakad</option></select></div>
+            <div><label class="block text-sm font-medium">Additional Notes</label><textarea name="notes" class="appointment-textarea" rows="2"></textarea></div>
+            <button type="submit" class="submit-btn-modal">Confirm Appointment →</button>
+        </form>
+    </div>
+</div>
+
+<!-- Success Popup -->
+<div id="successPopup" class="popup-modal"><div class="popup-content"><div class="popup-icon"><i class="fas fa-check-circle"></i></div><div class="popup-title">Appointment Request Sent!</div><div class="popup-message">Thank you for booking with us.<br>We will confirm within 24 hours.</div><button class="popup-btn" onclick="closeSuccessPopup()">OK</button></div></div>
 
 <script>
+    // Carousel
     let currentSlide = 0, totalSlides = 2, slider = document.getElementById('hero-slider');
     function moveSlider(i) { currentSlide = i; slider.style.transform = `translateX(-${currentSlide * 100}%)`; }
     setInterval(() => { currentSlide = (currentSlide + 1) % totalSlides; moveSlider(currentSlide); }, 5000);
-    const modal = document.getElementById('serviceModal'), closeModal = document.querySelector('.close-modal');
-    closeModal.addEventListener('click', () => modal.style.display = 'none');
-    window.addEventListener('click', (e) => { if(e.target === modal) modal.style.display = 'none'; });
+
+    // Modal open/close
+    const modal = document.getElementById('appointmentModal');
+    const openModalBtns = [document.getElementById('bookNowBtn'), document.getElementById('mobileBookNowBtn'), document.getElementById('footerBookBtn'), document.getElementById('heroBookBtn')];
+    const closeModalBtn = document.querySelector('.close-modal-btn');
+    openModalBtns.forEach(btn => { if(btn) btn.addEventListener('click', () => modal.classList.add('active')); });
+    if(closeModalBtn) closeModalBtn.addEventListener('click', () => modal.classList.remove('active'));
+    window.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('active'); });
+
+    // Success popup
+    const successPopup = document.getElementById('successPopup');
+    function closeSuccessPopup() { successPopup.classList.remove('active'); }
+    function showSuccessAndReset() {
+        successPopup.classList.add('active');
+        setTimeout(() => successPopup.classList.remove('active'), 4000);
+    }
+
+    // Modal form submission
+    const modalForm = document.getElementById('modalAppointmentForm');
+    modalForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fd = new FormData(modalForm);
+        try {
+            const res = await fetch(modalForm.action, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
+            if (res.ok) {
+                modal.classList.remove('active');
+                showSuccessAndReset();
+                modalForm.reset();
+            } else throw new Error();
+        } catch(err) {
+            alert('⚠️ Something went wrong. Please try again.');
+        }
+    });
+
+    // Mobile menu toggle
     const menuBtn = document.getElementById('menuBtn'), mobileMenu = document.getElementById('mobileMenu');
     menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('active'));
+
+    // Callback form (existing)
     const callbackForm = document.getElementById('callbackForm'), formMessage = document.getElementById('formMessage');
     callbackForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -484,6 +599,7 @@
             setTimeout(() => formMessage.classList.add('hidden'), 5000);
         }
     });
+
     // Scroll animation
     const scrollElements = document.querySelectorAll('.scroll-hidden');
     const elementInView = (el, offset=100) => el.getBoundingClientRect().top <= window.innerHeight - offset;
