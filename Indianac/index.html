@@ -1,752 +1,598 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="light" lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Review - Indian Air Cooling</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Ashraf's | Unisex Salon & Academy</title>
+    <!-- Same fonts as About Us page -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* --- THEME: AC & COOLING (Cool Blue & Frosty Cyan) --- */
-        :root {
-            --primary: #0284c7; /* Ocean Blue */
-            --primary-light: #0ea5e9;
-            --primary-dark: #0369a1; /* Added Missing Dark Blue */
-            --accent: #06b6d4; /* Cyan / Ice */
-            --accent-hover: #0891b2;
-            --bg-color: #f0f9ff; 
-            --card-bg: #ffffff;
-            --gold: #f59e0b;
-            --gray: #64748b;
-            --border: #bae6fd;
-            --box-bg: #f8fafc;
-            --whatsapp: #25D366;
-            --danger: #ef4444;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-color);
-            margin: 0; padding: 20px 10px;
-            min-height: 100vh; display: flex;
-            justify-content: center; align-items: flex-start;
-            color: #334155;
+            font-family: 'Montserrat', sans-serif;
         }
-
-        .container {
-            background: var(--card-bg); width: 100%; max-width: 500px;
-            padding: 25px; border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(2, 132, 199, 0.15);
-            border-top: 6px solid var(--accent); margin: auto;
-            text-align: center;
-            position: relative;
+        h1, h2, h3, h4, .font-serif {
+            font-family: 'Playfair Display', serif;
         }
-
-        /* --- 🔒 LOCK SCREEN --- */
-        #lockScreen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.98); z-index: 9999;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; padding: 20px;
-        }
-        .lock-icon { font-size: 60px; margin-bottom: 20px; color: var(--danger); }
-        .lock-msg { font-size: 24px; font-weight: 800; color: #333; margin-bottom: 10px; }
-        .contact-admin-btn {
-            background: var(--primary); color: white; padding: 12px 25px;
-            border-radius: 50px; text-decoration: none; font-weight: 600;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-
-        /* HEADER */
-        h1 { color: var(--primary); margin: 5px 0 5px 0; font-size: 24px; font-weight: 800; line-height: 1.3; text-transform: uppercase; }
-        .subtitle { font-size: 13px; color: #64748b; margin-bottom: 10px; font-weight: 600; }
-        .location { 
-            color: var(--primary-light); font-size: 12px; font-weight: 700; 
-            text-transform: uppercase; letter-spacing: 0.5px; 
-            margin-bottom: 15px; display: inline-block; 
-            background: #e0f2fe; padding: 5px 12px; border-radius: 15px; border: 1px solid #bae6fd;
-        }
-
-        /* INPUTS */
-        select, input, textarea {
-            width: 100%; padding: 12px; border-radius: 8px;
-            border: 1px solid var(--border); background: var(--box-bg);
-            font-size: 14px; outline: none; margin-bottom: 10px;
-            color: #333; font-family: inherit; font-weight: 500;
-        }
-        select:focus, input:focus, textarea:focus { border-color: var(--accent); background: #fff; box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2); }
-        label { font-weight: 700; display: block; margin-top: 12px; margin-bottom: 6px; color: var(--primary); font-size: 12px; text-transform: uppercase; text-align: left; }
-
-        /* RATING */
-        .star-container { display: flex; justify-content: center; gap: 8px; margin: 20px 0; }
-        .star { font-size: 40px; color: #e2e8f0; cursor: pointer; transition: transform 0.2s; }
-        .star.selected { color: var(--gold); transform: scale(1.1); }
-
-        .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
-        .exp-btn {
-            padding: 12px 15px; border: 1px solid var(--border); border-radius: 8px;
-            background: #fff; cursor: pointer; font-weight: 600; color: var(--gray);
-            flex: 1; max-width: 140px; transition: 0.2s; font-size: 14px;
-        }
-        .exp-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3); }
-
-        /* INPUT MODES */
-        .input-mode-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
-        .mode-btn { 
-            flex: 1; padding: 10px; border: 1px solid var(--primary); border-radius: 8px; 
-            background: #fff; color: var(--primary); font-weight: 600; cursor: pointer; font-size: 13px;
-        }
-        .mode-btn.active-mode { background: var(--primary); color: white; }
-
-        .voice-section, .text-section {
-            background: #f0f9ff; padding: 12px; border-radius: 12px; 
-            margin-bottom: 20px; border: 1px dashed var(--primary); text-align: left;
-        }
-        .voice-controls { display: flex; align-items: center; gap: 10px; }
-        .mic-btn {
-            width: 45px; height: 45px; border-radius: 50%;
-            background: var(--primary); color: white; border: none;
-            font-size: 20px; cursor: pointer; box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);
-            display: flex; align-items: center; justify-content: center;
-        }
-        .mic-active { animation: pulse 1.5s infinite; background: var(--danger); }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(0,0,0,0); } }
-
-        /* CHIPS */
-        .category-header { font-size: 11px; color: var(--primary-light); margin: 15px 0 8px 0; font-weight: 700; letter-spacing: 0.5px; border-bottom: 1px dashed var(--border); padding-bottom: 4px; text-align: left; }
-        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 5px; }
-        .keyword-chip { 
-            padding: 8px 10px; background-color: #fff; border-radius: 20px; 
-            font-size: 11px; font-weight: 600; cursor: pointer; 
-            border: 1px solid var(--border); color: var(--primary-light); 
-            flex-grow: 1; text-align: center; transition: 0.2s;
-        }
-        .keyword-chip.active { background-color: var(--accent); color: white; border-color: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 3px 8px rgba(6, 182, 212, 0.3); }
-
-        /* BUTTONS */
-        .action-btn {
-            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            color: white; border: none; border-radius: 8px;
-            font-size: 16px; font-weight: 700; cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 10px;
-        }
-        .action-btn:active { transform: scale(0.98); }
+        .gold-text { color: #D4AF7A; }
+        .gold-bg { background: #D4AF7A; }
+        .gold-border { border-color: #D4AF7A; }
         
-        /* FIXED COPY BUTTON CSS */
-        .copy-btn { 
-            width: 100%; padding: 14px; 
-            background-color: var(--gold); /* Bright Orange/Yellow */
-            color: #fff; border: none; border-radius: 8px; 
-            margin-top: 15px; font-weight: 800; font-size: 16px; 
-            cursor: pointer; display: none; 
-            box-shadow: 0 4px 10px rgba(245, 158, 11, 0.4); 
-            text-transform: uppercase; letter-spacing: 0.5px;
+        .social-icon { transition: all 0.3s ease; }
+        .social-icon:hover { opacity: 0.7; transform: translateY(-2px); }
+        
+        .mobile-menu { 
+            display: none; 
+            flex-direction: column; 
+            background: white; 
+            position: absolute; 
+            top: 70px; 
+            left: 0; 
+            right: 0; 
+            padding: 20px; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); 
+            z-index: 50; 
+            border-top: 1px solid #eee; 
         }
-        .copy-btn:hover { background-color: #d97706; }
-
-        .review-preview-box {
-            width: 100%; min-height: 140px; margin-top: 15px; border-radius: 8px; padding: 12px; 
-            border: 1px solid var(--border); display: none; background: #fff; resize: none; outline: none; line-height: 1.5;
+        .mobile-menu.active { display: flex; }
+        .mobile-menu a { 
+            padding: 12px 0; 
+            border-bottom: 1px solid #f0f0f0; 
+            font-weight: 600; 
         }
-
-        /* OWNER PANEL */
-        #ownerPanel {
-            display: none; margin-top: 20px; padding: 15px;
-            border: 2px dashed var(--whatsapp); border-radius: 12px;
-            background-color: #f0fdf4; text-align: left;
+        @media (min-width: 768px) { 
+            .mobile-menu { display: none !important; } 
         }
-        .whatsapp-send-btn {
-            width: 100%; padding: 12px; background-color: var(--whatsapp);
-            color: white; border: none; border-radius: 8px;
-            font-size: 15px; font-weight: 700; cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        
+        /* Scroll animations */
+        .scroll-hidden {
+            opacity: 0;
+            visibility: hidden;
         }
-
-        /* UTILS & FOOTER */
-        .fade-in { animation: fadeIn 0.5s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .hidden { display: none !important; }
-        .toggle-name { font-size: 13px; color: var(--accent); text-decoration: underline; cursor: pointer; float: right; margin-top: 5px; border: none; background: none; font-weight: 600;}
-
-        .footer { margin-top: 35px; text-align: center; font-size: 12px; color: var(--gray); border-top: 1px dashed var(--border); padding-top: 15px; }
-        .footer-logo { display: block; margin: 0 auto 5px auto; max-height: 28px; width: auto; opacity: 0.85; }
-        .footer a { color: var(--primary); text-decoration: none; font-weight: 700; }
-        .owner-login-trigger { font-size: 11px; color: #ccc; cursor: pointer; text-decoration: none; position: absolute; bottom: 5px; right: 10px; }
-
-        /* CUSTOMER VIEW */
-        .customer-card { text-align: center; padding: 20px; }
-        .customer-card h2 { color: var(--primary); }
+        .fade-up {
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .fade-up.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .zoom-in {
+            transform: scale(0.9);
+            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .zoom-in.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+        .service-card-enrich {
+            transition: all 0.3s ease;
+        }
+        .service-card-enrich:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .service-card-enrich img {
+            transition: transform 0.5s ease;
+        }
+        .service-card-enrich:hover img {
+            transform: scale(1.03);
+        }
+        .service-icon {
+            font-size: 2.2rem;
+            color: #D4AF7A;
+            margin-bottom: 0.75rem;
+            display: inline-block;
+        }
+        .callback-input {
+            border: 1px solid #e2e2e2;
+            border-radius: 0;
+            padding: 12px 16px;
+            width: 100%;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .callback-input:focus {
+            outline: none;
+            border-color: #D4AF7A;
+        }
+        .submit-btn {
+            background: linear-gradient(135deg, #7c5730, #D4AF7A);
+            color: white;
+            padding: 12px 24px;
+            width: 100%;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            border: none;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #5b403c, #c49a5f);
+            transform: translateY(-2px);
+        }
+        .hero-carousel {
+            aspect-ratio: 16 / 9;
+        }
+        @media (min-width: 768px) {
+            .hero-carousel {
+                aspect-ratio: auto;
+                height: 85vh;
+            }
+        }
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up { animation: fade-in-up 0.8s ease-out forwards; }
+        
+        /* Modal Styles */
+        .booking-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        .booking-modal.active { display: flex; }
+        .modal-container {
+            background: white;
+            max-width: 550px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            border-radius: 24px;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .close-modal {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #999;
+        }
+        .close-modal:hover { color: #D4AF7A; }
+        .modal-container h2 { font-size: 28px; margin-bottom: 20px; text-align: center; }
+        .appointment-input, .appointment-select, .appointment-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e2e2e2;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s ease;
+            background: white;
+            border-radius: 12px;
+            margin-top: 5px;
+        }
+        .appointment-input:focus, .appointment-select:focus, .appointment-textarea:focus {
+            outline: none;
+            border-color: #D4AF7A;
+            box-shadow: 0 0 0 2px rgba(212, 175, 122, 0.1);
+        }
+        .submit-btn-modal {
+            background: linear-gradient(135deg, #7c5730, #D4AF7A);
+            color: white;
+            padding: 12px 20px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .submit-btn-modal:hover { background: linear-gradient(135deg, #5b403c, #c49a5f); transform: translateY(-2px); }
+        .popup-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 1100;
+            justify-content: center;
+            align-items: center;
+        }
+        .popup-modal.active { display: flex; }
+        .popup-content {
+            background: white;
+            max-width: 400px;
+            width: 90%;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            animation: popupSlide 0.3s ease-out;
+        }
+        @keyframes popupSlide { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .popup-icon { width: 70px; height: 70px; background: #D4AF7A; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+        .popup-icon i { font-size: 35px; color: white; }
+        .popup-title { font-size: 24px; font-weight: 700; color: #271310; margin-bottom: 12px; }
+        .popup-message { color: #666; margin-bottom: 25px; line-height: 1.6; }
+        .popup-btn { background: linear-gradient(135deg, #7c5730, #D4AF7A); color: white; border: none; padding: 10px 25px; border-radius: 40px; font-weight: 600; cursor: pointer; }
     </style>
 </head>
-<body>
+<body class="bg-[#F9F6F0] text-[#1E1A16]">
 
-<div id="lockScreen" style="display: none;">
-    <div class="lock-icon">🔒</div>
-    <div class="lock-msg">Service Suspended</div>
-    <div style="font-size:14px; color:#666; margin-bottom:30px;">
-        This tool has been temporarily disabled.<br>Please contact the administrator.
+<!-- Sticky Header -->
+<header class="sticky top-0 w-full z-50 bg-white shadow-md">
+    <div class="flex justify-between items-center px-6 md:px-12 py-3 max-w-7xl mx-auto relative">
+        <div class="flex items-center">
+            <img alt="Ashraf's Unisex Salon Logo" class="h-16 md:h-20 w-auto" src="https://www.rncarandbikerental.net/web/image/784-8f55ec69/ashraf%20bg%20white.webp">
+        </div>
+        <nav class="hidden md:flex space-x-8">
+            <a class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-[#D4AF7A] transition" href="https://www.growft.online/AShome/">HOME</a>
+            <a class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-[#D4AF7A] transition" href="https://www.growft.online/ASservice/">SERVICES</a>
+            <a class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-[#D4AF7A] transition" href="https://www.growft.online/ASstorelocater/">STORE LOCATOR</a>
+            <a class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-[#D4AF7A] transition" href="https://www.growft.online/ASabout%20us/">ABOUT US</a>
+            <a class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-[#D4AF7A] transition" href="#">ACADEMY</a>
+            <a class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-[#D4AF7A] transition" href="https://www.growft.online/AScontactus/">CONTACT US</a>
+        </nav>
+        <div class="flex items-center gap-4">
+            <button id="bookNowBtn" class="bg-gradient-to-r from-[#7c5730] to-[#D4AF7A] text-white text-sm uppercase tracking-wide px-6 py-2 hover:from-[#5b403c] hover:to-[#c49a5f] transition hidden md:block rounded-full">BOOK NOW</button>
+            <button id="menuBtn" class="md:hidden text-[#271310] focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
     </div>
-    <a href="tel:+917020370561" class="contact-admin-btn">Contact Provider</a>
-</div>
-
-<div class="container" id="mainApp">
-
-    <div id="customerLinkView" class="hidden customer-card">
-        <div style="font-size: 45px; margin-bottom: 10px;">❄️</div>
-        <h2>Hello!</h2>
-        <p style="color:#64748b; font-size:14px; margin-bottom:20px;">
-            Here is the review for your experience with Indian Air Cooling.
-            <br>Click below to copy & post.
-        </p>
-        <textarea id="customerReviewText" class="review-preview-box" readonly style="display:block;"></textarea>
-        <button class="copy-btn" style="display:block; margin-top:15px;" onclick="copyCustomerLinkReview()">📋 Copy & Open Google</button>
-        <p style="font-size:11px; color:#94a3b8; margin-top:20px;">Thank you for trusting us! 🌬️</p>
+    <div id="mobileMenu" class="mobile-menu md:hidden">
+        <a href="https://www.growft.online/AShome/">HOME</a>
+        <a href="https://www.growft.online/ASservice/">SERVICES</a>
+        <a href="https://www.growft.online/ASstorelocater/">STORE LOCATOR</a>
+        <a href="https://www.growft.online/ASabout%20us/">ABOUT US</a>
+        <a href="#">ACADEMY</a>
+        <a href="https://www.growft.online/AScontactus/">CONTACT US</a>
+        <button id="mobileBookNowBtn" class="bg-gradient-to-r from-[#7c5730] to-[#D4AF7A] text-white text-sm uppercase tracking-wide px-6 py-2 mt-2 w-full rounded-full">BOOK NOW</button>
     </div>
+</header>
 
-    <div id="generatorApp">
-        <h1>Indian Air Cooling</h1>
-        <div class="subtitle">❄️ Expert AC Repair & Installation</div>
-        <div class="location">📍 PCMC • Pune • Pimpari</div>
-
-        <div id="ratingScreen" class="fade-in">
-            <p style="font-weight:600; color:#334155;">How was our AC service?</p>
-            <div class="star-container">
-                <span class="star" onclick="rate(1)">★</span>
-                <span class="star" onclick="rate(2)">★</span>
-                <span class="star" onclick="rate(3)">★</span>
-                <span class="star" onclick="rate(4)">★</span>
-                <span class="star" onclick="rate(5)">★</span>
-            </div>
-            <div class="experience-btns">
-                <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Needs Work 🔧</button>
-                <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Excellent! ❄️</button>
-            </div>
-            <button class="action-btn" onclick="processRating()">Next Step ➡</button>
-        </div>
-
-        <div id="privateFeedbackScreen" class="hidden fade-in">
-            <h2 style="color:var(--primary);">We are sorry! 😔</h2>
-            <p style="font-size:14px; color:#64748b;">Please tell us how we can improve our services.</p>
-            <textarea id="privateFeedbackText" style="height:100px; width:100%; border:1px solid #cbd5e1; border-radius:8px; padding:10px;" placeholder="Describe the issue..."></textarea>
-            <button class="action-btn" style="background:var(--gray);" onclick="submitPrivateFeedback()">Submit Feedback</button>
-        </div>
-
-        <div id="thankYouScreen" class="hidden fade-in">
-            <div style="font-size: 50px; margin-bottom:10px; color:var(--accent);">✅</div>
-            <h2 style="color:var(--primary);">Thank You!</h2>
-            <p style="color:#64748b;">Your feedback has been submitted to our management.</p>
-        </div>
-
-        <div id="aiToolScreen" class="hidden fade-in" style="text-align: left;">
-            
-            <div class="input-mode-tabs">
-                <button class="mode-btn active-mode" id="btnModeVoice" onclick="switchMode('voice')">🎤 Speak</button>
-                <button class="mode-btn" id="btnModeText" onclick="switchMode('text')">✍️ Write</button>
-            </div>
-
-            <div id="voiceSection" class="voice-section">
-                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                    <span style="font-size:11px; font-weight:bold; color:var(--primary);">SPEAK (Hindi/English):</span>
-                    <select id="voiceLang" style="width:auto; padding:2px; font-size:11px; height:25px; margin:0;">
-                        <option value="en-IN" selected>English</option>
-                        <option value="hi-IN">Hindi</option>
-                        <option value="mr-IN">Marathi</option>
-                    </select>
+<main>
+    <!-- Hero Carousel -->
+    <section class="relative overflow-hidden hero-carousel">
+        <div class="flex h-full transition-transform duration-1000 ease-in-out" id="hero-slider">
+            <div class="min-w-full h-full relative">
+                <div class="absolute inset-0 bg-black/40 z-10"></div>
+                <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Unisex salon">
+                <div class="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4">
+                    <h1 class="font-serif text-3xl md:text-7xl text-white mb-4 animate-fade-in-up">Unisex Luxury Redefined</h1>
+                    <p class="text-white/90 text-sm md:text-lg max-w-2xl mb-8">Bespoke grooming for him & her — artisanal mastery with a modern touch.</p>
+                    <button class="bg-gradient-to-r from-[#7c5730] to-[#D4AF7A] text-white px-6 py-2 md:px-8 md:py-3 text-sm md:text-base hover:from-[#5b403c] hover:to-[#c49a5f] transition rounded-full">EXPLORE SERVICES</button>
                 </div>
-                <div class="voice-controls">
-                    <button id="micBtn" class="mic-btn" onclick="startListening()">🎤</button>
-                    <div style="flex:1;">
-                        <p id="statusText" style="font-size:12px; color:#64748b; margin:0;">Tap mic & speak...<br>(Ex: "Bhaiya ne AC mast theek kiya")</p>
+            </div>
+            <div class="min-w-full h-full relative">
+                <div class="absolute inset-0 bg-black/40 z-10"></div>
+                <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Master stylist">
+                <div class="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4">
+                    <h1 class="font-serif text-3xl md:text-7xl text-white mb-4">Master The Craft</h1>
+                    <p class="text-white/90 text-sm md:text-lg max-w-2xl mb-8">Join our elite unisex academy — learn from industry's finest artisans.</p>
+                    <button class="bg-gradient-to-r from-[#7c5730] to-[#D4AF7A] text-white px-6 py-2 md:px-8 md:py-3 text-sm md:text-base hover:from-[#5b403c] hover:to-[#c49a5f] transition rounded-full">VIEW ACADEMY</button>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex space-x-4">
+            <button class="w-8 h-1 bg-white/50 hover:bg-[#D4AF7A]" onclick="moveSlider(0)"></button>
+            <button class="w-8 h-1 bg-white/50 hover:bg-[#D4AF7A]" onclick="moveSlider(1)"></button>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="py-20 px-6 md:px-12 bg-[#FAF8F5]">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-12 scroll-hidden fade-up">
+                <div class="flex items-center justify-center gap-3 mb-4">
+                    <span class="w-8 h-[1px] bg-[#D4AF7A]"></span>
+                    <span class="text-sm font-semibold text-[#D4AF7A] uppercase tracking-[0.2em]">✦ Our Services ✦</span>
+                    <span class="w-8 h-[1px] bg-[#D4AF7A]"></span>
+                </div>
+                <h2 class="text-3xl md:text-5xl font-serif text-[#271310] mb-4">For Him & Her</h2>
+                <p class="text-gray-600">Premium grooming and beauty services across multiple categories.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Skin -->
+                <div class="service-card-enrich bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl cursor-pointer scroll-hidden zoom-in">
+                    <div class="overflow-hidden h-64">
+                        <img class="w-full h-full object-cover" src="https://www.rncarandbikerental.net/unsplash/g-m8EDc4X6Q/800/skin%20care.jpg?unique=2ad7c6c5" alt="Skin Care">
+                    </div>
+                    <div class="p-6 text-center">
+                        <i class="fas fa-spa service-icon"></i>
+                        <h3 class="text-xl font-bold font-serif text-[#271310] mb-2">Skin</h3>
+                        <p class="text-gray-500 mb-4">Facials, anti-aging, acne solutions, glow therapies, and skin brightening for both men & women.</p>
+                        <a href="#" class="inline-flex items-center text-sm font-semibold text-[#D4AF7A] hover:text-[#b3925c] transition-colors">View Services →</a>
                     </div>
                 </div>
-                <div id="spokenTextDisplay" style="display:none; margin-top:8px; font-size:12px; color:var(--accent); background:#fff; padding:6px; border-radius:4px; font-weight:600;"></div>
-            </div>
-
-            <div id="textSection" class="text-section hidden">
-                <label style="margin-top:0; color:var(--primary);">Describe Experience</label>
-                <textarea id="manualInput" placeholder="Ex: Sayan bhai did a great job..." style="height:80px; margin-bottom:0;"></textarea>
-            </div>
-
-            <div style="display: flex; gap: 10px;">
-                <div style="flex:1;">
-                    <label style="margin-top:0;">Location</label>
-                    <select id="locationSelect">
-                        <option value="PCMC">PCMC</option>
-                        <option value="Pimpari">Pimpari</option>
-                        <option value="Pune">Pune</option>
-                        <option value="Chinchwad">Chinchwad</option>
-                    </select>
+                <!-- Hair -->
+                <div class="service-card-enrich bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl cursor-pointer scroll-hidden zoom-in" style="transition-delay: 0.1s;">
+                    <div class="overflow-hidden h-64">
+                        <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1562322140-8baeececf3df?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hair">
+                    </div>
+                    <div class="p-6 text-center">
+                        <i class="fas fa-cut service-icon"></i>
+                        <h3 class="text-xl font-bold font-serif text-[#271310] mb-2">Hair</h3>
+                        <p class="text-gray-500 mb-4">Expert haircuts, styling, coloring, keratin, straightening, scalp treatments for all hair types.</p>
+                        <a href="#" class="inline-flex items-center text-sm font-semibold text-[#D4AF7A] hover:text-[#b3925c] transition-colors">View Services →</a>
+                    </div>
                 </div>
-                <div style="flex:1;">
-                    <label style="margin-top:0;">Tone</label>
-                    <select id="toneSelect">
-                        <option value="Professional">Professional 💼</option>
-                        <option value="Happy">Happy ❄️</option>
-                        <option value="Grateful">Grateful 🙏</option>
-                        <option value="Short">Short 👌</option>
-                    </select>
+                <!-- Nail -->
+                <div class="service-card-enrich bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl cursor-pointer scroll-hidden zoom-in" style="transition-delay: 0.2s;">
+                    <div class="overflow-hidden h-64">
+                        <img class="w-full h-full object-cover" src="https://www.rncarandbikerental.net/unsplash/gb6gtiTZKB8/801/manicure.jpg?unique=02462e9a" alt="Nail">
+                    </div>
+                    <div class="p-6 text-center">
+                        <i class="fas fa-hand-peace service-icon"></i>
+                        <h3 class="text-xl font-bold font-serif text-[#271310] mb-2">Nail</h3>
+                        <p class="text-gray-500 mb-4">Manicure, pedicure, nail extensions, gel nails, nail art, and cuticle care – unisex.</p>
+                        <a href="#" class="inline-flex items-center text-sm font-semibold text-[#D4AF7A] hover:text-[#b3925c] transition-colors">View Services →</a>
+                    </div>
+                </div>
+                <!-- Makeup -->
+                <div class="service-card-enrich bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl cursor-pointer scroll-hidden zoom-in">
+                    <div class="overflow-hidden h-64">
+                        <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Makeup">
+                    </div>
+                    <div class="p-6 text-center">
+                        <i class="fas fa-brush service-icon"></i>
+                        <h3 class="text-xl font-bold font-serif text-[#271310] mb-2">Makeup</h3>
+                        <p class="text-gray-500 mb-4">Bridal, party, HD, airbrush, and professional makeup for women & special occasions.</p>
+                        <a href="#" class="inline-flex items-center text-sm font-semibold text-[#D4AF7A] hover:text-[#b3925c] transition-colors">View Services →</a>
+                    </div>
+                </div>
+                <!-- Spa -->
+                <div class="service-card-enrich bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl cursor-pointer scroll-hidden zoom-in" style="transition-delay: 0.1s;">
+                    <div class="overflow-hidden h-64">
+                        <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Spa">
+                    </div>
+                    <div class="p-6 text-center">
+                        <i class="fas fa-hot-tub service-icon"></i>
+                        <h3 class="text-xl font-bold font-serif text-[#271310] mb-2">Spa</h3>
+                        <p class="text-gray-500 mb-4">Aromatherapy, deep tissue, hot stone massage, body wraps, and relaxation therapies.</p>
+                        <a href="#" class="inline-flex items-center text-sm font-semibold text-[#D4AF7A] hover:text-[#b3925c] transition-colors">View Services →</a>
+                    </div>
+                </div>
+                <!-- Mani-Pedi -->
+                <div class="service-card-enrich bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl cursor-pointer scroll-hidden zoom-in" style="transition-delay: 0.2s;">
+                    <div class="overflow-hidden h-64">
+                        <img class="w-full h-full object-cover" src="https://www.rncarandbikerental.net/unsplash/gb6gtiTZKB8/801/manicure.jpg?unique=02462e9a" alt="Mani-Pedi">
+                    </div>
+                    <div class="p-6 text-center">
+                        <i class="fas fa-hand-sparkles service-icon"></i>
+                        <h3 class="text-xl font-bold font-serif text-[#271310] mb-2">Mani-Pedi</h3>
+                        <p class="text-gray-500 mb-4">Classic, gel, and spa manicure & pedicure – for healthy, beautiful hands and feet.</p>
+                        <a href="#" class="inline-flex items-center text-sm font-semibold text-[#D4AF7A] hover:text-[#b3925c] transition-colors">View Services →</a>
+                    </div>
                 </div>
             </div>
-
-            <label>Service Taken</label>
-            <select id="serviceSelect">
-                <option value="">-- General Service --</option>
-                <option value="AC Repair">AC Repair</option>
-                <option value="AC Installation">AC Installation</option>
-                <option value="AC Servicing">AC Servicing / Maintenance</option>
-                <option value="Gas Refill">Gas Refill</option>
-            </select>
-
-            <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
-            <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
-                <input type="text" id="userName" placeholder="Your Name (Optional)">
+            <div class="text-center mt-12 scroll-hidden zoom-in">
+                <a href="#" class="inline-block border-2 border-[#D4AF7A] text-[#D4AF7A] hover:bg-[#D4AF7A] hover:text-white font-semibold px-8 py-3 rounded-full transition-all duration-300">View All Services</a>
             </div>
+        </div>
+    </section>
 
-            <label style="clear:both;">Select Highlights (Pick 3-4)</label>
-
-            <div class="category-header">INSTALLATION & REPAIR</div>
-            <div class="keywords-container">
-                <div class="keyword-chip" onclick="toggleKeyword(this, 'Central AC Repair & Installation')">🏢 Central AC Services</div>
-                <div class="keyword-chip" onclick="toggleKeyword(this, 'Split AC Service & Repair')">🏠 Split AC Service</div>
-                <div class="keyword-chip" onclick="toggleKeyword(this, 'Window AC Repair')">🪟 Window AC Repair</div>
-                <div class="keyword-chip" onclick="toggleKeyword(this, 'Ductless Mini-Split Installation')">🔧 Ductless AC Install</div>
+    <!-- Gallery -->
+    <section class="py-20 px-6 md:px-12">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 scroll-hidden fade-up">
+                <span class="text-sm text-[#D4AF7A] tracking-[0.2em] uppercase">✦ GALLERY ✦</span>
+                <h2 class="text-3xl md:text-5xl font-serif text-[#271310] mt-2">Our Work</h2>
             </div>
-
-            <div class="category-header">MAINTENANCE & PARTS</div>
-            <div class="keywords-container">
-                <div class="keyword-chip" onclick="toggleKeyword(this, 'Routine AC Maintenance & Tune-ups')">⚙️ Routine Tune-ups</div>
-                <div class="keyword-chip" onclick="toggleKeyword(this, 'AC Gas Refill / Freon Recharge')">⛽ Gas Refill / Recharge</div>
-                <div class="keyword-chip" onclick="toggleKeyword(this, 'AC Compressor Replacement')">🔄 Compressor Replacement</div>
-                <div class="keyword-chip" onclick="toggleKeyword(this, 'Thermostat Repair & Replacement')">🌡️ Thermostat Repair</div>
-            </div>
-
-            <div class="category-header">SPEED, COST & TECHNICIAN</div>
-            <div class="keywords-container">
-                <div class="keyword-chip" onclick="toggleKeyword(this, 'Emergency AC Repair 24/7')">🚨 Emergency 24/7</div>
-                <div class="keyword-chip" onclick="toggleKeyword(this, 'fast AC repair')">⚡ Fast AC Repair</div>
-                <div class="keyword-chip" onclick="toggleKeyword(this, 'affordable AC installation')">💰 Affordable Install</div>
-                <div class="keyword-chip" onclick="toggleKeyword(this, 'best HVAC technician')">👨‍🔧 Best HVAC Tech</div>
-                <div class="keyword-chip" onclick="toggleKeyword(this, 'came out for an emergency AC repair')">🚑 Came for Emergency</div>
-                <div class="keyword-chip" onclick="toggleKeyword(this, 'Sayan bhai good technician')">🌟 Sayan Bhai (Good Tech)</div>
-            </div>
-
-            <button class="action-btn" id="generateBtn" onclick="generateReview()">🚀 Generate Review</button>
-
-            <textarea id="reviewOutput" class="review-preview-box" readonly></textarea>
-            
-            <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy & Open Google</button>
-
-            <div id="ownerPanel">
-                <label style="color:var(--whatsapp); margin-top:0;">📱 Customer's WhatsApp Number</label>
-                <div style="display:flex; gap:10px;">
-                    <input type="tel" id="customerPhone" placeholder="Ex: 9876543210" style="margin-bottom:0;">
-                    <button class="whatsapp-send-btn" style="width: auto; padding: 0 20px;" onclick="sendLinkToCustomer()">🚀 Send</button>
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                <div class="md:col-span-8 relative overflow-hidden h-64 md:h-96 group scroll-hidden zoom-in">
+                    <img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="https://www.rncarandbikerental.net/unsplash/x1UvHQ-OWvw/796/hair%20styling.jpg?unique=241252ef" alt="Academy">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                        <span class="text-white border border-[#D4AF7A] px-4 py-1 text-xs md:text-sm">ACADEMY INSIGHTS</span>
+                    </div>
                 </div>
-                <p style="font-size:11px; color:#64748b; margin-top:5px;">Customer will receive a direct link to post this review.</p>
+                <div class="md:col-span-4 relative overflow-hidden h-64 md:h-96 group scroll-hidden zoom-in" style="transition-delay: 0.1s;">
+                    <img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="https://www.rncarandbikerental.net/unsplash/RET5wTioLZ0/797/hair%20styling.jpg?unique=97dc73b4" alt="Styling">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                        <span class="text-white border border-[#D4AF7A] px-4 py-1 text-xs md:text-sm">VIEW DETAIL</span>
+                    </div>
+                </div>
+                <div class="md:col-span-4 relative overflow-hidden h-48 md:h-64 group scroll-hidden zoom-in">
+                    <img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="https://www.rncarandbikerental.net/unsplash/KdbCwfzcwWE/804/makeup.jpg?unique=76c8cf82" alt="Makeover">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                        <span class="text-white border border-[#D4AF7A] px-4 py-1 text-xs md:text-sm">VIEW MAKEOVER</span>
+                    </div>
+                </div>
+                <div class="md:col-span-8 relative overflow-hidden h-48 md:h-64 group scroll-hidden zoom-in" style="transition-delay: 0.1s;">
+                    <img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="https://images.unsplash.com/photo-1622296089863-eb7fc530daa8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Salon Vibe">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                        <span class="text-white border border-[#D4AF7A] px-4 py-1 text-xs md:text-sm">SALON VIBE</span>
+                    </div>
+                </div>
             </div>
+        </div>
+    </section>
 
+    <!-- Testimonials -->
+    <section class="py-20 px-6 md:px-12 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 scroll-hidden fade-up">
+                <span class="text-sm text-[#D4AF7A] tracking-[0.2em] uppercase">✦ TESTIMONIALS ✦</span>
+                <h2 class="text-3xl md:text-5xl font-serif text-[#271310] mt-2">Client Experiences</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="p-6 md:p-8 border border-gray-200 text-center scroll-hidden zoom-in">
+                    <div class="flex justify-center text-[#D4AF7A] mb-4">★★★★★</div>
+                    <p class="italic text-gray-600 text-sm md:text-base mb-4">"The attention to detail here is unparalleled. It's not just a haircut; it's a therapeutic experience in a setting of pure luxury. Ashraf is a true master of the craft — for both men and women."</p>
+                    <span class="text-xs md:text-sm uppercase font-semibold">JULIAN VANCE</span>
+                </div>
+                <div class="p-6 md:p-8 border border-gray-200 text-center scroll-hidden zoom-in" style="transition-delay: 0.1s;">
+                    <div class="flex justify-center text-[#D4AF7A] mb-4">★★★★★</div>
+                    <p class="italic text-gray-600 text-sm md:text-base mb-4">"Finally found a place that understands the nuances of classic barbering with a contemporary twist. The academy's influence shows in every stylist's work — truly unisex friendly."</p>
+                    <span class="text-xs md:text-sm uppercase font-semibold">MARCUS REED</span>
+                </div>
+                <div class="p-6 md:p-8 border border-gray-200 text-center scroll-hidden zoom-in" style="transition-delay: 0.2s;">
+                    <div class="flex justify-center text-[#D4AF7A] mb-4">★★★★★</div>
+                    <p class="italic text-gray-600 text-sm md:text-base mb-4">"The spa treatments are a game changer. The mocha accents and minimalist design create an environment of complete serenity. Highly recommended for everyone."</p>
+                    <span class="text-xs md:text-sm uppercase font-semibold">ELLIOT CHASE</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Request a Callback -->
+    <section class="py-20 px-6 md:px-12 bg-[#FAF8F5]">
+        <div class="max-w-3xl mx-auto text-center scroll-hidden zoom-in">
+            <span class="text-sm text-[#D4AF7A] tracking-[0.2em] uppercase">✦ WE'RE HERE FOR YOU ✦</span>
+            <h2 class="text-3xl md:text-4xl font-serif text-[#271310] mt-2 mb-8">Request a Callback</h2>
+            <form id="callbackForm" action="https://formspree.io/f/mnjynnry" method="POST" class="space-y-6">
+                <div><input type="text" name="name" placeholder="Name" required class="callback-input"></div>
+                <div><input type="tel" name="number" placeholder="Number" required class="callback-input"></div>
+                <div class="flex items-start gap-3 text-left">
+                    <input type="checkbox" id="optin" name="optin" value="Yes" class="mt-1 w-4 h-4 accent-[#D4AF7A]">
+                    <label for="optin" class="text-sm text-gray-700">I would like to opt in to receive promotional information and offers from Ashraf's on email/SMS/Whatsapp</label>
+                </div>
+                <button type="submit" class="submit-btn rounded-full">Submit</button>
+            </form>
+            <div id="formMessage" class="mt-4 text-sm hidden"></div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-[#1E1A16] text-white py-16">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+            <div>
+                <div class="text-2xl font-serif font-bold">ASHRAF'S</div>
+                <div class="text-sm text-gray-400 mt-1">UNISEX SALON & ACADEMY</div>
+                <div class="text-xs text-gray-500 mb-4">EST. 2008</div>
+                <button id="footerBookBtn" class="border border-[#D4AF7A] text-[#D4AF7A] text-xs uppercase tracking-wide px-5 py-2 mt-2 hover:bg-[#D4AF7A] hover:text-[#1E1A16] transition rounded-full">BOOK NOW</button>
+                <div class="text-sm text-gray-400 italic mt-6">Artisanal Mastery.<br>Contemporary Luxury.<br>For Him & Her.</div>
+                <div class="flex space-x-4 mt-5">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f text-gray-400 hover:text-[#D4AF7A] text-lg"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram text-gray-400 hover:text-[#D4AF7A] text-lg"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-youtube text-gray-400 hover:text-[#D4AF7A] text-lg"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter text-gray-400 hover:text-[#D4AF7A] text-lg"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-sm uppercase font-bold mb-5 gold-text tracking-wider">QUICK LINKS</h4>
+                <ul class="space-y-3 text-sm text-gray-400">
+                    <li><a href="https://www.growft.online/AShome/" class="hover:text-[#D4AF7A] transition">HOME</a></li>
+                    <li><a href="https://www.growft.online/ASservice/" class="hover:text-[#D4AF7A] transition">SERVICES</a></li>
+                    <li><a href="https://www.growft.online/ASstorelocater/" class="hover:text-[#D4AF7A] transition">STORE LOCATOR</a></li>
+                    <li><a href="https://www.growft.online/ASabout%20us/" class="hover:text-[#D4AF7A] transition">ABOUT US</a></li>
+                    <li><a href="#" class="hover:text-[#D4AF7A] transition">ACADEMY</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-sm uppercase font-bold mb-5 gold-text tracking-wider">SUPPORT</h4>
+                <ul class="space-y-3 text-sm text-gray-400">
+                    <li><a href="#" class="hover:text-[#D4AF7A] transition">PRIVACY POLICY</a></li>
+                    <li><a href="#" class="hover:text-[#D4AF7A] transition">TERMS OF SERVICE</a></li>
+                    <li><a href="https://www.growft.online/AScontactus/" class="hover:text-[#D4AF7A] transition">CONTACT US</a></li>
+                    <li><a href="https://www.growft.online/ASstorelocater/" class="hover:text-[#D4AF7A] transition">STORE LOCATOR</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-sm uppercase font-bold mb-5 gold-text tracking-wider">CONTACT INFO</h4>
+                <ul class="space-y-3 text-sm text-gray-400">
+                    <li class="flex gap-3"><i class="fas fa-map-marker-alt gold-text mt-1"></i> <span>Galleria Mall, Powai, Mumbai</span></li>
+                    <li class="flex gap-3"><i class="fas fa-phone-alt gold-text mt-1"></i> <span>022 4026 3442 / 3441</span></li>
+                    <li class="flex gap-3"><i class="fas fa-envelope gold-text mt-1"></i> <span>concierge@ashrafscissors.com</span></li>
+                    <li class="flex gap-3"><i class="fas fa-clock gold-text mt-1"></i> <span>10 AM - 8 PM | Mon-Sun</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="text-center text-gray-500 text-xs mt-12 pt-8 border-t border-gray-800">
+            © 2025 ASHRAF'S UNISEX SALON & ACADEMY – ARTISANAL MASTERY. ALL RIGHTS RESERVED.
         </div>
     </div>
+</footer>
 
-    <div class="footer">
-        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft" loading="lazy">
-        <div style="margin-top: 5px;">
-            Powered by <a href="https://growft.net" target="_blank">Growft</a>
-        </div>
-        <span class="owner-login-trigger" onclick="ownerLogin()">🔒 Owner</span>
+<!-- MODAL (Appointment Form for BOOK NOW button) -->
+<div id="appointmentModal" class="booking-modal">
+    <div class="modal-container">
+        <span class="close-modal">&times;</span>
+        <h2 class="font-serif">Book an Appointment</h2>
+        <form id="modalAppointmentForm" action="https://formspree.io/f/mdavkbby" method="POST" class="space-y-4">
+            <div><label class="block text-sm font-medium">Full Name *</label><input type="text" name="name" required class="appointment-input"></div>
+            <div><label class="block text-sm font-medium">Email Address *</label><input type="email" name="email" required class="appointment-input"></div>
+            <div><label class="block text-sm font-medium">Phone Number *</label><input type="tel" name="phone" required class="appointment-input"></div>
+            <div><label class="block text-sm font-medium">Preferred Date *</label><input type="date" name="date" required class="appointment-input"></div>
+            <div><label class="block text-sm font-medium">Preferred Time *</label><select name="time" required class="appointment-select"><option value="">Select time</option><option>10:00 AM</option><option>10:30 AM</option><option>11:00 AM</option><option>11:30 AM</option><option>12:00 PM</option><option>12:30 PM</option><option>01:00 PM</option><option>01:30 PM</option><option>02:00 PM</option><option>02:30 PM</option><option>03:00 PM</option><option>03:30 PM</option><option>04:00 PM</option><option>04:30 PM</option><option>05:00 PM</option><option>05:30 PM</option><option>06:00 PM</option><option>06:30 PM</option><option>07:00 PM</option></select></div>
+            <div><label class="block text-sm font-medium">Service Required *</label><select name="service" required class="appointment-select"><option value="">Select service</option><option>Signature Haircut</option><option>Beard Sculpting</option><option>Luxury Spa</option><option>Hair Color Studio</option><option>Bridal & Groom Grooming</option><option>Skin Care</option><option>Nail Care</option><option>Makeup</option><option>Mani-Pedi</option><option>Consultation Only</option></select></div>
+            <div><label class="block text-sm font-medium">Preferred Location *</label><select name="location" required class="appointment-select"><option value="">Select location</option><option>Powai (Galleria Mall)</option><option>Andheri East (Marol Naka)</option><option>Andheri East (Sakinaka)</option><option>Mulund West (Vasant Oscar)</option><option>Thane (Naupada)</option><option>Pune - Wakad</option></select></div>
+            <div><label class="block text-sm font-medium">Additional Notes</label><textarea name="notes" class="appointment-textarea" rows="2"></textarea></div>
+            <button type="submit" class="submit-btn-modal">Confirm Appointment →</button>
+        </form>
     </div>
 </div>
 
+<!-- Success Popup -->
+<div id="successPopup" class="popup-modal"><div class="popup-content"><div class="popup-icon"><i class="fas fa-check-circle"></i></div><div class="popup-title">Appointment Request Sent!</div><div class="popup-message">Thank you for booking with us.<br>We will confirm within 24 hours.</div><button class="popup-btn" onclick="closeSuccessPopup()">OK</button></div></div>
+
 <script>
-    // --- 🔐 SECURITY & CONFIGURATION ---
-    const GOOGLE_REVIEW_LINK = "https://share.google/MAevyyVFBWpFazd7V"; // **REPLACE THIS LINK**
+    let currentSlide = 0, totalSlides = 2, slider = document.getElementById('hero-slider');
+    function moveSlider(i) { currentSlide = i; slider.style.transform = `translateX(-${currentSlide * 100}%)`; }
+    setInterval(() => { currentSlide = (currentSlide + 1) % totalSlides; moveSlider(currentSlide); }, 5000);
     
-    // CHANGE TO "suspended" TO LOCK THE TOOL
-    const APP_STATUS = "active"; 
-    const EXPIRY_DATE = "2026-12-31"; 
+    const modal = document.getElementById('appointmentModal');
+    const openModalBtns = [document.getElementById('bookNowBtn'), document.getElementById('mobileBookNowBtn'), document.getElementById('footerBookBtn')];
+    const closeModalBtn = document.querySelector('.close-modal');
+    openModalBtns.forEach(btn => { if(btn) btn.addEventListener('click', () => modal.classList.add('active')); });
+    if(closeModalBtn) closeModalBtn.addEventListener('click', () => modal.classList.remove('active'));
+    window.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('active'); });
 
-    // --- INITIALIZATION ---
-    let isOwnerMode = false;
+    const successPopup = document.getElementById('successPopup');
+    function closeSuccessPopup() { successPopup.classList.remove('active'); }
+    function showSuccessPopup() { successPopup.classList.add('active'); setTimeout(() => successPopup.classList.remove('active'), 4000); }
 
-    window.onload = function() {
-        const today = new Date().toISOString().split('T')[0];
-        if(APP_STATUS === "suspended" || today > EXPIRY_DATE) {
-            document.getElementById('mainApp').style.display = 'none';
-            document.getElementById('lockScreen').style.display = 'flex';
-            return;
+    const modalForm = document.getElementById('modalAppointmentForm');
+    modalForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fd = new FormData(modalForm);
+        try {
+            const res = await fetch(modalForm.action, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
+            if (res.ok) {
+                modal.classList.remove('active');
+                showSuccessPopup();
+                modalForm.reset();
+            } else throw new Error();
+        } catch(err) { alert('⚠️ Something went wrong. Please try again.'); }
+    });
+
+    const menuBtn = document.getElementById('menuBtn'), mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('active'));
+    const callbackForm = document.getElementById('callbackForm'), formMessage = document.getElementById('formMessage');
+    callbackForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fd = new FormData(callbackForm);
+        try {
+            const res = await fetch(callbackForm.action, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
+            if (res.ok) {
+                formMessage.textContent = '✨ Thank you! We will call you back shortly. ✨';
+                formMessage.classList.remove('hidden'); formMessage.classList.add('text-green-600');
+                callbackForm.reset();
+                setTimeout(() => formMessage.classList.add('hidden'), 5000);
+            } else throw new Error();
+        } catch(e) {
+            formMessage.textContent = '⚠️ Something went wrong. Please try again.';
+            formMessage.classList.remove('hidden'); formMessage.classList.add('text-red-600');
+            setTimeout(() => formMessage.classList.add('hidden'), 5000);
         }
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const reviewText = urlParams.get('review');
-        if (reviewText) {
-            document.getElementById('generatorApp').style.display = 'none';
-            document.getElementById('customerLinkView').classList.remove('hidden');
-            document.getElementById('customerReviewText').value = decodeURIComponent(reviewText);
-        } else if(sessionStorage.getItem('isOwner') === 'true') {
-            isOwnerMode = true;
-        }
-    };
-
-    // --- OWNER & WHATSAPP LOGIC ---
-    function ownerLogin() {
-        if(isOwnerMode) { alert("Already logged in as Owner."); return; }
-        const password = prompt("Enter Owner Password:");
-        if(password === "admin123") { 
-            isOwnerMode = true;
-            sessionStorage.setItem('isOwner', 'true');
-            alert("Owner Mode Active! You can now send reviews to customers via WhatsApp.");
-        } else if(password) { alert("Incorrect Password"); }
-    }
-
-    function sendLinkToCustomer() {
-        const phone = document.getElementById('customerPhone').value.replace(/\D/g, '');
-        const review = document.getElementById('reviewOutput').value;
-        if(phone.length < 10) { alert("Enter valid number"); return; }
-        const finalPhone = phone.length === 10 ? "91" + phone : phone;
-        const baseUrl = window.location.href.split('?')[0];
-        const magicLink = `${baseUrl}?review=${encodeURIComponent(review)}`;
-        const msg = `Hello! 👋\n\nHere is the review for your AC service from Indian Air Cooling:\n\n*Tap this link to Post on Google:*\n${magicLink}`;
-        window.open(`https://wa.me/${finalPhone}?text=${encodeURIComponent(msg)}`, '_blank');
-    }
-
-    function copyCustomerLinkReview() {
-        const box = document.getElementById("customerReviewText");
-        box.select();
-        document.execCommand('copy');
-        window.open(GOOGLE_REVIEW_LINK, '_blank');
-    }
-
-    // --- APP LOGIC ---
-    let selectedKeywords = [];
-    let voiceText = "";
-    let activeMode = 'voice';
-
-    function switchMode(mode) {
-        activeMode = mode;
-        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active-mode'));
-        if(mode === 'voice') {
-            document.getElementById('btnModeVoice').classList.add('active-mode');
-            document.getElementById('voiceSection').classList.remove('hidden');
-            document.getElementById('textSection').classList.add('hidden');
-        } else {
-            document.getElementById('btnModeText').classList.add('active-mode');
-            document.getElementById('textSection').classList.remove('hidden');
-            document.getElementById('voiceSection').classList.add('hidden');
-        }
-    }
-
-    let currentRating = 0;
-    let currentExp = '';
-    function rate(stars) {
-        currentRating = stars;
-        document.querySelectorAll('.star').forEach((star, index) => {
-            star.classList.toggle('selected', index < stars);
-        });
-        if(stars >= 4) selectExp('good'); else selectExp('bad');
-    }
-    function selectExp(type) {
-        currentExp = type;
-        document.getElementById('btn-good').classList.remove('active');
-        document.getElementById('btn-bad').classList.remove('bad-active');
-        if (type === 'good') document.getElementById('btn-good').classList.add('active');
-        else document.getElementById('btn-bad').classList.add('bad-active');
-    }
-    function processRating() {
-        if (currentRating === 0 && currentExp === '') { alert("Please select a star rating."); return; }
-        document.getElementById('ratingScreen').classList.add('hidden');
-        let isHappy = (currentRating >= 4) || (currentExp === 'good');
-        if (isHappy) document.getElementById('aiToolScreen').classList.remove('hidden');
-        else document.getElementById('privateFeedbackScreen').classList.remove('hidden');
-    }
-    function submitPrivateFeedback() {
-        document.getElementById('privateFeedbackScreen').classList.add('hidden');
-        document.getElementById('thankYouScreen').classList.remove('hidden');
-    }
-
-    function startListening() {
-        if (!('webkitSpeechRecognition' in window)) { alert("Use Chrome Browser on Android."); return; }
-        recognition = new webkitSpeechRecognition();
-        recognition.lang = document.getElementById('voiceLang').value;
-        recognition.interimResults = false;
-        document.getElementById('micBtn').classList.add('mic-active');
-        document.getElementById('statusText').innerText = "Listening...";
-        recognition.onresult = (event) => {
-            voiceText = event.results[0][0].transcript;
-            document.getElementById('spokenTextDisplay').style.display = 'block';
-            document.getElementById('spokenTextDisplay').innerText = `Recorded: "${voiceText}"`;
-        };
-        recognition.onend = () => { document.getElementById('micBtn').classList.remove('mic-active'); document.getElementById('statusText').innerText = "Processing..."; };
-        recognition.start();
-    }
-
-    async function generateReview() {
-        const btn = document.getElementById('generateBtn');
-        btn.innerText = "🔄 Processing...";
-        
-        const userName = document.getElementById('userName').value.trim();
-        const tone = document.getElementById('toneSelect').value;
-        const location = document.getElementById('locationSelect').value;
-        const serviceType = document.getElementById('serviceSelect').value;
-        const manualText = document.getElementById('manualInput').value.trim();
-        let rawInput = activeMode === 'voice' ? voiceText : manualText;
-
-        if (selectedKeywords.length === 0 && !rawInput && !serviceType) {
-            alert("Please select highlights or write/speak something.");
-            btn.innerText = "🚀 Generate Review";
-            return;
-        }
-
-        // Translation
-        let finalBodyText = "";
-        if (rawInput && rawInput.length > 1) {
-            try {
-                const srcLangCode = document.getElementById('voiceLang').value.split('-')[0]; 
-                let langPair = 'Autodetect|en';
-                if(srcLangCode === 'hi') langPair = 'hi|en';
-                if(srcLangCode === 'mr') langPair = 'mr|en';
-
-                const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(rawInput)}&langpair=${langPair}`);
-                const data = await res.json();
-                let translated = data.responseData ? data.responseData.translatedText : "";
-                if(!translated.includes("PLEASE SELECT")) finalBodyText = translated;
-                else finalBodyText = rawInput;
-            } catch(e) { finalBodyText = rawInput; }
-        }
-
-        // Generation
-        let serviceText = serviceType ? serviceType : "AC service";
-        let intro = getRandom(reviewDB.intros[tone]);
-        intro = intro.replace(/{location}/g, location).replace(/{service}/g, serviceText);
-        if (userName) intro = `I am ${userName}. ` + intro;
-
-        let body = "";
-        const shuffledKeywords = selectedKeywords.sort(() => Math.random() - 0.5);
-        shuffledKeywords.forEach((k) => {
-            if(reviewDB.keywords[k]) {
-                let sentence = getRandom(reviewDB.keywords[k]);
-                sentence = sentence.replace(/{location}/g, location);
-                body += sentence + " ";
-            }
-        });
-
-        if(finalBodyText) body += " " + finalBodyText + ". ";
-
-        let outro = getRandom(reviewDB.outros[tone]);
-
-        const finalReview = intro + " " + body + outro;
-
-        const box = document.getElementById('reviewOutput');
-        box.value = finalReview;
-        box.style.display = 'block';
-        box.scrollIntoView({behavior: "smooth"});
-        btn.innerText = "🚀 Generate Review";
-
-        if(isOwnerMode) {
-            document.getElementById('ownerPanel').style.display = 'block';
-            document.getElementById('copyBtn').style.display = 'none';
-        } else {
-            document.getElementById('ownerPanel').style.display = 'none';
-            document.getElementById('copyBtn').style.display = 'block';
-        }
-    }
-
-    function toggleKeyword(element, keyword) {
-        element.classList.toggle('active');
-        if (selectedKeywords.includes(keyword)) selectedKeywords = selectedKeywords.filter(k => k !== keyword);
-        else selectedKeywords.push(keyword);
-    }
+    });
     
-    function toggleNameField() { 
-        const field = document.getElementById('nameArea');
-        field.style.display = field.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function copyToClipboard() {
-        const box = document.getElementById("reviewOutput");
-        box.select();
-        document.execCommand('copy');
-        if(confirm("Review Copied! ❄️\n\nClick OK to open Google Maps and paste.")) window.open(GOOGLE_REVIEW_LINK, '_blank');
-    }
-    
-    function getRandom(arr) { if(!arr) return ""; return arr[Math.floor(Math.random() * arr.length)]; }
-
-    // --- MASSIVE HVAC / AC REPAIR DATASETS ---
-    const reviewDB = {
-        intros: {
-            "Professional": [
-                "I contacted Indian Air Cooling in {location} for {service}.",
-                "Indian Air Cooling provides highly professional {service} in the {location} area.",
-                "If you are looking for reliable {service} in {location}, this company is excellent.",
-                "My experience with the {service} provided by Indian Air Cooling has been highly satisfactory.",
-                "A very systematic and professional approach to {service} in {location}.",
-                "I highly recommend the {service} provided by the technicians here.",
-                "The response for {service} at our {location} office was very prompt.",
-                "Glad to have used Indian Air Cooling for my {service}.",
-                "The quality of work during the {service} is exceptional.",
-                "For serious HVAC needs in {location}, this is the premier service provider."
-            ],
-            "Happy": [
-                "Calling Indian Air Cooling for {service} was the best decision! ❄️",
-                "Absolutely mind-blowing {service} in {location}!",
-                "The way they handle {service} is just next level. Highly impressed!",
-                "My AC is throwing ice-cold air after the {service} here! 🥶",
-                "If you want top-notch {service} in {location}, call them blindly!",
-                "Superb energy, great technicians, and the best {service} in {location}!",
-                "Finally found a company that does REAL honest work. Loved the {service}!",
-                "The {service} exceeded all my expectations. Boom! 🌬️",
-                "Such a relief getting the {service} done from experts here.",
-                "The technicians are phenomenal! Best {service} experience ever."
-            ],
-            "Short": [
-                "Best company in {location} for {service}.",
-                "Great experience getting {service}.",
-                "Highly recommend their {service}.",
-                "Top-notch {service}.",
-                "Very good technicians and {service}.",
-                "My AC works perfectly now. Best {service}.",
-                "Worth every penny for the {service}.",
-                "Excellent {service} in {location}.",
-                "Best place to call for AC issues.",
-                "Superb {service} and support."
-            ],
-            "Grateful": [
-                "I am extremely grateful to the technicians for the {service} in {location}.",
-                "Thank you Indian Air Cooling for simplifying the {service} for me.",
-                "My summer is saved after this {service}. Huge thanks!",
-                "Grateful for the quick support during the {service}.",
-                "Thanks to the team in {location} for making my home cool again.",
-                "I was sweating all day, but this {service} saved us. Thank you!",
-                "Appreciate the patience of the technicians while doing the {service}.",
-                "Heartfelt thanks for the honest pricing in the {service}.",
-                "I owe my comfortable sleep to the {service} done here. 🙏",
-                "Thanks for the amazing guidance and {service} execution."
-            ]
-        },
-        keywords: {
-            "Central AC Repair & Installation": [
-                "They did a flawless Central AC Repair & Installation at our property.",
-                "If you have a big setup, their Central AC Repair & Installation is unmatched.",
-                "Experts in commercial and residential Central AC Repair & Installation."
-            ],
-            "Split AC Service & Repair": [
-                "Highly satisfied with their Split AC Service & Repair.",
-                "They quickly diagnosed the issue during the Split AC Service & Repair.",
-                "For any wall units, their Split AC Service & Repair is the best in {location}."
-            ],
-            "Window AC Repair": [
-                "They managed my old Window AC Repair perfectly.",
-                "The Window AC Repair was done neatly without any mess.",
-                "Very knowledgeable about classic cooling systems like Window AC Repair."
-            ],
-            "Ductless Mini-Split Installation": [
-                "The Ductless Mini-Split Installation was extremely smooth.",
-                "They hid all the wires perfectly during the Ductless Mini-Split Installation.",
-                "Highly recommend them for a clean Ductless Mini-Split Installation."
-            ],
-            "Emergency AC Repair 24/7": [
-                "Their Emergency AC Repair 24/7 service is a lifesaver.",
-                "Called them late night and their Emergency AC Repair 24/7 team responded.",
-                "It is great to have an Emergency AC Repair 24/7 option in {location}."
-            ],
-            "AC Gas Refill / Freon Recharge": [
-                "The AC Gas Refill / Freon Recharge made my AC chill like brand new.",
-                "They checked for leaks before doing the AC Gas Refill / Freon Recharge.",
-                "Honest pricing for the AC Gas Refill / Freon Recharge."
-            ],
-            "AC Compressor Replacement": [
-                "The AC Compressor Replacement was done much faster than expected.",
-                "They sourced genuine parts for the AC Compressor Replacement.",
-                "Saved me from buying a new unit with their AC Compressor Replacement."
-            ],
-            "Routine AC Maintenance & Tune-ups": [
-                "I signed up for their Routine AC Maintenance & Tune-ups.",
-                "Their Routine AC Maintenance & Tune-ups keep my bills low.",
-                "Highly thorough checking during Routine AC Maintenance & Tune-ups."
-            ],
-            "Thermostat Repair & Replacement": [
-                "The Thermostat Repair & Replacement fixed all our cooling issues.",
-                "Upgraded to a smart system during the Thermostat Repair & Replacement.",
-                "Quick and easy Thermostat Repair & Replacement."
-            ],
-            "fast AC repair": [
-                "I was amazed by their fast AC repair service.",
-                "If you are in a hurry, you will love their fast AC repair.",
-                "They truly stand by the promise of fast AC repair."
-            ],
-            "best HVAC technician": [
-                "The guy who visited was definitely the best HVAC technician.",
-                "You can trust their staff, they send the best HVAC technician.",
-                "Very polite, clean, and undoubtedly the best HVAC technician."
-            ],
-            "came out for an emergency AC repair": [
-                "They actually came out for an emergency AC repair on a Sunday.",
-                "I am so glad they came out for an emergency AC repair when others refused.",
-                "The fact that they came out for an emergency AC repair so quickly is impressive."
-            ],
-            "affordable AC installation": [
-                "They provided the most affordable AC installation quote.",
-                "Do not overpay elsewhere, they do affordable AC installation with top quality.",
-                "Very affordable AC installation without cutting corners."
-            ],
-            "Sayan bhai good technician": [
-                "Sayan bhai is a good technician who knows exactly what he's doing.",
-                "I must say Sayan bhai is a very good technician and very polite.",
-                "Ask for Sayan bhai, he is a good technician and fixed the issue quickly."
-            ]
-        },
-        outros: {
-            "Professional": [
-                "I strongly recommend Indian Air Cooling for all HVAC needs.",
-                "A great investment for your home comfort.",
-                "Will definitely refer my colleagues to this company.",
-                "Professionalism and quality service at its peak.",
-                "The best platform to call for any cooling issues.",
-                "Five stars for the comprehensive service.",
-                "Highly satisfied with the workmanship.",
-                "A trustworthy company for AC repairs.",
-                "Great environment and clean work ethics.",
-                "Quality of work justifies the fee completely."
-            ],
-            "Happy": [
-                "If you want to beat the summer heat, call them! ❄️",
-                "Best decision ever! 100% recommended! 🚀",
-                "Don't waste time elsewhere, this is the ultimate cooling team!",
-                "Super excited to sleep in a freezing room! 🥶",
-                "A big thumbs up to the entire Indian Air Cooling team!",
-                "Summer looks so much easier now. Let's go! 🌬️",
-                "5 Stars! Keep rocking Indian Air Cooling!",
-                "To all residents here, this is the best AC team!",
-                "Best service and best setup! Boom!",
-                "Love the energy of the technicians. Highly recommended!"
-            ],
-            "Short": [
-                "Highly recommended.",
-                "5 Stars.",
-                "Best in {location}.",
-                "Great experience.",
-                "Must call them.",
-                "Top quality service.",
-                "Very satisfied.",
-                "Thank you.",
-                "Superb company.",
-                "Value for money."
-            ],
-            "Grateful": [
-                "Thank you to the team for changing my sweaty day.",
-                "Forever grateful for the fast service and support.",
-                "I will always recommend Indian Air Cooling to my neighbors.",
-                "Thanks for being so patient and fixing all leaks.",
-                "Appreciate the excellent support provided.",
-                "Thanks for saving my AC from further damage.",
-                "Grateful for the amazing cooling comfort.",
-                "You guys are doing a great job helping people in summers.",
-                "Much appreciated.",
-                "Thanks for the chilling breeze."
-            ]
-        }
-    };
+    // Scroll animation
+    const scrollElements = document.querySelectorAll('.scroll-hidden');
+    const elementInView = (el, offset=100) => el.getBoundingClientRect().top <= window.innerHeight - offset;
+    const handleScroll = () => scrollElements.forEach(el => { if(elementInView(el,100)) el.classList.add('visible'); });
+    window.addEventListener('load', handleScroll);
+    window.addEventListener('scroll', handleScroll);
+    setTimeout(handleScroll, 100);
 </script>
-
 </body>
 </html>
