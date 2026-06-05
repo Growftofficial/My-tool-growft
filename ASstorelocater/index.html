@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Store Locator | Ashraf's Unisex Salon & Academy</title>
+    <!-- Google Fonts + Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+        h1, h2, h3, h4, .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+        .gold-text { color: #D4AF7A; }
+        .gold-bg { background: #D4AF7A; }
+        .gold-border { border-color: #D4AF7A; }
+        
+        .social-icon { transition: all 0.3s ease; }
+        .social-icon:hover { opacity: 0.7; transform: translateY(-2px); }
+        
+        .mobile-menu { 
+            display: none; 
+            flex-direction: column; 
+            background: white; 
+            position: absolute; 
+            top: 70px; 
+            left: 0; 
+            right: 0; 
+            padding: 20px; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); 
+            z-index: 50; 
+            border-top: 1px solid #eee; 
+        }
+        .mobile-menu.active { display: flex; }
+        .mobile-menu a { 
+            padding: 12px 0; 
+            border-bottom: 1px solid #f0f0f0; 
+            font-weight: 600; 
+        }
+        @media (min-width: 768px) { 
+            .mobile-menu { display: none !important; } 
+        }
+        
+        /* Scroll animations */
+        .scroll-hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .fade-up {
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .fade-up.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .zoom-in {
+            transform: scale(0.9);
+            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .zoom-in.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+        
+        /* Store Card Hover */
+        .store-card {
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        .store-card:hover {
+            transform: translateX(5px);
+            border-left-color: #D4AF7A;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08);
+        }
+        .store-card.active {
+            border-left-color: #D4AF7A;
+            background: linear-gradient(90deg, #fff8f0, #fff);
+        }
+        
+        /* Action Buttons */
+        .action-btn {
+            transition: all 0.3s ease;
+            background: #f8f5f0;
+            border-radius: 30px;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+        .action-btn i { font-size: 12px; }
+        .action-btn:hover { background: #D4AF7A; color: white; transform: translateY(-2px); }
+        
+        /* Rating Stars */
+        .stars {
+            color: #D4AF7A;
+            letter-spacing: 2px;
+        }
+        
+        /* Store Image Thumbnail */
+        .store-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .store-img:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Map container */
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            min-height: 400px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #D4AF7A; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #7c5730; }
+        
+        /* City Selector Toggle Buttons */
+        .city-btn {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .city-btn.active {
+            color: #D4AF7A;
+            border-bottom-color: #D4AF7A;
+        }
+        .city-btn:not(.active):hover {
+            color: #D4AF7A;
+        }
+        
+        /* Photo Modal */
+        .photo-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .photo-modal.active {
+            display: flex;
+        }
+        .modal-image {
+            max-width: 90%;
+            max-height: 80%;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
+        }
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+        }
+        .modal-caption {
+            color: white;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body class="bg-[#F9F6F0] text-[#1E1A16]">
+
+<!-- Sticky Header -->
+<header class="sticky top-0 w-full z-50 bg-white shadow-md">
+    <div class="flex justify-between items-center px-6 md:px-12 py-3 max-w-7xl mx-auto relative">
+        <div class="flex items-center">
+            <img alt="Ashraf's Unisex Salon Logo" class="h-16 md:h-20 w-auto" src="https://www.rncarandbikerental.net/web/image/784-8f55ec69/ashraf%20bg%20white.webp">
+        </div>
+        <nav class="hidden md:flex space-x-8">
+            <a class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-[#D4AF7A] transition" href="#">HOME</a>
+            <a class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-[#D4AF7A] transition" href="#">SERVICES</a>
+            <a class="text-sm font-semibold uppercase tracking-wide border-b-2 border-[#D4AF7A] pb-1 text-[#D4AF7A]" href="#">STORE LOCATOR</a>
+            <a class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-[#D4AF7A] transition" href="#">ABOUT US</a>
+            <a class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-[#D4AF7A] transition" href="#">ACADEMY</a>
+        </nav>
+        <div class="flex items-center gap-4">
+            <button class="bg-gradient-to-r from-[#7c5730] to-[#D4AF7A] text-white text-sm uppercase tracking-wide px-6 py-2 hover:from-[#5b403c] hover:to-[#c49a5f] transition hidden md:block rounded-full">BOOK NOW</button>
+            <button id="menuBtn" class="md:hidden text-[#271310] focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+    </div>
+    <div id="mobileMenu" class="mobile-menu md:hidden">
+        <a href="#">HOME</a>
+        <a href="#">SERVICES</a>
+        <a href="#">STORE LOCATOR</a>
+        <a href="#">ABOUT US</a>
+        <a href="#">ACADEMY</a>
+        <button class="bg-gradient-to-r from-[#7c5730] to-[#D4AF7A] text-white text-sm uppercase tracking-wide px-6 py-2 mt-2 w-full rounded-full">BOOK NOW</button>
+    </div>
+</header>
+
+<main>
+    <!-- Hero Section -->
+    <section class="relative h-[40vh] min-h-[300px] bg-gradient-to-r from-[#1E1A16] to-[#2A241F]">
+        <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+            <span class="text-[#D4AF7A] text-sm tracking-[0.3em] uppercase mb-4 scroll-hidden fade-up">✦ Find Us ✦</span>
+            <h1 class="font-serif text-4xl md:text-6xl text-white mb-4 scroll-hidden fade-up delay-1">Our Locations</h1>
+            <div class="w-20 h-[2px] bg-[#D4AF7A] mx-auto mb-4 scroll-hidden scale-in"></div>
+            <p class="text-white/80 text-base max-w-2xl scroll-hidden fade-up delay-2">Visit us at any of our conveniently located salons across Mumbai & Pune.</p>
+        </div>
+    </section>
+
+    <!-- City Selector -->
+    <div class="sticky top-20 z-20 bg-white shadow-md py-4">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <div class="flex justify-center space-x-8">
+                <button id="cityMumbai" class="city-btn active text-lg font-semibold text-[#271310] pb-2 px-4 transition-all duration-300">📍 Mumbai</button>
+                <button id="cityPune" class="city-btn text-lg font-semibold text-gray-500 pb-2 px-4 transition-all duration-300">📍 Pune</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Store Locator Content -->
+    <section class="py-12 px-6 md:px-12">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-12 gap-8">
+                <!-- Left Side: Store Listings -->
+                <div class="md:col-span-5 lg:col-span-4">
+                    <div class="bg-white rounded-2xl shadow-lg p-6 sticky top-36">
+                        <div class="flex items-center gap-3 mb-6">
+                            <i class="fas fa-store text-2xl text-[#D4AF7A]"></i>
+                            <h2 class="text-2xl font-serif text-[#271310]" id="cityHeading">Salons in Mumbai</h2>
+                        </div>
+                        <div id="storeList" class="space-y-4">
+                            <!-- Store cards will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side: Map -->
+                <div class="md:col-span-7 lg:col-span-8">
+                    <div class="bg-white rounded-2xl shadow-lg p-4 h-full">
+                        <div class="map-container h-[500px] md:h-[600px] w-full">
+                            <iframe 
+                                id="storeMap"
+                                src="https://maps.google.com/maps?q=Galleria%20Shopping%20Mall%20Powai%20Mumbai&t=&z=12&ie=UTF8&iwloc=&output=embed"
+                                allowfullscreen="" 
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+                        <div class="mt-4 text-center text-sm text-gray-500">
+                            <i class="fas fa-info-circle text-[#D4AF7A] mr-1"></i> Click on any store location above to view on map
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-[#1E1A16] text-white py-16">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+            <div>
+                <div class="text-2xl font-serif font-bold">ASHRAF'S</div>
+                <div class="text-sm text-gray-400 mt-1">UNISEX SALON & ACADEMY</div>
+                <div class="text-xs text-gray-500 mb-4">EST. 2008</div>
+                <button class="border border-[#D4AF7A] text-[#D4AF7A] text-xs uppercase tracking-wide px-5 py-2 mt-2 hover:bg-[#D4AF7A] hover:text-[#1E1A16] transition rounded-full">BOOK NOW</button>
+                <div class="text-sm text-gray-400 italic mt-6">Artisanal Mastery.<br>Contemporary Luxury.<br>For Him & Her.</div>
+                <div class="flex space-x-4 mt-5">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f text-gray-400 hover:text-[#D4AF7A] text-lg"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram text-gray-400 hover:text-[#D4AF7A] text-lg"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-youtube text-gray-400 hover:text-[#D4AF7A] text-lg"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter text-gray-400 hover:text-[#D4AF7A] text-lg"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-sm uppercase font-bold mb-5 gold-text tracking-wider">QUICK LINKS</h4>
+                <ul class="space-y-3 text-sm text-gray-400">
+                    <li><a href="#" class="hover:text-[#D4AF7A] transition">HOME</a></li>
+                    <li><a href="#" class="hover:text-[#D4AF7A] transition">SERVICES</a></li>
+                    <li><a href="#" class="hover:text-[#D4AF7A] transition">ACADEMY</a></li>
+                    <li><a href="#" class="hover:text-[#D4AF7A] transition">CAREERS</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-sm uppercase font-bold mb-5 gold-text tracking-wider">SUPPORT</h4>
+                <ul class="space-y-3 text-sm text-gray-400">
+                    <li><a href="#" class="hover:text-[#D4AF7A] transition">PRIVACY POLICY</a></li>
+                    <li><a href="#" class="hover:text-[#D4AF7A] transition">TERMS OF SERVICE</a></li>
+                    <li><a href="#" class="hover:text-[#D4AF7A] transition">CONTACT US</a></li>
+                    <li><a href="#" class="hover:text-[#D4AF7A] transition">STORE LOCATOR</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-sm uppercase font-bold mb-5 gold-text tracking-wider">CONTACT INFO</h4>
+                <ul class="space-y-3 text-sm text-gray-400">
+                    <li class="flex gap-3"><i class="fas fa-map-marker-alt gold-text mt-1"></i> <span>Galleria Mall, Powai, Mumbai</span></li>
+                    <li class="flex gap-3"><i class="fas fa-phone-alt gold-text mt-1"></i> <span>022 4026 3442 / 3441</span></li>
+                    <li class="flex gap-3"><i class="fas fa-envelope gold-text mt-1"></i> <span>concierge@ashrafscissors.com</span></li>
+                    <li class="flex gap-3"><i class="fas fa-clock gold-text mt-1"></i> <span>10 AM - 8 PM | Mon-Sun</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="text-center text-gray-500 text-xs mt-12 pt-8 border-t border-gray-800">
+            © 2025 ASHRAF'S UNISEX SALON & ACADEMY – ARTISANAL MASTERY. ALL RIGHTS RESERVED.
+        </div>
+    </div>
+</footer>
+
+<!-- Photo Modal (Lightbox) -->
+<div id="photoModal" class="photo-modal">
+    <span class="close-modal">&times;</span>
+    <img id="modalImage" class="modal-image" src="" alt="Store Photo">
+    <div id="modalCaption" class="modal-caption"></div>
+</div>
+
+<script>
+    // Helper to generate star rating HTML
+    function getStarRating(rating) {
+        const fullStars = Math.floor(rating);
+        const halfStar = (rating % 1) >= 0.5;
+        let starsHtml = '';
+        for (let i = 0; i < fullStars; i++) starsHtml += '<i class="fas fa-star"></i>';
+        if (halfStar) starsHtml += '<i class="fas fa-star-half-alt"></i>';
+        const emptyStars = 5 - Math.ceil(rating);
+        for (let i = 0; i < emptyStars; i++) starsHtml += '<i class="far fa-star"></i>';
+        return `<span class="stars text-[#D4AF7A] text-sm">${starsHtml}</span> <span class="text-xs text-gray-500">(${rating})</span>`;
+    }
+
+    // Store image arrays (replace these URLs with actual outlet photos)
+    const storeImages = {
+        "Ashraf's - Powai": [
+            "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=400&h=300&fit=crop",
+            "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&h=300&fit=crop",
+            "https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=400&h=300&fit=crop"
+        ],
+        "Ashraf's - Andheri East": [
+            "https://images.unsplash.com/photo-1622288439168-0f78d374c513?w=400&h=300&fit=crop",
+            "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=400&h=300&fit=crop",
+            "https://images.unsplash.com/photo-1503951914875-3fe63d7d3df0?w=400&h=300&fit=crop"
+        ],
+        "Ashraf's - Andheri Sakinaka": [
+            "https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=400&h=300&fit=crop",
+            "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=400&h=300&fit=crop",
+            "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&h=300&fit=crop"
+        ],
+        "Ashraf's - Mulund West": [
+            "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=400&h=300&fit=crop",
+            "https://images.unsplash.com/photo-1622288439168-0f78d374c513?w=400&h=300&fit=crop",
+            "https://images.unsplash.com/photo-1503951914875-3fe63d7d3df0?w=400&h=300&fit=crop"
+        ],
+        "Ashraf's - Thane": [
+            "https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=400&h=300&fit=crop",
+            "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=400&h=300&fit=crop",
+            "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&h=300&fit=crop"
+        ],
+        "Ashraf's - Wakad": [
+            "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=400&h=300&fit=crop",
+            "https://images.unsplash.com/photo-1622288439168-0f78d374c513?w=400&h=300&fit=crop",
+            "https://images.unsplash.com/photo-1503951914875-3fe63d7d3df0?w=400&h=300&fit=crop"
+        ]
+    };
+
+    // Get first image as thumbnail
+    function getStoreThumbnail(storeName) {
+        const imgs = storeImages[storeName];
+        return imgs && imgs.length > 0 ? imgs[0] : "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=80&h=80&fit=crop";
+    }
+
+    // Open photo modal
+    function openPhotoModal(storeName) {
+        const images = storeImages[storeName];
+        if (!images || images.length === 0) {
+            alert("No photos available for this store.");
+            return;
+        }
+        const modal = document.getElementById('photoModal');
+        const modalImg = document.getElementById('modalImage');
+        const modalCaption = document.getElementById('modalCaption');
+        let currentIndex = 0;
+        modalImg.src = images[currentIndex];
+        modalCaption.innerHTML = `${storeName} - ${currentIndex+1}/${images.length}`;
+        modal.classList.add('active');
+        
+        // Add click on image to cycle through photos
+        modalImg.onclick = () => {
+            currentIndex = (currentIndex + 1) % images.length;
+            modalImg.src = images[currentIndex];
+            modalCaption.innerHTML = `${storeName} - ${currentIndex+1}/${images.length}`;
+        };
+    }
+
+    // Create store card with photo thumbnail and view photos button
+    function createStoreCard(store, index) {
+        const ratingHtml = getStarRating(store.rating);
+        const thumbnail = getStoreThumbnail(store.name);
+        const callNumber = store.phone;
+        const bookingLink = `javascript:void(0);`;
+        const mapLink = store.mapUrl;
+        
+        return `
+            <div class="store-card p-4 rounded-xl cursor-pointer transition-all bg-white shadow-sm" data-mapquery="${store.mapQuery}">
+                <div class="flex gap-3">
+                    <!-- Store Image Thumbnail -->
+                    <img src="${thumbnail}" alt="${store.name}" class="store-img w-20 h-20 rounded-lg object-cover flex-shrink-0">
+                    <div class="flex-1">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-base text-[#271310]">${store.name}</h3>
+                                <p class="text-gray-500 text-xs mt-1 flex items-center gap-1"><i class="fas fa-map-marker-alt text-[#D4AF7A] text-xs"></i> ${store.branch}</p>
+                            </div>
+                            <div class="text-right">
+                                ${ratingHtml}
+                            </div>
+                        </div>
+                        <p class="text-gray-500 text-xs mt-1 truncate">${store.address.split(',')[0]}, ${store.area}</p>
+                        
+                        <!-- Action Buttons Row -->
+                        <div class="flex flex-wrap gap-1 mt-2">
+                            <a href="${bookingLink}" onclick="bookAppointment('${store.name}', '${store.phone}')" class="action-btn text-xs px-2 py-1"><i class="fas fa-calendar-check"></i> Book</a>
+                            <a href="tel:${callNumber}" class="action-btn text-xs px-2 py-1"><i class="fas fa-phone-alt"></i> Call</a>
+                            <a href="${mapLink}" target="_blank" class="action-btn text-xs px-2 py-1"><i class="fas fa-map-marker-alt"></i> Map</a>
+                            <button onclick="event.stopPropagation(); openPhotoModal('${store.name}')" class="action-btn text-xs px-2 py-1"><i class="fas fa-images"></i> Photos</button>
+                        </div>
+                        
+                        <!-- Timing -->
+                        <div class="flex flex-wrap gap-2 mt-2 text-xs text-gray-400">
+                            <span><i class="fas fa-clock text-[#D4AF7A] text-xs mr-1"></i> ${store.timings}</span>
+                            <span><i class="fas fa-star-of-life text-[#D4AF7A] text-xs mr-1"></i> ${store.reviewCount}+ reviews</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    // Mumbai Locations data
+    const mumbaiLocations = [
+        { name: "Ashraf's - Powai", branch: "Powai", address: "Galleria Shopping Mall, Shop No. 121-122, First Floor, Hiranandani Gardens, Powai, Mumbai - 400076", area: "Powai", phone: "02240263442", phoneDisplay: "022 4026 3442", phone2: "02240263441", timings: "10 AM - 8 PM", mapQuery: "Galleria%20Shopping%20Mall%20Powai%20Mumbai", mapUrl: "https://maps.google.com/?q=Galleria+Shopping+Mall+Powai+Mumbai", rating: 4.8, reviewCount: 127 },
+        { name: "Ashraf's - Andheri East", branch: "Andheri East", address: "Shop No 1, Sangeet Plaza, Marol Naka, Near State Bank Of India, Marol Maroshi Road, Andheri East, Mumbai - 400059", area: "Andheri East", phone: "02240263445", phoneDisplay: "022 4026 3445", phone2: "9833982633", timings: "9 AM - 10 PM", mapQuery: "Sangeet%20Plaza%20Marol%20Naka%20Andheri%20East%20Mumbai", mapUrl: "https://maps.google.com/?q=Sangeet+Plaza+Marol+Naka+Andheri+East+Mumbai", rating: 4.7, reviewCount: 98 },
+        { name: "Ashraf's - Andheri Sakinaka", branch: "Andheri Sakinaka", address: "A-906, Pranik Chambers, Sakinaka, Sag Baug, Marol, Andheri East, Mumbai - 400072", area: "Andheri East", phone: "9833982633", phoneDisplay: "9833982633", phone2: "02240263445", timings: "9 AM - 8 PM", mapQuery: "Pranik%20Chambers%20Sakinaka%20Andheri%20East%20Mumbai", mapUrl: "https://maps.google.com/?q=Pranik+Chambers+Sakinaka+Mumbai", rating: 4.6, reviewCount: 85 },
+        { name: "Ashraf's - Mulund West", branch: "Mulund West", address: "S-05/06, Shopping Arcade, Ground Floor, Vasant Oscar, LBS Marg, Mulund West, Mumbai - 400080", area: "Mulund West", phone: "02240242227", phoneDisplay: "022 4024 2227", phone2: "02240263445", timings: "10 AM - 8 PM", mapQuery: "Vasant%20Oscar%20LBS%20Marg%20Mulund%20West%20Mumbai", mapUrl: "https://maps.google.com/?q=Vasant+Oscar+LBS+Marg+Mulund+West+Mumbai", rating: 4.9, reviewCount: 156 },
+        { name: "Ashraf's - Thane", branch: "Thane", address: "Durga Niwas Soc., New English School & Jr College, 101, Dr Ramesh Pradhan Rd, near Sai Krupa Hotel, Naupada, Thane West - 400602", area: "Thane West", phone: "02240263450", phoneDisplay: "022 4026 3450", phone2: "8928258351", timings: "10 AM - 8 PM", mapQuery: "Naupada%20Thane%20West%20Mumbai", mapUrl: "https://maps.google.com/?q=Naupada+Thane+West+Mumbai", rating: 4.5, reviewCount: 67 }
+    ];
+
+    // Pune Locations
+    const puneLocations = [
+        { name: "Ashraf's - Wakad", branch: "Wakad", address: "First Floor, Unit 102, Ozone Spring, Next to Haldiram & Hemant Jewellers, Utkarsh Chowk, Wakad, Pune - 411057", area: "Wakad", phone: "9136947373", phoneDisplay: "+91 91369 47373", phone2: "8928258351", timings: "10 AM - 8 PM", mapQuery: "Utkarsh%20Chowk%20Wakad%20Pune", mapUrl: "https://maps.google.com/?q=Utkarsh+Chowk+Wakad+Pune", rating: 4.9, reviewCount: 42 }
+    ];
+
+    let currentCitySelected = 'mumbai';
+    const storeListDiv = document.getElementById('storeList');
+    const cityHeading = document.getElementById('cityHeading');
+    const mapIframe = document.getElementById('storeMap');
+
+    function loadCityLocations(city) {
+        let locations = [];
+        let cityDisplayName = '';
+        if (city === 'mumbai') {
+            locations = mumbaiLocations;
+            cityDisplayName = 'Salons in Mumbai';
+        } else if (city === 'pune') {
+            locations = puneLocations;
+            cityDisplayName = 'Salon in Pune';
+        }
+        cityHeading.innerText = cityDisplayName;
+        storeListDiv.innerHTML = '';
+        if (locations.length === 0) {
+            storeListDiv.innerHTML = '<p class="text-gray-500 text-center py-8">No locations found for this city.</p>';
+            return;
+        }
+        locations.forEach((store, idx) => {
+            storeListDiv.innerHTML += createStoreCard(store, idx);
+        });
+        // attach click events for map
+        document.querySelectorAll('.store-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                // prevent if click came from button inside card
+                if (e.target.closest('.action-btn')) return;
+                const mapQuery = card.getAttribute('data-mapquery');
+                if (mapQuery) {
+                    const newSrc = `https://maps.google.com/maps?q=${mapQuery}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+                    mapIframe.src = newSrc;
+                }
+                document.querySelectorAll('.store-card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+            });
+        });
+        if (document.querySelectorAll('.store-card').length > 0) {
+            document.querySelectorAll('.store-card')[0].click();
+        }
+    }
+
+    window.bookAppointment = function(storeName, phone) {
+        alert(`📅 Book appointment at ${storeName}\n📞 Call us at ${phone} or visit the salon. Online booking coming soon!`);
+    };
+
+    // Close modal
+    const modal = document.getElementById('photoModal');
+    const closeModalBtn = document.querySelector('.close-modal');
+    closeModalBtn.addEventListener('click', () => modal.classList.remove('active'));
+    window.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
+
+    // City selectors
+    const cityMumbaiBtn = document.getElementById('cityMumbai');
+    const cityPuneBtn = document.getElementById('cityPune');
+    cityMumbaiBtn.addEventListener('click', () => {
+        if (currentCitySelected === 'mumbai') return;
+        currentCitySelected = 'mumbai';
+        cityMumbaiBtn.classList.add('active', 'text-[#D4AF7A]', 'border-[#D4AF7A]');
+        cityMumbaiBtn.classList.remove('text-gray-500');
+        cityPuneBtn.classList.remove('active', 'text-[#D4AF7A]', 'border-[#D4AF7A]');
+        cityPuneBtn.classList.add('text-gray-500');
+        loadCityLocations('mumbai');
+    });
+    cityPuneBtn.addEventListener('click', () => {
+        if (currentCitySelected === 'pune') return;
+        currentCitySelected = 'pune';
+        cityPuneBtn.classList.add('active', 'text-[#D4AF7A]', 'border-[#D4AF7A]');
+        cityPuneBtn.classList.remove('text-gray-500');
+        cityMumbaiBtn.classList.remove('active', 'text-[#D4AF7A]', 'border-[#D4AF7A]');
+        cityMumbaiBtn.classList.add('text-gray-500');
+        loadCityLocations('pune');
+    });
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if(menuBtn) menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('active'));
+
+    // Scroll animations
+    const scrollElements = document.querySelectorAll('.scroll-hidden');
+    const elementInView = (el, offset = 100) => el.getBoundingClientRect().top <= window.innerHeight - offset;
+    const handleScroll = () => scrollElements.forEach(el => { if(elementInView(el, 100)) el.classList.add('visible'); });
+    window.addEventListener('load', handleScroll);
+    window.addEventListener('scroll', handleScroll);
+    setTimeout(handleScroll, 100);
+</script>
+
+</body>
+</html>
