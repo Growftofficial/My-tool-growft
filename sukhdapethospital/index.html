@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Review - Sukhada 24x7 Pet Hospital</title>
     <style>
-        /* --- THEME: VETERINARY (Teal & White) --- */
+        /* --- THEME: VETERINARY PREMIUM (Teal & White) --- */
         :root {
             --primary: #00897B; /* Teal */
-            --primary-light: #26A69A;
-            --accent: #00695C;
+            --primary-dark: #00695C;
+            --accent: #004D40;
             --bg-color: #E0F2F1;
             --card-bg: #ffffff;
             --gold: #FBC02D;
@@ -27,6 +27,7 @@
             margin: 0; padding: 20px 10px;
             min-height: 100vh; display: flex;
             justify-content: center; align-items: flex-start;
+            color: #333;
         }
 
         .container {
@@ -40,31 +41,32 @@
 
         /* --- 🔒 LOCK SCREEN --- */
         #lockScreen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(255, 255, 255, 0.98); z-index: 9999;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; padding: 20px;
+            text-align: center; padding: 20px; border-radius: 16px;
         }
         .contact-admin-btn {
-            background: var(--primary); color: white; padding: 12px 25px;
-            border-radius: 50px; text-decoration: none; font-weight: 600;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            background-color: var(--primary); color: #ffffff !important; padding: 12px 25px;
+            border-radius: 8px; text-decoration: none; font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); margin-top: 20px;
         }
 
         /* HEADER */
-        h1 { color: var(--accent); margin: 5px 0 5px 0; font-size: 22px; font-weight: 800; line-height: 1.2; }
-        .subtitle { font-size: 12px; color: #666; margin-bottom: 10px; font-weight: 600; }
+        h1 { color: var(--accent); margin: 5px 0 5px 0; font-size: 24px; font-weight: 800; line-height: 1.2; }
+        .subtitle { font-size: 13px; color: #666; margin-bottom: 15px; font-weight: 600; }
         .location { 
-            color: var(--primary); font-size: 12px; font-weight: 700; 
+            color: var(--primary); font-size: 13px; font-weight: 700; 
             text-transform: uppercase; letter-spacing: 0.5px; 
             margin-bottom: 15px; display: inline-block; 
-            background: #E0F2F1; padding: 5px 12px; border-radius: 15px;
+            background: #E0F2F1; padding: 6px 15px; border-radius: 20px;
         }
+        
         .phone-link {
-            text-decoration: none; color: #fff; background: var(--primary);
-            padding: 8px 18px; border-radius: 25px; display: inline-block;
-            font-size: 14px; font-weight: 700; transition: 0.2s;
-            box-shadow: 0 4px 6px rgba(0, 137, 123, 0.2); margin-bottom: 20px;
+            text-decoration: none; color: #ffffff !important; background-color: var(--primary);
+            padding: 10px 22px; border-radius: 25px; display: inline-block;
+            font-size: 15px; font-weight: 700; transition: 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 137, 123, 0.2); margin-bottom: 25px;
         }
 
         /* INPUTS */
@@ -72,69 +74,84 @@
             width: 100%; padding: 12px; border-radius: 8px;
             border: 1px solid var(--border); background: var(--box-bg);
             font-size: 14px; outline: none; margin-bottom: 10px;
-            color: #333; font-family: inherit;
+            color: #333; font-family: inherit; transition: 0.3s;
+            -webkit-appearance: none;
         }
-        select:focus, input:focus, textarea:focus { border-color: var(--primary); background: #fff; }
-        label { font-weight: 700; display: block; margin-top: 12px; margin-bottom: 6px; color: var(--accent); font-size: 12px; text-transform: uppercase; text-align: left; }
+        select:focus, input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0, 137, 123, 0.1); background: #fff; }
+        label { font-weight: 700; display: block; margin-top: 15px; margin-bottom: 6px; color: var(--accent); font-size: 12px; text-transform: uppercase; text-align: left; }
 
         /* RATING */
         .star-container { display: flex; justify-content: center; gap: 8px; margin: 20px 0; }
-        .star { font-size: 40px; color: #CFD8DC; cursor: pointer; transition: transform 0.2s; }
+        .star { font-size: 45px; color: #CFD8DC; cursor: pointer; transition: transform 0.2s; }
         .star.selected { color: var(--gold); transform: scale(1.1); }
 
         .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
         .exp-btn {
             padding: 12px 15px; border: 1px solid var(--border); border-radius: 8px;
-            background: #fff; cursor: pointer; font-weight: 600; color: #546E7A;
+            background-color: #fff; cursor: pointer; font-weight: 600; color: #546E7A;
             flex: 1; max-width: 140px; transition: 0.2s; font-size: 14px;
+            -webkit-appearance: none;
         }
-        .exp-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .exp-btn.active { background-color: var(--primary); color: #ffffff !important; border-color: var(--primary); box-shadow: 0 4px 10px rgba(0, 137, 123, 0.2); }
 
         /* INPUT MODES */
         .input-mode-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
         .mode-btn { 
             flex: 1; padding: 10px; border: 1px solid var(--primary); border-radius: 8px; 
-            background: #fff; color: var(--primary); font-weight: 600; cursor: pointer; font-size: 13px;
+            background-color: #fff; color: var(--primary); font-weight: 600; cursor: pointer; font-size: 13px;
+            -webkit-appearance: none;
         }
-        .mode-btn.active-mode { background: var(--primary); color: white; }
+        .mode-btn.active-mode { background-color: var(--primary); color: #ffffff !important; }
 
         .voice-section, .text-section {
-            background: #E0F2F1; padding: 12px; border-radius: 12px; 
+            background-color: #E0F2F1; padding: 12px; border-radius: 12px; 
             margin-bottom: 20px; border: 1px dashed var(--primary); text-align: left;
         }
         .voice-controls { display: flex; align-items: center; gap: 10px; }
         .mic-btn {
             width: 45px; height: 45px; border-radius: 50%;
-            background: var(--primary); color: white; border: none;
+            background-color: var(--primary); color: #ffffff !important; border: none;
             font-size: 20px; cursor: pointer; box-shadow: 0 4px 10px rgba(0, 137, 123, 0.3);
             display: flex; align-items: center; justify-content: center;
+            -webkit-appearance: none;
         }
-        .mic-active { animation: pulse 1.5s infinite; background: var(--danger); }
+        .mic-active { animation: pulse 1.5s infinite; background-color: var(--danger); }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0, 137, 123, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(0,0,0,0); } }
 
         /* CHIPS */
-        .category-header { font-size: 11px; color: var(--accent); margin: 15px 0 8px 0; font-weight: 700; letter-spacing: 0.5px; border-bottom: 1px dashed #B2DFDB; padding-bottom: 4px; text-align: left; }
+        .category-header { font-size: 11px; color: var(--accent); margin: 20px 0 8px 0; font-weight: 800; letter-spacing: 0.5px; border-bottom: 1px dashed #B2DFDB; padding-bottom: 4px; text-align: left; }
         .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 5px; }
         .keyword-chip { 
-            padding: 8px 10px; background-color: #fff; border-radius: 20px; 
-            font-size: 11px; font-weight: 600; cursor: pointer; 
+            padding: 8px 12px; background-color: #fff; border-radius: 20px; 
+            font-size: 12px; font-weight: 600; cursor: pointer; 
             border: 1px solid #B2DFDB; color: #00695C; 
             flex-grow: 1; text-align: center; transition: 0.2s;
         }
-        .keyword-chip.active { background-color: var(--primary); color: white; border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 3px 8px rgba(0, 137, 123, 0.2); }
+        .keyword-chip.active { background-color: var(--primary); color: #ffffff !important; border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 3px 8px rgba(0, 137, 123, 0.2); }
 
-        /* BUTTONS */
+        /* --- FIXED BUTTONS CSS --- */
         .action-btn {
-            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white; border: none; border-radius: 8px;
+            width: 100%; padding: 14px; 
+            background-color: var(--primary);
+            color: #ffffff !important; border: none; border-radius: 8px;
             font-size: 16px; font-weight: 700; cursor: pointer;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 10px;
+            -webkit-appearance: none; appearance: none;
+            display: block;
         }
-        .copy-btn { width: 100%; padding: 12px; background-color: #F57F17; color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: 600; font-size: 15px; cursor: pointer; display: none; box-shadow: 0 4px 6px rgba(245, 127, 23, 0.2); }
+        .action-btn:active { transform: scale(0.98); }
+
+        .copy-btn { 
+            width: 100%; padding: 14px; background-color: #F57F17; 
+            color: #ffffff !important; border: none; border-radius: 8px; 
+            margin-top: 15px; font-weight: 700; font-size: 15px; 
+            cursor: pointer; display: none; box-shadow: 0 4px 6px rgba(245, 127, 23, 0.2); 
+            -webkit-appearance: none; appearance: none;
+        }
 
         .review-preview-box {
-            width: 100%; min-height: 130px; margin-top: 15px; border-radius: 8px; padding: 10px; 
-            border: 1px solid var(--border); display: none; background: #fff; resize: none; outline: none;
+            width: 100%; min-height: 140px; margin-top: 15px; border-radius: 12px; padding: 15px; 
+            border: 1px solid var(--border); display: none; background-color: #fff; resize: none; outline: none; line-height: 1.5;
         }
 
         /* OWNER PANEL */
@@ -145,16 +162,17 @@
         }
         .whatsapp-send-btn {
             width: 100%; padding: 12px; background-color: var(--whatsapp);
-            color: white; border: none; border-radius: 8px;
+            color: #ffffff !important; border: none; border-radius: 8px;
             font-size: 15px; font-weight: 700; cursor: pointer;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            -webkit-appearance: none;
         }
 
         /* UTILS */
         .fade-in { animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .hidden { display: none !important; }
-        .toggle-name { font-size: 13px; color: var(--primary); text-decoration: underline; cursor: pointer; float: right; margin-top: 5px; border: none; background: none; }
+        .toggle-name { font-size: 13px; color: var(--primary); text-decoration: underline; cursor: pointer; float: right; margin-top: 5px; border: none; background: none; font-weight:bold; }
 
         /* FOOTER */
         .footer { margin-top: 35px; text-align: center; font-size: 12px; color: #64748b; border-top: 1px dashed #B2DFDB; padding-top: 15px; }
@@ -164,47 +182,46 @@
             font-size: 11px; color: #ccc; cursor: pointer; text-decoration: none;
             position: absolute; bottom: 5px; right: 10px;
         }
-        
-        .customer-card { text-align: center; padding: 20px; }
-        .customer-card h2 { color: var(--primary); }
     </style>
 </head>
 <body>
 
-<div id="lockScreen" style="display: none;">
-    <div style="font-size: 60px; margin-bottom: 20px;">🔒</div>
-    <div style="font-size: 22px; font-weight: 700; color: #333; margin-bottom: 10px;">Service Suspended</div>
-    <div style="font-size: 14px; color: #666; margin-bottom: 30px;">
-        This tool has been disabled. Please contact the administrator.
-    </div>
-    <a href="tel:+917020360561" class="contact-admin-btn">Contact Provider</a>
-</div>
-
 <div class="container" id="mainApp">
-
-    <div id="customerLinkView" class="hidden customer-card">
-        <div style="font-size: 40px; margin-bottom: 10px;">🐾</div>
-        <h2>Hello!</h2>
-        <p style="color:#555; font-size:14px; margin-bottom:20px;">
-            Here is the review for your pet's visit to Sukhada Hospital.
-            <br>Click below to copy & post.
-        </p>
-        <textarea id="customerReviewText" class="review-preview-box" readonly style="display:block;"></textarea>
-        <button class="copy-btn" style="display:block; margin-top:15px;" onclick="copyCustomerLinkReview()">📋 Copy & Open Google</button>
-        <p style="font-size:11px; color:#999; margin-top:20px;">Wishing your pet good health! ❤️</p>
+    
+    <!-- 🔒 SERVICE SUSPENDED OVERLAY -->
+    <div id="lockScreen" style="display: none;">
+        <div style="font-size: 60px; margin-bottom: 20px;">🔒</div>
+        <div style="font-size: 24px; font-weight: 800; color: #1f2937; margin-bottom: 10px;">Service Suspended</div>
+        <div style="font-size: 15px; color: #64748b; margin-bottom: 30px; line-height: 1.5;">
+            This review generation tool is temporarily unavailable.<br>Please contact the administrator.
+        </div>
+        <a href="tel:+917020360561" class="contact-admin-btn">Contact Support</a>
     </div>
 
+    <!-- 🐾 CUSTOMER DIRECT LINK VIEW -->
+    <div id="customerLinkView" class="hidden" style="text-align: center; padding: 20px;">
+        <div style="font-size: 45px; margin-bottom: 10px;">🩺🐾</div>
+        <h2 style="color:var(--primary);">Hello!</h2>
+        <p style="color:#555; font-size:15px; margin-bottom:20px;">
+            Here is the review for your pet's visit to Sukhada Hospital.<br>Tap below to copy & post.
+        </p>
+        <textarea id="customerReviewText" class="review-preview-box" readonly style="display:block; background:#f8fafc;"></textarea>
+        <button class="copy-btn" style="display:block; margin-top:15px;" onclick="copyCustomerLinkReview()">📋 Copy & Open Google</button>
+        <p style="font-size:12px; color:#999; margin-top:20px;">Wishing your pet good health! ❤️</p>
+    </div>
+
+    <!-- 🚀 MAIN GENERATOR APP -->
     <div id="generatorApp">
         <h1>Sukhada 24x7 Multi Speciality Pet Hospital</h1>
         <div class="subtitle">Compassionate Care for Your Furry Friends</div>
         <div class="location">📍 Vaishali Nagar, Jaipur</div>
         
-        <div style="text-align:center;">
+        <div>
             <a href="tel:+918003329626" class="phone-link">📞 Call Us Now</a>
         </div>
 
         <div id="ratingScreen" class="fade-in">
-            <p>How was your experience?</p>
+            <p style="font-weight:700; color:#455A64; font-size: 16px;">How was your experience with us?</p>
             <div class="star-container">
                 <span class="star" onclick="rate(1)">★</span>
                 <span class="star" onclick="rate(2)">★</span>
@@ -214,26 +231,27 @@
             </div>
             <div class="experience-btns">
                 <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Issues 😞</button>
-                <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Great! 🐾</button>
+                <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Excellent 🐾</button>
             </div>
             <button class="action-btn" onclick="processRating()">Next Step ➡</button>
         </div>
 
         <div id="privateFeedbackScreen" class="hidden fade-in">
             <h2 style="color:#455A64;">We are sorry! 😔</h2>
-            <p>Please tell us how we can improve.</p>
-            <textarea id="privateFeedbackText" class="feedback-box" placeholder="Describe the issue..."></textarea>
-            <button class="action-btn" style="background:#455A64;" onclick="submitPrivateFeedback()">Submit Feedback</button>
+            <p style="font-size: 14px; color:#666;">Please tell us how we can improve. Your feedback goes directly to management.</p>
+            <textarea id="privateFeedbackText" style="height:120px;" placeholder="Describe the issue..."></textarea>
+            <button class="action-btn" style="background-color:#455A64;" onclick="submitPrivateFeedback()">Submit Feedback</button>
         </div>
 
         <div id="thankYouScreen" class="hidden fade-in">
             <div style="font-size: 50px; margin-bottom:10px;">✅</div>
-            <h2 style="color:#455A64;">Thank You!</h2>
-            <p>Your feedback has been submitted.</p>
+            <h2 style="color:var(--primary);">Thank You!</h2>
+            <p>Your feedback has been successfully submitted.</p>
         </div>
 
         <div id="aiToolScreen" class="hidden fade-in" style="text-align: left;">
             
+            <label style="margin-top:0;">1. Share Your Experience (Optional)</label>
             <div class="input-mode-tabs">
                 <button class="mode-btn active-mode" id="btnModeVoice" onclick="switchMode('voice')">🎤 Speak</button>
                 <button class="mode-btn" id="btnModeText" onclick="switchMode('text')">✍️ Write</button>
@@ -242,7 +260,7 @@
             <div id="voiceSection" class="voice-section">
                 <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
                     <span style="font-size:11px; font-weight:bold; color:var(--primary);">SPEAK (Hindi/English):</span>
-                    <select id="voiceLang" style="width:auto; padding:2px; font-size:11px; height:25px; margin:0;">
+                    <select id="voiceLang" style="width:auto; padding:2px; font-size:11px; height:25px; margin:0; -webkit-appearance:menulist;">
                         <option value="en-IN" selected>English</option>
                         <option value="hi-IN">Hindi</option>
                     </select>
@@ -257,33 +275,24 @@
             </div>
 
             <div id="textSection" class="text-section hidden">
-                <label style="margin-top:0; color:var(--primary);">Describe Experience</label>
-                <textarea id="manualInput" placeholder="Ex: Dr. was very polite..." style="height:80px; margin-bottom:0;"></textarea>
+                <textarea id="manualInput" placeholder="Ex: Dr. was very polite and solved the issue..." style="height:80px; margin-bottom:0;"></textarea>
             </div>
 
-            <label style="margin-top:0;">1. Select Location</label>
-            <select id="locationSelect">
-                <option value="Vaishali Nagar">Vaishali Nagar</option>
-                <option value="Jaipur">Jaipur</option>
-                <option value="Rajasthan">Rajasthan</option>
-            </select>
-
-            <div style="display: flex; gap: 10px;">
+            <div style="display: flex; gap: 10px; margin-top:15px;">
                 <div style="flex:1;">
-                    <label>2. Your Pet</label>
-                    <select id="petSelect">
+                    <label style="margin-top:0;">2. Your Pet</label>
+                    <select id="petSelect" style="-webkit-appearance:menulist;">
+                        <option value="Pet">General Pet 🐾</option>
                         <option value="Dog">Dog 🐕</option>
                         <option value="Cat">Cat 🐈</option>
                         <option value="Rabbit">Rabbit 🐇</option>
+                        <option value="Bird">Bird 🦜</option>
                         <option value="Turtle">Turtle 🐢</option>
-                        <option value="Parrot">Parrot 🦜</option>
-                        <option value="Goat">Goat 🐐</option>
-                        <option value="Exotic Pet">Exotic Pet 🦎</option>
                     </select>
                 </div>
                 <div style="flex:1;">
-                    <label>3. Tone</label>
-                    <select id="toneSelect">
+                    <label style="margin-top:0;">3. Tone</label>
+                    <select id="toneSelect" style="-webkit-appearance:menulist;">
                         <option value="Professional">Professional 🩺</option>
                         <option value="Caring">Caring ❤️</option>
                         <option value="Short">Short 👌</option>
@@ -292,73 +301,84 @@
                 </div>
             </div>
 
-            <label>4. Reason for Visit (Optional)</label>
-            <select id="treatmentSelect">
-                <option value="">-- General Checkup --</option>
-                <option value="flea and tick removal">Flea/Tick Removal</option>
-                <option value="skin infection treatment">Skin Infection Treatment</option>
-                <option value="dental cleaning">Dental Disease/Cleaning</option>
-                <option value="broken teeth repair">Broken Teeth Repair</option>
-                <option value="deworming">Deworming</option>
-                <option value="kidney function test">Kidney Function Test</option>
-                <option value="Rabies vaccination">Rabies Vaccination</option>
-                <option value="respiratory issue treatment">Respiratory Issue</option>
-                <option value="hair loss treatment">Hair Loss/Ringworm</option>
-                <option value="emergency surgery">Emergency Surgery</option>
-                <option value="allergy testing">Allergy Testing</option>
-                <option value="first puppy visit">Puppy First Visit</option>
-            </select>
+            <div style="display: flex; gap: 10px;">
+                <div style="flex:1;">
+                    <label>Location</label>
+                    <select id="locationSelect" style="-webkit-appearance:menulist;">
+                        <option value="Vaishali Nagar">Vaishali Nagar</option>
+                        <option value="Jaipur">Jaipur</option>
+                        <option value="Rajasthan">Rajasthan</option>
+                    </select>
+                </div>
+                <div style="flex:1;">
+                    <label>Treatment</label>
+                    <select id="treatmentSelect" style="-webkit-appearance:menulist;">
+                        <option value="general checkup">General Checkup</option>
+                        <option value="vaccination">Vaccination</option>
+                        <option value="emergency care">Emergency Care</option>
+                        <option value="surgery">Surgery</option>
+                        <option value="dental cleaning">Dental Cleaning</option>
+                        <option value="grooming">Grooming</option>
+                    </select>
+                </div>
+            </div>
 
-            <div><button class="toggle-name" onclick="toggleNameField()">+ Add Your Name</button></div>
+            <div><button class="toggle-name" onclick="document.getElementById('nameArea').style.display='block'">+ Add Your Name</button></div>
             <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
                 <input type="text" id="userName" placeholder="Your Name (Optional)">
             </div>
 
-            <label style="clear:both;">5. Select Highlights (Pick 3-4)</label>
+            <label style="clear:both;">4. Select Highlights (Pick 3-4 for SEO)</label>
 
+            <!-- KEYWORDS SECTION -->
             <div id="keywordsWrapper">
-                <div id="customCategory" class="hidden">
-                    <div class="category-header">🆕 LATEST UPDATES (FROM ADMIN)</div>
-                    <div class="keywords-container" id="customContainer"></div>
-                </div>
-
+                
                 <div class="category-header">EMERGENCY & CRITICAL CARE</div>
                 <div class="keywords-container">
-                    <div class="keyword-chip" onclick="toggleKeyword(this, '24/7 emergency veterinary service')">🚑 24/7 Emergency</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet ambulance service')">🚐 Pet Ambulance</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Critical care (ICU) for pets')">🏥 Pet ICU</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Trauma and accident treatment for pets')">🤕 Trauma/Accident</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet hospitalization service')">🛌 Hospitalization</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Emergency service')">🚑 24/7 Emergency</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet ambulance')">🚐 Pet Ambulance</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Critical care ICU')">🏥 Pet ICU</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Trauma treatment')">🤕 Trauma Treatment</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Hospitalization')">🛌 Hospitalization</div>
                 </div>
 
-                <div class="category-header">SURGERY</div>
+                <div class="category-header">SURGERY & TREATMENTS</div>
                 <div class="keywords-container">
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Dog surgery services')">🐕 Dog Surgery</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Soft tissue surgery for pets')">🩺 Soft Tissue Surgery</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Orthopedic surgery for dogs')">🦴 Orthopedic Surgery</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet spay and neutering surgery')">✂️ Spay/Neuter</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet wound management')">🩹 Wound Care</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Dog surgery')">🐕 Dog Surgery</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Soft tissue surgery')">🩺 Soft Tissue Surgery</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Orthopedic surgery')">🦴 Orthopedic Surgery</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Spay neuter')">✂️ Spay/Neuter</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Wound management')">🩹 Wound Care</div>
                 </div>
 
                 <div class="category-header">DIAGNOSTICS & LAB</div>
                 <div class="keywords-container">
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet X-ray service')">📸 X-Ray</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet ultrasound service')">🖥️ Ultrasound</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet pathology lab testing')">🔬 Pathology Lab</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet blood testing service')">🩸 Blood Test</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet X-ray')">📸 X-Ray</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet ultrasound')">🖥️ Ultrasound</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pathology lab')">🔬 Pathology Lab</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Blood testing')">🩸 Blood Test</div>
                 </div>
 
                 <div class="category-header">GENERAL CARE</div>
                 <div class="keywords-container">
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Home visit veterinary service')">🏠 Home Visit</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet dental treatment')">🦷 Dental Care</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet vaccination service')">💉 Vaccination</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Deworming and parasite control')">🐛 Deworming</div>
-                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet grooming and hygiene service')">🛁 Grooming</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Home visit vet')">🏠 Home Visit</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet dental')">🦷 Dental Care</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Vaccination')">💉 Vaccination</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Deworming')">🐛 Deworming</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet grooming')">🛁 Grooming</div>
                 </div>
+
+                <div class="category-header">SEARCH QUERIES</div>
+                <div class="keywords-container">
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Pet hospital near me')">🏥 Pet hospital near me</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Dog clinic near me')">🐶 Dog clinic near me</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Best vet in Jaipur')">🏆 Best vet in Jaipur</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Affordable pet care')">💰 Affordable care</div>
+                </div>
+
             </div>
 
-            <button class="action-btn" id="generateBtn" onclick="generateReview()">🚀 Generate Review</button>
+            <button class="action-btn" id="generateBtn" onclick="generateReview()">🚀 Generate Magic Review</button>
 
             <textarea id="reviewOutput" class="review-preview-box" readonly></textarea>
             
@@ -377,40 +397,33 @@
     </div>
 
     <div class="footer">
-        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft" loading="lazy">
-        <div class="footer-text">
-            Powered by <a href="https://growft.net" target="_blank">Growft</a>
-        </div>
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft">
+        <div class="footer-text">Built by <a href="https://growft.net" target="_blank">Growft</a></div>
         <span class="owner-login-trigger" onclick="ownerLogin()">🔒 Owner</span>
     </div>
 </div>
 
 <script>
-    // --- ✅ FIXED LINK (Correct CSV Format) ---
-    const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQrWLyNviRTqBdRYgd0gJXyoOl16b8iBt9GZI4ijpUAcTAUN_tAuwVuc-Glg_4y6a-W9Dr9Hk4AT3qu/pub?gid=0&single=true&output=csv";
-
-    // --- 🔐 SECURITY & CONFIGURATION ---
-    const GOOGLE_REVIEW_LINK = "https://g.page/r/CQr2QAKYuPShEBM/review"; 
-    const APP_STATUS = "active"; 
-    const EXPIRY_DATE = "2026-12-31"; 
-
-    // --- INITIALIZATION ---
+    // ============================================
+    // 🔒 ADMIN SETTINGS (TRUE/FALSE SYSTEM)
+    // ============================================
+    const SERVICE_SUSPENDED = false; // Set to 'true' to Lock, 'false' to Unlock
+    
+    // --- GOOGLE LINK ---
+    const GOOGLE_REVIEW_LINK = "https://g.page/r/YOUR_LINK_HERE/review"; 
+    
     let isOwnerMode = false;
     let recognition; 
 
+    // --- INITIALIZATION ---
     window.onload = function() {
-        // Security Check
-        const today = new Date().toISOString().split('T')[0];
-        if(APP_STATUS === "suspended" || today > EXPIRY_DATE) {
-            document.getElementById('mainApp').style.display = 'none';
+        // Lock Check
+        if (SERVICE_SUSPENDED === true) {
             document.getElementById('lockScreen').style.display = 'flex';
+            document.body.style.overflow = 'hidden'; 
             return;
         }
 
-        // Fetch Keywords
-        fetchKeywordsFromSheet();
-
-        // URL Check
         const urlParams = new URLSearchParams(window.location.search);
         const reviewText = urlParams.get('review');
         if (reviewText) {
@@ -422,65 +435,11 @@
         }
     };
 
-    // --- FETCH DATA FUNCTION ---
-    function fetchKeywordsFromSheet() {
-        const cacheBuster = "&t=" + new Date().getTime(); 
-        const finalURL = SHEET_CSV_URL + cacheBuster;
-
-        console.log("Fetching from:", finalURL); 
-
-        fetch(finalURL)
-            .then(response => {
-                if (!response.ok) throw new Error("Network response was not ok");
-                return response.text();
-            })
-            .then(data => {
-                if(data.trim().startsWith("<!DOCTYPE")) {
-                    console.error("Error: Link is HTML, not CSV");
-                    return;
-                }
-
-                const rows = data.split('\n');
-                const customContainer = document.getElementById('customContainer');
-                const customCategory = document.getElementById('customCategory');
-                
-                customContainer.innerHTML = '';
-                let hasData = false;
-
-                for(let i = 1; i < rows.length; i++) {
-                    let keyword = rows[i].trim();
-                    if(keyword.startsWith('"') && keyword.endsWith('"')) {
-                        keyword = keyword.slice(1, -1);
-                    }
-                    keyword = keyword.replace(/,/g, '').trim();
-                    
-                    if(keyword) {
-                        hasData = true;
-                        createChipElement(keyword);
-                    }
-                }
-
-                if(hasData) {
-                    customCategory.classList.remove('hidden');
-                }
-            })
-            .catch(error => console.error('Error fetching sheet:', error));
-    }
-
-    function createChipElement(text) {
-        const container = document.getElementById('customContainer');
-        const newChip = document.createElement('div');
-        newChip.className = 'keyword-chip';
-        newChip.innerText = "🆕 " + text;
-        newChip.onclick = function() { toggleKeyword(this, text); };
-        container.appendChild(newChip);
-    }
-
-    // --- OWNER & WHATSAPP LOGIC ---
+    // --- OWNER LOGIC ---
     function ownerLogin() {
         if(isOwnerMode) { alert("Already logged in as Owner."); return; }
         const password = prompt("Enter Owner Password:");
-        if(password === "admin123") { 
+        if(password === "admin123") { // CHANGE PASSWORD HERE
             isOwnerMode = true;
             sessionStorage.setItem('isOwner', 'true');
             alert("Owner Mode Active!");
@@ -505,7 +464,9 @@
         window.open(GOOGLE_REVIEW_LINK, '_blank');
     }
 
-    // --- APP LOGIC ---
+    // --- RATING & UI LOGIC ---
+    let currentRating = 0;
+    let currentExp = '';
     let selectedKeywords = [];
     let voiceText = "";
     let activeMode = 'voice';
@@ -524,9 +485,6 @@
         }
     }
 
-    // Rating Logic
-    let currentRating = 0;
-    let currentExp = '';
     function rate(stars) {
         currentRating = stars;
         document.querySelectorAll('.star').forEach((star, index) => {
@@ -534,6 +492,7 @@
         });
         if(stars >= 4) selectExp('good'); else selectExp('bad');
     }
+
     function selectExp(type) {
         currentExp = type;
         document.getElementById('btn-good').classList.remove('active');
@@ -541,6 +500,7 @@
         if (type === 'good') document.getElementById('btn-good').classList.add('active');
         else document.getElementById('btn-bad').classList.add('bad-active');
     }
+
     function processRating() {
         if (currentRating === 0 && currentExp === '') { alert("Please select a star rating."); return; }
         document.getElementById('ratingScreen').classList.add('hidden');
@@ -548,102 +508,10 @@
         if (isHappy) document.getElementById('aiToolScreen').classList.remove('hidden');
         else document.getElementById('privateFeedbackScreen').classList.remove('hidden');
     }
+
     function submitPrivateFeedback() {
         document.getElementById('privateFeedbackScreen').classList.add('hidden');
         document.getElementById('thankYouScreen').classList.remove('hidden');
-    }
-
-    // Voice Logic
-    function startListening() {
-        if (!('webkitSpeechRecognition' in window)) { alert("Use Chrome Browser."); return; }
-        recognition = new webkitSpeechRecognition();
-        recognition.lang = document.getElementById('voiceLang').value;
-        recognition.interimResults = false;
-        document.getElementById('micBtn').classList.add('mic-active');
-        document.getElementById('statusText').innerText = "Listening...";
-        recognition.onresult = (event) => {
-            voiceText = event.results[0][0].transcript;
-            document.getElementById('spokenTextDisplay').style.display = 'block';
-            document.getElementById('spokenTextDisplay').innerText = `Recorded: "${voiceText}"`;
-        };
-        recognition.onend = () => { document.getElementById('micBtn').classList.remove('mic-active'); document.getElementById('statusText').innerText = "Processing..."; };
-        recognition.start();
-    }
-
-    async function generateReview() {
-        const btn = document.getElementById('generateBtn');
-        btn.innerText = "🔄 Processing...";
-        
-        const userName = document.getElementById('userName').value.trim();
-        const tone = document.getElementById('toneSelect').value;
-        const location = document.getElementById('locationSelect').value;
-        const petType = document.getElementById('petSelect').value;
-        const treatment = document.getElementById('treatmentSelect').value;
-        const manualText = document.getElementById('manualInput').value.trim();
-        let rawInput = activeMode === 'voice' ? voiceText : manualText;
-
-        if (selectedKeywords.length === 0 && !rawInput) {
-            alert("Please select highlights or say something.");
-            btn.innerText = "🚀 Generate Review";
-            return;
-        }
-
-        // Translation
-        let finalBodyText = "";
-        if (rawInput && rawInput.length > 1) {
-            try {
-                const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(rawInput)}&langpair=Autodetect|en`);
-                const data = await res.json();
-                let translated = data.responseData ? data.responseData.translatedText : "";
-                if(!translated.includes("PLEASE SELECT")) finalBodyText = translated;
-                else finalBodyText = rawInput;
-            } catch(e) { finalBodyText = rawInput; }
-        }
-
-        // Generation
-        let treatmentText = treatment ? treatment : "regular checkup";
-        let intro = getRandom(reviewDB.intros[tone]);
-        intro = intro.replace(/{location}/g, location).replace(/{pet}/g, petType.toLowerCase()).replace(/{treatment}/g, treatmentText);
-        if (userName) intro = `I am ${userName}. ` + intro;
-
-        let body = "";
-        const shuffledKeywords = selectedKeywords.sort(() => Math.random() - 0.5);
-        shuffledKeywords.forEach((k) => {
-            if(reviewDB.keywords[k]) {
-                let sentence = getRandom(reviewDB.keywords[k]);
-                sentence = sentence.replace(/{location}/g, location).replace(/{pet}/g, petType.toLowerCase());
-                body += sentence + " ";
-            } else {
-                const generics = [
-                    `I was really impressed with the ${k}.`,
-                    `The ${k} was excellent.`,
-                    `Also, ${k} is worth mentioning.`,
-                    `I happily recommend their ${k}.`
-                ];
-                body += getRandom(generics) + " ";
-            }
-        });
-
-        if(finalBodyText) body += " " + finalBodyText + ". ";
-
-        let outro = getRandom(reviewDB.outros[tone]);
-        outro = outro.replace(/{location}/g, location).replace(/{pet}/g, petType.toLowerCase());
-
-        const finalReview = intro + " " + body + outro;
-
-        const box = document.getElementById('reviewOutput');
-        box.value = finalReview;
-        box.style.display = 'block';
-        box.scrollIntoView({behavior: "smooth"});
-        btn.innerText = "🚀 Generate Review";
-
-        if(isOwnerMode) {
-            document.getElementById('ownerPanel').style.display = 'block';
-            document.getElementById('copyBtn').style.display = 'none';
-        } else {
-            document.getElementById('ownerPanel').style.display = 'none';
-            document.getElementById('copyBtn').style.display = 'block';
-        }
     }
 
     function toggleKeyword(element, keyword) {
@@ -651,40 +519,58 @@
         if (selectedKeywords.includes(keyword)) selectedKeywords = selectedKeywords.filter(k => k !== keyword);
         else selectedKeywords.push(keyword);
     }
-    
-    function toggleNameField() { 
-        const field = document.getElementById('nameArea');
-        field.style.display = field.style.display === 'block' ? 'none' : 'block';
+
+    // --- VOICE TO TEXT ---
+    function startListening() {
+        if (!('webkitSpeechRecognition' in window)) { alert("Use Chrome Browser for voice typing."); return; }
+        recognition = new webkitSpeechRecognition();
+        recognition.lang = document.getElementById('voiceLang').value;
+        recognition.interimResults = false;
+        document.getElementById('micBtn').classList.add('mic-active');
+        document.getElementById('statusText').innerText = "Listening...";
+        
+        recognition.onresult = (event) => {
+            voiceText = event.results[0][0].transcript;
+            document.getElementById('spokenTextDisplay').style.display = 'block';
+            document.getElementById('spokenTextDisplay').innerText = `Recorded: "${voiceText}"`;
+        };
+        recognition.onend = () => { 
+            document.getElementById('micBtn').classList.remove('mic-active'); 
+            document.getElementById('statusText').innerText = "Processing..."; 
+        };
+        recognition.start();
     }
 
-    function copyToClipboard() {
-        const box = document.getElementById("reviewOutput");
-        box.select();
-        document.execCommand('copy');
-        if(confirm("Review Copied! Open Google Maps?")) window.open(GOOGLE_REVIEW_LINK, '_blank');
-    }
+    // ============================================
+    // 🧠 MASSIVE AI COMBINATORICS DATABASE
+    // ============================================
     
-    function getRandom(arr) { if(!arr) return ""; return arr[Math.floor(Math.random() * arr.length)]; }
+    // SMART CONNECTORS to make sentences flow naturally
+    const connectors = [
+        "What really stood out was that", "Additionally,", "I also noticed that", 
+        "On top of that,", "Another great thing is that", "Not to mention,", 
+        "Furthermore,", "Also,", "I must add that", "Plus,", 
+        "And more importantly,", "We were very pleased that", "To add to this,"
+    ];
 
-    // --- MASSIVE DATABASE (With New Categories) ---
     const reviewDB = {
         intros: {
             "Professional": [
-                "I visited Sukhada Pet Hospital in {location} for my {pet}.",
+                "I visited Sukhada Pet Hospital in {location} for my {pet}'s {treatment}.",
                 "Sukhada 24x7 Multi Speciality Pet Hospital provides excellent medical care in {location}.",
-                "For reliable veterinary services in {location}, this is the best place.",
+                "For reliable veterinary services regarding {treatment} in {location}, this is the best place.",
                 "Professional and hygienic environment at this clinic in {location}.",
                 "I highly recommend Dr. and the team at Sukhada Hospital, {location}.",
                 "We had a very professional experience with our {pet} here.",
-                "The medical facilities at this {location} hospital are top-notch.",
+                "The medical facilities for {treatment} at this {location} hospital are top-notch.",
                 "Impressed by the diagnosis for {treatment} provided in {location}.",
                 "Standard of care is excellent at Sukhada Pet Hospital.",
-                "If you need an expert vet in {location}, look no further.",
+                "If you need an expert vet in {location} for {treatment}, look no further.",
                 "This clinic sets the benchmark for veterinary care in {location}.",
                 "Extremely knowledgeable staff and doctors at Sukhada Hospital.",
                 "The administrative and medical process here is seamless.",
-                "Sukhada Hospital is the premier choice for pet care in {location}.",
-                "I brought my {pet} for a checkup and was impressed by the professionalism.",
+                "Sukhada Hospital is the premier choice for {pet} care in {location}.",
+                "I brought my {pet} for {treatment} and was impressed by the professionalism.",
                 "The expertise of the veterinarians here is commendable.",
                 "Clean, organized, and professional service for my {pet}.",
                 "Efficient handling of my {pet}'s case in {location}.",
@@ -693,14 +579,14 @@
             ],
             "Caring": [
                 "The doctors here treated my {pet} with so much love! ❤️",
-                "Best place for pets in {location}! They truly care.",
-                "My {pet} was so comfortable with the doctor in {location}.",
+                "Best place for {pet}s in {location}! They truly care.",
+                "My {pet} was so comfortable with the doctor during the {treatment}.",
                 "Such a warm and welcoming clinic in {location}.",
                 "They treated my little {pet} like their own family.",
                 "Amazing experience! The staff is so kind and helpful.",
                 "So happy to find such a caring pet hospital in {location}.",
                 "My {pet} usually hates the vet, but was calm here!",
-                "Lovely experience at Sukhada Hospital, {location}.",
+                "Lovely experience at Sukhada Hospital for {treatment}.",
                 "Big thanks to the team for being so gentle with my {pet}.",
                 "They handled my scared {pet} with so much patience.",
                 "The love and care they show to animals is heartwarming.",
@@ -719,7 +605,7 @@
                 "Excellent veterinary clinic.",
                 "Good doctor and staff.",
                 "Recommended for all pet owners.",
-                "Fast and good treatment.",
+                "Fast and good {treatment}.",
                 "Very clean clinic in {location}.",
                 "Best vet in town.",
                 "Quality care for pets.",
@@ -738,7 +624,7 @@
             "Grateful": [
                 "I am so grateful to Sukhada Hospital for treating my {pet} in {location}.",
                 "They were available 24x7 when my {pet} needed help with {treatment}.",
-                "Thank you for the quick diagnosis and treatment.",
+                "Thank you for the quick diagnosis and {treatment}.",
                 "God bless the doctor for helping my {pet} recover.",
                 "I don't know what I would have done without them in {location}.",
                 "Heartfelt thanks to the entire team.",
@@ -750,7 +636,7 @@
                 "Thank you for answering my late-night calls.",
                 "Grateful for the honest advice given by the doctor.",
                 "They went above and beyond for my {pet}.",
-                "Thanks for the successful surgery.",
+                "Thanks for the successful {treatment}.",
                 "We are forever thankful to the team.",
                 "Thank you for giving my {pet} a second chance.",
                 "Deeply appreciate the care provided in emergency.",
@@ -758,157 +644,195 @@
                 "A blessing for pet owners in {location}."
             ]
         },
+        
+        // 6 to 8 VARIATIONS PER KEYWORD
         keywords: {
-            // NEW CATEGORY: EMERGENCY & CRITICAL
-            "24/7 emergency veterinary service": [
-                "Found the best 24/7 emergency veterinary service here.",
+            "Emergency service": [
+                "Found their 24/7 emergency veterinary service highly responsive.",
                 "Life-saving 24/7 emergency veterinary service.",
                 "Responsive 24/7 emergency veterinary service at night.",
                 "They truly provide a dedicated 24/7 emergency veterinary service.",
-                "Grateful for their reliable 24/7 emergency veterinary service."
+                "Grateful for their reliable 24/7 emergency veterinary service.",
+                "In urgent times, their 24/7 emergency veterinary service is a lifesaver."
             ],
-            "Pet ambulance service": [
-                "Their Pet ambulance service was a blessing.",
+            "Pet ambulance": [
+                "Their Pet ambulance service was a true blessing.",
                 "Quick response from the Pet ambulance service.",
                 "The Pet ambulance service is well-equipped.",
                 "Called their Pet ambulance service and they arrived fast.",
-                "Safe transport via Pet ambulance service."
+                "Safe transport via Pet ambulance service.",
+                "Very prompt Pet ambulance service in {location}."
             ],
-            "Critical care (ICU) for pets": [
-                "The Critical care (ICU) for pets facilities are advanced.",
-                "My pet survived thanks to their Critical care (ICU) for pets.",
+            "Critical care ICU": [
+                "The Critical care (ICU) for pets facilities are highly advanced.",
+                "My {pet} survived thanks to their Critical care (ICU) for pets.",
                 "Best Critical care (ICU) for pets in the city.",
-                "Clean and monitored Critical care (ICU) for pets.",
-                "High-standard Critical care (ICU) for pets."
+                "Clean and meticulously monitored Critical care (ICU) for pets.",
+                "High-standard Critical care (ICU) for pets.",
+                "Excellent ICU facilities for critical pets."
             ],
-            "Trauma and accident treatment for pets": [
+            "Trauma treatment": [
                 "Expert Trauma and accident treatment for pets.",
                 "They handled the Trauma and accident treatment for pets professionally.",
                 "Best place for Trauma and accident treatment for pets.",
                 "Immediate Trauma and accident treatment for pets saved us.",
-                "Skilled team for Trauma and accident treatment for pets."
+                "Skilled team for Trauma and accident treatment for pets.",
+                "Very efficient in trauma management."
             ],
-            "Pet hospitalization service": [
+            "Hospitalization": [
                 "The Pet hospitalization service is very hygienic.",
                 "Comfortable Pet hospitalization service for recovery.",
-                "Staff monitored my pet well during the Pet hospitalization service.",
+                "Staff monitored my {pet} well during the Pet hospitalization service.",
                 "Trustworthy Pet hospitalization service.",
-                "Stress-free Pet hospitalization service."
+                "Stress-free Pet hospitalization service.",
+                "Excellent inpatient care and hospitalization facilities."
             ],
-
-            // NEW CATEGORY: SURGERY
-            "Dog surgery services": [
+            "Dog surgery": [
                 "Excellent Dog surgery services provided.",
                 "Successful operation thanks to their Dog surgery services.",
                 "Advanced equipment for Dog surgery services.",
                 "The vet explained the Dog surgery services clearly.",
-                "Recovered fast after using their Dog surgery services."
+                "Recovered fast after using their Dog surgery services.",
+                "Highly skilled surgeons for dog operations."
             ],
-            "Soft tissue surgery for pets": [
+            "Soft tissue surgery": [
                 "Specialists in Soft tissue surgery for pets.",
-                "Our pet underwent Soft tissue surgery for pets here.",
+                "Our {pet} underwent Soft tissue surgery for pets here.",
                 "Complex Soft tissue surgery for pets handled well.",
                 "Recommended for Soft tissue surgery for pets.",
-                "Safe Soft tissue surgery for pets."
+                "Safe Soft tissue surgery for pets.",
+                "Very clean and successful soft tissue procedures."
             ],
-            "Orthopedic surgery for dogs": [
+            "Orthopedic surgery": [
                 "Best surgeon for Orthopedic surgery for dogs.",
                 "My dog walks again thanks to Orthopedic surgery for dogs.",
                 "Expert Orthopedic surgery for dogs available.",
                 "Complex Orthopedic surgery for dogs done perfectly.",
-                "Top-notch facility for Orthopedic surgery for dogs."
+                "Top-notch facility for Orthopedic surgery for dogs.",
+                "Outstanding orthopedic care and surgical intervention."
             ],
-            "Pet spay and neutering surgery": [
+            "Spay neuter": [
                 "Quick Pet spay and neutering surgery process.",
                 "Affordable Pet spay and neutering surgery.",
-                "Safe Pet spay and neutering surgery for my pet.",
+                "Safe Pet spay and neutering surgery for my {pet}.",
                 "The team made Pet spay and neutering surgery easy.",
-                "Routine Pet spay and neutering surgery done well."
+                "Routine Pet spay and neutering surgery done well.",
+                "Very hygienic spay/neuter procedures."
             ],
-            "Pet wound management": [
+            "Wound management": [
                 "Proper Pet wound management helped healing.",
                 "Daily Pet wound management was excellent.",
                 "Hygenic Pet wound management.",
                 "Skilled staff for Pet wound management.",
-                "Fast healing with their Pet wound management."
+                "Fast healing with their Pet wound management.",
+                "Very careful and clean wound dressing."
             ],
-
-            // NEW CATEGORY: DIAGNOSTICS
-            "Pet X-ray service": [
+            "Pet X-ray": [
                 "Digital Pet X-ray service is very clear.",
                 "Quick Pet X-ray service on site.",
                 "Instant results from Pet X-ray service.",
                 "Affordable Pet X-ray service.",
-                "Modern Pet X-ray service available."
+                "Modern Pet X-ray service available.",
+                "State-of-the-art X-ray facilities."
             ],
-            "Pet ultrasound service": [
+            "Pet ultrasound": [
                 "Accurate Pet ultrasound service.",
                 "The vet performed the Pet ultrasound service gently.",
                 "Detailed report from Pet ultrasound service.",
                 "High-tech Pet ultrasound service.",
-                "Vital diagnosis via Pet ultrasound service."
+                "Vital diagnosis via Pet ultrasound service.",
+                "Sonography and ultrasound done perfectly."
             ],
-            "Pet pathology lab testing": [
+            "Pathology lab": [
                 "In-house Pet pathology lab testing is convenient.",
                 "Fast results from Pet pathology lab testing.",
                 "Reliable Pet pathology lab testing.",
                 "Comprehensive Pet pathology lab testing.",
-                "Trust their Pet pathology lab testing reports."
+                "Trust their Pet pathology lab testing reports.",
+                "Quick diagnostic lab inside the clinic."
             ],
-            "Pet blood testing service": [
+            "Blood testing": [
                 "Quick Pet blood testing service.",
                 "Painless sample collection for Pet blood testing service.",
                 "Accurate Pet blood testing service.",
                 "Got the Pet blood testing service results in minutes.",
-                "Essential Pet blood testing service available 24/7."
+                "Essential Pet blood testing service available 24/7.",
+                "Fast blood reports helped in quick diagnosis."
             ],
-
-            // NEW CATEGORY: GENERAL & HOME
-            "Home visit veterinary service": [
+            "Home visit vet": [
                 "The Home visit veterinary service was so convenient.",
                 "Dr. came home via their Home visit veterinary service.",
-                "Best Home visit veterinary service in Jaipur.",
+                "Best Home visit veterinary service in {location}.",
                 "Timely Home visit veterinary service.",
-                "Great Home visit veterinary service for elderly pets."
+                "Great Home visit veterinary service for elderly pets.",
+                "Doorstep vet service is highly reliable."
             ],
-            "Deworming and parasite control": [
-                "Regular Deworming and parasite control done here.",
-                "Effective Deworming and parasite control plan.",
-                "They guided us on Deworming and parasite control.",
-                "Important Deworming and parasite control service.",
-                "Keep pets healthy with their Deworming and parasite control."
-            ],
-            "Pet grooming and hygiene service": [
-                "My pet looks great after the Pet grooming and hygiene service.",
-                "Professional Pet grooming and hygiene service.",
-                "Gentle Pet grooming and hygiene service.",
-                "Hygienic Pet grooming and hygiene service.",
-                "Loved the Pet grooming and hygiene service."
-            ],
-            "Pet dental treatment": [
+            "Pet dental": [
                 "The Pet dental treatment was very thorough.",
                 "Solved bad breath with Pet dental treatment.",
                 "Advanced Pet dental treatment equipment.",
-                "My dog's teeth are clean thanks to Pet dental treatment.",
-                "Recommended for Pet dental treatment."
+                "My {pet}'s teeth are clean thanks to Pet dental treatment.",
+                "Recommended for Pet dental treatment.",
+                "Safe scaling and dental checkups."
             ],
-            "Pet vaccination service": [
+            "Vaccination": [
                 "Timely Pet vaccination service reminders.",
                 "Painless Pet vaccination service.",
                 "Complete Pet vaccination service available.",
                 "Affordable Pet vaccination service.",
-                "Trust them for Pet vaccination service."
+                "Trust them for Pet vaccination service.",
+                "Genuine vaccines used for the pets."
             ],
-
-            // EXISTING KEYWORDS
-            "Best Animal hospital": ["This is the best animal hospital in {location}.", "Hands down the best animal hospital.", "Sukhada stands out as the best animal hospital.", "If you want the best animal hospital experience, this is it."],
-            "Best Veterinary clinic": ["Truly the best veterinary clinic I have visited.", "The most reliable best veterinary clinic."],
-            "Best Vet clinic": ["A top-rated best vet clinic.", "Clean, efficient, and clearly the best vet clinic."],
-            "Animal doctor": ["The animal doctor is very knowledgeable.", "Best animal doctor in {location}."],
-            "Veterinary hospital": ["A fully equipped veterinary hospital.", "State-of-the-art veterinary hospital."],
-            "Dog vaccination": ["Painless Dog vaccination.", "Best place for Dog vaccination."],
-            "Pet insurance for dogs": ["They helped me with Pet insurance for dogs.", "Accepts Pet insurance for dogs."]
+            "Deworming": [
+                "Regular Deworming and parasite control done here.",
+                "Effective Deworming and parasite control plan.",
+                "They guided us on Deworming and parasite control.",
+                "Important Deworming and parasite control service.",
+                "Keep pets healthy with their Deworming and parasite control.",
+                "Ticks and fleas issues solved perfectly."
+            ],
+            "Pet grooming": [
+                "My {pet} looks great after the Pet grooming and hygiene service.",
+                "Professional Pet grooming and hygiene service.",
+                "Gentle Pet grooming and hygiene service.",
+                "Hygienic Pet grooming and hygiene service.",
+                "Loved the Pet grooming and hygiene service.",
+                "Excellent spa and grooming for my {pet}."
+            ],
+            "Pet hospital near me": [
+                "Whenever I search for a pet hospital near me, this is my first choice.",
+                "It is the most reliable pet hospital near me right now.",
+                "Best pet hospital near me in {location}.",
+                "Found this amazing pet hospital near me on Google.",
+                "Highly rated pet hospital near me.",
+                "Glad to have such a good pet hospital near me."
+            ],
+            "Dog clinic near me": [
+                "If you need a dog clinic near me, this is the best one.",
+                "I always recommend this place to anyone asking for a good dog clinic near me.",
+                "Finest dog clinic near me with great facilities.",
+                "Perfect place if you're looking for a dog clinic near me.",
+                "Most trusted dog clinic near me.",
+                "Excellent dog clinic near me."
+            ],
+            "Best vet in Jaipur": [
+                "Undoubtedly the best vet in Jaipur.",
+                "Highly recommend them as the best vet in Jaipur.",
+                "The best vet in Jaipur for dogs and cats.",
+                "If you are in Rajasthan, they are the best vet in Jaipur.",
+                "Top rated and best vet in Jaipur.",
+                "My personal favorite and best vet in Jaipur."
+            ],
+            "Affordable pet care": [
+                "They provide genuinely affordable pet care.",
+                "High-quality yet affordable pet care.",
+                "Very reasonable and affordable pet care services.",
+                "Best place for affordable pet care in {location}.",
+                "Cost-effective and affordable pet care.",
+                "They don't overcharge, providing affordable pet care."
+            ]
         },
+
         outros: {
             "Professional": [
                 "I recommend them for all veterinary needs.",
@@ -944,7 +868,7 @@
                 "A happy place for pets.",
                 "So glad we found you!",
                 "Big hugs to the doctor.",
-                "My pet actually likes coming here!",
+                "My {pet} actually likes coming here!",
                 "Thanks for the treats and love.",
                 "You guys are the best!",
                 "Wonderful experience overall.",
@@ -955,51 +879,116 @@
                 "We love Sukhada Hospital!"
             ],
             "Short": [
-                "Highly recommended.",
-                "5 Stars.",
-                "Best in {location}.",
-                "Great job.",
-                "Must visit.",
-                "Good prices.",
-                "Top quality.",
-                "Very satisfied.",
-                "Thank you.",
-                "Superb service.",
-                "Nice clinic.",
-                "Good vet.",
-                "Happy pet.",
-                "Fast service.",
-                "Clean place.",
-                "Well done.",
-                "Trusted vet.",
-                "Recommended.",
-                "Great care.",
-                "Awesome."
+                "Highly recommended.", "5 Stars.", "Best in {location}.", "Great job.", 
+                "Must visit.", "Good prices.", "Top quality.", "Very satisfied.", 
+                "Thank you.", "Superb service.", "Nice clinic.", "Good vet.", 
+                "Happy pet.", "Fast service.", "Clean place.", "Well done.", 
+                "Trusted vet.", "Recommended.", "Great care.", "Awesome."
             ],
             "Grateful": [
-                "Thank you once again.",
-                "Forever grateful for your help.",
-                "I will always recommend Sukhada Hospital.",
-                "Thanks for being there 24x7.",
-                "Appreciate the emergency support.",
-                "Thanks for saving us.",
-                "Grateful for the reasonable rates too.",
-                "You guys are angels for animals.",
-                "Much appreciated.",
-                "Thanks for the peace of mind.",
-                "God bless the team.",
-                "A heartfelt thank you.",
-                "You saved my best friend.",
-                "Can't thank you enough for the support.",
-                "Thanks for the late night help.",
-                "Respect for your dedication.",
-                "Thank you for listening.",
-                "Grateful for the kindness.",
-                "Thanks for the quick recovery.",
-                "Life savers."
+                "Thank you once again.", "Forever grateful for your help.", 
+                "I will always recommend Sukhada Hospital.", "Thanks for being there 24x7.", 
+                "Appreciate the emergency support.", "Thanks for saving us.", 
+                "Grateful for the reasonable rates too.", "You guys are angels for animals.", 
+                "Much appreciated.", "Thanks for the peace of mind.", "God bless the team.", 
+                "A heartfelt thank you.", "You saved my best friend.", 
+                "Can't thank you enough for the support.", "Thanks for the late night help.", 
+                "Respect for your dedication.", "Thank you for listening.", 
+                "Grateful for the kindness.", "Thanks for the quick recovery.", "Life savers."
             ]
         }
     };
+
+    // --- GENERATION ENGINE ---
+    async function generateReview() {
+        const btn = document.getElementById('generateBtn');
+        btn.innerText = "🔄 Processing...";
+        
+        const userName = document.getElementById('userName').value.trim();
+        const tone = document.getElementById('toneSelect').value;
+        const location = document.getElementById('locationSelect').value;
+        const petType = document.getElementById('petSelect').value;
+        const treatment = document.getElementById('treatmentSelect').value;
+        const manualText = document.getElementById('manualInput').value.trim();
+        let rawInput = activeMode === 'voice' ? voiceText : manualText;
+
+        if (selectedKeywords.length === 0 && !rawInput) {
+            alert("Please select highlights or write/speak something.");
+            btn.innerText = "🚀 Generate Magic Review";
+            return;
+        }
+
+        // Translation Module
+        let finalBodyText = "";
+        if (rawInput && rawInput.length > 1) {
+            try {
+                const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(rawInput)}&langpair=Autodetect|en`);
+                const data = await res.json();
+                let translated = data.responseData ? data.responseData.translatedText : "";
+                if(!translated.includes("PLEASE SELECT")) finalBodyText = translated;
+                else finalBodyText = rawInput;
+            } catch(e) { finalBodyText = rawInput; }
+        }
+
+        // --- BUILDING THE UNIQUE REVIEW ---
+        let treatmentText = treatment ? treatment : "regular checkup";
+        
+        // 1. INTRO
+        let intro = getRandom(reviewDB.intros[tone]);
+        intro = intro.replace(/{location}/g, location).replace(/{pet}/g, petType.toLowerCase()).replace(/{treatment}/g, treatmentText);
+        if (userName) intro = `I am ${userName}. ` + intro;
+
+        // 2. MIDDLE / BODY (Shuffled & Connectors applied)
+        let body = "";
+        const shuffledKeywords = selectedKeywords.sort(() => Math.random() - 0.5);
+        
+        shuffledKeywords.forEach((k, index) => {
+            if(reviewDB.keywords[k]) {
+                let sentence = getRandom(reviewDB.keywords[k]);
+                sentence = sentence.replace(/{location}/g, location).replace(/{pet}/g, petType.toLowerCase());
+                
+                // Add Smart Connector for natural flow (60% chance if not the first keyword)
+                if(index > 0 && Math.random() > 0.4) {
+                    sentence = getRandom(connectors) + " " + sentence.charAt(0).toLowerCase() + sentence.slice(1);
+                }
+                body += sentence + " ";
+            }
+        });
+
+        if(finalBodyText) body += " " + finalBodyText + ". ";
+
+        // 3. OUTRO
+        let outro = getRandom(reviewDB.outros[tone]);
+        outro = outro.replace(/{location}/g, location).replace(/{pet}/g, petType.toLowerCase());
+
+        const finalReview = intro + " " + body + outro;
+
+        // Display
+        const box = document.getElementById('reviewOutput');
+        box.value = finalReview;
+        box.style.display = 'block';
+        box.scrollIntoView({behavior: "smooth"});
+        btn.innerText = "🚀 Generate Magic Review";
+
+        if(isOwnerMode) {
+            document.getElementById('ownerPanel').style.display = 'block';
+            document.getElementById('copyBtn').style.display = 'none';
+        } else {
+            document.getElementById('ownerPanel').style.display = 'none';
+            document.getElementById('copyBtn').style.display = 'block';
+        }
+    }
+
+    function getRandom(arr) { if(!arr) return ""; return arr[Math.floor(Math.random() * arr.length)]; }
+
+    function copyToClipboard() {
+        const box = document.getElementById("reviewOutput");
+        box.select();
+        document.execCommand('copy');
+        if(confirm("Review Copied! 🐾\n\nClick OK to open Google and paste.")) {
+            window.open(GOOGLE_REVIEW_LINK, '_blank');
+        }
+    }
 </script>
 
 </body>
