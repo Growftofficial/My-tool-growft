@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkmate InvesTrado Academy - Premium Cyberpunk Landing Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Cyberpunk / Neon Theme Variables */
+            --bg-deep: #03050e;
+            --bg-card: #0a0e1a;
+            --bg-card-hover: #111827;
+            
+            --neon-cyan: #00f2fe;
+            --neon-purple: #b026ff;
+            --neon-blue: #4facfe;
+            --neon-pink: #ff0844;
+            
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            
+            --gradient-primary: linear-gradient(90deg, #b026ff 0%, #00f2fe 100%);
+            --gradient-text: linear-gradient(90deg, #e0c3fc 0%, #8ec5fc 100%);
+            
+            --glass-border: rgba(0, 242, 254, 0.15);
+            --glow-cyan: 0 0 20px rgba(0, 242, 254, 0.3);
+            --glow-purple: 0 0 20px rgba(176, 38, 255, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--text-main);
+            background-color: var(--bg-deep);
+            line-height: 1.7;
+            overflow-x: hidden;
+            /* Grid Background */
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        /* Floating glowing orbs */
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: -1;
+            opacity: 0.4;
+            animation: floatOrb 20s infinite alternate ease-in-out;
+        }
+        body::before {
+            top: 10%; left: 10%;
+            background: var(--neon-purple);
+        }
+        body::after {
+            bottom: 10%; right: 10%;
+            background: var(--neon-cyan);
+            animation-delay: -10s;
+        }
+
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(100px, 100px) scale(1.5); }
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: -0.5px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .gradient-text {
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+        
+        .gradient-text-neon {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        /* HEADER */
+        header {
+            background: rgba(3, 5, 14, 0.8);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 26px;
+            letter-spacing: 1px;
+        }
+
+        .logo img {
+            height: 50px;
+            margin-right: 15px;
+            filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.5)) contrast(1.2);
+        }
+
+        .header-contact {
+            color: var(--neon-cyan);
+            font-weight: 600;
+            font-size: 14px;
+            padding: 10px 25px;
+            border-radius: 30px;
+            border: 1px solid var(--glass-border);
+            background: rgba(0, 242, 254, 0.05);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .header-contact::before {
+            content: '';
+            width: 8px; height: 8px;
+            background: var(--neon-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--neon-cyan);
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* HERO SECTION */
+        .hero {
+            padding: 120px 0 150px 0;
+            text-align: left;
+            position: relative;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .hero-label {
+            color: var(--neon-cyan);
+            font-family: 'Space Grotesk', monospace;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .hero-label::before {
+            content: ''; width: 40px; height: 1px; background: var(--neon-cyan);
+        }
+
+        .hero h1 {
+            font-size: 70px;
+            font-weight: 900;
+            margin-bottom: 25px;
+            line-height: 1.1;
+            color: #fff;
+            text-transform: uppercase;
+        }
+        
+        .hero h1 span {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            font-weight: 300;
+            color: var(--text-muted);
+            max-width: 600px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 20px;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            color: #fff;
+            padding: 16px 35px;
+            font-size: 16px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            border: 1px solid var(--neon-cyan);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: inset 0 0 10px rgba(0, 242, 254, 0.1), 0 0 15px rgba(0, 242, 254, 0.2);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .cta-btn::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--neon-cyan); z-index: -1; transform: scaleX(0); transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .cta-btn:hover { color: #000; box-shadow: 0 0 25px rgba(0, 242, 254, 0.5); }
+        .cta-btn:hover::before { transform: scaleX(1); }
+
+        .cta-btn.secondary {
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: none;
+            color: var(--text-muted);
+        }
+        .cta-btn.secondary:hover {
+            border-color: #fff; color: #fff;
+        }
+        .cta-btn.secondary::before { display: none; }
+
+        .hero-img-container {
+            position: relative;
+            border-radius: 20px;
+            padding: 10px;
+            background: linear-gradient(135deg, rgba(0,242,254,0.2) 0%, rgba(176,38,255,0.2) 100%);
+        }
+        .hero-img-container::before {
+            content: ''; position: absolute; inset: 0; border: 1px solid var(--neon-blue); border-radius: 20px;
+            box-shadow: var(--glow-cyan);
+        }
+        .hero-img-container img {
+            width: 100%; border-radius: 15px; filter: contrast(1.1); display: block;
+        }
+        
+        .floating-badge {
+            position: absolute; bottom: -20px; right: -20px;
+            background: rgba(10, 14, 26, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(176,38,255,0.4);
+            padding: 20px 30px; border-radius: 12px; box-shadow: var(--glow-purple); z-index: 10;
+        }
+        .floating-badge h3 { font-size: 24px; color: var(--neon-cyan); margin-bottom: 5px; }
+        .floating-badge p { font-size: 14px; color: var(--text-muted); margin: 0;}
+
+        /* STATS SECTION */
+        .stats-section {
+            padding: 50px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.3);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            padding: 30px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: 0.3s;
+        }
+        .stat-card:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: var(--glow-cyan);
+            transform: translateY(-5px);
+        }
+        .stat-icon {
+            width: 60px; height: 60px; border-radius: 12px; background: rgba(0, 242, 254, 0.1);
+            color: var(--neon-cyan); display: flex; align-items: center; justify-content: center; font-size: 24px;
+            border: 1px solid rgba(0,242,254,0.2);
+        }
+        .stat-card:nth-child(2) .stat-icon { color: var(--neon-purple); background: rgba(176,38,255,0.1); border-color: rgba(176,38,255,0.2); }
+        .stat-card:nth-child(2):hover { border-color: var(--neon-purple); box-shadow: var(--glow-purple); }
+
+        /* Counter Styles */
+        .stat-info h2 { font-size: 32px; color: #fff; margin-bottom: 5px; line-height: 1; display:flex; align-items:baseline; gap: 2px;}
+        .stat-info p { font-size: 14px; color: var(--text-muted); margin: 0; text-transform: uppercase; letter-spacing: 1px;}
+
+        /* SECTION TITLES */
+        .section-header {
+            margin-bottom: 60px;
+            max-width: 600px;
+        }
+        .section-header h5 {
+            color: var(--neon-cyan); text-transform: uppercase; letter-spacing: 2px; font-size: 14px; margin-bottom: 15px; display: inline-block; padding: 5px 15px; background: rgba(0,242,254,0.1); border-radius: 20px;
+        }
+        .section-header h2 {
+            font-size: 45px; color: #fff; line-height: 1.2; text-transform: uppercase;
+        }
+
+        /* COURSES SECTION */
+        .courses { padding: 120px 0; }
+        .course-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .course-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 50px;
+            position: relative;
+            transition: all 0.4s ease;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .course-card::after {
+            content: ''; position: absolute; top: 0; right: 0; width: 200px; height: 200px; background: radial-gradient(circle, rgba(0,242,254,0.1) 0%, transparent 70%); z-index: -1;
+        }
+        .course-card.advanced::after { background: radial-gradient(circle, rgba(176,38,255,0.1) 0%, transparent 70%); }
+        
+        .course-card:hover {
+            border-color: var(--neon-cyan); box-shadow: var(--glow-cyan); transform: translateY(-10px);
+        }
+        .course-card.advanced:hover { border-color: var(--neon-purple); box-shadow: var(--glow-purple); }
+
+        .course-card h3 { font-size: 32px; color: #fff; margin-bottom: 15px; }
+        .course-card .highlight { color: var(--neon-cyan); font-weight: 600; margin-bottom: 25px; display: block; font-size: 18px; }
+        .course-card.advanced .highlight { color: var(--neon-purple); }
+        .course-card ul { list-style: none; margin-bottom: 40px; }
+        .course-card ul li { margin-bottom: 15px; padding-left: 30px; position: relative; color: var(--text-muted); }
+        .course-card ul li::before { content: '/>'; position: absolute; left: 0; color: var(--neon-cyan); font-family: monospace; font-weight: bold; }
+        .course-card.advanced ul li::before { color: var(--neon-purple); }
+
+        /* WHY CHOOSE US */
+        .why-choose-us { padding: 120px 0; background: rgba(10, 14, 26, 0.4); border-top: 1px solid rgba(255,255,255,0.05); }
+        .wcu-grid { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 40px; align-items: center; }
+        .wcu-col { display: flex; flex-direction: column; gap: 30px; }
+        .wcu-item {
+            background: rgba(255,255,255,0.02); padding: 30px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;
+        }
+        .wcu-item:hover { border-color: var(--neon-cyan); background: rgba(0,242,254,0.05); }
+        .wcu-item .icon-box { color: var(--neon-cyan); font-size: 30px; margin-bottom: 15px; }
+        .wcu-item h4 { color: #fff; font-size: 20px; margin-bottom: 10px; }
+        .wcu-item p { color: var(--text-muted); font-size: 15px; margin: 0; }
+        
+        .wcu-center-image img {
+            width: 100%; border-radius: 20px; border: 1px solid rgba(0,242,254,0.3); box-shadow: var(--glow-cyan);
+            filter: grayscale(20%) contrast(1.2);
+        }
+
+        /* MENTOR / ABOUT */
+        .mentor-section { padding: 120px 0; }
+        .mentor-content { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .mentor-text h2 { font-size: 45px; color: #fff; margin-bottom: 10px; line-height: 1.2;}
+        .mentor-text h4 { color: var(--neon-cyan); font-weight: 400; margin-bottom: 30px; font-size: 20px; }
+        .mentor-quote {
+            padding: 25px; background: rgba(255,255,255,0.02); border-left: 4px solid var(--neon-purple); border-radius: 0 10px 10px 0;
+            color: var(--text-main); font-style: italic; margin-top: 30px;
+        }
+        .mentor-image-wrapper { position: relative; }
+        .mentor-image-wrapper::before, .mentor-image-wrapper::after {
+            content:''; position: absolute; width: 60px; height: 60px; border: 2px solid transparent; z-index: 10;
+        }
+        .mentor-image-wrapper::before { top: -15px; left: -15px; border-top-color: var(--neon-cyan); border-left-color: var(--neon-cyan); }
+        .mentor-image-wrapper::after { bottom: -15px; right: -15px; border-bottom-color: var(--neon-purple); border-right-color: var(--neon-purple); }
+        .mentor-image-wrapper img { width: 100%; border-radius: 10px; display: block; filter: contrast(1.1); }
+
+        /* TESTIMONIALS (REVIEWS) SECTION */
+        .testimonials { padding: 100px 0; background: var(--bg-card); position: relative; z-index: 1; border-top: 1px solid rgba(255,255,255,0.05);}
+        .testimonials::before { content: ''; position: absolute; top:0; left:0; right:0; bottom:0; background: radial-gradient(circle at center, rgba(176,38,255,0.05) 0%, transparent 70%); z-index:-1;}
+        .test-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .testimonial-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .testimonial-card:hover {
+            border-color: var(--neon-purple);
+            box-shadow: var(--glow-purple);
+            transform: translateY(-5px);
+        }
+        .quote-icon {
+            font-size: 40px;
+            color: rgba(176,38,255,0.3);
+            position: absolute;
+            top: 20px;
+            right: 30px;
+        }
+        .testimonial-card p {
+            color: var(--text-muted);
+            font-size: 16px;
+            font-style: italic;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 2;
+        }
+        .client-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .client-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #fff;
+            font-size: 20px;
+        }
+        .client-details h4 {
+            color: #fff;
+            margin: 0;
+            font-size: 18px;
+        }
+        .client-details span {
+            color: var(--neon-cyan);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* GALLERY */
+        .gallery { padding: 100px 0; background: rgba(0,0,0,0.3); border-top: 1px solid rgba(255,255,255,0.05);}
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .gallery-item { border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); transition: 0.4s; position: relative;}
+        .gallery-item::after { content: ''; position: absolute; inset:0; background: rgba(0,242,254,0.2); opacity: 0; transition: 0.3s; mix-blend-mode: overlay;}
+        .gallery-item:hover { border-color: var(--neon-cyan); box-shadow: var(--glow-cyan); transform: scale(1.02); z-index: 5;}
+        .gallery-item:hover::after { opacity: 1; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(30%); transition: 0.4s;}
+        .gallery-item:hover img { filter: grayscale(0%); }
+
+        /* FOOTER */
+        footer { padding: 80px 0 30px; border-top: 1px solid var(--glass-border); background: #010205; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 50px; margin-bottom: 50px; }
+        .footer-col h3 { color: #fff; font-size: 24px; margin-bottom: 20px; }
+        .footer-col p { color: var(--text-muted); margin-bottom: 15px; }
+        .social-links { display: flex; gap: 15px; margin-top: 25px; }
+        .social-links a {
+            width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: #fff; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; text-decoration: none;
+        }
+        .social-links a:hover { background: var(--neon-cyan); color: #000; box-shadow: var(--glow-cyan); border-color: var(--neon-cyan); transform: translateY(-5px); }
+        .contact-info div { display: flex; align-items: center; gap: 15px; color: var(--text-muted); margin-bottom: 15px; }
+        .contact-info i { color: var(--neon-cyan); font-size: 18px; }
+        .footer-bottom { text-align: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px; color: #64748b; font-size: 14px; }
+
+        /* STICKY WHATSAPP & CALL BUTTONS */
+        .sticky-contact-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 9999;
+        }
+        .sticky-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 28px;
+            text-decoration: none;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+        .sticky-btn:hover {
+            transform: scale(1.15) rotate(-5deg);
+        }
+        .sticky-whatsapp {
+            background: #25D366;
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
+        }
+        .sticky-whatsapp:hover {
+            box-shadow: 0 0 30px rgba(37, 211, 102, 0.7);
+        }
+        .sticky-call {
+            background: var(--neon-cyan);
+            color: #03050e;
+            box-shadow: var(--glow-cyan);
+        }
+        .sticky-call:hover {
+            box-shadow: 0 0 30px rgba(0, 242, 254, 0.7);
+        }
+
+        /* ANIMATION UTILITIES */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* RESPONSIVE */
+        @media (max-width: 992px) {
+            .hero-grid, .mentor-content { grid-template-columns: 1fr; text-align: center; }
+            .hero { text-align: center; }
+            .hero-label { justify-content: center; }
+            .btn-group { justify-content: center; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .wcu-grid { grid-template-columns: 1fr; }
+            .wcu-center-image { order: -1; max-width: 500px; margin: 0 auto; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 45px; }
+            .course-grid, .test-grid { grid-template-columns: 1fr; }
+            .btn-group { flex-direction: column; }
+            .sticky-contact-container { bottom: 20px; right: 20px; }
+            .sticky-btn { width: 50px; height: 50px; font-size: 22px; }
+        }
+
+        /* CUSTOM SCROLLBAR */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-deep); }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--neon-cyan); }
+    </style>
+</head>
+<body>
+
+    <!-- TICKER TAPE - Dark Theme -->
+    <div class="tradingview-widget-container" style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+        {
+            "symbols": [
+                { "proName": "BSE:RELIANCE", "description": "RELIANCE" },
+                { "proName": "BSE:HDFCBANK", "description": "HDFC BANK" },
+                { "proName": "BSE:TATASTEEL", "description": "TATA STEEL" },
+                { "proName": "BSE:SBIN", "description": "SBI" },
+                { "proName": "BSE:TCS", "description": "TCS" },
+                { "proName": "BSE:INFY", "description": "INFOSYS" },
+                { "proName": "BSE:KOTAKBANK", "description": "KOTAK BANK" }
+            ],
+            "showSymbolLogo": true,
+            "colorTheme": "dark",
+            "isTransparent": true,
+            "displayMode": "compact",
+            "locale": "in"
+        }
+        </script>
+    </div>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">
+                <img src="https://github.com/Wealthmaster/Website/blob/main/CheckMate%20New%20Logo-05.png?raw=true" alt="Checkmate Logo">
+                CHECKMATE.
+            </a>
+            <a href="tel:+919762972688" style="text-decoration:none;">
+                <div class="header-contact">
+                    AVAILABLE FOR BATCHES
+                </div>
+            </a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content reveal">
+                <div class="hero-label">Creative Trading Institute</div>
+                <h1>Master Market<br><span>Discipline.</span></h1>
+                <p>I craft <strong style="color:var(--neon-pink);">trading systems</strong> that live at the intersection of <strong style="color:#fff;">analysis & risk management</strong>. Stop guessing. Start executing.</p>
+                
+                <div class="btn-group">
+                    <a href="https://wa.me/919762972688?text=Hello%20CheckMate%20Academy!%20I%20want%20to%20register%20for%20the%20Next%20Free%20Option%20Trading%20Workshop.%20Please%20share%20details." class="cta-btn" target="_blank">
+                        Join Workshop <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
+                    </a>
+                    <a href="#courses" class="cta-btn secondary">View Courses</a>
+                </div>
+            </div>
+            
+            <div class="hero-img-wrapper reveal">
+                <div class="hero-img-container">
+                    <img src="https://github.com/Wealthmaster/Website/blob/main/Raj%20Photo.jpeg?raw=true" alt="Dr. Rajendra R. Lokhande">
+                    <div class="floating-badge">
+                        <h3>12+ Years</h3>
+                        <p>Market Experience</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS SECTION -->
+    <section class="stats-section">
+        <div class="container stats-grid reveal">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-code"></i></div>
+                <div class="stat-info">
+                    <h2><span class="counter" data-target="3560">0</span>+</h2>
+                    <p>Successful Trades</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-smile"></i></div>
+                <div class="stat-info">
+                    <h2><span class="counter" data-target="100">0</span>+</h2>
+                    <p>Happy Clients</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-rocket"></i></div>
+                <div class="stat-info">
+                    <h2><span class="counter" data-target="200">0</span>+</h2>
+                    <p>Webinar Attendees</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROBLEM / SOLUTION -->
+    <section class="problem-section" style="padding: 100px 0; text-align: center;">
+        <div class="container reveal">
+            <div class="section-header" style="margin: 0 auto 40px auto;">
+                <h5>The Market Shift</h5>
+                <h2>Struggling with <span class="gradient-text-neon">Volatility?</span></h2>
+            </div>
+            <p style="font-size: 18px; color: var(--text-muted); max-width: 800px; margin: 0 auto;">Post COVID-19, the market has completely changed. Traditional methods like Double Tops, Head & Shoulders, and Cup & Handle patterns are outdated and fail often. Fear and greed are more volatile than ever. At <strong>CheckMate InvesTrado Academy</strong>, our systematic approach helps you flow with volatility, identify the exact trend, and pinpoint the right price at the right time.</p>
+        </div>
+    </section>
+
+    <!-- COURSES -->
+    <section class="courses" id="courses">
+        <div class="container">
+            <div class="section-header reveal">
+                <h5>What We Teach</h5>
+                <h2>Our <span class="gradient-text-neon">Trading Programs</span></h2>
+            </div>
+            
+            <div class="course-grid">
+                <!-- Basic Course -->
+                <div class="course-card reveal">
+                    <h3>Basics of Stock Market</h3>
+                    <span class="highlight">Master the Fundamentals</span>
+                    <p style="margin-bottom: 20px;">Navigate new global market volatility. Learn to spot trend reversals and trade with confidence.</p>
+                    <ul>
+                        <li>Powerful Candlestick Patterns</li>
+                        <li>Basic Elliott Wave Principle</li>
+                        <li>Futures & Options Basics (M2M)</li>
+                        <li>2 Free Revision Classes</li>
+                    </ul>
+                    <a href="https://drive.google.com/file/d/1DgbiraZzFSG98rx6q4fPU1cEy1CJB8uN/view" class="cta-btn" style="width: 100%; margin-top: 10px;" target="_blank"><i class="fas fa-download" style="margin-right: 8px;"></i> Download Syllabus</a>
+                </div>
+
+                <!-- Advanced Course -->
+                <div class="course-card advanced reveal" style="transition-delay: 0.2s;">
+                    <h3>CheckMate Advanced</h3>
+                    <span class="highlight">Precision Without Indicators</span>
+                    <p style="margin-bottom: 20px;">Ditch outdated patterns. Utilize Fibonacci Ratios and advanced waves for high confidence entries.</p>
+                    <ul>
+                        <li>Advanced Elliott & Wolfe Wave</li>
+                        <li>Advanced Price Action & Momentum</li>
+                        <li>Pro Option Strategies (Spreads)</li>
+                        <li>Risk & Reward Management</li>
+                    </ul>
+                    <a href="https://drive.google.com/file/d/1DgbiraZzFSG98rx6q4fPU1cEy1CJB8uN/view" class="cta-btn" style="width: 100%; margin-top: 10px; border-color: var(--neon-purple);" target="_blank"><i class="fas fa-download" style="margin-right: 8px;"></i> Download Syllabus</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US -->
+    <section class="why-choose-us">
+        <div class="container">
+            <div class="section-header text-center reveal" style="margin: 0 auto 60px auto; text-align: center;">
+                <h5>Why Us</h5>
+                <h2>Elevate your <span class="gradient-text-neon">Success</span></h2>
+            </div>
+            
+            <div class="wcu-grid">
+                <div class="wcu-col reveal">
+                    <div class="wcu-item">
+                        <div class="icon-box"><i class="fas fa-laptop-code"></i></div>
+                        <h4>Comprehensive Curriculum</h4>
+                        <p>Our courses cover a broad spectrum of topics for successful market navigation.</p>
+                    </div>
+                    <div class="wcu-item">
+                        <div class="icon-box"><i class="fas fa-user-astronaut"></i></div>
+                        <h4>Experienced Instructors</h4>
+                        <p>Learn from industry experts providing valuable tips beyond theoretical concepts.</p>
+                    </div>
+                </div>
+                
+                <div class="wcu-center-image reveal">
+                    <img src="https://github.com/Wealthmaster/Website/blob/main/WhatsApp%20Image%202024-01-08%20at%2011.06.54%20AM.jpeg?raw=true" alt="Trading Workshop">
+                </div>
+                
+                <div class="wcu-col reveal">
+                    <div class="wcu-item">
+                        <div class="icon-box"><i class="fas fa-network-wired"></i></div>
+                        <h4>Interactive Environment</h4>
+                        <p>Engaging platform featuring live webinars, interactive quizzes, and simulations.</p>
+                    </div>
+                    <div class="wcu-item">
+                        <div class="icon-box"><i class="fas fa-users"></i></div>
+                        <h4>Continuous Support</h4>
+                        <p>Supportive community for ongoing networking, discussions, & exclusive access.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENTOR -->
+    <section class="mentor-section">
+        <div class="container mentor-content reveal">
+            <div class="mentor-text">
+                <h5 style="color: var(--neon-purple); letter-spacing: 2px; text-transform: uppercase; margin-bottom:10px;">Who I Am</h5>
+                <h2>DR. RAJENDRA LOKHANDE</h2>
+                <h4>Physician & Stock Market Expert</h4>
+                
+                <p style="color: var(--text-muted); margin-bottom: 20px;">I am a dedicated professional blending healing and trading, aimed at empowering individuals to achieve both physical wellness and financial success.</p>
+                
+                <div class="mentor-quote">
+                    "The analytical skills and discipline required in medicine have seamlessly translated into my approach to trading and training."
+                </div>
+            </div>
+            
+            <div class="mentor-image-wrapper reveal">
+                <img src="https://github.com/Wealthmaster/Website/blob/main/Raj%20Photo.jpeg?raw=true" alt="Dr. Rajendra R. Lokhande">
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS (REVIEWS) SECTION -->
+    <section class="testimonials">
+        <div class="container reveal">
+            <div class="section-header text-center" style="text-align: center; margin: 0 auto 60px auto;">
+                <h5>Success Stories</h5>
+                <h2>Client <span class="gradient-text-neon">Reviews</span></h2>
+            </div>
+            <div class="test-grid">
+                <!-- Review 1 -->
+                <div class="testimonial-card">
+                    <i class="fas fa-quote-right quote-icon"></i>
+                    <p>"A complete trader course was really a view and angle changing course on the stock market for me. The way you teach us shows how perfect you are in technical analysis & your devotion to the market."</p>
+                    <div class="client-info">
+                        <div class="client-avatar">V</div>
+                        <div class="client-details">
+                            <h4>Vasant Sonawane</h4>
+                            <span>Complete Trader Course</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Review 2 -->
+                <div class="testimonial-card">
+                    <i class="fas fa-quote-right quote-icon"></i>
+                    <p>"Rajendra sir and Akshay sir explain the logic/psychology behind complex concepts in a very simplified, easy to follow way. Thanks to them, we all have a systematic analytical approach to the market."</p>
+                    <div class="client-info">
+                        <div class="client-avatar">R</div>
+                        <div class="client-details">
+                            <h4>Ruta Joshi</h4>
+                            <span>Systematic Trader</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY SECTION -->
+    <section class="gallery">
+        <div class="container reveal">
+            <div class="section-header">
+                <h5>Our Community</h5>
+                <h2>Academy <span class="gradient-text-neon">In Action</span></h2>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item"><img src="https://raw.githubusercontent.com/Wealthmaster/Website/401cb0fbea1fa357d40a62edf95305cecb3d2cf6/WhatsApp%20Image%202024-01-08%20at%2011.02.25%20AM.jpeg" alt="Academy Event 1"></div>
+                <div class="gallery-item"><img src="https://raw.githubusercontent.com/Wealthmaster/Website/401cb0fbea1fa357d40a62edf95305cecb3d2cf6/WhatsApp%20Image%202024-01-08%20at%2011.06.54%20AM.jpeg" alt="Academy Event 2"></div>
+                <div class="gallery-item"><img src="https://raw.githubusercontent.com/Wealthmaster/Website/401cb0fbea1fa357d40a62edf95305cecb3d2cf6/WhatsApp%20Image%202024-01-08%20at%2011.07.12%20AM.jpeg" alt="Academy Event 3"></div>
+                <div class="gallery-item"><img src="https://raw.githubusercontent.com/Wealthmaster/Website/401cb0fbea1fa357d40a62edf95305cecb3d2cf6/WhatsApp%20Image%202024-01-08%20at%2011.11.46%20AM.jpeg" alt="Academy Event 4"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container reveal">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3 class="gradient-text-neon">CHECKMATE.</h3>
+                    <p>The best trading academy with over 10 years of experience. We aim to foster a community of successful traders through updated Elliott Wave and Price Action technical analysis.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/people/CheckMate-InvesTrado-Academy/100063670070979/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/checkmate_investrado_academy_/" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.youtube.com/channel/UCkAGy1KFgmfaWXqqCJyil-g" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="https://t.me/s_rl19" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3 style="color:#fff;">Contact</h3>
+                    <div class="contact-info">
+                        <div><i class="fas fa-map-marker-alt"></i> Pimpale Gurav, Pune - 411061</div>
+                        <div><i class="fas fa-phone-alt"></i> +91 97629 72688</div>
+                        <div><i class="fas fa-envelope"></i> checkmatetraders@gmail.com</div>
+                    </div>
+                    <br>
+                    <a href="https://wa.me/919762972688" class="cta-btn" style="padding: 10px 20px; font-size: 14px;" target="_blank">
+                        <i class="fab fa-whatsapp" style="margin-right: 8px;"></i> Message Us
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 CheckMate InvesTrado Academy. All Rights Reserved. Designed for Checkmatetrade.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- STICKY WHATSAPP & CALL BUTTONS -->
+    <div class="sticky-contact-container">
+        <a href="https://wa.me/919762972688?text=Hello%20CheckMate%20Academy!%20I%20want%20to%20know%20more%20details." class="sticky-btn sticky-whatsapp" target="_blank" aria-label="WhatsApp Us">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="tel:+919762972688" class="sticky-btn sticky-call" aria-label="Call Us">
+            <i class="fas fa-phone-alt"></i>
+        </a>
+    </div>
+
+    <!-- SCRIPT FOR SCROLL ANIMATIONS AND COUNTERS -->
+    <script>
+        // Reveal elements on scroll
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal();
+
+        // Counter Animation
+        const counters = document.querySelectorAll('.counter');
+        let hasCounted = false;
+
+        const animateCounters = () => {
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const speed = 200; // The lower the slower
+                
+                const updateCount = () => {
+                    const count = +counter.innerText.replace(/,/g, '');
+                    const inc = target / speed;
+
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + inc).toLocaleString();
+                        setTimeout(updateCount, 15);
+                    } else {
+                        counter.innerText = target.toLocaleString();
+                    }
+                };
+                updateCount();
+            });
+        };
+
+        // Trigger counters when stats section is in view
+        const statsSection = document.querySelector('.stats-section');
+        
+        window.addEventListener('scroll', () => {
+            if(!hasCounted) {
+                const sectionTop = statsSection.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if(sectionTop < windowHeight - 100) {
+                    animateCounters();
+                    hasCounted = true; // Prevents the animation from running multiple times
+                }
+            }
+        });
+    </script>
+</body>
+</html>
