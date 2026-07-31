@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Review - Shri Plumbing Solutions</title>
+    <style>
+        /* --- THEME: PLUMBING & WATER (Water Blue & Pipe Grey) --- */
+        :root {
+            --primary: #0ea5e9; /* Water Blue */
+            --primary-dark: #0284c7;
+            --accent: #1e3a8a; /* Deep Navy */
+            --bg-color: #f0f9ff; /* Light Sky Blue */
+            --card-bg: #ffffff;
+            --gold: #fbbf24;
+            --gray: #64748b;
+            --border: #bae6fd;
+            --box-bg: #f8fafc;
+            --whatsapp: #25D366;
+            --danger: #ef4444;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0; padding: 20px 10px;
+            min-height: 100vh; display: flex;
+            justify-content: center; align-items: flex-start;
+            color: #333;
+        }
+
+        .container {
+            background: var(--card-bg); width: 100%; max-width: 500px;
+            padding: 25px; border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.15);
+            border-top: 6px solid var(--primary); margin: auto;
+            text-align: center;
+            position: relative;
+        }
+
+        /* --- 🔒 LOCK SCREEN --- */
+        #lockScreen {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.98); z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 20px; border-radius: 16px;
+        }
+        .contact-admin-btn {
+            background-color: var(--primary); color: #ffffff !important; padding: 12px 25px;
+            border-radius: 8px; text-decoration: none; font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); margin-top: 20px;
+            -webkit-appearance: none;
+        }
+
+        /* HEADER */
+        h1 { color: var(--accent); margin: 5px 0 5px 0; font-size: 26px; font-weight: 800; line-height: 1.2; text-transform: uppercase; }
+        .subtitle { font-size: 13px; color: #666; margin-bottom: 15px; font-weight: 600; }
+        .location { 
+            color: var(--primary-dark); font-size: 13px; font-weight: 700; 
+            text-transform: uppercase; letter-spacing: 0.5px; 
+            margin-bottom: 15px; display: inline-block; 
+            background: #e0f2fe; padding: 6px 15px; border-radius: 20px;
+        }
+        
+        .phone-link {
+            text-decoration: none; color: #ffffff !important; background-color: var(--primary);
+            padding: 10px 22px; border-radius: 25px; display: inline-block;
+            font-size: 15px; font-weight: 700; transition: 0.2s;
+            box-shadow: 0 4px 6px rgba(14, 165, 233, 0.2); margin-bottom: 25px;
+            -webkit-appearance: none;
+        }
+
+        /* INPUTS */
+        select, input, textarea {
+            width: 100%; padding: 12px; border-radius: 8px;
+            border: 1px solid var(--border); background: var(--box-bg);
+            font-size: 14px; outline: none; margin-bottom: 10px;
+            color: #333; font-family: inherit; transition: 0.3s;
+            -webkit-appearance: none;
+        }
+        select:focus, input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2); background: #fff; }
+        label { font-weight: 700; display: block; margin-top: 15px; margin-bottom: 6px; color: var(--accent); font-size: 12px; text-transform: uppercase; text-align: left; }
+
+        /* RATING */
+        .star-container { display: flex; justify-content: center; gap: 8px; margin: 20px 0; }
+        .star { font-size: 45px; color: #e2e8f0; cursor: pointer; transition: transform 0.2s; }
+        .star.selected { color: var(--gold); transform: scale(1.1); }
+
+        .experience-btns { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
+        .exp-btn {
+            padding: 12px 15px; border: 1px solid var(--border); border-radius: 8px;
+            background-color: #fff; cursor: pointer; font-weight: 600; color: #475569;
+            flex: 1; max-width: 140px; transition: 0.2s; font-size: 14px;
+            -webkit-appearance: none;
+        }
+        .exp-btn.active { background-color: var(--primary); color: #ffffff !important; border-color: var(--primary); box-shadow: 0 4px 10px rgba(14, 165, 233, 0.2); }
+
+        /* INPUT MODES */
+        .input-mode-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .mode-btn { 
+            flex: 1; padding: 10px; border: 1px solid var(--primary); border-radius: 8px; 
+            background-color: #fff; color: var(--primary); font-weight: 600; cursor: pointer; font-size: 13px;
+            -webkit-appearance: none;
+        }
+        .mode-btn.active-mode { background-color: var(--primary); color: #ffffff !important; }
+
+        .voice-section, .text-section {
+            background-color: #e0f2fe; padding: 12px; border-radius: 12px; 
+            margin-bottom: 20px; border: 1px dashed var(--primary); text-align: left;
+        }
+        .voice-controls { display: flex; align-items: center; gap: 10px; }
+        .mic-btn {
+            width: 45px; height: 45px; border-radius: 50%;
+            background-color: var(--primary); color: #ffffff !important; border: none;
+            font-size: 20px; cursor: pointer; box-shadow: 0 4px 10px rgba(14, 165, 233, 0.3);
+            display: flex; align-items: center; justify-content: center;
+            -webkit-appearance: none;
+        }
+        .mic-active { animation: pulse 1.5s infinite; background-color: var(--danger); }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 100% { box-shadow: 0 0 0 10px rgba(0,0,0,0); } }
+
+        /* CHIPS */
+        .category-header { font-size: 11px; color: var(--accent); margin: 20px 0 8px 0; font-weight: 800; letter-spacing: 0.5px; border-bottom: 1px dashed var(--border); padding-bottom: 4px; text-align: left; }
+        .keywords-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 5px; }
+        .keyword-chip { 
+            padding: 8px 12px; background-color: #fff; border-radius: 20px; 
+            font-size: 12px; font-weight: 600; cursor: pointer; 
+            border: 1px solid var(--border); color: #0369a1; 
+            flex-grow: 1; text-align: center; transition: 0.2s;
+        }
+        .keyword-chip.active { background-color: var(--primary); color: #ffffff !important; border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 3px 8px rgba(14, 165, 233, 0.2); }
+
+        /* BUTTONS */
+        .action-btn {
+            width: 100%; padding: 14px; background-color: var(--primary);
+            color: #ffffff !important; border: none; border-radius: 8px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 10px;
+            -webkit-appearance: none; display: block;
+        }
+        .action-btn:active { transform: scale(0.98); }
+        
+        .copy-btn { 
+            width: 100%; padding: 14px; background-color: var(--whatsapp); 
+            color: #ffffff !important; border: none; border-radius: 8px; margin-top: 15px; 
+            font-weight: 700; font-size: 15px; cursor: pointer; display: none; 
+            box-shadow: 0 4px 6px rgba(37, 211, 102, 0.2); 
+            -webkit-appearance: none; 
+        }
+
+        .review-preview-box {
+            width: 100%; min-height: 140px; margin-top: 15px; border-radius: 12px; padding: 15px; 
+            border: 1px solid var(--border); display: none; background-color: #fff; resize: none; outline: none; line-height: 1.5;
+        }
+
+        /* OWNER PANEL */
+        #ownerPanel {
+            display: none; margin-top: 20px; padding: 15px;
+            border: 2px dashed var(--whatsapp); border-radius: 12px;
+            background-color: #f0fdf4; text-align: left;
+        }
+        .whatsapp-send-btn {
+            width: 100%; padding: 12px; background-color: var(--whatsapp);
+            color: #ffffff !important; border: none; border-radius: 8px;
+            font-size: 15px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            -webkit-appearance: none;
+        }
+
+        /* UTILS */
+        .fade-in { animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .hidden { display: none !important; }
+        .toggle-name { font-size: 13px; color: var(--primary); text-decoration: underline; cursor: pointer; float: right; margin-top: 5px; border: none; background: none; font-weight:bold; }
+
+        /* FOOTER */
+        .footer { margin-top: 35px; text-align: center; font-size: 12px; color: #64748b; border-top: 1px dashed var(--border); padding-top: 15px; }
+        .footer-logo { display: block; margin: 0 auto 5px auto; max-height: 28px; width: auto; opacity: 0.85; }
+        .footer a { color: var(--primary); text-decoration: none; font-weight: 700; }
+        .owner-login-trigger {
+            font-size: 11px; color: #ccc; cursor: pointer; text-decoration: none;
+            position: absolute; bottom: 5px; right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="mainApp">
+    
+    <!-- 🔒 SERVICE SUSPENDED OVERLAY -->
+    <div id="lockScreen" style="display: none;">
+        <div style="font-size: 60px; margin-bottom: 20px;">🔒</div>
+        <div style="font-size: 24px; font-weight: 800; color: #1e3a8a; margin-bottom: 10px;">Service Suspended</div>
+        <div style="font-size: 15px; color: #64748b; margin-bottom: 30px; line-height: 1.5;">
+            This review generation tool is temporarily unavailable.<br>Please contact the administrator.
+        </div>
+        <a href="tel:+917020360561" class="contact-admin-btn">Contact Support</a>
+    </div>
+
+    <!-- 🚰 CUSTOMER DIRECT LINK VIEW -->
+    <div id="customerLinkView" class="hidden" style="text-align: center; padding: 20px;">
+        <div style="font-size: 45px; margin-bottom: 10px;">🚰🔧</div>
+        <h2 style="color:var(--primary);">Hello!</h2>
+        <p style="color:#555; font-size:15px; margin-bottom:20px;">
+            Here is the review for your plumbing service experience.<br>Tap below to copy & post.
+        </p>
+        <textarea id="customerReviewText" class="review-preview-box" readonly style="display:block; background:#f8fafc;"></textarea>
+        <button class="copy-btn" style="display:block; margin-top:15px;" onclick="copyCustomerLinkReview()">📋 Copy & Open Google</button>
+        <p style="font-size:12px; color:#999; margin-top:20px;">Thank you for choosing Shri Plumbing Solutions! 💧</p>
+    </div>
+
+    <!-- 🚀 MAIN GENERATOR APP -->
+    <div id="generatorApp">
+        <div style="font-size: 35px; margin-bottom: 5px;">🚰🔧</div>
+        <h1>Shri Plumbing Solutions</h1>
+        <div class="subtitle">Expert Plumbing Solutions at Your Doorstep</div>
+        <div class="location">📍 Bhosari • Pimpri Chinchwad</div>
+        
+        <div>
+            <!-- Update the phone number here if you have it -->
+            <a href="tel:+910000000000" class="phone-link">📞 Call for Service</a>
+        </div>
+
+        <div id="ratingScreen" class="fade-in">
+            <p style="font-weight:700; color:#475569; font-size: 16px;">How was our plumbing service?</p>
+            <div class="star-container">
+                <span class="star" onclick="rate(1)">★</span>
+                <span class="star" onclick="rate(2)">★</span>
+                <span class="star" onclick="rate(3)">★</span>
+                <span class="star" onclick="rate(4)">★</span>
+                <span class="star" onclick="rate(5)">★</span>
+            </div>
+            <div class="experience-btns">
+                <button class="exp-btn" id="btn-bad" onclick="selectExp('bad')">Had Issues 😞</button>
+                <button class="exp-btn" id="btn-good" onclick="selectExp('good')">Excellent 💧</button>
+            </div>
+            <button class="action-btn" onclick="processRating()">Next Step ➡</button>
+        </div>
+
+        <div id="privateFeedbackScreen" class="hidden fade-in">
+            <h2 style="color:#475569;">We are sorry! 😔</h2>
+            <p style="font-size: 14px; color:#666;">Please tell us what went wrong. Your feedback goes directly to Mr. Dhande.</p>
+            <textarea id="privateFeedbackText" style="height:120px;" placeholder="Describe the issue..."></textarea>
+            <button class="action-btn" style="background-color:#475569;" onclick="submitPrivateFeedback()">Submit Feedback</button>
+        </div>
+
+        <div id="thankYouScreen" class="hidden fade-in">
+            <div style="font-size: 50px; margin-bottom:10px;">✅</div>
+            <h2 style="color:var(--primary);">Thank You!</h2>
+            <p>Your feedback has been successfully submitted.</p>
+        </div>
+
+        <div id="aiToolScreen" class="hidden fade-in" style="text-align: left;">
+            
+            <label style="margin-top:0;">1. Share Your Experience (Optional)</label>
+            <div class="input-mode-tabs">
+                <button class="mode-btn active-mode" id="btnModeVoice" onclick="switchMode('voice')">🎤 Speak</button>
+                <button class="mode-btn" id="btnModeText" onclick="switchMode('text')">✍️ Write</button>
+            </div>
+
+            <div id="voiceSection" class="voice-section">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <span style="font-size:11px; font-weight:bold; color:var(--primary);">SPEAK (Hindi/English):</span>
+                    <select id="voiceLang" style="width:auto; padding:2px; font-size:11px; height:25px; margin:0; -webkit-appearance:menulist;">
+                        <option value="en-IN" selected>English</option>
+                        <option value="hi-IN">Hindi</option>
+                        <option value="mr-IN">Marathi</option>
+                    </select>
+                </div>
+                <div class="voice-controls">
+                    <button id="micBtn" class="mic-btn" onclick="startListening()">🎤</button>
+                    <div style="flex:1;">
+                        <p id="statusText" style="font-size:12px; color:#555; margin:0;">Tap mic & speak...<br>(Ex: "Pipe leakage jaldi fix kar diya")</p>
+                    </div>
+                </div>
+                <div id="spokenTextDisplay" style="display:none; margin-top:8px; font-size:12px; color:var(--primary); background:#fff; padding:6px; border-radius:4px;"></div>
+            </div>
+
+            <div id="textSection" class="text-section hidden">
+                <textarea id="manualInput" placeholder="Ex: Fixed my leaking tap very quickly..." style="height:80px; margin-bottom:0;"></textarea>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top:15px;">
+                <div style="flex:1;">
+                    <label style="margin-top:0;">2. Service Taken</label>
+                    <select id="serviceSelect" style="-webkit-appearance:menulist;">
+                        <option value="">-- General Plumbing --</option>
+                        <option value="Leakage Repair">Leakage Repair</option>
+                        <option value="Water Heater / Geyser Fix">Water Heater / Geyser Fix</option>
+                        <option value="Kitchen Plumbing">Kitchen Plumbing</option>
+                        <option value="Blocked Drain Cleaning">Blocked Drain Cleaning</option>
+                        <option value="Water Tank Cleaning">Water Tank Cleaning</option>
+                        <option value="Toilet Repair">Toilet Repair</option>
+                        <option value="Flush Tanks Repair">Flush Tanks Repair</option>
+                        <option value="Toilet Repair & Installation">Toilet Repair & Installation</option>
+                    </select>
+                </div>
+                <div style="flex:1;">
+                    <label style="margin-top:0;">3. Tone</label>
+                    <select id="toneSelect" style="-webkit-appearance:menulist;">
+                        <option value="Professional">Professional 💼</option>
+                        <option value="Happy">Relieved / Happy 😌</option>
+                        <option value="Short">Short 👌</option>
+                        <option value="Grateful">Grateful 🙏</option>
+                    </select>
+                </div>
+            </div>
+
+            <label>Other Service Please Mention (Optional)</label>
+            <input type="text" id="customService" placeholder="Ex: Pipe changing, Tap repair, etc.">
+
+            <div style="display: flex; gap: 10px;">
+                <div style="flex:1;">
+                    <label>Location (Area)</label>
+                    <select id="locationSelect" style="-webkit-appearance:menulist;">
+                        <option value="Bhosari">Bhosari</option>
+                        <option value="Pimpri Chinchwad">Pimpri Chinchwad</option>
+                        <option value="Dighi">Dighi</option>
+                        <option value="Charholi">Charholi</option>
+                    </select>
+                </div>
+            </div>
+
+            <div><button class="toggle-name" onclick="document.getElementById('nameArea').style.display='block'">+ Add Your Name</button></div>
+            <div id="nameArea" style="display:none; clear:both; margin-top:5px;">
+                <input type="text" id="userName" placeholder="Your Name (Optional)">
+            </div>
+
+            <label style="clear:both;">4. Select Highlights (Pick 3-4)</label>
+
+            <!-- KEYWORDS SECTION -->
+            <div id="keywordsWrapper">
+                
+                <div class="category-header">CORE SEARCH KEYWORDS</div>
+                <div class="keywords-container">
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Plumber')">🏆 Best Plumber</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Best Plumbing Service')">🚰 Best Plumbing Service</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Emergency Plumber')">🚨 Emergency Plumber</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Emergency Drain Unblocking')">🚫 Emergency Drain Unblocking</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, '24 Hour Plumber')">⏰ 24 Hour Plumber</div>
+                </div>
+
+                <div class="category-header">QUALITY & VALUE</div>
+                <div class="keywords-container">
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Affordable Rates')">💰 Affordable Rates</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Professional Work')">👨‍🔧 Professional Work</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Clean Execution')">🧹 Clean Execution</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Experienced Staff')">🎓 Experienced Staff</div>
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Fast Service')">⚡ Fast Service</div>
+                </div>
+
+                <div class="category-header">OWNER & TEAM</div>
+                <div class="keywords-container">
+                    <div class="keyword-chip" onclick="toggleKeyword(this, 'Mr. Dhande')">👨‍💼 Owner Mr. Dhande is Responsive</div>
+                </div>
+
+            </div>
+
+            <button class="action-btn" id="generateBtn" onclick="generateReview()">🚀 Generate Magic Review</button>
+
+            <textarea id="reviewOutput" class="review-preview-box" readonly></textarea>
+            
+            <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Copy & Open Google</button>
+
+            <div id="ownerPanel">
+                <label style="color:var(--whatsapp); margin-top:0;">📱 Customer's WhatsApp Number</label>
+                <div style="display:flex; gap:10px;">
+                    <input type="tel" id="customerPhone" placeholder="Ex: 9876543210" style="margin-bottom:0;">
+                    <button class="whatsapp-send-btn" style="width: auto; padding: 0 20px;" onclick="sendLinkToCustomer()">🚀 Send</button>
+                </div>
+                <p style="font-size:11px; color:#555; margin-top:5px;">Customer will receive a direct link to post this review.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer">
+        <img src="https://growft.odoo.com/web/image/1477-e0a28764/growft%20logo.webp" class="footer-logo" alt="Growft">
+        <div class="footer-text">Built by <a href="https://growft.net" target="_blank">Growft</a></div>
+        <span class="owner-login-trigger" onclick="ownerLogin()">🔒 Owner</span>
+    </div>
+</div>
+
+<script>
+    // ============================================
+    // 🔒 ADMIN SETTINGS (TRUE/FALSE SYSTEM)
+    // ============================================
+    const SERVICE_SUSPENDED = false; // Set to 'true' to Lock, 'false' to Unlock
+    
+    // --- GOOGLE LINK ---
+    const GOOGLE_REVIEW_LINK = "https://g.page/r/YOUR_LINK_HERE/review"; // PLUMBER GOOGLE LINK
+    
+    let isOwnerMode = false;
+    let recognition; 
+
+    // --- INITIALIZATION ---
+    window.onload = function() {
+        if (SERVICE_SUSPENDED === true) {
+            document.getElementById('lockScreen').style.display = 'flex';
+            document.body.style.overflow = 'hidden'; 
+            return;
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const reviewText = urlParams.get('review');
+        if (reviewText) {
+            document.getElementById('generatorApp').style.display = 'none';
+            document.getElementById('customerLinkView').classList.remove('hidden');
+            document.getElementById('customerReviewText').value = decodeURIComponent(reviewText);
+        } else if(sessionStorage.getItem('isOwner') === 'true') {
+            isOwnerMode = true;
+        }
+    };
+
+    // --- OWNER LOGIC ---
+    function ownerLogin() {
+        if(isOwnerMode) { alert("Already logged in as Owner."); return; }
+        const password = prompt("Enter Owner Password:");
+        if(password === "admin123") { // CHANGE PASSWORD HERE
+            isOwnerMode = true;
+            sessionStorage.setItem('isOwner', 'true');
+            alert("Owner Mode Active!");
+        } else if(password) { alert("Incorrect Password"); }
+    }
+
+    function sendLinkToCustomer() {
+        const phone = document.getElementById('customerPhone').value.replace(/\D/g, '');
+        const review = document.getElementById('reviewOutput').value;
+        if(phone.length < 10) { alert("Enter valid number"); return; }
+        const finalPhone = phone.length === 10 ? "91" + phone : phone;
+        const baseUrl = window.location.href.split('?')[0];
+        const magicLink = `${baseUrl}?review=${encodeURIComponent(review)}`;
+        const msg = `Namaste! 👋\n\nHere is the review for your recent plumbing service with Shri Plumbing Solutions:\n\n*Tap this link to Post:*\n${magicLink}`;
+        window.open(`https://wa.me/${finalPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function copyCustomerLinkReview() {
+        const box = document.getElementById("customerReviewText");
+        box.select();
+        document.execCommand('copy');
+        window.open(GOOGLE_REVIEW_LINK, '_blank');
+    }
+
+    // --- RATING & UI LOGIC ---
+    let currentRating = 0;
+    let currentExp = '';
+    let selectedKeywords = [];
+    let voiceText = "";
+    let activeMode = 'voice';
+
+    function switchMode(mode) {
+        activeMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active-mode'));
+        if(mode === 'voice') {
+            document.getElementById('btnModeVoice').classList.add('active-mode');
+            document.getElementById('voiceSection').classList.remove('hidden');
+            document.getElementById('textSection').classList.add('hidden');
+        } else {
+            document.getElementById('btnModeText').classList.add('active-mode');
+            document.getElementById('textSection').classList.remove('hidden');
+            document.getElementById('voiceSection').classList.add('hidden');
+        }
+    }
+
+    function rate(stars) {
+        currentRating = stars;
+        document.querySelectorAll('.star').forEach((star, index) => {
+            star.classList.toggle('selected', index < stars);
+        });
+        if(stars >= 4) selectExp('good'); else selectExp('bad');
+    }
+
+    function selectExp(type) {
+        currentExp = type;
+        document.getElementById('btn-good').classList.remove('active');
+        document.getElementById('btn-bad').classList.remove('bad-active');
+        if (type === 'good') document.getElementById('btn-good').classList.add('active');
+        else document.getElementById('btn-bad').classList.add('bad-active');
+    }
+
+    function processRating() {
+        if (currentRating === 0 && currentExp === '') { alert("Please select a star rating."); return; }
+        document.getElementById('ratingScreen').classList.add('hidden');
+        let isHappy = (currentRating >= 4) || (currentExp === 'good');
+        if (isHappy) document.getElementById('aiToolScreen').classList.remove('hidden');
+        else document.getElementById('privateFeedbackScreen').classList.remove('hidden');
+    }
+
+    function submitPrivateFeedback() {
+        document.getElementById('privateFeedbackScreen').classList.add('hidden');
+        document.getElementById('thankYouScreen').classList.remove('hidden');
+    }
+
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) selectedKeywords = selectedKeywords.filter(k => k !== keyword);
+        else selectedKeywords.push(keyword);
+    }
+
+    // --- VOICE TO TEXT ---
+    function startListening() {
+        if (!('webkitSpeechRecognition' in window)) { alert("Use Chrome Browser for voice typing."); return; }
+        recognition = new webkitSpeechRecognition();
+        recognition.lang = document.getElementById('voiceLang').value;
+        recognition.interimResults = false;
+        document.getElementById('micBtn').classList.add('mic-active');
+        document.getElementById('statusText').innerText = "Listening...";
+        
+        recognition.onresult = (event) => {
+            voiceText = event.results[0][0].transcript;
+            document.getElementById('spokenTextDisplay').style.display = 'block';
+            document.getElementById('spokenTextDisplay').innerText = `Recorded: "${voiceText}"`;
+        };
+        recognition.onend = () => { 
+            document.getElementById('micBtn').classList.remove('mic-active'); 
+            document.getElementById('statusText').innerText = "Processing..."; 
+        };
+        recognition.start();
+    }
+
+    // ============================================
+    // 🧠 MASSIVE AI COMBINATORICS DATABASE (SHRI PLUMBING)
+    // ============================================
+    
+    const connectors = [
+        "What really stood out was that", "Additionally,", "I also noticed that", 
+        "On top of that,", "Another great thing is that", "Not to mention,", 
+        "Furthermore,", "Also,", "I must add that", "Plus,", 
+        "And more importantly,", "We were very pleased that", "To add to this,"
+    ];
+
+    const reviewDB = {
+        intros: {
+            "Professional": [
+                "I recently hired Shri Plumbing Solutions in {location}.",
+                "Booked them for a {treatment} issue and the service was highly professional.",
+                "Excellent plumbing service provided by the team in {location}.",
+                "If you need a reliable plumber for {treatment}, Shri Plumbing Solutions is the right place.",
+                "Very professional execution of plumbing work at my home.",
+                "I engaged them for {treatment} and was thoroughly impressed.",
+                "Top quality plumbing solutions delivered during their visit in {location}.",
+                "Found them to be the most professional plumbers in {location}.",
+                "They handled our {treatment} project systematically.",
+                "Reliable and skilled plumbers operating in the {location} area.",
+                "Recently utilized their services for {treatment} and am extremely satisfied.",
+                "For anyone needing expert plumbing in {location}, they are great.",
+                "I am writing this review to commend their professionalism.",
+                "Our experience with the Shri Plumbing team in {location} was seamless."
+            ],
+            "Happy": [
+                "So relieved I found them! My {treatment} issue is finally fixed.",
+                "Amazing work by Shri Plumbing Solutions in {location}! 😃",
+                "Just got my {treatment} sorted by them, super happy!",
+                "Best plumber bhai in {location}!",
+                "They fixed my {treatment} problem exactly how I wanted.",
+                "So happy with the clean and neat plumbing work they did.",
+                "Very polite and talented plumbers in {location}.",
+                "Loved the clean work! Best in the Pimpri Chinchwad area.",
+                "My home's plumbing runs smooth now thanks to their work.",
+                "Super friendly team and great results for our {treatment}.",
+                "Thanks for the quick fix in {location}!",
+                "Wow! The service they provided for {treatment} is stunning.",
+                "Such nice people and amazing plumbing skills.",
+                "Totally loved their fast service in {location}!"
+            ],
+            "Short": [
+                "Best plumber in {location}.",
+                "Good {treatment} work done.",
+                "Professional plumbing service.",
+                "Nice pipe work.",
+                "Recommended plumber in {location}.",
+                "Affordable and good.",
+                "Fast service for {treatment}.",
+                "Best for home repair.",
+                "Quality plumbing work.",
+                "Five stars for Shri Plumbing.",
+                "Great job in {location}.",
+                "Skilled plumber.",
+                "Good finishing.",
+                "Reliable contractor."
+            ],
+            "Grateful": [
+                "I am really thankful to Shri Plumbing Solutions for the urgent {treatment} work.",
+                "They saved my house from a major issue with quick repair in {location}.",
+                "Grateful for the honest pricing and good work.",
+                "Thanks a lot for fixing the {treatment} issue so perfectly.",
+                "Appreciate the hard work put in by the plumbers.",
+                "Thank you for completing the {treatment} on time.",
+                "So glad I found an honest plumber in {location}.",
+                "Thanks for the perfect repair.",
+                "Really appreciate the clean finishing.",
+                "Thank you for the great plumbing service.",
+                "My sincere thanks to the team in {location}.",
+                "I appreciate how they handled my {treatment} emergency.",
+                "Big thanks for the affordable rate.",
+                "Grateful for the excellent craftsmanship."
+            ]
+        },
+        
+        keywords: {
+            "Best Plumber": [
+                "Undoubtedly the best plumber in {location}.",
+                "If you need the best plumber, look no further.",
+                "I can confidently say they are the best plumber around.",
+                "Top rated and easily the best plumber service."
+            ],
+            "Best Plumbing Service": [
+                "They offer the best plumbing service in {location}.",
+                "Highly reliable and best plumbing service.",
+                "Experience the best plumbing service with them.",
+                "For any issues, this is the best plumbing service available."
+            ],
+            "Emergency Plumber": [
+                "I needed an emergency plumber and they arrived quickly.",
+                "Best emergency plumber in {location}.",
+                "Highly responsive emergency plumber.",
+                "If you have a crisis, they are the right emergency plumber to call."
+            ],
+            "Emergency Drain Unblocking": [
+                "They quickly did the emergency drain unblocking.",
+                "Best service for emergency drain unblocking.",
+                "Highly recommend them for emergency drain unblocking.",
+                "My sink was choked and they handled the emergency drain unblocking perfectly."
+            ],
+            "24 Hour Plumber": [
+                "It's a relief to have a 24 hour plumber in {location}.",
+                "They act as a true 24 hour plumber.",
+                "Highly reliable 24 hour plumber.",
+                "Best 24 hour plumber service whenever you need them."
+            ],
+            "Affordable Rates": [
+                "Their services are available at very affordable rates.",
+                "Got premium plumbing work done at affordable rates.",
+                "Very honest and affordable rates compared to others.",
+                "Pocket-friendly and affordable rates."
+            ],
+            "Professional Work": [
+                "The plumber did highly professional work.",
+                "Very neat, clean, and professional work.",
+                "I am impressed by their professional work ethic.",
+                "They maintain high standards of professional work."
+            ],
+            "Clean Execution": [
+                "They ensure clean execution without messing up the house.",
+                "Appreciate the clean execution and post-repair cleanup.",
+                "Very hygienic and clean execution of the plumbing job.",
+                "Zero mess left behind, totally clean execution."
+            ],
+            "Experienced Staff": [
+                "The experienced staff diagnosed the issue immediately.",
+                "Very polite and experienced staff.",
+                "You can trust their highly experienced staff.",
+                "The experienced staff made the complex job look easy."
+            ],
+            "Fast Service": [
+                "I was amazed by their fast service.",
+                "They completed the repair with very fast service.",
+                "Fast service and quick resolution of the problem.",
+                "Appreciate the incredibly fast service."
+            ],
+            "Mr. Dhande": [
+                "Owner Mr. Dhande was very responsive and helpful.",
+                "Mr. Dhande managed the team well and was very responsive.",
+                "Special thanks to the owner, Mr. Dhande, who was very responsive.",
+                "I must appreciate that the owner Mr. Dhande was very responsive."
+            ]
+        },
+
+        outros: {
+            "Professional": [
+                "Highly recommended for quality plumbing in {location}.",
+                "The best choice for plumbing contracts.",
+                "They ensure top-notch finishing and timely delivery.",
+                "Will definitely hire them again for future projects.",
+                "A trustworthy name for plumbing in {location}.",
+                "Professionalism at its best.",
+                "Great value for money service.",
+                "Satisfied with the overall execution.",
+                "Best wishes to the business.",
+                "Do try them for premium fittings.",
+                "They are setting high standards in {location}.",
+                "You can trust them for any large project.",
+                "A reliable partner for home maintenance.",
+                "Their dedication to quality is commendable."
+            ],
+            "Happy": [
+                "Will call you guys again! 👍",
+                "Best in {location}, hands down!",
+                "Loving my leak-free home! 😍",
+                "Keep up the great work!",
+                "Don't look anywhere else for plumbing.",
+                "Super satisfied!",
+                "Cheers to the team!",
+                "Will recommend to my neighbors.",
+                "Thanks again!",
+                "You guys are the best.",
+                "Totally worth it!",
+                "Very happy with the promptness.",
+                "Love the team's vibe.",
+                "See you soon for the next maintenance."
+            ],
+            "Short": [
+                "Recommended.", "Good job.", "5 Stars.", "Must try.", "Great work.",
+                "Best in {location}.", "Nice finishing.", "Happy customer.", "Thank you.",
+                "Top quality.", "Superb.", "Well done.", "Highly rated.", "Good service."
+            ],
+            "Grateful": [
+                "Thanks once again.", "God bless the team.", "Really appreciate the help.",
+                "I will always recommend you.", "Thanks for being so helpful.", "Grateful for the service.",
+                "Thanks for the fair price.", "So happy with the result.", "Thank you for the support.",
+                "Much appreciated.", "Heartfelt thanks.", "Thanks for solving my problem.",
+                "Appreciate the quick response.", "Thank you for the honesty."
+            ]
+        }
+    };
+
+    // --- GENERATION ENGINE ---
+    async function generateReview() {
+        const btn = document.getElementById('generateBtn');
+        btn.innerText = "🔄 Processing...";
+        
+        const userName = document.getElementById('userName').value.trim();
+        const tone = document.getElementById('toneSelect').value;
+        let location = document.getElementById('locationSelect').value.trim();
+        if(!location) location = "my area";
+        
+        const dropdownService = document.getElementById('serviceSelect').value;
+        const customService = document.getElementById('customService').value.trim();
+        // Custom service text overrides dropdown if typed
+        const service = customService ? customService : dropdownService;
+        
+        const manualText = document.getElementById('manualInput').value.trim();
+        let rawInput = activeMode === 'voice' ? voiceText : manualText;
+
+        if (selectedKeywords.length === 0 && !rawInput && !service) {
+            alert("Please select highlights or write/speak something.");
+            btn.innerText = "🚀 Generate Magic Review";
+            return;
+        }
+
+        // Translation Module
+        let finalBodyText = "";
+        if (rawInput && rawInput.length > 1) {
+            try {
+                const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(rawInput)}&langpair=Autodetect|en`);
+                const data = await res.json();
+                let translated = data.responseData ? data.responseData.translatedText : "";
+                if(!translated.includes("PLEASE SELECT")) finalBodyText = translated;
+                else finalBodyText = rawInput;
+            } catch(e) { finalBodyText = rawInput; }
+        }
+
+        // --- BUILDING THE UNIQUE REVIEW ---
+        let treatmentText = service ? service : "plumbing work";
+        
+        // 1. INTRO
+        let intro = getRandom(reviewDB.intros[tone]);
+        intro = intro.replace(/{location}/g, location).replace(/{treatment}/g, treatmentText);
+        if (userName) intro = `I am ${userName}. ` + intro;
+
+        // 2. MIDDLE / BODY (Shuffled & Connectors applied)
+        let body = "";
+        const shuffledKeywords = selectedKeywords.sort(() => Math.random() - 0.5);
+        
+        shuffledKeywords.forEach((k, index) => {
+            if(reviewDB.keywords[k]) {
+                let sentence = getRandom(reviewDB.keywords[k]);
+                sentence = sentence.replace(/{location}/g, location);
+                
+                if(index > 0 && Math.random() > 0.4) {
+                    sentence = getRandom(connectors) + " " + sentence.charAt(0).toLowerCase() + sentence.slice(1);
+                }
+                body += sentence + " ";
+            }
+        });
+
+        if(finalBodyText) body += " " + finalBodyText + ". ";
+
+        // 3. OUTRO
+        let outro = getRandom(reviewDB.outros[tone]);
+        outro = outro.replace(/{location}/g, location);
+
+        const finalReview = intro + " " + body + outro;
+
+        // Display
+        const box = document.getElementById('reviewOutput');
+        box.value = finalReview;
+        box.style.display = 'block';
+        box.scrollIntoView({behavior: "smooth"});
+        btn.innerText = "🚀 Generate Magic Review";
+
+        if(isOwnerMode) {
+            document.getElementById('ownerPanel').style.display = 'block';
+            document.getElementById('copyBtn').style.display = 'none';
+        } else {
+            document.getElementById('ownerPanel').style.display = 'none';
+            document.getElementById('copyBtn').style.display = 'block';
+        }
+    }
+
+    function toggleKeyword(element, keyword) {
+        element.classList.toggle('active');
+        if (selectedKeywords.includes(keyword)) selectedKeywords = selectedKeywords.filter(k => k !== keyword);
+        else selectedKeywords.push(keyword);
+    }
+
+    function getRandom(arr) { if(!arr) return ""; return arr[Math.floor(Math.random() * arr.length)]; }
+
+    function copyToClipboard() {
+        const box = document.getElementById("reviewOutput");
+        box.select();
+        document.execCommand('copy');
+        if(confirm("Review Copied! 🚰\n\nClick OK to open Google and paste.")) {
+            window.open(GOOGLE_REVIEW_LINK, '_blank');
+        }
+    }
+</script>
+
+</body>
+</html>
