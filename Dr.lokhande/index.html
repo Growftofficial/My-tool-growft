@@ -100,6 +100,7 @@
         .logo-container img {
             height: 48px;
             margin-right: 12px;
+            transition: 0.3s;
         }
 
         .brand-text h2 {
@@ -107,6 +108,7 @@
             font-weight: 800;
             color: var(--text-dark);
             line-height: 1;
+            transition: 0.3s;
         }
 
         .brand-text p {
@@ -114,6 +116,7 @@
             color: var(--accent-gold-dark);
             font-weight: 600;
             margin-top: 3px;
+            transition: 0.3s;
         }
 
         .header-phone {
@@ -129,6 +132,7 @@
             align-items: center;
             gap: 8px;
             transition: 0.3s;
+            white-space: nowrap; /* Prevents text from breaking into two lines */
         }
         .header-phone:hover {
             background: var(--accent-gold);
@@ -807,7 +811,7 @@
             transition: 0.3s;
         }
 
-        .sticky-btn:hover { transform: scale(1.1); }
+        .sticky-btn:hover { transform: scale(1.1); color: #fff;}
         .sticky-whatsapp { background: var(--btn-green); }
         .sticky-call { background: var(--accent-blue); }
 
@@ -829,6 +833,29 @@
             .curriculum-grid, .test-grid, .bonus-grid { grid-template-columns: 1fr; }
             .stats-grid { grid-template-columns: 1fr; margin-top: 20px; }
             .footer-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            /* Mobile adjustments */
+            .announcement-bar { font-size: 11px; padding: 8px 10px; }
+            
+            /* Fixing Header Wrapping Issue */
+            .header-content { 
+                flex-wrap: nowrap; 
+                gap: 10px;
+            }
+            .logo-container img { height: 36px; margin-right: 8px; }
+            .brand-text h2 { font-size: 15px; }
+            .brand-text p { font-size: 9px; margin-top: 1px;}
+            .header-phone { 
+                font-size: 12px; 
+                padding: 6px 12px; 
+                white-space: nowrap; /* Forces text to stay on one line */
+            }
+
+            .hero h1 { font-size: 28px; margin-bottom: 15px;}
+            .hero p.subheadline { font-size: 15px; }
+            .cta-btn { font-size: 15px; padding: 14px 24px; width: 100%; }
+            .section-title h2 { font-size: 28px; }
         }
     </style>
 </head>
@@ -1012,7 +1039,7 @@
                 </div>
 
                 <a href="https://wa.me/919762972688?text=Hello%20CheckMate%20Academy!%20I%20want%20to%20register%20and%20claim%20all%204%20Free%20Bonuses." class="cta-btn" target="_blank">
-                    <i class="fab fa-whatsapp"></i> CLAIM ALL BONUSES & REGISTER FREE
+                    CLAIM ALL BONUSES & REGISTER FREE
                 </a>
             </div>
         </div>
@@ -1391,5 +1418,3 @@
     </script>
 </body>
 </html>
-"""
-
