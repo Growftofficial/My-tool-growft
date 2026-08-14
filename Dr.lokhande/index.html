@@ -4,6 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkmate InvesTrado Academy - Free Live Stock Market Workshop</title>
+    
+    <!-- SEO & Open Graph Tags -->
+    <meta name="description" content="Stop Gambling with Your Capital. Join Checkmate InvesTrado Academy's Free Live Stock Market Workshop and master Intraday & Swing Trading.">
+    <meta name="keywords" content="Stock market workshop, free trading class, intraday trading course, Checkmate InvesTrado Academy, share market training Pune">
+    <meta property="og:title" content="Free Live Stock Market Workshop - Checkmate Academy">
+    <meta property="og:description" content="Master Logical, High-Probability Stock Trading. Claim your free seat and bonuses worth ₹9,500+ today.">
+    <meta property="og:image" content="https://github.com/Wealthmaster/Website/blob/main/CheckMate%20New%20Logo-05.png?raw=true">
+    <meta property="og:url" content="https://yourwebsite.com"> <!-- Yahan apni website ka actual link daal dena -->
+    <meta property="og:type" content="website">
+
+    <!-- Meta Pixel Code (Replace 'YOUR_PIXEL_ID' with your actual ID) -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'YOUR_PIXEL_ID'); // <-- APNA PIXEL ID YAHAN DAAL
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+
     <!-- High-Converting Poppins Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -119,7 +147,7 @@
         }
 
         .hero h1 {
-            font-size: 42px;
+            font-size: 38px; /* Slightly adjusted to fit the longer new headline well */
             font-weight: 800;
             max-width: 950px;
             margin: 0 auto 15px auto;
@@ -164,7 +192,9 @@
 
         .btn-group {
             display: flex;
-            gap: 20px;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
             flex-wrap: wrap;
             justify-content: center;
         }
@@ -197,18 +227,6 @@
         .cta-btn i {
             margin-right: 10px;
             font-size: 22px;
-        }
-        
-        .cta-btn.secondary {
-            background: var(--bg-white);
-            color: var(--accent-blue);
-            border: 2px solid var(--accent-blue);
-            box-shadow: none;
-        }
-        
-        .cta-btn.secondary:hover {
-            background: var(--accent-blue);
-            color: var(--bg-white);
         }
 
         /* NEW PREMIUM HERO CTA BUTTON */
@@ -259,7 +277,7 @@
             50% { transform: translateY(4px); }
         }
 
-        /* STATS SECTION (GAP REDUCED) */
+        /* STATS SECTION */
         .stats-section {
             padding: 0 0 40px 0;
             background: var(--bg-white);
@@ -268,7 +286,7 @@
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 15px; /* Reduced gap */
+            gap: 15px; 
             max-width: 1000px;
             margin: -40px auto 0 auto;
             position: relative;
@@ -402,7 +420,7 @@
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minrange(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
         }
 
@@ -507,7 +525,7 @@
             margin-right: 10px;
         }
 
-        /* 8. WHAT WILL CHANGE (TRANSFORMATION) */
+        /* 8. WHAT WILL CHANGE */
         .transformation-section {
             padding: 50px 0;
             background: var(--bg-white);
@@ -515,7 +533,7 @@
 
         .transform-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minrange(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
         }
 
@@ -552,7 +570,7 @@
             margin: 0;
         }
 
-        /* 9. WHO IS THIS DESIGNED FOR? */
+        /* 9. WHO IS THIS FOR */
         .audience-section {
             padding: 50px 0;
             background: var(--bg-cream);
@@ -560,7 +578,7 @@
 
         .audience-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minrange(260px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 15px;
         }
 
@@ -673,7 +691,7 @@
             margin: 0;
         }
 
-        /* 11. TESTIMONIALS & REVIEWS */
+        /* 11. TESTIMONIALS */
         .testimonials-section {
             padding: 50px 0;
             background: var(--bg-cream);
@@ -868,39 +886,31 @@
 
         /* RESPONSIVE DESIGN */
         @media (max-width: 992px) {
-            .hero h1 { font-size: 34px; }
+            .hero h1 { font-size: 30px; }
             .hero-grid, .coach-grid { grid-template-columns: 1fr; text-align: center; }
             .curriculum-grid, .test-grid, .bonus-grid { grid-template-columns: 1fr; }
             .stats-grid { grid-template-columns: 1fr; margin-top: -30px; }
             .footer-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 768px) {
-            /* Mobile adjustments */
             .announcement-bar { font-size: 11px; padding: 8px 10px; }
-            
-            .header-content { 
-                flex-wrap: nowrap; 
-                gap: 10px;
-                justify-content: center;
-            }
+            .header-content { flex-wrap: nowrap; gap: 10px; justify-content: center; }
             .logo-container img { height: 36px; margin-right: 8px; }
             .brand-text h2 { font-size: 16px; }
 
-            .hero { padding: 30px 0 35px 0; } /* Reduced bottom padding */
-            .hero h1 { font-size: 26px; margin-bottom: 12px;}
+            .hero { padding: 30px 0 35px 0; }
+            .hero h1 { font-size: 24px; margin-bottom: 12px;}
             .hero p.subheadline { font-size: 14px; margin-bottom: 20px;}
             .video-wrapper { margin-bottom: 20px; }
             
-            /* Enhanced Mobile CTA */
             .hero-cta { font-size: 14px; padding: 14px 20px; width: 100%; display: flex; justify-content: center;}
             .btn-vector { width: 20px; height: 22px; margin-right: 8px;}
             
             .section-title h2 { font-size: 24px; }
             .section-title { margin-bottom: 20px; }
             
-            /* TIGHT MOBILE GAP BETWEEN CTA BUTTON AND STATS CARDS */
             .stats-section { padding: 0 0 30px 0; }
-            .stats-grid { gap: 12px; margin-top: -25px; } /* Pull stats cards up under CTA button */
+            .stats-grid { gap: 12px; margin-top: -25px; } 
             .stat-card { padding: 14px 16px; gap: 12px; }
             
             .curriculum-section, .why-attend-section, .bonus-section, .transformation-section, .audience-section, .coach-section, .testimonials-section, .faq-section {
@@ -932,25 +942,28 @@
     <section class="hero">
         <div class="container">
             <div class="hero-content reveal">
-                <h1>Stop Gambling with Your Capital. <br>Master <span>Logical, High-Probability</span> Stock Trading.</h1>
+                <h1>Don’t take that much risk that you get broke, but at least take as much risk as the <span>Win is Meaningful.</span></h1>
                 <p class="subheadline">Discover the exact step-by-step framework to navigate Intraday, Swing, and Long-Term Investing with institutional confidence.</p>
                 
                 <!-- PROMOTIONAL VIDEO -->
                 <div class="video-wrapper">
-                    <!-- YouTube Video Embed Placeholder -->
                     <iframe src="https://www.youtube.com/embed/UCkAGy1KFgmfaWXqqCJyil-g" title="Checkmate Promotional Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
 
                 <div class="btn-group">
-                    <a href="https://wa.me/91918830204114?text=Hello%20CheckMate%20Academy!%20I%20want%20to%20register%20for%20the%20Free%20Live%20Workshop.%20Please%20reserve%20my%20spot." class="cta-btn hero-cta" target="_blank">
-                        <!-- Custom Illustrator-style SVG Vector Arrow/Cursor -->
+                    <a href="https://wa.me/918830204114?text=Hello%20CheckMate%20Academy!%20I%20want%20to%20register%20for%20the%20Free%20Live%20Workshop.%20Please%20reserve%20my%20spot." class="cta-btn hero-cta" target="_blank" onclick="fbq('track', 'Lead');">
+                        <!-- Custom SVG Arrow -->
                         <svg class="btn-vector" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                           <circle cx="12" cy="12" r="10"></circle>
                           <polyline points="8 12 12 16 16 12"></polyline>
                           <line x1="12" y1="8" x2="12" y2="16"></line>
                         </svg>
-                        REGISTER FOR FREE BELOW THE VIDEO
+                        🚀 REGISTER FOR FREE NOW
                     </a>
+                    <!-- URGENCY ELEMENT ADDED -->
+                    <p style="font-size: 13px; color: var(--accent-red); margin-top: 15px; font-weight: 600;">
+                        <i class="fas fa-fire"></i> Hurry! Only 12 Free Seats Remaining Today
+                    </p>
                 </div>
             </div>
         </div>
@@ -982,6 +995,7 @@
             </div>
         </div>
     </section>
+
     <!-- 4. COURSE CURRICULUM -->
     <section class="curriculum-section">
         <div class="container">
@@ -1091,12 +1105,13 @@
                     Total Value: <span>₹9,500+</span> Your Price Today: FREE (For Limited Participants)
                 </div>
 
-                <a href="https://wa.me/91918830204114?text=Hello%20CheckMate%20Academy!%20I%20want%20to%20register%20and%20claim%20all%204%20Free%20Bonuses." class="cta-btn" target="_blank">
+                <a href="https://wa.me/918830204114?text=Hello%20CheckMate%20Academy!%20I%20want%20to%20register%20and%20claim%20all%204%20Free%20Bonuses." class="cta-btn" target="_blank" onclick="fbq('track', 'Lead');">
                     CLAIM ALL BONUSES & REGISTER FREE
                 </a>
             </div>
         </div>
     </section>
+
     <!-- 8. WHAT WILL CHANGE IN YOUR TRADING? -->
     <section class="transformation-section">
         <div class="container">
@@ -1353,7 +1368,7 @@
     <section class="final-cta-section" id="register">
         <div class="container reveal">
             <h2>Ready to Elevate Your Stock Market Journey?</h2>
-            <a href="https://wa.me/91918830204114?text=Hello%20CheckMate%20Academy!%20I%20want%20to%20claim%20my%20Free%20Seat%20and%20all%204%20bonuses." class="cta-btn" target="_blank">
+            <a href="https://wa.me/918830204114?text=Hello%20CheckMate%20Academy!%20I%20want%20to%20claim%20my%20Free%20Seat%20and%20all%204%20bonuses." class="cta-btn" target="_blank" onclick="fbq('track', 'Lead');">
                 🚀 CLAIM MY FREE SEAT & ALL BONUSES NOW
             </a>
         </div>
@@ -1398,10 +1413,10 @@
 
     <!-- STICKY WHATSAPP & CALL BUTTONS -->
     <div class="sticky-contact-container">
-        <a href="https://wa.me/918830204114?text=Hello%20CheckMate%20Academy!%20I%20want%20to%20join%20the%20Free%20Live%20Workshop." class="sticky-btn sticky-whatsapp" target="_blank" aria-label="WhatsApp Us">
+        <a href="https://wa.me/918830204114?text=Hello%20CheckMate%20Academy!%20I%20want%20to%20join%20the%20Free%20Live%20Workshop." class="sticky-btn sticky-whatsapp" target="_blank" aria-label="WhatsApp Us" onclick="fbq('track', 'Contact');">
             <i class="fab fa-whatsapp"></i>
         </a>
-        <a href="tel:+91918830204114" class="sticky-btn sticky-call" aria-label="Call Us">
+        <a href="tel:+918830204114" class="sticky-btn sticky-call" aria-label="Call Us" onclick="fbq('track', 'Contact');">
             <i class="fas fa-phone-alt"></i>
         </a>
     </div>
@@ -1423,11 +1438,16 @@
         window.addEventListener("scroll", reveal);
         reveal();
 
-        // FAQ Accordion Toggle
+        // FAQ Accordion Toggle - Fixed to close other open items
         const faqItems = document.querySelectorAll('.faq-item');
         faqItems.forEach(item => {
             const question = item.querySelector('.faq-question');
             question.addEventListener('click', () => {
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                    }
+                });
                 item.classList.toggle('active');
             });
         });
