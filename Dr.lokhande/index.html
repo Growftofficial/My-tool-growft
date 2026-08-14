@@ -147,7 +147,7 @@
         }
 
         .hero h1 {
-            font-size: 38px; /* Slightly adjusted to fit the longer new headline well */
+            font-size: 38px;
             font-weight: 800;
             max-width: 950px;
             margin: 0 auto 15px auto;
@@ -412,7 +412,7 @@
             top: 2px;
         }
 
-        /* 5. WHY ATTEND WORKSHOP */
+        /* 5. WHY ATTEND WORKSHOP (WITH GLOWING BORDER) */
         .why-attend-section {
             padding: 50px 0;
             background: var(--bg-white);
@@ -428,14 +428,19 @@
             background: var(--bg-cream);
             padding: 25px;
             border-radius: var(--radius-md);
-            border-left: 4px solid var(--accent-blue);
+            border: 2px solid var(--accent-blue);
+            animation: feature-glow-pulse 2.5s infinite alternate;
             transition: 0.3s;
         }
 
         .feature-item:hover {
             background: var(--bg-white);
-            box-shadow: var(--shadow-md);
             transform: translateY(-3px);
+        }
+
+        @keyframes feature-glow-pulse {
+            0% { box-shadow: 0 0 8px rgba(30, 58, 138, 0.3); }
+            100% { box-shadow: 0 0 20px rgba(30, 58, 138, 0.8); }
         }
 
         .feature-item h4 {
@@ -486,28 +491,90 @@
             margin-bottom: 30px;
         }
 
+        /* =========================================
+           BONUS VISUAL HIERARCHY (Rank 1 to 4) 
+           ========================================= */
         .bonus-card {
-            background: var(--bg-cream);
-            padding: 18px;
-            border-radius: var(--radius-sm);
-            border: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+            padding: 22px 18px;
+            border-radius: var(--radius-md);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-top: 15px; /* Badge spacing */
+            transition: 0.3s;
         }
 
         .bonus-card h4 {
-            font-size: 15px;
-            color: var(--accent-blue);
             margin-bottom: 5px;
         }
 
         .bonus-card span.value {
             display: inline-block;
             font-weight: 700;
-            color: var(--accent-red);
             font-size: 12px;
-            background: rgba(227, 30, 36, 0.1);
             padding: 2px 10px;
             border-radius: 12px;
+            width: fit-content;
         }
+
+        .bonus-badge {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            font-size: 11px;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-weight: 800;
+            text-transform: uppercase;
+            white-space: nowrap;
+            letter-spacing: 0.5px;
+            z-index: 5;
+        }
+
+        /* Rank 1: Top Priority (Premium Dark + Gold Glow) */
+        .rank-1 {
+            background: linear-gradient(135deg, #111827 0%, #1e3a8a 100%);
+            border: 2px solid var(--accent-gold);
+            box-shadow: 0 0 25px rgba(223, 169, 41, 0.5);
+            transform: scale(1.02); 
+        }
+        .rank-1:hover { transform: scale(1.04); }
+        .rank-1 h4 { color: #ffffff !important; font-size: 18px !important; }
+        .rank-1 .value { background: var(--accent-gold) !important; color: #000 !important; }
+        .badge-1 { background: var(--accent-red); box-shadow: 0 4px 10px rgba(227, 30, 36, 0.5); }
+
+        /* Rank 2: High Priority (White + Blue Border) */
+        .rank-2 {
+            background: var(--bg-white);
+            border: 2px solid var(--accent-blue);
+            box-shadow: 0 8px 20px rgba(30, 58, 138, 0.15);
+        }
+        .rank-2:hover { transform: translateY(-3px); }
+        .rank-2 h4 { color: var(--accent-blue) !important; font-size: 16px !important; }
+        .rank-2 .value { background: rgba(227, 30, 36, 0.1) !important; color: var(--accent-red) !important; }
+        .badge-2 { background: var(--accent-blue); box-shadow: 0 4px 10px rgba(30, 58, 138, 0.3); }
+
+        /* Rank 3: Medium Priority (Standard Cream) */
+        .rank-3 {
+            background: var(--bg-cream);
+            border: 1px solid rgba(30, 58, 138, 0.3);
+        }
+        .rank-3:hover { background: var(--bg-white); box-shadow: var(--shadow-sm); }
+        .rank-3 h4 { color: var(--text-dark) !important; font-size: 15px !important; }
+        .rank-3 .value { background: rgba(227, 30, 36, 0.1) !important; color: var(--accent-red) !important; }
+
+        /* Rank 4: Base Priority (Faded Look) */
+        .rank-4 {
+            background: var(--bg-subtle);
+            border: 1px dashed rgba(0,0,0,0.2);
+            opacity: 0.85; 
+        }
+        .rank-4:hover { opacity: 1; border-color: rgba(0,0,0,0.4); }
+        .rank-4 h4 { color: var(--text-muted) !important; font-size: 14px !important; }
+        .rank-4 .value { background: rgba(0,0,0,0.05) !important; color: var(--text-muted) !important; }
 
         .bonus-total {
             background: var(--accent-blue);
@@ -525,7 +592,29 @@
             margin-right: 10px;
         }
 
-        /* 8. WHAT WILL CHANGE */
+        /* GLOWING BUTTON EFFECT FOR BONUS SECTION */
+        .bonus-cta-btn {
+            border: 2px solid #4ade80;
+            box-shadow: 0 0 15px rgba(37, 211, 102, 0.6);
+            animation: glow-pulse 1.5s infinite alternate;
+            flex-direction: column;
+            line-height: 1.4;
+            text-align: center;
+            padding: 12px 36px;
+            display: inline-flex;
+        }
+
+        .bonus-cta-btn span {
+            display: block;
+            white-space: nowrap;
+        }
+
+        @keyframes glow-pulse {
+            0% { box-shadow: 0 0 10px rgba(37, 211, 102, 0.5), inset 0 0 5px rgba(37, 211, 102, 0.2); border-color: #4ade80; }
+            100% { box-shadow: 0 0 25px rgba(37, 211, 102, 1), inset 0 0 12px rgba(37, 211, 102, 0.5); border-color: #bbf7d0; }
+        }
+
+        /* 8. WHAT WILL CHANGE (WITH GLOWING BORDER) */
         .transformation-section {
             padding: 50px 0;
             background: var(--bg-white);
@@ -542,13 +631,19 @@
             padding: 25px 20px;
             border-radius: var(--radius-md);
             text-align: center;
-            box-shadow: var(--shadow-sm);
             transition: 0.3s;
+            /* Gold Glowing Border */
+            border: 2px solid var(--accent-gold);
+            animation: transform-glow-pulse 2.5s infinite alternate;
+        }
+
+        @keyframes transform-glow-pulse {
+            0% { box-shadow: 0 0 8px rgba(223, 169, 41, 0.3); }
+            100% { box-shadow: 0 0 20px rgba(223, 169, 41, 0.8); }
         }
 
         .transform-card:hover {
             transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
             background: var(--bg-white);
         }
 
@@ -570,7 +665,7 @@
             margin: 0;
         }
 
-        /* 9. WHO IS THIS FOR */
+        /* 9. WHO IS THIS FOR (WITH GLOWING BORDER) */
         .audience-section {
             padding: 50px 0;
             background: var(--bg-cream);
@@ -579,40 +674,54 @@
         .audience-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 15px;
+            gap: 20px;
         }
 
         .audience-card {
             background: var(--bg-white);
-            padding: 18px;
+            padding: 30px 20px;
             border-radius: var(--radius-md);
             display: flex;
+            flex-direction: column;
             align-items: center;
+            text-align: center;
             gap: 15px;
-            box-shadow: var(--shadow-sm);
+            transition: 0.3s;
+            /* Blue Glowing Border */
+            border: 2px solid var(--accent-blue);
+            animation: audience-glow-pulse 2.5s infinite alternate;
+        }
+        
+        @keyframes audience-glow-pulse {
+            0% { box-shadow: 0 0 8px rgba(30, 58, 138, 0.3); }
+            100% { box-shadow: 0 0 20px rgba(30, 58, 138, 0.8); }
+        }
+
+        .audience-card:hover {
+            transform: translateY(-3px);
         }
 
         .audience-icon {
-            width: 45px;
-            height: 45px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             background: rgba(30, 58, 138, 0.08);
             color: var(--accent-blue);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 28px;
             flex-shrink: 0;
         }
 
         .audience-text h4 {
-            font-size: 14px;
+            font-size: 16px;
             color: var(--text-dark);
-            margin-bottom: 2px;
+            margin-bottom: 6px;
         }
 
         .audience-text p {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--text-muted);
             margin: 0;
         }
@@ -691,7 +800,7 @@
             margin: 0;
         }
 
-        /* 11. TESTIMONIALS */
+        /* 11. TESTIMONIALS (WITH GLOWING BORDER) */
         .testimonials-section {
             padding: 50px 0;
             background: var(--bg-cream);
@@ -707,8 +816,14 @@
             background: var(--bg-white);
             padding: 30px;
             border-radius: var(--radius-md);
-            box-shadow: var(--shadow-sm);
             position: relative;
+            border: 2px solid var(--accent-gold);
+            animation: review-glow-pulse 2.5s infinite alternate;
+        }
+
+        @keyframes review-glow-pulse {
+            0% { box-shadow: 0 0 8px rgba(223, 169, 41, 0.3); }
+            100% { box-shadow: 0 0 20px rgba(223, 169, 41, 0.8); }
         }
 
         .stars {
@@ -891,6 +1006,7 @@
             .curriculum-grid, .test-grid, .bonus-grid { grid-template-columns: 1fr; }
             .stats-grid { grid-template-columns: 1fr; margin-top: -30px; }
             .footer-grid { grid-template-columns: 1fr; }
+            .rank-1 { transform: scale(1); } /* Stop scale on tablet to prevent overflow */
         }
         @media (max-width: 768px) {
             .announcement-bar { font-size: 11px; padding: 8px 10px; }
@@ -912,6 +1028,14 @@
             .stats-section { padding: 0 0 30px 0; }
             .stats-grid { gap: 12px; margin-top: -25px; } 
             .stat-card { padding: 14px 16px; gap: 12px; }
+
+            .bonus-cta-btn {
+                font-size: 14px !important; 
+                padding: 12px 10px !important; 
+                width: 100%; 
+                max-width: 320px; 
+                margin: 0 auto; 
+            }
             
             .curriculum-section, .why-attend-section, .bonus-section, .transformation-section, .audience-section, .coach-section, .testimonials-section, .faq-section {
                 padding: 35px 0;
@@ -1083,19 +1207,28 @@
                 </div>
 
                 <div class="bonus-grid">
-                    <div class="bonus-card">
+                    <!-- RANK 1: Highest Priority -->
+                    <div class="bonus-card rank-1">
+                        <div class="bonus-badge badge-1"><i class="fas fa-crown"></i> Most Valuable</div>
                         <h4>Bonus 1: Trading & Investment E-Books Collection</h4>
                         <span class="value">Worth ₹2,000</span>
                     </div>
-                    <div class="bonus-card">
+                    
+                    <!-- RANK 2: Second Priority -->
+                    <div class="bonus-card rank-2">
+                        <div class="bonus-badge badge-2"><i class="fas fa-star"></i> High Demand</div>
                         <h4>Bonus 2: Proven Intraday Strategies Playbook</h4>
                         <span class="value">Worth ₹2,500</span>
                     </div>
-                    <div class="bonus-card">
+                    
+                    <!-- RANK 3: Third Priority -->
+                    <div class="bonus-card rank-3">
                         <h4>Bonus 3: High-Conviction Long-Term Stock Watchlist</h4>
                         <span class="value">Priceless</span>
                     </div>
-                    <div class="bonus-card">
+                    
+                    <!-- RANK 4: Fourth Priority -->
+                    <div class="bonus-card rank-4">
                         <h4>Bonus 4: Step-by-Step Trading & Investment Roadmap PDF</h4>
                         <span class="value">Worth ₹5,000</span>
                     </div>
@@ -1105,9 +1238,12 @@
                     Total Value: <span>₹9,500+</span> Your Price Today: FREE (For Limited Participants)
                 </div>
 
-                <a href="https://wa.me/918830204114?text=Hello%20CheckMate%20Academy!%20I%20want%20to%20register%20and%20claim%20all%204%20Free%20Bonuses." class="cta-btn" target="_blank" onclick="fbq('track', 'Lead');">
-                    CLAIM ALL BONUSES & REGISTER FREE
-                </a>
+                <div class="bonus-btn-container" style="display: flex; justify-content: center;">
+                    <a href="https://wa.me/918830204114?text=Hello%20CheckMate%20Academy!%20I%20want%20to%20register%20and%20claim%20all%204%20Free%20Bonuses." class="cta-btn bonus-cta-btn" target="_blank" onclick="fbq('track', 'Lead');">
+                        <span>CLAIM ALL BONUSES &</span>
+                        <span>REGISTER FREE</span>
+                    </a>
+                </div>
             </div>
         </div>
     </section>
