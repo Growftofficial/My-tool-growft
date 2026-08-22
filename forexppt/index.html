@@ -175,7 +175,7 @@
     <button class="nav-btn right" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
     
     <div class="bottom-counter" id="slideCounter" title="Click to Fast Jump">
-        <span>00 / 11</span> <i class="fas fa-th" style="color: #00BFFF;"></i>
+        <span>00 / 00</span> <i class="fas fa-th" style="color: #00BFFF;"></i>
     </div>
 
     <!-- FAST JUMP MODAL -->
@@ -204,8 +204,20 @@
     </div>
 
     <script>
-        // Data Array specifically for SMC & News Analysis
+        // Data Array specifically for SMC & News Analysis (UPDATED)
         const masterclassSlides = [
+            {
+                title: "The Forex Landscape",
+                desc: "Before understanding Smart Money Concepts, we must know where the liquidity is. The market is vast, but institutions focus heavily on a select few pairs.",
+                bullets: [
+                    "Total Currency Pairs: 128 (Includes exotics & emerging markets).",
+                    "Medium Pairs: 28 (Cross pairs like EUR/GBP, GBP/JPY).",
+                    "The 7 Major Pairs: EUR/USD, USD/JPY, GBP/USD, USD/CHF, AUD/USD, USD/CAD, NZD/USD."
+                ],
+                exampleTitle: "Why Trade The Majors?",
+                exampleText: "The 7 major pairs all include the US Dollar. They offer the tightest spreads, massive daily volume, and most reliable SMC setups because they are heavily manipulated by central banks.",
+                image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=800&q=80"
+            },
             {
                 title: "What is SMC?",
                 desc: "Smart Money Concepts (SMC) is a structural methodology that tracks the footprint of institutional banks rather than relying on lagging indicators.",
@@ -216,7 +228,7 @@
                 ],
                 exampleTitle: "Retail vs Institutional Mindset",
                 exampleText: "When retail sees a 'Double Bottom' and buys, institutions see a pool of stop-losses below it. They push price down to sweep those stops before moving up.",
-                image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=800&q=80"
+                image: "https://images.unsplash.com/photo-1535320903710-d993d3d77d29?auto=format&fit=crop&w=800&q=80"
             },
             {
                 title: "Liquidity Sweeps (Stop Hunts)",
@@ -255,15 +267,16 @@
                 image: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=800&q=80"
             },
             {
-                title: "High-Impact Data: NFP & CPI",
-                desc: "Not all news is created equal. In Forex, USD data rules the entire global board.",
+                title: "Major Economic Events",
+                desc: "Not all news is created equal. These key US economic indicators inject extreme volatility into the global markets.",
                 bullets: [
-                    "NFP (Non-Farm Payroll): First Friday of the month. Tracks US job creation.",
-                    "CPI (Inflation): High inflation usually means central banks will raise interest rates.",
-                    "FOMC (Interest Rates): The undisputed king of market volatility."
+                    "Employment: NFP (Non-Farm Payrolls) & Unemployment Data.",
+                    "Inflation & Growth: CPI (Consumer Price Index) & GDP (Gross Domestic Product).",
+                    "Central Bank: FOMC, Federal Rate decisions & Powell Speeches.",
+                    "Economy: Retail Sales data."
                 ],
-                exampleTitle: "Currency Correlation",
-                exampleText: "If US CPI data comes out higher than expected, the US Dollar (DXY) gets stronger. This instantly forces EUR/USD and GBP/USD to drop aggressively.",
+                exampleTitle: "The Volatility Matrix",
+                exampleText: "When the Federal Rate or FOMC decisions are announced, standard technical analysis fails. SMC traders wait for this fundamental injection to sweep liquidity before entering.",
                 image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80"
             },
             {
@@ -292,7 +305,8 @@
             }
         ];
 
-        const totalSlides = masterclassSlides.length + 3; // Hero + Profile + 7 Concepts + Q&A (Total 10)
+        // DYNAMIC SLIDE COUNTING
+        const totalSlides = masterclassSlides.length + 2; // Hero + Profile + Concepts + Q&A
         let currentSlide = 0;
         
         const dynamicSlide = document.getElementById('dynamicSlide');
@@ -301,8 +315,13 @@
         const jumpModal = document.getElementById('jumpModal');
         const jumpGrid = document.getElementById('jumpGrid');
 
-        // SETUP FAST JUMP MENU
-        const jumpTitles = ["Welcome", "Dipak Wagh", "1. What is SMC?", "2. Liquidity Sweeps", "3. OB & FVG", "4. Role of News", "5. NFP & CPI", "6. The News Trap", "7. SMC + News", "Q&A & Outro"];
+        // SETUP FAST JUMP MENU DYNAMICALLY
+        const jumpTitles = ["Welcome", "Dipak Wagh"];
+        masterclassSlides.forEach((slide, index) => {
+            jumpTitles.push(`${index + 1}. ${slide.title.split(':')[0]}`); // Add concept slides
+        });
+        jumpTitles.push("Q&A & Outro");
+
         for(let i=0; i<totalSlides; i++) {
             const btn = document.createElement('button');
             btn.className = 'jump-btn';
@@ -369,7 +388,7 @@
                                 <li><strong>Global Edge:</strong> Specializes in applying technical structure with macroeconomic news data.</li>
                             </ul>
                             
-                            <div class="highlight-box anim-item delay-4" style="font-size: 0.95rem; font-style: italic; border-left-color: #00E676; color: #fff; background: rgba(0,230,118,0.1);">
+                            <div class="highlight-box anim-item delay-4" style="font-size: 0.95rem; font-style: italic; border-left-color: #00E676; color: #fff; background: rgba(0,230,118,0.1); padding: 15px; border-left: 4px solid #00E676; border-radius: 8px;">
                                 "Your journey to financial freedom starts with a single step towards the right knowledge."
                             </div>
                         </div>
@@ -378,11 +397,35 @@
                 counterEl.querySelector('span').innerText = 'Speaker';
                 progressEl.style.width = '10%';
             }
-            else if (index >= 2 && index <= 8) {
-                // THE 7 CONCEPTS
+            else if (index === totalSlides - 1) {
+                // Q&A / OUTRO & GROWFT BRANDING
+                htmlContent = `
+                    <div style="text-align:center; height:100%; display:flex; flex-direction:column; justify-content:center; position:relative;">
+                        <i class="fas fa-comments anim-item delay-1" style="font-size: 5rem; color: #00BFFF; margin-bottom: 20px; filter: drop-shadow(0 0 20px rgba(0,191,255,0.3));"></i>
+                        <h1 class="slide-title anim-item delay-2">Open for Questions</h1>
+                        <div class="slide-desc anim-item delay-3" style="max-width:700px; margin: 0 auto 30px;">Let's discuss SMC, Liquidity, and News trading.</div>
+                        <div class="anim-item delay-4" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 20px 40px; border-radius: 20px; display: inline-block; margin: 20px auto 0;">
+                            <div style="font-family:'Outfit'; font-size:1.4rem; font-weight:700; color:#fff; margin-bottom: 10px;">Contact Us</div>
+                            <div style="color: #00E676; font-size: 1.1rem; margin-bottom: 5px;"><i class="fas fa-globe"></i> www.wealthmasteracademy.in</div>
+                            <div style="color: #cbd5e1; font-size: 1rem;"><i class="fas fa-map-marker-alt" style="color:#FF1744;"></i> New Sanghvi, Pune</div>
+                        </div>
+                        <div class="anim-item delay-4" style="font-family:'Outfit'; font-size:1.2rem; font-weight:700; color:#fff; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top:30px;">Dipak Wagh • Wealthmaster Academy</div>
+                        
+                        <!-- GROWFT BRANDING -->
+                        <div class="anim-item delay-4" style="margin-top: 40px; font-family:'Inter'; font-size:0.9rem; color:#64748b; letter-spacing:1px; display:flex; align-items:center; justify-content:center; gap:8px;">
+                            Marketed by <span style="font-family:'Outfit'; font-weight:800; color:#00BFFF; font-size:1.1rem; letter-spacing:2px; text-shadow: 0 0 10px rgba(0, 191, 255, 0.4);">GROWFT</span>
+                        </div>
+                    </div>
+                `;
+                counterEl.querySelector('span').innerText = 'Q & A';
+                progressEl.style.width = '100%';
+            }
+            else {
+                // CONCEPT SLIDES (DYNAMIC)
                 const pointIndex = index - 2;
                 const point = masterclassSlides[pointIndex];
                 const pointNum = (pointIndex + 1).toString().padStart(2, '0');
+                const totalConcepts = masterclassSlides.length.toString().padStart(2, '0');
                 
                 let bulletsHtml = point.bullets.map(b => `<li>${b}</li>`).join('');
 
@@ -406,31 +449,8 @@
                         </div>
                     </div>
                 `;
-                counterEl.querySelector('span').innerHTML = `${pointNum} / 07`;
-                progressEl.style.width = ((index) / totalSlides) * 100 + '%';
-            }
-            else if (index === 9) {
-                // Q&A / OUTRO & GROWFT BRANDING
-                htmlContent = `
-                    <div style="text-align:center; height:100%; display:flex; flex-direction:column; justify-content:center; position:relative;">
-                        <i class="fas fa-comments anim-item delay-1" style="font-size: 5rem; color: #00BFFF; margin-bottom: 20px; filter: drop-shadow(0 0 20px rgba(0,191,255,0.3));"></i>
-                        <h1 class="slide-title anim-item delay-2">Open for Questions</h1>
-                        <div class="slide-desc anim-item delay-3" style="max-width:700px; margin: 0 auto 30px;">Let's discuss SMC, Liquidity, and News trading.</div>
-                        <div class="anim-item delay-4" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 20px 40px; border-radius: 20px; display: inline-block; margin: 20px auto 0;">
-                            <div style="font-family:'Outfit'; font-size:1.4rem; font-weight:700; color:#fff; margin-bottom: 10px;">Contact Us</div>
-                            <div style="color: #00E676; font-size: 1.1rem; margin-bottom: 5px;"><i class="fas fa-globe"></i> www.wealthmasteracademy.in</div>
-                            <div style="color: #cbd5e1; font-size: 1rem;"><i class="fas fa-map-marker-alt" style="color:#FF1744;"></i> New Sanghvi, Pune</div>
-                        </div>
-                        <div class="anim-item delay-4" style="font-family:'Outfit'; font-size:1.2rem; font-weight:700; color:#fff; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top:30px;">Dipak Wagh • Wealthmaster Academy</div>
-                        
-                        <!-- GROWFT BRANDING -->
-                        <div class="anim-item delay-4" style="margin-top: 40px; font-family:'Inter'; font-size:0.9rem; color:#64748b; letter-spacing:1px; display:flex; align-items:center; justify-content:center; gap:8px;">
-                            Marketed by <span style="font-family:'Outfit'; font-weight:800; color:#00BFFF; font-size:1.1rem; letter-spacing:2px; text-shadow: 0 0 10px rgba(0, 191, 255, 0.4);">GROWFT</span>
-                        </div>
-                    </div>
-                `;
-                counterEl.querySelector('span').innerText = 'Q & A';
-                progressEl.style.width = '100%';
+                counterEl.querySelector('span').innerHTML = `${pointNum} / ${totalConcepts}`;
+                progressEl.style.width = ((index) / (totalSlides - 1)) * 100 + '%';
             }
 
             // Update Active State in Jump Menu
