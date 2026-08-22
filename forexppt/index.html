@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forex Mastery: SMC & News Analysis | Wealthmaster</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #03050a;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(0, 191, 255, 0.04), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(0, 230, 118, 0.04), transparent 25%);
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            user-select: none;
+        }
+
+        h1, h2, h3, .title-font { font-family: 'Outfit', sans-serif; }
+        
+        /* Progress Bar */
+        .progress-bar-container { position: fixed; top: 0; left: 0; width: 100%; height: 4px; background: rgba(255, 255, 255, 0.05); z-index: 2000; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, #00BFFF, #00E676); width: 0%; transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1); box-shadow: 0 0 15px rgba(0, 191, 255, 0.6); }
+
+        .presentation { position: relative; z-index: 1; width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; }
+
+        .slides-wrapper {
+            position: relative;
+            width: 95%;
+            max-width: 1400px;
+            height: 85vh;
+            max-height: 850px;
+            background: rgba(10, 14, 22, 0.75);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.9);
+            overflow: hidden;
+        }
+
+        /* ===== PERSISTENT BRANDING ===== */
+        .persistent-brand { position: absolute; top: 25px; left: 40px; z-index: 50; display: flex; align-items: center; gap: 12px; opacity: 0; transition: opacity 0.5s ease; pointer-events: none; }
+        .persistent-brand img { height: 40px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+        .persistent-brand .watermark-text { display: flex; flex-direction: column; line-height: 1.2; }
+        .persistent-brand .watermark-name { font-family: 'Outfit'; font-weight: 700; color: #fff; font-size: 1.1rem; letter-spacing: 1px; opacity: 0.9; }
+        .persistent-brand .watermark-location { font-family: 'Inter'; font-weight: 500; color: #94a3b8; font-size: 0.75rem; letter-spacing: 0.5px; }
+        .persistent-website { position: absolute; bottom: 25px; right: 40px; z-index: 50; font-family: 'Outfit'; font-size: 0.95rem; color: rgba(255, 255, 255, 0.3); letter-spacing: 1.5px; opacity: 0; transition: opacity 0.5s ease; pointer-events: none; }
+
+        #dynamicSlide { width: 100%; height: 100%; padding: 40px 50px; display: flex; flex-direction: column; position: relative; z-index: 10; }
+
+        /* ===== SCROLL ANIMATIONS ===== */
+        .slide-in-next { animation: slideNext 0.6s cubic-bezier(0.25, 1, 0.2, 1) forwards; }
+        .slide-in-prev { animation: slidePrev 0.6s cubic-bezier(0.25, 1, 0.2, 1) forwards; }
+        @keyframes slideNext { 0% { opacity: 0; transform: translateX(80px) scale(0.97); } 100% { opacity: 1; transform: translateX(0) scale(1); } }
+        @keyframes slidePrev { 0% { opacity: 0; transform: translateX(-80px) scale(0.97); } 100% { opacity: 1; transform: translateX(0) scale(1); } }
+
+        /* Typography & Layout */
+        .slide-title { font-size: clamp(2.2rem, 3.5vw, 4rem); font-weight: 800; line-height: 1.1; margin-bottom: 15px; background: linear-gradient(135deg, #FFF 0%, #cbd5e1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-title { font-size: clamp(3rem, 5vw, 5.5rem); margin-bottom: 20px;}
+        .slide-desc { font-size: clamp(1rem, 1.2vw, 1.25rem); color: #94a3b8; line-height: 1.6; margin-bottom: 20px; }
+        
+        .bg-number { position: absolute; top: -20px; right: 20px; font-size: 16rem; font-family: 'Outfit'; font-weight: 900; color: rgba(255, 255, 255, 0.025); z-index: 0; line-height: 1; pointer-events: none; }
+        .slide-content { position: relative; z-index: 1; width: 100%; height: 100%; display: flex; align-items: center; gap: 50px; }
+        .text-section { flex: 1.2; display: flex; flex-direction: column; justify-content: center; }
+        
+        /* Bullets */
+        .bullet-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+        .bullet-list li { position: relative; padding-left: 30px; font-size: 1.05rem; color: #e2e8f0; line-height: 1.5; }
+        .bullet-list li::before { content: '\f058'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; left: 0; top: 2px; color: #00BFFF; font-size: 1.1rem; }
+
+        /* Layouts */
+        .hero-layout, .profile-layout { display: flex; align-items: center; width: 100%; height: 100%; position: relative; z-index: 1; gap: 40px; }
+        .hero-layout { flex-direction: column; align-items: stretch; justify-content: center; }
+        
+        .academy-branding { display: flex; align-items: center; gap: 20px; margin-bottom: auto; }
+        .academy-branding img { height: 95px; filter: drop-shadow(0 8px 15px rgba(0,0,0,0.6)); }
+        
+        .badge-premium { display: inline-block; padding: 6px 16px; background: rgba(0, 191, 255, 0.1); border: 1px solid rgba(0, 191, 255, 0.3); color: #00BFFF; border-radius: 30px; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+
+        .profile-image-large { flex: 0.8; height: 100%; display: flex; align-items: center; justify-content: center; position: relative; }
+        .profile-image-large img { width: 350px; height: 350px; border-radius: 50%; object-fit: cover; border: 5px solid #00BFFF; box-shadow: 0 0 50px rgba(0,191,255,0.2); position: relative; z-index: 2; }
+        .profile-image-large::after { content: ''; position: absolute; width: 400px; height: 400px; background: rgba(0,191,255,0.1); border-radius: 50%; filter: blur(50px); }
+
+        /* Graphics & Images Engine */
+        .visual-section { 
+            flex: 1.1; 
+            height: 90%; 
+            border-radius: 24px; 
+            background: linear-gradient(135deg, rgba(20,25,35,0.6), rgba(5,10,15,0.8)); 
+            border: 1px solid rgba(255,255,255,0.05); 
+            display: flex; 
+            flex-direction: column;
+            position: relative; 
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.8); 
+            overflow: hidden; 
+        }
+        
+        .visual-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+            transition: transform 3s ease;
+        }
+        .slide.active .visual-image { transform: scale(1.05); }
+
+        .example-box {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(10, 14, 22, 0.85);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 230, 118, 0.3);
+            border-left: 4px solid #00E676;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            z-index: 10;
+        }
+        .example-title { font-family: 'Outfit'; font-weight: 700; color: #00E676; font-size: 1.1rem; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+        .example-text { font-size: 0.95rem; color: #e2e8f0; line-height: 1.4; }
+
+        /* Navigation & Menus */
+        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); width: 55px; height: 55px; border-radius: 50%; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-size: 20px; cursor: pointer; z-index: 1000; transition: all 0.2s; }
+        .nav-btn:hover { background: rgba(0,191,255,0.2); border-color: #00BFFF; color: #00BFFF; }
+        .nav-btn.left { left: 20px; } .nav-btn.right { right: 20px; }
+
+        .bottom-counter { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); font-family: 'Outfit'; font-size: 1.1rem; font-weight: 700; letter-spacing: 2px; color: #64748b; z-index: 1000; background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); padding: 8px 25px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+        .bottom-counter:hover { border-color: #00BFFF; color: #fff; box-shadow: 0 0 15px rgba(0,191,255,0.2); }
+
+        .jump-modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); z-index: 3000; display: none; align-items: center; justify-content: center; flex-direction: column; opacity: 0; transition: opacity 0.3s; }
+        .jump-modal.show { display: flex; opacity: 1; }
+        .jump-header { display: flex; justify-content: space-between; align-items: center; width: 90%; max-width: 1000px; margin-bottom: 20px; }
+        .jump-header h2 { font-family: 'Outfit'; color: #fff; font-size: 2rem; }
+        .jump-header button { background: transparent; border: none; color: #FF1744; font-size: 2.5rem; cursor: pointer; transition: transform 0.3s; }
+        .jump-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; width: 90%; max-width: 1000px; max-height: 70vh; overflow-y: auto; padding-right: 10px; }
+        .jump-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; padding: 12px 10px; border-radius: 10px; font-family: 'Outfit'; font-weight: 600; cursor: pointer; transition: 0.3s; font-size: 0.9rem; }
+        .jump-btn:hover, .jump-btn.active { background: rgba(0,191,255,0.15); border-color: #00BFFF; color: #00BFFF; }
+
+        /* Animations */
+        .anim-item { opacity: 0; animation: fadeUp 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        .delay-1 { animation-delay: 0.1s; } .delay-2 { animation-delay: 0.2s; } .delay-3 { animation-delay: 0.3s; } .delay-4 { animation-delay: 0.4s; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 900px) {
+            .slide-content, .profile-layout { flex-direction: column; gap: 30px; text-align: left; overflow-y: auto;}
+            .hero-layout { align-items: center; text-align: center; }
+            .academy-branding img { height: 70px; }
+            .academy-branding { margin-bottom: 20px; }
+            #dynamicSlide { padding: 25px; }
+            .persistent-brand { top: 15px; left: 20px; }
+            .persistent-brand img { height: 28px; }
+            .persistent-website { bottom: 15px; right: 20px; font-size: 0.75rem; }
+            .bg-number { display: none; }
+            .nav-btn { width: 40px; height: 40px; font-size: 16px; }
+            .visual-section { flex: none; width: 100%; min-height: 250px; }
+            .profile-image-large img { width: 200px; height: 200px; margin-top: 20px; }
+            .example-box { bottom: 10px; left: 10px; right: 10px; padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="progress-bar-container"><div class="progress-bar" id="progressBar"></div></div>
+    
+    <button class="nav-btn left" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+    <button class="nav-btn right" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+    
+    <div class="bottom-counter" id="slideCounter" title="Click to Fast Jump">
+        <span>00 / 11</span> <i class="fas fa-th" style="color: #00BFFF;"></i>
+    </div>
+
+    <!-- FAST JUMP MODAL -->
+    <div id="jumpModal" class="jump-modal">
+        <div class="jump-header">
+            <h2>Quick Navigation</h2>
+            <button id="closeJumpModal"><i class="fas fa-times-circle"></i></button>
+        </div>
+        <div class="jump-grid" id="jumpGrid"></div>
+    </div>
+
+    <div class="presentation">
+        <div class="slides-wrapper">
+            <!-- PERSISTENT WATERMARK BRANDING -->
+            <div id="persistentBrand" class="persistent-brand">
+                <img src="https://github.com/helpwareinstitute-hash/Thewaregroupweb/blob/main/wealthmaster%20logo.png?raw=true" alt="Wealthmaster Logo">
+                <div class="watermark-text">
+                    <span class="watermark-name">Wealthmaster Academy</span>
+                    <span class="watermark-location">New Sanghvi, Pune</span>
+                </div>
+            </div>
+            <div id="persistentWebsite" class="persistent-website">www.wealthmasteracademy.in</div>
+
+            <div id="dynamicSlide"></div>
+        </div>
+    </div>
+
+    <script>
+        // Data Array specifically for SMC & News Analysis
+        const masterclassSlides = [
+            {
+                title: "What is SMC?",
+                desc: "Smart Money Concepts (SMC) is a structural methodology that tracks the footprint of institutional banks rather than relying on lagging indicators.",
+                bullets: [
+                    "Retail traders trade textbook patterns (Triangles, W-Patterns).",
+                    "Institutions trade 'Liquidity'—they hunt those exact patterns.",
+                    "SMC aligns you with the market makers, not the retail crowd."
+                ],
+                exampleTitle: "Retail vs Institutional Mindset",
+                exampleText: "When retail sees a 'Double Bottom' and buys, institutions see a pool of stop-losses below it. They push price down to sweep those stops before moving up.",
+                image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                title: "Liquidity Sweeps (Stop Hunts)",
+                desc: "The Forex market requires extreme volume to move. Banks cannot buy large quantities without someone selling to them.",
+                bullets: [
+                    "Your Stop-Loss is fuel for institutional entries.",
+                    "Buy-Side Liquidity (BSL) exists above old highs.",
+                    "Sell-Side Liquidity (SSL) exists below old lows."
+                ],
+                exampleTitle: "The Trap",
+                exampleText: "Price creates a 'fake' resistance. Retail sells and puts SL above it. The market spikes up, hits the SL (Buy orders), providing the exact liquidity banks need to Sell heavily.",
+                image: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                title: "Order Blocks & FVG",
+                desc: "Once liquidity is swept, Smart Money leaves undeniable footprints on the chart.",
+                bullets: [
+                    "Order Block (OB): The last opposing candle before an institutional push.",
+                    "Fair Value Gap (FVG): An aggressive price jump leaving an imbalance.",
+                    "Price acts like a magnet, returning to fill the FVG and tap the OB."
+                ],
+                exampleTitle: "Sniper Entries",
+                exampleText: "Instead of buying the breakout, SMC traders wait patiently for price to retrace back to the Unmitigated Order Block to achieve a 1:5 or 1:10 Risk-to-Reward ratio.",
+                image: "https://images.unsplash.com/photo-1642543492481-44e81e3914a7?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                title: "The Role of News in Forex",
+                desc: "Fundamental Analysis is the second pillar. News data dictates the overarching strength or weakness of global currencies.",
+                bullets: [
+                    "News does NOT change the trend; it accelerates the technical setup.",
+                    "Retail avoids news. Professionals use it as a catalyst.",
+                    "Red-Folder events bring the extreme volatility required for big moves."
+                ],
+                exampleTitle: "The Catalyst",
+                exampleText: "A technical SMC setup might take 8 hours to hit its target on a Tuesday. During major US News, that exact same setup hits the target in 3 minutes.",
+                image: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                title: "High-Impact Data: NFP & CPI",
+                desc: "Not all news is created equal. In Forex, USD data rules the entire global board.",
+                bullets: [
+                    "NFP (Non-Farm Payroll): First Friday of the month. Tracks US job creation.",
+                    "CPI (Inflation): High inflation usually means central banks will raise interest rates.",
+                    "FOMC (Interest Rates): The undisputed king of market volatility."
+                ],
+                exampleTitle: "Currency Correlation",
+                exampleText: "If US CPI data comes out higher than expected, the US Dollar (DXY) gets stronger. This instantly forces EUR/USD and GBP/USD to drop aggressively.",
+                image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                title: "The Fundamental Trap",
+                desc: "Trading the exact number printed on the news site is how retail traders lose money instantly.",
+                bullets: [
+                    "Buy the Rumor, Sell the News.",
+                    "Positive data does not always mean the price will shoot up.",
+                    "Markets price in the expectation weeks before the actual event."
+                ],
+                exampleTitle: "The Fakeout",
+                exampleText: "US Job data is overwhelmingly positive. Retail instantly buys USD. However, the banks use this sudden retail buying pressure to offload their positions. The market spikes, then heavily crashes.",
+                image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                title: "The Ultimate Edge: SMC + News",
+                desc: "The true secret of institutional trading is combining structural logic with fundamental catalysts.",
+                bullets: [
+                    "Mark your high-probability Order Blocks.",
+                    "Wait for the Red-Folder news release.",
+                    "Let the news spike sweep the liquidity and tap your exact SMC zone."
+                ],
+                exampleTitle: "The Perfect Setup",
+                exampleText: "Before NFP, you identify a massive pool of retail stop-losses just above current price, with your valid Order Block sitting slightly higher. News releases, price violently spikes up, hunts the stops, taps your OB, and melts down.",
+                image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80"
+            }
+        ];
+
+        const totalSlides = masterclassSlides.length + 3; // Hero + Profile + 7 Concepts + Q&A (Total 10)
+        let currentSlide = 0;
+        
+        const dynamicSlide = document.getElementById('dynamicSlide');
+        const counterEl = document.getElementById('slideCounter');
+        const progressEl = document.getElementById('progressBar');
+        const jumpModal = document.getElementById('jumpModal');
+        const jumpGrid = document.getElementById('jumpGrid');
+
+        // SETUP FAST JUMP MENU
+        const jumpTitles = ["Welcome", "Dipak Wagh", "1. What is SMC?", "2. Liquidity Sweeps", "3. OB & FVG", "4. Role of News", "5. NFP & CPI", "6. The News Trap", "7. SMC + News", "Q&A & Outro"];
+        for(let i=0; i<totalSlides; i++) {
+            const btn = document.createElement('button');
+            btn.className = 'jump-btn';
+            btn.innerText = jumpTitles[i];
+            btn.onclick = () => {
+                const direction = i > currentSlide ? 'next' : 'prev';
+                renderSlide(i, direction);
+                jumpModal.classList.remove('show');
+            };
+            jumpGrid.appendChild(btn);
+        }
+
+        counterEl.addEventListener('click', () => { jumpModal.classList.add('show'); });
+        document.getElementById('closeJumpModal').addEventListener('click', () => { jumpModal.classList.remove('show'); });
+
+        function renderSlide(index, direction = 'next') {
+            dynamicSlide.classList.remove('slide-in-next', 'slide-in-prev');
+            void dynamicSlide.offsetWidth; 
+            dynamicSlide.classList.add(direction === 'next' ? 'slide-in-next' : 'slide-in-prev');
+            
+            let htmlContent = '';
+
+            // Handle Branding
+            if (index === 0) { 
+                document.getElementById('persistentBrand').style.opacity = '0'; 
+                document.getElementById('persistentWebsite').style.opacity = '0'; 
+            } else { 
+                document.getElementById('persistentBrand').style.opacity = '1'; 
+                document.getElementById('persistentWebsite').style.opacity = '1'; 
+            }
+
+            if (index === 0) {
+                // HERO
+                htmlContent = `
+                    <div class="hero-layout" style="justify-content: center; align-items:center; text-align:center;">
+                        <div class="academy-branding anim-item delay-1" style="margin-bottom: 30px;">
+                            <img src="https://github.com/helpwareinstitute-hash/Thewaregroupweb/blob/main/wealthmaster%20logo.png?raw=true" alt="Wealthmaster Logo">
+                        </div>
+                        <div class="badge-premium anim-item delay-2">Exclusive Deep Dive</div>
+                        <h1 class="slide-title hero-title anim-item delay-3" style="font-size: clamp(3rem, 5vw, 5.5rem); margin-bottom: 15px;">The Two Pillars of Trading:<br>SMC & News Analysis</h1>
+                        <div class="slide-desc anim-item delay-4" style="max-width: 800px; margin: 0 auto; color: #cbd5e1;">Decoding institutional footprints and the fundamental catalysts that drive the global Forex markets.</div>
+                        <div class="anim-item delay-4" style="margin-top: 40px; font-family:'Outfit'; font-size:1.5rem; font-weight:700; color:#00BFFF;">Speaker: Dipak Wagh</div>
+                    </div>
+                `;
+                counterEl.querySelector('span').innerText = 'Start';
+                progressEl.style.width = '0%';
+            } 
+            else if (index === 1) {
+                // SPEAKER PROFILE
+                htmlContent = `
+                    <div class="profile-layout">
+                        <div class="profile-image-large anim-item delay-2">
+                            <img src="https://github.com/helpwareinstitute-hash/Thewaregroupweb/blob/main/deepak%20ppf.png?raw=true" alt="Dipak Wagh">
+                        </div>
+                        <div class="text-section" style="text-align: left;">
+                            <div class="badge-premium anim-item delay-1">Meet The Speaker</div>
+                            <h2 class="slide-title anim-item delay-2">Dipak Wagh</h2>
+                            <div class="slide-desc anim-item delay-3" style="color:#00BFFF; font-weight:600;">Founder, Wealthmaster Academy • 10+ Years Experience</div>
+                            <p class="slide-desc anim-item delay-3" style="font-size:1rem; margin-bottom: 20px;">After a decade of navigating financial markets and the corporate sector, Dipak founded Wealthmaster Academy to bridge the massive gap between theoretical knowledge and practical retail success.</p>
+                            
+                            <ul class="bullet-list anim-item delay-4" style="margin-bottom: 25px;">
+                                <li><strong>Expertise:</strong> Smart Money Concepts (SMC) & Liquidity Dynamics.</li>
+                                <li><strong>Philosophy:</strong> "Earn When You Learn" – transforming gamblers into independent professionals.</li>
+                                <li><strong>Global Edge:</strong> Specializes in applying technical structure with macroeconomic news data.</li>
+                            </ul>
+                            
+                            <div class="highlight-box anim-item delay-4" style="font-size: 0.95rem; font-style: italic; border-left-color: #00E676; color: #fff; background: rgba(0,230,118,0.1);">
+                                "Your journey to financial freedom starts with a single step towards the right knowledge."
+                            </div>
+                        </div>
+                    </div>
+                `;
+                counterEl.querySelector('span').innerText = 'Speaker';
+                progressEl.style.width = '10%';
+            }
+            else if (index >= 2 && index <= 8) {
+                // THE 7 CONCEPTS
+                const pointIndex = index - 2;
+                const point = masterclassSlides[pointIndex];
+                const pointNum = (pointIndex + 1).toString().padStart(2, '0');
+                
+                let bulletsHtml = point.bullets.map(b => `<li>${b}</li>`).join('');
+
+                htmlContent = `
+                    <div class="bg-number">${pointNum}</div>
+                    <div class="slide-content">
+                        <div class="text-section">
+                            <h2 class="slide-title anim-item delay-1" style="margin-bottom: 10px;">${point.title}</h2>
+                            <div class="slide-desc anim-item delay-2">${point.desc}</div>
+                            
+                            <ul class="bullet-list anim-item delay-3">
+                                ${bulletsHtml}
+                            </ul>
+                        </div>
+                        <div class="visual-section anim-item delay-2">
+                            <img src="${point.image}" alt="Trading Graphic" class="visual-image">
+                            <div class="example-box">
+                                <div class="example-title"><i class="fas fa-chart-bar"></i> ${point.exampleTitle}</div>
+                                <div class="example-text">${point.exampleText}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                counterEl.querySelector('span').innerHTML = `${pointNum} / 07`;
+                progressEl.style.width = ((index) / totalSlides) * 100 + '%';
+            }
+            else if (index === 9) {
+                // Q&A / OUTRO & GROWFT BRANDING
+                htmlContent = `
+                    <div style="text-align:center; height:100%; display:flex; flex-direction:column; justify-content:center; position:relative;">
+                        <i class="fas fa-comments anim-item delay-1" style="font-size: 5rem; color: #00BFFF; margin-bottom: 20px; filter: drop-shadow(0 0 20px rgba(0,191,255,0.3));"></i>
+                        <h1 class="slide-title anim-item delay-2">Open for Questions</h1>
+                        <div class="slide-desc anim-item delay-3" style="max-width:700px; margin: 0 auto 30px;">Let's discuss SMC, Liquidity, and News trading.</div>
+                        <div class="anim-item delay-4" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 20px 40px; border-radius: 20px; display: inline-block; margin: 20px auto 0;">
+                            <div style="font-family:'Outfit'; font-size:1.4rem; font-weight:700; color:#fff; margin-bottom: 10px;">Contact Us</div>
+                            <div style="color: #00E676; font-size: 1.1rem; margin-bottom: 5px;"><i class="fas fa-globe"></i> www.wealthmasteracademy.in</div>
+                            <div style="color: #cbd5e1; font-size: 1rem;"><i class="fas fa-map-marker-alt" style="color:#FF1744;"></i> New Sanghvi, Pune</div>
+                        </div>
+                        <div class="anim-item delay-4" style="font-family:'Outfit'; font-size:1.2rem; font-weight:700; color:#fff; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top:30px;">Dipak Wagh • Wealthmaster Academy</div>
+                        
+                        <!-- GROWFT BRANDING -->
+                        <div class="anim-item delay-4" style="margin-top: 40px; font-family:'Inter'; font-size:0.9rem; color:#64748b; letter-spacing:1px; display:flex; align-items:center; justify-content:center; gap:8px;">
+                            Marketed by <span style="font-family:'Outfit'; font-weight:800; color:#00BFFF; font-size:1.1rem; letter-spacing:2px; text-shadow: 0 0 10px rgba(0, 191, 255, 0.4);">GROWFT</span>
+                        </div>
+                    </div>
+                `;
+                counterEl.querySelector('span').innerText = 'Q & A';
+                progressEl.style.width = '100%';
+            }
+
+            // Update Active State in Jump Menu
+            document.querySelectorAll('.jump-btn').forEach((b, i) => {
+                b.classList.remove('active');
+                if(i === index) b.classList.add('active');
+            });
+
+            dynamicSlide.innerHTML = htmlContent;
+            currentSlide = index;
+        }
+
+        document.getElementById('prevBtn').addEventListener('click', () => { if (currentSlide > 0) renderSlide(currentSlide - 1, 'prev'); });
+        document.getElementById('nextBtn').addEventListener('click', () => { if (currentSlide < totalSlides - 1) renderSlide(currentSlide + 1, 'next'); });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' && currentSlide < totalSlides - 1) renderSlide(currentSlide + 1, 'next');
+            if (e.key === 'ArrowLeft' && currentSlide > 0) renderSlide(currentSlide - 1, 'prev');
+            if (e.key === 'Escape') jumpModal.classList.remove('show');
+        });
+
+        renderSlide(0, 'next');
+
+    </script>
+</body>
+</html>
