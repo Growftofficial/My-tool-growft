@@ -120,18 +120,18 @@
             100% { opacity: 1; transform: translateX(0) scale(1); }
         }
 
-        /* ===== SMOOTHER NUMBER ANIMATIONS FOR BIDDING ===== */
-        @keyframes slideOutDown {
-            0% { transform: scale(1) translateY(0); opacity: 1; filter: blur(0px); }
-            100% { transform: scale(0.7) translateY(40px); opacity: 0; filter: blur(8px); }
+        /* ===== ZABARDAST NUMBER ANIMATIONS FOR BIDDING ===== */
+        @keyframes smashOut {
+            0% { transform: scale(1) translateY(0); opacity: 1; filter: blur(0); }
+            100% { transform: scale(0.5) translateY(40px); opacity: 0; filter: blur(10px); }
         }
-        @keyframes slideInUp {
-            0% { transform: scale(1.3) translateY(-40px); opacity: 0; filter: blur(8px); color: #fff; }
-            60% { transform: scale(0.95) translateY(5px); opacity: 1; filter: blur(0px); color: #FFD700; }
-            100% { transform: scale(1) translateY(0); opacity: 1; filter: blur(0px); } 
+        @keyframes smashIn {
+            0% { transform: scale(1.8) translateY(-40px); opacity: 0; filter: blur(10px); color: #fff; }
+            50% { transform: scale(0.9) translateY(10px); opacity: 1; filter: blur(0); color: #FFD700; }
+            100% { transform: scale(1) translateY(0); opacity: 1; filter: blur(0); } 
         }
-        .smash-out { animation: slideOutDown 0.4s ease-in forwards; display: inline-block; }
-        .smash-in { animation: slideInUp 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; display: inline-block; }
+        .smash-out { animation: smashOut 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards; display: inline-block; }
+        .smash-in { animation: smashIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; display: inline-block; }
 
         /* Background Number */
         .bg-number { position: absolute; top: -20px; right: 20px; font-size: 16rem; font-family: 'Outfit', sans-serif; font-weight: 900; color: rgba(255, 255, 255, 0.025); z-index: 0; line-height: 1; pointer-events: none; }
@@ -154,7 +154,6 @@
         .detail-item i { color: #00E676; font-size: 1.2rem; }
 
         .team-card { flex: 1.2; background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(0,0,0,0.4)); border: 1px solid rgba(255,215,0,0.15); padding: 30px; border-radius: 24px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.5); position: relative; overflow: hidden; }
-        .team-card::before { content: ''; position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: #FFD700; filter: blur(90px); opacity: 0.15; border-radius: 50%; }
         .team-grid { display: flex; justify-content: center; gap: 30px; margin-top: 15px; }
         .team-member { display: flex; flex-direction: column; align-items: center; }
         .mentor-photo { width: 110px; height: 110px; border-radius: 50%; margin-bottom: 15px; border: 3px solid #FFD700; box-shadow: 0 0 20px rgba(255,215,0,0.3); overflow: hidden; position: relative; z-index: 2; }
@@ -383,7 +382,7 @@
         ];
 
         let currentSlide = 0;
-        const totalSlides = painPoints.length + 8; 
+        const totalSlides = painPoints.length + 8; // Hero + Founder + Mentor + Academy + 50 Points + Reviews + Courses + Bidding + Q&A (total 58)
         
         const dynamicSlide = document.getElementById('dynamicSlide');
         const counterEl = document.getElementById('slideCounter');
@@ -556,7 +555,7 @@
                             <div class="graphic-orb orb-1" style="background: #00E676; opacity: 0.2;"></div>
                             <div class="graphic-orb orb-2" style="background: #FFD700; opacity: 0.2;"></div>
                             <div style="position: relative; z-index: 2; text-align: center;">
-                                <div style="font-size: 6rem; color: #FFD700; font-weight: 900; font-family: 'Outfit'; filter: drop-shadow(0 0 20px rgba(255,215,0,0.5));">500+</div>
+                                <div style="font-size: 6rem; color: #FFD700; font-weight: 900; font-family: 'Outfit'; filter: drop-shadow(0 0 20px rgba(255,215,0,0.5));">400+</div>
                                 <div style="color: #00E676; font-size: 1.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 3px;">Professional Traders</div>
                                 <div style="color: #94a3b8; font-size: 1rem; margin-top: 10px; font-weight: 500;">Created and counting</div>
                             </div>
@@ -743,7 +742,7 @@
                                 
                                 fireConfetti();
                             }
-                        }, 400); // INcreased timing for smoother animation
+                        }, 400); 
                     }
                 });
             }
@@ -755,6 +754,7 @@
         nextBtn.addEventListener('click', () => { if (currentSlide < totalSlides - 1) renderSlide(currentSlide + 1, 'next'); });
 
         document.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT') return;
             if (e.key === 'ArrowRight' && currentSlide < totalSlides - 1) renderSlide(currentSlide + 1, 'next');
             if (e.key === 'ArrowLeft' && currentSlide > 0) renderSlide(currentSlide - 1, 'prev');
             if (e.key === 'Escape') jumpModal.classList.remove('show');
