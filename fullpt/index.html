@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The 50 Silent Killers of Trading | Wealthmaster</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #03050a;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(255, 215, 0, 0.04), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(255, 23, 68, 0.04), transparent 25%);
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            user-select: none;
+        }
+
+        h1, h2, h3, .title-font { font-family: 'Outfit', sans-serif; }
+        
+        /* Progress Bar */
+        .progress-bar-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            z-index: 2000;
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #FFD700, #FF1744);
+            width: 0%;
+            transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+        }
+
+        .presentation {
+            position: relative;
+            z-index: 1;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slides-wrapper {
+            position: relative;
+            width: 95%;
+            max-width: 1300px;
+            height: 85vh;
+            max-height: 800px;
+            background: rgba(10, 14, 22, 0.75);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.9);
+            overflow: hidden;
+        }
+
+        /* ===== PERSISTENT BRANDING (WATERMARK) ===== */
+        .persistent-brand {
+            position: absolute;
+            top: 25px;
+            left: 40px;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+        .persistent-brand img { height: 40px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+        .persistent-brand .watermark-text { display: flex; flex-direction: column; line-height: 1.2; }
+        .persistent-brand .watermark-name { font-family: 'Outfit'; font-weight: 700; color: #fff; font-size: 1.1rem; letter-spacing: 1px; opacity: 0.9; }
+        .persistent-brand .watermark-location { font-family: 'Inter'; font-weight: 500; color: #94a3b8; font-size: 0.75rem; letter-spacing: 0.5px; }
+
+        .persistent-website {
+            position: absolute;
+            bottom: 25px;
+            right: 40px;
+            z-index: 50;
+            font-family: 'Outfit';
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 1.5px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        /* Dynamic Content Container */
+        #dynamicSlide {
+            width: 100%;
+            height: 100%;
+            padding: 40px 50px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ===== SCROLL ANIMATIONS ===== */
+        .slide-in-next { animation: slideNext 0.6s cubic-bezier(0.25, 1, 0.2, 1) forwards; }
+        .slide-in-prev { animation: slidePrev 0.6s cubic-bezier(0.25, 1, 0.2, 1) forwards; }
+
+        @keyframes slideNext {
+            0% { opacity: 0; transform: translateX(80px) scale(0.97); }
+            100% { opacity: 1; transform: translateX(0) scale(1); }
+        }
+        @keyframes slidePrev {
+            0% { opacity: 0; transform: translateX(-80px) scale(0.97); }
+            100% { opacity: 1; transform: translateX(0) scale(1); }
+        }
+
+        /* ===== ZABARDAST NUMBER ANIMATIONS FOR BIDDING ===== */
+        @keyframes smashOut {
+            0% { transform: scale(1) translateY(0); opacity: 1; filter: blur(0); }
+            100% { transform: scale(0.5) translateY(40px); opacity: 0; filter: blur(10px); }
+        }
+        @keyframes smashIn {
+            0% { transform: scale(1.8) translateY(-40px); opacity: 0; filter: blur(10px); color: #fff; }
+            50% { transform: scale(0.9) translateY(10px); opacity: 1; filter: blur(0); color: #FFD700; }
+            100% { transform: scale(1) translateY(0); opacity: 1; filter: blur(0); } 
+        }
+        .smash-out { animation: smashOut 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards; display: inline-block; }
+        .smash-in { animation: smashIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; display: inline-block; }
+
+        /* Background Number */
+        .bg-number { position: absolute; top: -20px; right: 20px; font-size: 16rem; font-family: 'Outfit', sans-serif; font-weight: 900; color: rgba(255, 255, 255, 0.025); z-index: 0; line-height: 1; pointer-events: none; }
+        .slide-content { position: relative; z-index: 1; width: 100%; height: 100%; display: flex; align-items: center; gap: 50px; }
+        .text-section { flex: 1.2; display: flex; flex-direction: column; justify-content: center; }
+
+        /* ===== HERO SLIDE STYLES ===== */
+        .hero-layout { display: flex; flex-direction: column; width: 100%; height: 100%; position: relative; z-index: 1; }
+        .academy-branding { display: flex; align-items: center; gap: 20px; margin-bottom: auto; }
+        .academy-branding img { height: 95px; filter: drop-shadow(0 8px 15px rgba(0,0,0,0.6)); }
+        .academy-info { display: flex; flex-direction: column; gap: 4px; }
+        .academy-name { font-family: 'Outfit'; font-size: 2.2rem; font-weight: 800; color: #FFD700; line-height: 1; letter-spacing: 1px; }
+        .academy-location { font-family: 'Inter'; font-size: 1.1rem; font-weight: 500; color: #cbd5e1; letter-spacing: 1px; }
+        .hero-main-content { display: flex; align-items: center; justify-content: space-between; margin-top: -20px; gap: 40px; }
+        .hero-text { flex: 1.5; }
+        .badge-premium { display: inline-block; padding: 6px 16px; background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.3); color: #FFD700; border-radius: 30px; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+
+        .event-details { display: flex; gap: 20px; margin-top: 30px; flex-wrap: wrap; }
+        .detail-item { background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 12px; font-family: 'Outfit'; font-weight: 600; font-size: 1rem; color: #e2e8f0; display: flex; align-items: center; gap: 10px; border: 1px solid rgba(255,255,255,0.1); }
+        .detail-item i { color: #00E676; font-size: 1.2rem; }
+
+        .team-card { flex: 1.2; background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(0,0,0,0.4)); border: 1px solid rgba(255,215,0,0.15); padding: 30px; border-radius: 24px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.5); position: relative; overflow: hidden; }
+        .team-grid { display: flex; justify-content: center; gap: 30px; margin-top: 15px; }
+        .team-member { display: flex; flex-direction: column; align-items: center; }
+        .mentor-photo { width: 110px; height: 110px; border-radius: 50%; margin-bottom: 15px; border: 3px solid #FFD700; box-shadow: 0 0 20px rgba(255,215,0,0.3); overflow: hidden; position: relative; z-index: 2; }
+        .mentor-photo img { width: 100%; height: 100%; object-fit: cover; }
+        .team-name { font-family: 'Outfit'; font-size: 1.2rem; font-weight: 700; color: #fff; }
+        .team-title { color: #FFD700; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* ===== CUSTOM GRIDS ===== */
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; }
+        .info-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 25px; border-radius: 20px; transition: 0.3s; }
+        .info-card:hover { transform: translateY(-5px); background: rgba(255,255,255,0.05); border-color: rgba(255,215,0,0.3); }
+        .info-card i { font-size: 2rem; color: #FFD700; margin-bottom: 15px; }
+        .info-card h3 { font-family: 'Outfit'; font-size: 1.3rem; margin-bottom: 10px; color: #fff; }
+        .info-card p { color: #94a3b8; font-size: 0.95rem; line-height: 1.5; }
+
+        .review-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%; margin-top: 20px;}
+        .review-card { background: linear-gradient(145deg, rgba(20,25,35,0.8), rgba(10,14,22,0.9)); border: 1px solid rgba(255,215,0,0.1); padding: 30px; border-radius: 20px; display: flex; flex-direction: column; }
+        .stars { color: #FFD700; margin-bottom: 15px; font-size: 1.2rem; }
+        .review-text { font-size: 1rem; color: #cbd5e1; font-style: italic; flex-grow: 1; margin-bottom: 20px; line-height: 1.6; }
+        .reviewer-name { font-family: 'Outfit'; font-weight: 700; color: #fff; }
+        .reviewer-role { font-size: 0.8rem; color: #00E676; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
+
+        /* Profile Layouts */
+        .profile-layout { display: flex; gap: 50px; align-items: center; height: 100%; z-index: 1; position: relative; }
+        .profile-image-large { flex: 0.8; height: 100%; display: flex; align-items: center; justify-content: center; position: relative; }
+        .profile-image-large img { width: 350px; height: 350px; border-radius: 50%; object-fit: cover; border: 5px solid #FFD700; box-shadow: 0 0 50px rgba(255,215,0,0.2); position: relative; z-index: 2; }
+        .profile-image-large::after { content: ''; position: absolute; width: 400px; height: 400px; background: rgba(255,215,0,0.1); border-radius: 50%; filter: blur(50px); }
+
+        /* ===== GRAPHICS ENGINE ===== */
+        .visual-section { flex: 1; height: 100%; border-radius: 24px; background: linear-gradient(135deg, rgba(20,25,35,0.6), rgba(5,10,15,0.8)); border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; position: relative; box-shadow: inset 0 0 50px rgba(0,0,0,0.8); overflow: hidden; }
+        .graphic-orb { position: absolute; width: 250px; height: 250px; border-radius: 50%; filter: blur(50px); opacity: 0.3; }
+        .orb-1 { top: -50px; left: -50px; } .orb-2 { bottom: -50px; right: -50px; }
+        .graphic-icon { position: relative; z-index: 2; font-size: 7.5rem; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.5)); animation: float 4s ease-in-out infinite; }
+        .ring { position: absolute; border: 2px dashed rgba(255,255,255,0.1); border-radius: 50%; animation: spin 30s linear infinite; }
+        .ring-1 { width: 280px; height: 280px; border-color: rgba(255, 215, 0, 0.1); }
+        .ring-2 { width: 340px; height: 340px; animation-direction: reverse; border-style: dotted; }
+
+        @keyframes float { 0%, 100% { transform: translateY(0px) scale(1); } 50% { transform: translateY(-10px) scale(1.02); } }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* Typography */
+        .slide-title { font-size: clamp(2.2rem, 3.5vw, 4rem); font-weight: 800; line-height: 1.1; margin-bottom: 20px; background: linear-gradient(135deg, #FFF 0%, #cbd5e1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .slide-desc { font-size: clamp(1.1rem, 1.4vw, 1.5rem); color: #94a3b8; line-height: 1.6; margin-bottom: 30px; }
+        .highlight-box { background: rgba(255, 215, 0, 0.05); border-left: 4px solid #FFD700; padding: 18px 24px; border-radius: 0 12px 12px 0; font-size: 1.1rem; color: #FFD700; font-weight: 600; font-family: 'Outfit'; }
+
+        /* Navigation */
+        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); width: 55px; height: 55px; border-radius: 50%; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-size: 20px; cursor: pointer; z-index: 1000; transition: all 0.2s; }
+        .nav-btn:hover { background: rgba(255,215,0,0.2); border-color: #FFD700; color: #FFD700; }
+        .nav-btn.left { left: 20px; } .nav-btn.right { right: 20px; }
+
+        .bottom-counter { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); font-family: 'Outfit'; font-size: 1.1rem; font-weight: 700; letter-spacing: 2px; color: #64748b; z-index: 1000; background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); padding: 6px 18px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.05); transition: opacity 0.3s; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+        .bottom-counter:hover { border-color: #FFD700; color: #fff; box-shadow: 0 0 15px rgba(255,215,0,0.2); }
+
+        .jump-modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); z-index: 3000; display: none; align-items: center; justify-content: center; flex-direction: column; opacity: 0; transition: opacity 0.3s; }
+        .jump-modal.show { display: flex; opacity: 1; }
+        .jump-header { display: flex; justify-content: space-between; align-items: center; width: 90%; max-width: 1000px; margin-bottom: 20px; }
+        .jump-header h2 { font-family: 'Outfit'; color: #fff; font-size: 2rem; }
+        .jump-header button { background: transparent; border: none; color: #FF1744; font-size: 2.5rem; cursor: pointer; transition: transform 0.3s; }
+        .jump-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; width: 90%; max-width: 1000px; max-height: 70vh; overflow-y: auto; padding-right: 10px; }
+        .jump-grid::-webkit-scrollbar { width: 6px; } .jump-grid::-webkit-scrollbar-thumb { background: rgba(255,215,0,0.5); border-radius: 10px; }
+        .jump-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; padding: 12px 10px; border-radius: 10px; font-family: 'Outfit'; font-weight: 600; cursor: pointer; transition: 0.3s; font-size: 0.9rem; }
+        .jump-btn:hover, .jump-btn.active { background: rgba(255,215,0,0.15); border-color: #FFD700; color: #FFD700; }
+        .jump-btn.special { background: rgba(0,230,118,0.1); border-color: #00E676; color: #00E676; }
+
+        /* Animations */
+        .anim-item { opacity: 0; animation: fadeUp 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        .delay-1 { animation-delay: 0.1s; } .delay-2 { animation-delay: 0.2s; } .delay-3 { animation-delay: 0.3s; } .delay-4 { animation-delay: 0.4s; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .slide-content, .hero-main-content, .profile-layout { flex-direction: column-reverse; gap: 30px; text-align: center; }
+            .hero-layout { align-items: center; }
+            .academy-branding img { height: 70px; }
+            .academy-name { font-size: 1.6rem; }
+            .academy-branding { margin-bottom: 20px; }
+            .event-details { justify-content: center; }
+            .info-grid, .review-grid { grid-template-columns: 1fr; }
+            #dynamicSlide { padding: 25px; overflow-y: auto;}
+            
+            .persistent-brand { top: 15px; left: 20px; }
+            .persistent-brand img { height: 28px; }
+            .persistent-brand .watermark-name { font-size: 0.9rem; }
+            .persistent-brand .watermark-location { font-size: 0.6rem; }
+            .persistent-website { bottom: 15px; right: 20px; font-size: 0.75rem; }
+
+            .bg-number { display: none; }
+            .nav-btn { width: 40px; height: 40px; font-size: 16px; }
+            .nav-btn.left { left: 10px; }
+            .nav-btn.right { right: 10px; }
+            .visual-section { flex: 0.8; width: 100%; min-height: 180px; }
+            .graphic-icon { font-size: 5rem; }
+            .highlight-box { text-align: left; }
+            .profile-image-large img { width: 200px; height: 200px; margin-top: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="progress-bar-container"><div class="progress-bar" id="progressBar"></div></div>
+    
+    <button class="nav-btn left" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+    <button class="nav-btn right" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+    
+    <div class="bottom-counter" id="slideCounter" title="Click to Fast Jump">
+        <span>00 / 50</span> <i class="fas fa-th" style="color: #FFD700;"></i>
+    </div>
+
+    <!-- FAST JUMP MODAL -->
+    <div id="jumpModal" class="jump-modal">
+        <div class="jump-header">
+            <h2>Quick Navigation</h2>
+            <button id="closeJumpModal"><i class="fas fa-times-circle"></i></button>
+        </div>
+        <div class="jump-grid" id="jumpGrid"></div>
+    </div>
+
+    <div class="presentation">
+        <div class="slides-wrapper">
+            
+            <!-- PERSISTENT WATERMARK BRANDING -->
+            <div id="persistentBrand" class="persistent-brand">
+                <img src="https://github.com/helpwareinstitute-hash/Thewaregroupweb/blob/main/wealthmaster%20logo.png?raw=true" alt="Wealthmaster Logo">
+                <div class="watermark-text">
+                    <span class="watermark-name">Wealthmaster Academy</span>
+                    <span class="watermark-location">New Sanghvi, Pune</span>
+                </div>
+            </div>
+            <div id="persistentWebsite" class="persistent-website">
+                www.wealthmasteracademy.in
+            </div>
+
+            <!-- DYNAMIC SLIDE CONTENT -->
+            <div id="dynamicSlide"></div>
+
+        </div>
+    </div>
+
+    <script>
+        // Confetti Function for Bidding Slide
+        function fireConfetti() {
+            const colors = ['#FFD700', '#FF1744', '#00E676', '#00BFFF', '#FFA500', '#ffffff'];
+            for (let i = 0; i < 150; i++) {
+                let confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                confetti.style.height = (Math.random() * 20 + 10) + 'px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.top = '-20px';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.opacity = Math.random() + 0.5;
+                confetti.style.zIndex = '9999';
+                confetti.style.pointerEvents = 'none';
+                if (Math.random() > 0.5) confetti.style.borderRadius = '50%';
+                
+                document.body.appendChild(confetti);
+
+                let fallDuration = Math.random() * 3 + 2;
+                let sidewaysMovement = (Math.random() - 0.5) * 300;
+                
+                confetti.animate([
+                    { transform: `translate3d(0, 0, 0) rotate(0deg)`, opacity: 1 },
+                    { transform: `translate3d(${sidewaysMovement}px, 100vh, 0) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+                ], {
+                    duration: fallDuration * 1000,
+                    easing: 'cubic-bezier(.37,0,.63,1)',
+                    fill: 'forwards'
+        
