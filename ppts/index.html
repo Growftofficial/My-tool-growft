@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The 50 Silent Killers of Trading | Wealthmaster</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #03050a;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(255, 215, 0, 0.04), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(255, 23, 68, 0.04), transparent 25%);
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            user-select: none;
+        }
+
+        h1, h2, h3, .title-font { font-family: 'Outfit', sans-serif; }
+        
+        /* Progress Bar */
+        .progress-bar-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            z-index: 2000;
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #FFD700, #FF1744);
+            width: 0%;
+            transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+        }
+
+        .presentation {
+            position: relative;
+            z-index: 1;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slides-wrapper {
+            position: relative;
+            width: 95%;
+            max-width: 1300px;
+            height: 85vh;
+            max-height: 800px;
+            background: rgba(10, 14, 22, 0.75);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.9);
+            overflow: hidden;
+        }
+
+        /* ===== PERSISTENT BRANDING (WATERMARK) ===== */
+        .persistent-brand {
+            position: absolute;
+            top: 25px;
+            left: 40px;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+        .persistent-brand img { height: 40px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+        .persistent-brand .watermark-text { display: flex; flex-direction: column; line-height: 1.2; }
+        .persistent-brand .watermark-name { font-family: 'Outfit'; font-weight: 700; color: #fff; font-size: 1.1rem; letter-spacing: 1px; opacity: 0.9; }
+        .persistent-brand .watermark-location { font-family: 'Inter'; font-weight: 500; color: #94a3b8; font-size: 0.75rem; letter-spacing: 0.5px; }
+
+        .persistent-website {
+            position: absolute;
+            bottom: 25px;
+            right: 40px;
+            z-index: 50;
+            font-family: 'Outfit';
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 1.5px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        /* Dynamic Content Container */
+        #dynamicSlide {
+            width: 100%;
+            height: 100%;
+            padding: 40px 50px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ===== SCROLL ANIMATIONS ===== */
+        .slide-in-next { animation: slideNext 0.6s cubic-bezier(0.25, 1, 0.2, 1) forwards; }
+        .slide-in-prev { animation: slidePrev 0.6s cubic-bezier(0.25, 1, 0.2, 1) forwards; }
+
+        @keyframes slideNext {
+            0% { opacity: 0; transform: translateX(80px) scale(0.97); }
+            100% { opacity: 1; transform: translateX(0) scale(1); }
+        }
+        @keyframes slidePrev {
+            0% { opacity: 0; transform: translateX(-80px) scale(0.97); }
+            100% { opacity: 1; transform: translateX(0) scale(1); }
+        }
+
+        /* ===== ZABARDAST NUMBER ANIMATIONS FOR BIDDING ===== */
+        @keyframes smashOut {
+            0% { transform: scale(1) translateY(0); opacity: 1; filter: blur(0); }
+            100% { transform: scale(0.5) translateY(40px); opacity: 0; filter: blur(10px); }
+        }
+        @keyframes smashIn {
+            0% { transform: scale(1.8) translateY(-40px); opacity: 0; filter: blur(10px); color: #fff; }
+            50% { transform: scale(0.9) translateY(10px); opacity: 1; filter: blur(0); color: #FFD700; }
+            100% { transform: scale(1) translateY(0); opacity: 1; filter: blur(0); } 
+        }
+        .smash-out { animation: smashOut 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards; display: inline-block; }
+        .smash-in { animation: smashIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; display: inline-block; }
+
+        /* Background Number */
+        .bg-number { position: absolute; top: -20px; right: 20px; font-size: 16rem; font-family: 'Outfit', sans-serif; font-weight: 900; color: rgba(255, 255, 255, 0.025); z-index: 0; line-height: 1; pointer-events: none; }
+        .slide-content { position: relative; z-index: 1; width: 100%; height: 100%; display: flex; align-items: center; gap: 50px; }
+        .text-section { flex: 1.2; display: flex; flex-direction: column; justify-content: center; }
+
+        /* ===== HERO SLIDE STYLES ===== */
+        .hero-layout { display: flex; flex-direction: column; width: 100%; height: 100%; position: relative; z-index: 1; }
+        .academy-branding { display: flex; align-items: center; gap: 20px; margin-bottom: auto; }
+        .academy-branding img { height: 95px; filter: drop-shadow(0 8px 15px rgba(0,0,0,0.6)); }
+        .academy-info { display: flex; flex-direction: column; gap: 4px; }
+        .academy-name { font-family: 'Outfit'; font-size: 2.2rem; font-weight: 800; color: #FFD700; line-height: 1; letter-spacing: 1px; }
+        .academy-location { font-family: 'Inter'; font-size: 1.1rem; font-weight: 500; color: #cbd5e1; letter-spacing: 1px; }
+        .hero-main-content { display: flex; align-items: center; justify-content: space-between; margin-top: -20px; gap: 40px; }
+        .hero-text { flex: 1.5; }
+        .badge-premium { display: inline-block; padding: 6px 16px; background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.3); color: #FFD700; border-radius: 30px; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+
+        .event-details { display: flex; gap: 20px; margin-top: 30px; flex-wrap: wrap; }
+        .detail-item { background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 12px; font-family: 'Outfit'; font-weight: 600; font-size: 1rem; color: #e2e8f0; display: flex; align-items: center; gap: 10px; border: 1px solid rgba(255,255,255,0.1); }
+        .detail-item i { color: #00E676; font-size: 1.2rem; }
+
+        .team-card { flex: 1.2; background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(0,0,0,0.4)); border: 1px solid rgba(255,215,0,0.15); padding: 30px; border-radius: 24px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.5); position: relative; overflow: hidden; }
+        .team-grid { display: flex; justify-content: center; gap: 30px; margin-top: 15px; }
+        .team-member { display: flex; flex-direction: column; align-items: center; }
+        .mentor-photo { width: 110px; height: 110px; border-radius: 50%; margin-bottom: 15px; border: 3px solid #FFD700; box-shadow: 0 0 20px rgba(255,215,0,0.3); overflow: hidden; position: relative; z-index: 2; }
+        .mentor-photo img { width: 100%; height: 100%; object-fit: cover; }
+        .team-name { font-family: 'Outfit'; font-size: 1.2rem; font-weight: 700; color: #fff; }
+        .team-title { color: #FFD700; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* ===== CUSTOM GRIDS ===== */
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; }
+        .info-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 25px; border-radius: 20px; transition: 0.3s; }
+        .info-card:hover { transform: translateY(-5px); background: rgba(255,255,255,0.05); border-color: rgba(255,215,0,0.3); }
+        .info-card i { font-size: 2rem; color: #FFD700; margin-bottom: 15px; }
+        .info-card h3 { font-family: 'Outfit'; font-size: 1.3rem; margin-bottom: 10px; color: #fff; }
+        .info-card p { color: #94a3b8; font-size: 0.95rem; line-height: 1.5; }
+
+        .review-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%; margin-top: 20px;}
+        .review-card { background: linear-gradient(145deg, rgba(20,25,35,0.8), rgba(10,14,22,0.9)); border: 1px solid rgba(255,215,0,0.1); padding: 30px; border-radius: 20px; display: flex; flex-direction: column; }
+        .stars { color: #FFD700; margin-bottom: 15px; font-size: 1.2rem; }
+        .review-text { font-size: 1rem; color: #cbd5e1; font-style: italic; flex-grow: 1; margin-bottom: 20px; line-height: 1.6; }
+        .reviewer-name { font-family: 'Outfit'; font-weight: 700; color: #fff; }
+        .reviewer-role { font-size: 0.8rem; color: #00E676; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
+
+        /* Profile Layouts */
+        .profile-layout { display: flex; gap: 50px; align-items: center; height: 100%; z-index: 1; position: relative; }
+        .profile-image-large { flex: 0.8; height: 100%; display: flex; align-items: center; justify-content: center; position: relative; }
+        .profile-image-large img { width: 350px; height: 350px; border-radius: 50%; object-fit: cover; border: 5px solid #FFD700; box-shadow: 0 0 50px rgba(255,215,0,0.2); position: relative; z-index: 2; }
+        .profile-image-large::after { content: ''; position: absolute; width: 400px; height: 400px; background: rgba(255,215,0,0.1); border-radius: 50%; filter: blur(50px); }
+
+        /* ===== GRAPHICS ENGINE ===== */
+        .visual-section { flex: 1; height: 100%; border-radius: 24px; background: linear-gradient(135deg, rgba(20,25,35,0.6), rgba(5,10,15,0.8)); border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; position: relative; box-shadow: inset 0 0 50px rgba(0,0,0,0.8); overflow: hidden; }
+        .graphic-orb { position: absolute; width: 250px; height: 250px; border-radius: 50%; filter: blur(50px); opacity: 0.3; }
+        .orb-1 { top: -50px; left: -50px; } .orb-2 { bottom: -50px; right: -50px; }
+        .graphic-icon { position: relative; z-index: 2; font-size: 7.5rem; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.5)); animation: float 4s ease-in-out infinite; }
+        .ring { position: absolute; border: 2px dashed rgba(255,255,255,0.1); border-radius: 50%; animation: spin 30s linear infinite; }
+        .ring-1 { width: 280px; height: 280px; border-color: rgba(255, 215, 0, 0.1); }
+        .ring-2 { width: 340px; height: 340px; animation-direction: reverse; border-style: dotted; }
+
+        @keyframes float { 0%, 100% { transform: translateY(0px) scale(1); } 50% { transform: translateY(-10px) scale(1.02); } }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* Typography */
+        .slide-title { font-size: clamp(2.2rem, 3.5vw, 4rem); font-weight: 800; line-height: 1.1; margin-bottom: 20px; background: linear-gradient(135deg, #FFF 0%, #cbd5e1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .slide-desc { font-size: clamp(1.1rem, 1.4vw, 1.5rem); color: #94a3b8; line-height: 1.6; margin-bottom: 30px; }
+        .highlight-box { background: rgba(255, 215, 0, 0.05); border-left: 4px solid #FFD700; padding: 18px 24px; border-radius: 0 12px 12px 0; font-size: 1.1rem; color: #FFD700; font-weight: 600; font-family: 'Outfit'; }
+
+        /* Navigation */
+        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); width: 55px; height: 55px; border-radius: 50%; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-size: 20px; cursor: pointer; z-index: 1000; transition: all 0.2s; }
+        .nav-btn:hover { background: rgba(255,215,0,0.2); border-color: #FFD700; color: #FFD700; }
+        .nav-btn.left { left: 20px; } .nav-btn.right { right: 20px; }
+
+        .bottom-counter { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); font-family: 'Outfit'; font-size: 1.1rem; font-weight: 700; letter-spacing: 2px; color: #64748b; z-index: 1000; background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); padding: 6px 18px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.05); transition: opacity 0.3s; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+        .bottom-counter:hover { border-color: #FFD700; color: #fff; box-shadow: 0 0 15px rgba(255,215,0,0.2); }
+
+        .jump-modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); z-index: 3000; display: none; align-items: center; justify-content: center; flex-direction: column; opacity: 0; transition: opacity 0.3s; }
+        .jump-modal.show { display: flex; opacity: 1; }
+        .jump-header { display: flex; justify-content: space-between; align-items: center; width: 90%; max-width: 1000px; margin-bottom: 20px; }
+        .jump-header h2 { font-family: 'Outfit'; color: #fff; font-size: 2rem; }
+        .jump-header button { background: transparent; border: none; color: #FF1744; font-size: 2.5rem; cursor: pointer; transition: transform 0.3s; }
+        .jump-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; width: 90%; max-width: 1000px; max-height: 70vh; overflow-y: auto; padding-right: 10px; }
+        .jump-grid::-webkit-scrollbar { width: 6px; } .jump-grid::-webkit-scrollbar-thumb { background: rgba(255,215,0,0.5); border-radius: 10px; }
+        .jump-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; padding: 12px 10px; border-radius: 10px; font-family: 'Outfit'; font-weight: 600; cursor: pointer; transition: 0.3s; font-size: 0.9rem; }
+        .jump-btn:hover, .jump-btn.active { background: rgba(255,215,0,0.15); border-color: #FFD700; color: #FFD700; }
+        .jump-btn.special { background: rgba(0,230,118,0.1); border-color: #00E676; color: #00E676; }
+
+        /* Animations */
+        .anim-item { opacity: 0; animation: fadeUp 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        .delay-1 { animation-delay: 0.1s; } .delay-2 { animation-delay: 0.2s; } .delay-3 { animation-delay: 0.3s; } .delay-4 { animation-delay: 0.4s; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .slide-content, .hero-main-content, .profile-layout { flex-direction: column-reverse; gap: 30px; text-align: center; }
+            .hero-layout { align-items: center; }
+            .academy-branding img { height: 70px; }
+            .academy-name { font-size: 1.6rem; }
+            .academy-branding { margin-bottom: 20px; }
+            .event-details { justify-content: center; }
+            .info-grid, .review-grid { grid-template-columns: 1fr; }
+            #dynamicSlide { padding: 25px; overflow-y: auto;}
+            
+            .persistent-brand { top: 15px; left: 20px; }
+            .persistent-brand img { height: 28px; }
+            .persistent-brand .watermark-name { font-size: 0.9rem; }
+            .persistent-brand .watermark-location { font-size: 0.6rem; }
+            .persistent-website { bottom: 15px; right: 20px; font-size: 0.75rem; }
+
+            .bg-number { display: none; }
+            .nav-btn { width: 40px; height: 40px; font-size: 16px; }
+            .nav-btn.left { left: 10px; }
+            .nav-btn.right { right: 10px; }
+            .visual-section { flex: 0.8; width: 100%; min-height: 180px; }
+            .graphic-icon { font-size: 5rem; }
+            .highlight-box { text-align: left; }
+            .profile-image-large img { width: 200px; height: 200px; margin-top: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="progress-bar-container"><div class="progress-bar" id="progressBar"></div></div>
+    
+    <button class="nav-btn left" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+    <button class="nav-btn right" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+    
+    <div class="bottom-counter" id="slideCounter" title="Click to Fast Jump">
+        <span>00 / 50</span> <i class="fas fa-th" style="color: #FFD700;"></i>
+    </div>
+
+    <!-- FAST JUMP MODAL -->
+    <div id="jumpModal" class="jump-modal">
+        <div class="jump-header">
+            <h2>Quick Navigation</h2>
+            <button id="closeJumpModal"><i class="fas fa-times-circle"></i></button>
+        </div>
+        <div class="jump-grid" id="jumpGrid"></div>
+    </div>
+
+    <div class="presentation">
+        <div class="slides-wrapper">
+            
+            <!-- PERSISTENT WATERMARK BRANDING -->
+            <div id="persistentBrand" class="persistent-brand">
+                <img src="https://github.com/helpwareinstitute-hash/Thewaregroupweb/blob/main/wealthmaster%20logo.png?raw=true" alt="Wealthmaster Logo">
+                <div class="watermark-text">
+                    <span class="watermark-name">Wealthmaster Academy</span>
+                    <span class="watermark-location">New Sanghvi, Pune</span>
+                </div>
+            </div>
+            <div id="persistentWebsite" class="persistent-website">
+                www.wealthmasteracademy.in
+            </div>
+
+            <!-- DYNAMIC SLIDE CONTENT -->
+            <div id="dynamicSlide"></div>
+
+        </div>
+    </div>
+
+    <script>
+        // Confetti Function for Bidding Slide
+        function fireConfetti() {
+            const colors = ['#FFD700', '#FF1744', '#00E676', '#00BFFF', '#FFA500', '#ffffff'];
+            for (let i = 0; i < 150; i++) {
+                let confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                confetti.style.height = (Math.random() * 20 + 10) + 'px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.top = '-20px';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.opacity = Math.random() + 0.5;
+                confetti.style.zIndex = '9999';
+                confetti.style.pointerEvents = 'none';
+                if (Math.random() > 0.5) confetti.style.borderRadius = '50%';
+                
+                document.body.appendChild(confetti);
+
+                let fallDuration = Math.random() * 3 + 2;
+                let sidewaysMovement = (Math.random() - 0.5) * 300;
+                
+                confetti.animate([
+                    { transform: `translate3d(0, 0, 0) rotate(0deg)`, opacity: 1 },
+                    { transform: `translate3d(${sidewaysMovement}px, 100vh, 0) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+                ], {
+                    duration: fallDuration * 1000,
+                    easing: 'cubic-bezier(.37,0,.63,1)',
+                    fill: 'forwards'
+                });
+
+                setTimeout(() => confetti.remove(), fallDuration * 1000);
+            }
+        }
+
+        // Full 50-Point Database
+        const painPoints = [
+            { title: "No Setup, But Still Trading", desc: "The market is dead, but 'doing nothing' feels uncomfortable, so you invent a trade. No setup equals a random entry, which guarantees a random result.", insight: "Waiting is a highly active and profitable trading decision.", visual: "fa-eye-slash", color1: "#FF1744", color2: "#FFA500" },
+            { title: "Overtrading", desc: "One trade becomes five. Five become fifteen. You are no longer analyzing the market—you are purely trading your emotions.", insight: "Brokerage eats your capital. Overtrading eats your psychology.", visual: "fa-chart-line", color1: "#FFD700", color2: "#FF1744" },
+            { title: "FOMO (Fear of Missing Out)", desc: "The price starts flying. You panic and jump in because 'I will miss the move.' A late entry instantly turns a good trend into a terrible risk-to-reward trade.", insight: "Chasing green candles is the fastest way to see red P&L.", visual: "fa-fire-alt", color1: "#00E676", color2: "#FFD700" },
+            { title: "Early Entry (Prediction)", desc: "'I know the market will go up here.' You enter before the structure actually confirms it. The market does not care what you think you know.", insight: "Trade what you see, not what you predict.", visual: "fa-brain", color1: "#00BFFF", color2: "#FF1744" },
+            { title: "Stop-Loss Hit Repeatedly", desc: "Entry → SL Hit → Re-entry → SL Hit again. Often, the problem isn't your stop-loss placement, but entering without proper structural confirmation.", insight: "Stop entering in the middle of a choppy range.", visual: "fa-magnet", color1: "#FF1744", color2: "#94a3b8" },
+            { title: "SL Hit... Then Targets Met", desc: "The most painful experience. A wick takes out your SL and then flies to your target. This tricks you into believing the market is 'hunting' you.", insight: "Your SL was placed exactly where everyone else placed theirs.", visual: "fa-magnet", color1: "#FFD700", color2: "#FF1744" },
+            { title: "Zero Patience", desc: "A professional setup takes hours to form, but you want instant action. Impatient traders manufacture fake opportunities.", insight: "The market pays you to wait, not to click.", visual: "fa-hourglass-half", color1: "#00E676", color2: "#00BFFF" },
+            { title: "Revenge Trading", desc: "Loss → Anger → Bigger Position → Bigger Loss. Your next trade becomes a desperate attempt to punish the market and recover your money.", insight: "The market doesn't know you exist. Stop fighting it.", visual: "fa-fire-alt", color1: "#FF1744", color2: "#000" },
+            { title: "Increasing Lot Size After a Loss", desc: "'I will recover the entire loss in one big trade.' This exact mindset turns a manageable 2% loss into a devastating 50% account blowout.", insight: "Never increase risk when your mind is compromised.", visual: "fa-balance-scale", color1: "#FF1744", color2: "#FFA500" },
+            { title: "Zero-to-Hero Mindset", desc: "'I will turn ₹10,000 into ₹1 Lakh this week.' Trading becomes a lottery ticket rather than a scalable, skill-based business process.", insight: "Focus on percentages, not absolute numbers.", visual: "fa-dice", color1: "#FFD700", color2: "#00E676" },
+            { title: "Searching for the Magic Strategy", desc: "New indicator today. New Telegram setup tomorrow. You abandon strategies before giving them a sufficient statistical sample size to prove their edge.", insight: "The Holy Grail is risk management, not an indicator.", visual: "fa-eye-slash", color1: "#00BFFF", color2: "#FFD700" },
+            { title: "The '100% Formula' Illusion", desc: "You are constantly searching for a formula that guarantees 90% accuracy. It does not exist. Trading is entirely about probabilities and risk control.", insight: "A 40% win rate is highly profitable with a 1:3 Risk/Reward.", visual: "fa-bullseye", color1: "#FFD700", color2: "#FF1744" },
+            { title: "Random Trading", desc: "No clear technical reason for entry, no defined Stop Loss, no target in mind, and no position-sizing plan. Pure chaos.", insight: "Random inputs will only ever generate random outputs.", visual: "fa-dice", color1: "#94a3b8", color2: "#FF1744" },
+            { title: "No Trading Plan", desc: "You enter the trade first in a panic, and only then do you decide where to place your SL and target. Professional execution is the exact opposite.", insight: "Define the exit before you ever make the entry.", visual: "fa-book-open", color1: "#00BFFF", color2: "#00E676" },
+            { title: "No Risk Management", desc: "You focus entirely on 'How much money can I make?' instead of 'How much will I lose?' Profit is uncertain; risk is entirely in your control.", insight: "Survive first. Thrive second.", visual: "fa-balance-scale", color1: "#FFD700", color2: "#FF1744" },
+            { title: "Trading Scared Capital", desc: "When every trade is connected to rent, EMI, or survival, emotional pressure is at its peak. You will inevitably make fear-based decisions.", insight: "Money needed for survival should never touch a trading account.", visual: "fa-balance-scale", color1: "#FF1744", color2: "#94a3b8" },
+            { title: "The 'Daily Expense' Mindset", desc: "Entering the market solely to earn today's grocery or fuel money. The market does not owe you a daily salary.", insight: "The market moves on its own schedule, not yours.", visual: "fa-bullseye", color1: "#00E676", color2: "#FFD700" },
+            { title: "Daily Target Obsession", desc: "'I must make ₹2,000 every single day.' When the market is choppy and provides no setups, this target forces you into terrible trades.", insight: "Some days your job is simply not to lose money.", visual: "fa-bullseye", color1: "#FFD700", color2: "#FF1744" },
+            { title: "The Screenshot Trap", desc: "Someone posts a ₹50,000 profit screenshot, and suddenly your process feels useless. You see their reward, but not their capital, losses, or risk.", insight: "Social media shows the highlight reel, not the reality.", visual: "fa-mobile-alt", color1: "#00BFFF", color2: "#00E676" },
+            { title: "Toxic Comparison", desc: "'Why is he making money and I am failing?' Comparison creates immense internal pressure, and pressure guarantees poor execution.", insight: "Your only competition is your own trading journal.", visual: "fa-mobile-alt", color1: "#FF1744", color2: "#FFA500" },
+            { title: "Loss of Self-Belief", desc: "After a series of losses, you completely stop trusting your own analysis. You start relying on tips from strangers instead of fixing your process.", insight: "Confidence comes from strict risk management.", visual: "fa-brain", color1: "#94a3b8", color2: "#FF1744" },
+            { title: "Strategy Hopping", desc: "Loss from Strategy A → Switch to Strategy B → Switch to Indicator C. You blame the tool instead of correcting your psychology.", insight: "Master one setup perfectly before learning another.", visual: "fa-eye-slash", color1: "#FFA500", color2: "#00BFFF" },
+            { title: "Signal Dependency", desc: "'Where should I buy? Where is the SL?' Outsourcing your decisions ensures you will never develop the skill of independent trading.", insight: "A tip can give you a trade, but only skill gives you a career.", visual: "fa-mobile-alt", color1: "#FFD700", color2: "#00BFFF" },
+            { title: "Analysis Paralysis", desc: "Too many indicators, too many opinions, too many timeframes. More information does not create better decisions; it creates confusion.", insight: "Keep your charts clean and your rules simple.", visual: "fa-brain", color1: "#FF1744", color2: "#00BFFF" },
+            { title: "Predicting Every Move", desc: "You want to know exactly where NIFTY will go today. Trading is about managing probabilities and reacting to price, not playing fortune teller.", insight: "You don't need to know what happens next to make money.", visual: "fa-brain", color1: "#00E676", color2: "#FFD700" },
+            { title: "Entering Because 'It's Cheap'", desc: "'It has fallen so much, it has to go up now.' Cheap is not a setup. Price can remain weak far longer than your account can remain solvent.", insight: "Never catch a falling knife.", visual: "fa-chart-line", color1: "#FF1744", color2: "#94a3b8" },
+            { title: "Chasing Fast Markets", desc: "A massive candle prints, and you hit buy at the absolute peak. Excitement has completely replaced technical analysis.", insight: "If you missed the entry, let it go. There is always another trade.", visual: "fa-fire-alt", color1: "#00E676", color2: "#FFD700" },
+            { title: "Adding to a Losing Trade", desc: "'Let me average my buy price; the market will reverse.' Without a plan, averaging turns a minor mistake into a fatal portfolio wound.", insight: "Add to your winners, never to your losers.", visual: "fa-balance-scale", color1: "#FF1744", color2: "#FFA500" },
+            { title: "Frustration After Consecutive Losses", desc: "Three losses create the feeling: 'The market is just bad today.' You then start forcing terrible trades just to close the day in the green.", insight: "Set a daily loss limit. If it hits, close the terminal.", visual: "fa-brain", color1: "#FF1744", color2: "#94a3b8" },
+            { title: "Exiting Winners Too Early", desc: "A small profit appears, and you panic-sell immediately. Then you watch helplessly as the market hits your massive original target.", insight: "Let your probabilities play out.", visual: "fa-hourglass-half", color1: "#00E676", color2: "#FFD700" },
+            { title: "Holding Losers Too Long", desc: "Small loss → Hope → Bigger loss → 'I will wait a little longer.' You give a losing position more time than you give a winning one.", insight: "Hope is the most expensive emotion in trading.", visual: "fa-hourglass-half", color1: "#FF1744", color2: "#FFA500" },
+            { title: "Reverse Risk-to-Reward", desc: "You book profits in seconds, but you let losses run for hours. This behavior mathematically guarantees long-term failure.", insight: "Cut losses fast. Hold winners long.", visual: "fa-balance-scale", color1: "#00E676", color2: "#FF1744" },
+            { title: "Trading All Day Long", desc: "Market opens → Trade → Lunch → Trade → Expiry → Trade. Sitting in front of the screen all day long drains your mental capital.", insight: "Most of your profit will come from just 1-2 hours of the day.", visual: "fa-hourglass-half", color1: "#00BFFF", color2: "#94a3b8" },
+            { title: "Ignoring Market Context", desc: "You see a bullish candlestick but completely ignore the overriding downtrend, structural resistance, and low volume.", insight: "Context is king. A pattern is useless without it.", visual: "fa-eye-slash", color1: "#FFD700", color2: "#FF1744" },
+            { title: "Using Every Indicator Available", desc: "RSI + MACD + VWAP + Supertrend + Fibonacci. When everything on your screen is flashing signals, nothing is actually a clear signal.", insight: "Remove the noise to see the price.", visual: "fa-chart-line", color1: "#00BFFF", color2: "#00E676" },
+            { title: "Wanting Instant Results", desc: "You join a course on Monday and expect a consistent professional income by Friday. Trading requires months of screen time to master.", insight: "Treat it like a degree, not a get-rich-quick scheme.", visual: "fa-hourglass-half", color1: "#FFD700", color2: "#FFA500" },
+            { title: "Pure Profit Obsession", desc: "You study the target levels for hours, but spend only five seconds calculating risk. Professional trading starts with defending capital.", insight: "If you control the downside, the upside takes care of itself.", visual: "fa-balance-scale", color1: "#00E676", color2: "#FFD700" },
+            { title: "Refusing to Accept Losses", desc: "One stop-loss hit feels like a personal failure. A losing trade is simply the cost of doing business; uncontrolled losses are the actual problem.", insight: "Accept the loss gracefully and move to the next setup.", visual: "fa-brain", color1: "#FF1744", color2: "#FFA500" },
+            { title: "No Trading Journal", desc: "You vividly remember your winning trades but actively try to forget your mistakes. Without a journal, the same errors will repeat endlessly.", insight: "Data is the only way to improve.", visual: "fa-book-open", color1: "#00BFFF", color2: "#FFD700" },
+            { title: "Not Reviewing Trades", desc: "Tomorrow begins exactly like yesterday, because yesterday was never analyzed. Improvement strictly requires a feedback loop.", insight: "Spend as much time reviewing trades as you do executing them.", visual: "fa-book-open", color1: "#00E676", color2: "#00BFFF" },
+            { title: "Emotional Decision-Making", desc: "Fear screams 'exit.' Greed yells 'hold.' FOMO says 'enter.' Revenge demands 'double the lot.' The trading plan is completely abandoned.", insight: "If you feel your heart racing, close the terminal.", visual: "fa-brain", color1: "#FF1744", color2: "#00BFFF" },
+            { title: "Treating Trading Like Gambling", desc: "Random entry + maximum leverage + zero stop-loss + pure hope. When risk is completely uncontrolled, trading becomes a casino game.", insight: "The casino always wins because it has a mathematical edge.", visual: "fa-dice", color1: "#FFD700", color2: "#FF1744" },
+            { title: "Leverage Addiction", desc: "Having low capital creates a massive temptation to use high margin. Leverage magnifies your opportunities, but it violently magnifies your mistakes.", insight: "Leverage is a double-edged sword without a handle.", visual: "fa-dice", color1: "#FF1744", color2: "#FFA500" },
+            { title: "Emotional Position Sizing", desc: "You choose your lot size based on a feeling: 'This setup is perfect, double the quantity!' Position size must be dictated by a risk formula.", insight: "Risk the exact same percentage on every trade.", visual: "fa-balance-scale", color1: "#FFD700", color2: "#00BFFF" },
+            { title: "Unable to Sit on Hands", desc: "You feel that if you are not in a trade, you are wasting time. Doing nothing and observing is a critical, highly active trading decision.", insight: "Cash is a position.", visual: "fa-hourglass-half", color1: "#00E676", color2: "#94a3b8" },
+            { title: "Overconfidence After a Win", desc: "One massive profit makes you believe, 'I have finally mastered the market.' Discipline vanishes, and your very next trade wipes you out.", insight: "The market is a master at humbling the arrogant.", visual: "fa-brain", color1: "#FFD700", color2: "#00E676" },
+            { title: "Fear After a Loss", desc: "After taking a hit, you spot the absolute perfect technical setup but completely freeze. One bad experience hijacks your next rational decision.", insight: "Every trade is an independent event.", visual: "fa-brain", color1: "#94a3b8", color2: "#FF1744" },
+            { title: "Trading to Prove Yourself", desc: "'I will show my family and friends that I can make money.' Trading morphs into an ego battle instead of a detached probability game.", insight: "Leave your ego at the door.", visual: "fa-mobile-alt", color1: "#FFA500", color2: "#FF1744" },
+            { title: "Following Too Many Opinions", desc: "YouTube says BUY. Telegram says SELL. Your friend says HOLD. Having too many voices destroys your conviction and creates immense confusion.", insight: "Mute the noise. Trust your own chart.", visual: "fa-mobile-alt", color1: "#00BFFF", color2: "#FFD700" },
+            { title: "Repeating the Same Mistake", desc: "Same emotional entry. Same ignored SL. Same frustration. Knowing you made a mistake is not enough—you must fundamentally change your behavior.", insight: "Insanity is doing the same thing and expecting different P&L.", visual: "fa-book-open", color1: "#FF1744", color2: "#94a3b8" }
+        ];
+
+        let currentSlide = 0;
+        const totalSlides = painPoints.length + 8; // Hero + Founder + Mentor + Academy + 50 Points + Reviews + Courses + Bidding + Q&A (total 58)
+        
+        const dynamicSlide = document.getElementById('dynamicSlide');
+        const counterEl = document.getElementById('slideCounter');
+        const progressEl = document.getElementById('progressBar');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const pBrand = document.getElementById('persistentBrand');
+        const pWeb = document.getElementById('persistentWebsite');
+        const jumpModal = document.getElementById('jumpModal');
+        const jumpGrid = document.getElementById('jumpGrid');
+        const closeJumpModal = document.getElementById('closeJumpModal');
+
+        // SETUP FAST JUMP MENU
+        for(let i=0; i<totalSlides; i++) {
+            const btn = document.createElement('button');
+            btn.className = 'jump-btn';
+            
+            if(i === 0) { btn.innerHTML = '<i class="fas fa-home"></i> Hero'; btn.classList.add('special'); }
+            else if(i === 1) { btn.innerHTML = 'Founder'; btn.classList.add('special'); }
+            else if(i === 2) { btn.innerHTML = 'Mentor'; btn.classList.add('special'); }
+            else if(i === 3) { btn.innerHTML = 'Academy'; btn.classList.add('special'); }
+            else if(i === totalSlides - 4) { btn.innerHTML = '<i class="fas fa-star"></i> Reviews'; btn.classList.add('special'); }
+            else if(i === totalSlides - 3) { btn.innerHTML = '<i class="fas fa-graduation-cap"></i> Courses'; btn.classList.add('special'); }
+            else if(i === totalSlides - 2) { btn.innerHTML = '<i class="fas fa-gavel"></i> Bidding'; btn.classList.add('special'); }
+            else if(i === totalSlides - 1) { btn.innerHTML = '<i class="fas fa-comments"></i> Q&A'; btn.classList.add('special'); }
+            else { btn.innerText = `Point ${i - 3}`; }
+
+            btn.onclick = () => {
+                const direction = i > currentSlide ? 'next' : 'prev';
+                renderSlide(i, direction);
+                jumpModal.classList.remove('show');
+            };
+            jumpGrid.appendChild(btn);
+        }
+
+        counterEl.addEventListener('click', () => { jumpModal.classList.add('show'); });
+        closeJumpModal.addEventListener('click', () => { jumpModal.classList.remove('show'); });
+
+        // Rendering Engine
+        function renderSlide(index, direction = 'next') {
+            dynamicSlide.classList.remove('slide-in-next', 'slide-in-prev');
+            void dynamicSlide.offsetWidth; 
+            dynamicSlide.classList.add(direction === 'next' ? 'slide-in-next' : 'slide-in-prev');
+            
+            let htmlContent = '';
+
+            if (index === 0) { pBrand.style.opacity = '0'; pWeb.style.opacity = '0'; } 
+            else { pBrand.style.opacity = '1'; pWeb.style.opacity = '1'; }
+
+            if (index === 0) {
+                htmlContent = `
+                    <div class="hero-layout">
+                        <div class="academy-branding anim-item delay-1">
+                            <img src="https://github.com/helpwareinstitute-hash/Thewaregroupweb/blob/main/wealthmaster%20logo.png?raw=true" alt="Wealthmaster Logo">
+                            <div class="academy-info">
+                                <div class="academy-name">Wealthmaster Academy</div>
+                                <div class="academy-location">New Sanghvi, Pune</div>
+                            </div>
+                        </div>
+                        <div class="hero-main-content">
+                            <div class="hero-text">
+                                <div class="badge-premium anim-item delay-2">Masterclass 2026</div>
+                                <h1 class="slide-title hero-title anim-item delay-3">The 50 Silent Killers<br>of Trading</h1>
+                                <div class="slide-desc anim-item delay-4" style="color: #cbd5e1;">The complete psychological breakdown of why 90% of intraday traders lose their capital, and the exact rules required to fix it.</div>
+                                <div class="event-details anim-item delay-4">
+                                    <div class="detail-item"><i class="fas fa-calendar-check"></i> Aug 23, 2026</div>
+                                    <div class="detail-item"><i class="fas fa-map-marker-alt"></i> New Sanghvi, Pune</div>
+                                </div>
+                            </div>
+                            <div class="team-card anim-item delay-2">
+                                <h3 style="font-family:'Outfit'; color:#fff; font-size:1.3rem; margin-bottom: 20px; letter-spacing:1px;">Hosted By</h3>
+                                <div class="team-grid">
+                                    <div class="team-member">
+                                        <div class="mentor-photo"><img src="https://github.com/helpwareinstitute-hash/Thewaregroupweb/blob/main/deepak%20ppf.png?raw=true" alt="Dipak Wagh"></div>
+                                        <div class="team-name">Dipak Wagh</div>
+                                        <div class="team-title">Founder</div>
+                                    </div>
+                                    <div class="team-member">
+                                        <div class="mentor-photo"><img src="https://github.com/Growftofficial/My-tool-growft/blob/main/dr.lokhande%20pfp.png?raw=true" alt="Dr. Raj Lokhande"></div>
+                                        <div class="team-name">Dr. Raj Lokhande</div>
+                                        <div class="team-title">Head Mentor</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                counterEl.querySelector('span').innerText = 'Start';
+                progressEl.style.width = '0%';
+            } 
+            else if (index === 1) {
+                htmlContent = `
+                    <div class="profile-layout">
+                        <div class="profile-image-large anim-item delay-2">
+                            <img src="https://github.com/helpwareinstitute-hash/Thewaregroupweb/blob/main/deepak%20ppf.png?raw=true" alt="Dipak Wagh">
+                        </div>
+                        <div class="text-section" style="text-align: left;">
+                            <div class="badge-premium anim-item delay-1">Meet The Founder</div>
+                            <h2 class="slide-title anim-item delay-2">Dipak Wagh</h2>
+                            <div class="slide-desc anim-item delay-3" style="color:#FFD700; font-weight:600;">10+ Years Trading Experience • Ex-Corporate • Entrepreneur</div>
+                            <p class="slide-desc anim-item delay-3" style="font-size:0.95rem; margin-bottom: 20px;">After a decade of navigating the financial markets and corporate sector, Dipak founded Wealthmaster Academy in 2025 to bridge the massive gap between theoretical knowledge and practical retail success.</p>
+                            
+                            <div class="info-grid anim-item delay-4" style="margin-bottom: 25px;">
+                                <div class="info-card" style="padding:18px;">
+                                    <i class="fas fa-chess-king" style="font-size:1.6rem;"></i>
+                                    <h3 style="font-size:1.1rem;">SMC & Price Action</h3>
+                                    <p style="font-size:0.85rem;">Trading based strictly on Smart Money Concepts, logic, and structure.</p>
+                                </div>
+                                <div class="info-card" style="padding:18px;">
+                                    <i class="fas fa-users" style="font-size:1.6rem;"></i>
+                                    <h3 style="font-size:1.1rem;">Earn When You Learn</h3>
+                                    <p style="font-size:0.85rem;">Focused on transforming gamblers into independent, disciplined professionals.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="highlight-box anim-item delay-4" style="font-size: 0.95rem; font-style: italic; border-left-color: #00E676; color: #fff;">
+                                "Your journey to financial freedom starts with a single step towards the right knowledge. Welcome to Wealthmaster Academy."
+                            </div>
+                        </div>
+                    </div>
+                `;
+                counterEl.querySelector('span').innerText = 'Founder';
+                progressEl.style.width = '2%';
+            }
+            else if (index === 2) {
+                htmlContent = `
+                    <div class="profile-layout">
+                        <div class="text-section">
+                            <div class="badge-premium anim-item delay-1">Meet The Head Mentor</div>
+                            <h2 class="slide-title anim-item delay-2">Dr. Raj Lokhande</h2>
+                            <div class="slide-desc anim-item delay-3" style="color:#FFD700; font-weight:600;">Chief Trading Strategist, Wealthmaster Academy</div>
+                            <p class="slide-desc anim-item delay-3" style="font-size:1rem; margin-bottom: 20px;">With rigorous market experience, Dr. Lokhande has decoded the exact psychological traps that destroy retail traders. His mission is to enforce emotional discipline and strict process-oriented execution.</p>
+                            <div class="info-grid anim-item delay-4">
+                                <div class="info-card"><i class="fas fa-chart-pie"></i><h3>Price Action Expert</h3><p>Specializes in pure chart reading without relying on lagging indicators.</p></div>
+                                <div class="info-card"><i class="fas fa-brain"></i><h3>Trading Psychology</h3><p>Focuses extensively on mindset architecture and advanced risk modeling.</p></div>
+                            </div>
+                        </div>
+                        <div class="profile-image-large anim-item delay-2">
+                            <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/dr.lokhande%20pfp.png?raw=true" alt="Dr. Raj Lokhande">
+                        </div>
+                    </div>
+                `;
+                counterEl.querySelector('span').innerText = 'Mentor';
+                progressEl.style.width = '4%';
+            }
+            else if (index === 3) {
+                htmlContent = `
+                    <div class="profile-layout">
+                        <div class="text-section">
+                            <div class="badge-premium anim-item delay-1">About The Academy</div>
+                            <h2 class="slide-title anim-item delay-2">Wealthmaster Academy</h2>
+                            <div class="slide-desc anim-item delay-3" style="color:#FFD700; font-weight:600;">Pune's Premier Trading Education Centre</div>
+                            <p class="slide-desc anim-item delay-3" style="font-size:1rem; margin-bottom: 20px;">
+                                Established in <strong>2025</strong>, Wealthmaster Academy provides top-notch trading education through online and offline classes. Our mission is to empower aspiring traders with the exact strategies and psychological insights needed to navigate financial markets confidently.
+                            </p>
+                            <div class="info-grid anim-item delay-4">
+                                <div class="info-card" style="padding: 20px;">
+                                    <i class="fas fa-chart-line" style="font-size: 1.5rem; margin-bottom: 10px;"></i>
+                                    <h3 style="font-size: 1.1rem;">Comprehensive Training</h3>
+                                    <p style="font-size: 0.85rem;">Indian Markets, Forex Trading, and Live Demo Lectures.</p>
+                                </div>
+                                <div class="info-card" style="padding: 20px;">
+                                    <i class="fas fa-user-graduate" style="font-size: 1.5rem; margin-bottom: 10px;"></i>
+                                    <h3 style="font-size: 1.1rem;">Proven Success</h3>
+                                    <p style="font-size: 0.85rem;">Successfully transformed hundreds of individuals into profitable traders.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="visual-section anim-item delay-2" style="background: linear-gradient(135deg, rgba(20,25,35,0.9), rgba(5,10,15,0.9)); display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px solid rgba(255,215,0,0.2);">
+                            <div class="graphic-orb orb-1" style="background: #00E676; opacity: 0.2;"></div>
+                            <div class="graphic-orb orb-2" style="background: #FFD700; opacity: 0.2;"></div>
+                            <div style="position: relative; z-index: 2; text-align: center;">
+                                <div style="font-size: 6rem; color: #FFD700; font-weight: 900; font-family: 'Outfit'; filter: drop-shadow(0 0 20px rgba(255,215,0,0.5));">400+</div>
+                                <div style="color: #00E676; font-size: 1.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 3px;">Professional Traders</div>
+                                <div style="color: #94a3b8; font-size: 1rem; margin-top: 10px; font-weight: 500;">Created and counting</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                counterEl.querySelector('span').innerText = 'Academy';
+                progressEl.style.width = '6%';
+            }
+            else if (index >= 4 && index <= 53) {
+                const pointIndex = index - 4;
+                const point = painPoints[pointIndex];
+                const pointNum = (pointIndex + 1).toString().padStart(2, '0');
+                
+                htmlContent = `
+                    <div class="bg-number">${pointNum}</div>
+                    <div class="slide-content">
+                        <div class="text-section">
+                            <div class="badge-premium anim-item delay-1" style="font-size:0.75rem;">Killer #${pointNum} of 50</div>
+                            <h2 class="slide-title anim-item delay-1" style="margin-bottom: 10px;">${point.title}</h2>
+                            <div class="slide-desc anim-item delay-2">${point.desc}</div>
+                            <div class="highlight-box anim-item delay-3"><i class="fas fa-key"></i> Reality: ${point.insight}</div>
+                        </div>
+                        <div class="visual-section anim-item delay-2">
+                            <div class="graphic-orb orb-1" style="background: ${point.color1};"></div>
+                            <div class="graphic-orb orb-2" style="background: ${point.color2};"></div>
+                            <div class="ring ring-1"></div>
+                            <div class="ring ring-2"></div>
+                            <i class="fas ${point.visual} graphic-icon" style="background: linear-gradient(135deg, #FFF, ${point.color1}); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+                        </div>
+                    </div>
+                `;
+                counterEl.querySelector('span').innerHTML = `${pointNum} / 50`;
+                progressEl.style.width = ((index) / totalSlides) * 100 + '%';
+            }
+            else if (index === 54) {
+                htmlContent = `
+                    <div class="text-section" style="width: 100%;">
+                        <div class="badge-premium anim-item delay-1" style="margin: 0 auto 20px; display: table;">Success Stories</div>
+                        <h2 class="slide-title anim-item delay-1" style="text-align: center;">What Our Students Say</h2>
+                        <div class="review-grid anim-item delay-2">
+                            <div class="review-card">
+                                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                                <div class="review-text">"Before Wealthmaster, I was just gambling and hoping. Dipak sir taught me how to actually manage risk. I am finally seeing consistent green months."</div>
+                                <div class="reviewer-name">Rahul D.</div>
+                                <div class="reviewer-role">Options Trader</div>
+                            </div>
+                            <div class="review-card">
+                                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                                <div class="review-text">"The focus on psychology is unmatched. I used to revenge trade every time my SL hit. Dr. Raj and the academy completely rewired my mindset."</div>
+                                <div class="reviewer-name">Sneha M.</div>
+                                <div class="reviewer-role">Equity Intraday</div>
+                            </div>
+                            <div class="review-card">
+                                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+                                <div class="review-text">"Pure price action and SMC. No confusing indicators. The way they simplify complex market structures is absolutely brilliant."</div>
+                                <div class="reviewer-name">Vikram P.</div>
+                                <div class="reviewer-role">Swing Trader</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                counterEl.querySelector('span').innerText = 'Reviews';
+                progressEl.style.width = '94%';
+            }
+            else if (index === 55) {
+                htmlContent = `
+                    <div class="text-section" style="width: 100%; text-align: center;">
+                        <h2 class="slide-title anim-item delay-1">Take the Next Step</h2>
+                        <div class="slide-desc anim-item delay-2">Stop losing capital to the market. Invest in your education today.</div>
+                        <div class="info-grid anim-item delay-3" style="text-align: left; margin-top: 30px;">
+                            <div class="info-card" style="border-top: 4px solid #00E676;">
+                                <i class="fas fa-seedling" style="color: #00E676;"></i>
+                                <h3>Beginner Foundation Course</h3>
+                                <p>Perfect for absolute beginners. Learn the mechanics of the market, basic price action, and terminal operations from scratch.</p>
+                            </div>
+                            <div class="info-card" style="border-top: 4px solid #FFD700;">
+                                <i class="fas fa-chess-knight" style="color: #FFD700;"></i>
+                                <h3>Price Action Mastery</h3>
+                                <p>Advanced chart reading, liquidity concepts, institutional zones, and strictly managing risk without lagging indicators.</p>
+                            </div>
+                            <div class="info-card" style="border-top: 4px solid #00BFFF;">
+                                <i class="fas fa-bolt" style="color: #00BFFF;"></i>
+                                <h3>Options Trading Blueprint</h3>
+                                <p>Master option Greeks, premium decay, exact strike selection, and high-probability option buying/selling setups.</p>
+                            </div>
+                            <div class="info-card" style="border-top: 4px solid #FF1744;">
+                                <i class="fas fa-brain" style="color: #FF1744;"></i>
+                                <h3>Mentorship & Psychology</h3>
+                                <p>1-on-1 guidance to fix your specific emotional trading errors, build a custom trading plan, and maintain a journal.</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                counterEl.querySelector('span').innerText = 'Courses';
+                progressEl.style.width = '96%';
+            }
+            else if (index === 56) {
+                // ===== 57. LIVE BIDDING SESSION =====
+                htmlContent = `
+                    <div class="text-section" style="width: 100%; text-align: center;">
+                        <div class="badge-premium anim-item delay-1" style="margin: 0 auto 20px; display: table;"><i class="fas fa-gavel"></i> Special Seminar Event</div>
+                        <h2 class="slide-title anim-item delay-1">Live Bidding Session</h2>
+                        <div class="slide-desc anim-item delay-2">We believe in empowering action-takers. Today, you decide the value of your education.</div>
+                        
+                        <div class="anim-item delay-3" style="background: linear-gradient(145deg, rgba(255,23,68,0.05), rgba(20,25,35,0.9)); border: 1px solid rgba(255,23,68,0.3); padding: 40px; border-radius: 24px; max-width: 800px; margin: 30px auto 0; box-shadow: 0 10px 40px rgba(255,23,68,0.15);">
+                            
+                            <div style="font-size: 1.6rem; color: #00E676; font-weight: 800; font-family: 'Outfit'; margin-bottom: 15px; letter-spacing: 1px; text-transform: uppercase;">Current Price:</div>
+                            
+                            <div style="display: flex; align-items: center; justify-content: center; font-size: 6rem; font-weight: 900; font-family: 'Outfit'; color: #00E676; margin-bottom: 25px; text-shadow: 0 0 30px rgba(0,230,118,0.6); transition: color 0.3s, text-shadow 0.3s;" id="bidPriceWrapper">
+                                <span style="margin-right: 5px;">₹</span>
+                                <div id="bidContainer" style="display:inline-flex; align-items:center;">
+                                    <span id="bidPrefix" style="display: inline-block;">30</span>
+                                    <span>,000</span>
+                                </div>
+                                <button id="decreaseBidBtn" style="margin-left: 30px; width: 60px; height: 60px; border-radius: 50%; border: none; background: linear-gradient(135deg, #FF1744, #D50000); color: #fff; font-size: 1.8rem; cursor: pointer; box-shadow: 0 10px 25px rgba(255,23,68,0.4); transition: all 0.3s;" title="Drop Price by ₹1000">
+                                    <i class="fas fa-arrow-down"></i>
+                                </button>
+                            </div>
+
+                            <div class="highlight-box" style="border-left-color: #FFD700; color: #fff; font-size: 1rem; text-align: left; background: rgba(255,215,0,0.05); padding: 15px;">
+                                <i class="fas fa-info-circle" style="color: #FFD700;"></i> <strong>Rules:</strong> Only serious candidates. Place your highest bid now to unlock complete access. The best offers win the seats!
+                            </div>
+                        </div>
+                    </div>
+                `;
+                counterEl.querySelector('span').innerText = 'Bidding';
+                progressEl.style.width = '98%';
+            }
+            else if (index === 57) {
+                htmlContent = `
+                    <div style="text-align:center; height:100%; display:flex; flex-direction:column; justify-content:center; position:relative;">
+                        <i class="fas fa-comments anim-item delay-1" style="font-size: 5rem; color: #FFD700; margin-bottom: 20px; filter: drop-shadow(0 0 20px rgba(255,215,0,0.3));"></i>
+                        <h1 class="slide-title anim-item delay-2">Open for Questions</h1>
+                        <div class="slide-desc anim-item delay-3" style="max-width:700px; margin: 0 auto 30px;">Thank you for attending the masterclass. Let's discuss your specific trading challenges.</div>
+                        <div class="anim-item delay-4" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 20px 40px; border-radius: 20px; display: inline-block; margin: 20px auto 0;">
+                            <div style="font-family:'Outfit'; font-size:1.4rem; font-weight:700; color:#fff; margin-bottom: 10px;">Contact Us</div>
+                            <div style="color: #00E676; font-size: 1.1rem; margin-bottom: 5px;"><i class="fas fa-globe"></i> www.wealthmasteracademy.in</div>
+                            <div style="color: #cbd5e1; font-size: 1rem;"><i class="fas fa-map-marker-alt" style="color:#FF1744;"></i> New Sanghvi, Pune</div>
+                        </div>
+                        <div class="anim-item delay-4" style="font-family:'Outfit'; font-size:1.2rem; font-weight:700; color:#fff; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top:30px;">Dipak Wagh & Dr. Raj Lokhande • Wealthmaster Academy</div>
+                        
+                        <!-- GROWFT BRANDING -->
+                        <div class="anim-item delay-4" style="margin-top: 40px; font-family:'Inter'; font-size:0.9rem; color:#64748b; letter-spacing:1px; display:flex; align-items:center; justify-content:center; gap:8px;">
+                            Marketed by <span style="font-family:'Outfit'; font-weight:800; color:#00BFFF; font-size:1.1rem; letter-spacing:2px; text-shadow: 0 0 10px rgba(0, 191, 255, 0.4);">GROWFT</span>
+                        </div>
+                    </div>
+                `;
+                counterEl.querySelector('span').innerText = 'Q & A';
+                progressEl.style.width = '100%';
+            }
+
+            dynamicSlide.innerHTML = htmlContent;
+            
+            // Attach Logic for Bidding Slide
+            if(index === 56) {
+                const decreaseBtn = document.getElementById('decreaseBidBtn');
+                const bidPrefix = document.getElementById('bidPrefix');
+                const bidPriceWrapper = document.getElementById('bidPriceWrapper');
+                let currentPrice = 30;
+
+                decreaseBtn.addEventListener('click', () => {
+                    if (currentPrice > 15) {
+                        currentPrice -= 1;
+                        
+                        bidPrefix.classList.remove('smash-in');
+                        bidPrefix.classList.add('smash-out');
+                        
+                        setTimeout(() => {
+                            bidPrefix.innerText = currentPrice;
+                            bidPrefix.classList.remove('smash-out');
+                            bidPrefix.classList.add('smash-in');
+                            
+                            // If floor hit, lock the button and fire confetti
+                            if (currentPrice === 15) {
+                                decreaseBtn.innerHTML = '<i class="fas fa-lock"></i>';
+                                decreaseBtn.style.background = 'linear-gradient(135deg, #FFD700, #FFA500)';
+                                decreaseBtn.style.color = '#000';
+                                decreaseBtn.style.pointerEvents = 'none';
+                                decreaseBtn.style.boxShadow = '0 0 25px rgba(255,215,0,0.6)';
+                                
+                                bidPriceWrapper.style.color = '#FFD700';
+                                bidPriceWrapper.style.textShadow = '0 0 40px rgba(255,215,0,0.8)';
+                                
+                                fireConfetti();
+                            }
+                        }, 400); 
+                    }
+                });
+            }
+            
+            currentSlide = index;
+        }
+
+        prevBtn.addEventListener('click', () => { if (currentSlide > 0) renderSlide(currentSlide - 1, 'prev'); });
+        nextBtn.addEventListener('click', () => { if (currentSlide < totalSlides - 1) renderSlide(currentSlide + 1, 'next'); });
+
+        // MODIFIED KEYDOWN LISTENER FOR PPT SLIDER SUPPORT
+        document.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT') return;
+            
+            // Next Slide (ArrowRight, PageDown, Space)
+            if ((e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') && currentSlide < totalSlides - 1) {
+                renderSlide(currentSlide + 1, 'next');
+            }
+            // Previous Slide (ArrowLeft, PageUp)
+            if ((e.key === 'ArrowLeft' || e.key === 'PageUp') && currentSlide > 0) {
+                renderSlide(currentSlide - 1, 'prev');
+            }
+            if (e.key === 'Escape') jumpModal.classList.remove('show');
+        });
+
+        renderSlide(0, 'next');
+
+    </script>
+</body>
+</html>
