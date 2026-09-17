@@ -4,34 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkmate InvesTrado Academy - Free Live Stock Market Workshop</title>
-    
-    <!-- SEO & Open Graph Tags -->
-    <meta name="description" content="Stop Gambling with Your Capital. Join Checkmate InvesTrado Academy's Free Live Stock Market Workshop and master Intraday & Swing Trading.">
-    <meta name="keywords" content="Stock market workshop, free trading class, intraday trading course, Checkmate InvesTrado Academy, share market training Pune">
-    <meta property="og:title" content="Free Live Stock Market Workshop - Checkmate Academy">
-    <meta property="og:description" content="Master Logical, High-Probability Stock Trading. Claim your free seat and bonuses worth ₹9,500+ today.">
-    <meta property="og:image" content="https://github.com/Wealthmaster/Website/blob/main/CheckMate%20New%20Logo-05.png?raw=true">
-    <meta property="og:url" content="https://yourwebsite.com"> <!-- Yahan apni website ka actual link daal dena -->
-    <meta property="og:type" content="website">
-
-    <!-- Meta Pixel Code (Replace 'YOUR_PIXEL_ID' with your actual ID) -->
-    <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', 'YOUR_PIXEL_ID'); // <-- APNA PIXEL ID YAHAN DAAL
-    fbq('track', 'PageView');
-    </script>
-    <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"
-    /></noscript>
-    <!-- End Meta Pixel Code -->
-
     <!-- High-Converting Poppins Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -147,7 +119,7 @@
         }
 
         .hero h1 {
-            font-size: 38px;
+            font-size: 42px;
             font-weight: 800;
             max-width: 950px;
             margin: 0 auto 15px auto;
@@ -167,66 +139,104 @@
             font-weight: 400;
         }
 
-        /* VIDEO CONTAINER */
-        .video-wrapper {
+        /* CAROUSEL CONTAINER */
+        .carousel-wrapper {
             max-width: 800px;
             margin: 0 auto 30px auto;
             border-radius: var(--radius-md);
             overflow: hidden;
             box-shadow: var(--shadow-lg);
             border: 6px solid var(--bg-white);
-            background: #000;
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            height: 0;
         }
 
-        .video-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .carousel-track-container {
+            overflow: hidden;
+            position: relative;
             width: 100%;
-            height: 100%;
-            border: 0;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            display: block;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* Carousel Navigation Buttons */
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.4);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: 0.3s;
+        }
+        
+        .carousel-button:hover {
+            background: var(--accent-red);
+        }
+
+        .carousel-button-left {
+            left: 15px;
+        }
+
+        .carousel-button-right {
+            right: 15px;
+        }
+
+        /* Carousel Dots */
+        .carousel-nav {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .carousel-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .carousel-indicator.current-indicator {
+            background: var(--accent-red);
+            transform: scale(1.2);
         }
 
         .btn-group {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
+            gap: 20px;
             flex-wrap: wrap;
             justify-content: center;
-        }
-
-        .cta-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--btn-green);
-            color: #ffffff;
-            padding: 16px 36px;
-            font-size: 18px;
-            font-weight: 700;
-            text-decoration: none;
-            border-radius: var(--radius-sm);
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .cta-btn:hover {
-            background: var(--btn-green-hover);
-            transform: translateY(-3px);
-            box-shadow: 0 15px 28px rgba(37, 211, 102, 0.4);
-        }
-
-        .cta-btn i {
-            margin-right: 10px;
-            font-size: 22px;
         }
 
         /* NEW PREMIUM HERO CTA BUTTON */
@@ -236,11 +246,17 @@
             border-radius: 50px;
             padding: 18px 45px;
             font-size: 18px;
+            font-weight: 700;
+            text-decoration: none;
             position: relative;
             overflow: hidden;
             border: 2px solid rgba(255,255,255,0.2);
             color: #ffffff !important;
             z-index: 5;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
         }
 
         .hero-cta:hover {
@@ -277,7 +293,38 @@
             50% { transform: translateY(4px); }
         }
 
-        /* STATS SECTION */
+        /* CTA Standard Button */
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--btn-green);
+            color: #ffffff;
+            padding: 16px 36px;
+            font-size: 18px;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: var(--radius-sm);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-btn:hover {
+            background: var(--btn-green-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 28px rgba(37, 211, 102, 0.4);
+        }
+
+        .cta-btn i {
+            margin-right: 10px;
+            font-size: 22px;
+        }
+
+        /* STATS SECTION (GAP REDUCED) */
         .stats-section {
             padding: 0 0 40px 0;
             background: var(--bg-white);
@@ -286,7 +333,7 @@
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 15px; 
+            gap: 15px; /* Reduced gap */
             max-width: 1000px;
             margin: -40px auto 0 auto;
             position: relative;
@@ -412,7 +459,7 @@
             top: 2px;
         }
 
-        /* 5. WHY ATTEND WORKSHOP (WITH GLOWING BORDER) */
+        /* 5. WHY ATTEND WORKSHOP */
         .why-attend-section {
             padding: 50px 0;
             background: var(--bg-white);
@@ -428,19 +475,14 @@
             background: var(--bg-cream);
             padding: 25px;
             border-radius: var(--radius-md);
-            border: 2px solid var(--accent-blue);
-            animation: feature-glow-pulse 2.5s infinite alternate;
+            border-left: 4px solid var(--accent-blue);
             transition: 0.3s;
         }
 
         .feature-item:hover {
             background: var(--bg-white);
+            box-shadow: var(--shadow-md);
             transform: translateY(-3px);
-        }
-
-        @keyframes feature-glow-pulse {
-            0% { box-shadow: 0 0 8px rgba(30, 58, 138, 0.3); }
-            100% { box-shadow: 0 0 20px rgba(30, 58, 138, 0.8); }
         }
 
         .feature-item h4 {
@@ -491,90 +533,28 @@
             margin-bottom: 30px;
         }
 
-        /* =========================================
-           BONUS VISUAL HIERARCHY (Rank 1 to 4) 
-           ========================================= */
         .bonus-card {
-            position: relative;
-            padding: 22px 18px;
-            border-radius: var(--radius-md);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            margin-top: 15px; /* Badge spacing */
-            transition: 0.3s;
+            background: var(--bg-cream);
+            padding: 18px;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(0,0,0,0.05);
         }
 
         .bonus-card h4 {
+            font-size: 15px;
+            color: var(--accent-blue);
             margin-bottom: 5px;
         }
 
         .bonus-card span.value {
             display: inline-block;
             font-weight: 700;
+            color: var(--accent-red);
             font-size: 12px;
+            background: rgba(227, 30, 36, 0.1);
             padding: 2px 10px;
             border-radius: 12px;
-            width: fit-content;
         }
-
-        .bonus-badge {
-            position: absolute;
-            top: -14px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #fff;
-            font-size: 11px;
-            padding: 4px 14px;
-            border-radius: 20px;
-            font-weight: 800;
-            text-transform: uppercase;
-            white-space: nowrap;
-            letter-spacing: 0.5px;
-            z-index: 5;
-        }
-
-        /* Rank 1: Top Priority (Premium Dark + Gold Glow) */
-        .rank-1 {
-            background: linear-gradient(135deg, #111827 0%, #1e3a8a 100%);
-            border: 2px solid var(--accent-gold);
-            box-shadow: 0 0 25px rgba(223, 169, 41, 0.5);
-            transform: scale(1.02); 
-        }
-        .rank-1:hover { transform: scale(1.04); }
-        .rank-1 h4 { color: #ffffff !important; font-size: 18px !important; }
-        .rank-1 .value { background: var(--accent-gold) !important; color: #000 !important; }
-        .badge-1 { background: var(--accent-red); box-shadow: 0 4px 10px rgba(227, 30, 36, 0.5); }
-
-        /* Rank 2: High Priority (White + Blue Border) */
-        .rank-2 {
-            background: var(--bg-white);
-            border: 2px solid var(--accent-blue);
-            box-shadow: 0 8px 20px rgba(30, 58, 138, 0.15);
-        }
-        .rank-2:hover { transform: translateY(-3px); }
-        .rank-2 h4 { color: var(--accent-blue) !important; font-size: 16px !important; }
-        .rank-2 .value { background: rgba(227, 30, 36, 0.1) !important; color: var(--accent-red) !important; }
-        .badge-2 { background: var(--accent-blue); box-shadow: 0 4px 10px rgba(30, 58, 138, 0.3); }
-
-        /* Rank 3: Medium Priority (Standard Cream) */
-        .rank-3 {
-            background: var(--bg-cream);
-            border: 1px solid rgba(30, 58, 138, 0.3);
-        }
-        .rank-3:hover { background: var(--bg-white); box-shadow: var(--shadow-sm); }
-        .rank-3 h4 { color: var(--text-dark) !important; font-size: 15px !important; }
-        .rank-3 .value { background: rgba(227, 30, 36, 0.1) !important; color: var(--accent-red) !important; }
-
-        /* Rank 4: Base Priority (Faded Look) */
-        .rank-4 {
-            background: var(--bg-subtle);
-            border: 1px dashed rgba(0,0,0,0.2);
-            opacity: 0.85; 
-        }
-        .rank-4:hover { opacity: 1; border-color: rgba(0,0,0,0.4); }
-        .rank-4 h4 { color: var(--text-muted) !important; font-size: 14px !important; }
-        .rank-4 .value { background: rgba(0,0,0,0.05) !important; color: var(--text-muted) !important; }
 
         .bonus-total {
             background: var(--accent-blue);
@@ -592,66 +572,30 @@
             margin-right: 10px;
         }
 
-        /* GLOWING BUTTON EFFECT FOR BONUS SECTION */
-        .bonus-cta-btn {
-            border: 2px solid #4ade80;
-            box-shadow: 0 0 15px rgba(37, 211, 102, 0.6);
-            animation: glow-pulse 1.5s infinite alternate;
-            flex-direction: column;
-            line-height: 1.4;
-            text-align: center;
-            padding: 12px 36px;
-            display: inline-flex;
-        }
-
-        .bonus-cta-btn span {
-            display: block;
-            white-space: nowrap;
-        }
-
-        @keyframes glow-pulse {
-            0% {
-                box-shadow: 0 0 10px rgba(37, 211, 102, 0.5), inset 0 0 5px rgba(37, 211, 102, 0.2);
-                border-color: #4ade80;
-            }
-            100% {
-                box-shadow: 0 0 25px rgba(37, 211, 102, 1), inset 0 0 12px rgba(37, 211, 102, 0.5);
-                border-color: #bbf7d0;
-            }
-        }
-
-        /* 8. WHAT WILL CHANGE (WITH 3x2 CENTRED LAYOUT) */
+        /* 8. WHAT WILL CHANGE (TRANSFORMATION) */
         .transformation-section {
             padding: 50px 0;
             background: var(--bg-white);
         }
 
         .transform-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
         }
 
         .transform-card {
-            width: calc(33.333% - 15px); /* Forces exactly 3 cards per row */
             background: var(--bg-cream);
             padding: 25px 20px;
             border-radius: var(--radius-md);
             text-align: center;
+            box-shadow: var(--shadow-sm);
             transition: 0.3s;
-            /* Gold Glowing Border */
-            border: 2px solid var(--accent-gold);
-            animation: transform-glow-pulse 2.5s infinite alternate;
-        }
-
-        @keyframes transform-glow-pulse {
-            0% { box-shadow: 0 0 8px rgba(223, 169, 41, 0.3); }
-            100% { box-shadow: 0 0 20px rgba(223, 169, 41, 0.8); }
         }
 
         .transform-card:hover {
             transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
             background: var(--bg-white);
         }
 
@@ -673,7 +617,7 @@
             margin: 0;
         }
 
-        /* 9. WHO IS THIS FOR (WITH GLOWING BORDER) */
+        /* 9. WHO IS THIS DESIGNED FOR? */
         .audience-section {
             padding: 50px 0;
             background: var(--bg-cream);
@@ -682,54 +626,40 @@
         .audience-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
+            gap: 15px;
         }
 
         .audience-card {
             background: var(--bg-white);
-            padding: 30px 20px;
+            padding: 18px;
             border-radius: var(--radius-md);
             display: flex;
-            flex-direction: column;
             align-items: center;
-            text-align: center;
             gap: 15px;
-            transition: 0.3s;
-            /* Blue Glowing Border */
-            border: 2px solid var(--accent-blue);
-            animation: audience-glow-pulse 2.5s infinite alternate;
-        }
-        
-        @keyframes audience-glow-pulse {
-            0% { box-shadow: 0 0 8px rgba(30, 58, 138, 0.3); }
-            100% { box-shadow: 0 0 20px rgba(30, 58, 138, 0.8); }
-        }
-
-        .audience-card:hover {
-            transform: translateY(-3px);
+            box-shadow: var(--shadow-sm);
         }
 
         .audience-icon {
-            width: 70px;
-            height: 70px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             background: rgba(30, 58, 138, 0.08);
             color: var(--accent-blue);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
+            font-size: 18px;
             flex-shrink: 0;
         }
 
         .audience-text h4 {
-            font-size: 16px;
+            font-size: 14px;
             color: var(--text-dark);
-            margin-bottom: 6px;
+            margin-bottom: 2px;
         }
 
         .audience-text p {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-muted);
             margin: 0;
         }
@@ -808,7 +738,7 @@
             margin: 0;
         }
 
-        /* 11. TESTIMONIALS (WITH GLOWING BORDER) */
+        /* 11. TESTIMONIALS & REVIEWS */
         .testimonials-section {
             padding: 50px 0;
             background: var(--bg-cream);
@@ -824,14 +754,8 @@
             background: var(--bg-white);
             padding: 30px;
             border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
             position: relative;
-            border: 2px solid var(--accent-gold);
-            animation: review-glow-pulse 2.5s infinite alternate;
-        }
-
-        @keyframes review-glow-pulse {
-            0% { box-shadow: 0 0 8px rgba(223, 169, 41, 0.3); }
-            100% { box-shadow: 0 0 20px rgba(223, 169, 41, 0.8); }
         }
 
         .stars {
@@ -1009,44 +933,40 @@
 
         /* RESPONSIVE DESIGN */
         @media (max-width: 992px) {
-            .hero h1 { font-size: 30px; }
+            .hero h1 { font-size: 34px; }
             .hero-grid, .coach-grid { grid-template-columns: 1fr; text-align: center; }
             .curriculum-grid, .test-grid, .bonus-grid { grid-template-columns: 1fr; }
             .stats-grid { grid-template-columns: 1fr; margin-top: -30px; }
             .footer-grid { grid-template-columns: 1fr; }
-            .rank-1 { transform: scale(1); } /* Stop scale on tablet to prevent overflow */
-            .transform-card { width: calc(50% - 10px); } /* 2 cards per row on tablet */
         }
         @media (max-width: 768px) {
+            /* Mobile adjustments */
             .announcement-bar { font-size: 11px; padding: 8px 10px; }
-            .header-content { flex-wrap: nowrap; gap: 10px; justify-content: center; }
+            
+            .header-content { 
+                flex-wrap: nowrap; 
+                gap: 10px;
+                justify-content: center;
+            }
             .logo-container img { height: 36px; margin-right: 8px; }
             .brand-text h2 { font-size: 16px; }
 
-            .hero { padding: 30px 0 35px 0; }
-            .hero h1 { font-size: 24px; margin-bottom: 12px;}
+            .hero { padding: 30px 0 35px 0; } /* Reduced bottom padding */
+            .hero h1 { font-size: 26px; margin-bottom: 12px;}
             .hero p.subheadline { font-size: 14px; margin-bottom: 20px;}
-            .video-wrapper { margin-bottom: 20px; }
+            .carousel-wrapper { margin-bottom: 20px; }
             
+            /* Enhanced Mobile CTA */
             .hero-cta { font-size: 14px; padding: 14px 20px; width: 100%; display: flex; justify-content: center;}
             .btn-vector { width: 20px; height: 22px; margin-right: 8px;}
             
             .section-title h2 { font-size: 24px; }
             .section-title { margin-bottom: 20px; }
             
+            /* TIGHT MOBILE GAP BETWEEN CTA BUTTON AND STATS CARDS */
             .stats-section { padding: 0 0 30px 0; }
-            .stats-grid { gap: 12px; margin-top: -25px; } 
+            .stats-grid { gap: 12px; margin-top: -25px; } /* Pull stats cards up under CTA button */
             .stat-card { padding: 14px 16px; gap: 12px; }
-
-            .bonus-cta-btn {
-                font-size: 14px !important; 
-                padding: 12px 10px !important; 
-                width: 100%; 
-                max-width: 320px; 
-                margin: 0 auto; 
-            }
-            
-            .transform-card { width: 100%; } /* 1 card per row on mobile */
             
             .curriculum-section, .why-attend-section, .bonus-section, .transformation-section, .audience-section, .coach-section, .testimonials-section, .faq-section {
                 padding: 35px 0;
@@ -1077,28 +997,38 @@
     <section class="hero">
         <div class="container">
             <div class="hero-content reveal">
-                <h1>Don’t take that much risk that you get broke, but at least take as much risk as the <span>Win is Meaningful.</span></h1>
+                <!-- UPDATED HEADLINE -->
+                <h1>Don’t take that much risk that you get broke, <br>but at least take as much risk as the Win is <span>Meaningful</span>.</h1>
                 <p class="subheadline">Discover the exact step-by-step framework to navigate Intraday, Swing, and Long-Term Investing with institutional confidence.</p>
                 
-                <!-- PROMOTIONAL VIDEO -->
-                <div class="video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/UCkAGy1KFgmfaWXqqCJyil-g" title="Checkmate Promotional Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <!-- PROMOTIONAL CAROUSEL (Replaced Image) -->
+                <div class="carousel-wrapper">
+                    <div class="carousel-track-container">
+                        <div class="carousel-track">
+                            <div class="carousel-slide"><img src="https://github.com/Growftofficial/My-tool-growft/blob/main/WhatsApp%20Image%202026-09-12%20at%2010.45.38%20AM.jpeg?raw=true" alt="Workshop Image 1"></div>
+                            <div class="carousel-slide"><img src="https://github.com/Growftofficial/My-tool-growft/blob/main/im3.jpeg?raw=true" alt="Workshop Image 2"></div>
+                            <div class="carousel-slide"><img src="https://github.com/Growftofficial/My-tool-growft/blob/main/im2.jpeg?raw=true" alt="Workshop Image 3"></div>
+                        </div>
+                    </div>
+                    <button class="carousel-button carousel-button-left"><i class="fas fa-chevron-left"></i></button>
+                    <button class="carousel-button carousel-button-right"><i class="fas fa-chevron-right"></i></button>
+                    <div class="carousel-nav">
+                        <button class="carousel-indicator current-indicator"></button>
+                        <button class="carousel-indicator"></button>
+                        <button class="carousel-indicator"></button>
+                    </div>
                 </div>
 
                 <div class="btn-group">
-                    <a href="https://wa.me/918830204114?text=Hello%20CheckMate%20Academy!%20I%20want%20to%20register%20for%20the%20Free%20Live%20Workshop.%20Please%20reserve%20my%20spot." class="cta-btn hero-cta" target="_blank" onclick="fbq('track', 'Lead');">
-                        <!-- Custom SVG Arrow -->
+                    <a href="https://wa.me/918830204114?text=Hello%20CheckMate%20Academy!%20I%20want%20to%20register%20for%20the%20Free%20Live%20Workshop.%20Please%20reserve%20my%20spot." class="cta-btn hero-cta" target="_blank">
+                        <!-- Custom Illustrator-style SVG Vector Arrow/Cursor -->
                         <svg class="btn-vector" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                           <circle cx="12" cy="12" r="10"></circle>
                           <polyline points="8 12 12 16 16 12"></polyline>
                           <line x1="12" y1="8" x2="12" y2="16"></line>
                         </svg>
-                        🚀 REGISTER FOR FREE NOW
+                        REGISTER FOR FREE BELOW THE VIDEO
                     </a>
-                    <!-- URGENCY ELEMENT ADDED -->
-                    <p style="font-size: 13px; color: var(--accent-red); margin-top: 15px; font-weight: 600;">
-                        <i class="fas fa-fire"></i> Hurry! Only 12 Free Seats Remaining Today
-                    </p>
                 </div>
             </div>
         </div>
@@ -1218,28 +1148,19 @@
                 </div>
 
                 <div class="bonus-grid">
-                    <!-- RANK 1: Highest Priority -->
-                    <div class="bonus-card rank-1">
-                        <div class="bonus-badge badge-1"><i class="fas fa-crown"></i> Most Valuable</div>
+                    <div class="bonus-card">
                         <h4>Bonus 1: Trading & Investment E-Books Collection</h4>
                         <span class="value">Worth ₹2,000</span>
                     </div>
-                    
-                    <!-- RANK 2: Second Priority -->
-                    <div class="bonus-card rank-2">
-                        <div class="bonus-badge badge-2"><i class="fas fa-star"></i> High Demand</div>
+                    <div class="bonus-card">
                         <h4>Bonus 2: Proven Intraday Strategies Playbook</h4>
                         <span class="value">Worth ₹2,500</span>
                     </div>
-                    
-                    <!-- RANK 3: Third Priority -->
-                    <div class="bonus-card rank-3">
+                    <div class="bonus-card">
                         <h4>Bonus 3: High-Conviction Long-Term Stock Watchlist</h4>
                         <span class="value">Priceless</span>
                     </div>
-                    
-                    <!-- RANK 4: Fourth Priority -->
-                    <div class="bonus-card rank-4">
+                    <div class="bonus-card">
                         <h4>Bonus 4: Step-by-Step Trading & Investment Roadmap PDF</h4>
                         <span class="value">Worth ₹5,000</span>
                     </div>
@@ -1249,12 +1170,9 @@
                     Total Value: <span>₹9,500+</span> Your Price Today: FREE (For Limited Participants)
                 </div>
 
-                <div class="bonus-btn-container" style="display: flex; justify-content: center;">
-                    <a href="https://wa.me/918830204114?text=Hello%20CheckMate%20Academy!%20I%20want%20to%20register%20and%20claim%20all%204%20Free%20Bonuses." class="cta-btn bonus-cta-btn" target="_blank" onclick="fbq('track', 'Lead');">
-                        <span>CLAIM ALL BONUSES &</span>
-                        <span>REGISTER FREE</span>
-                    </a>
-                </div>
+                <a href="https://wa.me/918830204114?text=Hello%20CheckMate%20Academy!%20I%20want%20to%20register%20and%20claim%20all%204%20Free%20Bonuses." class="cta-btn" target="_blank">
+                    CLAIM ALL BONUSES & REGISTER FREE
+                </a>
             </div>
         </div>
     </section>
@@ -1267,7 +1185,6 @@
                 <h2>What Will Change in Your Trading & Investment?</h2>
             </div>
 
-            <!-- FIXED TO 3 CARDS TOP, 2 CARDS BOTTOM CENTERED -->
             <div class="transform-grid reveal">
                 <div class="transform-card">
                     <i class="fas fa-check-circle"></i>
@@ -1370,26 +1287,30 @@
                 <div class="coach-info">
                     <h5>FOUNDER & HEAD TRAINER</h5>
                     <h3>Dr. Rajendra R. Lokhande</h3>
-                    <p style="color:var(--text-muted); font-weight:600; margin-bottom:15px;">Stock Market Trainer & Systematic Trader | Physician</p>
+                    
+                    <p style="font-size:15px; color:var(--text-muted); margin-bottom: 20px; line-height: 1.6; margin-top: 10px;">
+                        I am Dr. Rajendra R. Lokhande a dedicated and passionate professional in the fields of medicine and finance. My journey is a unique blend of healing and trading, aimed at empowering individuals to achieve both physical wellness and financial success.
+                    </p>
+
+                    <h4 style="color:var(--accent-blue); font-size: 18px; margin-bottom: 15px;">Profession</h4>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <h5 style="color:var(--text-dark); font-size: 16px; margin-bottom: 5px;"><i class="fas fa-user-md" style="color:var(--accent-gold); margin-right:8px;"></i>Medical Expertise</h5>
+                        <p style="font-size:14px; color:var(--text-muted); line-height: 1.6; margin:0;">
+                            As a licensed physician, I have spent over 14 years practicing medicine, specializing in medicine and Ayurved.
+                        </p>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <h5 style="color:var(--text-dark); font-size: 16px; margin-bottom: 5px;"><i class="fas fa-chart-line" style="color:var(--accent-gold); margin-right:8px;"></i>Stock Market Trainer and Trader</h5>
+                        <p style="font-size:14px; color:var(--text-muted); line-height: 1.6; margin:0;">
+                            I have 12 years of experience in trading and financial analysis, I have developed a comprehensive understanding of market dynamics, investment strategies, and risk management. My mission is to share this knowledge and help others navigate the complexities of the stock market with confidence and skill.
+                        </p>
+                    </div>
 
                     <div class="coach-quote">
-                        "My mission is to eliminate market gambling by teaching traders how to read price action logically, manage capital strictly, and trade with long-term confidence."
+                        ''Balancing two distinct yet fascinating worlds, I bring a unique perspective to both fields. The analytical skills and discipline required in medicine have seamlessly translated into my approach to trading and training. I offer a structured and informed approach to stock market education, ensuring that my students gain practical insights and develop the confidence to make informed trading decisions.''
                     </div>
-
-                    <div class="coach-stats">
-                        <div class="coach-stat-item">
-                            <h4>14+ Years</h4>
-                            <p>Medical Practice</p>
-                        </div>
-                        <div class="coach-stat-item">
-                            <h4>12+ Years</h4>
-                            <p>Active Trading</p>
-                        </div>
-                    </div>
-
-                    <p style="font-size:14px; color:var(--text-muted);">
-                        <strong>Specialization:</strong> Intraday Price Action, Supply & Demand Dynamics, Elliott Wave Theory, and Systematic Portfolio Building.
-                    </p>
                 </div>
             </div>
         </div>
@@ -1516,7 +1437,7 @@
     <section class="final-cta-section" id="register">
         <div class="container reveal">
             <h2>Ready to Elevate Your Stock Market Journey?</h2>
-            <a href="https://wa.me/918830204114?text=Hello%20CheckMate%20Academy!%20I%20want%20to%20claim%20my%20Free%20Seat%20and%20all%204%20bonuses." class="cta-btn" target="_blank" onclick="fbq('track', 'Lead');">
+            <a href="https://wa.me/918830204114?text=Hello%20CheckMate%20Academy!%20I%20want%20to%20claim%20my%20Free%20Seat%20and%20all%204%20bonuses." class="cta-btn" target="_blank">
                 🚀 CLAIM MY FREE SEAT & ALL BONUSES NOW
             </a>
         </div>
@@ -1547,8 +1468,8 @@
 
                 <div class="footer-col">
                     <h3>Contact Information</h3>
-                    <p><i class="fas fa-map-marker-alt" style="color:var(--accent-gold); margin-right:8px;"></i> New Sanghvi,Pune-411061</p>
-                    <p><i class="fas fa-phone-alt" style="color:var(--accent-gold); margin-right:8px;"></i> +918830204114</p>
+                    <p><i class="fas fa-map-marker-alt" style="color:var(--accent-gold); margin-right:8px;"></i> Navi Sangvi, Pune - 411061</p>
+                    <p><i class="fas fa-phone-alt" style="color:var(--accent-gold); margin-right:8px;"></i> +91 97629 72688</p>
                     <p><i class="fas fa-envelope" style="color:var(--accent-gold); margin-right:8px;"></i> checkmatetraders@gmail.com</p>
                 </div>
             </div>
@@ -1561,16 +1482,104 @@
 
     <!-- STICKY WHATSAPP & CALL BUTTONS -->
     <div class="sticky-contact-container">
-        <a href="https://wa.me/918830204114?text=Hello%20CheckMate%20Academy!%20I%20want%20to%20join%20the%20Free%20Live%20Workshop." class="sticky-btn sticky-whatsapp" target="_blank" aria-label="WhatsApp Us" onclick="fbq('track', 'Contact');">
+        <a href="https://wa.me/918830204114?text=Hello%20CheckMate%20Academy!%20I%20want%20to%20join%20the%20Free%20Live%20Workshop." class="sticky-btn sticky-whatsapp" target="_blank" aria-label="WhatsApp Us">
             <i class="fab fa-whatsapp"></i>
         </a>
-        <a href="tel:+918830204114" class="sticky-btn sticky-call" aria-label="Call Us" onclick="fbq('track', 'Contact');">
+        <a href="tel:+919762972688" class="sticky-btn sticky-call" aria-label="Call Us">
             <i class="fas fa-phone-alt"></i>
         </a>
     </div>
 
     <!-- SCRIPTS -->
     <script>
+        // Carousel Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const track = document.querySelector('.carousel-track');
+            if (track) {
+                const slides = Array.from(track.children);
+                const nextButton = document.querySelector('.carousel-button-right');
+                const prevButton = document.querySelector('.carousel-button-left');
+                const dotsNav = document.querySelector('.carousel-nav');
+                const dots = Array.from(dotsNav.children);
+
+                let currentSlideIndex = 0;
+
+                const updateDots = (currentDot, targetDot) => {
+                    currentDot.classList.remove('current-indicator');
+                    targetDot.classList.add('current-indicator');
+                }
+
+                const moveToSlide = (track, currentSlide, targetSlide, targetIndex) => {
+                    track.style.transform = 'translateX(-' + targetIndex * 100 + '%)';
+                }
+
+                const nextSlideAction = () => {
+                    const currentSlide = slides[currentSlideIndex];
+                    const currentDot = dots[currentSlideIndex];
+                    
+                    currentSlideIndex++;
+                    if(currentSlideIndex >= slides.length) {
+                        currentSlideIndex = 0; // loop back to start
+                    }
+                    
+                    const nextSlide = slides[currentSlideIndex];
+                    const nextDot = dots[currentSlideIndex];
+
+                    moveToSlide(track, currentSlide, nextSlide, currentSlideIndex);
+                    updateDots(currentDot, nextDot);
+                };
+
+                const prevSlideAction = () => {
+                    const currentSlide = slides[currentSlideIndex];
+                    const currentDot = dots[currentSlideIndex];
+                    
+                    currentSlideIndex--;
+                    if(currentSlideIndex < 0) {
+                        currentSlideIndex = slides.length - 1; // loop back to end
+                    }
+                    
+                    const prevSlide = slides[currentSlideIndex];
+                    const prevDot = dots[currentSlideIndex];
+
+                    moveToSlide(track, currentSlide, prevSlide, currentSlideIndex);
+                    updateDots(currentDot, prevDot);
+                };
+
+                nextButton.addEventListener('click', () => {
+                    nextSlideAction();
+                    resetAutoSlide();
+                });
+
+                prevButton.addEventListener('click', () => {
+                    prevSlideAction();
+                    resetAutoSlide();
+                });
+
+                dotsNav.addEventListener('click', e => {
+                    const targetDot = e.target.closest('button');
+                    if (!targetDot) return;
+                    
+                    const currentSlide = slides[currentSlideIndex];
+                    const currentDot = dots[currentSlideIndex];
+                    const targetIndex = dots.findIndex(dot => dot === targetDot);
+                    const targetSlide = slides[targetIndex];
+
+                    currentSlideIndex = targetIndex;
+                    moveToSlide(track, currentSlide, targetSlide, currentSlideIndex);
+                    updateDots(currentDot, targetDot);
+                    resetAutoSlide();
+                });
+
+                // Auto slide
+                let autoSlideInterval = setInterval(nextSlideAction, 4000); // 4 seconds
+
+                function resetAutoSlide() {
+                    clearInterval(autoSlideInterval);
+                    autoSlideInterval = setInterval(nextSlideAction, 4000);
+                }
+            }
+        });
+
         // Scroll Reveal
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
@@ -1586,16 +1595,11 @@
         window.addEventListener("scroll", reveal);
         reveal();
 
-        // FAQ Accordion Toggle - Fixed to close other open items
+        // FAQ Accordion Toggle
         const faqItems = document.querySelectorAll('.faq-item');
         faqItems.forEach(item => {
             const question = item.querySelector('.faq-question');
             question.addEventListener('click', () => {
-                faqItems.forEach(otherItem => {
-                    if (otherItem !== item) {
-                        otherItem.classList.remove('active');
-                    }
-                });
                 item.classList.toggle('active');
             });
         });
