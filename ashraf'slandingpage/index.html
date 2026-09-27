@@ -1,4 +1,10 @@
-<!-- Fonts -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Ashrafs Salon | Luxury Grooming & Beauty</title>
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -18,12 +24,12 @@
                     },
                     colors: {
                         brand: {
-                            pink: '#900C3F',      // Dark Pink
-                            pinkHover: '#730932', // Slightly darker for hover
-                            brown: '#4a3b32',     // Dark Brown
-                            brownDark: '#362b24', // Darker brown
-                            white: '#ffffff',     // White
-                            offwhite: '#fcfcfc',  // Very slight off-white for depth
+                            pink: '#900C3F',
+                            pinkHover: '#730932',
+                            brown: '#4a3b32',
+                            brownDark: '#362b24',
+                            white: '#ffffff',
+                            offwhite: '#fcfcfc',
                         }
                     }
                 }
@@ -33,16 +39,31 @@
     <style>
         /* Smooth scrolling and custom scrollbar */
         html { scroll-behavior: smooth; }
-        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #ffffff; }
-        ::-webkit-scrollbar-thumb { background: #4a3b32; }
+        ::-webkit-scrollbar-thumb { background: #4a3b32; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #900C3F; }
 
+        /* Mobile touch improvements */
+        button, a, select, input[type="submit"] {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        /* Prevent zoom on input focus for iOS */
+        @media screen and (max-width: 768px) {
+            input, select, textarea {
+                font-size: 16px !important;
+            }
+        }
+
         .input-field {
-            transition: all 0.3s ease;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
             background-color: #ffffff;
             color: #4a3b32;
             border: 1px solid #4a3b32;
+            border-radius: 0;
+            width: 100%;
         }
         .input-field:focus {
             outline: none;
@@ -51,7 +72,7 @@
         }
         
         /* Slider animations */
-        .slide-content { opacity: 0; transform: translateY(20px); transition: all 0.8s ease-out 0.3s; }
+        .slide-content { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out 0.3s, transform 0.8s ease-out 0.3s; }
         .slide.active .slide-content { opacity: 1; transform: translateY(0); }
         
         /* Service card image zoom effect */
@@ -62,20 +83,49 @@
         #lead-modal .modal-content { transition: transform 0.3s ease; transform: scale(0.95); }
         #lead-modal.active { opacity: 1; pointer-events: auto; }
         #lead-modal.active .modal-content { transform: scale(1); }
+
+        /* Custom slider dot */
+        .slider-dot {
+            transition: background-color 0.3s ease, width 0.3s ease;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+        .slider-dot:focus-visible {
+            outline: 2px solid #ffffff;
+            outline-offset: 2px;
+        }
+
+        /* Navigation improvements for mobile */
+        .nav-scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .nav-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Modal scroll for small screens */
+        .modal-content {
+            max-height: 90vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
     </style>
 </head>
 <body class="font-sans text-brand-brown bg-brand-offwhite antialiased">
 
     <!-- 1. Top Header -->
-    <header class="bg-brand-white py-4 px-4 sm:px-6 lg:px-12 sticky top-0 z-50 shadow-md">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+    <header class="bg-brand-white py-3 px-4 sm:px-6 lg:px-12 sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4">
             
             <!-- Logo -->
-            <a href="#" class="font-serif text-3xl md:text-4xl font-bold tracking-widest uppercase text-brand-brown">
+            <a href="#" class="font-serif text-2xl sm:text-3xl md:text-4xl font-bold tracking-widest uppercase text-brand-brown">
                 Ashrafs<span class="text-brand-pink">.</span>
             </a>
             
-            <div class="flex items-center space-x-6 md:space-x-10">
+            <div class="flex items-center space-x-4 sm:space-x-6 md:space-x-10 w-full sm:w-auto justify-between sm:justify-end">
                 <!-- Location Indicator -->
                 <div class="hidden md:flex items-center text-brand-brown">
                     <i class="fas fa-map-marker-alt text-brand-pink text-xl mr-2"></i>
@@ -86,7 +136,7 @@
                 </div>
                 
                 <!-- CTA Button -->
-                <button onclick="openModal()" class="bg-brand-pink text-brand-white px-6 py-3 text-sm md:text-base font-bold uppercase tracking-wide hover:bg-brand-brown transition-colors shadow-lg">
+                <button onclick="openModal()" class="bg-brand-pink text-brand-white px-4 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm md:text-base font-bold uppercase tracking-wide hover:bg-brand-brown transition-colors shadow-lg whitespace-nowrap">
                     Book Appointment
                 </button>
             </div>
@@ -94,27 +144,29 @@
     </header>
 
     <!-- 2. Navigation Bar -->
-    <nav class="bg-brand-brown text-brand-white py-3 px-4 sm:px-6 lg:px-12 relative z-40 border-b-4 border-brand-pink">
-        <div class="max-w-7xl mx-auto flex justify-center md:justify-start space-x-8 text-sm md:text-base font-bold tracking-widest uppercase">
-            <a href="#services" class="hover:text-brand-pink transition-colors">Services</a>
-            <a href="#about" class="hover:text-brand-pink transition-colors">About Us</a>
-            <a href="#store-locator" class="hover:text-brand-pink transition-colors">Locations</a>
-            <a href="#contact" class="hover:text-brand-pink transition-colors">Contact Us</a>
+    <nav class="bg-brand-brown text-brand-white py-2.5 px-4 sm:px-6 lg:px-12 relative z-40 border-b-4 border-brand-pink">
+        <div class="max-w-7xl mx-auto flex justify-start md:justify-center nav-scroll whitespace-nowrap">
+            <div class="flex space-x-5 sm:space-x-8 text-xs sm:text-sm md:text-base font-bold tracking-widest uppercase">
+                <a href="#services" class="hover:text-brand-pink transition-colors py-1">Services</a>
+                <a href="#about" class="hover:text-brand-pink transition-colors py-1">About Us</a>
+                <a href="#store-locator" class="hover:text-brand-pink transition-colors py-1">Locations</a>
+                <a href="#contact" class="hover:text-brand-pink transition-colors py-1">Contact Us</a>
+            </div>
         </div>
     </nav>
 
     <!-- 3. Offer Banner Slider -->
-    <section id="offer-slider" class="relative w-full h-[500px] md:h-[650px] overflow-hidden bg-brand-brown group">
+    <section id="offer-slider" class="relative w-full h-[420px] sm:h-[500px] md:h-[650px] overflow-hidden bg-brand-brown group">
         
         <!-- Slide 1 -->
         <div class="slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-100 z-10 active">
             <div class="absolute inset-0 bg-brand-brown opacity-60 z-10"></div>
-            <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Bridal Makeup Offer" class="absolute inset-0 w-full h-full object-cover" />
-            <div class="relative z-20 h-full max-w-5xl mx-auto flex flex-col items-center justify-center text-center px-4 text-brand-white slide-content">
-                <span class="inline-block py-1 px-4 border-2 border-brand-pink text-brand-pink bg-brand-white font-bold uppercase tracking-widest mb-6">Bridal Exclusive</span>
-                <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif font-bold leading-tight mb-6">Flat 20% Off on Bridal Makeup</h1>
-                <p class="text-lg md:text-xl text-brand-white/90 mb-8 max-w-2xl font-light">Crafting perfection for your special day. Book your slot now and let our experts create your dream look.</p>
-                <button onclick="openModal()" class="inline-flex items-center bg-brand-pink text-brand-white px-8 py-4 text-lg font-bold uppercase tracking-widest hover:bg-brand-white hover:text-brand-pink transition-colors border-2 border-brand-pink">
+            <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Bridal Makeup Offer" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+            <div class="relative z-20 h-full max-w-5xl mx-auto flex flex-col items-center justify-center text-center px-4 sm:px-6 text-brand-white slide-content">
+                <span class="inline-block py-1 px-3 sm:px-4 border-2 border-brand-pink text-brand-pink bg-brand-white font-bold uppercase tracking-widest mb-4 sm:mb-6 text-xs sm:text-sm">Bridal Exclusive</span>
+                <h1 class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-serif font-bold leading-tight mb-4 sm:mb-6">Flat 20% Off on Bridal Makeup</h1>
+                <p class="text-base sm:text-lg md:text-xl text-brand-white/90 mb-6 sm:mb-8 max-w-2xl font-light px-2">Crafting perfection for your special day. Book your slot now and let our experts create your dream look.</p>
+                <button onclick="openModal()" class="inline-flex items-center bg-brand-pink text-brand-white px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base md:text-lg font-bold uppercase tracking-widest hover:bg-brand-white hover:text-brand-pink transition-colors border-2 border-brand-pink">
                     Claim Offer <i class="fas fa-arrow-right ml-2"></i>
                 </button>
             </div>
@@ -123,12 +175,12 @@
         <!-- Slide 2 -->
         <div class="slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0 z-0">
             <div class="absolute inset-0 bg-brand-brown opacity-60 z-10"></div>
-            <img src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Hair Spa Offer" class="absolute inset-0 w-full h-full object-cover" />
-            <div class="relative z-20 h-full max-w-5xl mx-auto flex flex-col items-center justify-center text-center px-4 text-brand-white slide-content">
-                <span class="inline-block py-1 px-4 border-2 border-brand-white text-brand-white bg-transparent font-bold uppercase tracking-widest mb-6">Hair Care</span>
-                <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif font-bold leading-tight mb-6">Complimentary Hair Spa</h1>
-                <p class="text-lg md:text-xl text-brand-white/90 mb-8 max-w-2xl font-light">Revitalize your locks. Get a free luxurious hair spa with any advanced hair coloring or keratin treatment.</p>
-                <button onclick="openModal()" class="inline-flex items-center bg-brand-white text-brand-brown px-8 py-4 text-lg font-bold uppercase tracking-widest hover:bg-brand-pink hover:text-brand-white transition-colors">
+            <img src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Hair Spa Offer" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+            <div class="relative z-20 h-full max-w-5xl mx-auto flex flex-col items-center justify-center text-center px-4 sm:px-6 text-brand-white slide-content">
+                <span class="inline-block py-1 px-3 sm:px-4 border-2 border-brand-white text-brand-white bg-transparent font-bold uppercase tracking-widest mb-4 sm:mb-6 text-xs sm:text-sm">Hair Care</span>
+                <h1 class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-serif font-bold leading-tight mb-4 sm:mb-6">Complimentary Hair Spa</h1>
+                <p class="text-base sm:text-lg md:text-xl text-brand-white/90 mb-6 sm:mb-8 max-w-2xl font-light px-2">Revitalize your locks. Get a free luxurious hair spa with any advanced hair coloring or keratin treatment.</p>
+                <button onclick="openModal()" class="inline-flex items-center bg-brand-white text-brand-brown px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base md:text-lg font-bold uppercase tracking-widest hover:bg-brand-pink hover:text-brand-white transition-colors">
                     Book Now <i class="fas fa-arrow-right ml-2"></i>
                 </button>
             </div>
@@ -137,94 +189,66 @@
         <!-- Slide 3 -->
         <div class="slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0 z-0">
             <div class="absolute inset-0 bg-brand-brown opacity-60 z-10"></div>
-            <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Mens Grooming Offer" class="absolute inset-0 w-full h-full object-cover" />
-            <div class="relative z-20 h-full max-w-5xl mx-auto flex flex-col items-center justify-center text-center px-4 text-brand-white slide-content">
-                <span class="inline-block py-1 px-4 border-2 border-brand-pink text-brand-pink bg-brand-white font-bold uppercase tracking-widest mb-6">Men's Grooming</span>
-                <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif font-bold leading-tight mb-6">The Gentleman's Package</h1>
-                <p class="text-lg md:text-xl text-brand-white/90 mb-8 max-w-2xl font-light">Premium haircut, beard styling, and revitalizing facial. Look sharp and refined for any occasion.</p>
-                <button onclick="openModal()" class="inline-flex items-center bg-brand-pink text-brand-white px-8 py-4 text-lg font-bold uppercase tracking-widest hover:bg-brand-white hover:text-brand-pink transition-colors border-2 border-brand-pink">
+            <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Mens Grooming Offer" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+            <div class="relative z-20 h-full max-w-5xl mx-auto flex flex-col items-center justify-center text-center px-4 sm:px-6 text-brand-white slide-content">
+                <span class="inline-block py-1 px-3 sm:px-4 border-2 border-brand-pink text-brand-pink bg-brand-white font-bold uppercase tracking-widest mb-4 sm:mb-6 text-xs sm:text-sm">Men's Grooming</span>
+                <h1 class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-serif font-bold leading-tight mb-4 sm:mb-6">The Gentleman's Package</h1>
+                <p class="text-base sm:text-lg md:text-xl text-brand-white/90 mb-6 sm:mb-8 max-w-2xl font-light px-2">Premium haircut, beard styling, and revitalizing facial. Look sharp and refined for any occasion.</p>
+                <button onclick="openModal()" class="inline-flex items-center bg-brand-pink text-brand-white px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base md:text-lg font-bold uppercase tracking-widest hover:bg-brand-white hover:text-brand-pink transition-colors border-2 border-brand-pink">
                     Reserve Slot <i class="fas fa-arrow-right ml-2"></i>
                 </button>
             </div>
         </div>
 
-        <!-- Slide 2 -->
-        <div class="slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0 z-0">
-            <div class="absolute inset-0 bg-brand-brown opacity-60 z-10"></div>
-            <img src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Hair Spa Offer" class="absolute inset-0 w-full h-full object-cover" />
-            <div class="relative z-20 h-full max-w-5xl mx-auto flex flex-col items-center justify-center text-center px-4 text-brand-white slide-content">
-                <span class="inline-block py-1 px-4 border-2 border-brand-white text-brand-white bg-transparent font-bold uppercase tracking-widest mb-6">Hair Care</span>
-                <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif font-bold leading-tight mb-6">Complimentary Hair Spa</h1>
-                <p class="text-lg md:text-xl text-brand-white/90 mb-8 max-w-2xl font-light">Revitalize your locks. Get a free luxurious hair spa with any advanced hair coloring or keratin treatment.</p>
-                <a href="#lead-form" class="inline-flex items-center bg-brand-white text-brand-brown px-8 py-4 text-lg font-bold uppercase tracking-widest hover:bg-brand-pink hover:text-brand-white transition-colors">
-                    Book Now <i class="fas fa-arrow-right ml-2"></i>
-                </a>
-            </div>
-        </div>
-
-        <!-- Slide 3 -->
-        <div class="slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0 z-0">
-            <div class="absolute inset-0 bg-brand-brown opacity-60 z-10"></div>
-            <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Mens Grooming Offer" class="absolute inset-0 w-full h-full object-cover" />
-            <div class="relative z-20 h-full max-w-5xl mx-auto flex flex-col items-center justify-center text-center px-4 text-brand-white slide-content">
-                <span class="inline-block py-1 px-4 border-2 border-brand-pink text-brand-pink bg-brand-white font-bold uppercase tracking-widest mb-6">Men's Grooming</span>
-                <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif font-bold leading-tight mb-6">The Gentleman's Package</h1>
-                <p class="text-lg md:text-xl text-brand-white/90 mb-8 max-w-2xl font-light">Premium haircut, beard styling, and revitalizing facial. Look sharp and refined for any occasion.</p>
-                <a href="#lead-form" class="inline-flex items-center bg-brand-pink text-brand-white px-8 py-4 text-lg font-bold uppercase tracking-widest hover:bg-brand-white hover:text-brand-pink transition-colors border-2 border-brand-pink">
-                    Reserve Slot <i class="fas fa-arrow-right ml-2"></i>
-                </a>
-            </div>
-        </div>
-
-        <!-- Slider Controls -->
-        <button id="prevSlideBtn" class="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 flex items-center justify-center bg-brand-brown/80 border-2 border-brand-white text-brand-white hover:bg-brand-pink hover:border-brand-pink transition-all duration-300 opacity-0 group-hover:opacity-100 focus:outline-none">
-            <i class="fas fa-chevron-left text-xl"></i>
+        <!-- Slider Controls - always visible on mobile, hover on desktop -->
+        <button id="prevSlideBtn" class="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-brand-brown/80 border-2 border-brand-white text-brand-white hover:bg-brand-pink hover:border-brand-pink transition-all duration-300 opacity-80 sm:opacity-0 sm:group-hover:opacity-100 focus:outline-none" aria-label="Previous slide">
+            <i class="fas fa-chevron-left text-lg sm:text-xl"></i>
         </button>
-        <button id="nextSlideBtn" class="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 flex items-center justify-center bg-brand-brown/80 border-2 border-brand-white text-brand-white hover:bg-brand-pink hover:border-brand-pink transition-all duration-300 opacity-0 group-hover:opacity-100 focus:outline-none">
-            <i class="fas fa-chevron-right text-xl"></i>
+        <button id="nextSlideBtn" class="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-brand-brown/80 border-2 border-brand-white text-brand-white hover:bg-brand-pink hover:border-brand-pink transition-all duration-300 opacity-80 sm:opacity-0 sm:group-hover:opacity-100 focus:outline-none" aria-label="Next slide">
+            <i class="fas fa-chevron-right text-lg sm:text-xl"></i>
         </button>
 
         <!-- Slider Indicators -->
-        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex space-x-3">
-            <button class="slider-dot w-10 h-1 bg-brand-white transition-all duration-300" data-index="0"></button>
-            <button class="slider-dot w-10 h-1 bg-brand-white/40 hover:bg-brand-white/80 transition-all duration-300" data-index="1"></button>
-            <button class="slider-dot w-10 h-1 bg-brand-white/40 hover:bg-brand-white/80 transition-all duration-300" data-index="2"></button>
+        <div class="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-30 flex space-x-2 sm:space-x-3">
+            <button class="slider-dot w-8 sm:w-10 h-1 bg-brand-white transition-all duration-300" data-index="0" aria-label="Go to slide 1"></button>
+            <button class="slider-dot w-8 sm:w-10 h-1 bg-brand-white/40 hover:bg-brand-white/80 transition-all duration-300" data-index="1" aria-label="Go to slide 2"></button>
+            <button class="slider-dot w-8 sm:w-10 h-1 bg-brand-white/40 hover:bg-brand-white/80 transition-all duration-300" data-index="2" aria-label="Go to slide 3"></button>
         </div>
     </section>
 
     <!-- 4. Lead Capture Form (Modal) -->
-    <div id="lead-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-brand-brown/80 backdrop-blur-sm opacity-0 pointer-events-none">
-        <div class="modal-content bg-brand-white border-t-8 border-brand-pink w-full max-w-4xl mx-4 p-8 md:p-12 shadow-2xl relative max-h-[95vh] overflow-y-auto">
+    <div id="lead-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-brand-brown/80 backdrop-blur-sm opacity-0 pointer-events-none p-3 sm:p-4">
+        <div class="modal-content bg-brand-white border-t-8 border-brand-pink w-full max-w-4xl mx-auto p-5 sm:p-8 md:p-12 shadow-2xl relative max-h-[92vh] sm:max-h-[95vh] overflow-y-auto">
             
             <!-- Close Button -->
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-brand-brown hover:text-brand-pink transition-colors text-3xl focus:outline-none">
+            <button onclick="closeModal()" class="absolute top-3 right-3 sm:top-4 sm:right-4 text-brand-brown hover:text-brand-pink transition-colors text-2xl sm:text-3xl focus:outline-none z-10" aria-label="Close modal">
                 <i class="fas fa-times"></i>
             </button>
 
-            <div class="text-center mb-10" id="form-header">
-                <h2 class="text-3xl md:text-5xl font-serif font-bold text-brand-brown mb-4 uppercase tracking-widest">Reserve Your Slot</h2>
-                <div class="w-16 h-1 bg-brand-pink mx-auto mb-4"></div>
-                <p class="text-brand-brown/70 font-bold tracking-wide">Fill in your details. Our concierge will contact you to confirm the timing.</p>
+            <div class="text-center mb-6 sm:mb-10" id="form-header">
+                <h2 class="text-2xl sm:text-3xl md:text-5xl font-serif font-bold text-brand-brown mb-3 sm:mb-4 uppercase tracking-widest">Reserve Your Slot</h2>
+                <div class="w-16 h-1 bg-brand-pink mx-auto mb-3 sm:mb-4"></div>
+                <p class="text-brand-brown/70 font-bold tracking-wide text-sm sm:text-base">Fill in your details. Our concierge will contact you to confirm the timing.</p>
             </div>
 
-            <form id="appointmentForm" class="space-y-6" onsubmit="handleFormSubmission(event)">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <form id="appointmentForm" class="space-y-4 sm:space-y-6" onsubmit="handleFormSubmission(event)">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
                     <div>
-                        <label for="name" class="block text-sm font-bold uppercase tracking-widest text-brand-brown mb-2">Full Name *</label>
+                        <label for="name" class="block text-xs sm:text-sm font-bold uppercase tracking-widest text-brand-brown mb-1.5 sm:mb-2">Full Name *</label>
                         <input type="text" id="name" required placeholder="E.g. Priya Sharma"
-                            class="input-field w-full px-4 py-3">
+                            class="input-field w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base">
                     </div>
                     <div>
-                        <label for="phone" class="block text-sm font-bold uppercase tracking-widest text-brand-brown mb-2">Phone Number *</label>
+                        <label for="phone" class="block text-xs sm:text-sm font-bold uppercase tracking-widest text-brand-brown mb-1.5 sm:mb-2">Phone Number *</label>
                         <input type="tel" id="phone" required pattern="[0-9]{10}" placeholder="10-digit mobile number"
-                            class="input-field w-full px-4 py-3" title="Please enter a valid 10-digit phone number">
+                            class="input-field w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base" title="Please enter a valid 10-digit phone number">
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
                     <div>
-                        <label for="branch" class="block text-sm font-bold uppercase tracking-widest text-brand-brown mb-2">Select Branch *</label>
-                        <select id="branch" required class="input-field w-full px-4 py-3">
+                        <label for="branch" class="block text-xs sm:text-sm font-bold uppercase tracking-widest text-brand-brown mb-1.5 sm:mb-2">Select Branch *</label>
+                        <select id="branch" required class="input-field w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base bg-white">
                             <option value="" disabled selected>Choose a branch...</option>
                             <optgroup label="Pune">
                                 <option value="Kharadi, Pune">Kharadi</option>
@@ -239,8 +263,8 @@
                         </select>
                     </div>
                     <div>
-                        <label for="service" class="block text-sm font-bold uppercase tracking-widest text-brand-brown mb-2">Select Service *</label>
-                        <select id="service" required class="input-field w-full px-4 py-3">
+                        <label for="service" class="block text-xs sm:text-sm font-bold uppercase tracking-widest text-brand-brown mb-1.5 sm:mb-2">Select Service *</label>
+                        <select id="service" required class="input-field w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base bg-white">
                             <option value="" disabled selected>Choose a service...</option>
                             <optgroup label="General / Women">
                                 <option value="Haircut">Haircut</option>
@@ -263,150 +287,150 @@
                     </div>
                 </div>
 
-                <div class="pt-8 text-center">
-                    <button type="submit" id="submitBtn" class="bg-brand-brown text-brand-white px-12 py-4 text-lg font-bold uppercase tracking-widest hover:bg-brand-pink transition-colors w-full md:w-auto shadow-md">
+                <div class="pt-4 sm:pt-8 text-center">
+                    <button type="submit" id="submitBtn" class="bg-brand-brown text-brand-white px-8 sm:px-12 py-3 sm:py-4 text-sm sm:text-lg font-bold uppercase tracking-widest hover:bg-brand-pink transition-colors w-full md:w-auto shadow-md">
                         Submit Request
                     </button>
                 </div>
             </form>
 
             <!-- Success Message -->
-            <div id="success-message" class="hidden text-center py-12">
-                <div class="w-20 h-20 bg-brand-white border-4 border-brand-pink rounded-full flex items-center justify-center mx-auto mb-6">
-                    <i class="fas fa-check text-4xl text-brand-pink"></i>
+            <div id="success-message" class="hidden text-center py-8 sm:py-12">
+                <div class="w-16 h-16 sm:w-20 sm:h-20 bg-brand-white border-4 border-brand-pink rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+                    <i class="fas fa-check text-3xl sm:text-4xl text-brand-pink"></i>
                 </div>
-                <h3 class="text-3xl font-serif font-bold text-brand-brown mb-4 uppercase tracking-widest">Thank You!</h3>
-                <p class="text-brand-brown text-lg mb-8 font-bold">Your appointment request for <span id="success-city" class="text-brand-pink"></span> has been received. Our team will contact you shortly.</p>
-                <div class="flex justify-center space-x-6">
-                    <button onclick="closeModal()" class="border-b-2 border-brand-pink text-brand-pink font-bold uppercase tracking-widest hover:text-brand-brown hover:border-brand-brown transition-colors pb-1">Close Window</button>
-                    <button onclick="resetForm()" class="border-b-2 border-brand-brown text-brand-brown font-bold uppercase tracking-widest hover:text-brand-pink hover:border-brand-pink transition-colors pb-1">Book Another</button>
+                <h3 class="text-2xl sm:text-3xl font-serif font-bold text-brand-brown mb-3 sm:mb-4 uppercase tracking-widest">Thank You!</h3>
+                <p class="text-brand-brown text-sm sm:text-lg mb-6 sm:mb-8 font-bold">Your appointment request for <span id="success-city" class="text-brand-pink"></span> has been received. Our team will contact you shortly.</p>
+                <div class="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-6">
+                    <button onclick="closeModal()" class="border-b-2 border-brand-pink text-brand-pink font-bold uppercase tracking-widest hover:text-brand-brown hover:border-brand-brown transition-colors pb-1 text-sm sm:text-base">Close Window</button>
+                    <button onclick="resetForm()" class="border-b-2 border-brand-brown text-brand-brown font-bold uppercase tracking-widest hover:text-brand-pink hover:border-brand-pink transition-colors pb-1 text-sm sm:text-base">Book Another</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- 5. All Services Section -->
-    <section id="services" class="py-20 bg-brand-offwhite">
+    <section id="services" class="py-12 sm:py-16 md:py-20 bg-brand-offwhite">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-serif font-bold mb-4 uppercase tracking-widest text-brand-brown">Our Premium Services</h2>
-                <div class="w-24 h-1 bg-brand-pink mx-auto mb-6"></div>
-                <p class="text-brand-brown/70 font-bold max-w-2xl mx-auto">Experience unmatched luxury and expertise. Select from our wide range of personalized grooming and beauty services.</p>
+            <div class="text-center mb-10 sm:mb-16">
+                <h2 class="text-2xl sm:text-3xl md:text-5xl font-serif font-bold mb-3 sm:mb-4 uppercase tracking-widest text-brand-brown">Our Premium Services</h2>
+                <div class="w-24 h-1 bg-brand-pink mx-auto mb-4 sm:mb-6"></div>
+                <p class="text-brand-brown/70 font-bold max-w-2xl mx-auto text-sm sm:text-base">Experience unmatched luxury and expertise. Select from our wide range of personalized grooming and beauty services.</p>
             </div>
 
             <!-- Subsection: General / Women -->
-            <div class="mb-24">
-                <div class="flex items-center justify-center mb-10">
+            <div class="mb-16 sm:mb-24">
+                <div class="flex items-center justify-center mb-6 sm:mb-10">
                     <div class="h-px bg-brand-brown/20 flex-grow"></div>
-                    <h3 class="text-2xl font-serif font-bold mx-6 uppercase tracking-widest text-brand-pink">For Her / General</h3>
+                    <h3 class="text-lg sm:text-2xl font-serif font-bold mx-4 sm:mx-6 uppercase tracking-widest text-brand-pink text-center">For Her / General</h3>
                     <div class="h-px bg-brand-brown/20 flex-grow"></div>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8">
                     <!-- Service Card: Haircut -->
                     <div class="service-card bg-brand-white border border-brand-brown/10 overflow-hidden shadow-sm hover:shadow-lg transition-all group">
-                        <div class="h-56 overflow-hidden relative">
-                            <img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Womens Haircut" class="w-full h-full object-cover transition-transform duration-500">
+                        <div class="h-48 sm:h-56 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Womens Haircut" class="w-full h-full object-cover transition-transform duration-500" loading="lazy">
                             <div class="absolute inset-0 bg-brand-brown/10 group-hover:bg-transparent transition-all"></div>
                         </div>
-                        <div class="p-6 text-center">
-                            <h4 class="text-xl font-serif font-bold text-brand-brown mb-2 uppercase tracking-widest">Haircut</h4>
+                        <div class="p-4 sm:p-6 text-center">
+                            <h4 class="text-lg sm:text-xl font-serif font-bold text-brand-brown mb-2 uppercase tracking-widest">Haircut</h4>
                             <p class="text-brand-brown/70 text-sm">Precision cuts by top stylists, tailored to complement your face shape and personal style.</p>
                         </div>
                     </div>
 
                     <!-- Service Card: Hair Spa -->
                     <div class="service-card bg-brand-white border border-brand-brown/10 overflow-hidden shadow-sm hover:shadow-lg transition-all group">
-                        <div class="h-56 overflow-hidden relative">
-                            <img src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hair Spa" class="w-full h-full object-cover transition-transform duration-500">
+                        <div class="h-48 sm:h-56 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hair Spa" class="w-full h-full object-cover transition-transform duration-500" loading="lazy">
                             <div class="absolute inset-0 bg-brand-brown/10 group-hover:bg-transparent transition-all"></div>
                         </div>
-                        <div class="p-6 text-center">
-                            <h4 class="text-xl font-serif font-bold text-brand-brown mb-2 uppercase tracking-widest">Hair Spa</h4>
+                        <div class="p-4 sm:p-6 text-center">
+                            <h4 class="text-lg sm:text-xl font-serif font-bold text-brand-brown mb-2 uppercase tracking-widest">Hair Spa</h4>
                             <p class="text-brand-brown/70 text-sm">Deep conditioning treatments to nourish scalp and restore vitality to damaged strands.</p>
                         </div>
                     </div>
 
                     <!-- Service Card: Hair Colour -->
                     <div class="service-card bg-brand-white border border-brand-brown/10 overflow-hidden shadow-sm hover:shadow-lg transition-all group">
-                        <div class="h-56 overflow-hidden relative">
-                            <img src="https://images.unsplash.com/photo-1595476108010-b4d1f10a5144?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hair Colour" class="w-full h-full object-cover transition-transform duration-500">
+                        <div class="h-48 sm:h-56 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1595476108010-b4d1f10a5144?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hair Colour" class="w-full h-full object-cover transition-transform duration-500" loading="lazy">
                             <div class="absolute inset-0 bg-brand-brown/10 group-hover:bg-transparent transition-all"></div>
                         </div>
-                        <div class="p-6 text-center">
-                            <h4 class="text-xl font-serif font-bold text-brand-brown mb-2 uppercase tracking-widest">Hair Colour</h4>
+                        <div class="p-4 sm:p-6 text-center">
+                            <h4 class="text-lg sm:text-xl font-serif font-bold text-brand-brown mb-2 uppercase tracking-widest">Hair Colour</h4>
                             <p class="text-brand-brown/70 text-sm">From subtle highlights to bold balayage, using premium ammonia-free global products.</p>
                         </div>
                     </div>
 
                     <!-- Service Card: Hair Styling -->
                     <div class="service-card bg-brand-white border border-brand-brown/10 overflow-hidden shadow-sm hover:shadow-lg transition-all group">
-                        <div class="h-56 overflow-hidden relative">
-                            <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hair Styling" class="w-full h-full object-cover transition-transform duration-500">
+                        <div class="h-48 sm:h-56 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hair Styling" class="w-full h-full object-cover transition-transform duration-500" loading="lazy">
                             <div class="absolute inset-0 bg-brand-brown/10 group-hover:bg-transparent transition-all"></div>
                         </div>
-                        <div class="p-6 text-center">
-                            <h4 class="text-xl font-serif font-bold text-brand-brown mb-2 uppercase tracking-widest">Hair Styling</h4>
+                        <div class="p-4 sm:p-6 text-center">
+                            <h4 class="text-lg sm:text-xl font-serif font-bold text-brand-brown mb-2 uppercase tracking-widest">Hair Styling</h4>
                             <p class="text-brand-brown/70 text-sm">Elegant updos, sleek straightening, or glamorous curls for your special occasions.</p>
                         </div>
                     </div>
 
                     <!-- Service Card: Hair Treatments -->
                     <div class="service-card bg-brand-white border border-brand-brown/10 overflow-hidden shadow-sm hover:shadow-lg transition-all group">
-                        <div class="h-56 overflow-hidden relative">
-                            <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hair Treatments" class="w-full h-full object-cover transition-transform duration-500">
+                        <div class="h-48 sm:h-56 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hair Treatments" class="w-full h-full object-cover transition-transform duration-500" loading="lazy">
                             <div class="absolute inset-0 bg-brand-brown/10 group-hover:bg-transparent transition-all"></div>
                         </div>
-                        <div class="p-6 text-center">
-                            <h4 class="text-xl font-serif font-bold text-brand-brown mb-2 uppercase tracking-widest">Hair Treatments</h4>
+                        <div class="p-4 sm:p-6 text-center">
+                            <h4 class="text-lg sm:text-xl font-serif font-bold text-brand-brown mb-2 uppercase tracking-widest">Hair Treatments</h4>
                             <p class="text-brand-brown/70 text-sm">Advanced Keratin, Botox, and smoothening treatments for frizz-free, manageable hair.</p>
                         </div>
                     </div>
 
                     <!-- Service Card: Manicure-Pedicure -->
                     <div class="service-card bg-brand-white border border-brand-brown/10 overflow-hidden shadow-sm hover:shadow-lg transition-all group">
-                        <div class="h-56 overflow-hidden relative">
-                            <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Manicure Pedicure" class="w-full h-full object-cover transition-transform duration-500">
+                        <div class="h-48 sm:h-56 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Manicure Pedicure" class="w-full h-full object-cover transition-transform duration-500" loading="lazy">
                             <div class="absolute inset-0 bg-brand-brown/10 group-hover:bg-transparent transition-all"></div>
                         </div>
-                        <div class="p-6 text-center">
-                            <h4 class="text-xl font-serif font-bold text-brand-brown mb-2 uppercase tracking-widest">Mani & Pedi</h4>
+                        <div class="p-4 sm:p-6 text-center">
+                            <h4 class="text-lg sm:text-xl font-serif font-bold text-brand-brown mb-2 uppercase tracking-widest">Mani & Pedi</h4>
                             <p class="text-brand-brown/70 text-sm">Indulgent hand and foot spa services, complete with exfoliation and perfect polish.</p>
                         </div>
                     </div>
 
                     <!-- Service Card: Facials -->
                     <div class="service-card bg-brand-white border border-brand-brown/10 overflow-hidden shadow-sm hover:shadow-lg transition-all group">
-                        <div class="h-56 overflow-hidden relative">
-                            <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Facials" class="w-full h-full object-cover transition-transform duration-500">
+                        <div class="h-48 sm:h-56 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Facials" class="w-full h-full object-cover transition-transform duration-500" loading="lazy">
                             <div class="absolute inset-0 bg-brand-brown/10 group-hover:bg-transparent transition-all"></div>
                         </div>
-                        <div class="p-6 text-center">
-                            <h4 class="text-xl font-serif font-bold text-brand-brown mb-2 uppercase tracking-widest">Facials</h4>
+                        <div class="p-4 sm:p-6 text-center">
+                            <h4 class="text-lg sm:text-xl font-serif font-bold text-brand-brown mb-2 uppercase tracking-widest">Facials</h4>
                             <p class="text-brand-brown/70 text-sm">Dermatologically tested facial treatments to rejuvenate, brighten, and cleanse your skin.</p>
                         </div>
                     </div>
 
                     <!-- Service Card: Makeup -->
                     <div class="service-card bg-brand-white border border-brand-brown/10 overflow-hidden shadow-sm hover:shadow-lg transition-all group">
-                        <div class="h-56 overflow-hidden relative">
-                            <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Bridal Makeup" class="w-full h-full object-cover transition-transform duration-500">
+                        <div class="h-48 sm:h-56 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Bridal Makeup" class="w-full h-full object-cover transition-transform duration-500" loading="lazy">
                             <div class="absolute inset-0 bg-brand-brown/10 group-hover:bg-transparent transition-all"></div>
                         </div>
-                        <div class="p-6 text-center">
-                            <h4 class="text-xl font-serif font-bold text-brand-brown mb-2 uppercase tracking-widest">Makeup</h4>
+                        <div class="p-4 sm:p-6 text-center">
+                            <h4 class="text-lg sm:text-xl font-serif font-bold text-brand-brown mb-2 uppercase tracking-widest">Makeup</h4>
                             <p class="text-brand-brown/70 text-sm">Flawless HD and Airbrush makeup by expert artists for brides and party-goers.</p>
                         </div>
                     </div>
 
                     <!-- Service Card: Waxing & Threading -->
                     <div class="service-card bg-brand-white border border-brand-brown/10 overflow-hidden shadow-sm hover:shadow-lg transition-all group">
-                        <div class="h-56 overflow-hidden relative">
-                            <img src="https://images.unsplash.com/photo-1552693673-1bf958298935?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Waxing" class="w-full h-full object-cover transition-transform duration-500">
+                        <div class="h-48 sm:h-56 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1552693673-1bf958298935?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Waxing" class="w-full h-full object-cover transition-transform duration-500" loading="lazy">
                             <div class="absolute inset-0 bg-brand-brown/10 group-hover:bg-transparent transition-all"></div>
                         </div>
-                        <div class="p-6 text-center">
-                            <h4 class="text-xl font-serif font-bold text-brand-brown mb-2 uppercase tracking-widest">Waxing & Threading</h4>
+                        <div class="p-4 sm:p-6 text-center">
+                            <h4 class="text-lg sm:text-xl font-serif font-bold text-brand-brown mb-2 uppercase tracking-widest">Waxing & Threading</h4>
                             <p class="text-brand-brown/70 text-sm">Painless hair removal using premium wax formulations for smooth, glowing skin.</p>
                         </div>
                     </div>
@@ -415,57 +439,57 @@
 
             <!-- Subsection: Men's Grooming -->
             <div>
-                <div class="flex items-center justify-center mb-10">
+                <div class="flex items-center justify-center mb-6 sm:mb-10">
                     <div class="h-px bg-brand-brown/20 flex-grow"></div>
-                    <h3 class="text-2xl font-serif font-bold mx-6 uppercase tracking-widest text-brand-brown">Men's Grooming</h3>
+                    <h3 class="text-lg sm:text-2xl font-serif font-bold mx-4 sm:mx-6 uppercase tracking-widest text-brand-brown text-center">Men's Grooming</h3>
                     <div class="h-px bg-brand-brown/20 flex-grow"></div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-8">
                     <!-- Men Card: Haircut -->
                     <div class="service-card bg-brand-white border border-brand-brown/10 overflow-hidden shadow-sm hover:shadow-lg transition-all group">
-                        <div class="h-48 overflow-hidden relative">
-                            <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Mens Haircut" class="w-full h-full object-cover transition-transform duration-500">
+                        <div class="h-40 sm:h-48 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Mens Haircut" class="w-full h-full object-cover transition-transform duration-500" loading="lazy">
                             <div class="absolute inset-0 bg-brand-brown/10 group-hover:bg-transparent transition-all"></div>
                         </div>
-                        <div class="p-5 text-center">
-                            <h4 class="text-lg font-serif font-bold text-brand-brown mb-2 uppercase tracking-widest">Haircut & Styling</h4>
+                        <div class="p-4 sm:p-5 text-center">
+                            <h4 class="text-base sm:text-lg font-serif font-bold text-brand-brown mb-2 uppercase tracking-widest">Haircut & Styling</h4>
                             <p class="text-brand-brown/70 text-sm">Classic and contemporary cuts, beard trimming, and styling.</p>
                         </div>
                     </div>
 
                     <!-- Men Card: Hair Color -->
                     <div class="service-card bg-brand-white border border-brand-brown/10 overflow-hidden shadow-sm hover:shadow-lg transition-all group">
-                        <div class="h-48 overflow-hidden relative">
-                            <img src="https://images.unsplash.com/photo-1593702275687-f8b402bf1fb5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Mens Hair Color" class="w-full h-full object-cover transition-transform duration-500">
+                        <div class="h-40 sm:h-48 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1593702275687-f8b402bf1fb5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Mens Hair Color" class="w-full h-full object-cover transition-transform duration-500" loading="lazy">
                             <div class="absolute inset-0 bg-brand-brown/10 group-hover:bg-transparent transition-all"></div>
                         </div>
-                        <div class="p-5 text-center">
-                            <h4 class="text-lg font-serif font-bold text-brand-brown mb-2 uppercase tracking-widest">Hair Color</h4>
+                        <div class="p-4 sm:p-5 text-center">
+                            <h4 class="text-base sm:text-lg font-serif font-bold text-brand-brown mb-2 uppercase tracking-widest">Hair Color</h4>
                             <p class="text-brand-brown/70 text-sm">Grey coverage and fashion colors tailored specifically for men.</p>
                         </div>
                     </div>
 
                     <!-- Men Card: Facials -->
                     <div class="service-card bg-brand-white border border-brand-brown/10 overflow-hidden shadow-sm hover:shadow-lg transition-all group">
-                        <div class="h-48 overflow-hidden relative">
-                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Mens Facials" class="w-full h-full object-cover transition-transform duration-500">
+                        <div class="h-40 sm:h-48 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Mens Facials" class="w-full h-full object-cover transition-transform duration-500" loading="lazy">
                             <div class="absolute inset-0 bg-brand-brown/10 group-hover:bg-transparent transition-all"></div>
                         </div>
-                        <div class="p-5 text-center">
-                            <h4 class="text-lg font-serif font-bold text-brand-brown mb-2 uppercase tracking-widest">Facials & Cleanup</h4>
+                        <div class="p-4 sm:p-5 text-center">
+                            <h4 class="text-base sm:text-lg font-serif font-bold text-brand-brown mb-2 uppercase tracking-widest">Facials & Cleanup</h4>
                             <p class="text-brand-brown/70 text-sm">Deep cleansing facials designed for tougher skin to remove tan and dirt.</p>
                         </div>
                     </div>
 
                     <!-- Men Card: Waxing -->
                     <div class="service-card bg-brand-white border border-brand-brown/10 overflow-hidden shadow-sm hover:shadow-lg transition-all group">
-                        <div class="h-48 overflow-hidden relative">
-                            <img src="https://images.unsplash.com/photo-1620577438164-9ebceeb80fb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Mens Grooming" class="w-full h-full object-cover transition-transform duration-500">
+                        <div class="h-40 sm:h-48 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1620577438164-9ebceeb80fb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Mens Grooming" class="w-full h-full object-cover transition-transform duration-500" loading="lazy">
                             <div class="absolute inset-0 bg-brand-brown/10 group-hover:bg-transparent transition-all"></div>
                         </div>
-                        <div class="p-5 text-center">
-                            <h4 class="text-lg font-serif font-bold text-brand-brown mb-2 uppercase tracking-widest">Waxing</h4>
+                        <div class="p-4 sm:p-5 text-center">
+                            <h4 class="text-base sm:text-lg font-serif font-bold text-brand-brown mb-2 uppercase tracking-widest">Waxing</h4>
                             <p class="text-brand-brown/70 text-sm">Professional body waxing and grooming services for a clean look.</p>
                         </div>
                     </div>
@@ -476,23 +500,23 @@
     </section>
 
     <!-- 6. About Us Section -->
-    <section id="about" class="py-20 bg-brand-white border-y border-brand-brown/10">
+    <section id="about" class="py-12 sm:py-16 md:py-20 bg-brand-white border-y border-brand-brown/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
             <div class="lg:flex lg:items-center">
-                <div class="lg:w-1/2 mb-10 lg:mb-0 relative">
+                <div class="lg:w-1/2 mb-8 lg:mb-0 relative">
                     <div class="absolute -top-4 -left-4 w-full h-full border-2 border-brand-pink z-0 hidden lg:block"></div>
-                    <img src="https://images.unsplash.com/photo-1521590832167-7bfc1748b565?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Ashrafs Salon Interior" class="relative z-10 w-full object-cover h-[450px] shadow-lg grayscale hover:grayscale-0 transition-all duration-700">
+                    <img src="https://images.unsplash.com/photo-1521590832167-7bfc1748b565?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Ashrafs Salon Interior" class="relative z-10 w-full object-cover h-[300px] sm:h-[400px] lg:h-[450px] shadow-lg grayscale hover:grayscale-0 transition-all duration-700" loading="lazy">
                 </div>
                 <div class="lg:w-1/2 lg:pl-16">
-                    <h2 class="text-3xl md:text-5xl font-serif font-bold text-brand-brown mb-6 uppercase tracking-widest">The Ashrafs Legacy</h2>
-                    <div class="w-20 h-1 bg-brand-pink mb-8"></div>
-                    <p class="text-xl text-brand-pink mb-6 leading-relaxed font-serif italic">
+                    <h2 class="text-2xl sm:text-3xl md:text-5xl font-serif font-bold text-brand-brown mb-4 sm:mb-6 uppercase tracking-widest">The Ashrafs Legacy</h2>
+                    <div class="w-20 h-1 bg-brand-pink mb-6 sm:mb-8"></div>
+                    <p class="text-lg sm:text-xl text-brand-pink mb-4 sm:mb-6 leading-relaxed font-serif italic">
                         "Elevating grooming and beauty standards across Maharashtra."
                     </p>
-                    <p class="text-base text-brand-brown/80 leading-relaxed text-justify mb-6">
+                    <p class="text-sm sm:text-base text-brand-brown/80 leading-relaxed text-justify mb-4 sm:mb-6">
                         Ashrafs Salon represents the pinnacle of luxury grooming for both men and women. With state-of-the-art facilities spanning Pune and Mumbai, our internationally certified stylists and makeup artists dedicate themselves to your complete transformation. 
                     </p>
-                    <p class="text-base text-brand-brown/80 leading-relaxed text-justify">
+                    <p class="text-sm sm:text-base text-brand-brown/80 leading-relaxed text-justify">
                         From routine touch-ups to grand bridal makeovers, we maintain uncompromising hygiene protocols and exclusively utilize premium global products to ensure an impeccable experience every time you walk through our doors.
                     </p>
                 </div>
@@ -501,66 +525,66 @@
     </section>
 
     <!-- 7. Store Locator Section -->
-    <section id="store-locator" class="py-20 bg-brand-brown text-brand-white">
+    <section id="store-locator" class="py-12 sm:py-16 md:py-20 bg-brand-brown text-brand-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4 uppercase tracking-widest text-brand-white">Find Us Near You</h2>
-                <div class="w-24 h-1 bg-brand-pink mx-auto mb-6"></div>
-                <p class="text-brand-white/70 text-lg tracking-widest">Premium locations in Pune & Mumbai</p>
+            <div class="text-center mb-10 sm:mb-16">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-serif font-bold mb-3 sm:mb-4 uppercase tracking-widest text-brand-white">Find Us Near You</h2>
+                <div class="w-24 h-1 bg-brand-pink mx-auto mb-4 sm:mb-6"></div>
+                <p class="text-brand-white/70 text-base sm:text-lg tracking-widest">Premium locations in Pune & Mumbai</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10">
                 <!-- Pune Locations -->
-                <div class="bg-brand-white text-brand-brown p-8 md:p-10 relative shadow-xl">
-                    <div class="absolute -top-5 left-1/2 -translate-x-1/2 bg-brand-pink px-6 py-2 font-serif font-bold text-xl text-brand-white uppercase tracking-widest">Pune</div>
-                    <ul class="space-y-8 mt-8">
-                        <li class="flex items-start group border-b border-brand-brown/10 pb-6">
-                            <i class="fas fa-map-marker-alt text-brand-pink text-3xl mt-1 mr-5 group-hover:scale-110 transition-transform"></i>
+                <div class="bg-brand-white text-brand-brown p-6 sm:p-8 md:p-10 relative shadow-xl pt-10 sm:pt-12">
+                    <div class="absolute -top-4 sm:-top-5 left-1/2 -translate-x-1/2 bg-brand-pink px-5 sm:px-6 py-1.5 sm:py-2 font-serif font-bold text-lg sm:text-xl text-brand-white uppercase tracking-widest whitespace-nowrap">Pune</div>
+                    <ul class="space-y-5 sm:space-y-8 mt-4 sm:mt-8">
+                        <li class="flex items-start group border-b border-brand-brown/10 pb-4 sm:pb-6">
+                            <i class="fas fa-map-marker-alt text-brand-pink text-2xl sm:text-3xl mt-1 mr-3 sm:mr-5 group-hover:scale-110 transition-transform"></i>
                             <div>
-                                <h4 class="font-bold text-xl mb-2 uppercase tracking-wider">Kharadi</h4>
-                                <p class="text-brand-brown/70 leading-relaxed">Ground Floor, Near World Trade Center, Kharadi, Pune 411014</p>
+                                <h4 class="font-bold text-base sm:text-xl mb-1 sm:mb-2 uppercase tracking-wider">Kharadi</h4>
+                                <p class="text-brand-brown/70 leading-relaxed text-sm sm:text-base">Ground Floor, Near World Trade Center, Kharadi, Pune 411014</p>
                             </div>
                         </li>
                         <li class="flex items-start group">
-                            <i class="fas fa-map-marker-alt text-brand-pink text-3xl mt-1 mr-5 group-hover:scale-110 transition-transform"></i>
+                            <i class="fas fa-map-marker-alt text-brand-pink text-2xl sm:text-3xl mt-1 mr-3 sm:mr-5 group-hover:scale-110 transition-transform"></i>
                             <div>
-                                <h4 class="font-bold text-xl mb-2 uppercase tracking-wider">Wakad</h4>
-                                <p class="text-brand-brown/70 leading-relaxed">Shop 5, Phoenix Mall Road, Wakad, Pune 411057</p>
+                                <h4 class="font-bold text-base sm:text-xl mb-1 sm:mb-2 uppercase tracking-wider">Wakad</h4>
+                                <p class="text-brand-brown/70 leading-relaxed text-sm sm:text-base">Shop 5, Phoenix Mall Road, Wakad, Pune 411057</p>
                             </div>
                         </li>
                     </ul>
                 </div>
 
                 <!-- Mumbai Locations -->
-                <div class="bg-brand-white text-brand-brown p-8 md:p-10 relative shadow-xl">
-                    <div class="absolute -top-5 left-1/2 -translate-x-1/2 bg-brand-brownDark px-6 py-2 font-serif font-bold text-xl text-brand-white uppercase tracking-widest">Mumbai</div>
-                    <ul class="space-y-6 mt-8">
-                        <li class="flex items-start group border-b border-brand-brown/10 pb-4">
-                            <i class="fas fa-map-marker-alt text-brand-brownDark text-3xl mt-1 mr-5 group-hover:scale-110 transition-transform"></i>
+                <div class="bg-brand-white text-brand-brown p-6 sm:p-8 md:p-10 relative shadow-xl pt-10 sm:pt-12">
+                    <div class="absolute -top-4 sm:-top-5 left-1/2 -translate-x-1/2 bg-brand-brownDark px-5 sm:px-6 py-1.5 sm:py-2 font-serif font-bold text-lg sm:text-xl text-brand-white uppercase tracking-widest whitespace-nowrap">Mumbai</div>
+                    <ul class="space-y-4 sm:space-y-6 mt-4 sm:mt-8">
+                        <li class="flex items-start group border-b border-brand-brown/10 pb-3 sm:pb-4">
+                            <i class="fas fa-map-marker-alt text-brand-brownDark text-2xl sm:text-3xl mt-1 mr-3 sm:mr-5 group-hover:scale-110 transition-transform"></i>
                             <div>
-                                <h4 class="font-bold text-xl mb-1 uppercase tracking-wider">Thane (HQ)</h4>
-                                <p class="text-brand-brown/70 leading-relaxed text-sm">Viviana Mall Annexe, Eastern Express Hwy, Thane 400606</p>
+                                <h4 class="font-bold text-base sm:text-xl mb-1 uppercase tracking-wider">Thane (HQ)</h4>
+                                <p class="text-brand-brown/70 leading-relaxed text-xs sm:text-sm">Viviana Mall Annexe, Eastern Express Hwy, Thane 400606</p>
                             </div>
                         </li>
-                        <li class="flex items-start group border-b border-brand-brown/10 pb-4">
-                            <i class="fas fa-map-marker-alt text-brand-brownDark text-3xl mt-1 mr-5 group-hover:scale-110 transition-transform"></i>
+                        <li class="flex items-start group border-b border-brand-brown/10 pb-3 sm:pb-4">
+                            <i class="fas fa-map-marker-alt text-brand-brownDark text-2xl sm:text-3xl mt-1 mr-3 sm:mr-5 group-hover:scale-110 transition-transform"></i>
                             <div>
-                                <h4 class="font-bold text-xl mb-1 uppercase tracking-wider">Powai</h4>
-                                <p class="text-brand-brown/70 leading-relaxed text-sm">Hiranandani Gardens, Central Avenue, Powai, Mumbai 400076</p>
+                                <h4 class="font-bold text-base sm:text-xl mb-1 uppercase tracking-wider">Powai</h4>
+                                <p class="text-brand-brown/70 leading-relaxed text-xs sm:text-sm">Hiranandani Gardens, Central Avenue, Powai, Mumbai 400076</p>
                             </div>
                         </li>
-                        <li class="flex items-start group border-b border-brand-brown/10 pb-4">
-                            <i class="fas fa-map-marker-alt text-brand-brownDark text-3xl mt-1 mr-5 group-hover:scale-110 transition-transform"></i>
+                        <li class="flex items-start group border-b border-brand-brown/10 pb-3 sm:pb-4">
+                            <i class="fas fa-map-marker-alt text-brand-brownDark text-2xl sm:text-3xl mt-1 mr-3 sm:mr-5 group-hover:scale-110 transition-transform"></i>
                             <div>
-                                <h4 class="font-bold text-xl mb-1 uppercase tracking-wider">Mira Road</h4>
-                                <p class="text-brand-brown/70 leading-relaxed text-sm">Pleasant Park, Beverly Park Road, Mira Road East 401107</p>
+                                <h4 class="font-bold text-base sm:text-xl mb-1 uppercase tracking-wider">Mira Road</h4>
+                                <p class="text-brand-brown/70 leading-relaxed text-xs sm:text-sm">Pleasant Park, Beverly Park Road, Mira Road East 401107</p>
                             </div>
                         </li>
                         <li class="flex items-start group">
-                            <i class="fas fa-map-marker-alt text-brand-brownDark text-3xl mt-1 mr-5 group-hover:scale-110 transition-transform"></i>
+                            <i class="fas fa-map-marker-alt text-brand-brownDark text-2xl sm:text-3xl mt-1 mr-3 sm:mr-5 group-hover:scale-110 transition-transform"></i>
                             <div>
-                                <h4 class="font-bold text-xl mb-1 uppercase tracking-wider">Marol</h4>
-                                <p class="text-brand-brown/70 leading-relaxed text-sm">Marol Maroshi Road, Near Metro Station, Andheri East 400059</p>
+                                <h4 class="font-bold text-base sm:text-xl mb-1 uppercase tracking-wider">Marol</h4>
+                                <p class="text-brand-brown/70 leading-relaxed text-xs sm:text-sm">Marol Maroshi Road, Near Metro Station, Andheri East 400059</p>
                             </div>
                         </li>
                     </ul>
@@ -570,41 +594,41 @@
     </section>
 
     <!-- 8. Footer -->
-    <footer id="contact" class="bg-brand-white text-brand-brown pt-16 pb-8 border-t-[12px] border-brand-pink">
+    <footer id="contact" class="bg-brand-white text-brand-brown pt-12 sm:pt-16 pb-6 sm:pb-8 border-t-[12px] border-brand-pink">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-12 mb-8 sm:mb-12">
                 
                 <!-- Contact Details -->
                 <div>
-                    <h3 class="text-xl font-serif font-bold mb-6 text-brand-pink uppercase tracking-widest">Contact Us</h3>
-                    <ul class="space-y-4">
+                    <h3 class="text-lg sm:text-xl font-serif font-bold mb-4 sm:mb-6 text-brand-pink uppercase tracking-widest">Contact Us</h3>
+                    <ul class="space-y-3 sm:space-y-4">
                         <li class="flex items-center group">
                             <i class="fas fa-phone-alt w-8 text-brand-brown group-hover:text-brand-pink transition-colors"></i>
-                            <a href="tel:+919876543210" class="hover:text-brand-pink transition-colors font-bold">+91 98765 43210</a>
+                            <a href="tel:+919876543210" class="hover:text-brand-pink transition-colors font-bold text-sm sm:text-base">+91 98765 43210</a>
                         </li>
                         <li class="flex items-center group">
                             <i class="fas fa-envelope w-8 text-brand-brown group-hover:text-brand-pink transition-colors"></i>
-                            <a href="mailto:info@ashrafssalon.com" class="hover:text-brand-pink transition-colors font-bold">info@ashrafssalon.com</a>
+                            <a href="mailto:info@ashrafssalon.com" class="hover:text-brand-pink transition-colors font-bold text-sm sm:text-base">info@ashrafssalon.com</a>
                         </li>
                         <li class="flex items-center">
                             <i class="fas fa-clock w-8 text-brand-brown"></i>
-                            <span class="font-bold text-brand-brown/80">Open Daily: 10:00 AM - 9:00 PM</span>
+                            <span class="font-bold text-brand-brown/80 text-sm sm:text-base">Open Daily: 10:00 AM - 9:00 PM</span>
                         </li>
                     </ul>
                 </div>
 
                 <!-- Social Media Links -->
                 <div>
-                    <h3 class="text-xl font-serif font-bold mb-6 text-brand-pink uppercase tracking-widest">Follow Us</h3>
-                    <p class="text-brand-brown/70 mb-6 font-bold">Stay updated with grooming trends and offers.</p>
+                    <h3 class="text-lg sm:text-xl font-serif font-bold mb-4 sm:mb-6 text-brand-pink uppercase tracking-widest">Follow Us</h3>
+                    <p class="text-brand-brown/70 mb-4 sm:mb-6 font-bold text-sm sm:text-base">Stay updated with grooming trends and offers.</p>
                     <div class="flex space-x-4">
-                        <a href="#" class="w-10 h-10 border border-brand-brown text-brand-brown flex items-center justify-center hover:bg-brand-pink hover:text-brand-white hover:border-brand-pink transition-all text-lg">
+                        <a href="#" class="w-10 h-10 border border-brand-brown text-brand-brown flex items-center justify-center hover:bg-brand-pink hover:text-brand-white hover:border-brand-pink transition-all text-lg" aria-label="Instagram">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 border border-brand-brown text-brand-brown flex items-center justify-center hover:bg-brand-pink hover:text-brand-white hover:border-brand-pink transition-all text-lg">
+                        <a href="#" class="w-10 h-10 border border-brand-brown text-brand-brown flex items-center justify-center hover:bg-brand-pink hover:text-brand-white hover:border-brand-pink transition-all text-lg" aria-label="Facebook">
                             <i class="fab fa-facebook-f"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 border border-brand-brown text-brand-brown flex items-center justify-center hover:bg-brand-pink hover:text-brand-white hover:border-brand-pink transition-all text-lg">
+                        <a href="#" class="w-10 h-10 border border-brand-brown text-brand-brown flex items-center justify-center hover:bg-brand-pink hover:text-brand-white hover:border-brand-pink transition-all text-lg" aria-label="YouTube">
                             <i class="fab fa-youtube"></i>
                         </a>
                     </div>
@@ -612,10 +636,10 @@
 
                 <!-- Head Office -->
                 <div>
-                    <h3 class="text-xl font-serif font-bold mb-6 text-brand-pink uppercase tracking-widest">Head Office</h3>
+                    <h3 class="text-lg sm:text-xl font-serif font-bold mb-4 sm:mb-6 text-brand-pink uppercase tracking-widest">Head Office</h3>
                     <div class="flex items-start text-brand-brown/80 font-bold">
                         <i class="fas fa-building mt-1 mr-4 text-brand-brown text-xl"></i>
-                        <p class="leading-relaxed">
+                        <p class="leading-relaxed text-sm sm:text-base">
                             Ashrafs Salon Corporate,<br>
                             Level 4, Business Park,<br>
                             Wagle Estate, Thane West,<br>
@@ -626,27 +650,26 @@
 
             </div>
             
-            <div class="border-t border-brand-brown/20 pt-8 text-center text-xs font-bold uppercase tracking-widest text-brand-brown/60">
+            <div class="border-t border-brand-brown/20 pt-6 sm:pt-8 text-center text-xs font-bold uppercase tracking-widest text-brand-brown/60">
                 <p>&copy; 2026 Ashrafs Salon. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        (function() {
             // --- Slider Logic ---
             const slides = document.querySelectorAll('.slide');
             const dots = document.querySelectorAll('.slider-dot');
             const prevBtn = document.getElementById('prevSlideBtn');
             const nextBtn = document.getElementById('nextSlideBtn');
-            const sliderContainer = document.getElementById('offer-slider');
-            
             let currentSlide = 0;
             let slideInterval;
             const intervalTime = 5000;
 
             function goToSlide(index) {
-                // Remove active classes
+                if (!slides.length) return;
+                // Remove active classes from current
                 slides[currentSlide].classList.remove('opacity-100', 'z-10', 'active');
                 slides[currentSlide].classList.add('opacity-0', 'z-0');
                 dots[currentSlide].classList.remove('bg-brand-white');
@@ -654,7 +677,7 @@
 
                 currentSlide = index;
 
-                // Add active classes
+                // Add active classes to new
                 slides[currentSlide].classList.remove('opacity-0', 'z-0');
                 slides[currentSlide].classList.add('opacity-100', 'z-10', 'active');
                 dots[currentSlide].classList.remove('bg-brand-white/40');
@@ -672,6 +695,7 @@
             }
 
             function startSlider() {
+                if (slideInterval) clearInterval(slideInterval);
                 slideInterval = setInterval(nextSlide, intervalTime);
             }
 
@@ -680,77 +704,115 @@
                 startSlider();
             }
 
-            nextBtn.addEventListener('click', () => {
-                nextSlide();
-                resetSliderTimer();
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    nextSlide();
+                    resetSliderTimer();
+                });
+            }
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    prevSlide();
+                    resetSliderTimer();
+                });
+            }
+
+            dots.forEach((dot, idx) => {
+                dot.addEventListener('click', () => {
+                    goToSlide(idx);
+                    resetSliderTimer();
+                });
             });
 
-        // --- Modal & Form Handling Logic ---
-        const modal = document.getElementById('lead-modal');
-        
-        function openModal() {
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling when modal is open
-        }
+            // Start auto slider
+            startSlider();
 
-        function closeModal() {
-            modal.classList.remove('active');
-            document.body.style.overflow = ''; // Restore scrolling
-        }
-
-        // Open modal automatically on page load after a short delay
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                openModal();
-            }, 1000); // Opens 1 second after page loads
-        });
-
-        // Close modal if clicking outside the content box
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeModal();
+            // Pause on hover for desktop
+            const sliderContainer = document.getElementById('offer-slider');
+            if (sliderContainer) {
+                sliderContainer.addEventListener('mouseenter', () => clearInterval(slideInterval));
+                sliderContainer.addEventListener('mouseleave', startSlider);
             }
-        });
 
-        function handleFormSubmission(event) {
-            event.preventDefault();
+            // --- Modal & Form Handling ---
+            const modal = document.getElementById('lead-modal');
             
-            const form = document.getElementById('appointmentForm');
-            const successMessage = document.getElementById('success-message');
-            const formHeader = document.getElementById('form-header');
-            const btn = document.getElementById('submitBtn');
-            const cityInput = document.getElementById('branch').value;
-            
-            // Visual loading state
-            const originalBtnText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i> Processing...';
-            btn.disabled = true;
-            btn.classList.add('opacity-75', 'cursor-not-allowed');
+            window.openModal = function() {
+                if (!modal) return;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            };
 
-            // Simulate API Request
-            setTimeout(() => {
-                document.getElementById('success-city').textContent = cityInput;
-                
-                // Hide form, show success
-                form.classList.add('hidden');
-                formHeader.classList.add('hidden');
-                successMessage.classList.remove('hidden');
-                
-                // Reset button state internally
-                btn.innerHTML = originalBtnText;
-                btn.disabled = false;
-                btn.classList.remove('opacity-75', 'cursor-not-allowed');
-                
-            }, 1200);
-        }
+            window.closeModal = function() {
+                if (!modal) return;
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            };
 
-        function resetForm() {
-            document.getElementById('appointmentForm').reset();
-            document.getElementById('success-message').classList.add('hidden');
-            document.getElementById('appointmentForm').classList.remove('hidden');
-            document.getElementById('form-header').classList.remove('hidden');
-        }
-    });
+            // Open modal automatically after 1s
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    if (modal) openModal();
+                }, 1000);
+            });
+
+            // Close modal if clicking backdrop
+            if (modal) {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        closeModal();
+                    }
+                });
+            }
+
+            // Close with Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal && modal.classList.contains('active')) {
+                    closeModal();
+                }
+            });
+
+            // Form submission
+            window.handleFormSubmission = function(event) {
+                event.preventDefault();
+                
+                const form = document.getElementById('appointmentForm');
+                const successMessage = document.getElementById('success-message');
+                const formHeader = document.getElementById('form-header');
+                const btn = document.getElementById('submitBtn');
+                const cityInput = document.getElementById('branch').value;
+                
+                if (!form || !btn) return;
+                
+                const originalBtnText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i> Processing...';
+                btn.disabled = true;
+                btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+                setTimeout(() => {
+                    const citySpan = document.getElementById('success-city');
+                    if (citySpan) citySpan.textContent = cityInput;
+                    
+                    form.classList.add('hidden');
+                    if (formHeader) formHeader.classList.add('hidden');
+                    if (successMessage) successMessage.classList.remove('hidden');
+                    
+                    btn.innerHTML = originalBtnText;
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-75', 'cursor-not-allowed');
+                }, 1200);
+            };
+
+            window.resetForm = function() {
+                const form = document.getElementById('appointmentForm');
+                const successMessage = document.getElementById('success-message');
+                const formHeader = document.getElementById('form-header');
+                if (form) form.reset();
+                if (successMessage) successMessage.classList.add('hidden');
+                if (form) form.classList.remove('hidden');
+                if (formHeader) formHeader.classList.remove('hidden');
+            };
+        })();
     </script>
 </body>
 </html>
