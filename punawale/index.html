@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ghar Ek Mandir | Find Your Perfect Home in Punawale & Pune</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            heading: ['Outfit', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f5ff',
+              100: '#e5edff',
+              600: '#1d4ed8',
+              700: '#1e40af',
+              800: '#172554',
+              900: '#0f172a',
+            },
+            mandir: {
+              gold: '#f59e0b',
+              accent: '#d97706',
+              warm: '#fffbeb'
+            }
+          },
+          boxShadow: {
+            'glow': '0 12px 35px -8px rgba(29, 78, 216, 0.3)',
+            'card-lift': '0 20px 45px -12px rgba(15, 23, 42, 0.12)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .bg-pattern-grid {
+      background-size: 28px 28px;
+      background-image: 
+        linear-gradient(to right, rgba(226, 232, 240, 0.5) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(226, 232, 240, 0.5) 1px, transparent 1px);
+    }
+    .custom-ring:focus-within {
+      border-color: #1d4ed8;
+      box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.14);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-600 selection:text-white pb-20 sm:pb-0">
+
+  <!-- ================= TOP FLASH BAR ================= -->
+  <div class="bg-gradient-to-r from-brand-900 via-slate-900 to-brand-800 text-white text-xs sm:text-sm py-2.5 px-4 border-b border-white/10">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-2 mx-auto sm:mx-0">
+        <span class="inline-flex items-center gap-1.5 bg-amber-500/20 text-amber-300 border border-amber-400/30 px-2.5 py-0.5 rounded-full text-[11px] font-bold">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5 text-amber-400"></i>
+          100% ZERO BROKERAGE
+        </span>
+        <span class="text-slate-200 hidden md:inline">Specialized for Punawale, Wakad, Ravet, Tathawade & PCMC/Pune</span>
+      </div>
+      <div class="hidden sm:flex items-center gap-4 text-xs font-medium ml-auto">
+        <a href="tel:9356113211" class="hover:text-amber-400 transition flex items-center gap-1 text-slate-200">
+          <i data-lucide="phone-call" class="w-3.5 h-3.5 text-amber-400"></i> Direct: +91 9356113211
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MAIN HEADER ================= -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Logo: Ghar Ek Mandir -->
+      <a href="#" class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-brand-800 via-brand-700 to-amber-500 flex items-center justify-center text-white shadow-md shadow-brand-700/25">
+          <i data-lucide="home" class="w-6 h-6 text-amber-300"></i>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-xl sm:text-2xl font-extrabold font-heading tracking-tight text-slate-900 leading-none">
+            Ghar Ek Mandir
+          </span>
+          <span class="text-[11px] text-amber-600 font-bold uppercase tracking-wider mt-1">
+            Real Estate Consultancy
+          </span>
+        </div>
+      </a>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex items-center gap-2.5 sm:gap-3">
+        <!-- WhatsApp Quick Chat -->
+        <a href="https://wa.me/919356113211?text=Hi%20Ghar%20Ek%20Mandir,%20I%20am%20looking%20for%20a%20property%20in%20Punawale/Pune.%20Please%20share%20options." target="_blank" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-semibold text-xs sm:text-sm border border-emerald-200 transition">
+          <i data-lucide="message-circle" class="w-4 h-4 text-emerald-600"></i>
+          <span>WhatsApp</span>
+        </a>
+
+        <!-- Direct Call -->
+        <a href="tel:9356113211" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-700 hover:bg-brand-800 text-white font-semibold text-xs sm:text-sm shadow-md shadow-brand-700/20 transition">
+          <i data-lucide="phone-outgoing" class="w-4 h-4 text-amber-300"></i>
+          <span class="hidden md:inline">Call Expert:</span> <span>9356113211</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= HERO & RE-ENGAGEMENT FORM ================= -->
+  <section class="relative pt-8 pb-16 lg:py-16 bg-pattern-grid overflow-hidden">
+    <!-- Ambient Background Lighting -->
+    <div class="absolute -top-12 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-tr from-brand-200/40 via-amber-100/40 to-sky-100/30 blur-3xl -z-10 rounded-full pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+        
+        <!-- Left: Psychological Re-engagement for Meta "Non-leads" -->
+        <div class="lg:col-span-7 space-y-6">
+          
+          <!-- Re-engagement Badge -->
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-50 border border-amber-200/80 text-amber-900 text-xs sm:text-sm font-semibold">
+            <span class="flex h-2 w-2 rounded-full bg-amber-500 animate-pulse"></span>
+            <span>That Project Wasn't The Right Match? No Problem!</span>
+          </div>
+
+          <!-- Main Hook Heading -->
+          <div class="space-y-3">
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-slate-900 tracking-tight leading-[1.18]">
+              Har Parivar Ka Sapna, <br class="hidden sm:inline">
+              <span class="bg-gradient-to-r from-brand-700 via-brand-600 to-amber-600 bg-clip-text text-transparent">
+                Aapke Budget Mein Ek Sahi Ghar Apna!
+              </span>
+            </h1>
+            <p class="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
+              Agar ad wala project aapke exact budget ya location se match nahi hua, tab bhi nirash mat hoiye! 
+              <strong class="text-slate-900">Ghar Ek Mandir</strong> ke paas <strong>Punawale, Wakad, Ravet, Tathawade aur Pune</strong> ke 50+ verified RERA approved builders ke options uplabdh hain.
+            </p>
+          </div>
+
+          <!-- Quick Solution Highlights -->
+          <div class="grid grid-cols-2 gap-3 pt-2">
+            <div class="flex items-start gap-3 bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm">
+              <div class="w-8 h-8 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold flex-shrink-0 text-xs">
+                ₹0
+              </div>
+              <div>
+                <h4 class="font-bold text-xs sm:text-sm text-slate-900">Zero Brokerage</h4>
+                <p class="text-[11px] sm:text-xs text-slate-500">Builder direct price & no hidden charges</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm">
+              <div class="w-8 h-8 rounded-xl bg-brand-100 text-brand-800 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="check-circle" class="w-4 h-4 text-brand-700"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-xs sm:text-sm text-slate-900">50+ Top Projects</h4>
+                <p class="text-[11px] sm:text-xs text-slate-500">Ready to move & Under construction</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm">
+              <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="car" class="w-4 h-4 text-emerald-700"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-xs sm:text-sm text-slate-900">Free Cab Facility</h4>
+                <p class="text-[11px] sm:text-xs text-slate-500">Doorstep pickup for family site visits</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm">
+              <div class="w-8 h-8 rounded-xl bg-purple-100 text-purple-800 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="badge-percent" class="w-4 h-4 text-purple-700"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-xs sm:text-sm text-slate-900">Best Price Deal</h4>
+                <p class="text-[11px] sm:text-xs text-slate-500">Special developer festive discounts</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Trust snippet -->
+          <div class="flex items-center gap-4 pt-1">
+            <div class="flex -space-x-2">
+              <img class="w-9 h-9 rounded-full border-2 border-white object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=90&h=90&fit=crop" alt="Homebuyer">
+              <img class="w-9 h-9 rounded-full border-2 border-white object-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=90&h=90&fit=crop" alt="Homebuyer">
+              <img class="w-9 h-9 rounded-full border-2 border-white object-cover" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=90&h=90&fit=crop" alt="Homebuyer">
+            </div>
+            <div class="text-xs">
+              <p class="font-bold text-slate-800">1,200+ Families Assisted in PCMC & Pune</p>
+              <p class="text-slate-500">Personalized assistance till home possession & loan approval</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Dedicated Callback Form -->
+        <div class="lg:col-span-5" id="request-form">
+          <div class="relative bg-white rounded-3xl p-6 sm:p-8 shadow-card-lift border border-slate-200">
+            
+            <!-- Sticky tag on form -->
+            <div class="absolute -top-3.5 right-6 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-extrabold text-[11px] px-3.5 py-1 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Custom Match Call
+            </div>
+
+            <div class="mb-5">
+              <h3 class="text-xl sm:text-2xl font-extrabold font-heading text-slate-900">Request Property Callback</h3>
+              <p class="text-xs sm:text-sm text-slate-500 mt-1">
+                Bataiye aapko kis type ka ghar chahiye, hum 15 min me call karenge.
+              </p>
+            </div>
+
+            <!-- Form -->
+            <form id="propertyLeadForm" onsubmit="handleLeadSubmit(event)" novalidate class="space-y-3.5">
+              
+              <!-- Inline Error Notification Banner for API Failures -->
+              <div id="formspreeErrorBanner" class="hidden p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs">
+                <div class="flex items-start gap-2">
+                  <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-600 flex-shrink-0 mt-0.5"></i>
+                  <div>
+                    <p class="font-bold">Form submission issue. Don't worry!</p>
+                    <p class="text-[11px] text-rose-700 mt-0.5" id="formspreeErrorMessage">Network issue detected. Please tap below to call us directly.</p>
+                    <div class="mt-2 flex items-center gap-2">
+                      <a href="tel:9356113211" class="inline-flex items-center gap-1 font-bold text-white bg-rose-600 hover:bg-rose-700 px-3 py-1 rounded-lg text-[11px] transition">
+                        <i data-lucide="phone" class="w-3 h-3"></i> Call 9356113211
+                      </a>
+                      <button type="button" onclick="handleLeadSubmit(event)" class="text-[11px] font-semibold text-rose-800 underline hover:text-rose-950">
+                        Try Again
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 1. Full Name -->
+              <div>
+                <label for="fullName" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                  Full Name <span class="text-rose-500">*</span>
+                </label>
+                <div class="relative flex items-center custom-ring rounded-xl border border-slate-300 bg-slate-50/60 transition">
+                  <div class="pl-3.5 text-slate-400 pointer-events-none">
+                    <i data-lucide="user" class="w-4 h-4"></i>
+                  </div>
+                  <input 
+                    type="text" 
+                    id="fullName" 
+                    name="fullName" 
+                    required 
+                    placeholder="Apna Pura Naam Likhye" 
+                    class="w-full py-2.5 sm:py-3 pl-3 pr-3 text-sm bg-transparent rounded-xl focus:outline-none text-slate-900 placeholder-slate-400 font-medium"
+                  />
+                </div>
+                <p id="nameError" class="hidden text-[11px] text-rose-500 mt-1 font-semibold flex items-center gap-1">
+                  <i data-lucide="alert-circle" class="w-3 h-3"></i> Please enter your name
+                </p>
+              </div>
+
+              <!-- 2. Phone Number -->
+              <div>
+                <label for="phoneNumber" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                  Phone Number <span class="text-rose-500">*</span>
+                </label>
+                <div class="flex items-center custom-ring rounded-xl border border-slate-300 bg-slate-50/60 transition overflow-hidden">
+                  <span class="px-3 py-2.5 sm:py-3 bg-slate-100 border-r border-slate-200 text-xs font-bold text-slate-700 select-none">
+                    🇮🇳 +91
+                  </span>
+                  <div class="relative flex-1 flex items-center">
+                    <input 
+                      type="tel" 
+                      id="phoneNumber" 
+                      name="phoneNumber" 
+                      maxlength="10"
+                      required 
+                      placeholder="10-digit Mobile Number" 
+                      class="w-full py-2.5 sm:py-3 px-3 text-sm bg-transparent focus:outline-none text-slate-900 placeholder-slate-400 font-semibold tracking-wide"
+                      oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);"
+                    />
+                    <div class="pr-3 text-slate-400">
+                      <i data-lucide="phone" class="w-4 h-4"></i>
+                    </div>
+                  </div>
+                </div>
+                <p id="phoneError" class="hidden text-[11px] text-rose-500 mt-1 font-semibold flex items-center gap-1">
+                  <i data-lucide="alert-circle" class="w-3 h-3"></i> Enter a valid 10-digit contact number
+                </p>
+              </div>
+
+              <!-- 3. City / Preferred Location -->
+              <div>
+                <label for="city" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                  Preferred Location / City <span class="text-rose-500">*</span>
+                </label>
+                <div class="relative flex items-center custom-ring rounded-xl border border-slate-300 bg-slate-50/60 transition">
+                  <div class="pl-3.5 text-slate-400 pointer-events-none">
+                    <i data-lucide="map-pin" class="w-4 h-4 text-brand-600"></i>
+                  </div>
+                  <input 
+                    type="text" 
+                    id="city" 
+                    name="city" 
+                    required 
+                    value="Punawale"
+                    placeholder="e.g. Punawale, Wakad, Ravet, Pune" 
+                    list="locationList"
+                    class="w-full py-2.5 sm:py-3 pl-3 pr-3 text-sm bg-transparent rounded-xl focus:outline-none text-slate-900 font-medium"
+                  />
+                  <datalist id="locationList">
+                    <option value="Punawale">
+                    <option value="Wakad">
+                    <option value="Ravet">
+                    <option value="Tathawade">
+                    <option value="Hinjawadi">
+                    <option value="Baner / Balewadi">
+                    <option value="Nigdi / Akurdi">
+                    <option value="Pune City">
+                  </datalist>
+                </div>
+                <p id="cityError" class="hidden text-[11px] text-rose-500 mt-1 font-semibold flex items-center gap-1">
+                  <i data-lucide="alert-circle" class="w-3 h-3"></i> Please specify location or city
+                </p>
+              </div>
+
+              <!-- 4. BHK & Budget Quick Select -->
+              <div class="grid grid-cols-2 gap-3 pt-1">
+                <div>
+                  <label for="bhkChoice" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                    BHK Config
+                  </label>
+                  <select id="bhkChoice" class="w-full py-2.5 px-3 rounded-xl border border-slate-300 bg-slate-50/60 text-xs sm:text-sm font-semibold text-slate-800 focus:outline-none">
+                    <option value="2 BHK" selected>2 BHK</option>
+                    <option value="1 BHK">1 BHK</option>
+                    <option value="3 BHK">3 BHK</option>
+                    <option value="Row House / Plot">Plot / Villa</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label for="budgetChoice" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                    Budget Range
+                  </label>
+                  <select id="budgetChoice" class="w-full py-2.5 px-3 rounded-xl border border-slate-300 bg-slate-50/60 text-xs sm:text-sm font-semibold text-slate-800 focus:outline-none">
+                    <option value="₹40 Lac - ₹55 Lac">₹40 Lac - ₹55 Lac</option>
+                    <option value="₹55 Lac - ₹75 Lac" selected>₹55 Lac - ₹75 Lac</option>
+                    <option value="₹75 Lac - ₹1.1 Cr">₹75 Lac - ₹1.1 Cr</option>
+                    <option value="₹1.1 Cr+">₹1.1 Cr+</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- 5. Submit Button -->
+              <div class="pt-3">
+                <button 
+                  type="submit" 
+                  id="submitBtn" 
+                  class="w-full relative py-3.5 px-6 rounded-xl bg-gradient-to-r from-brand-700 via-brand-800 to-slate-900 hover:from-brand-800 hover:to-black text-white font-bold text-sm sm:text-base shadow-glow transition transform active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <span id="btnText">Request Free Callback</span>
+                  <i data-lucide="arrow-right" id="btnIcon" class="w-4 h-4 text-amber-400"></i>
+                  <!-- Spinner -->
+                  <div id="btnSpinner" class="hidden w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                </button>
+              </div>
+
+              <!-- Reassurance Footnote -->
+              <div class="flex items-center justify-center gap-1.5 text-center text-[11px] text-slate-500 pt-1">
+                <i data-lucide="phone" class="w-3.5 h-3.5 text-amber-600"></i>
+                <span>Or dial directly: <a href="tel:9356113211" class="font-bold text-brand-700 hover:underline">9356113211</a></span>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ALTERNATIVE PROPERTIES EXPLORATION ================= -->
+  <section class="py-14 bg-white border-y border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-2xl mx-auto mb-10">
+        <span class="text-xs font-bold uppercase tracking-wider text-brand-700 bg-brand-50 px-3 py-1 rounded-full">Explore Other Available Projects</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold font-heading text-slate-900 mt-2">
+          Find Exactly What Suits Your Family
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-500 mt-1">
+          Whether you need a ready flat, high carpet area, or lower EMI options, Ghar Ek Mandir provides verified builder inventory across Punawale & Pune.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Card 1 -->
+        <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 hover:border-brand-500/50 hover:shadow-md transition">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center mb-4">
+            <i data-lucide="piggy-bank" class="w-5 h-5"></i>
+          </div>
+          <span class="text-[11px] font-bold text-amber-700 uppercase tracking-wider">Affordable Segment</span>
+          <h3 class="text-base font-bold text-slate-900 mt-1">Smart 1 & 2 BHKs</h3>
+          <p class="text-xs text-slate-500 mt-1">Starting ₹38 Lacs* in Punawale & Ravet with modern lifestyle amenities.</p>
+          <div class="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-700">₹38L - ₹55L</span>
+            <a href="tel:9356113211" class="text-xs font-bold text-brand-700 hover:underline flex items-center gap-1">Inquire <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></a>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 hover:border-brand-500/50 hover:shadow-md transition">
+          <div class="w-10 h-10 rounded-xl bg-brand-500/10 text-brand-600 flex items-center justify-center mb-4">
+            <i data-lucide="building" class="w-5 h-5"></i>
+          </div>
+          <span class="text-[11px] font-bold text-brand-700 uppercase tracking-wider">Spacious Living</span>
+          <h3 class="text-base font-bold text-slate-900 mt-1">Premium 2 & 3 BHK</h3>
+          <p class="text-xs text-slate-500 mt-1">Large carpet areas, high-rise towers near Mumbai-Pune Expressway & Hinjawadi IT.</p>
+          <div class="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-700">₹62L - ₹92L</span>
+            <a href="tel:9356113211" class="text-xs font-bold text-brand-700 hover:underline flex items-center gap-1">Inquire <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></a>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 hover:border-brand-500/50 hover:shadow-md transition">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center mb-4">
+            <i data-lucide="key" class="w-5 h-5"></i>
+          </div>
+          <span class="text-[11px] font-bold text-emerald-700 uppercase tracking-wider">Zero Wait Time</span>
+          <h3 class="text-base font-bold text-slate-900 mt-1">Ready Possession Flats</h3>
+          <p class="text-xs text-slate-500 mt-1">Save GST and double rent. Move in immediately with verified OC received homes.</p>
+          <div class="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-700">Immediate OC</span>
+            <a href="tel:9356113211" class="text-xs font-bold text-brand-700 hover:underline flex items-center gap-1">Inquire <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></a>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 hover:border-brand-500/50 hover:shadow-md transition">
+          <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-600 flex items-center justify-center mb-4">
+            <i data-lucide="map" class="w-5 h-5"></i>
+          </div>
+          <span class="text-[11px] font-bold text-purple-700 uppercase tracking-wider">Independent</span>
+          <h3 class="text-base font-bold text-slate-900 mt-1">Plots & Row Houses</h3>
+          <p class="text-xs text-slate-500 mt-1">Gated communities with clear title, bank loans, and long-term appreciation.</p>
+          <div class="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-700">₹45L Onwards</span>
+            <a href="tel:9356113211" class="text-xs font-bold text-brand-700 hover:underline flex items-center gap-1">Inquire <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= WHY CHOOSE GHAR EK MANDIR ================= -->
+  <section class="py-14 bg-slate-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      
+      <div class="bg-gradient-to-br from-brand-900 via-slate-900 to-brand-800 rounded-3xl p-8 sm:p-12 text-white shadow-xl">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Why Trust Us?</span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold font-heading text-white mt-1">
+              Ghar Ek Mandir: Your Unbiased Property Advisor
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-300 mt-3 leading-relaxed">
+              Unlike a single builder whose sales team pushes only one specific project, we represent <strong>YOU</strong>. We compare pricing, builder track records, legal approvals, and floor plans across 50+ projects so you make an informed decision without spending an extra rupee.
+            </p>
+
+            <div class="space-y-3 mt-6">
+              <div class="flex items-center gap-3">
+                <i data-lucide="check-circle-2" class="w-5 h-5 text-amber-400 flex-shrink-0"></i>
+                <span class="text-xs sm:text-sm text-slate-200">100% Genuine RERA Verified Properties</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <i data-lucide="check-circle-2" class="w-5 h-5 text-amber-400 flex-shrink-0"></i>
+                <span class="text-xs sm:text-sm text-slate-200">Zero Brokerage From Home Buyers</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <i data-lucide="check-circle-2" class="w-5 h-5 text-amber-400 flex-shrink-0"></i>
+                <span class="text-xs sm:text-sm text-slate-200">Free Guided Site Visits with AC Cab</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <i data-lucide="check-circle-2" class="w-5 h-5 text-amber-400 flex-shrink-0"></i>
+                <span class="text-xs sm:text-sm text-slate-200">Home Loan Assistance across 15+ Top Banks</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white/10 backdrop-blur-md p-6 sm:p-8 rounded-2xl border border-white/15 text-center">
+            <div class="w-16 h-16 rounded-full bg-amber-400 text-slate-950 flex items-center justify-center mx-auto mb-4 font-bold">
+              <i data-lucide="phone-call" class="w-8 h-8"></i>
+            </div>
+            <h3 class="text-xl font-bold font-heading text-white">Call Us Directly Today</h3>
+            <p class="text-xs text-slate-300 mt-1">Talk directly with a senior property advisor in Pune</p>
+            
+            <a href="tel:9356113211" class="inline-block mt-5 w-full py-3.5 px-6 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-base transition shadow-md">
+              Call: +91 9356113211
+            </a>
+
+            <a href="https://wa.me/919356113211?text=Hi%20Ghar%20Ek%20Mandir,%20I%20am%20looking%20for%20property%20options." target="_blank" class="inline-flex items-center justify-center gap-2 mt-3 w-full py-3 px-6 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm transition">
+              <i data-lucide="message-circle" class="w-4 h-4"></i>
+              Chat on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= SUCCESS MODAL ================= -->
+  <div id="successModal" class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-slate-950/70 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-slate-100 text-center transform scale-95 transition-transform duration-300" id="modalCard">
+      <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-3">
+        <i data-lucide="check-check" class="w-8 h-8"></i>
+      </div>
+      
+      <h3 class="text-2xl font-extrabold font-heading text-slate-900">Request Confirmed!</h3>
+      <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+        Dhanyawad <strong id="leadNamePreview" class="text-slate-900">Sir/Ma'am</strong>! <strong>Ghar Ek Mandir</strong> team aapko agle 15 minutes ke andar call karke aapke budget anusaar best projects share karegi.
+      </p>
+
+      <!-- Details Summary Card -->
+      <div class="bg-slate-50 rounded-2xl p-4 my-4 text-left text-xs space-y-1.5 border border-slate-200 text-slate-700">
+        <div><strong>Mobile:</strong> <span id="leadPhonePreview" class="text-slate-900 font-semibold">+91 **********</span></div>
+        <div><strong>Preferred Area:</strong> <span id="leadCityPreview" class="text-slate-900 font-semibold">Punawale</span></div>
+        <div><strong>Preference:</strong> <span id="leadConfigPreview" class="text-slate-900 font-semibold">2 BHK</span> (<span id="leadBudgetPreview">₹55L - ₹75L</span>)</div>
+        <div class="text-emerald-700 font-semibold pt-1 flex items-center gap-1.5">
+          <i data-lucide="clock" class="w-3.5 h-3.5"></i> Call expected in ~12 mins
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <a id="waDirectLink" href="#" target="_blank" class="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-2">
+          <i data-lucide="message-circle" class="w-4 h-4"></i> Send Requirements on WhatsApp
+        </a>
+        <button 
+          type="button" 
+          onclick="closeSuccessModal()" 
+          class="w-full py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-xs transition"
+        >
+          Close Window
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MOBILE FIXED BOTTOM CTA BAR (FOR META ADS TRAFFIC) ================= -->
+  <div class="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 px-3 py-2.5 flex items-center gap-2 shadow-2xl">
+    <a href="tel:9356113211" class="flex-1 py-3 px-2 rounded-xl bg-brand-700 active:bg-brand-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-brand-700/20">
+      <i data-lucide="phone-call" class="w-4 h-4 text-amber-300"></i>
+      <span>Call 9356113211</span>
+    </a>
+    <a href="https://wa.me/919356113211?text=Hi%20Ghar%20Ek%20Mandir,%20I%20am%20looking%20for%20property%20options%20in%20Punawale/Pune." target="_blank" class="flex-1 py-3 px-2 rounded-xl bg-emerald-600 active:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md">
+      <i data-lucide="message-circle" class="w-4 h-4"></i>
+      <span>WhatsApp</span>
+    </a>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-slate-900 text-slate-400 py-10 text-xs border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-6 border-b border-slate-800">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-amber-500 flex items-center justify-center text-slate-950 font-bold">
+            <i data-lucide="home" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <span class="text-white font-extrabold text-base font-heading">Ghar Ek Mandir</span>
+            <p class="text-[10px] text-amber-500 font-semibold uppercase">Authorized Real Estate Consultancy</p>
+          </div>
+        </div>
+
+        <div class="text-center md:text-right">
+          <p class="text-slate-300 font-bold">Helpline: <a href="tel:9356113211" class="text-amber-400 hover:underline">9356113211</a></p>
+          <p class="text-slate-500 text-[11px] mt-0.5">Punawale, PCMC, Pune - 411033</p>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-between pt-5 text-[11px] text-slate-500 gap-3 text-center sm:text-left">
+        <p>© 2026 Ghar Ek Mandir Real Estate. All rights reserved. Zero Brokerage for Homebuyers.</p>
+        <p class="text-slate-400">Disclaimer: All project logos and trademarks belong to their respective builders.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= SCRIPT LOGIC ================= -->
+  <script>
+    lucide.createIcons();
+
+    // Formspree Endpoint Configuration
+    const FORMSPREE_ENDPOINT = "https://formspree.io/f/myekvvgb";
+
+    async function handleLeadSubmit(event) {
+      if (event && event.preventDefault) {
+        event.preventDefault();
+      }
+
+      const nameInput = document.getElementById('fullName');
+      const phoneInput = document.getElementById('phoneNumber');
+      const cityInput = document.getElementById('city');
+      const bhkInput = document.getElementById('bhkChoice');
+      const budgetInput = document.getElementById('budgetChoice');
+
+      const nameError = document.getElementById('nameError');
+      const phoneError = document.getElementById('phoneError');
+      const cityError = document.getElementById('cityError');
+      const errorBanner = document.getElementById('formspreeErrorBanner');
+      const errorMessage = document.getElementById('formspreeErrorMessage');
+
+      // Reset prior errors
+      errorBanner.classList.add('hidden');
+
+      let isValid = true;
+
+      // Validate Name
+      if (!nameInput.value.trim() || nameInput.value.trim().length < 2) {
+        nameError.classList.remove('hidden');
+        nameInput.parentElement.classList.add('border-rose-400', 'bg-rose-50/20');
+        isValid = false;
+      } else {
+        nameError.classList.add('hidden');
+        nameInput.parentElement.classList.remove('border-rose-400', 'bg-rose-50/20');
+      }
+
+      // Validate Phone (10-digit Indian phone)
+      const phoneVal = phoneInput.value.trim();
+      const phonePattern = /^[6-9]\d{9}$/;
+      if (!phonePattern.test(phoneVal)) {
+        phoneError.classList.remove('hidden');
+        phoneInput.parentElement.parentElement.classList.add('border-rose-400', 'bg-rose-50/20');
+        isValid = false;
+      } else {
+        phoneError.classList.add('hidden');
+        phoneInput.parentElement.parentElement.classList.remove('border-rose-400', 'bg-rose-50/20');
+      }
+
+      // Validate City/Location
+      if (!cityInput.value.trim()) {
+        cityError.classList.remove('hidden');
+        cityInput.parentElement.classList.add('border-rose-400', 'bg-rose-50/20');
+        isValid = false;
+      } else {
+        cityError.classList.add('hidden');
+        cityInput.parentElement.classList.remove('border-rose-400', 'bg-rose-50/20');
+      }
+
+      if (!isValid) return;
+
+      // Button loading state
+      const submitBtn = document.getElementById('submitBtn');
+      const btnText = document.getElementById('btnText');
+      const btnIcon = document.getElementById('btnIcon');
+      const btnSpinner = document.getElementById('btnSpinner');
+
+      btnText.textContent = "Transmitting to Ghar Ek Mandir...";
+      btnIcon.classList.add('hidden');
+      btnSpinner.classList.remove('hidden');
+      submitBtn.disabled = true;
+
+      // Prepare payload for Formspree
+      const leadPayload = {
+        name: nameInput.value.trim(),
+        phone: "+91 " + phoneVal,
+        city: cityInput.value.trim(),
+        bhk: bhkInput.value,
+        budget: budgetInput.value,
+        agency: "Ghar Ek Mandir",
+        source: "Meta Ads Non-Lead - Punawale (growft.online/punawale)",
+        submitted_at: new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })
+      };
+
+      try {
+        const response = await fetch(FORMSPREE_ENDPOINT, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: JSON.stringify(leadPayload)
+        });
+
+        if (response.ok) {
+          // Populate success modal previews
+          document.getElementById('leadNamePreview').textContent = leadPayload.name;
+          document.getElementById('leadPhonePreview').textContent = leadPayload.phone;
+          document.getElementById('leadCityPreview').textContent = leadPayload.city;
+          document.getElementById('leadConfigPreview').textContent = leadPayload.bhk;
+          document.getElementById('leadBudgetPreview').textContent = leadPayload.budget;
+
+          // Configure direct WhatsApp follow-up link
+          const waMsg = encodeURIComponent(
+            `Namaste Ghar Ek Mandir! I just submitted a callback request.\n*Name:* ${leadPayload.name}\n*Phone:* ${leadPayload.phone}\n*Location:* ${leadPayload.city}\n*Requirement:* ${leadPayload.bhk} (Budget: ${leadPayload.budget})\nPlease share matching project brochures.`
+          );
+          document.getElementById('waDirectLink').href = `https://wa.me/919356113211?text=${waMsg}`;
+
+          // Open confirmation modal & clear form
+          openSuccessModal();
+          document.getElementById('propertyLeadForm').reset();
+          document.getElementById('city').value = "Punawale";
+        } else {
+          const result = await response.json().catch(() => ({}));
+          const errDetail = (result.errors && result.errors.length)
+            ? result.errors.map(e => e.message).join(", ")
+            : "Could not send form data. Please call us directly.";
+          errorMessage.textContent = errDetail;
+          errorBanner.classList.remove('hidden');
+          lucide.createIcons();
+        }
+      } catch (err) {
+        console.error("Formspree submission error:", err);
+        errorMessage.textContent = "Connection interrupted. Tap Call 9356113211 to reach our advisor instantly.";
+        errorBanner.classList.remove('hidden');
+        lucide.createIcons();
+      } finally {
+        btnText.textContent = "Request Free Callback";
+        btnIcon.classList.remove('hidden');
+        btnSpinner.classList.add('hidden');
+        submitBtn.disabled = false;
+      }
+    }
+
+    function openSuccessModal() {
+      const modal = document.getElementById('successModal');
+      const card = document.getElementById('modalCard');
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        card.classList.remove('scale-95');
+        card.classList.add('scale-100');
+      }, 10);
+    }
+
+    function closeSuccessModal() {
+      const modal = document.getElementById('successModal');
+      const card = document.getElementById('modalCard');
+      modal.classList.add('opacity-0');
+      card.classList.remove('scale-100');
+      card.classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+  </script>
+</body>
+</html>
