@@ -205,22 +205,20 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
                         <div>
-                            <label class="block text-xs md:text-sm font-bold uppercase tracking-widest text-brand-brown mb-1 md:mb-2">Select Branch *</label>
-                            <select id="branch" required class="input-field w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base">
-                                <option value="" disabled selected>Choose a branch...</option>
-                                <optgroup label="Pune">
-                                    <option value="Kharadi, Pune">Kharadi</option>
-                                    <option value="Wakad, Pune">Wakad</option>
-                                </optgroup>
-                                <optgroup label="Mumbai">
-                                    <option value="Thane, Mumbai">Thane</option>
-                                    <option value="Powai, Mumbai">Powai</option>
-                                    <option value="Mira Road, Mumbai">Mira Road</option>
-                                    <option value="Marol, Mumbai">Marol</option>
-                                </optgroup>
-                            </select>
+                            <label class="block text-xs md:text-sm font-bold uppercase tracking-widest text-brand-brown mb-1 md:mb-2">Select City *</label>
+                            <input type="hidden" id="city" value="">
+                            <div id="city-buttons" class="flex w-full border border-brand-brown bg-brand-white transition-all">
+                                <button type="button" id="btn-Pune" onclick="selectCity('Pune')" class="flex-1 px-3 md:px-4 py-2 md:py-3 text-sm md:text-base text-brand-brown transition-all border-r border-brand-brown/30 hover:bg-brand-pink/5 focus:outline-none">Pune</button>
+                                <button type="button" id="btn-Mumbai" onclick="selectCity('Mumbai')" class="flex-1 px-3 md:px-4 py-2 md:py-3 text-sm md:text-base text-brand-brown transition-all hover:bg-brand-pink/5 focus:outline-none">Mumbai</button>
+                            </div>
                         </div>
                         <div>
+                            <label class="block text-xs md:text-sm font-bold uppercase tracking-widest text-brand-brown mb-1 md:mb-2">Select Branch *</label>
+                            <select id="branch" required disabled class="input-field w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base disabled:opacity-50">
+                                <option value="" disabled selected>Select city first...</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-2">
                             <label class="block text-xs md:text-sm font-bold uppercase tracking-widest text-brand-brown mb-1 md:mb-2">Select Service *</label>
                             <select id="service" required class="input-field w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base">
                                 <option value="" disabled selected>Choose a service...</option>
@@ -566,11 +564,24 @@
 
         function handleFormSubmission(event) {
             event.preventDefault();
+            
+            const cityValue = document.getElementById('city').value;
+            if (!cityValue) {
+                const cityBtns = document.getElementById('city-buttons');
+                cityBtns.classList.remove('border-brand-brown');
+                cityBtns.classList.add('border-brand-pink', 'ring-2', 'ring-brand-pink/30');
+                setTimeout(() => {
+                    cityBtns.classList.add('border-brand-brown');
+                    cityBtns.classList.remove('border-brand-pink', 'ring-2', 'ring-brand-pink/30');
+                }, 2000);
+                return;
+            }
+
             const form = document.getElementById('appointmentForm');
             const successMsg = document.getElementById('success-message');
             const header = document.getElementById('form-header');
             const btn = document.getElementById('submitBtn');
-            const city = document.getElementById('branch').value;
+            const branch = document.getElementById('branch').value;
             
             const originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>';
@@ -587,11 +598,66 @@
             }, 1000);
         }
 
+        const branchesData = {
+            "Pune": ["Kharadi", "Wakad"],
+            "Mumbai": ["Thane", "Powai Hiranandani", "Kalyan", "Marol"]
+        };
+
+        function selectCity(city) {
+            document.getElementById('city').value = city;
+            
+            const btnPune = document.getElementById('btn-Pune');
+            const btnMumbai = document.getElementById('btn-Mumbai');
+            const activeClass = ['bg-brand-pink/10', 'text-brand-pink', 'font-bold'];
+            
+            if (city === 'Pune') {
+                btnPune.classList.add(...activeClass);
+                btnMumbai.classList.remove(...activeClass);
+            } else if (city === 'Mumbai') {
+                btnMumbai.classList.add(...activeClass);
+                btnPune.classList.remove(...activeClass);
+            }
+            
+            updateBranches();
+        }
+
+        function updateBranches() {
+            const cityInput = document.getElementById('city');
+            const branchSelect = document.getElementById('branch');
+            const selectedCity = cityInput.value;
+            
+            branchSelect.innerHTML = '<option value="" disabled selected>Choose a branch...</option>';
+            
+            if (selectedCity && branchesData[selectedCity]) {
+                branchesData[selectedCity].forEach(branch => {
+                    const option = document.createElement('option');
+                    option.value = branch + ", " + selectedCity;
+                    option.textContent = branch;
+                    branchSelect.appendChild(option);
+                });
+                branchSelect.disabled = false;
+            } else {
+                branchSelect.innerHTML = '<option value="" disabled selected>Select city first...</option>';
+                branchSelect.disabled = true;
+            }
+        }
+
         function resetForm() {
             document.getElementById('appointmentForm').reset();
             document.getElementById('success-message').classList.add('hidden');
             document.getElementById('appointmentForm').classList.remove('hidden');
             document.getElementById('form-header').classList.remove('hidden');
+            
+            // Reset City Segmented Control
+            document.getElementById('city').value = "";
+            const activeClass = ['bg-brand-pink/10', 'text-brand-pink', 'font-bold'];
+            document.getElementById('btn-Pune').classList.remove(...activeClass);
+            document.getElementById('btn-Mumbai').classList.remove(...activeClass);
+
+            // Reset branch dropdown state
+            const branchSelect = document.getElementById('branch');
+            branchSelect.innerHTML = '<option value="" disabled selected>Select city first...</option>';
+            branchSelect.disabled = true;
         }
 
         document.addEventListener('DOMContentLoaded', () => {
