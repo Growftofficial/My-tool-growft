@@ -243,22 +243,22 @@
                     <p class="text-sm md:text-base text-brand-brown/70 font-bold tracking-wide">Fill in your details. We will contact you to confirm.</p>
                 </div>
 
-                <form id="appointmentForm" class="space-y-4 md:space-y-6" onsubmit="handleFormSubmission(event)">
+                <form id="appointmentForm" action="https://formspree.io/f/xnpplzbz" method="POST" class="space-y-4 md:space-y-6" onsubmit="handleFormSubmission(event)">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
                         <div>
                             <label class="block text-xs md:text-sm font-bold uppercase tracking-widest text-brand-brown mb-1 md:mb-2">Full Name *</label>
-                            <input type="text" id="name" required placeholder="E.g. Priya Sharma" class="input-field w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base">
+                            <input type="text" id="name" name="Full Name" required placeholder="E.g. Priya Sharma" class="input-field w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base">
                         </div>
                         <div>
                             <label class="block text-xs md:text-sm font-bold uppercase tracking-widest text-brand-brown mb-1 md:mb-2">Phone Number *</label>
-                            <input type="tel" id="phone" required pattern="[0-9]{10}" placeholder="10-digit mobile number" class="input-field w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base">
+                            <input type="tel" id="phone" name="Phone Number" required pattern="[0-9]{10}" placeholder="10-digit mobile number" class="input-field w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base">
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
                         <div>
                             <label class="block text-xs md:text-sm font-bold uppercase tracking-widest text-brand-brown mb-1 md:mb-2">Select City *</label>
-                            <input type="hidden" id="city" value="">
+                            <input type="hidden" id="city" name="City" value="">
                             <div id="city-buttons" class="flex w-full border border-brand-brown bg-brand-white transition-all">
                                 <button type="button" id="btn-Pune" onclick="selectCity('Pune')" class="flex-1 px-3 md:px-4 py-2 md:py-3 text-sm md:text-base text-brand-brown transition-all border-r border-brand-brown/30 hover:bg-brand-pink/5 focus:outline-none">Pune</button>
                                 <button type="button" id="btn-Mumbai" onclick="selectCity('Mumbai')" class="flex-1 px-3 md:px-4 py-2 md:py-3 text-sm md:text-base text-brand-brown transition-all hover:bg-brand-pink/5 focus:outline-none">Mumbai</button>
@@ -266,13 +266,13 @@
                         </div>
                         <div>
                             <label class="block text-xs md:text-sm font-bold uppercase tracking-widest text-brand-brown mb-1 md:mb-2">Select Branch *</label>
-                            <select id="branch" required disabled class="input-field w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base disabled:opacity-50">
+                            <select id="branch" name="Branch" required disabled class="input-field w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base disabled:opacity-50">
                                 <option value="" disabled selected>Select city first...</option>
                             </select>
                         </div>
                         <div class="md:col-span-2">
                             <label class="block text-xs md:text-sm font-bold uppercase tracking-widest text-brand-brown mb-1 md:mb-2">Select Service *</label>
-                            <select id="service" required class="input-field w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base">
+                            <select id="service" name="Service" required class="input-field w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base">
                                 <option value="" disabled selected>Choose a service...</option>
                                 <optgroup label="General / Women">
                                     <option value="Haircut">Haircut</option>
@@ -527,7 +527,7 @@
                             <i class="fas fa-map-marker-alt text-brand-brownDark text-xl md:text-2xl mt-1 mr-3 md:mr-4"></i>
                             <div class="flex-1">
                                 <h4 class="font-bold text-sm md:text-base mb-1 uppercase tracking-wider">Thane (HQ)</h4>
-                                <p class="text-brand-brown/70 text-xs md:text-sm mb-3">4th floor, Shop, Platinum Square, Ghantali Devi Rd, beside Sai Baba Mandir, Naupada, Thane West</p>
+                                <p class="text-brand-brown/70 text-xs md:text-sm mb-3">4th floor, Shop no 401, Platinum Square, Ghantali Devi Rd, beside Sai Baba Mandir, Naupada, Thane West, Maharashtra 400602</p>
                                 <a href="https://maps.app.goo.gl/vSZ6PBwY6ENxz4hWA" target="_blank" class="inline-flex items-center bg-[#901B3F] text-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest hover:bg-brand-brown transition-colors shadow-sm">
                                     Get Direction <i class="fas fa-location-arrow ml-2"></i>
                                 </a>
@@ -610,16 +610,25 @@
                     <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=600&q=80" alt="Client Hairstyle" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
                 </div>
                 <div class="overflow-hidden bg-brand-brown" data-aos="zoom-in" data-aos-delay="300">
-                    <img src="https://images.unsplash.com/photo-1633681926022-84c23e8cb2d6?auto=format&fit=crop&w=600&q=80" alt="Salon Details" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
+                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/WhatsApp%20Image%202026-11-03%20at%204.20.48%20PM.jpeg?raw=true" alt="Salon Details" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
                 </div>
-                <div class="overflow-hidden bg-brand-brown hidden md:block" data-aos="zoom-in" data-aos-delay="400">
-                    <img src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?auto=format&fit=crop&w=600&q=80" alt="Client Makeover" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
+                <div class="overflow-hidden bg-brand-brown" data-aos="zoom-in" data-aos-delay="400">
+                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/ashrf%20mumbai.jpeg?raw=true" alt="Client Makeover" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
                 </div>
-                <div class="overflow-hidden bg-brand-brown hidden lg:block" data-aos="zoom-in" data-aos-delay="500">
-                    <img src="https://images.unsplash.com/photo-1582236315849-5deff6331a9d?auto=format&fit=crop&w=600&q=80" alt="Hair Coloring" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
+                <div class="overflow-hidden bg-brand-brown" data-aos="zoom-in" data-aos-delay="500">
+                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/Vijay%20dp.PNG?raw=true" alt="Vijay dp" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
                 </div>
-                <div class="overflow-hidden bg-brand-brown hidden lg:block lg:col-span-3" data-aos="zoom-in" data-aos-delay="600">
-                    <img src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=1200&q=80" alt="Styling Details" class="w-full h-40 md:h-64 object-cover hover:scale-105 hover:opacity-80 transition-all duration-500 cursor-pointer" style="object-position: center 30%;">
+                <div class="overflow-hidden bg-brand-brown" data-aos="zoom-in" data-aos-delay="600">
+                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/ashraf%20ttr%20bs.jpg?raw=true" alt="Styling Details" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
+                </div>
+                <div class="overflow-hidden bg-brand-brown" data-aos="zoom-in" data-aos-delay="700">
+                    <img src="https://raw.githubusercontent.com/Growftofficial/My-tool-growft/77b0e4f132d05d979959e7be14079b89e1198efa/mirror%20slfe%20female.jpg" alt="Client Selfie" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
+                </div>
+                <div class="overflow-hidden bg-brand-brown" data-aos="zoom-in" data-aos-delay="800">
+                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/SaveClip.App_487830907_18139408672380359_7775681373205936184_n.jpg?raw=true" alt="Haircut Result" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
+                </div>
+                <div class="overflow-hidden bg-brand-brown" data-aos="zoom-in" data-aos-delay="900">
+                    <img src="https://raw.githubusercontent.com/Growftofficial/My-tool-growft/16e8618a56f53df3eaef4144f10b0dfcdc8171fb/SaveClip.App_642925889_17944997640132984_2523007963443945338_n.jpg" alt="Salon Experience" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
                 </div>
             </div>
         </div>
@@ -676,8 +685,8 @@
                 <div class="text-center sm:text-left">
                     <h3 class="text-lg font-serif font-bold mb-4 text-brand-pink uppercase tracking-widest">Contact</h3>
                     <ul class="space-y-3 text-sm">
-                        <li class="flex items-center justify-center sm:justify-start"><i class="fas fa-phone-alt w-6 text-brand-pink"></i><a href="tel:+919876543210" class="font-bold">+91 98765 43210</a></li>
-                        <li class="flex items-center justify-center sm:justify-start"><i class="fas fa-envelope w-6 text-brand-pink"></i><span class="font-bold">info@ashrafs.com</span></li>
+                        <li class="flex items-center justify-center sm:justify-start"><i class="fas fa-phone-alt w-6 text-brand-pink"></i><a href="tel:+919136318900" class="font-bold hover:text-brand-pink transition-colors">+91 91363 18900</a></li>
+                        <li class="flex items-center justify-center sm:justify-start"><i class="fas fa-envelope w-6 text-brand-pink"></i><a href="mailto:ashrafscissorhands@gmail.com" class="font-bold hover:text-brand-pink transition-colors">ashrafscissorhands@gmail.com</a></li>
                         <li class="flex items-center justify-center sm:justify-start"><i class="fas fa-clock w-6 text-brand-pink"></i><span class="font-bold text-brand-brown/80">10 AM - 9 PM</span></li>
                     </ul>
                 </div>
@@ -685,7 +694,7 @@
                 <div class="text-center sm:text-left">
                     <h3 class="text-lg font-serif font-bold mb-4 text-brand-pink uppercase tracking-widest">Head Office</h3>
                     <p class="text-sm text-brand-brown/80 font-bold leading-relaxed">
-                        Ashrafs Salon Corporate,<br>Wagle Estate, Thane West,<br>Maharashtra 400604
+                        4th floor, Shop no 401, Platinum Square,<br>Ghantali Devi Rd, beside Sai Baba Mandir,<br>Naupada, Thane West, Maharashtra 400602
                     </p>
                 </div>
 
@@ -705,10 +714,10 @@
 
     <!-- Mobile Sticky Action Bar (WhatsApp & Call Now) -->
     <div class="fixed bottom-0 left-0 w-full z-[60] flex md:hidden shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
-        <a href="https://wa.me/919876543210" target="_blank" class="w-1/2 bg-brand-brown text-brand-white py-3 sm:py-4 flex items-center justify-center font-bold text-base sm:text-lg tracking-wide active:bg-brand-brownDark transition-colors">
+        <a href="https://wa.me/919136318900" target="_blank" class="w-1/2 bg-brand-brown text-brand-white py-3 sm:py-4 flex items-center justify-center font-bold text-base sm:text-lg tracking-wide active:bg-brand-brownDark transition-colors">
             <i class="fab fa-whatsapp text-xl mr-2"></i> WhatsApp
         </a>
-        <a href="tel:+919876543210" class="w-1/2 bg-[#901B3F] text-brand-white py-3 sm:py-4 flex items-center justify-center font-bold text-base sm:text-lg tracking-wide active:opacity-80 transition-colors">
+        <a href="tel:+919136318900" class="w-1/2 bg-[#901B3F] text-brand-white py-3 sm:py-4 flex items-center justify-center font-bold text-base sm:text-lg tracking-wide active:opacity-80 transition-colors">
             <i class="fas fa-phone-alt text-lg mr-2"></i> Call Now
         </a>
     </div>
@@ -770,7 +779,7 @@
             }
         }
 
-        function handleFormSubmission(event) {
+        async function handleFormSubmission(event) {
             event.preventDefault();
             
             const cityValue = document.getElementById('city').value;
@@ -785,25 +794,40 @@
                 return;
             }
 
-            const form = document.getElementById('appointmentForm');
+            const form = event.target;
             const successMsg = document.getElementById('success-message');
             const header = document.getElementById('form-header');
             const btn = document.getElementById('submitBtn');
-            const branch = document.getElementById('branch').value;
             
             const originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>';
             btn.disabled = true;
 
-            setTimeout(() => {
-                document.getElementById('success-city').textContent = city;
-                form.classList.add('hidden');
-                header.classList.add('hidden');
-                successMsg.classList.remove('hidden');
-                
+            const data = new FormData(form);
+
+            try {
+                const response = await fetch(form.action, {
+                    method: form.method,
+                    body: data,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    document.getElementById('success-city').textContent = cityValue;
+                    form.classList.add('hidden');
+                    header.classList.add('hidden');
+                    successMsg.classList.remove('hidden');
+                } else {
+                    alert("Oops! There was a problem submitting your form.");
+                }
+            } catch (error) {
+                alert("Oops! There was a problem submitting your form.");
+            } finally {
                 btn.innerHTML = originalText;
                 btn.disabled = false;
-            }, 1000);
+            }
         }
 
         const branchesData = {
