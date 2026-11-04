@@ -192,26 +192,36 @@
                 <!-- Offer Graphic 1 -->
                 <div class="bg-brand-offwhite border border-brand-brown/10 shadow-lg relative overflow-hidden group aspect-[4/5]" data-aos="fade-up" data-aos-delay="100">
                     <div class="absolute top-4 left-0 bg-brand-pink text-brand-white px-4 py-1 text-xs font-bold uppercase tracking-widest z-10 shadow-md">Limited Time</div>
-                    <img src="https://images.unsplash.com/photo-1521590832167-7bfc1748b565?auto=format&fit=crop&w=600&q=80" alt="Offer Graphic 1" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/ashraf%20web%20diwali%20offer.png?raw=true" alt="Offer Graphic 1" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-brand-brown/90 via-brand-brown/20 to-transparent flex flex-col justify-end p-6 z-10 pointer-events-none">
-                        <h4 class="text-brand-white font-serif font-bold text-lg md:text-xl uppercase tracking-widest mb-2">Festive Glow Package</h4>
-                        <button onclick="openModal()" class="text-brand-pink font-bold text-xs uppercase tracking-widest hover:text-brand-white transition-colors text-left pointer-events-auto w-fit">Book Now <i class="fas fa-arrow-right ml-1"></i></button>
+                        <h4 class="text-brand-white font-serif font-bold text-lg md:text-xl uppercase tracking-widest mb-2"></h4>
+                        <button onclick="openModal()" class="bg-[#901B3F] text-white px-5 py-2.5 rounded font-bold uppercase text-sm flex items-center w-max hover:bg-white hover:text-[#901B3F] transition-all pointer-events-auto shadow-md">Book Now <i class="fas fa-arrow-right ml-2"></i></button>
                     </div>
                 </div>
 
                 <!-- Video Ad Placeholder -->
                 <div class="bg-brand-brown shadow-lg relative overflow-hidden aspect-[4/5]" data-aos="fade-up" data-aos-delay="200">
-                    <div class="absolute top-4 left-0 bg-brand-brownDark text-brand-white px-4 py-1 text-xs font-bold uppercase tracking-widest z-10 shadow-md border-l-4 border-brand-pink">Featured Video</div>
-                    <iframe class="absolute top-0 left-0 w-full h-full z-0" src="https://www.youtube.com/embed/ZqRLE-U6q0w?controls=0&rel=0&modestbranding=1" title="Salon Video Ad" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    
+                    <!-- Native HTML5 Video -->
+                    <video id="promoVideo" class="absolute inset-0 w-full h-full object-cover z-0" autoplay loop muted playsinline>
+                        <source src="https://ik.imagekit.io/rv7tcczg5/450.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+
+                    <!-- Unmute Toggle Button -->
+                    <button id="muteToggleBtn" class="absolute bottom-4 right-4 z-20 bg-brand-brown/90 text-brand-white px-3 py-2 md:px-4 md:py-2 rounded-full shadow-lg hover:bg-brand-pink transition-colors flex items-center justify-center focus:outline-none border border-brand-white/20">
+                        <i class="fas fa-volume-mute text-sm md:text-base mr-2"></i>
+                        <span id="muteToggleText" class="text-xs md:text-sm font-bold uppercase tracking-wider">Unmute</span>
+                    </button>
                 </div>
 
                 <!-- Offer Graphic 2 -->
                 <div class="bg-brand-offwhite border border-brand-brown/10 shadow-lg relative overflow-hidden group aspect-[4/5]" data-aos="fade-up" data-aos-delay="300">
-                    <div class="absolute top-4 left-0 bg-brand-pink text-brand-white px-4 py-1 text-xs font-bold uppercase tracking-widest z-10 shadow-md">Combo Deal</div>
+                    <div class="absolute top-4 left-0 bg-brand-pink text-brand-white px-4 py-1 text-xs font-bold uppercase tracking-widest z-10 shadow-md"></div>
                     <img src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?auto=format&fit=crop&w=600&q=80" alt="Offer Graphic 2" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-brand-brown/90 via-brand-brown/20 to-transparent flex flex-col justify-end p-6 z-10 pointer-events-none">
-                        <h4 class="text-brand-white font-serif font-bold text-lg md:text-xl uppercase tracking-widest mb-2">Bridal Makeover Deals</h4>
-                        <button onclick="openModal()" class="text-brand-pink font-bold text-xs uppercase tracking-widest hover:text-brand-white transition-colors text-left pointer-events-auto w-fit">Book Now <i class="fas fa-arrow-right ml-1"></i></button>
+                        <h4 class="text-brand-white font-serif font-bold text-lg md:text-xl uppercase tracking-widest mb-2"></h4>
+                        <button onclick="openModal()" class="bg-[#901B3F] text-white px-5 py-2.5 rounded font-bold uppercase text-sm flex items-center w-max hover:bg-white hover:text-[#901B3F] transition-all pointer-events-auto shadow-md">Book Now <i class="fas fa-arrow-right ml-2"></i></button>
                     </div>
                 </div>
             </div>
@@ -841,6 +851,28 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            // --- Video Mute Toggle Logic ---
+            const promoVideo = document.getElementById('promoVideo');
+            const muteToggleBtn = document.getElementById('muteToggleBtn');
+
+            if (promoVideo && muteToggleBtn) {
+                muteToggleBtn.addEventListener('click', () => {
+                    promoVideo.muted = !promoVideo.muted;
+                    const icon = muteToggleBtn.querySelector('i');
+                    const text = document.getElementById('muteToggleText');
+                    
+                    if (promoVideo.muted) {
+                        icon.classList.remove('fa-volume-up');
+                        icon.classList.add('fa-volume-mute');
+                        if(text) text.textContent = 'Unmute';
+                    } else {
+                        icon.classList.remove('fa-volume-mute');
+                        icon.classList.add('fa-volume-up');
+                        if(text) text.textContent = 'Mute';
+                    }
+                });
+            }
+
             // --- Slider Logic ---
             const slides = document.querySelectorAll('.slide');
             const dots = document.querySelectorAll('.slider-dot');
