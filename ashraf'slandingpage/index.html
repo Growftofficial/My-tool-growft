@@ -906,8 +906,7 @@
             const muteToggleBtn = document.getElementById('muteToggleBtn');
 
             if (promoVideo && muteToggleBtn) {
-                muteToggleBtn.addEventListener('click', () => {
-                    promoVideo.muted = !promoVideo.muted;
+                const updateMuteState = () => {
                     const icon = muteToggleBtn.querySelector('i');
                     const text = document.getElementById('muteToggleText');
                     
@@ -920,7 +919,25 @@
                         icon.classList.add('fa-volume-up');
                         if(text) text.textContent = 'Mute';
                     }
+                };
+
+                muteToggleBtn.addEventListener('click', () => {
+                    promoVideo.muted = !promoVideo.muted;
+                    updateMuteState();
                 });
+
+                // --- Auto-Mute on Scroll (Intersection Observer) ---
+                const videoObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        // If video is not visible on screen and sound is currently ON
+                        if (!entry.isIntersecting && !promoVideo.muted) {
+                            promoVideo.muted = true; // Auto-mute
+                            updateMuteState();       // Update button UI
+                        }
+                    });
+                }, { threshold: 0.1 }); // Trigger when less than 10% of video is visible
+                
+                videoObserver.observe(promoVideo);
             }
 
             // --- Slider Logic ---
