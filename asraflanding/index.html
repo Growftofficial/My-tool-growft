@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ashrafs Premium Salon | Pune & Mumbai</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Lato', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            pink: '#900C3F',      // Dark Pink
+                            pinkHover: '#730932', // Slightly darker for hover
+                            brown: '#4a3b32',     // Dark Brown
+                            brownDark: '#362b24', // Darker brown
+                            white: '#ffffff',     // White
+                            offwhite: '#fcfcfc',  // Very slight off-white for depth
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Smooth scrolling and custom scrollbar */
+        html { scroll-behavior: smooth; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #ffffff; }
+        ::-webkit-scrollbar-thumb { background: #4a3b32; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #900C3F; }
+
+        .input-field {
+            transition: all 0.3s ease;
+            background-color: #ffffff;
+            color: #4a3b32;
+            border: 1px solid #4a3b32;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: #900C3F;
+            box-shadow: 0 0 0 2px rgba(144, 12, 63, 0.2);
+        }
+        
+        /* Slider animations */
+        .slide-content { opacity: 0; transform: translateY(10px); transition: all 0.6s ease-out 0.3s; }
+        .slide.active .slide-content { opacity: 1; transform: translateY(0); }
+        
+        /* Modal animations */
+        #lead-modal { transition: opacity 0.3s ease; }
+        #lead-modal .modal-content { transition: transform 0.3s ease; transform: scale(0.95); }
+        #lead-modal.active { opacity: 1; pointer-events: auto; }
+        #lead-modal.active .modal-content { transform: scale(1); }
+
+        /* Mobile Menu Transition */
+        #mobile-menu { transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out; max-height: 0; opacity: 0; overflow: hidden; }
+        #mobile-menu.open { max-height: 400px; opacity: 1; }
+    </style>
+</head>
+<body class="font-sans text-brand-brown bg-brand-offwhite antialiased pb-12 md:pb-0">
+
+    <!-- 1. Header & Navigation -->
+    <header class="bg-brand-white sticky top-0 z-50 shadow-md">
+        <!-- Top Bar -->
+        <div class="py-3 px-4 sm:px-6 lg:px-12 border-b border-brand-brown/10">
+            <div class="max-w-7xl mx-auto flex justify-between items-center">
+                
+                <!-- Logo -->
+                <a href="#" class="flex-shrink-0 block">
+                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/ashraf%20logo%20sticker.png?raw=true" alt="Ashrafs Logo" class="h-10 md:h-14 w-auto object-contain">
+                </a>
+                
+                <!-- Desktop Right Section -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <div class="flex items-center text-brand-brown">
+                        <i class="fas fa-map-marker-alt text-brand-pink text-xl mr-2"></i>
+                        <div class="flex flex-col">
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-brand-brown/70">Locations</span>
+                            <span class="text-sm font-bold">Pune & Mumbai</span>
+                        </div>
+                    </div>
+                    <button onclick="openModal()" class="bg-brand-pink text-brand-white px-6 py-2.5 text-sm font-bold uppercase tracking-wide hover:bg-brand-brown transition-colors shadow-lg">
+                        Book Appointment
+                    </button>
+                </div>
+
+                <!-- Mobile Right Section (Hamburger + Small CTA) -->
+                <div class="flex items-center space-x-3 md:hidden">
+                    <button onclick="openModal()" class="bg-brand-pink text-brand-white px-3 py-1.5 text-xs font-bold uppercase tracking-wide shadow-sm">
+                        Book
+                    </button>
+                    <button id="mobileMenuBtn" class="text-brand-brown text-2xl p-2 focus:outline-none">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Desktop Navigation Bar -->
+        <nav class="hidden md:block bg-brand-brown text-brand-white py-3 border-b-4 border-brand-pink">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex justify-start space-x-8 text-sm font-bold tracking-widest uppercase">
+                <a href="#services" class="hover:text-brand-pink transition-colors">Services</a>
+                <a href="#about" class="hover:text-brand-pink transition-colors">About Us</a>
+                <a href="#store-locator" class="hover:text-brand-pink transition-colors">Locations</a>
+                <a href="#contact" class="hover:text-brand-pink transition-colors">Contact Us</a>
+            </div>
+        </nav>
+
+        <!-- Mobile Navigation Dropdown -->
+        <nav id="mobile-menu" class="md:hidden bg-brand-brown text-brand-white border-b-4 border-brand-pink">
+            <div class="flex flex-col px-4 py-2 text-sm font-bold tracking-widest uppercase">
+                <a href="#services" class="mobile-link block py-3 border-b border-brand-white/10 hover:text-brand-pink">Services</a>
+                <a href="#about" class="mobile-link block py-3 border-b border-brand-white/10 hover:text-brand-pink">About Us</a>
+                <a href="#store-locator" class="mobile-link block py-3 border-b border-brand-white/10 hover:text-brand-pink">Locations</a>
+                <a href="#contact" class="mobile-link block py-3 hover:text-brand-pink">Contact Us</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 2. Offer Banner Slider (Responsive Heights) -->
+    <section id="offer-slider" class="relative w-full h-64 sm:h-80 md:h-[450px] lg:h-[600px] overflow-hidden bg-brand-brown group">
+        
+        <!-- Slide 1 -->
+        <div class="slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-100 z-10 active">
+            <!-- Mobile Image -->
+            <img src="https://github.com/roservicexpertcom-prog/website/blob/main/mobile%20version%201st%20image.png?raw=true" alt="Luxury Salon Services Mobile" class="block md:hidden absolute inset-0 w-full h-full object-cover object-center" />
+            <!-- Desktop Image -->
+            <img src="https://github.com/roservicexpertcom-prog/website/blob/main/Luxury%20Salon%20Services%20Banner%20(1).png?raw=true" alt="Luxury Salon Services Desktop" class="hidden md:block absolute inset-0 w-full h-full object-cover object-center" />
+            
+            <!-- Button Placement: Bottom Right on Mobile, Absolute Right Center on Desktop -->
+            <div class="absolute inset-0 z-20 pointer-events-none">
+                <button onclick="openModal()" class="pointer-events-auto absolute bottom-4 right-4 md:bottom-auto md:top-1/2 md:-translate-y-1/2 md:right-12 lg:right-24 inline-flex items-center bg-brand-pink text-brand-white px-4 py-2 md:px-8 md:py-4 text-xs md:text-lg font-bold uppercase tracking-widest hover:bg-brand-white hover:text-brand-pink transition-colors border-2 border-brand-pink shadow-xl slide-content">
+                    Claim Offer <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0 z-0">
+            <img src="https://github.com/roservicexpertcom-prog/website/blob/main/Luxury%20Keratin%20Treatment%20Salon%20Banner.png?raw=true" alt="Keratin Treatment Offer" class="absolute inset-0 w-full h-full object-cover object-center" />
+            
+            <div class="absolute inset-0 z-20 pointer-events-none">
+                <button onclick="openModal()" class="pointer-events-auto absolute bottom-4 right-4 md:bottom-auto md:top-1/2 md:-translate-y-1/2 md:right-12 lg:right-24 inline-flex items-center bg-brand-pink text-brand-white px-4 py-2 md:px-8 md:py-4 text-xs md:text-lg font-bold uppercase tracking-widest hover:bg-brand-white hover:text-brand-pink transition-colors border-2 border-brand-pink shadow-xl slide-content">
+                    Claim Offer <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Slider Controls -->
+        <button id="prevSlideBtn" class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-30 w-8 h-8 md:w-12 md:h-12 flex items-center justify-center bg-brand-brown/80 border border-brand-white text-brand-white hover:bg-brand-pink transition-all duration-300 md:opacity-0 group-hover:opacity-100">
+            <i class="fas fa-chevron-left text-sm md:text-xl"></i>
+        </button>
+        <button id="nextSlideBtn" class="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-30 w-8 h-8 md:w-12 md:h-12 flex items-center justify-center bg-brand-brown/80 border border-brand-white text-brand-white hover:bg-brand-pink transition-all duration-300 md:opacity-0 group-hover:opacity-100">
+            <i class="fas fa-chevron-right text-sm md:text-xl"></i>
+        </button>
+
+        <!-- Slider Indicators -->
+        <div class="absolute bottom-2 md:bottom-6 left-1/2 -translate-x-1/2 z-30 flex space-x-2 md:space-x-3">
+            <button class="slider-dot w-6 md:w-10 h-1 bg-brand-white transition-all duration-300" data-index="0"></button>
+            <button class="slider-dot w-6 md:w-10 h-1 bg-brand-white/40 transition-all duration-300" data-index="1"></button>
+        </div>
+    </section>
+
+    <!-- Current Offers & Ads Section -->
+    <section id="current-offers" class="py-12 md:py-16 bg-brand-white border-b border-brand-brown/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+            <div class="text-center mb-10 md:mb-12" data-aos="fade-up">
+                <h2 class="text-2xl md:text-4xl font-serif font-bold mb-3 md:mb-4 uppercase tracking-widest text-brand-brown">SPECIAL OFFERS FOR YOU</h2>
+                <div class="w-16 h-1 bg-brand-pink mx-auto mb-4 md:mb-6"></div>
+                <p class="text-sm md:text-base text-brand-brown/70 font-bold max-w-2xl mx-auto">Discover exclusive grooming and beauty deals designed to make you shine.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <!-- Offer Graphic 1 -->
+                <div class="bg-brand-offwhite border border-brand-brown/10 shadow-lg relative overflow-hidden group aspect-[4/5]" data-aos="fade-up" data-aos-delay="100">
+                    <div class="absolute top-4 left-0 bg-brand-pink text-brand-white px-4 py-1 text-xs font-bold uppercase tracking-widest z-10 shadow-md">Limited Time</div>
+                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/ashraf%20web%20diwali%20offer.png?raw=true" alt="Offer Graphic 1" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-brown/90 via-brand-brown/20 to-transparent flex flex-col justify-end p-6 z-10 pointer-events-none">
+                        <h4 class="text-brand-white font-serif font-bold text-lg md:text-xl uppercase tracking-widest mb-2"></h4>
+                        <button onclick="openModal()" class="bg-[#901B3F] text-white px-5 py-2.5 rounded font-bold uppercase text-sm flex items-center w-max hover:bg-white hover:text-[#901B3F] transition-all pointer-events-auto shadow-md">Book Now <i class="fas fa-arrow-right ml-2"></i></button>
+                    </div>
+                </div>
+
+                <!-- Video Ad Placeholder -->
+                <div class="bg-brand-brown shadow-lg relative overflow-hidden aspect-[4/5]" data-aos="fade-up" data-aos-delay="200">
+                    
+                    <!-- Native HTML5 Video -->
+                    <video id="promoVideo" class="absolute inset-0 w-full h-full object-cover z-0" autoplay loop muted playsinline>
+                        <source src="https://ik.imagekit.io/rv7tcczg5/450.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+
+                    <!-- Unmute Toggle Button -->
+                    <button id="muteToggleBtn" class="absolute bottom-4 right-4 z-20 bg-brand-brown/90 text-brand-white px-3 py-2 md:px-4 md:py-2 rounded-full shadow-lg hover:bg-brand-pink transition-colors flex items-center justify-center focus:outline-none border border-brand-white/20">
+                        <i class="fas fa-volume-mute text-sm md:text-base mr-2"></i>
+                        <span id="muteToggleText" class="text-xs md:text-sm font-bold uppercase tracking-wider">Unmute</span>
+                    </button>
+                </div>
+
+                <!-- Offer Graphic 2 -->
+                <div class="bg-brand-offwhite border border-brand-brown/10 shadow-lg relative overflow-hidden group aspect-[4/5]" data-aos="fade-up" data-aos-delay="300">
+                    <div class="absolute top-4 left-0 bg-brand-pink text-brand-white px-4 py-1 text-xs font-bold uppercase tracking-widest z-10 shadow-md"></div>
+                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/ashraf%20diwali%20combo.png?raw=true" alt="Offer Graphic 2" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-brown/90 via-brand-brown/20 to-transparent flex flex-col justify-end p-6 z-10 pointer-events-none">
+                        <h4 class="text-brand-white font-serif font-bold text-lg md:text-xl uppercase tracking-widest mb-2"></h4>
+                        <button onclick="openModal()" class="bg-[#901B3F] text-white px-5 py-2.5 rounded font-bold uppercase text-sm flex items-center w-max hover:bg-white hover:text-[#901B3F] transition-all pointer-events-auto shadow-md">Book Now <i class="fas fa-arrow-right ml-2"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Lead Capture Form (Auto-Opening Modal, Mobile Optimized) -->
+    <div id="lead-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-brand-brown/90 backdrop-blur-sm opacity-0 pointer-events-none p-4 sm:p-6">
+        <div class="modal-content bg-brand-white border-t-8 border-brand-pink w-full max-w-4xl shadow-2xl relative max-h-[90vh] overflow-y-auto rounded-b-lg">
+            
+            <button onclick="closeModal()" class="absolute top-3 right-3 md:top-4 md:right-4 text-brand-brown hover:text-brand-pink transition-colors text-2xl md:text-3xl focus:outline-none z-10 bg-white/80 rounded-full w-8 h-8 flex items-center justify-center">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="p-6 md:p-12">
+                <div class="text-center mb-6 md:mb-10" id="form-header">
+                    <h2 class="text-2xl md:text-4xl font-serif font-bold text-brand-brown mb-2 md:mb-4 uppercase tracking-widest">Reserve Your Slot</h2>
+                    <div class="w-12 md:w-16 h-1 bg-brand-pink mx-auto mb-3 md:mb-4"></div>
+                    <p class="text-sm md:text-base text-brand-brown/70 font-bold tracking-wide">Fill in your details. We will contact you to confirm.</p>
+                </div>
+
+                <form id="appointmentForm" action="https://formspree.io/f/xnpplzbz" method="POST" class="space-y-4 md:space-y-6" onsubmit="handleFormSubmission(event)">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+                        <div>
+                            <label class="block text-xs md:text-sm font-bold uppercase tracking-widest text-brand-brown mb-1 md:mb-2">Full Name *</label>
+                            <input type="text" id="name" name="Full Name" required placeholder="E.g. Priya Sharma" class="input-field w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base">
+                        </div>
+                        <div>
+                            <label class="block text-xs md:text-sm font-bold uppercase tracking-widest text-brand-brown mb-1 md:mb-2">Phone Number *</label>
+                            <input type="tel" id="phone" name="Phone Number" required pattern="[0-9]{10}" placeholder="10-digit mobile number" class="input-field w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+                        <div>
+                            <label class="block text-xs md:text-sm font-bold uppercase tracking-widest text-brand-brown mb-1 md:mb-2">Select City *</label>
+                            <input type="hidden" id="city" name="City" value="">
+                            <div id="city-buttons" class="flex w-full border border-brand-brown bg-brand-white transition-all">
+                                <button type="button" id="btn-Pune" onclick="selectCity('Pune')" class="flex-1 px-3 md:px-4 py-2 md:py-3 text-sm md:text-base text-brand-brown transition-all border-r border-brand-brown/30 hover:bg-brand-pink/5 focus:outline-none">Pune</button>
+                                <button type="button" id="btn-Mumbai" onclick="selectCity('Mumbai')" class="flex-1 px-3 md:px-4 py-2 md:py-3 text-sm md:text-base text-brand-brown transition-all hover:bg-brand-pink/5 focus:outline-none">Mumbai</button>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs md:text-sm font-bold uppercase tracking-widest text-brand-brown mb-1 md:mb-2">Select Branch *</label>
+                            <select id="branch" name="Branch" required disabled class="input-field w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base disabled:opacity-50">
+                                <option value="" disabled selected>Select city first...</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-xs md:text-sm font-bold uppercase tracking-widest text-brand-brown mb-1 md:mb-2">Select Service *</label>
+                            <select id="service" name="Service" required class="input-field w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base">
+                                <option value="" disabled selected>Choose a service...</option>
+                                <optgroup label="General / Women">
+                                    <option value="Haircut">Haircut</option>
+                                    <option value="Hair Spa">Hair Spa</option>
+                                    <option value="Hair Colour">Hair Colour</option>
+                                    <option value="Hair Styling">Hair Styling</option>
+                                    <option value="Hair Treatments">Hair Treatments</option>
+                                    <option value="Manicure/Pedicure">Manicure & Pedicure</option>
+                                    <option value="Facials">Facials</option>
+                                    <option value="Waxing/Threading">Waxing & Threading</option>
+                                    <option value="Beauty">Beauty</option>
+                                </optgroup>
+                                <optgroup label="Men's Grooming">
+                                    <option value="Mens Haircut">Men's Haircut</option>
+                                    <option value="Mens Hair Color">Men's Hair Color</option>
+                                    <option value="Mens Facials">Men's Facials</option>
+                                    <option value="Mens Waxing">Men's Waxing</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 md:pt-6 text-center">
+                        <button type="submit" id="submitBtn" class="bg-brand-brown text-brand-white px-8 py-3 md:px-12 md:py-4 text-sm md:text-lg font-bold uppercase tracking-widest hover:bg-brand-pink transition-colors w-full shadow-md">
+                            Submit Request
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Success Message -->
+                <div id="success-message" class="hidden text-center py-8 md:py-12">
+                    <div class="w-16 h-16 md:w-20 md:h-20 bg-brand-white border-4 border-brand-pink rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+                        <i class="fas fa-check text-2xl md:text-4xl text-brand-pink"></i>
+                    </div>
+                    <h3 class="text-2xl md:text-3xl font-serif font-bold text-brand-brown mb-2 md:mb-4 uppercase tracking-widest">Thank You!</h3>
+                    <p class="text-brand-brown text-sm md:text-lg mb-6 md:mb-8 font-bold">Your request for <span id="success-city" class="text-brand-pink"></span> has been received. Our team will contact you shortly.</p>
+                    <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                        <button onclick="closeModal()" class="border-b-2 border-brand-pink text-brand-pink font-bold uppercase tracking-widest hover:text-brand-brown hover:border-brand-brown transition-colors pb-1 text-sm">Close Window</button>
+                        <button onclick="resetForm()" class="border-b-2 border-brand-brown text-brand-brown font-bold uppercase tracking-widest hover:text-brand-pink hover:border-brand-pink transition-colors pb-1 text-sm">Book Another</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. All Services Section (Responsive Grid) -->
+    <section id="services" class="py-12 md:py-20 bg-brand-offwhite">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+            <div class="text-center mb-10 md:mb-16" data-aos="fade-up">
+                <h2 class="text-2xl md:text-5xl font-serif font-bold mb-3 md:mb-4 uppercase tracking-widest text-brand-brown">Our Services</h2>
+                <div class="w-16 md:w-24 h-1 bg-brand-pink mx-auto mb-4 md:mb-6"></div>
+                <p class="text-sm md:text-base text-brand-brown/70 font-bold max-w-2xl mx-auto">Experience unmatched luxury and expertise.</p>
+            </div>
+
+            <!-- General / Women -->
+            <div class="mb-16 md:mb-24">
+                <div class="flex items-center justify-center mb-8 md:mb-10" data-aos="fade-up">
+                    <div class="h-px bg-brand-brown/20 flex-grow"></div>
+                    <h3 class="text-lg md:text-2xl font-serif font-bold mx-4 uppercase tracking-widest text-brand-pink text-center">For Her / General</h3>
+                    <div class="h-px bg-brand-brown/20 flex-grow"></div>
+                </div>
+                
+                <!-- Mobile: 1 col, Tablet: 2 cols, Desktop: 3 cols -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                    
+                    <div class="bg-brand-white border border-brand-brown/10 shadow-sm" data-aos="fade-up" data-aos-delay="100">
+                        <img src="https://i.pinimg.com/236x/90/a6/a6/90a6a6b18cb69f38f454214bb05b7b82.jpg" alt="Haircut" class="w-full h-48 md:h-56 object-cover">
+                        <div class="p-4 md:p-6 text-center">
+                            <h4 class="text-lg md:text-xl font-serif font-bold text-brand-brown mb-1 uppercase tracking-widest">Haircut</h4>
+                            <p class="text-brand-brown/70 text-xs md:text-sm">Precision cuts by top stylists tailored to your style.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-brand-white border border-brand-brown/10 shadow-sm" data-aos="fade-up" data-aos-delay="200">
+                        <img src="https://i.pinimg.com/736x/31/88/51/31885157f5dfd46d4595502262bd12dc.jpg" alt="Hair Spa" class="w-full h-48 md:h-56 object-cover">
+                        <div class="p-4 md:p-6 text-center">
+                            <h4 class="text-lg md:text-xl font-serif font-bold text-brand-brown mb-1 uppercase tracking-widest">Hair Spa</h4>
+                            <p class="text-brand-brown/70 text-xs md:text-sm">Deep conditioning treatments to nourish scalp and hair.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-brand-white border border-brand-brown/10 shadow-sm" data-aos="fade-up" data-aos-delay="300">
+                        <img src="https://i.pinimg.com/736x/a0/47/05/a047055733811357e819d3a6666a728c.jpg" alt="Hair Colour" class="w-full h-48 md:h-56 object-cover">
+                        <div class="p-4 md:p-6 text-center">
+                            <h4 class="text-lg md:text-xl font-serif font-bold text-brand-brown mb-1 uppercase tracking-widest">Hair Colour</h4>
+                            <p class="text-brand-brown/70 text-xs md:text-sm">Highlights, balayage, and global premium colouring.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-brand-white border border-brand-brown/10 shadow-sm" data-aos="fade-up" data-aos-delay="100">
+                        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hair Styling" class="w-full h-48 md:h-56 object-cover">
+                        <div class="p-4 md:p-6 text-center">
+                            <h4 class="text-lg md:text-xl font-serif font-bold text-brand-brown mb-1 uppercase tracking-widest">Hair Styling</h4>
+                            <p class="text-brand-brown/70 text-xs md:text-sm">Elegant updos, straightening, or curls for occasions.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-brand-white border border-brand-brown/10 shadow-sm" data-aos="fade-up" data-aos-delay="200">
+                        <img src="https://i.pinimg.com/736x/7c/40/ce/7c40ce862332004231d8cf9209c65320.jpg" alt="Hair Treatments" class="w-full h-48 md:h-56 object-cover">
+                        <div class="p-4 md:p-6 text-center">
+                            <h4 class="text-lg md:text-xl font-serif font-bold text-brand-brown mb-1 uppercase tracking-widest">Hair Treatments</h4>
+                            <p class="text-brand-brown/70 text-xs md:text-sm">Advanced Keratin and Botox for frizz-free hair.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-brand-white border border-brand-brown/10 shadow-sm" data-aos="fade-up" data-aos-delay="300">
+                        <img src="https://i.pinimg.com/736x/d4/c8/77/d4c87761870cd459b38111f2abfb7ae3.jpg" alt="Mani Pedi" class="w-full h-48 md:h-56 object-cover">
+                        <div class="p-4 md:p-6 text-center">
+                            <h4 class="text-lg md:text-xl font-serif font-bold text-brand-brown mb-1 uppercase tracking-widest">Mani & Pedi</h4>
+                            <p class="text-brand-brown/70 text-xs md:text-sm">Indulgent hand and foot spa services with polish.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-brand-white border border-brand-brown/10 shadow-sm" data-aos="fade-up" data-aos-delay="100">
+                        <img src="https://i.pinimg.com/736x/33/66/20/336620c1f6ef1439dd99be4e8895983e.jpg" alt="Waxing" class="w-full h-48 md:h-56 object-cover" style="object-position: top;">
+                        <div class="p-4 md:p-6 text-center">
+                            <h4 class="text-lg md:text-xl font-serif font-bold text-brand-brown mb-1 uppercase tracking-widest">Waxing</h4>
+                            <p class="text-brand-brown/70 text-xs md:text-sm">Painless hair removal using premium formulations.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-brand-white border border-brand-brown/10 shadow-sm" data-aos="fade-up" data-aos-delay="200">
+                        <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Facials" class="w-full h-48 md:h-56 object-cover">
+                        <div class="p-4 md:p-6 text-center">
+                            <h4 class="text-lg md:text-xl font-serif font-bold text-brand-brown mb-1 uppercase tracking-widest">Facials</h4>
+                            <p class="text-brand-brown/70 text-xs md:text-sm">Rejuvenating skin treatments for a radiant, healthy glow.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-brand-white border border-brand-brown/10 shadow-sm" data-aos="fade-up" data-aos-delay="300">
+                        <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Beauty" class="w-full h-48 md:h-56 object-cover">
+                        <div class="p-4 md:p-6 text-center">
+                            <h4 class="text-lg md:text-xl font-serif font-bold text-brand-brown mb-1 uppercase tracking-widest">Beauty</h4>
+                            <p class="text-brand-brown/70 text-xs md:text-sm">Flawless makeup and beauty services for any occasion.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Men's Grooming -->
+            <div>
+                <div class="flex items-center justify-center mb-8 md:mb-10" data-aos="fade-up">
+                    <div class="h-px bg-brand-brown/20 flex-grow"></div>
+                    <h3 class="text-lg md:text-2xl font-serif font-bold mx-4 uppercase tracking-widest text-brand-brown text-center">Men's Grooming</h3>
+                    <div class="h-px bg-brand-brown/20 flex-grow"></div>
+                </div>
+
+                <!-- Mobile: 1 col, Tablet: 2 cols, Desktop: 4 cols -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    
+                    <div class="bg-brand-white border border-brand-brown/10 shadow-sm" data-aos="fade-up" data-aos-delay="100">
+                        <img src="https://i.pinimg.com/736x/32/92/97/3292979d94295c73b4caac99f896d87d.jpg" alt="Mens Haircut" class="w-full h-48 object-cover">
+                        <div class="p-4 text-center">
+                            <h4 class="text-base md:text-lg font-serif font-bold text-brand-brown mb-1 uppercase tracking-widest">Haircut</h4>
+                            <p class="text-brand-brown/70 text-xs">Classic cuts and beard styling.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-brand-white border border-brand-brown/10 shadow-sm" data-aos="fade-up" data-aos-delay="200">
+                        <img src="https://i.pinimg.com/736x/27/6c/a1/276ca1fa8d332f9c83006055ca6f6d8a.jpg" alt="Mens Hair Color" class="w-full h-48 object-cover">
+                        <div class="p-4 text-center">
+                            <h4 class="text-base md:text-lg font-serif font-bold text-brand-brown mb-1 uppercase tracking-widest">Hair Color</h4>
+                            <p class="text-brand-brown/70 text-xs">Grey coverage and fashion colors.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-brand-white border border-brand-brown/10 shadow-sm" data-aos="fade-up" data-aos-delay="300">
+                        <img src="https://i.pinimg.com/736x/e5/90/20/e59020514c71bfcfd2b743da0531234f.jpg" alt="Mens Facial" class="w-full h-48 object-cover">
+                        <div class="p-4 text-center">
+                            <h4 class="text-base md:text-lg font-serif font-bold text-brand-brown mb-1 uppercase tracking-widest">Facial</h4>
+                            <p class="text-brand-brown/70 text-xs">Deep cleansing to remove tan and dirt.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-brand-white border border-brand-brown/10 shadow-sm" data-aos="fade-up" data-aos-delay="400">
+                        <img src="https://i.pinimg.com/236x/12/94/3d/12943d0ee18a501269dee29c6b1fee72.jpg" alt="Mens Waxing" class="w-full h-48 object-cover">
+                        <div class="p-4 text-center">
+                            <h4 class="text-base md:text-lg font-serif font-bold text-brand-brown mb-1 uppercase tracking-widest">Waxing</h4>
+                            <p class="text-brand-brown/70 text-xs">Professional body grooming services.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. About Us (Responsive Stacking) -->
+    <section id="about" class="py-16 md:py-20 bg-brand-white border-y border-brand-brown/10 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+            <div class="flex flex-col lg:flex-row lg:items-center">
+                <div class="w-full lg:w-1/2 mb-8 lg:mb-0" data-aos="fade-right">
+                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/ashraf%20kharadi%20interior.png?raw=true" alt="Salon Interior" class="w-full h-64 md:h-96 lg:h-[450px] object-cover shadow-lg">
+                </div>
+                <div class="w-full lg:w-1/2 lg:pl-16" data-aos="fade-left">
+                    <h2 class="text-2xl md:text-4xl font-serif font-bold text-brand-brown mb-4 uppercase tracking-widest text-center lg:text-left">The Ashrafs Legacy</h2>
+                    <div class="w-16 h-1 bg-brand-pink mb-6 mx-auto lg:mx-0"></div>
+                    <p class="text-lg md:text-xl text-brand-pink mb-4 italic text-center lg:text-left font-serif">
+                        "Elevating grooming standards."
+                    </p>
+                    <p class="text-sm md:text-base text-brand-brown/80 mb-4 text-justify">
+                        Ashrafs Salon represents the pinnacle of luxury grooming for both men and women across Pune and Mumbai. Our internationally certified stylists dedicate themselves to your complete transformation.
+                    </p>
+                    <p class="text-sm md:text-base text-brand-brown/80 text-justify">
+                        We maintain uncompromising hygiene protocols and exclusively utilize premium global products to ensure an impeccable experience every time you walk through our doors.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Store Locator (Responsive Stacking) -->
+    <section id="store-locator" class="py-16 md:py-20 bg-brand-brown text-brand-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-2xl md:text-4xl font-serif font-bold mb-4 uppercase tracking-widest">Find Us Near You</h2>
+                <div class="w-16 h-1 bg-brand-pink mx-auto mb-4"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+                <!-- Pune -->
+                <div class="bg-brand-white text-brand-brown p-6 md:p-10 relative" data-aos="fade-right" data-aos-delay="100">
+                    <div class="absolute top-0 left-0 bg-brand-pink px-4 py-1 font-serif font-bold text-white uppercase text-sm md:text-base tracking-widest">Pune</div>
+                    <ul class="space-y-6 mt-8">
+                        <li class="flex items-start border-b border-brand-brown/10 pb-5">
+                            <i class="fas fa-map-marker-alt text-brand-pink text-xl md:text-2xl mt-1 mr-3 md:mr-4"></i>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-base md:text-lg mb-1 uppercase tracking-wider">Kharadi</h4>
+                                <p class="text-brand-brown/70 text-xs md:text-sm mb-3">1st Floor Shop, The Space Business Complex, 207, Grant Rd, Rajaram Patil Nagar, Vitthal Nagar</p>
+                                <a href="https://maps.app.goo.gl/EEfcL7DUrGmiCmHw8" target="_blank" class="inline-flex items-center bg-[#901B3F] text-white px-4 py-2 text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-brand-brown transition-colors shadow-sm">
+                                    Get Direction <i class="fas fa-location-arrow ml-2"></i>
+                                </a>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-brand-pink text-xl md:text-2xl mt-1 mr-3 md:mr-4"></i>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-base md:text-lg mb-1 uppercase tracking-wider">Wakad</h4>
+                                <p class="text-brand-brown/70 text-xs md:text-sm mb-3">First Floor Unit 102, utkarsh chowk, next to Hemant jewellers & Haldiram, Shankar Kalat Nagar</p>
+                                <a href="https://maps.app.goo.gl/ojUV5qE9UR5z8pBX8" target="_blank" class="inline-flex items-center bg-[#901B3F] text-white px-4 py-2 text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-brand-brown transition-colors shadow-sm">
+                                    Get Direction <i class="fas fa-location-arrow ml-2"></i>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Mumbai -->
+                <div class="bg-brand-white text-brand-brown p-6 md:p-10 relative" data-aos="fade-left" data-aos-delay="200">
+                    <div class="absolute top-0 left-0 bg-brand-brownDark px-4 py-1 font-serif font-bold text-white uppercase text-sm md:text-base tracking-widest">Mumbai</div>
+                    <ul class="space-y-6 mt-8">
+                        <li class="flex items-start border-b border-brand-brown/10 pb-5">
+                            <i class="fas fa-map-marker-alt text-brand-brownDark text-xl md:text-2xl mt-1 mr-3 md:mr-4"></i>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-sm md:text-base mb-1 uppercase tracking-wider">Thane (HQ)</h4>
+                                <p class="text-brand-brown/70 text-xs md:text-sm mb-3">4th floor, Shop no 401, Platinum Square, Ghantali Devi Rd, beside Sai Baba Mandir, Naupada, Thane West, Maharashtra 400602</p>
+                                <a href="https://maps.app.goo.gl/vSZ6PBwY6ENxz4hWA" target="_blank" class="inline-flex items-center bg-[#901B3F] text-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest hover:bg-brand-brown transition-colors shadow-sm">
+                                    Get Direction <i class="fas fa-location-arrow ml-2"></i>
+                                </a>
+                            </div>
+                        </li>
+                        <li class="flex items-start border-b border-brand-brown/10 pb-5">
+                            <i class="fas fa-map-marker-alt text-brand-brownDark text-xl md:text-2xl mt-1 mr-3 md:mr-4"></i>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-sm md:text-base mb-1 uppercase tracking-wider">Powai</h4>
+                                <p class="text-brand-brown/70 text-xs md:text-sm mb-3">First Floor Floor, Galleria Shopping Mall, Shop no, 121-122, Hiranandani Gardens,</p>
+                                <a href="https://maps.app.goo.gl/PCAhDGteAeLFnqRe9" target="_blank" class="inline-flex items-center bg-[#901B3F] text-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest hover:bg-brand-brown transition-colors shadow-sm">
+                                    Get Direction <i class="fas fa-location-arrow ml-2"></i>
+                                </a>
+                            </div>
+                        </li>
+                        <li class="flex items-start border-b border-brand-brown/10 pb-5">
+                            <i class="fas fa-map-marker-alt text-brand-brownDark text-xl md:text-2xl mt-1 mr-3 md:mr-4"></i>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-sm md:text-base mb-1 uppercase tracking-wider">Kalyan</h4>
+                                <p class="text-brand-brown/70 text-xs md:text-sm mb-3">First Floor Shop No.108, Tulsi Park, Near, Khadakpada Cir, opposite Aher Honda, Beturkar Pada,</p>
+                                <a href="https://maps.app.goo.gl/6TVcxbZypPN9L5rJA" target="_blank" class="inline-flex items-center bg-[#901B3F] text-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest hover:bg-brand-brown transition-colors shadow-sm">
+                                    Get Direction <i class="fas fa-location-arrow ml-2"></i>
+                                </a>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-brand-brownDark text-xl md:text-2xl mt-1 mr-3 md:mr-4"></i>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-sm md:text-base mb-1 uppercase tracking-wider">Marol</h4>
+                                <p class="text-brand-brown/70 text-xs md:text-sm mb-3">Shop No 1, Nand Dham Industrial Estate, Radisson hotel, Marol Maroshi Rd, behind Marol Bus Stop, near State Bank Of India, Bori Colony, Gamdevi</p>
+                                <a href="https://maps.app.goo.gl/cVscPEZMXSAsPY9N8" target="_blank" class="inline-flex items-center bg-[#901B3F] text-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest hover:bg-brand-brown transition-colors shadow-sm">
+                                    Get Direction <i class="fas fa-location-arrow ml-2"></i>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Founder's Story Section -->
+    <section id="founder" class="py-16 md:py-20 bg-brand-white border-y border-brand-brown/10 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+            <div class="flex flex-col-reverse lg:flex-row lg:items-center">
+                <div class="w-full lg:w-1/2 lg:pr-16 mt-8 lg:mt-0" data-aos="fade-right">
+                    <h2 class="text-2xl md:text-4xl font-serif font-bold text-brand-brown mb-4 uppercase tracking-widest text-center lg:text-left">The Founder's Journey</h2>
+                    <div class="w-16 h-1 bg-brand-pink mb-6 mx-auto lg:mx-0"></div>
+                    <p class="text-lg md:text-xl text-brand-pink mb-4 italic text-center lg:text-left font-serif">
+                        "Beauty is not just about looks, it's about feeling confident in your own skin."
+                    </p>
+                    <p class="text-sm md:text-base text-brand-brown/80 mb-4 text-justify">
+                        Starting as a passionate stylist with a dream, our founder embarked on a journey to redefine luxury grooming in India. With years of international training and an eye for perfection, the first Ashrafs Salon was born out of a desire to provide world-class services locally.
+                    </p>
+                    <p class="text-sm md:text-base text-brand-brown/80 text-justify">
+                        Today, that singular vision has blossomed into a chain of premium salons across Pune and Mumbai, celebrated for unmatched expertise, bespoke treatments, and a relentlessly client-first approach.
+                    </p>
+                </div>
+                <div class="w-full lg:w-1/2" data-aos="fade-left">
+                    <div class="relative rounded-xl overflow-hidden shadow-xl border-b-4 border-brand-pink bg-brand-brown">
+                        <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/Ashraf%20malaika.jpeg?raw=true" alt="Mr. Ashraf Salmani - Founder" class="w-full aspect-[4/5] object-cover object-top hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <div class="mt-5 text-center lg:text-left bg-brand-white p-5 rounded-xl shadow-md border border-brand-brown/10">
+                        <h3 class="text-xl md:text-2xl font-serif font-bold text-brand-brown uppercase tracking-widest mb-1">Mr. Ashraf Salmani</h3>
+                        <p class="text-brand-pink text-xs md:text-sm font-bold uppercase tracking-widest flex items-center justify-center lg:justify-start">
+                            <i class="fas fa-cut mr-2"></i> Founder & Celebrity Hairstylist
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-16 md:py-20 bg-brand-offwhite">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+            <div class="text-center mb-10 md:mb-12" data-aos="fade-up">
+                <h2 class="text-2xl md:text-4xl font-serif font-bold mb-3 md:mb-4 uppercase tracking-widest text-brand-brown">Our Gallery</h2>
+                <div class="w-16 h-1 bg-brand-pink mx-auto mb-4 md:mb-6"></div>
+                <p class="text-sm md:text-base text-brand-brown/70 font-bold max-w-2xl mx-auto">Glimpses of our luxurious interiors and stunning transformations.</p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4">
+                <div class="overflow-hidden bg-brand-brown" data-aos="zoom-in" data-aos-delay="100">
+                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/ashraf%20kharadi%20interior.png?raw=true" alt="Salon Interior" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
+                </div>
+                <div class="overflow-hidden bg-brand-brown" data-aos="zoom-in" data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=600&q=80" alt="Client Hairstyle" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
+                </div>
+                <div class="overflow-hidden bg-brand-brown" data-aos="zoom-in" data-aos-delay="300">
+                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/WhatsApp%20Image%202026-11-03%20at%204.20.48%20PM.jpeg?raw=true" alt="Salon Details" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
+                </div>
+                <div class="overflow-hidden bg-brand-brown" data-aos="zoom-in" data-aos-delay="400">
+                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/ashrf%20mumbai.jpeg?raw=true" alt="Client Makeover" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
+                </div>
+                <div class="overflow-hidden bg-brand-brown" data-aos="zoom-in" data-aos-delay="500">
+                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/Vijay%20dp.PNG?raw=true" alt="Vijay dp" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
+                </div>
+                <div class="overflow-hidden bg-brand-brown" data-aos="zoom-in" data-aos-delay="600">
+                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/ashraf%20ttr%20bs.jpg?raw=true" alt="Styling Details" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
+                </div>
+                <div class="overflow-hidden bg-brand-brown" data-aos="zoom-in" data-aos-delay="700">
+                    <img src="https://raw.githubusercontent.com/Growftofficial/My-tool-growft/77b0e4f132d05d979959e7be14079b89e1198efa/mirror%20slfe%20female.jpg" alt="Client Selfie" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
+                </div>
+                <div class="overflow-hidden bg-brand-brown" data-aos="zoom-in" data-aos-delay="800">
+                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/SaveClip.App_487830907_18139408672380359_7775681373205936184_n.jpg?raw=true" alt="Haircut Result" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
+                </div>
+                <div class="overflow-hidden bg-brand-brown" data-aos="zoom-in" data-aos-delay="900">
+                    <img src="https://raw.githubusercontent.com/Growftofficial/My-tool-growft/16e8618a56f53df3eaef4144f10b0dfcdc8171fb/SaveClip.App_642925889_17944997640132984_2523007963443945338_n.jpg" alt="Salon Experience" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Client Reviews Section -->
+    <section id="reviews" class="py-16 md:py-20 bg-brand-white border-t border-brand-brown/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+            <div class="text-center mb-10 md:mb-12" data-aos="fade-up">
+                <h2 class="text-2xl md:text-4xl font-serif font-bold mb-3 md:mb-4 uppercase tracking-widest text-brand-brown">Client Testimonials</h2>
+                <div class="w-16 h-1 bg-brand-pink mx-auto mb-4 md:mb-6"></div>
+                <p class="text-sm md:text-base text-brand-brown/70 font-bold max-w-2xl mx-auto">Hear what our lovely clients have to say.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                <!-- Review 1 -->
+                <div class="bg-brand-offwhite p-6 md:p-8 border-t-4 border-brand-pink shadow-sm hover:shadow-md transition-shadow" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex text-brand-pink mb-4 text-sm">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <i class="fas fa-quote-left text-3xl text-brand-brown/10 mb-2"></i>
+                    <p class="text-sm text-brand-brown/80 mb-6 italic leading-relaxed">"Absolutely incredible experience. The keratin treatment transformed my hair completely. The staff in Kharadi is so polite and professional."</p>
+                    <h4 class="font-bold text-brand-brown uppercase tracking-wider text-sm">— Priya Sharma, Pune</h4>
+                </div>
+                
+                <!-- Review 2 -->
+                <div class="bg-brand-offwhite p-6 md:p-8 border-t-4 border-brand-pink shadow-sm hover:shadow-md transition-shadow" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex text-brand-pink mb-4 text-sm">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <i class="fas fa-quote-left text-3xl text-brand-brown/10 mb-2"></i>
+                    <p class="text-sm text-brand-brown/80 mb-6 italic leading-relaxed">"Best men's grooming in Powai! I got a haircut and a facial before my wedding. The attention to detail is just unmatched. Highly recommend!"</p>
+                    <h4 class="font-bold text-brand-brown uppercase tracking-wider text-sm">— Rahul Verma, Mumbai</h4>
+                </div>
+                
+                <!-- Review 3 -->
+                <div class="bg-brand-offwhite p-6 md:p-8 border-t-4 border-brand-pink shadow-sm hover:shadow-md transition-shadow" data-aos="fade-up" data-aos-delay="300">
+                    <div class="flex text-brand-pink mb-4 text-sm">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <i class="fas fa-quote-left text-3xl text-brand-brown/10 mb-2"></i>
+                    <p class="text-sm text-brand-brown/80 mb-6 italic leading-relaxed">"I am a regular at the Thane branch. Whether it's a simple mani-pedi or a global hair color, Ashrafs never disappoints. True luxury."</p>
+                    <h4 class="font-bold text-brand-brown uppercase tracking-wider text-sm">— Sneha Desai, Thane</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. Footer (Responsive Grid) -->
+    <footer id="contact" class="bg-brand-white text-brand-brown pt-12 pb-6 border-t-[8px] border-brand-pink">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-12 mb-8">
+                
+                <div class="text-center sm:text-left">
+                    <h3 class="text-lg font-serif font-bold mb-4 text-brand-pink uppercase tracking-widest">Contact</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-center justify-center sm:justify-start"><i class="fas fa-phone-alt w-6 text-brand-pink"></i><a href="tel:+919136318900" class="font-bold hover:text-brand-pink transition-colors">+91 91363 18900</a></li>
+                        <li class="flex items-center justify-center sm:justify-start"><i class="fas fa-envelope w-6 text-brand-pink"></i><a href="mailto:ashrafscissorhands@gmail.com" class="font-bold hover:text-brand-pink transition-colors">ashrafscissorhands@gmail.com</a></li>
+                        <li class="flex items-center justify-center sm:justify-start"><i class="fas fa-clock w-6 text-brand-pink"></i><span class="font-bold text-brand-brown/80">10 AM - 9 PM</span></li>
+                    </ul>
+                </div>
+
+                <div class="text-center sm:text-left">
+                    <h3 class="text-lg font-serif font-bold mb-4 text-brand-pink uppercase tracking-widest">Head Office</h3>
+                    <p class="text-sm text-brand-brown/80 font-bold leading-relaxed">
+                        4th floor, Shop no 401, Platinum Square,<br>Ghantali Devi Rd, beside Sai Baba Mandir,<br>Naupada, Thane West, Maharashtra 400602
+                    </p>
+                </div>
+
+                <div class="text-center sm:text-left">
+                    <h3 class="text-lg font-serif font-bold mb-4 text-brand-pink uppercase tracking-widest">Follow Us</h3>
+                    <div class="flex justify-center sm:justify-start space-x-4">
+                        <a href="#" class="w-10 h-10 border border-brand-brown flex items-center justify-center text-lg hover:bg-brand-pink hover:text-white transition-colors"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 border border-brand-brown flex items-center justify-center text-lg hover:bg-brand-pink hover:text-white transition-colors"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-brand-brown/10 pt-6 text-center text-[10px] md:text-xs font-bold uppercase tracking-widest text-brand-brown/50">
+                &copy; 2026 Ashrafs Salon.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Sticky Action Bar (WhatsApp & Call Now) -->
+    <div class="fixed bottom-0 left-0 w-full z-[60] flex md:hidden shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+        <a href="https://wa.me/919136318900" target="_blank" class="w-1/2 bg-brand-brown text-brand-white py-3 sm:py-4 flex items-center justify-center font-bold text-base sm:text-lg tracking-wide active:bg-brand-brownDark transition-colors">
+            <i class="fab fa-whatsapp text-xl mr-2"></i> WhatsApp
+        </a>
+        <a href="tel:+919136318900" class="w-1/2 bg-[#901B3F] text-brand-white py-3 sm:py-4 flex items-center justify-center font-bold text-base sm:text-lg tracking-wide active:opacity-80 transition-colors">
+            <i class="fas fa-phone-alt text-lg mr-2"></i> Call Now
+        </a>
+    </div>
+
+    <!-- AOS Animation JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-cubic',
+            once: true,
+            offset: 50
+        });
+    </script>
+
+    <!-- Scripts -->
+    <script>
+        // --- Mobile Menu Toggle ---
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+            const icon = mobileMenuBtn.querySelector('i');
+            if (mobileMenu.classList.contains('open')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Close mobile menu when a link is clicked
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                mobileMenuBtn.querySelector('i').classList.remove('fa-times');
+                mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+            });
+        });
+
+        // --- Modal Logic ---
+        function openModal() {
+            const modal = document.getElementById('lead-modal');
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Stop background scrolling
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('lead-modal');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = ''; // Restore scrolling
+            }
+        }
+
+        async function handleFormSubmission(event) {
+            event.preventDefault();
+            
+            const cityValue = document.getElementById('city').value;
+            if (!cityValue) {
+                const cityBtns = document.getElementById('city-buttons');
+                cityBtns.classList.remove('border-brand-brown');
+                cityBtns.classList.add('border-brand-pink', 'ring-2', 'ring-brand-pink/30');
+                setTimeout(() => {
+                    cityBtns.classList.add('border-brand-brown');
+                    cityBtns.classList.remove('border-brand-pink', 'ring-2', 'ring-brand-pink/30');
+                }, 2000);
+                return;
+            }
+
+            const form = event.target;
+            const successMsg = document.getElementById('success-message');
+            const header = document.getElementById('form-header');
+            const btn = document.getElementById('submitBtn');
+            
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>';
+            btn.disabled = true;
+
+            const data = new FormData(form);
+
+            try {
+                const response = await fetch(form.action, {
+                    method: form.method,
+                    body: data,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    document.getElementById('success-city').textContent = cityValue;
+                    form.classList.add('hidden');
+                    header.classList.add('hidden');
+                    successMsg.classList.remove('hidden');
+                } else {
+                    alert("Oops! There was a problem submitting your form.");
+                }
+            } catch (error) {
+                alert("Oops! There was a problem submitting your form.");
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        const branchesData = {
+            "Pune": ["Kharadi", "Wakad"],
+            "Mumbai": ["Thane", "Powai Hiranandani", "Kalyan", "Marol"]
+        };
+
+        function selectCity(city) {
+            document.getElementById('city').value = city;
+            
+            const btnPune = document.getElementById('btn-Pune');
+            const btnMumbai = document.getElementById('btn-Mumbai');
+            const activeClass = ['bg-brand-pink/10', 'text-brand-pink', 'font-bold'];
+            
+            if (city === 'Pune') {
+                btnPune.classList.add(...activeClass);
+                btnMumbai.classList.remove(...activeClass);
+            } else if (city === 'Mumbai') {
+                btnMumbai.classList.add(...activeClass);
+                btnPune.classList.remove(...activeClass);
+            }
+            
+            updateBranches();
+        }
+
+        function updateBranches() {
+            const cityInput = document.getElementById('city');
+            const branchSelect = document.getElementById('branch');
+            const selectedCity = cityInput.value;
+            
+            branchSelect.innerHTML = '<option value="" disabled selected>Choose a branch...</option>';
+            
+            if (selectedCity && branchesData[selectedCity]) {
+                branchesData[selectedCity].forEach(branch => {
+                    const option = document.createElement('option');
+                    option.value = branch + ", " + selectedCity;
+                    option.textContent = branch;
+                    branchSelect.appendChild(option);
+                });
+                branchSelect.disabled = false;
+            } else {
+                branchSelect.innerHTML = '<option value="" disabled selected>Select city first...</option>';
+                branchSelect.disabled = true;
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('appointmentForm').reset();
+            document.getElementById('success-message').classList.add('hidden');
+            document.getElementById('appointmentForm').classList.remove('hidden');
+            document.getElementById('form-header').classList.remove('hidden');
+            
+            // Reset City Segmented Control
+            document.getElementById('city').value = "";
+            const activeClass = ['bg-brand-pink/10', 'text-brand-pink', 'font-bold'];
+            document.getElementById('btn-Pune').classList.remove(...activeClass);
+            document.getElementById('btn-Mumbai').classList.remove(...activeClass);
+
+            // Reset branch dropdown state
+            const branchSelect = document.getElementById('branch');
+            branchSelect.innerHTML = '<option value="" disabled selected>Select city first...</option>';
+            branchSelect.disabled = true;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Video Mute Toggle Logic ---
+            const promoVideo = document.getElementById('promoVideo');
+            const muteToggleBtn = document.getElementById('muteToggleBtn');
+
+            if (promoVideo && muteToggleBtn) {
+                const updateMuteState = () => {
+                    const icon = muteToggleBtn.querySelector('i');
+                    const text = document.getElementById('muteToggleText');
+                    
+                    if (promoVideo.muted) {
+                        icon.classList.remove('fa-volume-up');
+                        icon.classList.add('fa-volume-mute');
+                        if(text) text.textContent = 'Unmute';
+                    } else {
+                        icon.classList.remove('fa-volume-mute');
+                        icon.classList.add('fa-volume-up');
+                        if(text) text.textContent = 'Mute';
+                    }
+                };
+
+                muteToggleBtn.addEventListener('click', () => {
+                    promoVideo.muted = !promoVideo.muted;
+                    updateMuteState();
+                });
+
+                // --- Auto-Mute/Unmute on Scroll (Intersection Observer) ---
+                const videoObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            // Video is in view, unmute it
+                            promoVideo.muted = false;
+                        } else {
+                            // Video is out of view, mute it
+                            promoVideo.muted = true;
+                        }
+                        updateMuteState(); // Update the button icon and text
+                    });
+                }, { threshold: 0.5 }); // Trigger when at least 50% of the video is visible
+                
+                videoObserver.observe(promoVideo);
+            }
+
+            // --- Slider Logic ---
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.slider-dot');
+            let current = 0;
+
+            function goToSlide(index) {
+                slides[current].classList.remove('opacity-100', 'z-10', 'active');
+                slides[current].classList.add('opacity-0', 'z-0');
+                dots[current].classList.replace('bg-brand-white', 'bg-brand-white/40');
+
+                current = index;
+
+                slides[current].classList.remove('opacity-0', 'z-0');
+                slides[current].classList.add('opacity-100', 'z-10', 'active');
+                dots[current].classList.replace('bg-brand-white/40', 'bg-brand-white');
+            }
+
+            document.getElementById('nextSlideBtn')?.addEventListener('click', () => {
+                goToSlide(current === slides.length - 1 ? 0 : current + 1);
+            });
+            document.getElementById('prevSlideBtn')?.addEventListener('click', () => {
+                goToSlide(current === 0 ? slides.length - 1 : current - 1);
+            });
+
+            setInterval(() => {
+                goToSlide(current === slides.length - 1 ? 0 : current + 1);
+            }, 5000);
+
+            // Close modal on outside click
+            document.getElementById('lead-modal')?.addEventListener('click', (e) => {
+                if (e.target.id === 'lead-modal') closeModal();
+            });
+
+            // Auto-open modal after 1.5s
+            setTimeout(openModal, 1500);
+        });
+    </script>
+</body>
+</html>
