@@ -926,16 +926,19 @@
                     updateMuteState();
                 });
 
-                // --- Auto-Mute on Scroll (Intersection Observer) ---
+                // --- Auto-Mute/Unmute on Scroll (Intersection Observer) ---
                 const videoObserver = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
-                        // If video is not visible on screen and sound is currently ON
-                        if (!entry.isIntersecting && !promoVideo.muted) {
-                            promoVideo.muted = true; // Auto-mute
-                            updateMuteState();       // Update button UI
+                        if (entry.isIntersecting) {
+                            // Video is in view, unmute it
+                            promoVideo.muted = false;
+                        } else {
+                            // Video is out of view, mute it
+                            promoVideo.muted = true;
                         }
+                        updateMuteState(); // Update the button icon and text
                     });
-                }, { threshold: 0.1 }); // Trigger when less than 10% of video is visible
+                }, { threshold: 0.5 }); // Trigger when at least 50% of the video is visible
                 
                 videoObserver.observe(promoVideo);
             }
