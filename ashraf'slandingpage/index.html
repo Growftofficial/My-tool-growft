@@ -73,6 +73,13 @@
         /* Mobile Menu Transition */
         #mobile-menu { transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out; max-height: 0; opacity: 0; overflow: hidden; }
         #mobile-menu.open { max-height: 400px; opacity: 1; }
+
+        /* Performance optimizations for smooth scrolling and animations */
+        .hardware-accelerated {
+            will-change: transform;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+        }
     </style>
 </head>
 <body class="font-sans text-brand-brown bg-brand-offwhite antialiased pb-12 md:pb-0">
@@ -141,9 +148,9 @@
         <!-- Slide 1 -->
         <div class="slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-100 z-10 active">
             <!-- Mobile Image -->
-            <img src="https://github.com/roservicexpertcom-prog/website/blob/main/mobile%20version%201st%20image.png?raw=true" alt="Luxury Salon Services Mobile" class="block md:hidden absolute inset-0 w-full h-full object-cover object-center" />
+            <img src="https://github.com/roservicexpertcom-prog/website/blob/main/mobile%20version%201st%20image.png?raw=true" alt="Luxury Salon Services Mobile" loading="lazy" decoding="async" class="block md:hidden absolute inset-0 w-full h-full object-cover object-center" />
             <!-- Desktop Image -->
-            <img src="https://github.com/roservicexpertcom-prog/website/blob/main/Luxury%20Salon%20Services%20Banner%20(1).png?raw=true" alt="Luxury Salon Services Desktop" class="hidden md:block absolute inset-0 w-full h-full object-cover object-center" />
+            <img src="https://github.com/roservicexpertcom-prog/website/blob/main/Luxury%20Salon%20Services%20Banner%20(1).png?raw=true" alt="Luxury Salon Services Desktop" loading="lazy" decoding="async" class="hidden md:block absolute inset-0 w-full h-full object-cover object-center" />
             
             <!-- Button Placement: Bottom Right on Mobile, Absolute Right Center on Desktop -->
             <div class="absolute inset-0 z-20 pointer-events-none">
@@ -155,7 +162,7 @@
 
         <!-- Slide 2 -->
         <div class="slide absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0 z-0">
-            <img src="https://github.com/roservicexpertcom-prog/website/blob/main/Luxury%20Keratin%20Treatment%20Salon%20Banner.png?raw=true" alt="Keratin Treatment Offer" class="absolute inset-0 w-full h-full object-cover object-center" />
+            <img src="https://github.com/roservicexpertcom-prog/website/blob/main/Luxury%20Keratin%20Treatment%20Salon%20Banner.png?raw=true" alt="Keratin Treatment Offer" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover object-center" />
             
             <div class="absolute inset-0 z-20 pointer-events-none">
                 <button onclick="openModal()" class="pointer-events-auto absolute bottom-4 right-4 md:bottom-auto md:top-1/2 md:-translate-y-1/2 md:right-12 lg:right-24 inline-flex items-center bg-brand-pink text-brand-white px-4 py-2 md:px-8 md:py-4 text-xs md:text-lg font-bold uppercase tracking-widest hover:bg-brand-white hover:text-brand-pink transition-colors border-2 border-brand-pink shadow-xl slide-content">
@@ -192,7 +199,33 @@
                 <!-- Offer Graphic 1 -->
                 <div class="bg-brand-offwhite border border-brand-brown/10 shadow-lg relative overflow-hidden group aspect-[4/5]" data-aos="fade-up" data-aos-delay="100">
                     <div class="absolute top-4 left-0 bg-brand-pink text-brand-white px-4 py-1 text-xs font-bold uppercase tracking-widest z-10 shadow-md">Limited Time</div>
-                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/ashraf%20web%20diwali%20offer.png?raw=true" alt="Offer Graphic 1" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/ashraf%20web%20diwali%20offer.png?raw=true" alt="Offer Graphic 1" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 hardware-accelerated">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-brown/90 via-brand-brown/20 to-transparent flex flex-col justify-end p-6 z-10 pointer-events-none">
+                        <h4 class="text-brand-white font-serif font-bold text-lg md:text-xl uppercase tracking-widest mb-2"></h4>
+                        <button onclick="openModal()" class="bg-[#901B3F] text-white px-5 py-2.5 rounded font-bold uppercase text-sm flex items-center w-max hover:bg-white hover:text-[#901B3F] transition-all pointer-events-auto shadow-md">Book Now <i class="fas fa-arrow-right ml-2"></i></button>
+                    </div>
+                </div>
+
+                <!-- Video Ad Placeholder -->
+                <div class="bg-brand-brown shadow-lg relative overflow-hidden aspect-[4/5]" data-aos="fade-up" data-aos-delay="200">
+                    
+                    <!-- Native HTML5 Video -->
+                    <video id="promoVideo" class="absolute inset-0 w-full h-full object-cover z-0 hardware-accelerated" autoplay loop muted playsinline preload="metadata">
+                        <source src="https://ik.imagekit.io/rv7tcczg5/450.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+
+                    <!-- Unmute Toggle Button -->
+                    <button id="muteToggleBtn" class="absolute bottom-4 right-4 z-20 bg-brand-brown/90 text-brand-white px-3 py-2 md:px-4 md:py-2 rounded-full shadow-lg hover:bg-brand-pink transition-colors flex items-center justify-center focus:outline-none border border-brand-white/20">
+                        <i class="fas fa-volume-mute text-sm md:text-base mr-2"></i>
+                        <span id="muteToggleText" class="text-xs md:text-sm font-bold uppercase tracking-wider">Unmute</span>
+                    </button>
+                </div>
+
+                <!-- Offer Graphic 2 -->
+                <div class="bg-brand-offwhite border border-brand-brown/10 shadow-lg relative overflow-hidden group aspect-[4/5]" data-aos="fade-up" data-aos-delay="300">
+                    <div class="absolute top-4 left-0 bg-brand-pink text-brand-white px-4 py-1 text-xs font-bold uppercase tracking-widest z-10 shadow-md"></div>
+                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/ashraf%20diwali%20combo.png?raw=true" alt="Offer Graphic 2" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 hardware-accelerated">
                     <div class="absolute inset-0 bg-gradient-to-t from-brand-brown/90 via-brand-brown/20 to-transparent flex flex-col justify-end p-6 z-10 pointer-events-none">
                         <h4 class="text-brand-white font-serif font-bold text-lg md:text-xl uppercase tracking-widest mb-2"></h4>
                         <button onclick="openModal()" class="bg-[#901B3F] text-white px-5 py-2.5 rounded font-bold uppercase text-sm flex items-center w-max hover:bg-white hover:text-[#901B3F] transition-all pointer-events-auto shadow-md">Book Now <i class="fas fa-arrow-right ml-2"></i></button>
@@ -464,7 +497,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
             <div class="flex flex-col lg:flex-row lg:items-center">
                 <div class="w-full lg:w-1/2 mb-8 lg:mb-0" data-aos="fade-right">
-                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/ashraf%20kharadi%20interior.png?raw=true" alt="Salon Interior" class="w-full h-64 md:h-96 lg:h-[450px] object-cover shadow-lg">
+                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/ashraf%20kharadi%20interior.png?raw=true" alt="Salon Interior" loading="lazy" decoding="async" class="w-full h-64 md:h-96 lg:h-[450px] object-cover shadow-lg hardware-accelerated">
                 </div>
                 <div class="w-full lg:w-1/2 lg:pl-16" data-aos="fade-left">
                     <h2 class="text-2xl md:text-4xl font-serif font-bold text-brand-brown mb-4 uppercase tracking-widest text-center lg:text-left">The Ashrafs Legacy</h2>
@@ -588,7 +621,7 @@
                 </div>
                 <div class="w-full lg:w-1/2" data-aos="fade-left">
                     <div class="relative rounded-xl overflow-hidden shadow-xl border-b-4 border-brand-pink bg-brand-brown">
-                        <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/Ashraf%20malaika.jpeg?raw=true" alt="Mr. Ashraf Salmani - Founder" class="w-full aspect-[4/5] object-cover object-top hover:scale-105 transition-transform duration-700">
+                        <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/Ashraf%20malaika.jpeg?raw=true" alt="Mr. Ashraf Salmani - Founder" loading="lazy" decoding="async" class="w-full aspect-[4/5] object-cover object-top hover:scale-105 transition-transform duration-700 hardware-accelerated">
                     </div>
                     <div class="mt-5 text-center lg:text-left bg-brand-white p-5 rounded-xl shadow-md border border-brand-brown/10">
                         <h3 class="text-xl md:text-2xl font-serif font-bold text-brand-brown uppercase tracking-widest mb-1">Mr. Ashraf Salmani</h3>
@@ -612,31 +645,31 @@
             
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4">
                 <div class="overflow-hidden bg-brand-brown" data-aos="zoom-in" data-aos-delay="100">
-                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/ashraf%20kharadi%20interior.png?raw=true" alt="Salon Interior" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
+                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/ashraf%20kharadi%20interior.png?raw=true" alt="Salon Interior" loading="lazy" decoding="async" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer hardware-accelerated">
                 </div>
                 <div class="overflow-hidden bg-brand-brown" data-aos="zoom-in" data-aos-delay="200">
-                    <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=600&q=80" alt="Client Hairstyle" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=600&q=80" alt="Client Hairstyle" loading="lazy" decoding="async" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer hardware-accelerated">
                 </div>
                 <div class="overflow-hidden bg-brand-brown" data-aos="zoom-in" data-aos-delay="300">
-                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/WhatsApp%20Image%202026-11-03%20at%204.20.48%20PM.jpeg?raw=true" alt="Salon Details" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
+                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/WhatsApp%20Image%202026-11-03%20at%204.20.48%20PM.jpeg?raw=true" alt="Salon Details" loading="lazy" decoding="async" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer hardware-accelerated">
                 </div>
                 <div class="overflow-hidden bg-brand-brown" data-aos="zoom-in" data-aos-delay="400">
-                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/ashrf%20mumbai.jpeg?raw=true" alt="Client Makeover" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
+                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/ashrf%20mumbai.jpeg?raw=true" alt="Client Makeover" loading="lazy" decoding="async" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer hardware-accelerated">
                 </div>
                 <div class="overflow-hidden bg-brand-brown" data-aos="zoom-in" data-aos-delay="500">
-                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/Vijay%20dp.PNG?raw=true" alt="Vijay dp" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
+                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/Vijay%20dp.PNG?raw=true" alt="Vijay dp" loading="lazy" decoding="async" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer hardware-accelerated">
                 </div>
                 <div class="overflow-hidden bg-brand-brown" data-aos="zoom-in" data-aos-delay="600">
-                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/ashraf%20ttr%20bs.jpg?raw=true" alt="Styling Details" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
+                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/ashraf%20ttr%20bs.jpg?raw=true" alt="Styling Details" loading="lazy" decoding="async" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer hardware-accelerated">
                 </div>
                 <div class="overflow-hidden bg-brand-brown" data-aos="zoom-in" data-aos-delay="700">
-                    <img src="https://raw.githubusercontent.com/Growftofficial/My-tool-growft/77b0e4f132d05d979959e7be14079b89e1198efa/mirror%20slfe%20female.jpg" alt="Client Selfie" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
+                    <img src="https://raw.githubusercontent.com/Growftofficial/My-tool-growft/77b0e4f132d05d979959e7be14079b89e1198efa/mirror%20slfe%20female.jpg" alt="Client Selfie" loading="lazy" decoding="async" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer hardware-accelerated">
                 </div>
                 <div class="overflow-hidden bg-brand-brown" data-aos="zoom-in" data-aos-delay="800">
-                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/SaveClip.App_487830907_18139408672380359_7775681373205936184_n.jpg?raw=true" alt="Haircut Result" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
+                    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/SaveClip.App_487830907_18139408672380359_7775681373205936184_n.jpg?raw=true" alt="Haircut Result" loading="lazy" decoding="async" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer hardware-accelerated">
                 </div>
                 <div class="overflow-hidden bg-brand-brown" data-aos="zoom-in" data-aos-delay="900">
-                    <img src="https://raw.githubusercontent.com/Growftofficial/My-tool-growft/16e8618a56f53df3eaef4144f10b0dfcdc8171fb/SaveClip.App_642925889_17944997640132984_2523007963443945338_n.jpg" alt="Salon Experience" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer">
+                    <img src="https://raw.githubusercontent.com/Growftofficial/My-tool-growft/16e8618a56f53df3eaef4144f10b0dfcdc8171fb/SaveClip.App_642925889_17944997640132984_2523007963443945338_n.jpg" alt="Salon Experience" loading="lazy" decoding="async" class="w-full h-40 md:h-64 object-cover hover:scale-110 hover:opacity-80 transition-all duration-500 cursor-pointer hardware-accelerated">
                 </div>
             </div>
         </div>
