@@ -700,8 +700,14 @@ if('IntersectionObserver' in window){
   document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-zoom').forEach(el=>el.classList.add('in'));
 }
 
-// Auto-open modal
-window.addEventListener('load',()=>setTimeout(openModal,3000));
+// FIX: Auto-open modal on first scroll
+let modalTriggered = false;
+window.addEventListener('scroll', () => {
+  if (!modalTriggered && window.scrollY > 300) {
+    openModal();
+    modalTriggered = true; // Prevents it from opening again on the same session
+  }
+});
 </script>
 </body>
 </html>
