@@ -14,6 +14,10 @@
 <link rel="dns-prefetch" href="https://images.unsplash.com">
 <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
+<!-- PRELOAD CRITICAL LCP IMAGES -->
+<link rel="preload" as="image" href="https://github.com/Growftofficial/My-tool-growft/blob/main/ashraf%20mobile%20screen%20first%20banner.png?raw=true" media="(max-width: 767px)">
+<link rel="preload" as="image" href="https://github.com/roservicexpertcom-prog/website/blob/main/Luxury%20Salon%20Services%20Banner%20(1).png?raw=true" media="(min-width: 768px)">
+
 <style>
 :root{
   --pink:#900C3F; --pink-h:#730932;
@@ -295,8 +299,9 @@ label{display:block;font-size:.75rem;font-weight:700;text-transform:uppercase;le
 <section id="offer-slider" class="hero">
   <div class="slide active">
     <div class="badge-top">Limited Time Offer</div>
-    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/ashraf%20mobile%20screen%20first%20banner.png?raw=true" alt="Luxury Salon" width="800" height="600" class="hide-md" fetchpriority="high" decoding="async">
-    <img src="https://github.com/roservicexpertcom-prog/website/blob/main/Luxury%20Salon%20Services%20Banner%20(1).png?raw=true" alt="Luxury Salon" width="1600" height="600" class="show-md" fetchpriority="high" decoding="async">
+    <!-- CHANGED: decoding="sync" -->
+    <img src="https://github.com/Growftofficial/My-tool-growft/blob/main/ashraf%20mobile%20screen%20first%20banner.png?raw=true" alt="Luxury Salon" width="800" height="600" class="hide-md" fetchpriority="high" decoding="sync">
+    <img src="https://github.com/roservicexpertcom-prog/website/blob/main/Luxury%20Salon%20Services%20Banner%20(1).png?raw=true" alt="Luxury Salon" width="1600" height="600" class="show-md" fetchpriority="high" decoding="sync">
     <div style="position:absolute;inset:0;z-index:20;pointer-events:none">
       <button onclick="openModal()" class="claim-btn slide-content" style="pointer-events:auto">Claim Offer <svg class="w-4 h-4 ml-2"><use href="#i-arrow"/></svg></button>
     </div>
@@ -700,12 +705,12 @@ if('IntersectionObserver' in window){
   document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-zoom').forEach(el=>el.classList.add('in'));
 }
 
-// FIX: Auto-open modal on first scroll
+// Auto-open modal on first scroll
 let modalTriggered = false;
 window.addEventListener('scroll', () => {
   if (!modalTriggered && window.scrollY > 300) {
     openModal();
-    modalTriggered = true; // Prevents it from opening again on the same session
+    modalTriggered = true;
   }
 });
 </script>
